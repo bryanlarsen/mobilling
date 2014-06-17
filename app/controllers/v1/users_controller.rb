@@ -1,8 +1,20 @@
 class V1::UsersController < V1::BaseController
   skip_before_action :authenticate, only: %i[create]
 
+  resource_description do
+    resource_id "users"
+  end
+
+  api :GET, "/v1/user", "Returns current user"
   def show
     @user = @current_user
+  end
+
+  api :POST, "/v1/user", "Creates a new user"
+  param :user, Hash, required: true do
+    param :name, String, desc: "Name", required: true
+    param :email, String, desc: "Email", required: true
+    param :password, String, desc: "Password", required: true
   end
 
   def create
