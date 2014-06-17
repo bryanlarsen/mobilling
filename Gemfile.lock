@@ -79,6 +79,8 @@ GEM
     mini_portile (0.6.0)
     minitest (5.3.4)
     multi_json (1.10.1)
+    ngannotate-rails (0.9.6.1)
+      rails (>= 3.1)
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
     pg (0.17.1)
@@ -160,6 +162,7 @@ DEPENDENCIES
   jbuilder
   less-rails
   letter_opener
+  ngannotate-rails
   pg
   poltergeist
   rails (= 4.1.2.rc2)
