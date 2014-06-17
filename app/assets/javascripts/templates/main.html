@@ -1,1 +1,54 @@
-<div>TEST</div>
+<div class="app has-navbar-top">
+  <div class="navbar navbar-app navbar-absolute-top">
+    <div class="navbar-brand navbar-brand-center">
+      <span>Mo-Billing</span>
+    </div>
+
+
+    <div class="btn-group pull-left">
+      <div class="btn btn-navbar">
+        &nbsp;
+      </div>
+    </div>
+
+    <div class="btn-group pull-right">
+      <div class="btn btn-navbar">
+        &nbsp;
+      </div>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <div class="app-content">
+      <div class="scrollable">
+        <div class="scrollable-content section">
+          <form class="ng-pristine ng-valid">
+            <div class="panel">
+              <div class="panel-body">
+                <div class="form-group row">
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="email" ng-model="session.email" class="ng-scope ng-pristine ng-valid needsclick form-control input-lg" id="session-email" placeholder="Email">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="password" ng-model="session.password" class="ng-scope ng-pristine ng-valid needsclick form-control input-lg" id="session-password" placeholder="Password">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions panel">
+              <div class="panel-body">
+                <button class="btn btn-primary btn-lg btn-block">
+                  <i class="fa fa-sign-in"></i> Sign In
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
