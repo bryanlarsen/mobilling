@@ -1,16 +1,10 @@
 angular.module("moBilling.controllers", [])
 
     .controller("SignInController", function ($scope, Session) {
-
         $scope.session = new Session();
 
-        $scope.clearErrors = function () {
-            $scope.form.password.$setValidity("server", true);
-            $scope.session.errors = null;
-        };
-
         $scope.success = function () {
-            console.log($scope.session);
+            window.localStorage.setItem("authenticationToken", $scope.session.authentication_token);
         };
 
         $scope.error = function () {
@@ -21,10 +15,10 @@ angular.module("moBilling.controllers", [])
 
         $scope.submit = function () {
             $scope.submitted = true;
-            $scope.clearErrors();
+            $scope.form.password.$setValidity("server", true);
 
             if ($scope.form.$valid) {
-                $scope.session.save().then($scope.success, $scope.error);
+                $scope.session.save().success($scope.success).error($scope.error);
             }
         };
     });

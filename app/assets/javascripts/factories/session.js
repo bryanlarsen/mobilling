@@ -8,13 +8,17 @@ angular.module("moBilling.factories", [])
         Session.prototype.save = function () {
             var session = this;
 
+            this.saving = true;
+
             return $http({
                 url: "/v1/session.json",
                 method: "POST",
                 data: { session: session }
             }).success(function (response) {
+                session.saving = false;
                 angular.extend(session, response.sessions);
             }).error(function (response) {
+                session.saving = false;
                 angular.extend(session, response);
             });
         };
