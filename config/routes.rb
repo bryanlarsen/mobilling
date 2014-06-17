@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  apipie
+
   root to: "home#show"
 
   namespace :v1 do

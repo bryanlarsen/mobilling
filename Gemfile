@@ -4,6 +4,7 @@ source "https://rails-assets.org"
 gem "rails", "4.1.2.rc2"
 
 gem "angular-rails-templates"
+gem "apipie-rails"
 gem "bcrypt"
 gem "jbuilder"
 gem "less-rails"
