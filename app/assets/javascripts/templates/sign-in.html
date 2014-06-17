@@ -22,18 +22,18 @@
     <div class="app-content">
       <div class="scrollable">
         <div class="scrollable-content section">
-          <form class="ng-pristine ng-valid">
+          <form name="form" ng-submit="submit()" novalidate>
             <div class="panel">
               <div class="panel-body">
                 <div class="form-group row">
                   <div class="form-control-wrapper col-xs-12">
-                    <input type="email" ng-model="session.email" class="ng-scope ng-pristine ng-valid needsclick form-control input-lg" id="session-email" placeholder="Email">
+                    <input type="email" ng-model="session.email" class="form-control input-lg" id="session-email" placeholder="Email" required>
                   </div>
                 </div>
 
                 <div class="form-group row">
                   <div class="form-control-wrapper col-xs-12">
-                    <input type="password" ng-model="session.password" class="ng-scope ng-pristine ng-valid needsclick form-control input-lg" id="session-password" placeholder="Password">
+                    <input type="password" ng-model="session.password" class="form-control input-lg" id="session-password" placeholder="Password" required>
                   </div>
                 </div>
               </div>

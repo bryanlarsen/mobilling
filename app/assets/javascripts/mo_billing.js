@@ -1,13 +1,15 @@
+//= require_tree ./controllers
 //= require_tree ./templates
 
-angular.module("moBilling", ["ngRoute", "mobile-angular-ui", "templates"])
+angular.module("moBilling", ["ngRoute", "mobile-angular-ui", "moBilling.templates", "moBilling.controllers"])
 
     .config(function ($routeProvider) {
-        $routeProvider.when("/", {
-            templateUrl: "main.html"
+        $routeProvider.when("/sign-in", {
+            templateUrl: "sign-in.html",
+            controller: "SignInController"
         });
 
         $routeProvider.otherwise({
-            redirectTo: "/"
+            redirectTo: "/sign-in"
         });
     });
