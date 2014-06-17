@@ -7,8 +7,22 @@ gem "bcrypt"
 gem "jbuilder"
 gem "pg"
 gem "sass-rails", "~> 4.0.3"
-gem "spring", group: :development
+gem "sprockets-redirect"
 gem "uglifier"
 
 gem "rails-assets-angular", "~> 1.3.0.beta"
 gem "rails-assets-mobile-angular-ui"
+
+group :development do
+  gem "letter_opener"
+  gem "spring"
+end
+
+group :test do
+  gem "capybara"
+  gem "database_cleaner"
+  gem "factory_girl_rails"
+  gem "poltergeist"
+  gem "vcr"
+  gem "webmock"
+end
