@@ -12,7 +12,8 @@ angular.module("moBilling", [
     "moBilling.controllers.signUpController",
     "moBilling.factories.session",
     "moBilling.factories.user",
-    "moBilling.directives.server"
+    "moBilling.directives.server",
+    "moBilling.directives.confirmation"
 ])
 
     .config(function ($routeProvider) {

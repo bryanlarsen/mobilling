@@ -1,6 +1,6 @@
 angular.module("moBilling.directives.server", [])
 
-    .directive("server", function() {
+    .directive("server", function () {
         return {
             restrict: "A",
             require: "?ngModel",

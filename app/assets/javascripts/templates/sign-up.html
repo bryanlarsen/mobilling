@@ -52,6 +52,16 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="form-group row" ng-class="{'has-error': (form.passwordConfirmation.$dirty || submitted) && form.passwordConfirmation.$invalid}">
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="password" name="passwordConfirmation" ng-model="user.password_confirmation" class="form-control input-lg" id="user-password-confirmation" placeholder="Confirm password" confirmation="user.password" required>
+                    <div ng-messages="form.passwordConfirmation.$error" ng-show="submitted">
+                      <p class="help-block" ng-message="required">is missing</p>
+                      <p class="help-block" ng-message="confirmation">does not match password</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
