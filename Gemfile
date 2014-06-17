@@ -13,6 +13,7 @@ gem "ngannotate-rails"
 gem "pg"
 gem "sprockets-redirect"
 gem "therubyracer"
+gem "uglifier"
 gem "valid_email"
 
 group :development do
