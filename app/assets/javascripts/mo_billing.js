@@ -49,10 +49,14 @@ angular.module("moBilling", [
 
     .run(function ($rootScope, $location) {
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
-            if (!next.guest && !window.localStorage.getItem("authenticationToken")) {
-                $location.path("/sign-in");
-            } else if (next.guest && window.localStorage.getItem("authenticationToken")) {
+            var authenticationToken = window.localStorage.getItem("authenticationToken");
+
+            if (next.guest && authenticationToken) {
                 $location.path("/");
+            }
+
+            if (!next.guest && !authenticationToken) {
+                $location.path("/sign-in");
             }
         });
     });
