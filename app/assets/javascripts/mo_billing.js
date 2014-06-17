@@ -33,7 +33,7 @@ angular.module("moBilling", [
         });
 
         $routeProvider.when("/sign-out", {
-            template: "",
+            template: null,
             controller: "SignOutController"
         });
 
