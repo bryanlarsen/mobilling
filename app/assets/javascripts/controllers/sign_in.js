@@ -4,12 +4,30 @@ angular.module("moBilling.controllers", [])
 
         $scope.session = new Session();
 
-        $scope.submit = function () {
-            $scope.session.errors = undefined;
-
-            if ($scope.form.$valid) {
-                $scope.session.save();
-            }
+        $scope.clearErrors = function () {
+            $scope.form.password.$setValidity("server", true);
+            $scope.session.errors = null;
         };
 
+        $scope.success = function () {
+            // console.log($scope.session);
+        };
+
+        $scope.error = function () {
+            // angular.forEach($scope.session.errors || {}, function (errors, field) {
+            //     $scope.form[field].$setValidity("server", false);
+            // });
+        };
+
+        $scope.submit = function () {
+            $scope.submitted = true;
+
+            $scope.clearErrors();
+            console.log($scope.session);
+
+            if ($scope.form.$valid) {
+                $scope.form.password.$setValidity("server", false);
+                // $scope.session.save().then($scope.success, $scope.error);
+            }
+        };
     });

@@ -24,16 +24,23 @@
           <form name="form" ng-submit="submit()" novalidate>
             <div class="panel">
               <div class="panel-body">
-                <div class="form-group row">
+                <div class="form-group row" ng-class="{'has-error': (form.email.$dirty || submitted) && form.email.$invalid}">
                   <div class="form-control-wrapper col-xs-12">
                     <input type="email" name="email" ng-model="session.email" class="form-control input-lg" id="session-email" placeholder="Email" required>
+                    <div ng-messages="form.email.$error" ng-show="submitted">
+                      <p class="help-block" ng-message="required">is missing</p>
+                      <p class="help-block" ng-message="email">is invalid</p>
+                    </div>
                   </div>
                 </div>
 
-                <div class="form-group row" ng-class="{'has-error': session.errors.password}">
+                <div class="form-group row" ng-class="{'has-error': (form.password.$dirty || submitted) && form.password.$invalid}">
                   <div class="form-control-wrapper col-xs-12">
                     <input type="password" name="password" ng-model="session.password" class="form-control input-lg" id="session-password" placeholder="Password" required>
-                    <p class="help-block">{{session.errors.password[0]}}</p>
+                    <div ng-messages="form.password.$error" ng-show="submitted">
+                      <p class="help-block" ng-message="required">is missing</p>
+                      <p class="help-block" ng-message="server">{{session.errors.password[0]}}</p>
+                    </div>
                   </div>
                 </div>
               </div>

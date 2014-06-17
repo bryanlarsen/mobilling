@@ -12,14 +12,10 @@ angular.module("moBilling.factories", [])
                 url: "/v1/session.json",
                 method: "POST",
                 data: { session: session }
-            }).then(function (response) {
-                if (response.data) {
-                    angular.extend(session, response.data.session);
-                }
-            }, function (response) {
-                if (response.data) {
-                    angular.extend(session, response.data);
-                }
+            }).success(function (response) {
+                // angular.extend(session, response.sessions);
+            }).error(function (response) {
+                // session.errors = response.errors;
             });
         };
 
