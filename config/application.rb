@@ -10,5 +10,6 @@ module MoBilling
   class Application < Rails::Application
     config.middleware.use "AuthOverride"
     config.angular_templates.module_name = "moBilling.templates"
+    config.assets.paths << Rails.root.join("vendor", "assets", "fonts")
   end
 end

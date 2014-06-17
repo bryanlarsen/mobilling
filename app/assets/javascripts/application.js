@@ -8,5 +8,3 @@
 angular.element(document).ready(function () {
     angular.bootstrap(document, ["moBilling"]);
 });
-
-console.log("asd2");
