@@ -1,5 +1,4 @@
 source "https://rubygems.org"
-source "https://rails-assets.org"
 
 gem "rails", "4.1.2.rc2"
 
@@ -11,6 +10,7 @@ gem "less-rails"
 gem "pg"
 gem "sprockets-redirect"
 gem "therubyracer"
+gem "uglifier"
 gem "valid_email"
 
 group :development do
