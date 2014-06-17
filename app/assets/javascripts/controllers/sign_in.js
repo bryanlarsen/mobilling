@@ -1,9 +1,15 @@
 angular.module("moBilling.controllers", [])
 
-    .controller("SignInController", function ($scope) {
+    .controller("SignInController", function ($scope, Session) {
+
+        $scope.session = new Session();
 
         $scope.submit = function () {
-            console.log($scope.form);
+            $scope.session.errors = undefined;
+
+            if ($scope.form.$valid) {
+                $scope.session.save();
+            }
         };
 
     });
