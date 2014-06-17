@@ -1,15 +1,15 @@
 development:
   adapter: postgresql
-  database: mobilling_development
+  database: mo_billing_development
 
 test:
   adapter: postgresql
-  database: mobilling_test
+  database: mo_billing_test
 
 staging:
   adapter: postgresql
-  database: mobilling_staging
+  database: mo_billing_staging
 
 production:
   adapter: postgresql
-  database: mobilling_production
+  database: mo_billing_production
