@@ -1,4 +1,4 @@
-angular.module("moBilling.factories", [])
+angular.module("moBilling.factories.session", [])
 
     .factory("Session", function ($http) {
         function Session(attributes) {

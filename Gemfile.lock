@@ -133,6 +133,9 @@ GEM
       polyglot (>= 0.3.1)
     tzinfo (1.2.1)
       thread_safe (~> 0.1)
+    valid_email (0.0.5)
+      activemodel
+      mail
     vcr (2.9.2)
     webmock (1.18.0)
       addressable (>= 2.3.6)
@@ -160,5 +163,6 @@ DEPENDENCIES
   spring
   sprockets-redirect
   therubyracer
+  valid_email
   vcr
   webmock

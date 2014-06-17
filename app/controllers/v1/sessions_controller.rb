@@ -12,14 +12,14 @@ class V1::SessionsController < V1::BaseController
   end
 
   def create
-    @session = CreateUserSession.new(session_params)
-    @session.perform
-    respond_with @session, location: nil, status: :created
+    @interactor = CreateSession.new(create_session_params)
+    @interactor.perform
+    respond_with @interactor, location: nil, status: :created
   end
 
   private
 
-  def session_params
+  def create_session_params
     params.require(:session).permit(:email, :password)
   end
 end

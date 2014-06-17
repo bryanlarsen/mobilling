@@ -5,5 +5,6 @@ Rails.application.routes.draw do
 
   namespace :v1 do
     resource :session, only: %i[create]
+    resource :user, only: %i[show create]
   end
 end

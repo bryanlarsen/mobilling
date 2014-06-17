@@ -1,0 +1,70 @@
+<div class="app has-navbar-top">
+  <div class="navbar navbar-app navbar-absolute-top">
+    <div class="navbar-brand navbar-brand-center">
+      <span>Mo-Billing</span>
+    </div>
+
+    <div class="btn-group pull-left">
+      <div class="btn btn-navbar">
+        &nbsp;
+      </div>
+    </div>
+
+    <div class="btn-group pull-right">
+      <div class="btn btn-navbar">
+        &nbsp;
+      </div>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <div class="app-content">
+      <div class="scrollable">
+        <div class="scrollable-content section">
+          <form name="form" ng-submit="submit()" novalidate>
+            <div class="panel">
+              <div class="panel-body">
+                <div class="form-group row" ng-class="{'has-error': (form.name.$dirty || submitted) && form.name.$invalid}">
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="text" name="name" ng-model="user.name" class="form-control input-lg" id="user-name" placeholder="Name" required>
+                    <div ng-messages="form.name.$error" ng-show="submitted">
+                      <p class="help-block" ng-message="required">is missing</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row" ng-class="{'has-error': (form.email.$dirty || submitted) && form.email.$invalid}">
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="email" name="email" ng-model="user.email" class="form-control input-lg" id="user-email" placeholder="Email" server required>
+                    <div ng-messages="form.email.$error" ng-show="submitted">
+                      <p class="help-block" ng-message="required">is missing</p>
+                      <p class="help-block" ng-message="email">is invalid</p>
+                      <p class="help-block" ng-message="server">{{user.errors.email[0]}}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row" ng-class="{'has-error': (form.password.$dirty || submitted) && form.password.$invalid}">
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="password" name="password" ng-model="user.password" class="form-control input-lg" id="user-password" placeholder="Password" required>
+                    <div ng-messages="form.password.$error" ng-show="submitted">
+                      <p class="help-block" ng-message="required">is missing</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions panel">
+              <div class="panel-body">
+                <button class="btn btn-primary btn-lg btn-block" ng-disabled="user.saving">
+                  <i class="fa fa-user"></i> Create Account
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

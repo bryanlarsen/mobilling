@@ -8,15 +8,22 @@ angular.module("moBilling", [
     "ngMessages",
     "mobile-angular-ui",
     "moBilling.templates",
-    "moBilling.controllers",
-    "moBilling.factories",
-    "moBilling.directives"
+    "moBilling.controllers.signInController",
+    "moBilling.controllers.signUpController",
+    "moBilling.factories.session",
+    "moBilling.factories.user",
+    "moBilling.directives.server"
 ])
 
     .config(function ($routeProvider) {
         $routeProvider.when("/sign-in", {
             templateUrl: "sign-in.html",
             controller: "SignInController"
+        });
+
+        $routeProvider.when("/sign-up", {
+            templateUrl: "sign-up.html",
+            controller: "SignUpController"
         });
 
         $routeProvider.otherwise({

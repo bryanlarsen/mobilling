@@ -1,4 +1,4 @@
-angular.module("moBilling.directives", [])
+angular.module("moBilling.directives.server", [])
 
     .directive("server", function() {
         return {

@@ -11,6 +11,7 @@ gem "less-rails"
 gem "pg"
 gem "sprockets-redirect"
 gem "therubyracer"
+gem "valid_email"
 
 group :development do
   gem "letter_opener"
