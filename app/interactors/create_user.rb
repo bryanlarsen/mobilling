@@ -12,7 +12,7 @@ class CreateUser
   def perform
     @user = User.find_or_initialize_by(email: email.to_s.downcase)
     if valid?
-      @user.update!(password: password, name: name)
+      @user.update!(password: password, name: name, authentication_token: SecureRandom.hex(32))
     else
       false
     end

@@ -1,10 +1,11 @@
 angular.module("moBilling.controllers.signInController", [])
 
-    .controller("SignInController", function ($scope, Session) {
+    .controller("SignInController", function ($scope, $location, Session) {
         $scope.session = new Session();
 
         $scope.success = function () {
             window.localStorage.setItem("authenticationToken", $scope.session.authentication_token);
+            $location.path("/");
         };
 
         $scope.error = function () {

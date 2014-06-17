@@ -5,6 +5,17 @@ angular.module("moBilling.factories.user", [])
             angular.extend(this, attributes);
         }
 
+        User.fetch = function (force) {
+            return $http({
+                url: "/v1/user.json",
+                method: "GET",
+                params: { auth: localStorage.getItem("authenticationToken") },
+                cache: !force
+            }).then(function (response) {
+                // console.log(response);
+            });
+        };
+
         User.prototype.save = function () {
             var user = this;
 

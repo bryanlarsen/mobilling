@@ -10,8 +10,11 @@ angular.module("moBilling", [
     "moBilling.templates",
     "moBilling.controllers.signInController",
     "moBilling.controllers.signUpController",
+    "moBilling.controllers.signOutController",
+    "moBilling.controllers.homeController",
     "moBilling.factories.session",
     "moBilling.factories.user",
+    "moBilling.factories.authentication",
     "moBilling.directives.server",
     "moBilling.directives.confirmation"
 ])
@@ -19,15 +22,38 @@ angular.module("moBilling", [
     .config(function ($routeProvider) {
         $routeProvider.when("/sign-in", {
             templateUrl: "sign-in.html",
-            controller: "SignInController"
+            controller: "SignInController",
+            guest: true
         });
 
         $routeProvider.when("/sign-up", {
             templateUrl: "sign-up.html",
-            controller: "SignUpController"
+            controller: "SignUpController",
+            guest: true
+        });
+
+        $routeProvider.when("/sign-out", {
+            template: "",
+            controller: "SignOutController"
+        });
+
+        $routeProvider.when("/", {
+            templateUrl: "home.html",
+            controller: "HomeController"
         });
 
         $routeProvider.otherwise({
-            redirectTo: "/sign-in"
+            redirectTo: "/"
+        });
+    })
+
+    .run(function ($rootScope, $location) {
+        $rootScope.$on("$routeChangeStart", function (event, next, current) {
+            if (!next.guest && !window.localStorage.getItem("authenticationToken")) {
+                $location.path("/sign-in");
+            } else if (next.guest && window.localStorage.getItem("authenticationToken")) {
+                $location.path("/");
+            }
         });
     });
+
