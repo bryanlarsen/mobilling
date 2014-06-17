@@ -10,24 +10,21 @@ angular.module("moBilling.controllers", [])
         };
 
         $scope.success = function () {
-            // console.log($scope.session);
+            console.log($scope.session);
         };
 
         $scope.error = function () {
-            // angular.forEach($scope.session.errors || {}, function (errors, field) {
-            //     $scope.form[field].$setValidity("server", false);
-            // });
+            angular.forEach($scope.session.errors || {}, function (errors, field) {
+                $scope.form[field].$setValidity("server", false);
+            });
         };
 
         $scope.submit = function () {
             $scope.submitted = true;
-
             $scope.clearErrors();
-            console.log($scope.session);
 
             if ($scope.form.$valid) {
-                $scope.form.password.$setValidity("server", false);
-                // $scope.session.save().then($scope.success, $scope.error);
+                $scope.session.save().then($scope.success, $scope.error);
             }
         };
     });

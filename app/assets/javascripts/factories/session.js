@@ -13,9 +13,9 @@ angular.module("moBilling.factories", [])
                 method: "POST",
                 data: { session: session }
             }).success(function (response) {
-                // angular.extend(session, response.sessions);
+                angular.extend(session, response.sessions);
             }).error(function (response) {
-                // session.errors = response.errors;
+                angular.extend(session, response);
             });
         };
 

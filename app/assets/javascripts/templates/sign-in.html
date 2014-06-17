@@ -36,7 +36,7 @@
 
                 <div class="form-group row" ng-class="{'has-error': (form.password.$dirty || submitted) && form.password.$invalid}">
                   <div class="form-control-wrapper col-xs-12">
-                    <input type="password" name="password" ng-model="session.password" class="form-control input-lg" id="session-password" placeholder="Password" required>
+                    <input type="password" name="password" ng-model="session.password" class="form-control input-lg" id="session-password" placeholder="Password" server required>
                     <div ng-messages="form.password.$error" ng-show="submitted">
                       <p class="help-block" ng-message="required">is missing</p>
                       <p class="help-block" ng-message="server">{{session.errors.password[0]}}</p>
