@@ -3,15 +3,13 @@ source "https://rails-assets.org"
 
 gem "rails", "4.1.2.rc2"
 
+gem "angular-rails-templates"
 gem "bcrypt"
 gem "jbuilder"
+gem "less-rails"
 gem "pg"
-gem "sass-rails", "~> 4.0.3"
 gem "sprockets-redirect"
-gem "uglifier"
-
-gem "rails-assets-angular", "~> 1.3.0.beta"
-gem "rails-assets-mobile-angular-ui"
+gem "therubyracer"
 
 group :development do
   gem "letter_opener"
