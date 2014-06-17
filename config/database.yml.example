@@ -1,0 +1,15 @@
+development:
+  adapter: postgresql
+  database: mobilling_development
+
+test:
+  adapter: postgresql
+  database: mobilling_test
+
+staging:
+  adapter: postgresql
+  database: mobilling_staging
+
+production:
+  adapter: postgresql
+  database: mobilling_production
