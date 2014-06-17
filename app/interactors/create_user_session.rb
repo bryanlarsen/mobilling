@@ -8,7 +8,11 @@ class CreateUserSession
 
   def perform
     @user = User.find_by(email: email)
-    valid?
+    if valid?
+      @user.update!(authentication_token: SecureRandom.hex(32))
+    else
+      false
+    end
   end
 
   private

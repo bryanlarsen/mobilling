@@ -8,8 +8,10 @@ class CreateUserSessionTest < ActiveSupport::TestCase
     @interactor = CreateUserSession.new(email: @email, password: @password)
   end
 
-  test "performs properly" do
+  test "performs properly updating authentication_token" do
+    assert @user.authentication_token.blank?
     assert @interactor.perform
+    assert @user.reload.authentication_token.present?
   end
 
   test "is invalid with non-existing email" do
