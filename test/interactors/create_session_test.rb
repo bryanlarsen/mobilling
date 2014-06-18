@@ -2,10 +2,8 @@ require "test_helper"
 
 class CreateSessionTest < ActiveSupport::TestCase
   setup do
-    @email = "user@example.com"
-    @password = "secret"
-    @user = create(:user, email: @email, password: @password)
-    @interactor = CreateSession.new(email: @email, password: @password)
+    @user = create(:user)
+    @interactor = CreateSession.new(email: @user.email, password: @user.password)
   end
 
   test "performs properly updating authentication_token" do

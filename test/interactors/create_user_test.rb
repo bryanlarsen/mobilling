@@ -2,7 +2,7 @@ require "test_helper"
 
 class CreateUserTest < ActiveSupport::TestCase
   setup do
-    @interactor = CreateUser.new(name: "User", email: "user@example.com", password: "secret")
+    @interactor = CreateUser.new(attributes_for(:user))
   end
 
   test "performs properly updating authentication_token" do
