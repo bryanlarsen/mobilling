@@ -6,26 +6,47 @@
       "versions": [
         "1.0"
       ],
-      "query": "auth=f027b7dbdfe23742c8e406ac599a4b55fe5c25a588bfaa4fe74bc8520b51ea36",
+      "query": "auth=4ea2cd081e4d9936b3c4062bd757b37fc0561d9af555658c349d7ab40a562970",
       "request_data": null,
       "response_data": [
         {
-          "id": 13,
-          "status": null,
-          "created_at": "2014-06-18T15:12:20.660Z",
-          "updated_at": "2014-06-18T15:12:20.660Z"
+          "id": "425abfc0-df55-4a0d-99f3-a89ebd7d788c",
+          "status": 0,
+          "patient_name": null,
+          "hospital": null,
+          "referring_physician": null,
+          "diagnosis": null,
+          "admission_on": null,
+          "first_seen_on": null,
+          "last_seen_on": null,
+          "created_at": "2014-06-18T20:13:45.978Z",
+          "updated_at": "2014-06-18T20:13:45.978Z"
         },
         {
-          "id": 14,
-          "status": null,
-          "created_at": "2014-06-18T15:12:20.665Z",
-          "updated_at": "2014-06-18T15:12:20.665Z"
+          "id": "8be20e79-71e1-4c2c-ac76-9e43c591f617",
+          "status": 0,
+          "patient_name": null,
+          "hospital": null,
+          "referring_physician": null,
+          "diagnosis": null,
+          "admission_on": null,
+          "first_seen_on": null,
+          "last_seen_on": null,
+          "created_at": "2014-06-18T20:13:45.983Z",
+          "updated_at": "2014-06-18T20:13:45.983Z"
         },
         {
-          "id": 15,
-          "status": null,
-          "created_at": "2014-06-18T15:12:20.666Z",
-          "updated_at": "2014-06-18T15:12:20.666Z"
+          "id": "ea99eb1d-025d-444c-9b46-a048e5531d02",
+          "status": 0,
+          "patient_name": null,
+          "hospital": null,
+          "referring_physician": null,
+          "diagnosis": null,
+          "admission_on": null,
+          "first_seen_on": null,
+          "last_seen_on": null,
+          "created_at": "2014-06-18T20:13:45.985Z",
+          "updated_at": "2014-06-18T20:13:45.985Z"
         }
       ],
       "code": "200",
@@ -58,15 +79,15 @@
       "query": null,
       "request_data": {
         "session": {
-          "email": "user2@example.com",
+          "email": "user1@example.com",
           "password": "secret"
         }
       },
       "response_data": {
-        "id": 35,
-        "name": "User 2",
-        "email": "user2@example.com",
-        "authentication_token": "41222bbbdf3d084298113e7f02040213bd93f8840c22ace720988b8f0219bb5d"
+        "id": "3828507a-ec80-4bf1-bb4e-267a8b996521",
+        "name": "User 1",
+        "email": "user1@example.com",
+        "authentication_token": "41bc36c48716aa96f91470b07a89d9e6fe123f9070ab6fdf18fc0b97c134504b"
       },
       "code": "201",
       "show_in_doc": 1,
@@ -113,10 +134,10 @@
         }
       },
       "response_data": {
-        "id": 36,
+        "id": "419547dd-68f4-4791-ba21-6d2b25a8af89",
         "name": "User 3",
         "email": "user3@example.com",
-        "authentication_token": "c51a7c5ac5d7c7ed3c7d0d7d19b3cc60510cd0fbe700a2a02ad0f315ec515872"
+        "authentication_token": "bc8d60fff2a5c3be10a1eb401a6f3bb40803ef4c067842eaa961e55fe10d14ec"
       },
       "code": "201",
       "show_in_doc": 1,
