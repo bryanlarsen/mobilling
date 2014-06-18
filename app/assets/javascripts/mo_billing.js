@@ -64,4 +64,11 @@ angular.module("moBilling", [
                 $location.path("/sign-in");
             }
         });
+
+        $rootScope.$on("$routeChangeError", function (event, next, current, error) {
+            if (error.status === 401) {
+                window.localStorage.removeItem("authenticationToken");
+                $location.path("/sign-in");
+            }
+        });
     });
