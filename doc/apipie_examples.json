@@ -6,30 +6,28 @@
       "versions": [
         "1.0"
       ],
-      "query": "auth=2b0050d71a562b10027be8b8a70642c815da8d63ab5385e4bde1f4deab4ce528",
+      "query": "auth=f027b7dbdfe23742c8e406ac599a4b55fe5c25a588bfaa4fe74bc8520b51ea36",
       "request_data": null,
-      "response_data": {
-        "claims": [
-          {
-            "id": 42,
-            "status": null,
-            "created_at": "2014-06-18T09:01:30.545Z",
-            "updated_at": "2014-06-18T09:01:30.545Z"
-          },
-          {
-            "id": 43,
-            "status": null,
-            "created_at": "2014-06-18T09:01:30.552Z",
-            "updated_at": "2014-06-18T09:01:30.552Z"
-          },
-          {
-            "id": 44,
-            "status": null,
-            "created_at": "2014-06-18T09:01:30.555Z",
-            "updated_at": "2014-06-18T09:01:30.555Z"
-          }
-        ]
-      },
+      "response_data": [
+        {
+          "id": 13,
+          "status": null,
+          "created_at": "2014-06-18T15:12:20.660Z",
+          "updated_at": "2014-06-18T15:12:20.660Z"
+        },
+        {
+          "id": 14,
+          "status": null,
+          "created_at": "2014-06-18T15:12:20.665Z",
+          "updated_at": "2014-06-18T15:12:20.665Z"
+        },
+        {
+          "id": 15,
+          "status": null,
+          "created_at": "2014-06-18T15:12:20.666Z",
+          "updated_at": "2014-06-18T15:12:20.666Z"
+        }
+      ],
       "code": "200",
       "show_in_doc": 1,
       "recorded": true
@@ -60,14 +58,15 @@
       "query": null,
       "request_data": {
         "session": {
-          "email": "user4@example.com",
+          "email": "user2@example.com",
           "password": "secret"
         }
       },
       "response_data": {
-        "sessions": {
-          "authentication_token": "4c7e6aeeab2138531132acdc9203af98eb2e966ac9fa5b972b22d6d0bb199631"
-        }
+        "id": 35,
+        "name": "User 2",
+        "email": "user2@example.com",
+        "authentication_token": "41222bbbdf3d084298113e7f02040213bd93f8840c22ace720988b8f0219bb5d"
       },
       "code": "201",
       "show_in_doc": 1,
@@ -108,18 +107,16 @@
       "query": null,
       "request_data": {
         "user": {
-          "name": "User 1",
-          "email": "user1@example.com",
+          "name": "User 3",
+          "email": "user3@example.com",
           "password": "secret"
         }
       },
       "response_data": {
-        "users": {
-          "id": 118,
-          "name": "User 1",
-          "email": "user1@example.com",
-          "authentication_token": "23d4766a2e1d2fd09377feb5cf65be9359401bf8d18b0f5980d4ee48135f23ea"
-        }
+        "id": 36,
+        "name": "User 3",
+        "email": "user3@example.com",
+        "authentication_token": "c51a7c5ac5d7c7ed3c7d0d7d19b3cc60510cd0fbe700a2a02ad0f315ec515872"
       },
       "code": "201",
       "show_in_doc": 1,
@@ -135,7 +132,7 @@
       "request_data": {
         "user": {
           "name": "",
-          "email": "user2@example.com",
+          "email": "user4@example.com",
           "password": "secret"
         }
       },

@@ -1,7 +1,6 @@
 //= require ./constants
 //= require_tree ./controllers
 //= require_tree ./factories
-//= require_tree ./services
 //= require_tree ./directives
 //= require_tree ./templates
 
@@ -17,7 +16,6 @@ angular.module("moBilling", [
     "moBilling.controllers.signUp",
     "moBilling.directives.confirmation",
     "moBilling.directives.server",
-    "moBilling.services.apiResponseTransformer",
     "moBilling.factories.claim",
     "moBilling.factories.session",
     "moBilling.factories.user",

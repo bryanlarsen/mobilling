@@ -1,3 +1,1 @@
-json.sessions do
-  json.authentication_token @interactor.user.authentication_token
-end
+json.partial! "v1/users/user", user: @interactor.user

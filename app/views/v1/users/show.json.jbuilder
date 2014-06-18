@@ -1,3 +1,1 @@
-json.users do
-  json.partial! "user", user: @user
-end
+json.partial! "user", user: @user
