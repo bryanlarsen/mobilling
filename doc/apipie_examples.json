@@ -15,7 +15,7 @@
       },
       "response_data": {
         "sessions": {
-          "authentication_token": "5687a08b7ed947986160c8d73bb4938538fc909656c8ec2ce6303911239a5bb8"
+          "authentication_token": "a6f714a3168e95425d9cb1a1768ef6d25acc5f5ff8ad85305f8d0a1024a3df2b"
         }
       },
       "code": "201",
@@ -64,10 +64,10 @@
       },
       "response_data": {
         "users": {
-          "id": 282,
+          "id": 288,
           "name": "User 1",
           "email": "user1@example.com",
-          "authentication_token": "3a1bbc5ede6e7b27cc66db89cb3007eeeefdc9fab0dd3094c07a7f6e7f44d6b2"
+          "authentication_token": "198aafdcd2a172c37029629bef9fa0885e0d5654b394185ceae5b40a03a9361b"
         }
       },
       "code": "201",
