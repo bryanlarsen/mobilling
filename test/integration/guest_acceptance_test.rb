@@ -17,10 +17,10 @@ class GuestAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "can sign in" do
-    create(:user, email: "alice@example.com", password: "secret")
+    user = create(:user, email: "alice@example.com", password: "secret")
     @guest.visit(root_path)
-    @guest.fill_in("Email", with: "alice@example.com")
-    @guest.fill_in("Password", with: "secret")
+    @guest.fill_in("Email", with: user.email)
+    @guest.fill_in("Password", with: user.password)
     @guest.click_on("Sign In")
     assert @guest.see?("MENU")
   end
