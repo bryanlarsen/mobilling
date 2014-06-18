@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.signUpController", [])
+angular.module("moBilling.controllers.signUp", [])
 
     .controller("SignUpController", function ($scope, $location, User) {
         $scope.user = new User();

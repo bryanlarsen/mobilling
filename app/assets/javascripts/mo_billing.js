@@ -8,13 +8,12 @@ angular.module("moBilling", [
     "ngMessages",
     "mobile-angular-ui",
     "moBilling.templates",
-    "moBilling.controllers.signInController",
-    "moBilling.controllers.signUpController",
-    "moBilling.controllers.signOutController",
-    "moBilling.controllers.homeController",
+    "moBilling.controllers.signIn",
+    "moBilling.controllers.signUp",
+    "moBilling.controllers.signOut",
+    "moBilling.controllers.claimList",
     "moBilling.factories.session",
     "moBilling.factories.user",
-    "moBilling.factories.authentication",
     "moBilling.directives.server",
     "moBilling.directives.confirmation"
 ])
@@ -38,8 +37,8 @@ angular.module("moBilling", [
         });
 
         $routeProvider.when("/", {
-            templateUrl: "home.html",
-            controller: "HomeController"
+            templateUrl: "claim-list.html",
+            controller: "ClaimListController"
         });
 
         $routeProvider.otherwise({
@@ -60,4 +59,3 @@ angular.module("moBilling", [
             }
         });
     });
-

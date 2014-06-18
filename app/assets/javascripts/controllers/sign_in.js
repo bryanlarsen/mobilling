@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.signInController", [])
+angular.module("moBilling.controllers.signIn", [])
 
     .controller("SignInController", function ($scope, $location, Session) {
         $scope.session = new Session();
