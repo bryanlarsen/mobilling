@@ -18,7 +18,6 @@ class V1::UsersController < V1::BaseController
 
   def create
     @interactor = CreateUser.new(create_user_params)
-    @interactor.user = current_user
     @interactor.perform
     respond_with @interactor, location: nil, status: :created
   end

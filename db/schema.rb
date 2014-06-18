@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20140618082806) do
   create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.uuid     "user_id"
     t.uuid     "photo_id"
-    t.integer  "status"
+    t.integer  "status",     default: 0
     t.json     "details",    default: {}
     t.datetime "created_at"
     t.datetime "updated_at"
