@@ -1,4 +1,55 @@
 {
+  "claims#index": [
+    {
+      "verb": "GET",
+      "path": "/v1/claims.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "auth=2b0050d71a562b10027be8b8a70642c815da8d63ab5385e4bde1f4deab4ce528",
+      "request_data": null,
+      "response_data": {
+        "claims": [
+          {
+            "id": 42,
+            "status": null,
+            "created_at": "2014-06-18T09:01:30.545Z",
+            "updated_at": "2014-06-18T09:01:30.545Z"
+          },
+          {
+            "id": 43,
+            "status": null,
+            "created_at": "2014-06-18T09:01:30.552Z",
+            "updated_at": "2014-06-18T09:01:30.552Z"
+          },
+          {
+            "id": 44,
+            "status": null,
+            "created_at": "2014-06-18T09:01:30.555Z",
+            "updated_at": "2014-06-18T09:01:30.555Z"
+          }
+        ]
+      },
+      "code": "200",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "GET",
+      "path": "/v1/claims.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "",
+      "request_data": null,
+      "response_data": {
+        "error": "param is missing or the value is invalid: auth"
+      },
+      "code": "401",
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
   "sessions#create": [
     {
       "verb": "POST",
@@ -9,13 +60,13 @@
       "query": null,
       "request_data": {
         "session": {
-          "email": "user3@example.com",
+          "email": "user4@example.com",
           "password": "secret"
         }
       },
       "response_data": {
         "sessions": {
-          "authentication_token": "a6f714a3168e95425d9cb1a1768ef6d25acc5f5ff8ad85305f8d0a1024a3df2b"
+          "authentication_token": "4c7e6aeeab2138531132acdc9203af98eb2e966ac9fa5b972b22d6d0bb199631"
         }
       },
       "code": "201",
@@ -64,10 +115,10 @@
       },
       "response_data": {
         "users": {
-          "id": 288,
+          "id": 118,
           "name": "User 1",
           "email": "user1@example.com",
-          "authentication_token": "198aafdcd2a172c37029629bef9fa0885e0d5654b394185ceae5b40a03a9361b"
+          "authentication_token": "23d4766a2e1d2fd09377feb5cf65be9359401bf8d18b0f5980d4ee48135f23ea"
         }
       },
       "code": "201",

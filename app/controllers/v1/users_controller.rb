@@ -1,5 +1,5 @@
 class V1::UsersController < V1::BaseController
-  skip_before_action :authenticate, only: %i[create]
+  skip_before_action :require_user, only: %i[create]
 
   resource_description do
     resource_id "users"
