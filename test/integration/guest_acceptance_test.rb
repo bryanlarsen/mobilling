@@ -7,8 +7,21 @@ class GuestAcceptanceTest < ActionDispatch::IntegrationTest
 
   test "can sign up" do
     @guest.visit(root_path)
-    # @guest.click_on("Create account now")
-    # @guest.fill_in("Name", with: "Alice")
-    # @guest.fill_in("Email", with: @guest.email)
+    @guest.click_on("Create account now")
+    @guest.fill_in("Name", with: "Alice")
+    @guest.fill_in("Email", with: "alice@example.com")
+    @guest.fill_in("Password", with: "secret")
+    @guest.fill_in("Confirm password", with: "secret")
+    @guest.click_on("Create Account")
+    assert @guest.see?("MENU")
+  end
+
+  test "can sign in" do
+    create(:user, email: "alice@example.com", password: "secret")
+    @guest.visit(root_path)
+    @guest.fill_in("Email", with: "alice@example.com")
+    @guest.fill_in("Password", with: "secret")
+    @guest.click_on("Sign In")
+    assert @guest.see?("MENU")
   end
 end
