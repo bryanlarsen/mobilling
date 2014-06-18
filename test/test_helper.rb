@@ -16,6 +16,14 @@ class ActiveSupport::TestCase
   end
 end
 
+class ActionController::TestCase
+  include ActionMailer::TestHelper
+
+  def json_response
+    JSON.parse(response.body)
+  end
+end
+
 class ActionDispatch::IntegrationTest
   include ActionMailer::TestHelper
 
