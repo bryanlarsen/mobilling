@@ -6,7 +6,7 @@ angular.module("moBilling.directives.dateFormat", [])
             require: "ngModel",
             link: function (scope, element, attributes, ngModelController) {
                 ngModelController.$formatters.push(function (modelValue) {
-                    return new Date(modelValue);
+                    return modelValue && new Date(modelValue);
                 });
 
                 ngModelController.$parsers.push(function (viewValue) {
