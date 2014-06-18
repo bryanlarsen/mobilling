@@ -11,11 +11,13 @@ angular.module("moBilling", [
     "ngRoute",
     "moBilling.constants",
     "moBilling.controllers.claimList",
+    "moBilling.controllers.claimEdit",
     "moBilling.controllers.signIn",
     "moBilling.controllers.signOut",
     "moBilling.controllers.signUp",
     "moBilling.directives.confirmation",
     "moBilling.directives.server",
+    "moBilling.directives.dateFormat",
     "moBilling.factories.claim",
     "moBilling.factories.session",
     "moBilling.factories.user",
@@ -56,6 +58,22 @@ angular.module("moBilling", [
             resolve: {
                 claims: function (Claim) {
                     return Claim.query().$promise;
+                }
+            }
+        });
+
+        $routeProvider.when("/claims/new", {
+            redirectTo: function (params) {
+                return "/claims/" + window.uuid.v4() + "/edit";
+            }
+        });
+
+        $routeProvider.when("/claims/:claim_id/edit", {
+            templateUrl: "claim-edit.html",
+            controller: "ClaimEditController",
+            resolve: {
+                claim: function ($route, Claim) {
+                    return Claim.getOrInitialize({ id: $route.current.params.claim_id });
                 }
             }
         });

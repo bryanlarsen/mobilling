@@ -1,0 +1,97 @@
+<div class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="mainSidebar">
+  <h1 class="app-name">Mo-Billing</h1>
+
+  <div class="scrollable">
+    <div class="scrollable-content">
+      <div class="list-group" toggle="off" bubble target="mainSidebar">
+        <a class="list-group-item" href="#/">Claims <i class="fa fa-chevron-right pull-right"></i></a>
+        <a class="list-group-item" href="#/sign-out">Sign out <i class="fa fa-sign-out pull-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+  <div class="navbar navbar-app navbar-absolute-top">
+    <div class="navbar-brand navbar-brand-center">
+      <span>Claims</span>
+    </div>
+
+    <div class="btn-group pull-left">
+      <div ng-click="toggle('mainSidebar')" class="btn btn-navbar sidebar-toggle">
+        <i class="fa fa-bars"></i> Menu
+      </div>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <div class="app-content">
+      <div class="scrollable">
+        <div class="scrollable-content section">
+          <form name="form" ng-submit="submit()" novalidate>
+            <div class="panel">
+              <div class="panel-body">
+                <div class="form-group row" ng-class="{'has-error': (form.patient_name.$dirty || submitted) && form.patient_name.$invalid}">
+                  <label for="claim-patient-name" class="control-label col-xs-12">Patient name</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="text" name="patient_name" ng-model="claim.patient_name" class="form-control input-lg" id="claim-patient-name">
+                  </div>
+                </div>
+
+                <div class="form-group row" ng-class="{'has-error': (form.hospital.$dirty || submitted) && form.hospital.$invalid}">
+                  <label for="claim-hospital" class="control-label col-xs-12">Hospital</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="text" name="hospital" ng-model="claim.hospital" class="form-control input-lg" id="claim-hospital">
+                  </div>
+                </div>
+
+                <div class="form-group row" ng-class="{'has-error': (form.referring_physician.$dirty || submitted) && form.referring_physician.$invalid}">
+                  <label for="claim-referring-physician" class="control-label col-xs-12">Referring physician</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="text" name="referring_physician" ng-model="claim.referring_physician" class="form-control input-lg" id="claim-referring-physician">
+                  </div>
+                </div>
+
+                <div class="form-group row" ng-class="{'has-error': (form.diagnosis.$dirty || submitted) && form.diagnosis.$invalid}">
+                  <label for="claim-diagnosis" class="control-label col-xs-12">Diagnosis</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="text" name="diagnosis" ng-model="claim.diagnosis" class="form-control input-lg" id="claim-diagnosis">
+                  </div>
+                </div>
+
+                <div class="form-group row" ng-class="{'has-error': (form.admission_on.$dirty || submitted) && form.admission_on.$invalid}">
+                  <label for="claim-admission-on" class="control-label col-xs-12">Admission date</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="date" name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" id="claim-admission-on" date-format="yyyy-MM-dd">
+                  </div>
+                </div>
+
+                <div class="form-group row" ng-class="{'has-error': (form.first_seen_on.$dirty || submitted) && form.first_seen_on.$invalid}">
+                  <label for="claim-first-seen-on" class="control-label col-xs-12">First seen date</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="date" name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" date-format="yyyy-MM-dd">
+                  </div>
+                </div>
+
+                <div class="form-group row" ng-class="{'has-error': (form.last_seen_on.$dirty || submitted) && form.last_seen_on.$invalid}">
+                  <label for="claim-last-seen-on" class="control-label col-xs-12">Last seen date</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="date" name="last_seen_on" ng-model="claim.last_seen_on" class="form-control input-lg" id="claim-last-seen-on" date-format="yyyy-MM-dd">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions panel">
+              <div class="panel-body">
+                <button class="btn btn-primary btn-lg btn-block">
+                  <i class="fa fa-check"></i> Save
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

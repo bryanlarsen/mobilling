@@ -6,6 +6,6 @@ Rails.application.routes.draw do
   namespace :v1 do
     resource :session, only: %i[create]
     resource :user, only: %i[show create]
-    resources :claims, only: %i[index update]
+    resources :claims, only: %i[index show update]
   end
 end

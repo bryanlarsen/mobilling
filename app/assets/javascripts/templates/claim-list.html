@@ -23,11 +23,11 @@
       </div>
     </div>
 
-    <div class="btn-group pull-right">
+    <a href="#/claims/new" class="btn-group pull-right">
       <div class="btn btn-navbar">
         <i class="fa fa-plus"></i> New
       </div>
-    </div>
+    </a>
   </div>
 
   <div class="app-body">
@@ -38,9 +38,9 @@
             <div class="list-group-item text-center" ng-if="claims.length === 0">
               <span class="text-muted">no claims</span>
             </div>
-            <div class="list-group-item" ng-repeat="claim in claims">
-              Claim #{{claim.id}}
-            </div>
+            <a href="#/claims/{{claim.id}}/edit" class="list-group-item" ng-repeat="claim in claims">
+              Claim of {{claim.patient_name}} created on {{claim.created_at | date:"yyyy-MM-dd"}}
+            </a>
           </div>
         </div>
       </div>

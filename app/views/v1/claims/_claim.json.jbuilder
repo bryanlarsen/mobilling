@@ -1,6 +1,11 @@
-json.id           claim.id
-json.status       claim.status
-json.patient_name claim.details["patient_name"]
-json.hospital     claim.details["hospital"]
-json.created_at   claim.created_at
-json.updated_at   claim.updated_at
+json.id                  claim.id
+json.status              claim.status
+json.patient_name        claim.details["patient_name"]
+json.hospital            claim.details["hospital"]
+json.referring_physician claim.details["referring_physician"]
+json.diagnosis           claim.details["diagnosis"]
+json.admission_on        claim.details["admission_on"]
+json.first_seen_on       claim.details["first_seen_on"]
+json.last_seen_on        claim.details["last_seen_on"]
+json.created_at          claim.created_at
+json.updated_at          claim.updated_at
