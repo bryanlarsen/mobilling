@@ -1,7 +1,7 @@
 class CreatePhotos < ActiveRecord::Migration
   def change
-    create_table :photos do |t|
-      t.integer :user_id
+    create_table :photos, id: :uuid do |t|
+      t.uuid :user_id
       t.string :file
 
       t.timestamps

@@ -15,24 +15,25 @@ ActiveRecord::Schema.define(version: 20140618082806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
-  create_table "claims", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "photo_id"
+  create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
+    t.uuid     "user_id"
+    t.uuid     "photo_id"
     t.integer  "status"
-    t.json     "details"
+    t.json     "details",    default: {}
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "photos", force: true do |t|
-    t.integer  "user_id"
+  create_table "photos", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
+    t.uuid     "user_id"
     t.string   "file"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"

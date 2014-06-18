@@ -14,6 +14,7 @@ gem "mini_magick"
 gem "pg"
 gem "sprockets-redirect"
 gem "therubyracer"
+gem "uuid_validator"
 gem "valid_email"
 
 group :development do

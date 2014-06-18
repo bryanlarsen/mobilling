@@ -5,6 +5,7 @@
 //= require angular-resource
 //= require mobile-angular-ui
 //= require angular-rails-templates
+//= require uuid
 //= require ./mo_billing
 
 angular.element(document).ready(function () {
