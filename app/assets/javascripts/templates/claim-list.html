@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div class="btn-group pull-right" yield-to="navbarAction">
+    <div class="btn-group pull-right">
       <div class="btn btn-navbar">
         <i class="fa fa-plus"></i> New
       </div>
@@ -34,12 +34,12 @@
     <div class="app-content">
       <div class="scrollable">
         <div class="scrollable-content section">
-          <div class="panel">
-            <div class="panel-heading">
-              <h2>Welcome to Mo-Billing!</h2>
+          <div class="list-group">
+            <div class="list-group-item text-center" ng-if="claims.length === 0">
+              <span class="text-muted">no claims</span>
             </div>
-            <div class="panel-body">
-              <p>You are signed in.</p>
+            <div class="list-group-item" ng-repeat="claim in claims">
+              Claim #{{claim.id}}
             </div>
           </div>
         </div>

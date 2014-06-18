@@ -4,18 +4,19 @@
 //= require_tree ./templates
 
 angular.module("moBilling", [
-    "ngRoute",
-    "ngMessages",
     "mobile-angular-ui",
-    "moBilling.templates",
-    "moBilling.controllers.signIn",
-    "moBilling.controllers.signUp",
-    "moBilling.controllers.signOut",
+    "ngMessages",
+    "ngRoute",
     "moBilling.controllers.claimList",
+    "moBilling.controllers.signIn",
+    "moBilling.controllers.signOut",
+    "moBilling.controllers.signUp",
+    "moBilling.directives.confirmation",
+    "moBilling.directives.server",
+    "moBilling.factories.claim",
     "moBilling.factories.session",
     "moBilling.factories.user",
-    "moBilling.directives.server",
-    "moBilling.directives.confirmation"
+    "moBilling.templates"
 ])
 
     .config(function ($routeProvider) {
@@ -38,7 +39,12 @@ angular.module("moBilling", [
 
         $routeProvider.when("/", {
             templateUrl: "claim-list.html",
-            controller: "ClaimListController"
+            controller: "ClaimListController",
+            resolve: {
+                claims: function (Claim) {
+                    return Claim.fetch();
+                }
+            }
         });
 
         $routeProvider.otherwise({
