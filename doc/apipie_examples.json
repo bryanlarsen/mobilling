@@ -9,13 +9,13 @@
       "query": null,
       "request_data": {
         "session": {
-          "email": "user1@example.com",
+          "email": "user3@example.com",
           "password": "secret"
         }
       },
       "response_data": {
         "sessions": {
-          "authentication_token": "77544ce90e3f8ab9914abbea6b04d169b1358d446bbadc50a6fde473896e3905"
+          "authentication_token": "5687a08b7ed947986160c8d73bb4938538fc909656c8ec2ce6303911239a5bb8"
         }
       },
       "code": "201",
@@ -39,6 +39,59 @@
         "errors": {
           "password": [
             "is invalid"
+          ]
+        }
+      },
+      "code": "422",
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "users#create": [
+    {
+      "verb": "POST",
+      "path": "/v1/user.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": null,
+      "request_data": {
+        "user": {
+          "name": "User 1",
+          "email": "user1@example.com",
+          "password": "secret"
+        }
+      },
+      "response_data": {
+        "users": {
+          "id": 282,
+          "name": "User 1",
+          "email": "user1@example.com",
+          "authentication_token": "3a1bbc5ede6e7b27cc66db89cb3007eeeefdc9fab0dd3094c07a7f6e7f44d6b2"
+        }
+      },
+      "code": "201",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "POST",
+      "path": "/v1/user.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": null,
+      "request_data": {
+        "user": {
+          "name": "",
+          "email": "user2@example.com",
+          "password": "secret"
+        }
+      },
+      "response_data": {
+        "errors": {
+          "name": [
+            "can't be blank"
           ]
         }
       },
