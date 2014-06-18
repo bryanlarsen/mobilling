@@ -1,1 +1,1 @@
-json.partial! "session", session: @interactor.user
+json.partial! "/v1/users/user", user: @interactor.user
