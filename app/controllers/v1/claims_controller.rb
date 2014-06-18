@@ -1,7 +1,5 @@
 class V1::ClaimsController < V1::BaseController
-  resource_description do
-    resource_id "claims"
-  end
+  resource_description { resource_id "claims" }
 
   api :GET, "/v1/claims", "Returns claims"
 

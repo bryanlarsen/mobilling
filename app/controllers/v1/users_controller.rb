@@ -1,9 +1,7 @@
 class V1::UsersController < V1::BaseController
   skip_before_action :require_user, only: %i[create]
-
-  resource_description do
-    resource_id "users"
-  end
+  wrap_parameters :user, include: [:name, :email, :password], format: :json
+  resource_description { resource_id "users" }
 
   api :GET, "/v1/user", "Returns the current user"
 
@@ -27,6 +25,6 @@ class V1::UsersController < V1::BaseController
   private
 
   def create_user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password)
   end
 end

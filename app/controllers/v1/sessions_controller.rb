@@ -1,9 +1,7 @@
 class V1::SessionsController < V1::BaseController
   skip_before_action :require_user, only: %i[create]
-
-  resource_description do
-    resource_id "sessions"
-  end
+  wrap_parameters :session, include: [:email, :password], format: :json
+  resource_description { resource_id "sessions" }
 
   api :POST, "/v1/session", "Returns an authentication token"
   param :session, Hash, required: true do

@@ -12,7 +12,7 @@ class V1::BaseController < ActionController::Base
 
   def current_user
     return @current_patient if defined?(@current_patient)
-    @current_user = User.find_by(authentication_token: authentication_token)
+    @current_user = User.find_by(authentication_token: authentication_token) if authentication_token.present?
   end
 
   def require_user

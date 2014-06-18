@@ -1,18 +1,23 @@
+//= require ./constants
 //= require_tree ./controllers
 //= require_tree ./factories
+//= require_tree ./services
 //= require_tree ./directives
 //= require_tree ./templates
 
 angular.module("moBilling", [
     "mobile-angular-ui",
     "ngMessages",
+    "ngResource",
     "ngRoute",
+    "moBilling.constants",
     "moBilling.controllers.claimList",
     "moBilling.controllers.signIn",
     "moBilling.controllers.signOut",
     "moBilling.controllers.signUp",
     "moBilling.directives.confirmation",
     "moBilling.directives.server",
+    "moBilling.services.apiInterceptor",
     "moBilling.factories.claim",
     "moBilling.factories.session",
     "moBilling.factories.user",
@@ -23,13 +28,23 @@ angular.module("moBilling", [
         $routeProvider.when("/sign-in", {
             templateUrl: "sign-in.html",
             controller: "SignInController",
-            guest: true
+            guest: true,
+            resolve: {
+                session: function (Session) {
+                    return new Session();
+                }
+            }
         });
 
         $routeProvider.when("/sign-up", {
             templateUrl: "sign-up.html",
             controller: "SignUpController",
-            guest: true
+            guest: true,
+            resolve: {
+                user: function (User) {
+                    return new User();
+                }
+            }
         });
 
         $routeProvider.when("/sign-out", {
@@ -42,7 +57,7 @@ angular.module("moBilling", [
             controller: "ClaimListController",
             resolve: {
                 claims: function (Claim) {
-                    return Claim.fetch();
+                    return Claim.query().$promise;
                 }
             }
         });

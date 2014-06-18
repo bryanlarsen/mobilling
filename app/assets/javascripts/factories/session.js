@@ -1,34 +1,22 @@
 angular.module("moBilling.factories.session", [])
 
-    .factory("Session", function ($http) {
-        function Session(attributes) {
-            angular.extend(this, attributes);
-        }
-
-        Session.prototype.save = function () {
-            var session = this;
-
-            this.saving = true;
-
-            return $http({
-                url: "/v1/session.json",
+    .factory("Session", function ($resource, apiInterceptor) {
+        var Session = $resource("/v1/session.json", {}, {
+            save: {
                 method: "POST",
-                data: { session: session }
-            }).success(function (response) {
-                session.saving = false;
-                angular.extend(session, response.sessions);
-            }).error(function (response) {
-                session.saving = false;
-                angular.extend(session, response);
-            });
-        };
+                transformResponse: function (response) {
+                    if (response.status === 200) {
+                        return angular.fromJson(response).sessions;
+                    } else if (response.status === 422) {
+                        return angular.fromJson(response).errors;
+                    } else {
+                        return angular.fromJson(response);
+                    }
+                }
+            }
+        });
 
-        Session.prototype.toJSON = function () {
-            return {
-                email: this.email,
-                password: this.password
-            };
-        };
+        window.Session = Session;
 
         return Session;
     });

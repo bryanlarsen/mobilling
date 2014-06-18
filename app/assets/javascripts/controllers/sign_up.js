@@ -1,25 +1,30 @@
 angular.module("moBilling.controllers.signUp", [])
 
-    .controller("SignUpController", function ($scope, $location, User) {
-        $scope.user = new User();
+    .controller("SignUpController", function ($scope, $location, user) {
+        $scope.user = user;
 
-        $scope.success = function () {
-            window.localStorage.setItem("authenticationToken", $scope.user.authentication_token);
+        $scope.success = function (response) {
+            console.log(user);
+            console.log(response);
+            window.localStorage.setItem("authenticationToken", user.authentication_token);
             $location.path("/");
         };
 
-        $scope.error = function () {
-            angular.forEach($scope.user.errors || {}, function (errors, field) {
+        $scope.error = function (errors) {
+            $scope.errors = errors;
+            angular.forEach($scope.errors || {}, function (errors, field) {
                 $scope.form[field].$setValidity("server", false);
             });
         };
 
         $scope.submit = function () {
             $scope.submitted = true;
+            $scope.form.name.$setValidity("server", true);
             $scope.form.email.$setValidity("server", true);
+            $scope.form.password.$setValidity("server", true);
 
             if ($scope.form.$valid) {
-                $scope.user.save().success($scope.success).error($scope.error);
+                $scope.user.$save().then($scope.success, $scope.error);
             }
         };
     });
