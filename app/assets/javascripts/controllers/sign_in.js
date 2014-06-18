@@ -10,7 +10,6 @@ angular.module("moBilling.controllers.signIn", [])
 
         $scope.error = function (response) {
             if (response.status === 422) {
-                console.log(response);
                 $scope.errors = response.data.errors;
                 angular.forEach($scope.errors || {}, function (errors, field) {
                     $scope.form[field].$setValidity("server", false);
@@ -23,7 +22,7 @@ angular.module("moBilling.controllers.signIn", [])
             $scope.form.password.$setValidity("server", true);
 
             if ($scope.form.$valid) {
-                $scope.session.$save().then($scope.success, $scope.error);
+                $scope.session.$save($scope.success, $scope.error);
             }
         };
     });

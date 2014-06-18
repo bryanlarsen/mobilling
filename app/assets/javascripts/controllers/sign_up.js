@@ -3,18 +3,18 @@ angular.module("moBilling.controllers.signUp", [])
     .controller("SignUpController", function ($scope, $location, user) {
         $scope.user = user;
 
-        $scope.success = function (response) {
-            console.log(user);
-            console.log(response);
+        $scope.success = function () {
             window.localStorage.setItem("authenticationToken", user.authentication_token);
             $location.path("/");
         };
 
-        $scope.error = function (errors) {
-            $scope.errors = errors;
-            angular.forEach($scope.errors || {}, function (errors, field) {
-                $scope.form[field].$setValidity("server", false);
-            });
+        $scope.error = function (response) {
+            if (response.status === 422) {
+                $scope.errors = response.data.errors;
+                angular.forEach($scope.errors || {}, function (errors, field) {
+                    $scope.form[field].$setValidity("server", false);
+                });
+            }
         };
 
         $scope.submit = function () {
@@ -24,7 +24,7 @@ angular.module("moBilling.controllers.signUp", [])
             $scope.form.password.$setValidity("server", true);
 
             if ($scope.form.$valid) {
-                $scope.user.$save().then($scope.success, $scope.error);
+                $scope.user.$save($scope.success, $scope.error);
             }
         };
     });

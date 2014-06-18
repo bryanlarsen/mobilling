@@ -1,24 +1,20 @@
 angular.module("moBilling.factories.user", [])
 
-    .factory("User", function ($resource, $q, apiInterceptor) {
+    .factory("User", function ($resource, $q, apiResponseTransformer) {
         var User = $resource("/v1/user.json?auth=:auth", {
             auth: function () {
                 return window.localStorage.getItem("authenticationToken");
             }
         }, {
             get: {
-                resourceName: "users",
-                interceptor: apiInterceptor
+                transformResponse: apiResponseTransformer("users")
             },
             save: {
                 method: "POST",
                 params: { auth: null },
-                resourceName: "users",
-                interceptor: apiInterceptor
+                transformResponse: apiResponseTransformer("users")
             }
         });
-
-        window.User = User;
 
         return User;
     });

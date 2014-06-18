@@ -17,7 +17,7 @@ angular.module("moBilling", [
     "moBilling.controllers.signUp",
     "moBilling.directives.confirmation",
     "moBilling.directives.server",
-    "moBilling.services.apiInterceptor",
+    "moBilling.services.apiResponseTransformer",
     "moBilling.factories.claim",
     "moBilling.factories.session",
     "moBilling.factories.user",
