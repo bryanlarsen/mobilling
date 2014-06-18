@@ -5,7 +5,8 @@ class V1::UsersController < V1::BaseController
     resource_id "users"
   end
 
-  api :GET, "/v1/user", "Returns current user"
+  api :GET, "/v1/user", "Returns the current user"
+
   def show
     @user = @current_user
   end
