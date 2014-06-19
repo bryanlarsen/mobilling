@@ -1,5 +1,5 @@
 class V1::ClaimsController < V1::BaseController
-  wrap_parameters :claim, include: [:id, :patient_name, :hospital, :referring_physician, :diagnosis, :admission_on, :first_seen_on, :last_seen_on, :most_responsible_physician, :last_seen_discharge], format: :json
+  wrap_parameters :claim, include: [:id, :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :admission_on, :first_seen_on, :last_seen_on, :most_responsible_physician, :last_seen_discharge], format: :json
   resource_description { resource_id "claims" }
 
   api :GET, "/v1/claims", "Returns claims"
@@ -16,6 +16,7 @@ class V1::ClaimsController < V1::BaseController
 
   api :PUT, "/v1/claims/:id", "Updates a claim"
   param :claim, Hash, required: true do
+    param :photo_id, Integer
     param :patient_name, String
     param :hospital, String
     param :referring_physician, String
@@ -37,6 +38,6 @@ class V1::ClaimsController < V1::BaseController
   private
 
   def update_claim_params
-    params.require(:claim).permit(:id, :patient_name, :hospital, :referring_physician, :diagnosis, :admission_on, :first_seen_on, :last_seen_on, :most_responsible_physician, :last_seen_discharge)
+    params.require(:claim).permit(:id, :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :admission_on, :first_seen_on, :last_seen_on, :most_responsible_physician, :last_seen_discharge)
   end
 end

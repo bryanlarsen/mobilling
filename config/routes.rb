@@ -7,6 +7,6 @@ Rails.application.routes.draw do
     resource :session, only: %i[create]
     resource :user, only: %i[show create]
     resources :claims, only: %i[index show update]
-    resources :photos, only: %i[create]
+    resources :photos, only: %i[show create]
   end
 end

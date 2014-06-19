@@ -8,7 +8,7 @@ angular.module("moBilling.factories.photo", [])
             }
         });
 
-        Photo.prototype.upload = function (file) {
+        Photo.upload = function (file) {
             var photo = this,
                 formData = new FormData();
 
@@ -21,9 +21,7 @@ angular.module("moBilling.factories.photo", [])
                 dataType: "json",
                 processData: false,
                 type: "POST"
-            }).then(function (data) {
-                angular.extend(photo, data);
-            });;
+            });
         };
 
         return Photo;

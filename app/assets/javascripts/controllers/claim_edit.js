@@ -36,15 +36,16 @@ angular.module("moBilling.controllers.claimEdit", [])
 
         $scope.$watch("claim.admission_on", $scope.syncFirstSeenOn);
         $scope.$watch("first_seen_admission", $scope.syncFirstSeenOn);
+        $scope.$watch("claim.photo_id", function (photoId) {
+            $scope.photo = Photo.get({ id: photoId });
+        });
         $scope.$watch("file", function (file) {
             if (file) {
-                var photo = new Photo();
-
                 $scope.uploading = true;
 
-                photo.upload(file).then(function () {
+                Photo.upload(file).then(function (data) {
                     $scope.uploading = false;
-                    $scope.photo = photo;
+                    $scope.claim.photo_id = data.id;
                     $scope.$apply();
                 }, function () {
                     $scope.uploading = false;

@@ -1,7 +1,7 @@
 class UpdateClaim
   include ActiveModel::Model
 
-  attr_accessor :user, :id, :patient_name, :hospital, :referring_physician, :diagnosis, :most_responsible_physician, :admission_on, :first_seen_on, :last_seen_on, :last_seen_discharge
+  attr_accessor :user, :id, :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :most_responsible_physician, :admission_on, :first_seen_on, :last_seen_on, :last_seen_discharge
   attr_reader :claim
 
   validates :id, uuid: true
@@ -10,7 +10,7 @@ class UpdateClaim
   def perform
     return false if invalid?
     @claim = user.claims.find_or_initialize_by(id: id)
-    @claim.update!(details: details)
+    @claim.update!(photo_id: photo_id, details: details)
   end
 
   private
