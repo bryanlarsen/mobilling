@@ -33,8 +33,14 @@
               <div class="panel-body">
                 <div class="form-group row" ng-class="{'has-error': (form.patient_photo.$dirty || submitted) && form.patient_photo.$invalid}">
                   <label for="photo-file" class="control-label col-xs-12">Patient photo</label>
+                  <div class="form-control-wrapper col-xs-12" ng-if="photo">
+                    <img ng-src="{{photo.small_url}}" width="300" class="thumbnail"></img>
+                  </div>
                   <div class="form-control-wrapper col-xs-12">
-                    <span class="btn btn-primary btn-lg fileinput-button">
+                    <span class="btn btn-primary btn-lg" disabled="disabled" ng-show="uploading">
+                      <i class="fa fa-spinner fa-spin"></i> Uploading…
+                    </span>
+                    <span class="btn btn-primary btn-lg fileinput-button" ng-hide="uploading">
                       <i class="fa fa-camera"></i> Upload
                       <input type="file" upload="file" id="photo-file">
                     </span>

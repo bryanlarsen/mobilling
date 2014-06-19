@@ -1,6 +1,6 @@
 angular.module("moBilling.factories.photo", [])
 
-    .factory("Photo", function ($resource, $http, API_URL) {
+    .factory("Photo", function ($resource, API_URL) {
         var Photo = $resource(API_URL + "/v1/photos/:id.json?auth=:auth", {
             id: "@id",
             auth: function () {
@@ -9,7 +9,8 @@ angular.module("moBilling.factories.photo", [])
         });
 
         Photo.prototype.upload = function (file) {
-            var formData = new FormData();
+            var photo = this,
+                formData = new FormData();
 
             formData.append("photo[file]", file);
 
@@ -20,7 +21,9 @@ angular.module("moBilling.factories.photo", [])
                 dataType: "json",
                 processData: false,
                 type: "POST"
-            });
+            }).then(function (data) {
+                angular.extend(photo, data);
+            });;
         };
 
         return Photo;

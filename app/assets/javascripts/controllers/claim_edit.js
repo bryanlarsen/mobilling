@@ -40,7 +40,16 @@ angular.module("moBilling.controllers.claimEdit", [])
             if (file) {
                 var photo = new Photo();
 
-                photo.upload(file);
+                $scope.uploading = true;
+
+                photo.upload(file).then(function () {
+                    $scope.uploading = false;
+                    $scope.photo = photo;
+                    $scope.$apply();
+                }, function () {
+                    $scope.uploading = false;
+                    $scope.$apply();
+                });
             }
         });
     });
