@@ -37,7 +37,9 @@ angular.module("moBilling.controllers.claimEdit", [])
         $scope.$watch("claim.admission_on", $scope.syncFirstSeenOn);
         $scope.$watch("first_seen_admission", $scope.syncFirstSeenOn);
         $scope.$watch("claim.photo_id", function (photoId) {
-            $scope.photo = Photo.get({ id: photoId });
+            if (photoId) {
+                $scope.photo = Photo.get({ id: photoId });
+            }
         });
         $scope.$watch("file", function (file) {
             if (file) {
