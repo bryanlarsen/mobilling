@@ -8,10 +8,12 @@ angular.module("moBilling.controllers.claimEdit", [])
         }
 
         $scope.success = function () {
+            $scope.submitting = false;
             $location.path("/");
         };
 
         $scope.error = function (response) {
+            $scope.submitting = false;
             if (response.status === 422) {
                 $scope.errors = response.data.errors;
                 angular.forEach($scope.errors || {}, function (errors, field) {
@@ -24,6 +26,7 @@ angular.module("moBilling.controllers.claimEdit", [])
             $scope.submitted = true;
 
             if ($scope.form.$valid) {
+                $scope.submitting = true;
                 $scope.claim.$save($scope.success, $scope.error);
             }
         };
