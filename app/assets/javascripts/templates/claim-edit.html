@@ -17,9 +17,17 @@
       <span>Claims</span>
     </div>
 
-    <div class="btn-group pull-left">
-      <div ng-click="toggle('mainSidebar')" class="btn btn-navbar sidebar-toggle">
-        <i class="fa fa-bars"></i> Menu
+    <div class="btn-group pull-left" ng-click="cancel()">
+      <div class="btn btn-navbar">
+        <i class="fa fa-chevron-left"></i> Back
+      </div>
+    </div>
+
+    <div class="btn-group pull-right" ng-click="submit()">
+      <div class="btn btn-navbar" ng-disabled="submitting || uploading">
+        <span ng-show="submitting"><i class="fa fa-spinner fa-spin"></i> Saving…</span>
+        <span ng-show="uploading"><i class="fa fa-spinner fa-spin"></i> Uploading…</span>
+        <span ng-hide="submitting || uploading"><i class="fa fa-check"></i> Save</span>
       </div>
     </div>
   </div>
@@ -116,16 +124,6 @@
                     <switch ng-model="claim.last_seen_discharge" id="last-seen-discharge">
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div class="form-actions panel">
-              <div class="panel-body">
-                <button class="btn btn-primary btn-lg btn-block" ng-disabled="submitting || uploading">
-                  <span ng-show="submitting"><i class="fa fa-spinner fa-spin"></i> Saving…</span>
-                  <span ng-show="uploading"><i class="fa fa-spinner fa-spin"></i> Uploading…</span>
-                  <span ng-hide="submitting || uploading"><i class="fa fa-check"></i> Save</span>
-                </button>
               </div>
             </div>
           </form>

@@ -7,8 +7,14 @@ angular.module("moBilling.controllers.claimEdit", [])
             $scope.first_seen_admission = true;
         }
 
+        $scope.cancel = function () {
+            $location.replace();
+            $location.path("/");
+        };
+
         $scope.success = function () {
             $scope.submitting = false;
+            $location.replace();
             $location.path("/");
         };
 
