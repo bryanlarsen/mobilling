@@ -48,11 +48,9 @@
 
             <div class="form-actions panel">
               <div class="panel-body">
-                <button class="btn btn-primary btn-lg btn-block" ng-show="submitting" disabled="disabled">
-                  <i class="fa fa-spinner fa-spin"></i> Signing in…
-                </button>
-                <button class="btn btn-primary btn-lg btn-block" ng-hide="submitting">
-                  <i class="fa fa-sign-in"></i> Sign In
+                <button class="btn btn-primary btn-lg btn-block" ng-disabled="submitting">
+                  <span ng-show="submitting"><i class="fa fa-spinner fa-spin"></i> Signing in…</span>
+                  <span ng-hide="submitting"><i class="fa fa-sign-in"></i> Sign In</span>
                 </button>
                 <br>
                 <a href="javascript:;" class="btn btn-link btn-lg btn-block" disabled="disabled">Forgot your password?</a>
