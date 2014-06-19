@@ -67,7 +67,10 @@
 
             <div class="form-actions panel">
               <div class="panel-body">
-                <button class="btn btn-primary btn-lg btn-block" ng-disabled="user.saving">
+                <button class="btn btn-primary btn-lg btn-block" ng-show="submitting" disabled="disabled">
+                  <i class="fa fa-spinner fa-spin"></i> Creating Account…
+                </button>
+                <button class="btn btn-primary btn-lg btn-block" ng-hide="submitting">
                   <i class="fa fa-user"></i> Create Account
                 </button>
                 <a class="btn btn-link btn-lg btn-block" href="#/sign-in">Already have an account? Log in now</a>

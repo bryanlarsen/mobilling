@@ -30,23 +30,13 @@ angular.module("moBilling", [
         $routeProvider.when("/sign-in", {
             templateUrl: "sign-in.html",
             controller: "SignInController",
-            guest: true,
-            resolve: {
-                session: function (Session) {
-                    return new Session();
-                }
-            }
+            guest: true
         });
 
         $routeProvider.when("/sign-up", {
             templateUrl: "sign-up.html",
             controller: "SignUpController",
-            guest: true,
-            resolve: {
-                user: function (User) {
-                    return new User();
-                }
-            }
+            guest: true
         });
 
         $routeProvider.when("/sign-out", {
