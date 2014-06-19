@@ -17,14 +17,14 @@
       <span>Claim</span>
     </div>
 
-    <div class="btn-group pull-left" ng-click="cancel()">
-      <div class="btn btn-navbar">
+    <div class="btn-group pull-left">
+      <div class="btn btn-navbar" ng-click="cancel()">
         <i class="fa fa-chevron-left"></i> Back
       </div>
     </div>
 
-    <div class="btn-group pull-right" ng-click="submit()">
-      <div class="btn btn-navbar" ng-disabled="submitting || uploading">
+    <div class="btn-group pull-right">
+      <div class="btn btn-navbar" ng-disabled="submitting || uploading" ng-click="submit()">
         <span ng-show="submitting"><i class="fa fa-spinner fa-spin"></i> Saving…</span>
         <span ng-show="uploading"><i class="fa fa-spinner fa-spin"></i> Uploading…</span>
         <span ng-hide="submitting || uploading"><i class="fa fa-check"></i> Save</span>
