@@ -1,6 +1,6 @@
 angular.module("moBilling.controllers.claimEdit", [])
 
-    .controller("ClaimEditController", function ($scope, $location, claim) {
+    .controller("ClaimEditController", function ($scope, $location, claim, Photo) {
         $scope.claim = claim;
 
         if ($scope.claim.admission_on === $scope.claim.first_seen_on) {
@@ -36,4 +36,11 @@ angular.module("moBilling.controllers.claimEdit", [])
 
         $scope.$watch("claim.admission_on", $scope.syncFirstSeenOn);
         $scope.$watch("first_seen_admission", $scope.syncFirstSeenOn);
+        $scope.$watch("file", function (file) {
+            if (file) {
+                var photo = new Photo();
+
+                photo.upload(file);
+            }
+        });
     });
