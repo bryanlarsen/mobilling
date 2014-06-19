@@ -80,10 +80,12 @@ angular.module("moBilling", [
             var authenticationToken = window.localStorage.getItem("authenticationToken");
 
             if (next.guest && authenticationToken) {
+                $location.replace();
                 $location.path("/");
             }
 
             if (!next.guest && !authenticationToken) {
+                $location.replace();
                 $location.path("/sign-in");
             }
         });
@@ -91,6 +93,7 @@ angular.module("moBilling", [
         $rootScope.$on("$routeChangeError", function (event, next, current, error) {
             if (error.status === 401) {
                 window.localStorage.removeItem("authenticationToken");
+                $location.replace();
                 $location.path("/sign-in");
             }
         });
