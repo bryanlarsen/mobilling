@@ -31,6 +31,16 @@
           <form name="form" ng-submit="submit()" novalidate>
             <div class="panel">
               <div class="panel-body">
+                <div class="form-group row" ng-class="{'has-error': (form.patient_photo.$dirty || submitted) && form.patient_photo.$invalid}">
+                  <label for="claim-patient-photo" class="control-label col-xs-12">Patient photo</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <span class="btn btn-primary btn-lg fileinput-button">
+                      <i class="fa fa-camera"></i> Upload
+                      <input type="file">
+                    </span>
+                  </div>
+                </div>
+
                 <div class="form-group row" ng-class="{'has-error': (form.patient_name.$dirty || submitted) && form.patient_name.$invalid}">
                   <label for="claim-patient-name" class="control-label col-xs-12">Patient name</label>
                   <div class="form-control-wrapper col-xs-12">
