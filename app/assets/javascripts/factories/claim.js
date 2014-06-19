@@ -12,7 +12,7 @@ angular.module("moBilling.factories.claim", [])
             }
         });
 
-        Claim.getOrInitialize = function (attributes) {
+        Claim.getOrInit = function (attributes) {
             return Claim.get(attributes).$promise.then(null, function (response) {
                 if (response.status === 404) {
                     return new Claim(attributes);

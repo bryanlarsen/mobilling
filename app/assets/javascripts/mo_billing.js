@@ -73,7 +73,7 @@ angular.module("moBilling", [
             controller: "ClaimEditController",
             resolve: {
                 claim: function ($route, Claim) {
-                    return Claim.getOrInitialize({ id: $route.current.params.claim_id });
+                    return Claim.getOrInit({ id: $route.current.params.claim_id });
                 }
             }
         });

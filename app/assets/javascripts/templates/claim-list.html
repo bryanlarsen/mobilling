@@ -33,13 +33,14 @@
   <div class="app-body">
     <div class="app-content">
       <div class="scrollable">
-        <div class="scrollable-content section">
+        <div class="scrollable-content">
           <div class="list-group">
             <div class="list-group-item text-center" ng-if="claims.length === 0">
               <span class="text-muted">no claims</span>
             </div>
             <a href="#/claims/{{claim.id}}/edit" class="list-group-item" ng-repeat="claim in claims">
               Claim of {{claim.patient_name}} created on {{claim.created_at | date:"yyyy-MM-dd"}}
+              <i class="fa fa-chevron-right pull-right"></i>
             </a>
           </div>
         </div>

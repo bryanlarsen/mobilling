@@ -8,5 +8,6 @@ json.most_responsible_physician claim.details["most_responsible_physician"]
 json.admission_on               claim.details["admission_on"]
 json.first_seen_on              claim.details["first_seen_on"]
 json.last_seen_on               claim.details["last_seen_on"]
+json.last_seen_discharge        claim.details["last_seen_discharge"]
 json.created_at                 claim.created_at
 json.updated_at                 claim.updated_at

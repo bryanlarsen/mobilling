@@ -3,6 +3,10 @@ angular.module("moBilling.controllers.claimEdit", [])
     .controller("ClaimEditController", function ($scope, $location, claim) {
         $scope.claim = claim;
 
+        if ($scope.claim.admission_on === $scope.claim.first_seen_on) {
+            $scope.first_seen_admission = true;
+        }
+
         $scope.success = function () {
             $location.path("/");
         };
@@ -23,4 +27,13 @@ angular.module("moBilling.controllers.claimEdit", [])
                 $scope.claim.$save($scope.success, $scope.error);
             }
         };
+
+        $scope.syncFirstSeenOn = function () {
+            if ($scope.first_seen_admission) {
+                $scope.claim.first_seen_on = $scope.claim.admission_on;
+            }
+        };
+
+        $scope.$watch("claim.admission_on", $scope.syncFirstSeenOn);
+        $scope.$watch("first_seen_admission", $scope.syncFirstSeenOn);
     });

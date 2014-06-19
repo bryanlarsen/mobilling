@@ -73,7 +73,14 @@
                   </div>
                 </div>
 
-                <div class="form-group row" ng-class="{'has-error': (form.first_seen_on.$dirty || submitted) && form.first_seen_on.$invalid}">
+                <div class="form-group row" ng-class="{'has-error': (form.first_seen_admission.$dirty || submitted) && form.first_seen_admission.$invalid}">
+                  <label for="first-seen-admission" class="control-label col-xs-12">First seen date is admission</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <switch ng-model="first_seen_admission" id="first-seen-admission">
+                  </div>
+                </div>
+
+                <div class="form-group row" ng-class="{'has-error': (form.first_seen_on.$dirty || submitted) && form.first_seen_on.$invalid}" ng-show="!first_seen_admission">
                   <label for="claim-first-seen-on" class="control-label col-xs-12">First seen date</label>
                   <div class="form-control-wrapper col-xs-12">
                     <input type="date" name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" date-format="yyyy-MM-dd">
@@ -84,6 +91,13 @@
                   <label for="claim-last-seen-on" class="control-label col-xs-12">Last seen date</label>
                   <div class="form-control-wrapper col-xs-12">
                     <input type="date" name="last_seen_on" ng-model="claim.last_seen_on" class="form-control input-lg" id="claim-last-seen-on" date-format="yyyy-MM-dd">
+                  </div>
+                </div>
+
+                <div class="form-group row" ng-class="{'has-error': (form.last_seen_discharge.$dirty || submitted) && form.last_seen_discharge.$invalid}">
+                  <label for="claim-last-seen-discharge" class="control-label col-xs-12">Last seen date is discharge</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <switch ng-model="claim.last_seen_discharge" id="last-seen-discharge">
                   </div>
                 </div>
               </div>
