@@ -88,6 +88,8 @@ angular.module("moBilling", [
                 $location.replace();
                 $location.path("/sign-in");
             }
+
+            $rootScope.loading = true;
         });
 
         $rootScope.$on("$routeChangeError", function (event, next, current, error) {
@@ -96,5 +98,9 @@ angular.module("moBilling", [
                 $location.replace();
                 $location.path("/sign-in");
             }
+        });
+
+        $rootScope.$on("$routeChangeSuccess", function(){
+            $rootScope.loading = false;
         });
     });
