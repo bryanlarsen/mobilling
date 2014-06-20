@@ -13,7 +13,6 @@ angular.module("moBilling.controllers.claimEdit", [])
         };
 
         $scope.success = function () {
-            $scope.submitting = false;
             $location.replace();
             $location.path("/");
         };

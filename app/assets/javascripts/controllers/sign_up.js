@@ -4,7 +4,6 @@ angular.module("moBilling.controllers.signUp", [])
         $scope.user = {};
 
         $scope.success = function (user) {
-            $scope.submitting = false;
             window.localStorage.setItem("authenticationToken", user.authentication_token);
             $location.replace();
             $location.path("/");

@@ -4,7 +4,6 @@ angular.module("moBilling.controllers.signIn", [])
         $scope.session = {};
 
         $scope.success = function (session) {
-            $scope.submitting = false;
             window.localStorage.setItem("authenticationToken", session.authentication_token);
             $location.replace();
             $location.path("/");
