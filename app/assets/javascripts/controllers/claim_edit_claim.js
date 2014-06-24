@@ -11,24 +11,24 @@ angular.module("moBilling.controllers.claimEditClaim", [])
 
         // first_seen_consult
         $scope.$watchGroup(["claim.admission_on", "claim.first_seen_on"], function () {
-            if (!$scope.showFirstSeenConsult()) {
+            if (!$scope.isFirstSeenConsultVisible()) {
                 $scope.claim.first_seen_consult = true;
             }
         });
 
-        $scope.showFirstSeenConsult = function () {
+        $scope.isFirstSeenConsultVisible = function () {
             return $scope.claim.admission_on !== $scope.claim.first_seen_on;
         };
 
         // icu_transfer
         $scope.$watchGroup(["claim.admission_on", "claim.first_seen_on", "claim.most_responsible_physician"], function () {
-            if (!$scope.showICUTransfer()) {
+            if (!$scope.isICUTransferVisible()) {
                 $scope.claim.icu_transfer = false;
             }
         });
 
-        $scope.showICUTransfer = function () {
-            return $scope.showFirstSeenConsult() && $scope.claim.most_responsible_physician;
+        $scope.isICUTransferVisible = function () {
+            return $scope.isFirstSeenConsultVisible() && $scope.claim.most_responsible_physician;
         };
 
         $scope.$watch("claim.photo_id", function (photo_id) {
