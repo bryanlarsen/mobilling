@@ -1,9 +1,16 @@
 angular.module("moBilling.controllers.claimEdit", [])
 
-    .controller("ClaimEditController", function ($scope, $location, claim, Claim, ClaimForm, Photo) {
-        $scope.claim = ClaimForm.fromResource(claim);
-
+    .controller("ClaimEditController", function ($scope, $location, claim, Claim) {
+        $scope.claim = claim.toJSON();
         $scope.step = "claim";
+
+        $scope.isActiveStep = function (step) {
+            return $scope.step === step;
+        };
+
+        $scope.setActiveStep = function (step) {
+            $scope.step = step;
+        };
 
         $scope.cancel = function () {
             $location.replace();
@@ -26,34 +33,11 @@ angular.module("moBilling.controllers.claimEdit", [])
         };
 
         $scope.submit = function () {
-            var claim;
-
             $scope.submitted = true;
 
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                claim = new Claim($scope.claim.toResource());
-                claim.$save($scope.success, $scope.error);
+                new Claim($scope.claim).$save($scope.success, $scope.error);
             }
         };
-
-        $scope.$watch("claim.photo_id", function (photoId) {
-            if (photoId) {
-                $scope.photo = Photo.get({ id: photoId });
-            }
-        });
-        $scope.$watch("file", function (file) {
-            if (file) {
-                $scope.uploading = true;
-
-                Photo.upload(file).then(function (data) {
-                    $scope.uploading = false;
-                    $scope.claim.photo_id = data.id;
-                    $scope.$apply();
-                }, function () {
-                    $scope.uploading = false;
-                    $scope.$apply();
-                });
-            }
-        });
     });

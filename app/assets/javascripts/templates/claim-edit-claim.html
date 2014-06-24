@@ -1,0 +1,93 @@
+<div class="scrollable">
+  <div class="scrollable-content section">
+    <div class="panel">
+      <div class="panel-body">
+        <div class="form-group row" ng-class="{'has-error': (form.patient_photo.$dirty || submitted) && form.patient_photo.$invalid}">
+          <label for="photo-file" class="control-label col-xs-12">Patient photo</label>
+          <div class="form-control-wrapper col-xs-12" ng-if="photo">
+            <img ng-src="{{photo.small_url}}" width="300" class="thumbnail">
+          </div>
+          <div class="form-control-wrapper col-xs-12">
+            <span class="btn btn-primary btn-lg" disabled="disabled" ng-show="uploading">
+              <i class="fa fa-spinner fa-spin"></i> Uploading…
+            </span>
+            <span class="btn btn-primary btn-lg fileinput-button" ng-hide="uploading">
+              <i class="fa fa-camera"></i> Upload
+              <input type="file" upload="file" id="photo-file">
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (form.patient_name.$dirty || submitted) && form.patient_name.$invalid}">
+          <label for="claim-patient-name" class="control-label col-xs-12">Patient name</label>
+          <div class="form-control-wrapper col-xs-12">
+            <input type="text" name="patient_name" ng-model="claim.patient_name" class="form-control input-lg" id="claim-patient-name">
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (form.hospital.$dirty || submitted) && form.hospital.$invalid}">
+          <label for="claim-hospital" class="control-label col-xs-12">Hospital</label>
+          <div class="form-control-wrapper col-xs-12">
+            <input type="text" name="hospital" ng-model="claim.hospital" class="form-control input-lg" id="claim-hospital">
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (form.referring_physician.$dirty || submitted) && form.referring_physician.$invalid}">
+          <label for="claim-referring-physician" class="control-label col-xs-12">Referring physician</label>
+          <div class="form-control-wrapper col-xs-12">
+            <input type="text" name="referring_physician" ng-model="claim.referring_physician" class="form-control input-lg" id="claim-referring-physician">
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (form.diagnosis.$dirty || submitted) && form.diagnosis.$invalid}">
+          <label for="claim-diagnosis" class="control-label col-xs-12">Diagnosis</label>
+          <div class="form-control-wrapper col-xs-12">
+            <input type="text" name="diagnosis" ng-model="claim.diagnosis" class="form-control input-lg" id="claim-diagnosis">
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (form.most_responsible_physician.$dirty || submitted) && form.most_responsible_physician.$invalid}">
+          <label for="claim-most-responsible-physician" class="control-label col-xs-12">Most responsible physician</label>
+          <div class="form-control-wrapper col-xs-12">
+            <switch ng-model="claim.most_responsible_physician" id="claim-most-responsible-physician"></switch>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (form.admission_on.$dirty || submitted) && form.admission_on.$invalid}">
+          <label for="claim-admission-on" class="control-label col-xs-12">Admission date</label>
+          <div class="form-control-wrapper col-xs-12">
+            <input type="date" name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" id="claim-admission-on" date-format="yyyy-MM-dd">
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (form.first_seen_admission.$dirty || submitted) && form.first_seen_admission.$invalid}">
+          <label for="claim-first-seen-admission" class="control-label col-xs-12">First seen date is admission</label>
+          <div class="form-control-wrapper col-xs-12">
+            <switch ng-model="claim.first_seen_admission" id="claim-first-seen-admission"></switch>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (form.first_seen_on.$dirty || submitted) && form.first_seen_on.$invalid}" ng-hide="claim.first_seen_admission">
+          <label for="claim-first-seen-on" class="control-label col-xs-12">First seen date</label>
+          <div class="form-control-wrapper col-xs-12">
+            <input type="date" name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" date-format="yyyy-MM-dd">
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (form.last_seen_on.$dirty || submitted) && form.last_seen_on.$invalid}">
+          <label for="claim-last-seen-on" class="control-label col-xs-12">Last seen date</label>
+          <div class="form-control-wrapper col-xs-12">
+            <input type="date" name="last_seen_on" ng-model="claim.last_seen_on" class="form-control input-lg" id="claim-last-seen-on" date-format="yyyy-MM-dd">
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (form.last_seen_discharge.$dirty || submitted) && form.last_seen_discharge.$invalid}">
+          <label for="claim-last-seen-discharge" class="control-label col-xs-12">Last seen date is discharge</label>
+          <div class="form-control-wrapper col-xs-12">
+            <switch ng-model="claim.last_seen_discharge" id="last-seen-discharge"></switch>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
