@@ -38,6 +38,6 @@ class V1::ClaimsController < V1::BaseController
   private
 
   def update_claim_params
-    params.require(:claim).permit(:id, :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :admission_on, :first_seen_on, :last_seen_on, :most_responsible_physician, :last_seen_discharge)
+    params.require(:claim).permit(:id, :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :admission_on, :first_seen_on, :first_seen_consult, :last_seen_on, :most_responsible_physician, :last_seen_discharge)
   end
 end

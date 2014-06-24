@@ -1,7 +1,7 @@
 class UpdateClaim
   include ActiveModel::Model
 
-  attr_accessor :user, :id, :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :most_responsible_physician, :admission_on, :first_seen_on, :last_seen_on, :last_seen_discharge
+  attr_accessor :user, :id, :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :most_responsible_physician, :admission_on, :first_seen_on, :first_seen_consult, :last_seen_on, :last_seen_discharge
   attr_reader :claim
 
   validates :id, uuid: true
@@ -24,6 +24,7 @@ class UpdateClaim
       "most_responsible_physician" => most_responsible_physician,
       "admission_on" => admission_on,
       "first_seen_on" => first_seen_on,
+      "first_seen_consult" => first_seen_consult,
       "last_seen_on" => last_seen_on,
       "last_seen_discharge" => last_seen_discharge
     }

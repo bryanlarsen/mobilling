@@ -37,7 +37,7 @@ angular.module("moBilling.controllers.claimEdit", [])
 
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                new Claim($scope.claim).$save($scope.success, $scope.error);
+                Claim.save($scope.claim, $scope.success, $scope.error);
             }
         };
     });

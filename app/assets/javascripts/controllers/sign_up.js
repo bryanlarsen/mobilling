@@ -27,7 +27,7 @@ angular.module("moBilling.controllers.signUp", [])
 
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                new User($scope.user).$save($scope.success, $scope.error);
+                User.save($scope.user, $scope.success, $scope.error);
             }
         };
     });

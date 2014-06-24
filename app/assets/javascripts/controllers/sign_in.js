@@ -25,7 +25,7 @@ angular.module("moBilling.controllers.signIn", [])
 
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                new Session($scope.session).$save($scope.success, $scope.error);
+                Session.save($scope.session, $scope.success, $scope.error);
             }
         };
     });
