@@ -5,7 +5,7 @@ class UpdateClaim
                 :referring_physician, :diagnosis,
                 :most_responsible_physician, :admission_on,
                 :first_seen_on, :first_seen_consult, :last_seen_on,
-                :last_seen_discharge, :icu_transfer
+                :last_seen_discharge, :icu_transfer, :consult_type
 
   attr_reader :claim
 
@@ -32,7 +32,8 @@ class UpdateClaim
       "first_seen_consult" => first_seen_consult,
       "last_seen_on" => last_seen_on,
       "last_seen_discharge" => last_seen_discharge,
-      "icu_transfer" => icu_transfer
+      "icu_transfer" => icu_transfer,
+      "consult_type" => consult_type
     }
   end
 end

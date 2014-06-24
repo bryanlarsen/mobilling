@@ -12,5 +12,6 @@ json.first_seen_consult         claim.details["first_seen_consult"]
 json.last_seen_on               claim.details["last_seen_on"]
 json.last_seen_discharge        claim.details["last_seen_discharge"]
 json.icu_transfer               claim.details["icu_transfer"]
+json.consult_type               claim.details["consult_type"]
 json.created_at                 claim.created_at
 json.updated_at                 claim.updated_at
