@@ -13,5 +13,7 @@ json.last_seen_on               claim.details["last_seen_on"]
 json.last_seen_discharge        claim.details["last_seen_discharge"]
 json.icu_transfer               claim.details["icu_transfer"]
 json.consult_type               claim.details["consult_type"]
+json.consult_time_in            claim.details["consult_time_in"]
+json.consult_time_out           claim.details["consult_time_out"]
 json.created_at                 claim.created_at
 json.updated_at                 claim.updated_at
