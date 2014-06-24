@@ -3,6 +3,8 @@ angular.module("moBilling.controllers.claimEdit", [])
     .controller("ClaimEditController", function ($scope, $location, claim, Photo) {
         $scope.claim = claim;
 
+        $scope.step = "claim";
+
         if ($scope.claim.admission_on === $scope.claim.first_seen_on) {
             $scope.first_seen_admission = true;
         }
