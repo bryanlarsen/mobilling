@@ -100,7 +100,7 @@ angular.module("moBilling", [
             }
         });
 
-        $rootScope.$on("$routeChangeSuccess", function(){
+        $rootScope.$on("$routeChangeSuccess", function () {
             $rootScope.loading = false;
         });
     });
