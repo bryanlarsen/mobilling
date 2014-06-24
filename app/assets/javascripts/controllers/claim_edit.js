@@ -1,13 +1,9 @@
 angular.module("moBilling.controllers.claimEdit", [])
 
-    .controller("ClaimEditController", function ($scope, $location, claim, Photo) {
-        $scope.claim = claim;
+    .controller("ClaimEditController", function ($scope, $location, claim, Claim, ClaimForm, Photo) {
+        $scope.claim = ClaimForm.fromResource(claim);
 
         $scope.step = "claim";
-
-        if ($scope.claim.admission_on === $scope.claim.first_seen_on) {
-            $scope.first_seen_admission = true;
-        }
 
         $scope.cancel = function () {
             $location.replace();
@@ -30,22 +26,17 @@ angular.module("moBilling.controllers.claimEdit", [])
         };
 
         $scope.submit = function () {
+            var claim;
+
             $scope.submitted = true;
 
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                $scope.claim.$save($scope.success, $scope.error);
+                claim = new Claim($scope.claim.toResource());
+                claim.$save($scope.success, $scope.error);
             }
         };
 
-        $scope.syncFirstSeenOn = function () {
-            if ($scope.first_seen_admission) {
-                $scope.claim.first_seen_on = $scope.claim.admission_on;
-            }
-        };
-
-        $scope.$watch("claim.admission_on", $scope.syncFirstSeenOn);
-        $scope.$watch("first_seen_admission", $scope.syncFirstSeenOn);
         $scope.$watch("claim.photo_id", function (photoId) {
             if (photoId) {
                 $scope.photo = Photo.get({ id: photoId });

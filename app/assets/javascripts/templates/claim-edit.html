@@ -96,13 +96,13 @@
               </div>
 
               <div class="form-group row" ng-class="{'has-error': (form.first_seen_admission.$dirty || submitted) && form.first_seen_admission.$invalid}">
-                <label for="first-seen-admission" class="control-label col-xs-12">First seen date is admission</label>
+                <label for="claim-first-seen-admission" class="control-label col-xs-12">First seen date is admission</label>
                 <div class="form-control-wrapper col-xs-12">
-                  <switch ng-model="first_seen_admission" id="first-seen-admission">
+                  <switch ng-model="claim.first_seen_admission" id="claim-first-seen-admission">
                 </div>
               </div>
 
-              <div class="form-group row" ng-class="{'has-error': (form.first_seen_on.$dirty || submitted) && form.first_seen_on.$invalid}" ng-show="!first_seen_admission">
+              <div class="form-group row" ng-class="{'has-error': (form.first_seen_on.$dirty || submitted) && form.first_seen_on.$invalid}" ng-hide="claim.first_seen_admission">
                 <label for="claim-first-seen-on" class="control-label col-xs-12">First seen date</label>
                 <div class="form-control-wrapper col-xs-12">
                   <input type="date" name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" date-format="yyyy-MM-dd">
@@ -133,7 +133,76 @@
         <div class="scrollable-content section">
           <div class="panel">
             <div class="panel-body">
-              Consult
+              <table class="table">
+                <tr>
+                  <td></td>
+                  <th class="text-center">ER</th>
+                  <th class="text-center">Non-ER</th>
+                </tr>
+                <tr>
+                  <th>General</th>
+                  <td>
+                    <switch ng-model="claim.general_er" id="claim-general-er" class="center-block">
+                  </td>
+                  <td>
+                    <switch ng-model="claim.general_non_er" id="claim-general-non-er" class="center-block">
+                  </td>
+                </tr>
+                <tr>
+                  <th>Comprehensive</th>
+                  <td>
+                    <switch ng-model="claim.comprehensive_er" id="claim-comprehensive-er" class="center-block">
+                  </td>
+                  <td>
+                    <switch ng-model="claim.comprehensive_non_er" id="claim-comprehensive-non-er" class="center-block">
+                  </td>
+                </tr>
+                <tr>
+                  <th>Limited</th>
+                  <td>
+                    <switch ng-model="claim.limited_er" id="claim-limited-er" class="center-block">
+                  </td>
+                  <td>
+                    <switch ng-model="claim.limited_non_er" id="claim-limited-non-er" class="center-block">
+                  </td>
+                </tr>
+              </table>
+
+              <div class="form-group row" ng-class="{'has-error': (form.special_visit_premium.$dirty || submitted) && form.special_visit_premium.$invalid}">
+                <label for="claim-special-visit-premium" class="control-label col-xs-12">Special visit premium</label>
+                <div class="form-control-wrapper col-xs-12">
+                  <switch ng-model="claim.special_visit_premium" id="claim-special-visit-premium">
+                </div>
+              </div>
+
+              <div class="form-group row" ng-class="{'has-error': (form.travel_day.$dirty || submitted) && form.travel_day.$invalid}">
+                <label for="claim-travel-day" class="control-label col-xs-12">Day</label>
+                <div class="form-control-wrapper col-xs-12">
+                  <switch ng-model="claim.travel_day" id="claim-travel-day">
+                </div>
+              </div>
+
+              <div class="form-group row" ng-class="{'has-error': (form.travel_evening.$dirty || submitted) && form.travel_evening.$invalid}">
+                <label for="claim-travel-evening" class="control-label col-xs-12">Evening</label>
+                <div class="form-control-wrapper col-xs-12">
+                  <switch ng-model="claim.travel_evening" id="claim-travel-evening">
+                </div>
+              </div>
+
+              <div class="form-group row" ng-class="{'has-error': (form.travel_night.$dirty || submitted) && form.travel_night.$invalid}">
+                <label for="claim-travel-night" class="control-label col-xs-12">Night</label>
+                <div class="form-control-wrapper col-xs-12">
+                  <switch ng-model="claim.travel_night" id="claim-travel-night">
+                </div>
+              </div>
+
+              <div class="form-group row" ng-class="{'has-error': (form.travel_premium.$dirty || submitted) && form.travel_premium.$invalid}">
+                <label for="claim-travel-premium" class="control-label col-xs-12">Travel premium</label>
+                <div class="form-control-wrapper col-xs-12">
+                  <switch ng-model="claim.travel_premium" id="claim-travel-premium">
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -145,7 +214,7 @@
         <div class="scrollable-content section">
           <div class="panel">
             <div class="panel-body">
-              Details
+
             </div>
           </div>
         </div>

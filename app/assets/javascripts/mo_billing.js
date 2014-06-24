@@ -20,6 +20,7 @@ angular.module("moBilling", [
     "moBilling.directives.server",
     "moBilling.directives.upload",
     "moBilling.factories.claim",
+    "moBilling.factories.claimForm",
     "moBilling.factories.photo",
     "moBilling.factories.session",
     "moBilling.factories.user",
