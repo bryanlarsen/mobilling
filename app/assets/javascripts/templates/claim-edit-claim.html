@@ -13,7 +13,7 @@
             </span>
             <span class="btn btn-primary btn-lg fileinput-button" ng-hide="uploading">
               <i class="fa fa-camera"></i> Upload
-              <input type="file" upload="file" id="photo-file">
+              <input type="file" mb-upload="file" id="photo-file">
             </span>
           </div>
         </div>
@@ -56,7 +56,7 @@
         <div class="form-group row" ng-class="{'has-error': (form.admission_on.$dirty || submitted) && form.admission_on.$invalid}">
           <label for="claim-admission-on" class="control-label col-xs-12">Admission date</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="date" name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" id="claim-admission-on" date-format="yyyy-MM-dd">
+            <input type="date" name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" id="claim-admission-on" mb-date>
           </div>
         </div>
 
@@ -70,7 +70,7 @@
         <div class="form-group row" ng-class="{'has-error': (form.first_seen_on.$dirty || submitted) && form.first_seen_on.$invalid}" ng-hide="claim.first_seen_admission">
           <label for="claim-first-seen-on" class="control-label col-xs-12">First seen date</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="date" name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" date-format="yyyy-MM-dd">
+            <input type="date" name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" mb-date>
           </div>
         </div>
 
@@ -91,7 +91,7 @@
         <div class="form-group row" ng-class="{'has-error': (form.last_seen_on.$dirty || submitted) && form.last_seen_on.$invalid}">
           <label for="claim-last-seen-on" class="control-label col-xs-12">Last seen date</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="date" name="last_seen_on" ng-model="claim.last_seen_on" class="form-control input-lg" id="claim-last-seen-on" date-format="yyyy-MM-dd">
+            <input type="date" name="last_seen_on" ng-model="claim.last_seen_on" class="form-control input-lg" id="claim-last-seen-on" mb-date>
           </div>
         </div>
 

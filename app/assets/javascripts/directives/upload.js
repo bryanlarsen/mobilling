@@ -1,15 +1,13 @@
 angular.module("moBilling.directives.upload", [])
 
-    .directive("upload", function () {
+    .directive("mbUpload", function () {
 	return {
             restrict: "A",
 	    link: function (scope, element, attributes) {
-                var parent = scope.$parent;
-
                 element.change(function (event) {
                     if (event.target.files.length) {
-                        parent[attributes.upload] = event.target.files[0];
-                        parent.$apply();
+                        scope.$parent[attributes.mbUpload] = event.target.files[0];
+                        scope.$parent.$apply();
                     }
 
                     element.wrap("<form>");

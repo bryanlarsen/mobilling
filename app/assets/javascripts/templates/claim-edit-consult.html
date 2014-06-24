@@ -40,14 +40,14 @@
         <div class="form-group row" ng-class="{'has-error': (form.consult_time_in.$dirty || submitted) && form.consult_time_in.$invalid}" ng-show="isTimeVisible()">
           <label for="claim-consult-time-in" class="control-label col-xs-12">Time in</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="time" name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in">
+            <input type="time" name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" mb-time>
           </div>
         </div>
 
         <div class="form-group row" ng-class="{'has-error': (form.consult_time_out.$dirty || submitted) && form.consult_time_out.$invalid}" ng-show="isTimeVisible()">
           <label for="claim-consult-time-out" class="control-label col-xs-12">Time out</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="time" name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out">
+            <input type="time" name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out" mb-time>
           </div>
         </div>
 

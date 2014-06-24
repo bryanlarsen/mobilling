@@ -1,15 +1,15 @@
 angular.module("moBilling.directives.confirmation", [])
 
-    .directive("confirmation", function () {
+    .directive("mbConfirmation", function () {
 	return {
             restrict: "A",
-	    require: "?ngModel",
+	    require: "ngModel",
             scope: {
-                confirmation: "="
+                mbConfirmation: "="
             },
 	    link: function (scope, element, attributes, ngModelController) {
                 scope.$watch(function () {
-                    return scope.confirmation === ngModelController.$viewValue;
+                    return scope.mbConfirmation === ngModelController.$viewValue;
                 }, function (currentValue) {
                     ngModelController.$setValidity("confirmation", currentValue);
                 });
