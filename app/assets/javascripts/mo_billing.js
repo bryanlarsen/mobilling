@@ -60,7 +60,7 @@ angular.module("moBilling", [
             controller: "SignOutController"
         });
 
-        $routeProvider.when("/", {
+        $routeProvider.when("/claims", {
             templateUrl: "claim-list.html",
             controller: "ClaimListController",
             resolve: {
@@ -87,7 +87,7 @@ angular.module("moBilling", [
         });
 
         $routeProvider.otherwise({
-            redirectTo: "/"
+            redirectTo: "/claims"
         });
     })
 
@@ -97,7 +97,7 @@ angular.module("moBilling", [
 
             if (next.guest && authenticationToken) {
                 $location.replace();
-                $location.path("/");
+                $location.path("/claims");
             }
 
             if (!next.guest && !authenticationToken) {

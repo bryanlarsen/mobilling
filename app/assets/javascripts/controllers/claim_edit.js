@@ -14,12 +14,12 @@ angular.module("moBilling.controllers.claimEdit", [])
 
         $scope.cancel = function () {
             $location.replace();
-            $location.path("/");
+            $location.path("/claims");
         };
 
         $scope.success = function () {
             $location.replace();
-            $location.path("/");
+            $location.path("/claims");
         };
 
         $scope.error = function (response) {
