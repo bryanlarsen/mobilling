@@ -1,5 +1,5 @@
 class V1::ClaimsController < V1::BaseController
-  wrap_parameters :claim, include: [:id, :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :admission_on, :first_seen_on, :first_seen_consult, :last_seen_on, :most_responsible_physician, :last_seen_discharge, :icu_transfer, :consult_type, :consult_time_in, :consult_time_out], format: :json
+  wrap_parameters :claim, include: [:id, :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :admission_on, :first_seen_on, :first_seen_consult, :last_seen_on, :most_responsible_physician, :last_seen_discharge, :icu_transfer, :consult_type, :consult_time_in, :consult_time_out, :consult_premium_visit, :consult_premium_travel], format: :json
   resource_description { resource_id "claims" }
 
   api :GET, "/v1/claims", "Returns claims"
@@ -31,6 +31,8 @@ class V1::ClaimsController < V1::BaseController
     param :consult_type, String
     param :consult_time_in, String
     param :consult_time_out, String
+    param :consult_premium_visit, String
+    param :consult_premium_travel, String
   end
 
   def update
@@ -43,6 +45,6 @@ class V1::ClaimsController < V1::BaseController
   private
 
   def update_claim_params
-    params.require(:claim).permit(:id, :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :admission_on, :first_seen_on, :first_seen_consult, :last_seen_on, :most_responsible_physician, :last_seen_discharge, :icu_transfer, :consult_type, :consult_time_in, :consult_time_out)
+    params.require(:claim).permit(:id, :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :admission_on, :first_seen_on, :first_seen_consult, :last_seen_on, :most_responsible_physician, :last_seen_discharge, :icu_transfer, :consult_type, :consult_time_in, :consult_time_out, :consult_premium_visit, :consult_premium_travel)
   end
 end

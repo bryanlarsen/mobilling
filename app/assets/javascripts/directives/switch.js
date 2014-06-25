@@ -6,7 +6,9 @@ angular.module("moBilling.directives.switch", [])
             replace: true,
             require: "ngModel",
             template: "<div class='switch switch-transition-enabled' ng-class='{active: checked}'><div class='switch-handle'></div></div>",
-            scope: true,
+            scope: {
+                model: '=ngModel'
+            },
             link: function (scope, element, attributes, ngModelController) {
                 var onValue = attributes.onValue,
                     offValue = attributes.offValue;
@@ -23,7 +25,7 @@ angular.module("moBilling.directives.switch", [])
                     if (attributes.disabled == null) {
                         scope.$apply(function () {
                             scope.checked = !scope.checked;
-                            ngModelController.$setViewValue(scope.checked ? onValue : offValue);
+                            scope.model = scope.checked ? onValue : offValue;
                         });
                     }
                 });

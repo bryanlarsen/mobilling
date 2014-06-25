@@ -1,4 +1,4 @@
-<div class="scrollable">
+<div class="scrollable" ng-controller="ClaimEditClaimController">
   <div class="scrollable-content section">
     <div class="panel">
       <div class="panel-body">
@@ -47,27 +47,27 @@
         </div>
 
         <div class="form-group row" ng-class="{'has-error': (form.most_responsible_physician.$dirty || submitted) && form.most_responsible_physician.$invalid}">
-          <label for="claim-most-responsible-physician" class="control-label col-xs-12">Most responsible physician</label>
+          <label class="control-label col-xs-12">Most responsible physician</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.most_responsible_physician" id="claim-most-responsible-physician"></mb-switch>
+            <mb-switch ng-model="claim.most_responsible_physician"></mb-switch>
           </div>
         </div>
 
         <div class="form-group row" ng-class="{'has-error': (form.admission_on.$dirty || submitted) && form.admission_on.$invalid}">
-          <label for="claim-admission-on" class="control-label col-xs-12">Admission date</label>
+          <label class="control-label col-xs-12">Admission date</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="date" name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" id="claim-admission-on" mb-date>
+            <input type="date" name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" mb-date>
           </div>
         </div>
 
-        <div class="form-group row" ng-class="{'has-error': (form.first_seen_admission.$dirty || submitted) && form.first_seen_admission.$invalid}">
-          <label for="claim-first-seen-admission" class="control-label col-xs-12">First seen date is admission</label>
+        <div class="form-group row">
+          <label class="control-label col-xs-12">First seen date is admission</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.first_seen_admission" id="claim-first-seen-admission"></mb-switch>
+            <mb-switch ng-model="isFirstSeenOnHidden"></mb-switch>
           </div>
         </div>
 
-        <div class="form-group row" ng-class="{'has-error': (form.first_seen_on.$dirty || submitted) && form.first_seen_on.$invalid}" ng-hide="claim.first_seen_admission">
+        <div class="form-group row" ng-class="{'has-error': (form.first_seen_on.$dirty || submitted) && form.first_seen_on.$invalid}" ng-hide="isFirstSeenOnHidden">
           <label for="claim-first-seen-on" class="control-label col-xs-12">First seen date</label>
           <div class="form-control-wrapper col-xs-12">
             <input type="date" name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" mb-date>
@@ -75,16 +75,16 @@
         </div>
 
         <div class="form-group row" ng-class="{'has-error': (form.first_seen_consult.$dirty || submitted) && form.first_seen_consult.$invalid}" ng-show="isFirstSeenConsultVisible()">
-          <label for="claim-first-seen-consult" class="control-label col-xs-12">Consult on first seen date</label>
+          <label class="control-label col-xs-12">Consult on first seen date</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.first_seen_consult" id="claim-first-seen-consult"></mb-switch>
+            <mb-switch ng-model="claim.first_seen_consult"></mb-switch>
           </div>
         </div>
 
         <div class="form-group row" ng-class="{'has-error': (form.icu_transfer.$dirty || submitted) && form.icu_transfer.$invalid}" ng-show="isICUTransferVisible()">
-          <label for="claim-icu-transfer" class="control-label col-xs-12">Transfer from ICU/CCU</label>
+          <label class="control-label col-xs-12">Transfer from ICU/CCU</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.icu_transfer" id="claim-icu-transfer"></mb-switch>
+            <mb-switch ng-model="claim.icu_transfer"></mb-switch>
           </div>
         </div>
 
@@ -96,9 +96,9 @@
         </div>
 
         <div class="form-group row" ng-class="{'has-error': (form.last_seen_discharge.$dirty || submitted) && form.last_seen_discharge.$invalid}">
-          <label for="claim-last-seen-discharge" class="control-label col-xs-12">Last seen date is discharge</label>
+          <label class="control-label col-xs-12">Last seen date is discharge</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.last_seen_discharge" id="last-seen-discharge"></mb-switch>
+            <mb-switch ng-model="claim.last_seen_discharge"></mb-switch>
           </div>
         </div>
       </div>

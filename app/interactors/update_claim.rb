@@ -6,7 +6,8 @@ class UpdateClaim
                 :most_responsible_physician, :admission_on,
                 :first_seen_on, :first_seen_consult, :last_seen_on,
                 :last_seen_discharge, :icu_transfer, :consult_type,
-                :consult_time_in, :consult_time_out
+                :consult_time_in, :consult_time_out,
+                :consult_premium_visit, :consult_premium_travel
 
   attr_reader :claim
 
@@ -36,7 +37,9 @@ class UpdateClaim
       "icu_transfer" => icu_transfer,
       "consult_type" => consult_type,
       "consult_time_in" => consult_time_in,
-      "consult_time_out" => consult_time_out
+      "consult_time_out" => consult_time_out,
+      "consult_premium_visit" => consult_premium_visit,
+      "consult_premium_travel" => consult_premium_travel
     }
   end
 end

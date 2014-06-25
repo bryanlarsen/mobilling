@@ -1,10 +1,10 @@
 angular.module("moBilling.controllers.claimEditClaim", [])
 
     .controller("ClaimEditClaimController", function ($scope, Photo) {
-        $scope.claim.first_seen_admission = ($scope.claim.admission_on === $scope.claim.first_seen_on);
+        $scope.isFirstSeenOnHidden = ($scope.claim.admission_on === $scope.claim.first_seen_on);
 
-        $scope.$watchGroup(["claim.first_seen_admission", "claim.admission_on"], function () {
-            if ($scope.claim.first_seen_admission) {
+        $scope.$watchGroup(["isFirstSeenOnHidden", "claim.admission_on"], function () {
+            if ($scope.isFirstSeenOnHidden) {
                 $scope.claim.first_seen_on = $scope.claim.admission_on;
             }
         });
@@ -37,18 +37,23 @@ angular.module("moBilling.controllers.claimEditClaim", [])
             }
         });
 
+        function success(data) {
+            $scope.$apply(function () {
+                $scope.uploading = false;
+                $scope.claim.photo_id = data.id;
+            });
+        }
+
+        function error() {
+            $scope.$apply(function () {
+                $scope.uploading = false;
+            });
+        }
+
         $scope.$watch("file", function (file) {
             if (file) {
                 $scope.uploading = true;
-
-                Photo.upload(file).then(function (data) {
-                    $scope.uploading = false;
-                    $scope.claim.photo_id = data.id;
-                    $scope.$apply();
-                }, function () {
-                    $scope.uploading = false;
-                    $scope.$apply();
-                });
+                Photo.upload(file).then(success, error);
             }
         });
     });

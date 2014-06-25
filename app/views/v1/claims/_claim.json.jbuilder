@@ -15,5 +15,7 @@ json.icu_transfer               claim.details["icu_transfer"]
 json.consult_type               claim.details["consult_type"]
 json.consult_time_in            claim.details["consult_time_in"]
 json.consult_time_out           claim.details["consult_time_out"]
+json.consult_premium_visit      claim.details["consult_premium_visit"]
+json.consult_premium_travel     claim.details["consult_premium_travel"]
 json.created_at                 claim.created_at
 json.updated_at                 claim.updated_at
