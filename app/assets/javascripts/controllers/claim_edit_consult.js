@@ -3,6 +3,13 @@ angular.module("moBilling.controllers.claimEditConsult", [])
     .controller("ClaimEditConsultController", function ($scope) {
         $scope.isPremiumVisitVisible = !!($scope.claim.consult_premium_visit || $scope.claim.consult_premium_travel);
 
+        $scope.$watch("isPremiumVisitVisible", function (isPremiumVisitVisible) {
+            if (!isPremiumVisitVisible) {
+                $scope.claim.consult_premium_visit = undefined;
+                $scope.claim.consult_premium_travel = undefined;
+            }
+        });
+
         $scope.$watch($scope.isConsultVisible, function (isConsultVisible) {
             if (!isConsultVisible) {
                 $scope.claim.consult_type = undefined;
