@@ -17,6 +17,7 @@ angular.module("moBilling", [
     "mobile-angular-ui.fastclick",
     // "mobile-angular-ui.pointer-events",
     "mobile-angular-ui.scrollable",
+    "ui.unique",
     "ngMessages",
     "ngResource",
     "ngRoute",

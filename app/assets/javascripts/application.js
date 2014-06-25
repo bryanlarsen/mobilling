@@ -4,6 +4,7 @@
 //= require angular-messages
 //= require angular-resource
 //= require mobile-angular-ui
+//= require ui-utils
 //= require angular-rails-templates
 //= require uuid
 //= require ./mo_billing

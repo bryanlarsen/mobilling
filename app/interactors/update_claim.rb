@@ -7,7 +7,8 @@ class UpdateClaim
                 :first_seen_on, :first_seen_consult, :last_seen_on,
                 :last_seen_discharge, :icu_transfer, :consult_type,
                 :consult_time_in, :consult_time_out,
-                :consult_premium_visit, :consult_premium_travel
+                :consult_premium_visit, :consult_premium_travel,
+                :details
 
   attr_reader :claim
 
@@ -17,12 +18,12 @@ class UpdateClaim
   def perform
     return false if invalid?
     @claim = user.claims.find_or_initialize_by(id: id)
-    @claim.update!(photo_id: photo_id, details: details)
+    @claim.update!(photo_id: photo_id, details: claim_details)
   end
 
   private
 
-  def details
+  def claim_details
     {
       "patient_name" => patient_name,
       "hospital" => hospital,
@@ -39,7 +40,8 @@ class UpdateClaim
       "consult_time_in" => consult_time_in,
       "consult_time_out" => consult_time_out,
       "consult_premium_visit" => consult_premium_visit,
-      "consult_premium_travel" => consult_premium_travel
+      "consult_premium_travel" => consult_premium_travel,
+      "details" => details
     }
   end
 end
