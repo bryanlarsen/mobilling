@@ -3,13 +3,13 @@ angular.module("moBilling.controllers.signUp", [])
     .controller("SignUpController", function ($scope, $location, User) {
         $scope.user = {};
 
-        $scope.success = function (user) {
+        function success(user) {
             window.localStorage.setItem("authenticationToken", user.authentication_token);
             $location.replace();
             $location.path("/claims");
         };
 
-        $scope.error = function (response) {
+        function error(response) {
             $scope.submitting = false;
             if (response.status === 422) {
                 $scope.errors = response.data.errors;
@@ -27,7 +27,7 @@ angular.module("moBilling.controllers.signUp", [])
 
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                User.save($scope.user, $scope.success, $scope.error);
+                User.save($scope.user, success, error);
             }
         };
     });

@@ -17,12 +17,12 @@ angular.module("moBilling.controllers.claimEdit", [])
             $location.path("/claims");
         };
 
-        $scope.success = function () {
+        function success() {
             $location.replace();
             $location.path("/claims");
         };
 
-        $scope.error = function (response) {
+        function error(response) {
             $scope.submitting = false;
             if (response.status === 422) {
                 $scope.errors = response.data.errors;
@@ -37,7 +37,7 @@ angular.module("moBilling.controllers.claimEdit", [])
 
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                Claim.save($scope.claim, $scope.success, $scope.error);
+                Claim.save($scope.claim, success, error);
             }
         };
     });
