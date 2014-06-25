@@ -23,6 +23,7 @@ angular.module("moBilling", [
     "moBilling.directives.time",
     "moBilling.directives.server",
     "moBilling.directives.upload",
+    "moBilling.directives.switch",
     "moBilling.factories.claim",
     "moBilling.factories.photo",
     "moBilling.factories.session",

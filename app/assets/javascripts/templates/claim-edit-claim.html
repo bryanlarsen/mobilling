@@ -49,7 +49,7 @@
         <div class="form-group row" ng-class="{'has-error': (form.most_responsible_physician.$dirty || submitted) && form.most_responsible_physician.$invalid}">
           <label for="claim-most-responsible-physician" class="control-label col-xs-12">Most responsible physician</label>
           <div class="form-control-wrapper col-xs-12">
-            <switch ng-model="claim.most_responsible_physician" id="claim-most-responsible-physician"></switch>
+            <mb-switch ng-model="claim.most_responsible_physician" id="claim-most-responsible-physician"></mb-switch>
           </div>
         </div>
 
@@ -63,7 +63,7 @@
         <div class="form-group row" ng-class="{'has-error': (form.first_seen_admission.$dirty || submitted) && form.first_seen_admission.$invalid}">
           <label for="claim-first-seen-admission" class="control-label col-xs-12">First seen date is admission</label>
           <div class="form-control-wrapper col-xs-12">
-            <switch ng-model="claim.first_seen_admission" id="claim-first-seen-admission"></switch>
+            <mb-switch ng-model="claim.first_seen_admission" id="claim-first-seen-admission"></mb-switch>
           </div>
         </div>
 
@@ -77,14 +77,14 @@
         <div class="form-group row" ng-class="{'has-error': (form.first_seen_consult.$dirty || submitted) && form.first_seen_consult.$invalid}" ng-show="isFirstSeenConsultVisible()">
           <label for="claim-first-seen-consult" class="control-label col-xs-12">Consult on first seen date</label>
           <div class="form-control-wrapper col-xs-12">
-            <switch ng-model="claim.first_seen_consult" id="claim-first-seen-consult"></switch>
+            <mb-switch ng-model="claim.first_seen_consult" id="claim-first-seen-consult"></mb-switch>
           </div>
         </div>
 
         <div class="form-group row" ng-class="{'has-error': (form.icu_transfer.$dirty || submitted) && form.icu_transfer.$invalid}" ng-show="isICUTransferVisible()">
           <label for="claim-icu-transfer" class="control-label col-xs-12">Transfer from ICU/CCU</label>
           <div class="form-control-wrapper col-xs-12">
-            <switch ng-model="claim.icu_transfer" id="claim-icu-transfer"></switch>
+            <mb-switch ng-model="claim.icu_transfer" id="claim-icu-transfer"></mb-switch>
           </div>
         </div>
 
@@ -98,7 +98,7 @@
         <div class="form-group row" ng-class="{'has-error': (form.last_seen_discharge.$dirty || submitted) && form.last_seen_discharge.$invalid}">
           <label for="claim-last-seen-discharge" class="control-label col-xs-12">Last seen date is discharge</label>
           <div class="form-control-wrapper col-xs-12">
-            <switch ng-model="claim.last_seen_discharge" id="last-seen-discharge"></switch>
+            <mb-switch ng-model="claim.last_seen_discharge" id="last-seen-discharge"></mb-switch>
           </div>
         </div>
       </div>
