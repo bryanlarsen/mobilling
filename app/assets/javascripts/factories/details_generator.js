@@ -78,7 +78,9 @@ angular.module("moBilling.factories.detailsGenerator", [])
                 days = [],
                 codes = [];
 
-            return [];
+            return daysRange(first, last).map(function (day) {
+                return { day: day };
+            });
         }
 
         return detailsGenerator;
