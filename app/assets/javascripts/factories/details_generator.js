@@ -1,7 +1,7 @@
 angular.module("moBilling.factories.detailsGenerator", [])
 
     .factory("detailsGenerator", function () {
-        function consultCode(consultType) {
+        function consultCode(type) {
             return {
                 general_er:           "A135",
                 general_non_er:       "C135",
@@ -9,7 +9,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                 comprehensive_non_er: "C130",
                 limited_er:           "A435",
                 limited_non_er:       "C435"
-            }[consultType];
+            }[type];
         }
 
         function premiumVisitCode(first, er, type) {
@@ -52,13 +52,31 @@ angular.module("moBilling.factories.detailsGenerator", [])
             }[(er ? "er_" : "non_er_") + type];
         }
 
+        function daysRange(first, last) {
+            var i,
+                days = [];
+
+            first = new Date(first).getTime();
+            last = new Date(last).getTime();
+
+            if (!isNaN(first) && !isNaN(last)) {
+                for (i = first; i <= last; i += 1000 * 60 * 60 * 24) {
+                    days.push(new Date(i).toISOString().substr(0, 10));
+                }
+            }
+
+            return days;
+        }
+
         function detailsGenerator(claim) {
             var first = claim.first_seen_on,
                 last = claim.last_seen_on,
                 mrp = claim.most_responsible_physician,
                 consult = !!claim.consult_type,
                 er = /^(general|comprehensive|limited)_er$/.test(claim.consult_type),
-                icu = claim.icu_transfer;
+                icu = claim.icu_transfer,
+                days = [],
+                codes = [];
 
             return [];
         }
