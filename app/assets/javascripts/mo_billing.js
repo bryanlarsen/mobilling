@@ -10,7 +10,7 @@ angular.module("moBilling", [
     // "mobile-angular-ui.directives.carousel",
     // "mobile-angular-ui.directives.forms",
     "mobile-angular-ui.directives.navbars",
-    // "mobile-angular-ui.directives.overlay",
+    "mobile-angular-ui.directives.overlay",
     // "mobile-angular-ui.directives.panels",
     "mobile-angular-ui.directives.sidebars",
     "mobile-angular-ui.directives.toggle",
