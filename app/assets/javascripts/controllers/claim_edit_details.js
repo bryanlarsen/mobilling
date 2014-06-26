@@ -13,12 +13,17 @@ angular.module("moBilling.controllers.claimEditDetails", [])
             $scope.claim.details.splice(index, 1);
         };
 
+        // WARNING! $digest already in progress AHEAD!
         // workaround for changing the date before the first date
         $scope.$watch("claim.details", function () {
             setTimeout(function () {
                 $scope.claim.details.sort(function (a, b) {
-                    return new Date(a.day) - new Date(b.day);
+                    if (!a.day || !b.day) {
+                        return -Infinity;
+                    } else {
+                        return new Date(a.day) - new Date(b.day);
+                    }
                 });
-            }, 0);
+            }, 100);
         }, true);
     });
