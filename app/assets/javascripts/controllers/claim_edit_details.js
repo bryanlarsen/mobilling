@@ -21,11 +21,7 @@ angular.module("moBilling.controllers.claimEditDetails", [])
 
         function sort() {
             $scope.claim.details.sort(function (a, b) {
-                if (!a.day) {
-                    return 1;
-                }
-
-                if (!b.day) {
+                if (!a.day || !b.day) {
                     return -1;
                 }
 
