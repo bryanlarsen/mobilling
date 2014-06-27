@@ -10,13 +10,6 @@ angular.module("moBilling.controllers.claimEditConsult", [])
             }
         });
 
-        $scope.$watch($scope.isConsultVisible, function (isConsultVisible) {
-            if (!isConsultVisible) {
-                $scope.claim.consult_type = undefined;
-                $scope.isPremiumVisitVisible = false;
-            }
-        });
-
         $scope.isTimeVisible = function () {
             return $scope.claim.consult_type && $scope.claim.consult_type.indexOf("comprehensive") === 0;
         };

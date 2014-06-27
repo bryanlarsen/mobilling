@@ -18,6 +18,16 @@ angular.module("moBilling.controllers.claimEdit", [])
                 || $scope.claim.admission_on !== $scope.claim.first_seen_on && $scope.claim.first_seen_consult && $scope.claim.most_responsible_physician && !$scope.claim.icu_transfer;
         };
 
+        $scope.$watch($scope.isConsultVisible, function (isConsultVisible) {
+            if (!isConsultVisible) {
+                $scope.claim.consult_type = undefined;
+                $scope.claim.consult_premium_visit = undefined;
+                $scope.claim.consult_premium_travel = undefined;
+                $scope.claim.consult_time_in = undefined;
+                $scope.claim.consult_time_out = undefined;
+            }
+        });
+
         $scope.cancel = function () {
             $location.replace();
             $location.path("/claims");
