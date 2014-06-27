@@ -2,6 +2,10 @@
   <div class="scrollable-content section">
     <div class="panel">
       <div class="panel-body">
+        <div class="alert alert-danger" ng-show="submitted && consultForm.$invalid">
+          Please provide all required consult information below before submitting.
+        </div>
+
         <div class="form-group" ng-class="{'has-error': (consultForm.consult_type.$dirty || submitted) && consultForm.consult_type.$invalid}">
           <div class="row">
             <div class="col-xs-offset-6 col-xs-3 text-center">

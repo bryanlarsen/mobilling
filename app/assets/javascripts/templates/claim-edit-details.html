@@ -2,6 +2,10 @@
   <div class="scrollable-content section">
     <div class="panel">
       <div class="panel-body">
+        <div class="alert alert-danger" ng-show="submitted && detailsForm.$invalid">
+          Please provide all required details information or remove missing details below before submitting.
+        </div>
+
         <div class="row" ng-show="isGenerateVisible()">
           <div class="col-sm-12">
             <button type="button" class="btn btn-warning btn-lg btn-block" ng-click="generate()">

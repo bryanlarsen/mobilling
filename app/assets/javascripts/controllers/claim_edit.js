@@ -56,9 +56,13 @@ angular.module("moBilling.controllers.claimEdit", [])
         function showError() {
             if ($scope.form.detailsForm.$invalid) {
                 $scope.setActiveStep("details");
-            } else if ($scope.form.consultForm && $scope.form.consultForm.$invalid) {
+            }
+
+            if ($scope.form.consultForm && $scope.form.consultForm.$invalid) {
                 $scope.setActiveStep("consult");
-            } else if ($scope.form.claimForm.$invalid) {
+            }
+
+            if ($scope.form.claimForm.$invalid) {
                 $scope.setActiveStep("claim");
             }
         }
