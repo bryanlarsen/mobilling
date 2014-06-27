@@ -68,13 +68,75 @@ angular.module("moBilling.factories.detailsGenerator", [])
             return days;
         }
 
+        function first(days, mrp, admission, discharge) {
+            var details = [];
+
+            days.forEach(function (day, i) {
+                if (day === 0) {
+                    if (mrp && admission) {
+                        details.push({ day: day, code: "E082" }); // admission premium
+                    }
+                } else {
+                    if (i === days.length - 1 && discharge) {
+                        if (mrp) {
+                            details.push({ day: day, code: "C124" });
+                            details.push({ day: day, code: "E083" });
+                        }
+                    } else {
+                        if (day === 1) {
+                            if (mrp) {
+                                details.push({ day: day, code: "C122" });
+                                details.push({ day: day, code: "E083" });
+                            }
+                        } else if (day === 2) {
+                            if (mrp) {
+                                details.push({ day: day, code: "C123" });
+                                details.push({ day: day, code: "E083" });
+                            }
+                        } else if (day >= 3 && day <= 35) {
+                            details.push({ day: day, code: "C132" });
+                            if (mrp) {
+                                details.push({ day: day, code: "E083" });
+                            }
+                        } else if (day >= 36 && day <= 91) {
+                            details.push({ day: day, code: "C137" });
+                            if (mrp) {
+                                details.push({ day: day, code: "E083" });
+                            }
+                        } else if (day >= 92) {
+                            details.push({ day: day, code: "C139" });
+                            if (mrp) {
+                                details.push({ day: day, code: "E083" });
+                            }
+                        }
+                    }
+                }
+            });
+
+            return details;
+        }
+
+        function second(days) {
+            var details = [];
+
+            days.forEach(function (day, i) {
+                if (day >= 1) {
+                    details.push({ day: day, code: "C138" });
+                }
+            });
+
+            return details;
+        }
+
         function detailsGenerator(claim) {
             var first = claim.first_seen_on,
                 last = claim.last_seen_on,
+                admission = claim.admission_on === claim.first_seen_on,
                 mrp = claim.most_responsible_physician,
-                consult = !!claim.consult_type,
+                consult = claim.consult_type,
                 er = /^(general|comprehensive|limited)_er$/.test(claim.consult_type),
                 icu = claim.icu_transfer,
+                discharge = claim.last_seen_discharge,
                 days = [],
                 codes = [];
 
