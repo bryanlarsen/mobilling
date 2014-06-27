@@ -53,11 +53,23 @@ angular.module("moBilling.controllers.claimEdit", [])
             Claim.save($scope.claim, success, error);
         };
 
+        function showError() {
+            if ($scope.form.detailsForm.$invalid) {
+                $scope.setActiveStep("details");
+            } else if ($scope.form.consultForm && $scope.form.consultForm.$invalid) {
+                $scope.setActiveStep("consult");
+            } else if ($scope.form.claimForm.$invalid) {
+                $scope.setActiveStep("claim");
+            }
+        }
+
         $scope.submit = function () {
             $scope.submitted = true;
             if ($scope.form.$valid) {
                 $scope.submitting = true;
                 Claim.save($scope.claim, success, error);
+            } else {
+                showError();
             }
         };
     });
