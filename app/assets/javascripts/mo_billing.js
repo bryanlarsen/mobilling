@@ -27,6 +27,7 @@ angular.module("moBilling", [
     "moBilling.controllers.claimEditConsult",
     "moBilling.controllers.claimEditDetails",
     "moBilling.controllers.claimList",
+    "moBilling.controllers.claimNew",
     "moBilling.controllers.signIn",
     "moBilling.controllers.signOut",
     "moBilling.controllers.signUp",
@@ -58,7 +59,7 @@ angular.module("moBilling", [
         });
 
         $routeProvider.when("/sign-out", {
-            template: null,
+            templateUrl: "loading.html",
             controller: "SignOutController"
         });
 
@@ -73,9 +74,8 @@ angular.module("moBilling", [
         });
 
         $routeProvider.when("/claims/new", {
-            redirectTo: function (params) {
-                return "/claims/" + window.uuid.v4() + "/edit";
-            }
+            templateUrl: "loading.html",
+            controller: "ClaimNewController"
         });
 
         $routeProvider.when("/claims/:claim_id/edit", {
