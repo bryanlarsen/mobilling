@@ -1,8 +1,18 @@
 angular.module("moBilling.controllers.claimEdit", [])
 
-    .controller("ClaimEditController", function ($scope, $location, claim, Claim) {
+    .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, Claim) {
+        // HACK: Do not reload the current template if it is not needed.
+        var lastRoute = $route.current;
+
+        $scope.$on("$locationChangeSuccess", function() {
+            $scope.loading = false;
+            if (lastRoute.$$route.templateUrl === $route.current.$$route.templateUrl) {
+                $route.current = lastRoute;
+            }
+        });
+        // KCAH
+
         $scope.claim = claim.toJSON();
-        $scope.step = "claim";
 
         $scope.isActiveStep = function (step) {
             return $scope.step === step;
@@ -10,7 +20,15 @@ angular.module("moBilling.controllers.claimEdit", [])
 
         $scope.setActiveStep = function (step) {
             $scope.step = step;
+            $location.hash(step).replace();
+            $anchorScroll();
         };
+
+        $scope.step = $location.hash();
+
+        if (!$scope.step || !/^(claim|consult|details)$/.test($scope.step)) {
+            $scope.setActiveStep("claim");
+        }
 
         $scope.isConsultVisible = function () {
             return $scope.claim.admission_on === $scope.claim.first_seen_on && $scope.claim.first_seen_consult
