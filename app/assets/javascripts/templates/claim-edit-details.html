@@ -1,9 +1,7 @@
 <ng-form name="detailsForm" class="scrollable" ng-controller="ClaimEditDetailsController">
   <div class="scrollable-content section">
-    <div class="panel">
+    <div class="panel" id="details">
       <div class="panel-body">
-        <div id="details"></div>
-
         <div class="alert alert-danger" ng-show="submitted && detailsForm.$invalid">
           Please provide all required details information or remove missing details below before submitting.
         </div>
