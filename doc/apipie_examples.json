@@ -6,11 +6,11 @@
       "versions": [
         "1.0"
       ],
-      "query": "auth=1757246ff4c33275256c5ae304b420cfff64ff4e714b4d047e5e2cec69e0cae5",
+      "query": "auth=edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1",
       "request_data": null,
       "response_data": [
         {
-          "id": "60fb571c-133c-402f-a5f1-b448eafbb59c",
+          "id": "8f6cb3f1-cac6-4efc-91f8-c1bed401cd6b",
           "status": 0,
           "photo_id": null,
           "patient_name": null,
@@ -32,11 +32,11 @@
           "details": [
 
           ],
-          "created_at": "2014-06-30T10:18:41.994Z",
-          "updated_at": "2014-06-30T10:18:41.994Z"
+          "created_at": "2014-06-30T10:30:34.951Z",
+          "updated_at": "2014-06-30T10:30:34.951Z"
         },
         {
-          "id": "3db6c26a-f82a-4f72-aac2-850086597f62",
+          "id": "ad02ba78-aee5-4d5c-a02f-8f9e4fb22574",
           "status": 0,
           "photo_id": null,
           "patient_name": null,
@@ -58,11 +58,11 @@
           "details": [
 
           ],
-          "created_at": "2014-06-30T10:18:42.001Z",
-          "updated_at": "2014-06-30T10:18:42.001Z"
+          "created_at": "2014-06-30T10:30:34.957Z",
+          "updated_at": "2014-06-30T10:30:34.957Z"
         },
         {
-          "id": "a657be3b-7cd1-488a-a1ab-7f0daddbcd67",
+          "id": "fcc6748b-0d7e-4173-923e-cceb6567f4ef",
           "status": 0,
           "photo_id": null,
           "patient_name": null,
@@ -84,8 +84,8 @@
           "details": [
 
           ],
-          "created_at": "2014-06-30T10:18:42.002Z",
-          "updated_at": "2014-06-30T10:18:42.002Z"
+          "created_at": "2014-06-30T10:30:34.959Z",
+          "updated_at": "2014-06-30T10:30:34.959Z"
         }
       ],
       "code": "200",
@@ -111,14 +111,14 @@
   "claims#show": [
     {
       "verb": "GET",
-      "path": "/v1/claims/70d50d25-9ab8-4ac8-9571-174d324163a1.json",
+      "path": "/v1/claims/b1f4ee7f-34e3-44d9-9ebb-381b1776a24b.json",
       "versions": [
         "1.0"
       ],
-      "query": "auth=1757246ff4c33275256c5ae304b420cfff64ff4e714b4d047e5e2cec69e0cae5",
+      "query": "auth=edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1",
       "request_data": null,
       "response_data": {
-        "id": "70d50d25-9ab8-4ac8-9571-174d324163a1",
+        "id": "b1f4ee7f-34e3-44d9-9ebb-381b1776a24b",
         "status": 0,
         "photo_id": null,
         "patient_name": null,
@@ -140,8 +140,8 @@
         "details": [
 
         ],
-        "created_at": "2014-06-30T10:18:42.028Z",
-        "updated_at": "2014-06-30T10:18:42.028Z"
+        "created_at": "2014-06-30T10:30:34.984Z",
+        "updated_at": "2014-06-30T10:30:34.984Z"
       },
       "code": "200",
       "show_in_doc": 1,
@@ -149,14 +149,14 @@
     },
     {
       "verb": "GET",
-      "path": "/v1/claims/5f68d7ae-1f17-4896-98fd-463c1762e8ca.json",
+      "path": "/v1/claims/529c9018-a64a-4c87-bcca-f880d77a4c2a.json",
       "versions": [
         "1.0"
       ],
-      "query": "auth=1757246ff4c33275256c5ae304b420cfff64ff4e714b4d047e5e2cec69e0cae5",
+      "query": "auth=edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1",
       "request_data": null,
       "response_data": {
-        "error": "Couldn't find Claim with 'id'=5f68d7ae-1f17-4896-98fd-463c1762e8ca [WHERE \"claims\".\"user_id\" = $1]"
+        "error": "Couldn't find Claim with 'id'=529c9018-a64a-4c87-bcca-f880d77a4c2a [WHERE \"claims\".\"user_id\" = $1]"
       },
       "code": "404",
       "show_in_doc": 1,
@@ -164,7 +164,7 @@
     },
     {
       "verb": "GET",
-      "path": "/v1/claims/7fed0310-4ab1-45d1-a945-0425981a975b.json",
+      "path": "/v1/claims/f428ddb0-3bea-406d-a825-e08b4559be2c.json",
       "versions": [
         "1.0"
       ],
@@ -181,19 +181,19 @@
   "claims#update": [
     {
       "verb": "PUT",
-      "path": "/v1/claims/d1d22e17-c615-465d-8e1f-d4a2949c9a02.json",
+      "path": "/v1/claims/004e9d56-72a7-49f5-8c69-0c439d6c7666.json",
       "versions": [
         "1.0"
       ],
       "query": null,
       "request_data": {
-        "auth": "1757246ff4c33275256c5ae304b420cfff64ff4e714b4d047e5e2cec69e0cae5",
+        "auth": "edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1",
         "claim": {
-          "id": "d1d22e17-c615-465d-8e1f-d4a2949c9a02"
+          "id": "004e9d56-72a7-49f5-8c69-0c439d6c7666"
         }
       },
       "response_data": {
-        "id": "d1d22e17-c615-465d-8e1f-d4a2949c9a02",
+        "id": "004e9d56-72a7-49f5-8c69-0c439d6c7666",
         "status": 0,
         "photo_id": null,
         "patient_name": null,
@@ -215,10 +215,98 @@
         "details": [
 
         ],
-        "created_at": "2014-06-30T10:18:42.065Z",
-        "updated_at": "2014-06-30T10:18:42.065Z"
+        "created_at": "2014-06-30T10:30:35.025Z",
+        "updated_at": "2014-06-30T10:30:35.025Z"
       },
       "code": "200",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "PUT",
+      "path": "/v1/claims/00ad9988-e0db-4d06-911d-b86d54ba3833.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": null,
+      "request_data": {
+        "claim": {
+          "id": "00ad9988-e0db-4d06-911d-b86d54ba3833"
+        }
+      },
+      "response_data": {
+        "error": "param is missing or the value is invalid: auth"
+      },
+      "code": "401",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "PUT",
+      "path": "/v1/claims/invalid.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": null,
+      "request_data": {
+        "claim": {
+          "id": "invalid"
+        },
+        "auth": "edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1"
+      },
+      "response_data": {
+        "errors": {
+          "id": [
+            "is not an uuid"
+          ]
+        }
+      },
+      "code": "422",
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "photos#create": [
+    {
+      "verb": "POST",
+      "path": "/v1/photos.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": null,
+      "request_data": {
+        "photo": {
+          "file": null
+        }
+      },
+      "response_data": {
+        "error": "param is missing or the value is invalid: auth"
+      },
+      "code": "401",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "POST",
+      "path": "/v1/photos.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": null,
+      "request_data": {
+        "photo": {
+          "file": null
+        },
+        "auth": "edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1"
+      },
+      "response_data": {
+        "errors": {
+          "file": [
+            "can't be blank"
+          ]
+        }
+      },
+      "code": "422",
       "show_in_doc": 1,
       "recorded": true
     }
@@ -233,15 +321,15 @@
       "query": null,
       "request_data": {
         "session": {
-          "email": "user8@example.com",
+          "email": "user1@example.com",
           "password": "secret"
         }
       },
       "response_data": {
-        "id": "fe32d5ca-5ad3-47df-b3d6-614366022440",
-        "name": "User 8",
-        "email": "user8@example.com",
-        "authentication_token": "55f2d70b8a18aa538458ffeea428709a71c1fd70636238baa4c141c2c4b70821"
+        "id": "f6ef924f-e2d8-4143-861e-a1a93321767b",
+        "name": "User 1",
+        "email": "user1@example.com",
+        "authentication_token": "3b58e42043e1a25685e6880888ca803348968f95699f3eeb574e9215375a18de"
       },
       "code": "201",
       "show_in_doc": 1,
@@ -282,16 +370,16 @@
       "query": null,
       "request_data": {
         "user": {
-          "name": "User 1",
-          "email": "user1@example.com",
+          "name": "User 8",
+          "email": "user8@example.com",
           "password": "secret"
         }
       },
       "response_data": {
-        "id": "60dc7164-3c19-4bd5-a760-af55a8129451",
-        "name": "User 1",
-        "email": "user1@example.com",
-        "authentication_token": "d60c9565bbb4b0c4adf27f86358a21ea95a99aa67fe54b13711c8e059197ef98"
+        "id": "0b49f3ed-30ac-4dbe-8b91-82a70612083a",
+        "name": "User 8",
+        "email": "user8@example.com",
+        "authentication_token": "284488e8ad2df59931bd7b1c99ecb896c7cad0a3a49261aec9a99ffa2ccaaa9a"
       },
       "code": "201",
       "show_in_doc": 1,
@@ -307,7 +395,7 @@
       "request_data": {
         "user": {
           "name": "",
-          "email": "user2@example.com",
+          "email": "user9@example.com",
           "password": "secret"
         }
       },

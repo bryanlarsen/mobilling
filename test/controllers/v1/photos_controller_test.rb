@@ -8,7 +8,7 @@ class V1::PhotosControllerTest < ActionController::TestCase
   end
 
   test "create responds with unauthorized when no auth" do
-    post :create, photo: {file: Rack::Test::UploadedFile.new(file_fixture("image.png")) }, format: "json"
+    post :create, photo: {file: nil}, format: "json"
     assert_response :unauthorized
   end
 
