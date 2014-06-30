@@ -21,6 +21,10 @@ angular.module("moBilling.directives.switch", [])
                     }
                 }
 
+                if (ngModelController.$viewValue === undefined) {
+                    ngModelController.$setViewValue(offValue);
+                }
+
                 element.on("click tap", function (event) {
                     if (attributes.disabled == null) {
                         scope.$apply(function () {
