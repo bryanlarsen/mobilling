@@ -34,7 +34,7 @@ class V1::ClaimsControllerTest < ActionController::TestCase
   test "update renders template" do
     user = create(:user, :authenticated)
     uuid = SecureRandom.uuid
-    put :update, id: uuid, auth: user.authentication_token, format: "json", claim: {id: uuid}
+    put :update, id: uuid, auth: user.authentication_token, format: "json", claim: {id: uuid, status: "saved"}
     assert_template "update"
   end
 

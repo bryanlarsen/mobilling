@@ -22,11 +22,16 @@ class UpdateClaim
   validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, allow_nil: true
   validates :consult_premium_visit, inclusion: {in: Claim::CONSULT_PREMIUM_VISITS}, allow_nil: true
   validates :consult_time_in, :consult_time_out, time: true, format: {with: /\A\d{2}:\d{2}\Z/, type: {is_a: String}}, allow_nil: true
+  validates :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :most_responsible_physician, :admission_on, :first_seen_on, :first_seen_consult, :last_seen_on, :last_seen_discharge, presence: true, if: :submitted?
 
   def perform
     return false if invalid?
     @claim = user.claims.find_or_initialize_by(id: id)
     @claim.update!(photo_id: photo_id, status: status, details: claim_details)
+  end
+
+  def submitted?
+    status == "unprocessed"
   end
 
   private
