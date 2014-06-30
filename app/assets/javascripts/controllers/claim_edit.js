@@ -47,13 +47,11 @@ angular.module("moBilling.controllers.claimEdit", [])
         });
 
         $scope.cancel = function () {
-            $location.replace();
-            $location.path("/claims");
+            $location.path("/claims").hash("").replace();
         };
 
         function success() {
-            $location.replace();
-            $location.path("/claims");
+            $location.path("/claims").hash("").replace();
         };
 
         function error(response) {

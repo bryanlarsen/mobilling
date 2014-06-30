@@ -5,8 +5,7 @@ angular.module("moBilling.controllers.signIn", [])
 
         function success(session) {
             window.localStorage.setItem("authenticationToken", session.authentication_token);
-            $location.replace();
-            $location.path("/claims");
+            $location.path("/claims").replace();
         };
 
         function error(response) {
