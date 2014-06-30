@@ -3,7 +3,7 @@ require "test_helper"
 class UpdateClaimTest < ActiveSupport::TestCase
   setup do
     @user = create(:user)
-    @interactor = UpdateClaim.new(id: SecureRandom.uuid, user: @user)
+    @interactor = UpdateClaim.new(id: SecureRandom.uuid, user: @user, status: "saved")
   end
 
   test "performs properly updating authentication_token" do
@@ -14,6 +14,11 @@ class UpdateClaimTest < ActiveSupport::TestCase
   test "is invalid with invalid photo_id" do
     @interactor.photo_id = "invalid"
     assert_invalid @interactor, :photo_id
+  end
+
+  test "is invalid with invalid status" do
+    @interactor.status = "invalid"
+    assert_invalid @interactor, :status
   end
 
   test "is invalid with invalid patient_name" do

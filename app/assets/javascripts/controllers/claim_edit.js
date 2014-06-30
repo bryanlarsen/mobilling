@@ -4,7 +4,7 @@ angular.module("moBilling.controllers.claimEdit", [])
         // HACK: Do not reload the current template if it is not needed.
         var lastRoute = $route.current;
 
-        $scope.$on("$locationChangeSuccess", function() {
+        $scope.$on("$locationChangeSuccess", function () {
             $scope.loading = false;
             if (lastRoute.$$route.templateUrl === $route.current.$$route.templateUrl) {
                 $route.current = lastRoute;
@@ -66,6 +66,7 @@ angular.module("moBilling.controllers.claimEdit", [])
 
         $scope.save = function () {
             $scope.submitting = true;
+            $scope.claim.status = "saved";
             Claim.save($scope.claim, success, error);
         };
 
@@ -87,6 +88,7 @@ angular.module("moBilling.controllers.claimEdit", [])
             $scope.submitted = true;
             if ($scope.form.$valid) {
                 $scope.submitting = true;
+                $scope.claim.status = "unprocessed";
                 Claim.save($scope.claim, success, error);
             } else {
                 showError();
