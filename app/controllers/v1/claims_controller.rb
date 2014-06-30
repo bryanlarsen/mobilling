@@ -17,6 +17,7 @@ class V1::ClaimsController < V1::BaseController
   api :PUT, "/v1/claims/:id", "Updates a claim"
   param :claim, Hash, required: true do
     param :photo_id, Integer
+    param :status, String
     param :patient_name, String
     param :hospital, String
     param :referring_physician, String
