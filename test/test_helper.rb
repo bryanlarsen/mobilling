@@ -14,6 +14,10 @@ class ActiveSupport::TestCase
     assert model.invalid?, message
     assert model.errors[attribute].present?, message if attribute.present?
   end
+
+  def file_fixture(path)
+    Rails.root.join("test", "fixtures", path)
+  end
 end
 
 class ActionController::TestCase

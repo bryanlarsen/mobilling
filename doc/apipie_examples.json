@@ -6,47 +6,86 @@
       "versions": [
         "1.0"
       ],
-      "query": "auth=4ea2cd081e4d9936b3c4062bd757b37fc0561d9af555658c349d7ab40a562970",
+      "query": "auth=1757246ff4c33275256c5ae304b420cfff64ff4e714b4d047e5e2cec69e0cae5",
       "request_data": null,
       "response_data": [
         {
-          "id": "425abfc0-df55-4a0d-99f3-a89ebd7d788c",
+          "id": "60fb571c-133c-402f-a5f1-b448eafbb59c",
           "status": 0,
+          "photo_id": null,
           "patient_name": null,
           "hospital": null,
           "referring_physician": null,
           "diagnosis": null,
+          "most_responsible_physician": null,
           "admission_on": null,
           "first_seen_on": null,
+          "first_seen_consult": null,
           "last_seen_on": null,
-          "created_at": "2014-06-18T20:13:45.978Z",
-          "updated_at": "2014-06-18T20:13:45.978Z"
+          "last_seen_discharge": null,
+          "icu_transfer": null,
+          "consult_type": null,
+          "consult_time_in": null,
+          "consult_time_out": null,
+          "consult_premium_visit": null,
+          "consult_premium_travel": null,
+          "details": [
+
+          ],
+          "created_at": "2014-06-30T10:18:41.994Z",
+          "updated_at": "2014-06-30T10:18:41.994Z"
         },
         {
-          "id": "8be20e79-71e1-4c2c-ac76-9e43c591f617",
+          "id": "3db6c26a-f82a-4f72-aac2-850086597f62",
           "status": 0,
+          "photo_id": null,
           "patient_name": null,
           "hospital": null,
           "referring_physician": null,
           "diagnosis": null,
+          "most_responsible_physician": null,
           "admission_on": null,
           "first_seen_on": null,
+          "first_seen_consult": null,
           "last_seen_on": null,
-          "created_at": "2014-06-18T20:13:45.983Z",
-          "updated_at": "2014-06-18T20:13:45.983Z"
+          "last_seen_discharge": null,
+          "icu_transfer": null,
+          "consult_type": null,
+          "consult_time_in": null,
+          "consult_time_out": null,
+          "consult_premium_visit": null,
+          "consult_premium_travel": null,
+          "details": [
+
+          ],
+          "created_at": "2014-06-30T10:18:42.001Z",
+          "updated_at": "2014-06-30T10:18:42.001Z"
         },
         {
-          "id": "ea99eb1d-025d-444c-9b46-a048e5531d02",
+          "id": "a657be3b-7cd1-488a-a1ab-7f0daddbcd67",
           "status": 0,
+          "photo_id": null,
           "patient_name": null,
           "hospital": null,
           "referring_physician": null,
           "diagnosis": null,
+          "most_responsible_physician": null,
           "admission_on": null,
           "first_seen_on": null,
+          "first_seen_consult": null,
           "last_seen_on": null,
-          "created_at": "2014-06-18T20:13:45.985Z",
-          "updated_at": "2014-06-18T20:13:45.985Z"
+          "last_seen_discharge": null,
+          "icu_transfer": null,
+          "consult_type": null,
+          "consult_time_in": null,
+          "consult_time_out": null,
+          "consult_premium_visit": null,
+          "consult_premium_travel": null,
+          "details": [
+
+          ],
+          "created_at": "2014-06-30T10:18:42.002Z",
+          "updated_at": "2014-06-30T10:18:42.002Z"
         }
       ],
       "code": "200",
@@ -69,6 +108,121 @@
       "recorded": true
     }
   ],
+  "claims#show": [
+    {
+      "verb": "GET",
+      "path": "/v1/claims/70d50d25-9ab8-4ac8-9571-174d324163a1.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "auth=1757246ff4c33275256c5ae304b420cfff64ff4e714b4d047e5e2cec69e0cae5",
+      "request_data": null,
+      "response_data": {
+        "id": "70d50d25-9ab8-4ac8-9571-174d324163a1",
+        "status": 0,
+        "photo_id": null,
+        "patient_name": null,
+        "hospital": null,
+        "referring_physician": null,
+        "diagnosis": null,
+        "most_responsible_physician": null,
+        "admission_on": null,
+        "first_seen_on": null,
+        "first_seen_consult": null,
+        "last_seen_on": null,
+        "last_seen_discharge": null,
+        "icu_transfer": null,
+        "consult_type": null,
+        "consult_time_in": null,
+        "consult_time_out": null,
+        "consult_premium_visit": null,
+        "consult_premium_travel": null,
+        "details": [
+
+        ],
+        "created_at": "2014-06-30T10:18:42.028Z",
+        "updated_at": "2014-06-30T10:18:42.028Z"
+      },
+      "code": "200",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "GET",
+      "path": "/v1/claims/5f68d7ae-1f17-4896-98fd-463c1762e8ca.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "auth=1757246ff4c33275256c5ae304b420cfff64ff4e714b4d047e5e2cec69e0cae5",
+      "request_data": null,
+      "response_data": {
+        "error": "Couldn't find Claim with 'id'=5f68d7ae-1f17-4896-98fd-463c1762e8ca [WHERE \"claims\".\"user_id\" = $1]"
+      },
+      "code": "404",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "GET",
+      "path": "/v1/claims/7fed0310-4ab1-45d1-a945-0425981a975b.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "",
+      "request_data": null,
+      "response_data": {
+        "error": "param is missing or the value is invalid: auth"
+      },
+      "code": "401",
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "claims#update": [
+    {
+      "verb": "PUT",
+      "path": "/v1/claims/d1d22e17-c615-465d-8e1f-d4a2949c9a02.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": null,
+      "request_data": {
+        "auth": "1757246ff4c33275256c5ae304b420cfff64ff4e714b4d047e5e2cec69e0cae5",
+        "claim": {
+          "id": "d1d22e17-c615-465d-8e1f-d4a2949c9a02"
+        }
+      },
+      "response_data": {
+        "id": "d1d22e17-c615-465d-8e1f-d4a2949c9a02",
+        "status": 0,
+        "photo_id": null,
+        "patient_name": null,
+        "hospital": null,
+        "referring_physician": null,
+        "diagnosis": null,
+        "most_responsible_physician": null,
+        "admission_on": null,
+        "first_seen_on": null,
+        "first_seen_consult": null,
+        "last_seen_on": null,
+        "last_seen_discharge": null,
+        "icu_transfer": null,
+        "consult_type": null,
+        "consult_time_in": null,
+        "consult_time_out": null,
+        "consult_premium_visit": null,
+        "consult_premium_travel": null,
+        "details": [
+
+        ],
+        "created_at": "2014-06-30T10:18:42.065Z",
+        "updated_at": "2014-06-30T10:18:42.065Z"
+      },
+      "code": "200",
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
   "sessions#create": [
     {
       "verb": "POST",
@@ -79,15 +233,15 @@
       "query": null,
       "request_data": {
         "session": {
-          "email": "user1@example.com",
+          "email": "user8@example.com",
           "password": "secret"
         }
       },
       "response_data": {
-        "id": "3828507a-ec80-4bf1-bb4e-267a8b996521",
-        "name": "User 1",
-        "email": "user1@example.com",
-        "authentication_token": "41bc36c48716aa96f91470b07a89d9e6fe123f9070ab6fdf18fc0b97c134504b"
+        "id": "fe32d5ca-5ad3-47df-b3d6-614366022440",
+        "name": "User 8",
+        "email": "user8@example.com",
+        "authentication_token": "55f2d70b8a18aa538458ffeea428709a71c1fd70636238baa4c141c2c4b70821"
       },
       "code": "201",
       "show_in_doc": 1,
@@ -128,16 +282,16 @@
       "query": null,
       "request_data": {
         "user": {
-          "name": "User 3",
-          "email": "user3@example.com",
+          "name": "User 1",
+          "email": "user1@example.com",
           "password": "secret"
         }
       },
       "response_data": {
-        "id": "419547dd-68f4-4791-ba21-6d2b25a8af89",
-        "name": "User 3",
-        "email": "user3@example.com",
-        "authentication_token": "bc8d60fff2a5c3be10a1eb401a6f3bb40803ef4c067842eaa961e55fe10d14ec"
+        "id": "60dc7164-3c19-4bd5-a760-af55a8129451",
+        "name": "User 1",
+        "email": "user1@example.com",
+        "authentication_token": "d60c9565bbb4b0c4adf27f86358a21ea95a99aa67fe54b13711c8e059197ef98"
       },
       "code": "201",
       "show_in_doc": 1,
@@ -153,7 +307,7 @@
       "request_data": {
         "user": {
           "name": "",
-          "email": "user4@example.com",
+          "email": "user2@example.com",
           "password": "secret"
         }
       },
