@@ -1,4 +1,74 @@
 {
+  "claims#destroy": [
+    {
+      "verb": "DELETE",
+      "path": "/v1/claims/714a2b35-b682-40e8-bad6-1a46ef278144.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "auth=e2d7a9566ee2c86f86632106e6a2023bd29b323e28735b20a1e49848856c7906",
+      "request_data": null,
+      "response_data": {
+        "id": "714a2b35-b682-40e8-bad6-1a46ef278144",
+        "status": "saved",
+        "photo_id": null,
+        "patient_name": null,
+        "hospital": null,
+        "referring_physician": null,
+        "diagnosis": null,
+        "most_responsible_physician": null,
+        "admission_on": null,
+        "first_seen_on": null,
+        "first_seen_consult": null,
+        "last_seen_on": null,
+        "last_seen_discharge": null,
+        "icu_transfer": null,
+        "consult_type": null,
+        "consult_time_in": null,
+        "consult_time_out": null,
+        "consult_premium_visit": null,
+        "consult_premium_travel": null,
+        "daily_details": [
+
+        ],
+        "created_at": "2014-07-01T15:49:06.848Z",
+        "updated_at": "2014-07-01T15:49:06.848Z"
+      },
+      "code": "200",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "DELETE",
+      "path": "/v1/claims/3fc78036-116e-4913-a01f-d210503880e7.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "auth=e2d7a9566ee2c86f86632106e6a2023bd29b323e28735b20a1e49848856c7906",
+      "request_data": null,
+      "response_data": {
+        "error": "Couldn't find Claim with 'id'=3fc78036-116e-4913-a01f-d210503880e7 [WHERE \"claims\".\"user_id\" = $1]"
+      },
+      "code": "404",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "DELETE",
+      "path": "/v1/claims/ff4848db-0e0b-4e98-8ac0-d1ee4a9c2bd3.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "",
+      "request_data": null,
+      "response_data": {
+        "error": "param is missing or the value is invalid: auth"
+      },
+      "code": "401",
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
   "claims#index": [
     {
       "verb": "GET",
@@ -6,12 +76,12 @@
       "versions": [
         "1.0"
       ],
-      "query": "auth=edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1",
+      "query": "auth=e2d7a9566ee2c86f86632106e6a2023bd29b323e28735b20a1e49848856c7906",
       "request_data": null,
       "response_data": [
         {
-          "id": "8f6cb3f1-cac6-4efc-91f8-c1bed401cd6b",
-          "status": 0,
+          "id": "55c729d9-2f80-40bb-a6f5-4678c1df4404",
+          "status": "saved",
           "photo_id": null,
           "patient_name": null,
           "hospital": null,
@@ -29,15 +99,15 @@
           "consult_time_out": null,
           "consult_premium_visit": null,
           "consult_premium_travel": null,
-          "details": [
+          "daily_details": [
 
           ],
-          "created_at": "2014-06-30T10:30:34.951Z",
-          "updated_at": "2014-06-30T10:30:34.951Z"
+          "created_at": "2014-07-01T15:49:06.888Z",
+          "updated_at": "2014-07-01T15:49:06.888Z"
         },
         {
-          "id": "ad02ba78-aee5-4d5c-a02f-8f9e4fb22574",
-          "status": 0,
+          "id": "6c4e9d79-ffa5-46dc-b651-a7a747e101cc",
+          "status": "saved",
           "photo_id": null,
           "patient_name": null,
           "hospital": null,
@@ -55,15 +125,15 @@
           "consult_time_out": null,
           "consult_premium_visit": null,
           "consult_premium_travel": null,
-          "details": [
+          "daily_details": [
 
           ],
-          "created_at": "2014-06-30T10:30:34.957Z",
-          "updated_at": "2014-06-30T10:30:34.957Z"
+          "created_at": "2014-07-01T15:49:06.890Z",
+          "updated_at": "2014-07-01T15:49:06.890Z"
         },
         {
-          "id": "fcc6748b-0d7e-4173-923e-cceb6567f4ef",
-          "status": 0,
+          "id": "80e1e9bd-8fc8-41f0-b73f-12ee302bf4bd",
+          "status": "saved",
           "photo_id": null,
           "patient_name": null,
           "hospital": null,
@@ -81,11 +151,11 @@
           "consult_time_out": null,
           "consult_premium_visit": null,
           "consult_premium_travel": null,
-          "details": [
+          "daily_details": [
 
           ],
-          "created_at": "2014-06-30T10:30:34.959Z",
-          "updated_at": "2014-06-30T10:30:34.959Z"
+          "created_at": "2014-07-01T15:49:06.891Z",
+          "updated_at": "2014-07-01T15:49:06.891Z"
         }
       ],
       "code": "200",
@@ -111,15 +181,15 @@
   "claims#show": [
     {
       "verb": "GET",
-      "path": "/v1/claims/b1f4ee7f-34e3-44d9-9ebb-381b1776a24b.json",
+      "path": "/v1/claims/5ceea6bb-e535-497a-968b-bd2785082dc6.json",
       "versions": [
         "1.0"
       ],
-      "query": "auth=edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1",
+      "query": "auth=e2d7a9566ee2c86f86632106e6a2023bd29b323e28735b20a1e49848856c7906",
       "request_data": null,
       "response_data": {
-        "id": "b1f4ee7f-34e3-44d9-9ebb-381b1776a24b",
-        "status": 0,
+        "id": "5ceea6bb-e535-497a-968b-bd2785082dc6",
+        "status": "saved",
         "photo_id": null,
         "patient_name": null,
         "hospital": null,
@@ -137,11 +207,11 @@
         "consult_time_out": null,
         "consult_premium_visit": null,
         "consult_premium_travel": null,
-        "details": [
+        "daily_details": [
 
         ],
-        "created_at": "2014-06-30T10:30:34.984Z",
-        "updated_at": "2014-06-30T10:30:34.984Z"
+        "created_at": "2014-07-01T15:49:06.907Z",
+        "updated_at": "2014-07-01T15:49:06.907Z"
       },
       "code": "200",
       "show_in_doc": 1,
@@ -149,14 +219,14 @@
     },
     {
       "verb": "GET",
-      "path": "/v1/claims/529c9018-a64a-4c87-bcca-f880d77a4c2a.json",
+      "path": "/v1/claims/a268b645-d45c-4629-85bb-d631a573a00e.json",
       "versions": [
         "1.0"
       ],
-      "query": "auth=edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1",
+      "query": "auth=e2d7a9566ee2c86f86632106e6a2023bd29b323e28735b20a1e49848856c7906",
       "request_data": null,
       "response_data": {
-        "error": "Couldn't find Claim with 'id'=529c9018-a64a-4c87-bcca-f880d77a4c2a [WHERE \"claims\".\"user_id\" = $1]"
+        "error": "Couldn't find Claim with 'id'=a268b645-d45c-4629-85bb-d631a573a00e [WHERE \"claims\".\"user_id\" = $1]"
       },
       "code": "404",
       "show_in_doc": 1,
@@ -164,7 +234,7 @@
     },
     {
       "verb": "GET",
-      "path": "/v1/claims/f428ddb0-3bea-406d-a825-e08b4559be2c.json",
+      "path": "/v1/claims/8bdf6d70-ec2d-4244-8fde-38beebcb26d6.json",
       "versions": [
         "1.0"
       ],
@@ -181,20 +251,21 @@
   "claims#update": [
     {
       "verb": "PUT",
-      "path": "/v1/claims/004e9d56-72a7-49f5-8c69-0c439d6c7666.json",
+      "path": "/v1/claims/d09ea187-8d12-4177-98cd-19f044d65f48.json",
       "versions": [
         "1.0"
       ],
       "query": null,
       "request_data": {
-        "auth": "edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1",
+        "auth": "e2d7a9566ee2c86f86632106e6a2023bd29b323e28735b20a1e49848856c7906",
         "claim": {
-          "id": "004e9d56-72a7-49f5-8c69-0c439d6c7666"
+          "id": "d09ea187-8d12-4177-98cd-19f044d65f48",
+          "status": "saved"
         }
       },
       "response_data": {
-        "id": "004e9d56-72a7-49f5-8c69-0c439d6c7666",
-        "status": 0,
+        "id": "d09ea187-8d12-4177-98cd-19f044d65f48",
+        "status": "saved",
         "photo_id": null,
         "patient_name": null,
         "hospital": null,
@@ -212,11 +283,11 @@
         "consult_time_out": null,
         "consult_premium_visit": null,
         "consult_premium_travel": null,
-        "details": [
+        "daily_details": [
 
         ],
-        "created_at": "2014-06-30T10:30:35.025Z",
-        "updated_at": "2014-06-30T10:30:35.025Z"
+        "created_at": "2014-07-01T15:49:06.946Z",
+        "updated_at": "2014-07-01T15:49:06.946Z"
       },
       "code": "200",
       "show_in_doc": 1,
@@ -224,14 +295,14 @@
     },
     {
       "verb": "PUT",
-      "path": "/v1/claims/00ad9988-e0db-4d06-911d-b86d54ba3833.json",
+      "path": "/v1/claims/68637841-e7a7-436e-a257-e11634e7ae6f.json",
       "versions": [
         "1.0"
       ],
       "query": null,
       "request_data": {
         "claim": {
-          "id": "00ad9988-e0db-4d06-911d-b86d54ba3833"
+          "id": "68637841-e7a7-436e-a257-e11634e7ae6f"
         }
       },
       "response_data": {
@@ -252,12 +323,15 @@
         "claim": {
           "id": "invalid"
         },
-        "auth": "edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1"
+        "auth": "e2d7a9566ee2c86f86632106e6a2023bd29b323e28735b20a1e49848856c7906"
       },
       "response_data": {
         "errors": {
           "id": [
             "is not an uuid"
+          ],
+          "status": [
+            "is not included in the list"
           ]
         }
       },
@@ -297,7 +371,7 @@
         "photo": {
           "file": null
         },
-        "auth": "edd992b2c1bcaeafe6126d9715781281649fb2c5b2c9de3e8e74d51bca51eca1"
+        "auth": "e2d7a9566ee2c86f86632106e6a2023bd29b323e28735b20a1e49848856c7906"
       },
       "response_data": {
         "errors": {
@@ -326,10 +400,10 @@
         }
       },
       "response_data": {
-        "id": "f6ef924f-e2d8-4143-861e-a1a93321767b",
+        "id": "e47ad0aa-8a07-4a0d-a81c-7f8ed9c561ef",
         "name": "User 1",
         "email": "user1@example.com",
-        "authentication_token": "3b58e42043e1a25685e6880888ca803348968f95699f3eeb574e9215375a18de"
+        "authentication_token": "77c52fa65c029b1a4c6063c6acf74e3034609c501cb63e87b5ece8cbdb4bfc2f"
       },
       "code": "201",
       "show_in_doc": 1,
@@ -370,16 +444,16 @@
       "query": null,
       "request_data": {
         "user": {
-          "name": "User 8",
-          "email": "user8@example.com",
+          "name": "User 3",
+          "email": "user3@example.com",
           "password": "secret"
         }
       },
       "response_data": {
-        "id": "0b49f3ed-30ac-4dbe-8b91-82a70612083a",
-        "name": "User 8",
-        "email": "user8@example.com",
-        "authentication_token": "284488e8ad2df59931bd7b1c99ecb896c7cad0a3a49261aec9a99ffa2ccaaa9a"
+        "id": "8719af38-e305-4804-a90c-5a85ef8aaca2",
+        "name": "User 3",
+        "email": "user3@example.com",
+        "authentication_token": "799a32eb01d90323fd8c109c0dc3dd2b5e7399275154992a12569a7ed24530ba"
       },
       "code": "201",
       "show_in_doc": 1,
@@ -395,7 +469,7 @@
       "request_data": {
         "user": {
           "name": "",
-          "email": "user9@example.com",
+          "email": "user4@example.com",
           "password": "secret"
         }
       },
