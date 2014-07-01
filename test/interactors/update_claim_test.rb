@@ -144,12 +144,6 @@ class UpdateClaimTest < ActiveSupport::TestCase
     assert_invalid @interactor, :first_seen_consult
   end
 
-  test "is invalid without first_seen_consult when submitted" do
-    @interactor.status = "unprocessed"
-    @interactor.first_seen_consult = nil
-    assert_invalid @interactor, :first_seen_consult
-  end
-
   test "is invalid with invalid last_seen_discharge" do
     @interactor.last_seen_discharge = "true"
     assert_invalid @interactor, :last_seen_discharge
