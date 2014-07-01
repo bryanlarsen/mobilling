@@ -21,10 +21,10 @@
               <label class="control-label">General</label>
             </div>
             <div class="col-xs-3 text-center">
-              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="general_er"></mb-switch>
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="general_er" id="claim-consult-type-general-er"></mb-switch>
             </div>
             <div class="col-xs-3 text-center">
-              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="general_non_er"></mb-switch>
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="general_non_er" id="claim-consult-type-general-non-er"></mb-switch>
             </div>
           </div>
 
@@ -35,10 +35,10 @@
               <label class="control-label">Comprehensive</label>
             </div>
             <div class="col-xs-3 text-center">
-              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="comprehensive_er"></mb-switch>
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="comprehensive_er" id="claim-consult-type-comprehensive-er"></mb-switch>
             </div>
             <div class="col-xs-3 text-center">
-              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="comprehensive_non_er"></mb-switch>
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="comprehensive_non_er" id="claim-consult-type-comprehensive-non-er"></mb-switch>
             </div>
           </div>
 
@@ -69,10 +69,10 @@
               <label class="control-label">Limited</label>
             </div>
             <div class="col-xs-3 text-center">
-              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="limited_er"></mb-switch>
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="limited_er" id="claim-consult-type-limited-er"></mb-switch>
             </div>
             <div class="col-xs-3 text-center">
-              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="limited_non_er"></mb-switch>
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="limited_non_er" id="claim-consult-type-limited-non-er"></mb-switch>
             </div>
           </div>
 
@@ -89,7 +89,7 @@
         <div class="form-group row">
           <label class="control-label col-xs-12">Special visit premium</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="isPremiumVisitVisible"></mb-switch>
+            <mb-switch ng-model="isPremiumVisitVisible" id="is-premium-visible"></mb-switch>
           </div>
         </div>
 
@@ -97,35 +97,35 @@
           <div class="row">
             <label class="control-label col-xs-12">Office hours</label>
             <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.consult_premium_visit" on-value="office_hours"></mb-switch>
+              <mb-switch ng-model="claim.consult_premium_visit" on-value="office_hours" id="claim-consult-premium-visit-office-hours"></mb-switch>
             </div>
           </div>
 
           <div class="row">
             <label class="control-label col-xs-12">Day</label>
             <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.consult_premium_visit" on-value="day"></mb-switch>
+              <mb-switch ng-model="claim.consult_premium_visit" on-value="day" id="claim-consult-premium-visit-day"></mb-switch>
             </div>
           </div>
 
           <div class="row">
             <label class="control-label col-xs-12">Evening</label>
             <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.consult_premium_visit" on-value="evening"></mb-switch>
+              <mb-switch ng-model="claim.consult_premium_visit" on-value="evening" id="claim-consult-premium-visit-evening"></mb-switch>
             </div>
           </div>
 
           <div class="row">
             <label class="control-label col-xs-12">Weekend / Holiday</label>
             <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday"></mb-switch>
+              <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday" id="claim-consult-premium-visit-holiday"></mb-switch>
             </div>
           </div>
 
           <div class="row">
             <label class="control-label col-xs-12">Night</label>
             <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.consult_premium_visit" on-value="night"></mb-switch>
+              <mb-switch ng-model="claim.consult_premium_visit" on-value="night" id="claim-consult-premium-visit-night"></mb-switch>
             </div>
           </div>
 
@@ -142,7 +142,7 @@
         <div class="form-group row" ng-if="isPremiumVisitVisible">
           <label class="control-label col-xs-12">Travel premium</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.consult_premium_travel"></mb-switch>
+            <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
           </div>
         </div>
       </div>

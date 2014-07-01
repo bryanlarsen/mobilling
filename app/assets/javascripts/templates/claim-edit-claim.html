@@ -69,14 +69,14 @@
         <div class="form-group row">
           <label class="control-label col-xs-12">Most responsible physician</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.most_responsible_physician"></mb-switch>
+            <mb-switch ng-model="claim.most_responsible_physician" id="claim-most-responsible-physician"></mb-switch>
           </div>
         </div>
 
         <div class="form-group row" ng-class="{'has-error': (claimForm.admission_on.$dirty || submitted) && claimForm.admission_on.$invalid}">
-          <label class="control-label col-xs-12">Admission date</label>
+          <label class="control-label col-xs-12" for="claim-admission-on">Admission date</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="date" name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" mb-date required>
+            <input type="date" name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" id="claim-admission-on" mb-date required>
             <div ng-messages="claimForm.admission_on.$error" ng-show="submitted">
               <p class="help-block" ng-message="required">is missing</p>
             </div>
@@ -86,7 +86,7 @@
         <div class="form-group row">
           <label class="control-label col-xs-12">First seen date is admission</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="isFirstSeenOnHidden"></mb-switch>
+            <mb-switch ng-model="isFirstSeenOnHidden" id="is-first-seen-on-hidden"></mb-switch>
           </div>
         </div>
 
@@ -103,14 +103,14 @@
         <div class="form-group row" ng-if="isFirstSeenConsultVisible()">
           <label class="control-label col-xs-12">Consult on first seen date</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.first_seen_consult"></mb-switch>
+            <mb-switch ng-model="claim.first_seen_consult" id="claim-first-seen-consult"></mb-switch>
           </div>
         </div>
 
         <div class="form-group row" ng-if="isICUTransferVisible()">
           <label class="control-label col-xs-12">Transfer from ICU/CCU</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.icu_transfer"></mb-switch>
+            <mb-switch ng-model="claim.icu_transfer" id="claim-icu-transfer"></mb-switch>
           </div>
         </div>
 
@@ -127,7 +127,7 @@
         <div class="form-group row">
           <label class="control-label col-xs-12">Last seen date is discharge</label>
           <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.last_seen_discharge"></mb-switch>
+            <mb-switch ng-model="claim.last_seen_discharge" id="claim-last-seen-discharge"></mb-switch>
           </div>
         </div>
       </div>

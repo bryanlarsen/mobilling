@@ -67,12 +67,26 @@ module Test
     def sign_out
       click_on("Sign Out")
     end
+
+    def click_link_with_text(text)
+      find(:xpath, "//a[contains(., '#{text}')]").click
+    end
+
+    def click_element_with_id(id)
+      find(:css, "##{id}").click
+    end
   end
 
   class Guest < User
     def initialize(attributes = {})
       guest = OpenStruct.new(attributes.reverse_merge(name: "Guest", email: "guest@example.com"))
       super(guest)
+    end
+  end
+
+  class Doctor < User
+    def initialize(user = FactoryGirl.create(:user, :authenticated))
+      super(user)
     end
   end
 end

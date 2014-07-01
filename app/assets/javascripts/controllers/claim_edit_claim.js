@@ -16,7 +16,7 @@ angular.module("moBilling.controllers.claimEditClaim", [])
 
         $scope.$watch($scope.isFirstSeenConsultVisible, function (isFirstSeenConsultVisible) {
             if (!isFirstSeenConsultVisible) {
-                $scope.claim.first_seen_consult = undefined;
+                $scope.claim.first_seen_consult = true;
             }
         });
 
@@ -27,7 +27,7 @@ angular.module("moBilling.controllers.claimEditClaim", [])
 
         $scope.$watch($scope.isICUTransferVisible, function (isICUTransferVisible) {
             if (!isICUTransferVisible) {
-                $scope.claim.icu_transfer = undefined;
+                $scope.claim.icu_transfer = false;
             }
         });
 
