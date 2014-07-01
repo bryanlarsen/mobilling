@@ -1,0 +1,98 @@
+<ng-form name="claimForm" class="scrollable" ng-controller="ClaimEditClaimController">
+  <div class="scrollable-content section">
+    <div class="panel" id="claim">
+      <div class="panel-body">
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Patient photo</label>
+          <div class="form-control-wrapper col-xs-12">
+            <img ng-src="{{photo.small_url}}" width="300" class="thumbnail">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Patient name</label>
+          <div class="form-control-wrapper col-xs-12">
+            <p class="form-control-static input-lg">{{claim.patient_name}}</p>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Hospital</label>
+          <div class="form-control-wrapper col-xs-12">
+            <p class="form-control-static input-lg">{{claim.hospital}}</p>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Referring physician</label>
+          <div class="form-control-wrapper col-xs-12">
+            <p class="form-control-static input-lg">{{claim.referring_physician}}</p>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Diagnosis</label>
+          <div class="form-control-wrapper col-xs-12">
+            <p class="form-control-static input-lg">{{claim.diagnosis}}</p>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Most responsible physician</label>
+          <div class="form-control-wrapper col-xs-12">
+            <mb-switch ng-model="claim.most_responsible_physician" disabled="disabled"></mb-switch>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Admission date</label>
+          <div class="form-control-wrapper col-xs-12">
+            <p class="form-control-static input-lg">{{claim.admission_on}}</p>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">First seen date is admission</label>
+          <div class="form-control-wrapper col-xs-12">
+            <mb-switch ng-model="isFirstSeenOnHidden" disabled="disabled"></mb-switch>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">First seen on</label>
+          <div class="form-control-wrapper col-xs-12">
+            <p class="form-control-static input-lg">{{claim.first_seen_on}}</p>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-if="isFirstSeenConsultVisible()">
+          <label class="control-label col-xs-12">Consult on first seen date</label>
+          <div class="form-control-wrapper col-xs-12">
+            <mb-switch ng-model="claim.first_seen_consult" disabled="disabled"></mb-switch>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-if="isICUTransferVisible()">
+          <label class="control-label col-xs-12">Transfer from ICU/CCU</label>
+          <div class="form-control-wrapper col-xs-12">
+            <mb-switch ng-model="claim.icu_transfer" disabled="disabled"></mb-switch>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Last seen date</label>
+          <div class="form-control-wrapper col-xs-12">
+            <p class="form-control-static input-lg">{{claim.last_seen_on}}</p>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Last seen date is discharge</label>
+          <div class="form-control-wrapper col-xs-12">
+            <mb-switch ng-model="claim.last_seen_discharge" disabled="disabled"></mb-switch>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-form>

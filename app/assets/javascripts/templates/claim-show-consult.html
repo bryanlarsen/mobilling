@@ -1,0 +1,123 @@
+<ng-form name="consultForm" class="scrollable" ng-controller="ClaimEditConsultController" ng-if="isConsultVisible()">
+  <div class="scrollable-content section">
+    <div class="panel" id="consult">
+      <div class="panel-body">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-xs-offset-6 col-xs-3 text-center">
+              <label class="control-label">ER</label>
+            </div>
+            <div class="col-xs-3 text-center">
+              <label class="control-label">Non-ER</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-6">
+              <label class="control-label">General</label>
+            </div>
+            <div class="col-xs-3 text-center">
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="general_er" disabled="disabled"></mb-switch>
+            </div>
+            <div class="col-xs-3 text-center">
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="general_non_er" disabled="disabled"></mb-switch>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="row">
+            <div class="col-xs-6">
+              <label class="control-label">Comprehensive</label>
+            </div>
+            <div class="col-xs-3 text-center">
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="comprehensive_er" disabled="disabled"></mb-switch>
+            </div>
+            <div class="col-xs-3 text-center">
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="comprehensive_non_er" disabled="disabled"></mb-switch>
+            </div>
+          </div>
+
+          <div class="form-group row" ng-if="isTimeVisible()">
+            <label class="control-label col-xs-12">Time in</label>
+            <div class="form-control-wrapper col-xs-12">
+              <p class="form-control-static input-lg">{{claim.consult_time_in}}</p>
+            </div>
+          </div>
+
+          <div class="form-group row" ng-if="isTimeVisible()">
+            <label class="control-label col-xs-12">Time out</label>
+            <div class="form-control-wrapper col-xs-12">
+              <p class="form-control-static input-lg">{{claim.consult_time_out}}</p>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="row">
+            <div class="col-xs-6">
+              <label class="control-label">Limited</label>
+            </div>
+            <div class="col-xs-3 text-center">
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="limited_er" disabled="disabled"></mb-switch>
+            </div>
+            <div class="col-xs-3 text-center">
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="limited_non_er" disabled="disabled"></mb-switch>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Special visit premium</label>
+          <div class="form-control-wrapper col-xs-12">
+            <mb-switch ng-model="isPremiumVisitVisible" disabled="disabled"></mb-switch>
+          </div>
+        </div>
+
+        <div class="form-group" ng-if="isPremiumVisitVisible">
+          <div class="row">
+            <label class="control-label col-xs-12">Office hours</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-switch ng-model="claim.consult_premium_visit" on-value="office_hours" disabled="disabled"></mb-switch>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="control-label col-xs-12">Day</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-switch ng-model="claim.consult_premium_visit" on-value="day" disabled="disabled"></mb-switch>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="control-label col-xs-12">Evening</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-switch ng-model="claim.consult_premium_visit" on-value="evening" disabled="disabled"></mb-switch>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="control-label col-xs-12">Weekend / Holiday</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday" disabled="disabled"></mb-switch>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="control-label col-xs-12">Night</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-switch ng-model="claim.consult_premium_visit" on-value="night" disabled="disabled"></mb-switch>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-if="isPremiumVisitVisible">
+          <label class="control-label col-xs-12">Travel premium</label>
+          <div class="form-control-wrapper col-xs-12">
+            <mb-switch ng-model="claim.consult_premium_travel" disabled="disabled"></mb-switch>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-form>

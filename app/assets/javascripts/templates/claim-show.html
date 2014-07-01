@@ -1,0 +1,37 @@
+<form class="app" name="form" ng-submit="submit()" novalidate>
+  <div class="navbar navbar-app navbar-absolute-top">
+    <div class="navbar-brand navbar-brand-center">
+      <span>Claim</span>
+    </div>
+
+    <div class="btn-group pull-left">
+      <div class="btn btn-navbar" ng-click="cancel('unprocessed')">
+        <i class="fa fa-chevron-left"></i> Back
+      </div>
+    </div>
+  </div>
+
+  <div class="navbar navbar-app navbar-absolute-bottom">
+    <div class="btn-group justified nav-tabs">
+      <a class="btn btn-default" ng-class="{'active': isActiveStep('claim')}" ng-click="setActiveStep('claim')">
+        <i class="fa fa-file-text-o"></i> Claim
+      </a>
+      <a class="btn btn-default" ng-class="{'active': isActiveStep('consult')}" ng-click="setActiveStep('consult')" ng-show="isConsultVisible()">
+        <i class="fa fa-user-md"></i> Consult
+      </a>
+      <a class="btn btn-default" ng-class="{'active': isActiveStep('details')}" ng-click="setActiveStep('details')">
+        <i class="fa fa-medkit"></i> Daily Details
+      </a>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <div ng-show="loading" class="app-content-loading">
+      <i class="fa fa-spinner fa-spin loading-spinner"></i>
+    </div>
+
+    <div ng-show="!loading && isActiveStep('claim')" class="app-content" ng-include="'claim-show-claim.html'"></div>
+    <div ng-show="!loading && isActiveStep('consult')" class="app-content" ng-include="'claim-show-consult.html'"></div>
+    <div ng-show="!loading && isActiveStep('details')" class="app-content" ng-include="'claim-show-details.html'"></div>
+  </div>
+</form>

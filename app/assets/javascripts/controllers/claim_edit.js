@@ -46,8 +46,9 @@ angular.module("moBilling.controllers.claimEdit", [])
             }
         });
 
-        $scope.cancel = function () {
-            $location.path("/claims/saved").hash("").replace();
+        $scope.cancel = function (status) {
+            status || (status = "saved");
+            $location.path("/claims/" + status).hash("").replace();
         };
 
         $scope.save = function () {

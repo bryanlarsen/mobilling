@@ -1,0 +1,34 @@
+<ng-form name="detailsForm" class="scrollable" ng-controller="ClaimEditDetailsController">
+  <div class="scrollable-content section">
+    <div class="panel" id="details">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-4 visible-sm">
+            <label class="control-label">Days</label>
+          </div>
+          <div class="col-sm-8 visible-sm">
+            <label class="control-label">Codes</label>
+          </div>
+        </div>
+
+        <div ng-repeat="dailyDetail in claim.daily_details | unique : 'day'">
+          <ng-form name="detailForm" ng-repeat="detail in claim.daily_details | filter : { day: dailyDetail.day }">
+            <div class="row">
+              <div class="col-sm-4 col-xs-12">
+                <label class="visible-xs control-label" ng-show="$first">Day</label>
+                <p class="form-control-static input-lg">{{detail.day}}</p>
+              </div>
+
+              <div class="col-xs-12 visible-xs">&nbsp;</div>
+
+              <div class="col-sm-8 col-xs-12">
+                <label class="visible-xs control-label">Code</label>
+                <p class="form-control-static input-lg">{{detail.code}}</p>
+              </div>
+            </div>
+          </ng-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-form>

@@ -99,6 +99,16 @@ angular.module("moBilling", [
             }
         });
 
+        $routeProvider.when("/claims/:claim_id", {
+            templateUrl: "claim-show.html",
+            controller: "ClaimEditController",
+            resolve: {
+                claim: function ($route, Claim) {
+                    return Claim.get({ id: $route.current.params.claim_id }).$promise;
+                }
+            }
+        });
+
         $routeProvider.otherwise({
             redirectTo: "/claims/saved"
         });
