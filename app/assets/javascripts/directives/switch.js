@@ -21,8 +21,8 @@ angular.module("moBilling.directives.switch", [])
                     }
                 }
 
-                if (ngModelController.$viewValue === undefined) {
-                    ngModelController.$setViewValue(offValue);
+                if (scope.model === null || scope.model === undefined) {
+                    scope.model = offValue;
                 }
 
                 element.on("click tap", function (event) {

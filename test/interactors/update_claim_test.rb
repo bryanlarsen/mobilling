@@ -166,47 +166,8 @@ class UpdateClaimTest < ActiveSupport::TestCase
     assert_invalid @interactor, :icu_transfer
   end
 
-  test "is invalid with icu_transfer when first seen is admission" do
-    @interactor.first_seen_on = Date.today.to_s
-    @interactor.admission_on = Date.today.to_s
-    @interactor.icu_transfer = false
-    assert_invalid @interactor, :icu_transfer
-  end
-
-  test "is invalid with icu_transfer when not most responsible physician" do
-    @interactor.first_seen_on = Date.today.to_s
-    @interactor.admission_on = Date.yesterday.to_s
-    @interactor.most_responsible_physician = false
-    @interactor.icu_transfer = false
-    assert_invalid @interactor, :icu_transfer
-  end
-
-  test "is invalid without icu_transfer when first seen is not admission and most responsible physician" do
-    @interactor.first_seen_on = Date.today.to_s
-    @interactor.admission_on = Date.yesterday.to_s
-    @interactor.most_responsible_physician = true
-    @interactor.icu_transfer = nil
-    assert_invalid @interactor, :icu_transfer
-  end
-
   test "is invalid with invalid consult_type" do
     @interactor.consult_type = "invalid"
-    assert_invalid @interactor, :consult_type
-  end
-
-  test "is invalid with consult_type when no consult" do
-    @interactor.first_seen_on = Date.today.to_s
-    @interactor.admission_on = Date.today.to_s
-    @interactor.first_seen_consult = false
-    @interactor.consult_type = "general_er"
-    assert_invalid @interactor, :consult_type
-  end
-
-  test "is invalid without consult_type when consult" do
-    @interactor.first_seen_on = Date.today.to_s
-    @interactor.admission_on = Date.today.to_s
-    @interactor.first_seen_consult = true
-    @interactor.consult_type = nil
     assert_invalid @interactor, :consult_type
   end
 
@@ -220,30 +181,8 @@ class UpdateClaimTest < ActiveSupport::TestCase
     assert_invalid @interactor, :consult_time_in
   end
 
-  test "is invalid with consult_time_in when no consult" do
-    @interactor.consult_time_in = "17:00"
-    assert_invalid @interactor, :consult_time_in
-  end
-
-  test "is invalid without consult_time_in when consult" do
-    @interactor.consult_type = "comprehensive_er"
-    @interactor.consult_time_in = nil
-    assert_invalid @interactor, :consult_time_in
-  end
-
   test "is invalid with invalid consult_time_out" do
     @interactor.consult_time_out = "5am"
-    assert_invalid @interactor, :consult_time_out
-  end
-
-  test "is invalid with consult_time_out when no consult" do
-    @interactor.consult_time_out = "17:00"
-    assert_invalid @interactor, :consult_time_out
-  end
-
-  test "is invalid without consult_time_out when consult" do
-    @interactor.consult_type = "comprehensive_er"
-    @interactor.consult_time_out = nil
     assert_invalid @interactor, :consult_time_out
   end
 

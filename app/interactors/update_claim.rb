@@ -42,13 +42,7 @@ class UpdateClaim
   validates :consult_premium_visit, inclusion: {in: Claim::CONSULT_PREMIUM_VISITS}, allow_nil: true
   validates :consult_time_in, :consult_time_out, time: true, format: {with: /\A\d{2}:\d{2}\Z/, type: {is_a: String}}, allow_nil: true
   validates :photo_id, :patient_name, :hospital, :referring_physician, :diagnosis, :admission_on, :first_seen_on, :last_seen_on, presence: true, if: :submitted?
-  validates :most_responsible_physician, :first_seen_consult, :last_seen_discharge, inclusion: {in: [true, false]}, if: :submitted?
-  validates :icu_transfer, inclusion: {in: [nil]}, unless: :icu_transfer_required?
-  validates :icu_transfer, inclusion: {in: [true, false]}, if: :icu_transfer_required?
-  validates :consult_type, :consult_premium_visit, :consult_time_in, :consult_time_out, :consult_premium_travel, inclusion: {in: [nil]}, unless: :consult_required?
-  validates :consult_type, presence: true, if: :consult_required?
-  validates :consult_time_in, :consult_time_out, presence: true, if: :comprehensive?
-  validates :consult_premium_travel, inclusion: {in: [true, false]}, if: :consult_premium?
+  validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false]}, if: :submitted?
   validates :daily_details, associated: true
 
   def perform
@@ -59,24 +53,6 @@ class UpdateClaim
 
   def submitted?
     status == "unprocessed"
-  end
-
-  def icu_transfer_required?
-    admission_on != first_seen_on and most_responsible_physician
-  end
-
-  def consult_required?
-    (admission_on == first_seen_on and first_seen_consult) or
-      (admission_on != first_seen_on and first_seen_consult and not most_responsible_physician) or
-      (admission_on != first_seen_on and first_seen_consult and most_responsible_physician and not icu_transfer)
-  end
-
-  def consult_premium?
-    consult_premium_visit.present?
-  end
-
-  def comprehensive?
-    consult_type.to_s.starts_with?("comprehensive")
   end
 
   def daily_details
