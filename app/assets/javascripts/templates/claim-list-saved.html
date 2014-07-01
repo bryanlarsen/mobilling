@@ -1,0 +1,44 @@
+<div ng-include="'sidebar.html'" class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="menu-sidebar">
+</div>
+
+<div class="app">
+  <div class="navbar navbar-app navbar-absolute-top">
+    <div class="navbar-brand navbar-brand-center">
+      <span>Drafts</span>
+    </div>
+
+    <div class="btn-group pull-left">
+      <div ng-click="toggle('menu-sidebar')" class="btn btn-navbar sidebar-toggle">
+        <i class="fa fa-bars"></i> Menu
+      </div>
+    </div>
+
+    <a href="#/claims/new" class="btn-group pull-right">
+      <div class="btn btn-navbar">
+        <i class="fa fa-plus"></i> New
+      </div>
+    </a>
+  </div>
+
+  <div class="app-body">
+    <div ng-show="loading" class="app-content-loading">
+      <i class="fa fa-spinner fa-spin loading-spinner"></i>
+    </div>
+
+    <div ng-hide="loading" class="app-content">
+      <div class="scrollable">
+        <div class="scrollable-content">
+          <div class="list-group">
+            <div class="list-group-item text-center" ng-if="claims.length === 0">
+              <span class="text-muted">no drafts</span>
+            </div>
+            <a href="#/claims/{{claim.id}}/edit" class="list-group-item" ng-repeat="claim in claims">
+              Claim of {{claim.patient_name}} created on {{claim.created_at | date:"yyyy-MM-dd"}}
+              <i class="fa fa-chevron-right pull-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

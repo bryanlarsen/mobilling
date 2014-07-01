@@ -26,7 +26,8 @@ angular.module("moBilling", [
     "moBilling.controllers.claimEditClaim",
     "moBilling.controllers.claimEditConsult",
     "moBilling.controllers.claimEditDetails",
-    "moBilling.controllers.claimList",
+    "moBilling.controllers.claimListSaved",
+    "moBilling.controllers.claimListUnprocessed",
     "moBilling.controllers.claimNew",
     "moBilling.controllers.signIn",
     "moBilling.controllers.signOut",
@@ -63,9 +64,19 @@ angular.module("moBilling", [
             controller: "SignOutController"
         });
 
-        $routeProvider.when("/claims", {
-            templateUrl: "claim-list.html",
-            controller: "ClaimListController",
+        $routeProvider.when("/claims/saved", {
+            templateUrl: "claim-list-saved.html",
+            controller: "ClaimListSavedController",
+            resolve: {
+                claims: function (Claim) {
+                    return Claim.query().$promise;
+                }
+            }
+        });
+
+        $routeProvider.when("/claims/unprocessed", {
+            templateUrl: "claim-list-unprocessed.html",
+            controller: "ClaimListUnprocessedController",
             resolve: {
                 claims: function (Claim) {
                     return Claim.query().$promise;
@@ -89,7 +100,7 @@ angular.module("moBilling", [
         });
 
         $routeProvider.otherwise({
-            redirectTo: "/claims"
+            redirectTo: "/claims/saved"
         });
     })
 
@@ -98,7 +109,7 @@ angular.module("moBilling", [
             var authenticationToken = window.localStorage.getItem("authenticationToken");
 
             if (next.guest && authenticationToken) {
-                $location.path("/claims").replace();
+                $location.path("/claims/saved").replace();
             }
 
             if (!next.guest && !authenticationToken) {
