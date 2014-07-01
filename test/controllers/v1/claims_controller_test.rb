@@ -50,6 +50,13 @@ class V1::ClaimsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test "update responds with unprocessable_entity when updating unprocessed claim" do
+    user = create(:user, :authenticated)
+    claim = create(:claim, user: user, status: "unprocessed")
+    put :update, id: claim.id, auth: user.authentication_token, format: "json", claim: {id: claim.id, status: "saved"}
+    assert_response :unprocessable_entity
+  end
+
   test "destroy renders template" do
     user = create(:user, :authenticated)
     claim = create(:claim, user: user)
@@ -60,6 +67,13 @@ class V1::ClaimsControllerTest < ActionController::TestCase
   test "destroy responds with not found when no claim" do
     user = create(:user, :authenticated)
     delete :destroy, id: create(:claim).id, auth: user.authentication_token, format: "json"
+    assert_response :not_found
+  end
+
+  test "destroy responds with not found when claim is unprocessed" do
+    user = create(:user, :authenticated)
+    claim = create(:claim, user: user, status: "unprocessed")
+    delete :destroy, id: claim.id, auth: user.authentication_token, format: "json"
     assert_response :not_found
   end
 

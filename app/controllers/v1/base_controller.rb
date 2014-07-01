@@ -13,6 +13,10 @@ class V1::BaseController < ActionController::Base
     render json: {error: exception.message}, status: :not_found
   end
 
+  rescue_from ActiveRecord::RecordNotUnique do |exception|
+    render json: {error: exception.message}, status: :unprocessable_entity
+  end
+
   private
 
   def authentication_token

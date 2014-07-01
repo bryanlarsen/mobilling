@@ -48,7 +48,7 @@ class UpdateClaim
 
   def perform
     return false if invalid?
-    @claim = user.claims.find_or_initialize_by(id: id)
+    @claim = user.claims.saved.find_or_initialize_by(id: id)
     @claim.update!(photo_id: photo_id, status: status, details: json)
   end
 
