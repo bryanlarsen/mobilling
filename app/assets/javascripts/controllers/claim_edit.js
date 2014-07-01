@@ -60,6 +60,19 @@ angular.module("moBilling.controllers.claimEdit", [])
             });
         };
 
+        $scope.remove = function () {
+            $scope.submitting = true;
+            Claim.remove({ id: $scope.claim.id }, function () {
+                $location.path("/claims/saved").hash("").replace();
+            }, function (error) {
+                if (error.status === 404) {
+                    $location.path("/claims/saved").hash("").replace();
+                } else {
+                    $scope.submitting = false;
+                }
+            });
+        };
+
         function showError() {
             if ($scope.form.detailsForm.$invalid) {
                 $scope.setActiveStep("details");

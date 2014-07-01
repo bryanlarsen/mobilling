@@ -48,6 +48,14 @@ class V1::ClaimsController < V1::BaseController
     respond_with @interactor, location: nil
   end
 
+  api :DELETE, "/v1/claims/:id", "Deletes a claim"
+
+  def destroy
+    @claim = current_user.claims.find(params[:id])
+    @claim.destroy
+    respond_with @claim, location: nil
+  end
+
   private
 
   def update_claim_params

@@ -49,4 +49,23 @@ class V1::ClaimsControllerTest < ActionController::TestCase
     put :update, id: "invalid", format: "json", claim: {id: "invalid"}, auth: user.authentication_token
     assert_response :unprocessable_entity
   end
+
+  test "destroy renders template" do
+    user = create(:user, :authenticated)
+    claim = create(:claim, user: user)
+    delete :destroy, id: claim.id, auth: user.authentication_token, format: "json"
+    assert_template "destroy"
+  end
+
+  test "destroy responds with not found when no claim" do
+    user = create(:user, :authenticated)
+    delete :destroy, id: create(:claim).id, auth: user.authentication_token, format: "json"
+    assert_response :not_found
+  end
+
+  test "destroy responds with unauthorized when no auth" do
+    claim = create(:claim)
+    delete :destroy, id: claim.id, format: "json"
+    assert_response :unauthorized
+  end
 end
