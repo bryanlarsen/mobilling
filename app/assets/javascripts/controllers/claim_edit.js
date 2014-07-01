@@ -52,17 +52,11 @@ angular.module("moBilling.controllers.claimEdit", [])
 
         function success() {
             $location.path("/claims").hash("").replace();
-        };
+        }
 
         function error(response) {
             $scope.submitting = false;
-            if (response.status === 422) {
-                $scope.errors = response.data.errors;
-                angular.forEach($scope.errors || {}, function (errors, field) {
-                    $scope.form[field].$setValidity("server", false);
-                });
-            }
-        };
+        }
 
         $scope.save = function () {
             $scope.submitting = true;
