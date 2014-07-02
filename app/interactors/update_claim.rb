@@ -49,7 +49,7 @@ class UpdateClaim
   def perform
     return false if invalid?
     @claim = user.claims.saved.find_or_initialize_by(id: id)
-    @claim.update!(photo_id: photo_id, status: status, details: json)
+    @claim.update!(claim_attributes)
   end
 
   def submitted?
@@ -63,7 +63,20 @@ class UpdateClaim
 
   private
 
-  def json
+  def claim_attributes
+    {
+      photo_id: photo_id,
+      status: status,
+      number: claim_number,
+      details: claim_attributes_details
+    }
+  end
+
+  def claim_number
+    user.claims.submitted.maximum(:number).to_i.succ if submitted?
+  end
+
+  def claim_attributes_details
     {
       "patient_name"               => patient_name,
       "hospital"                   => hospital,

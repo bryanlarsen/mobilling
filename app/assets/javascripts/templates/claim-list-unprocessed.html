@@ -27,7 +27,7 @@
               <span class="text-muted">no submitted claims</span>
             </div>
             <a href="#/claims/{{claim.id}}" class="list-group-item" ng-repeat="claim in claims">
-              Claim of {{claim.patient_name}} created on {{claim.created_at | date:"yyyy-MM-dd"}}
+              Claim No. {{claim.number}} created on {{claim.created_at | date:"yyyy-MM-dd"}}
               <i class="fa fa-chevron-right pull-right"></i>
             </a>
           </div>
