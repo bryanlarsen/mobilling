@@ -16,7 +16,6 @@ class UpdateClaimTest < ActiveSupport::TestCase
     @interactor.photo_id = create(:photo).id
     @interactor.patient_name = "Alice"
     @interactor.hospital = "Ottawa"
-    @interactor.referring_physician = "Bob"
     @interactor.diagnosis = "Flu"
     @interactor.most_responsible_physician = true
     @interactor.admission_on = 1.week.ago.to_date.to_s
@@ -87,12 +86,6 @@ class UpdateClaimTest < ActiveSupport::TestCase
 
   test "is invalid with invalid referring_physician" do
     @interactor.referring_physician = 0
-    assert_invalid @interactor, :referring_physician
-  end
-
-  test "is invalid without referring_physician when submitted" do
-    @interactor.status = "unprocessed"
-    @interactor.referring_physician = nil
     assert_invalid @interactor, :referring_physician
   end
 
