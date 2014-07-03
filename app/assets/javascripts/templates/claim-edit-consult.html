@@ -123,15 +123,6 @@
                 <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night"></mb-switch>
               </div>
             </div>
-
-            <div class="row">
-              <div class="form-control-wrapper col-xs-12">
-                <input type="hidden" name="consult_premium_visit" ng-model="claim.consult_premium_visit" required>
-                <div ng-messages="consultForm.consult_premium_visit.$error" ng-show="submitted">
-                  <p class="help-block" ng-message="required">is missing</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div ng-if="dayType === 'weekend'">
@@ -162,6 +153,15 @@
               <label class="control-label col-xs-12">Night</label>
               <div class="form-control-wrapper col-xs-12">
                 <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night"></mb-switch>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-control-wrapper col-xs-12">
+              <input type="hidden" name="consult_premium_visit" ng-model="claim.consult_premium_visit" required>
+              <div ng-messages="consultForm.consult_premium_visit.$error" ng-show="submitted">
+                <p class="help-block" ng-message="required">is missing</p>
               </div>
             </div>
           </div>
