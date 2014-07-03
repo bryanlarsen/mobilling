@@ -45,6 +45,7 @@ class UpdateClaim
   validates :photo_id, :patient_name, :hospital, :diagnosis, :admission_on, :first_seen_on, :last_seen_on, presence: true, if: :submitted?
   validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false]}, if: :submitted?
   validates :daily_details, associated: true
+  validates :daily_details, length: {minimum: 1}, if: :submitted?
 
   def perform
     return false if invalid?

@@ -15,10 +15,18 @@
           </div>
         </div>
 
+        <div class="row">
+          <div class="col-xs-12" ng-class="{'has-error': submitted && detailsForm.daily_details_length.$invalid}">
+            <input class="hide" type="number" ng-model="claim.daily_details.length" name="daily_details_length" min="1" required>
+            <div ng-messages="detailsForm.daily_details_length.$error" ng-show="submitted">
+              <p class="help-block" ng-message="required">at least one code is required</p>
+            </div>
+          </div>
+        </div>
+
         <div ng-repeat="dailyDetail in claim.daily_details | unique : 'day'">
           <ng-form name="detailForm" ng-repeat="detail in claim.daily_details | filter : { day: dailyDetail.day }">
             <div class="row">
-
               <div class="col-sm-4 col-xs-12" ng-class="{'has-error': (detailForm.day.$dirty || submitted) && detailForm.day.$invalid}">
                 <label class="visible-xs control-label" ng-show="$first">Day</label>
                 <input type="date" ng-model="detail.day" name="day" class="form-control input-lg" mb-date ng-show="$first" required>
