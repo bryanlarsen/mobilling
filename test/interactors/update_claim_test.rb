@@ -200,4 +200,11 @@ class UpdateClaimTest < ActiveSupport::TestCase
     @interactor.daily_details = [{code: 1}]
     assert_invalid @interactor, :daily_details
   end
+
+  test "orders daily details by day" do
+    @interactor.daily_details = [{"day" => "2014-12-31"}, {"day" => "2014-12-01"}]
+    @interactor.perform
+    assert_equal({"day" => "2014-12-01"}, @interactor.claim.details["daily_details"].first)
+    assert_equal({"day" => "2014-12-31"}, @interactor.claim.details["daily_details"].last)
+  end
 end

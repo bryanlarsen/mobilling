@@ -94,7 +94,7 @@ class UpdateClaim
       "consult_time_out"           => consult_time_out,
       "consult_premium_visit"      => consult_premium_visit,
       "consult_premium_travel"     => consult_premium_travel,
-      "daily_details"              => (daily_details || []).map(&:as_json)
+      "daily_details"              => (daily_details || []).map(&:as_json).sort_by { |daily_detail| daily_detail["day"] }
     }
   end
 end

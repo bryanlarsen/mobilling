@@ -3,6 +3,10 @@ angular.module("moBilling.controllers.claimEditClaim", [])
     .controller("ClaimEditClaimController", function ($scope, Photo) {
         $scope.isFirstSeenOnHidden = ($scope.claim.admission_on === $scope.claim.first_seen_on);
 
+        if ($scope.claim.most_responsible_physician === undefined) {
+            $scope.claim.most_responsible_physician = true;
+        }
+
         $scope.$watchGroup(["isFirstSeenOnHidden", "claim.admission_on"], function () {
             if ($scope.isFirstSeenOnHidden) {
                 $scope.claim.first_seen_on = $scope.claim.admission_on;
