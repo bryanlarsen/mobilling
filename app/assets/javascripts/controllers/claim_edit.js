@@ -122,6 +122,19 @@ angular.module("moBilling.controllers.claimEdit", [])
             $scope.setActiveStep("details");
         };
 
+        function sortDetails(a, b) {
+            var aString = a.day + a.code,
+                bString = b.day + b.code;
+
+            if (aString < bString) {
+                return -1;
+            } else if (aString > bString) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
         $scope.$watchGroup([
             "claim.admission_on",
             "claim.first_seen_on",
@@ -142,6 +155,6 @@ angular.module("moBilling.controllers.claimEdit", [])
 
             generated = detailsGenerator($scope.claim);
 
-            $scope.isGenerateVisible = !angular.equals(generated, existing);
+            $scope.isGenerateVisible = !angular.equals(generated.sort(sortDetails), existing.sort(sortDetails));
         });
     });
