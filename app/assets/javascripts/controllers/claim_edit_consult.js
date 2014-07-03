@@ -1,6 +1,13 @@
 angular.module("moBilling.controllers.claimEditConsult", [])
 
-    .controller("ClaimEditConsultController", function ($scope) {
+    .controller("ClaimEditConsultController", function ($scope, dayType) {
+        $scope.$watch("claim.first_seen_on", function (first_seen_on) {
+            if (first_seen_on) {
+                $scope.dayType = dayType(first_seen_on);
+                console.log($scope.dayType);
+            }
+        });
+
         $scope.isPremiumVisitVisible = !!($scope.claim.consult_premium_visit || $scope.claim.consult_premium_travel);
 
         $scope.$watch("isPremiumVisitVisible", function (isPremiumVisitVisible) {

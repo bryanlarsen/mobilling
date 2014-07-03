@@ -124,24 +124,16 @@ angular.module("moBilling.factories.dayType", [])
         }
 
         function dayType(string) {
-            if (goodFriday(string)) {
-                return "good_friday";
-            } else if (boxingDay(string)) {
-                return "boxing_day";
-            } else if (canadaDay(string)) {
-                return "canada_day";
-            } else if (christmas(string)) {
-                return "christmas";
-            } else if (civicHoliday(string)) {
-                return "civic_holiday";
-            } else if (labourDay(string)) {
-                return "labour_day";
-            } else if (newYearsDay(string)) {
-                return "new_years_day";
-            } else if (thanksgiving(string)) {
-                return "thanksgiving";
-            } else if (victoriaDay(string)) {
-                return "victoria_day";
+            if (goodFriday(string) ||
+                boxingDay(string) ||
+                canadaDay(string) ||
+                christmas(string) ||
+                civicHoliday(string) ||
+                labourDay(string) ||
+                newYearsDay(string) ||
+                thanksgiving(string) ||
+                victoriaDay(string)) {
+                return "holiday";
             } else if (weekend(string)) {
                 return "weekend";
             } else {
