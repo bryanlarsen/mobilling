@@ -33,6 +33,7 @@ angular.module("moBilling", [
     "moBilling.directives.upload",
     "moBilling.directives.switch",
     "moBilling.factories.claim",
+    "moBilling.factories.dayType",
     "moBilling.factories.detailsGenerator",
     "moBilling.factories.photo",
     "moBilling.factories.session",
