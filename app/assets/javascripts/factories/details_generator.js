@@ -17,6 +17,27 @@ angular.module("moBilling.factories.detailsGenerator", [])
             return days;
         }
 
+        function firstCode(first) {
+            return first ? "first" : "second";
+        }
+
+        function erCode(er) {
+            return er ? "er" : "non_er";
+        }
+
+        function visitCode(type) {
+            return {
+                weekday_office_hours: "office_hours",
+                weekday_day:          "day",
+                weekday_evening:      "evening",
+                weekday_night:        "night",
+                weekend_day:          "holiday",
+                weekend_night:        "night",
+                holiday_day:          "holiday",
+                holiday_night:        "night"
+            }[type];
+        }
+
         function consultCode(type) {
             return {
                 general_er:           "A135",
@@ -50,7 +71,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                 second_er_evening:          "K995",
                 second_er_holiday:          "K999",
                 second_er_night:            "K997"
-            }[(first ? "first_" : "second_") + (er ? "er_" : "non_er_") + type];
+            }[[firstCode(first), erCode(er), visitCode(type)].join("_")];
         }
 
         function premiumTravelCode(er, type) {
@@ -65,7 +86,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                 er_evening:          "K962A",
                 er_holiday:          "K963",
                 er_night:            "K964"
-            }[(er ? "er_" : "non_er_") + type];
+            }[[erCode(er), visitCode(type)].join("_")];
         }
 
         function detailsGenerator(claim) {
