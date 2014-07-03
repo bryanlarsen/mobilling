@@ -113,6 +113,7 @@ angular.module("moBilling.controllers.claimEdit", [])
             });
 
             $scope.claim.daily_details = generated.concat(custom);
+            $scope.setActiveStep("details");
         };
 
         $scope.$watchGroup([
