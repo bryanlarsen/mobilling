@@ -94,52 +94,80 @@
         </div>
 
         <div class="form-group" ng-class="{'has-error': (consultForm.consult_premium_visit.$dirty || submitted) && consultForm.consult_premium_visit.$invalid}" ng-if="isPremiumVisitVisible">
-          <div class="row">
-            <label class="control-label col-xs-12">Office hours</label>
-            <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.consult_premium_visit" on-value="office_hours" id="claim-consult-premium-visit-office-hours"></mb-switch>
+
+          <div ng-if="dayType === 'weekday'">
+            <div class="row" ng-if="claim.consult_premium_travel">
+              <label class="control-label col-xs-12">Day</label>
+              <div class="form-control-wrapper col-xs-12">
+                <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day"></mb-switch>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="control-label col-xs-12">Office hours</label>
+              <div class="form-control-wrapper col-xs-12">
+                <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_office_hours" id="claim-consult-premium-visit-weekday-office-hours"></mb-switch>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="control-label col-xs-12">Evening</label>
+              <div class="form-control-wrapper col-xs-12">
+                <mb-switch ng-model="claim.consult_premium_visit" on-value="wekday_evening" id="claim-consult-premium-visit-weekday-evening"></mb-switch>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="control-label col-xs-12">Night</label>
+              <div class="form-control-wrapper col-xs-12">
+                <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night"></mb-switch>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-control-wrapper col-xs-12">
+                <input type="hidden" name="consult_premium_visit" ng-model="claim.consult_premium_visit" required>
+                <div ng-messages="consultForm.consult_premium_visit.$error" ng-show="submitted">
+                  <p class="help-block" ng-message="required">is missing</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="row">
-            <label class="control-label col-xs-12">Day</label>
-            <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.consult_premium_visit" on-value="day" id="claim-consult-premium-visit-day"></mb-switch>
+          <div ng-if="dayType === 'weekend'">
+            <div class="row">
+              <label class="control-label col-xs-12">Weekend</label>
+              <div class="form-control-wrapper col-xs-12">
+                <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend" id="claim-consult-premium-visit-weekend"></mb-switch>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="control-label col-xs-12">Night</label>
+              <div class="form-control-wrapper col-xs-12">
+                <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_night" id="claim-consult-premium-visit-weekend-night"></mb-switch>
+              </div>
             </div>
           </div>
 
-          <div class="row">
-            <label class="control-label col-xs-12">Evening</label>
-            <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.consult_premium_visit" on-value="evening" id="claim-consult-premium-visit-evening"></mb-switch>
+          <div ng-if="dayType === 'holiday'">
+            <div class="row">
+              <label class="control-label col-xs-12">Holiday</label>
+              <div class="form-control-wrapper col-xs-12">
+                <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday" id="claim-consult-premium-visit-holiday"></mb-switch>
+              </div>
             </div>
-          </div>
 
-          <div class="row">
-            <label class="control-label col-xs-12">Weekend / Holiday</label>
-            <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday" id="claim-consult-premium-visit-holiday"></mb-switch>
-            </div>
-          </div>
-
-          <div class="row">
-            <label class="control-label col-xs-12">Night</label>
-            <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.consult_premium_visit" on-value="night" id="claim-consult-premium-visit-night"></mb-switch>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="form-control-wrapper col-xs-12">
-              <input type="hidden" name="consult_premium_visit" ng-model="claim.consult_premium_visit" required>
-              <div ng-messages="consultForm.consult_premium_visit.$error" ng-show="submitted">
-                <p class="help-block" ng-message="required">is missing</p>
+            <div class="row">
+              <label class="control-label col-xs-12">Night</label>
+              <div class="form-control-wrapper col-xs-12">
+                <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night"></mb-switch>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="form-group row" ng-if="isPremiumVisitVisible">
+        <div class="form-group row" ng-if="isPremiumVisitVisible && dayType === 'weekday'">
           <label class="control-label col-xs-12">Travel premium</label>
           <div class="form-control-wrapper col-xs-12">
             <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>

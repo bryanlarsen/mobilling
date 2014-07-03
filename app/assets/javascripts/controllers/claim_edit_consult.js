@@ -4,7 +4,6 @@ angular.module("moBilling.controllers.claimEditConsult", [])
         $scope.$watch("claim.first_seen_on", function (first_seen_on) {
             if (first_seen_on) {
                 $scope.dayType = dayType(first_seen_on);
-                console.log($scope.dayType);
             }
         });
 
@@ -25,6 +24,12 @@ angular.module("moBilling.controllers.claimEditConsult", [])
             if (!isTimeVisible) {
                 $scope.claim.consult_time_in = undefined;
                 $scope.claim.consult_time_out = undefined;
+            }
+        });
+
+        $scope.$watch("claim.consult_premium_travel", function (consult_premium_travel) {
+            if (!consult_premium_travel && $scope.claim.consult_premium_visit === "weekday_day") {
+                $scope.claim.consult_premium_visit = undefined;
             }
         });
     });
