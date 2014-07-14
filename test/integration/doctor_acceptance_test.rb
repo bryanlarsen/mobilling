@@ -48,4 +48,11 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Delete")
     assert @doctor.not_see?("Alice")
   end
+
+  test "has 'NEW' option on 'Submitted' page" do
+    @doctor.sign_in
+    @doctor.find(".sidebar-toggle").click
+    @doctor.click_on("Submitted")
+    assert @doctor.see?("NEW")
+  end
 end
