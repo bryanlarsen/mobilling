@@ -62,6 +62,12 @@
             </div>
           </div>
 
+          <div class="row" ng-hide="isTimeValid()" ng-if="isTimeVisible()">
+              <div class="form-control-wrapper col-xs-12">
+                  <p class="help-block">Total time must be equal to or greater than 75 minutes.</p>
+              </div>
+          </div>
+
           <br>
 
           <div class="row">

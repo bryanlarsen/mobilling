@@ -55,4 +55,35 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Submitted")
     assert @doctor.see?("NEW")
   end
+
+  test "has no message if 'Comprehensive' isn't selected" do
+    @doctor.sign_in
+    @doctor.click_on("New")
+    @doctor.click_link_with_text("Consult")
+    assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
+  end
+
+  test "has no message if the total time is equal to or greater than 75 minutes" do
+    @doctor.sign_in
+    @doctor.click_on("New")
+    @doctor.click_link_with_text("Consult")
+    @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
+    @doctor.fill_in("Time in", with: "12:00")
+    @doctor.fill_in("Time out", with: "13:15")
+    assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
+
+    @doctor.fill_in("Time in", with: "12:00")
+    @doctor.fill_in("Time out", with: "13:25")
+    assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
+  end
+
+  test "displays message if the total time is less than 75 minutes" do
+    @doctor.sign_in
+    @doctor.click_on("New")
+    @doctor.click_link_with_text("Consult")
+    @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
+    @doctor.fill_in("Time in", with: "17:00")
+    @doctor.fill_in("Time out", with: "17:45")
+    assert @doctor.see?("Total time must be equal to or greater than 75 minutes.")
+  end
 end

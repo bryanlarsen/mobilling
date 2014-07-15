@@ -1,6 +1,17 @@
 angular.module("moBilling.controllers.claimEditConsult", [])
 
     .controller("ClaimEditConsultController", function ($scope, dayType) {
+
+        function timeStringToMinutes (time) {
+            if(!time) {
+                return;
+            }
+
+            var hoursAndMinutes = time.split(':');
+
+            return parseInt(hoursAndMinutes[0], 10) * 60 + parseInt(hoursAndMinutes[1], 10);
+        };
+
         $scope.$watch("claim.first_seen_on", function (first_seen_on) {
             if (first_seen_on) {
                 $scope.dayType = dayType(first_seen_on);
@@ -33,6 +44,14 @@ angular.module("moBilling.controllers.claimEditConsult", [])
                 $scope.claim.consult_time_out = undefined;
             }
         });
+
+        $scope.isTimeValid = function () {
+            var minutesOut = timeStringToMinutes($scope.claim.consult_time_out)
+                minutesIn = timeStringToMinutes($scope.claim.consult_time_in);
+                totalTime = minutesOut - minutesIn;
+
+            return totalTime >= 75;
+        };
 
         $scope.$watch("claim.consult_premium_travel", function (consult_premium_travel) {
             if (!consult_premium_travel && $scope.claim.consult_premium_visit === "weekday_day") {
