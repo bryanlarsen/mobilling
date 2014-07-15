@@ -32,6 +32,7 @@ angular.module("moBilling", [
     "moBilling.directives.server",
     "moBilling.directives.upload",
     "moBilling.directives.switch",
+    "moBilling.directives.validateTotalTime",
     "moBilling.factories.claim",
     "moBilling.factories.dayType",
     "moBilling.factories.detailsGenerator",

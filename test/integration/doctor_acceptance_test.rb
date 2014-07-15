@@ -86,4 +86,28 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.fill_in("Time out", with: "17:45")
     assert @doctor.see?("Total time must be equal to or greater than 75 minutes.")
   end
+
+  test "has 'Time in' and 'Time out' pickers on 'Daily Details' page for codes 'A130' and/or 'C130'"do
+    @doctor.sign_in
+    @doctor.click_on("New")
+    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Add a new day")
+    @doctor.fill_in("code", with: "A130")
+    assert @doctor.see?("Time in")
+    assert @doctor.see?("Time out")
+
+    @doctor.fill_in("code", with: "C130")
+    assert @doctor.see?("Time in")
+    assert @doctor.see?("Time out")
+  end
+
+  test "has no 'Time in' and 'Time out' pickers on 'Daily Details' page for other codes"do
+    @doctor.sign_in
+    @doctor.click_on("New")
+    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Add a new day")
+    @doctor.fill_in("code", with: "C132")
+    assert @doctor.not_see?("Time in")
+    assert @doctor.not_see?("Time out")
+  end
 end
