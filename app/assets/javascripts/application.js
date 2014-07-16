@@ -15,6 +15,10 @@
 //= require angular-rails-templates
 //= require uuid
 //= require ./mo_billing
+//= require ./lib/jquery.plugin.js
+//= require ./lib/jquery.dateentry.js
+//= require ./lib/date.format.js
+//= require ./lib/bootstrap-datepicker.js
 
 angular.element(document).ready(function () {
     angular.bootstrap(document, ["moBilling"]);

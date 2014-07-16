@@ -13,17 +13,27 @@ angular.module("moBilling.controllers.claimEditClaim", [])
 
             if($scope.claim.first_seen_consult && $scope.isICUTransferVisible()){
                 $scope.claim.icu_transfer = false;
-                angular.element("#claim-icu-transfer").removeClass("active");
                
             }
 
         });
 
+        $scope.isNotConsultComplete = function(){
+            if($scope.claim.consult_type == undefined){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        $scope.shouldConsultComplete = function(){
+            return (($scope.claim.admission_on === $scope.claim.first_seen_on) && $scope.isNotConsultComplete());
+        }
+
         $scope.$watch("claim.icu_transfer", function () {
  
             if($scope.claim.icu_transfer && $scope.isFirstSeenConsultVisible()){
                 $scope.claim.first_seen_consult = false;
-                angular.element("#claim-first-seen-consult").removeClass("active");
             }
 
         });
