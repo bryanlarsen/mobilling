@@ -9,6 +9,25 @@ angular.module("moBilling.controllers.claimEditClaim", [])
             }
         });
 
+        $scope.$watch("claim.first_seen_consult", function (value) {
+
+            if($scope.claim.first_seen_consult && $scope.isICUTransferVisible()){
+                $scope.claim.icu_transfer = false;
+                angular.element("#claim-icu-transfer").removeClass("active");
+               
+            }
+
+        });
+
+        $scope.$watch("claim.icu_transfer", function () {
+ 
+            if($scope.claim.icu_transfer && $scope.isFirstSeenConsultVisible()){
+                $scope.claim.first_seen_consult = false;
+                angular.element("#claim-first-seen-consult").removeClass("active");
+            }
+
+        });
+
         // first_seen_consult
         $scope.isFirstSeenConsultVisible = function () {
             return $scope.claim.admission_on !== $scope.claim.first_seen_on;
