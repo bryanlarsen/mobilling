@@ -10,4 +10,25 @@ angular.module("moBilling.controllers.claimEditDetails", [])
 
             $scope.claim.daily_details.splice(index, 1);
         };
+
+        $scope.isTimeVisible = function(){
+        	var isComprehensiveCodeExist = false;
+        	angular.forEach($scope.claim.daily_details, function(item, key){
+        		if(item.code == "C130" || item.code == "A130"){
+        			isComprehensiveCodeExist = true;
+        		}
+        	});
+
+        	return isComprehensiveCodeExist;
+        };
+
+        $scope.$watch($scope.isTimeVisible, function (isTimeVisible) {
+
+        	console.log(isTimeVisible);
+            if (!isTimeVisible) {
+                $scope.claim.consult_time_in = undefined;
+                $scope.claim.consult_time_out = undefined;
+            }
+        });
+
     });
