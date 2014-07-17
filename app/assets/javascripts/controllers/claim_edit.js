@@ -36,6 +36,18 @@ angular.module("moBilling.controllers.claimEdit", [])
             $scope.setActiveStep("claim");
         }
 
+        $scope.$watch('claim.first_seen_consult', function(value) {
+            if(value) {
+                $scope.claim.icu_transfer = false;
+            }
+        });
+
+        $scope.$watch('claim.icu_transfer', function(value) {
+            if(value) {
+                $scope.claim.first_seen_consult = false;
+            }
+        });
+
         $scope.isConsultVisible = function () {
             return $scope.claim.admission_on === $scope.claim.first_seen_on && $scope.claim.first_seen_consult
                 || $scope.claim.admission_on !== $scope.claim.first_seen_on && $scope.claim.first_seen_consult && !$scope.claim.most_responsible_physician
