@@ -20,8 +20,8 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.fill_in("Hospital", with: "Test")
     @doctor.fill_in("Referring physician", with: "Bob")
     @doctor.fill_in("Diagnosis", with: "Flu")
-    @doctor.fill_in("Admission date", with: "2014-04-01")
-    @doctor.fill_in("Last seen date", with: "2014-04-07")
+    @doctor.fill_in("Admission date", with: "04/01/2014")
+    @doctor.fill_in("Last seen date", with: "04/07/2014")
     @doctor.click_link_with_text("Consult")
     @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
     @doctor.fill_in("Time in", with: "17:00")
@@ -101,5 +101,12 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.fill_in("code", with: "C132")
     assert @doctor.not_see?("Time in")
     assert @doctor.not_see?("Time out")
+  end
+
+  test "show custom calendar on date field" do
+    @doctor.click_on("New")
+    @doctor.click_element_with_id("claim-admission-on")
+    assert @doctor.has_element_with_class?("datepicker")
+
   end
 end

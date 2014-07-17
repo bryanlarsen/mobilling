@@ -4,6 +4,9 @@
 //= require_tree ./directives
 //= require_tree ./templates
 
+//= require ./libs/bootstrap-datepicker
+//= require ./libs/date.format
+
 angular.module("moBilling", [
     "mobile-angular-ui.directives.navbars",
     "mobile-angular-ui.directives.overlay",
