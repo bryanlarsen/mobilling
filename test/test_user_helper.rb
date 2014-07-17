@@ -75,6 +75,14 @@ module Test
     def click_element_with_id(id)
       find(:css, "##{id}").click
     end
+
+    def find_element_by_id(id)
+      find(:css, "##{id}")
+    end
+
+    def has_no_element_by_id_and_class?(id, cls)
+      has_no_selector?("##{id}.#{cls}")
+    end
   end
 
   class Guest < User
