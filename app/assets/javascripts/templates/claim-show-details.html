@@ -6,8 +6,14 @@
           <div class="col-sm-4 hidden-xs">
             <label class="control-label">Days</label>
           </div>
-          <div class="col-sm-8 hidden-xs">
+          <div class="col-sm-4 hidden-xs">
             <label class="control-label">Codes</label>
+          </div>
+          <div class="col-sm-2 hidden-xs">
+            <label class="control-label">Time in</label>
+          </div>
+          <div class="col-sm-2 hidden-xs">
+            <label class="control-label">Time out</label>
           </div>
         </div>
 
@@ -21,9 +27,25 @@
 
               <div class="col-xs-12 visible-xs">&nbsp;</div>
 
-              <div class="col-sm-8 col-xs-12">
+              <div class="col-sm-4 col-xs-12">
                 <label class="visible-xs control-label">Code</label>
                 <p class="form-control-static input-lg">{{detail.code}}</p>
+              </div>
+
+              <div class="col-xs-12 visible-xs">&nbsp;</div>
+
+              <div ng-show="isTimeVisible(detail)">
+                  <div class="col-sm-2 col-xs-12">
+                      <label class="visible-xs control-label">Time in</label>
+                      <p class="form-control-static input-lg">{{ claim.consult_time_in }}</p>
+                  </div>
+
+                  <div class="col-xs-12 visible-xs">&nbsp;</div>
+
+                  <div class="col-sm-2 col-xs-12">
+                      <label class="visible-xs control-label">Time out</label>
+                      <p class="form-control-static input-lg">{{ claim.consult_time_out }}</p>
+                  </div>
               </div>
             </div>
           </ng-form>

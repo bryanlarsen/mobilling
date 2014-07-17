@@ -10,4 +10,8 @@ angular.module("moBilling.controllers.claimEditDetails", [])
 
             $scope.claim.daily_details.splice(index, 1);
         };
+
+        $scope.isTimeVisible = function (detail) {
+            return detail && (detail.code === 'A130' || detail.code === 'C130');
+        };
     });

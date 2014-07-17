@@ -43,6 +43,23 @@
                 <div ng-messages="detailForm.code.$error" ng-show="submitted">
                   <p class="help-block" ng-message="required">is missing</p>
                 </div>
+
+
+                <div class="clearfix time-pickers" ng-if="isTimeVisible(detail)">
+                    <label for="claim-consult-time-in" class="control-label col-xs-12">Time in</label>
+                    <div class="form-control-wrapper col-xs-12">
+                        <input type="time" name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" mb-time required>
+                    </div>
+
+                    <label for="claim-consult-time-out" class="control-label col-xs-12">Time out</label>
+                    <div class="form-control-wrapper col-xs-12">
+                        <input type="time" name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out" mb-time required>
+                    </div>
+
+                    <div class="form-control-wrapper col-xs-12">
+                        <p class="help-block" ng-hide="claim.hasValidConsultTime()">Total time must be equal to or greater than 75 minutes.</p>
+                    </div>
+                </div>
               </div>
 
               <div class="col-xs-12 visible-xs">&nbsp;</div>
