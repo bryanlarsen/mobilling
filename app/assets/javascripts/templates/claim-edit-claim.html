@@ -73,7 +73,7 @@
         <div class="form-group row" ng-class="{'has-error': (claimForm.admission_on.$dirty || submitted) && claimForm.admission_on.$invalid}">
           <label class="control-label col-xs-12" for="claim-admission-on">Admission date</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="text" name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" id="claim-admission-on" mb-date required>
+            <input type="date" name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" id="claim-admission-on" mb-date required>
             <div ng-messages="claimForm.admission_on.$error" ng-show="submitted">
               <p class="help-block" ng-message="required">is missing</p>
             </div>
@@ -90,7 +90,7 @@
         <div class="form-group row" ng-class="{'has-error': (claimForm.first_seen_on.$dirty || submitted) && claimForm.first_seen_on.$invalid}" ng-hide="isFirstSeenOnHidden">
           <label for="claim-first-seen-on" class="control-label col-xs-12">First seen date</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="text" name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" mb-date required>
+            <input type="date" name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" mb-date required>
             <div ng-messages="claimForm.first_seen_on_on.$error" ng-show="submitted">
               <p class="help-block" ng-message="required">is missing</p>
             </div>
@@ -114,7 +114,7 @@
         <div class="form-group row" ng-class="{'has-error': (claimForm.last_seen_on.$dirty || submitted) && claimForm.last_seen_on.$invalid}">
           <label for="claim-last-seen-on" class="control-label col-xs-12">Last seen date</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="text" name="last_seen_on" ng-model="claim.last_seen_on" class="form-control input-lg" id="claim-last-seen-on" mb-date required>
+            <input type="date" name="last_seen_on" ng-model="claim.last_seen_on" class="form-control input-lg" id="claim-last-seen-on" mb-date required>
             <div ng-messages="claimForm.last_seen_on.$error" ng-show="submitted">
               <p class="help-block" ng-message="required">is missing</p>
             </div>

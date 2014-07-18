@@ -6,6 +6,7 @@
 
 //= require ./libs/bootstrap-datepicker
 //= require ./libs/date.format
+//= require ./libs/modernizr.min
 
 angular.module("moBilling", [
     "mobile-angular-ui.directives.navbars",

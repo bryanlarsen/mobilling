@@ -7,7 +7,9 @@ angular.module("moBilling.directives.date", [])
             priority: 1,
             link: function (scope, element, attributes, ngModelController) {
 
-                $(element).datepicker({autoclose: true});
+                if (!Modernizr.inputtypes.date) {
+                    $(element).datepicker({autoclose: true, format: 'yyyy-mm-dd'});
+                }
 
                 ngModelController.$formatters.push(function (modelValue) {
                     var year, month, day;
@@ -17,7 +19,7 @@ angular.module("moBilling.directives.date", [])
                         month = parseInt(modelValue.split("-")[1], 10) - 1;
                         day   = parseInt(modelValue.split("-")[2], 10);
 
-                        return dateFormat(new Date(year, month, day), 'mm/dd/yyyy');
+                        return new Date(year, month, day);
                     }catch (e){
                         return undefined;
                     }
@@ -25,19 +27,14 @@ angular.module("moBilling.directives.date", [])
                 });
 
                 ngModelController.$parsers.push(function (viewValue) {
-                    var year, month, day;
-
                     try{
-                        year  = parseInt(viewValue.split("/")[2], 10);
-                        month = parseInt(viewValue.split("/")[0], 10) - 1;
-                        day   = parseInt(viewValue.split("/")[1], 10);
-
-                        return dateFilter(new Date(year, month, day), "yyyy-MM-dd");
+                        return dateFilter(viewValue, "yyyy-MM-dd");
                     }catch (e){
                         return undefined;
                     }
                     
                 });
+                
             }
         };
     });
