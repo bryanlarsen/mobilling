@@ -102,4 +102,21 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.not_see?("Time in")
     assert @doctor.not_see?("Time out")
   end
+
+  test "special or travel premium codes should appear" do
+    @doctor.click_on("New")
+    @doctor.fill_in("Patient name", with: "Alice")
+    @doctor.fill_in("Admission date", with: "2014-07-19")
+    @doctor.click_element_with_id("is-first-seen-on-hidden")
+    @doctor.fill_in("First seen date", with: "2014-07-22")
+    @doctor.fill_in("Last seen date", with: "2014-07-24")
+    @doctor.click_link_with_text("Consult")
+    @doctor.click_element_with_id("claim-consult-type-general-er")
+    @doctor.click_element_with_id("is-premium-visible")
+    @doctor.click_element_with_id("claim-consult-premium-visit-weekday-evening")
+    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Generate codes")
+    @doctor.screenshot()
+    @doctor.assert_input_with_valid_code()
+  end
 end
