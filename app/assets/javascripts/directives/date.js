@@ -6,6 +6,13 @@ angular.module("moBilling.directives.date", [])
             require: "ngModel",
             priority: 1,
             link: function (scope, element, attributes, ngModelController) {
+                if (!Modernizr.inputtypes.date) {
+                    $(element).datepicker({
+                        // Consistent format with the HTML5 picker
+                        dateFormat: 'yy-mm-dd'
+                    });
+                }
+
                 ngModelController.$formatters.push(function (modelValue) {
                     var year, month, day;
 
