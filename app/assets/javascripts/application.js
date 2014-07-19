@@ -1,4 +1,6 @@
 //= require jquery
+//= require jquery-ui
+//= require modernizr-input-types
 //= require overthrow
 //= require fastclick
 //= require angular
