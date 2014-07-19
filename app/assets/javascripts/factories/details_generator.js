@@ -122,8 +122,19 @@ angular.module("moBilling.factories.detailsGenerator", [])
                             // admission premium
                             details.push({ day: day, code: "E082" });
                         }
+                    }else{
+                        if(icu){
+                            if(!admission && mrp){
+                                details.push({ day: day, code: "C142" });
+                            }
+                        }else{
+                            if(!admission && mrp){
+                                details.push({ day: day, code: "C132" });
+                            }
+                        }
+                        
                     }
-                } else if (day === last && discharge) {
+                } else if (day === last && discharge && admission) {
                     // discharge
                     if (mrp) {
                         details.push({ day: day, code: "C124" });
@@ -135,11 +146,20 @@ angular.module("moBilling.factories.detailsGenerator", [])
                     // first day after admission
                     if (mrp) {
                         if (icu) {
-                            details.push({ day: day, code: "C142" });
-                            details.push({ day: day, code: "E083" });
+                            if(!admission){
+                                details.push({ day: day, code: "C143" });
+                            }else{
+                                details.push({ day: day, code: "C142" });
+                                details.push({ day: day, code: "E083" });
+                            }
+
                         } else {
-                            details.push({ day: day, code: "C122" });
-                            details.push({ day: day, code: "E083" });
+                            if(!admission){
+                                details.push({ day: day, code: "C132" });
+                            }else{
+                                details.push({ day: day, code: "C122" });
+                                details.push({ day: day, code: "E083" });
+                            }
                         }
                     } else {
                         details.push({ day: day, code: "C138" });
@@ -148,11 +168,19 @@ angular.module("moBilling.factories.detailsGenerator", [])
                     // second day after admission
                     if (mrp) {
                         if (icu) {
-                            details.push({ day: day, code: "C143" });
-                            details.push({ day: day, code: "E083" });
+                            if(admission){
+                                details.push({ day: day, code: "C143" });
+                                details.push({ day: day, code: "E083" });
+                            }else{
+                                details.push({ day: day, code: "C132" });
+                            }
                         } else {
-                            details.push({ day: day, code: "C123" });
-                            details.push({ day: day, code: "E083" });
+                            if(!admission){
+                                details.push({ day: day, code: "C132" });
+                            }else{
+                                details.push({ day: day, code: "C123" });
+                                details.push({ day: day, code: "E083" });
+                            }
                         }
                     } else {
                         details.push({ day: day, code: "C138" });
@@ -161,7 +189,11 @@ angular.module("moBilling.factories.detailsGenerator", [])
                     // 3-35 day after admission
                     if (mrp) {
                         details.push({ day: day, code: "C132" });
-                        details.push({ day: day, code: "E083" });
+
+                        if(admission){
+                            details.push({ day: day, code: "E083" });
+                        }
+                        
                     } else {
                         details.push({ day: day, code: "C138" });
                     }

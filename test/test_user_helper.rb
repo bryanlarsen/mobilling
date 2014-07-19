@@ -76,8 +76,13 @@ module Test
       find(:css, "##{id}").click
     end
 
+<<<<<<< HEAD
     def has_element_with_class?(cls)
       has_selector?(".#{cls}")
+=======
+    def assert_input_with_valid_code()
+      assert_no_selector("input.ng-invalid")
+>>>>>>> master
     end
   end
 
