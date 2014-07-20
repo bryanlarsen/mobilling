@@ -6,7 +6,7 @@
         <div class="form-group row" ng-class="{'has-error': (claimForm.name.$dirty || submitted) && claimForm.name.$invalid}">
           <label for="account-name" class="control-label col-xs-12">Name</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="text" name="name" ng-model="claim.name" class="form-control input-lg" id="claim-patient-name" required>
+            <input type="text" name="name" ng-model="user.name" class="form-control input-lg" id="claim-patient-name" required>
             <div ng-messages="claimForm.name.$error" ng-show="submitted">
               <p class="help-block" ng-message="required">is missing</p>
             </div>
@@ -16,7 +16,7 @@
         <div class="form-group row" ng-class="{'has-error': (claimForm.email.$dirty || submitted) && claimForm.email.$invalid}">
           <label for="account-email" class="control-label col-xs-12">Email</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="text" email="email" ng-model="claim.email" class="form-control input-lg" id="claim-patient-email" required>
+            <input type="text" email="email" ng-model="user.email" class="form-control input-lg" id="claim-patient-email" required>
             <div ng-messages="claimForm.email.$error" ng-show="submitted">
               <p class="help-block" ng-message="required">is missing</p>
             </div>
