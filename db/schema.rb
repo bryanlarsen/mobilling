@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20140720083836) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "role"
-    t.integer  "agent_id"
+    t.string   "agent_id"
   end
 
   add_index "users", ["agent_id"], name: "index_users_on_agent_id", using: :btree

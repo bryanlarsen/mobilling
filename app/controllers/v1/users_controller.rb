@@ -26,6 +26,7 @@ class V1::UsersController < V1::BaseController
   param :user, Hash, required: true do
     param :name, String
     param :email, String
+    param :agent_id, String
   end
 
   def update
@@ -37,6 +38,6 @@ class V1::UsersController < V1::BaseController
   private
 
   def update_user_params
-    params.require(:user).permit(:name, :email, :password)
+    params.require(:user).permit(:name, :email, :password, :agent_id)
   end
 end
