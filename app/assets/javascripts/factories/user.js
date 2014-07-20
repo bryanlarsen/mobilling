@@ -7,12 +7,10 @@ angular.module("moBilling.factories.user", [])
             }
         },
         {
-          save: {
+          update: {
               method: "PUT"
           }
       });
 
         return User;
     });
-
-

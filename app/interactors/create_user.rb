@@ -7,13 +7,12 @@ class CreateUser
   validates :email, presence: true, email: true
   validates :password, presence: true
   validates :name, presence: true
-  validates :role, presence: true
   validate :existence
 
   def perform
-    @user = User.find_or_initialize_by(email: email.to_s.downcase)
+    @user = User.find_or_initialize_by(role: "doctor", email: email.to_s.downcase)
     if valid?
-      @user.update!(role: role, password: password, name: name, authentication_token: SecureRandom.hex(32))
+      @user.update!(password: password, name: name, authentication_token: SecureRandom.hex(32))
     else
       false
     end
