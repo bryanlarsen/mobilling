@@ -5,6 +5,7 @@
 //= require_tree ./templates
 
 angular.module("moBilling", [
+    "ui.select2",
     "mobile-angular-ui.directives.navbars",
     "mobile-angular-ui.directives.overlay",
     "mobile-angular-ui.directives.sidebars",
