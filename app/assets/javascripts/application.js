@@ -14,6 +14,9 @@
 //= require ui-utils
 //= require angular-rails-templates
 //= require uuid
+//= require vendor/lodash-2.4.1
+//= require vendor/select2
+//= require vendor/angular.ui.select2
 //= require ./mo_billing
 
 angular.element(document).ready(function () {

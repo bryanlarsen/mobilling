@@ -9,6 +9,7 @@
 //= require ./libs/modernizr.min
 
 angular.module("moBilling", [
+    "ui.select2",
     "mobile-angular-ui.directives.navbars",
     "mobile-angular-ui.directives.overlay",
     "mobile-angular-ui.directives.sidebars",
@@ -20,6 +21,7 @@ angular.module("moBilling", [
     "ngResource",
     "ngRoute",
     "moBilling.constants",
+    "moBilling.controllers.accountEdit",
     "moBilling.controllers.claimEdit",
     "moBilling.controllers.claimEditClaim",
     "moBilling.controllers.claimEditConsult",
@@ -87,6 +89,16 @@ angular.module("moBilling", [
         $routeProvider.when("/claims/new", {
             templateUrl: "loading.html",
             controller: "ClaimNewController"
+        });
+
+        $routeProvider.when("/account/edit", {
+            templateUrl: "account-edit.html",
+            controller: "AccountEditController",
+            resolve: {
+                user: function (User) {
+                    return User.get().$promise;
+                }
+            }
         });
 
         $routeProvider.when("/claims/:claim_id/edit", {

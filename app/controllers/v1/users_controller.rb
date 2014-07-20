@@ -1,6 +1,6 @@
 class V1::UsersController < V1::BaseController
   skip_before_action :require_user, only: %i[create]
-  wrap_parameters :user, include: [:name, :email, :password], format: :json
+  wrap_parameters :user, include: [:name, :email, :password, :agent_id], format: :json
   resource_description { resource_id "users" }
 
   api :GET, "/v1/user", "Returns the current user"
@@ -17,14 +17,26 @@ class V1::UsersController < V1::BaseController
   end
 
   def create
-    @interactor = CreateUser.new(create_user_params)
+    @interactor = CreateUser.new(update_user_params)
     @interactor.perform
     respond_with @interactor, location: nil, status: :created
   end
 
+  api :PUT, "/v1/claims/:id", "Updates a claim"
+  param :user, Hash do
+    param :name, String, required: true
+    param :email, String, required: true
+    param :agent_id, String
+  end
+
+  def update
+    @current_user.update_attributes(update_user_params)
+    respond_with @current_user, location: nil
+  end
+
   private
 
-  def create_user_params
-    params.require(:user).permit(:name, :email, :password)
+  def update_user_params
+    params.require(:user).permit(:name, :email, :password, :agent_id)
   end
 end
