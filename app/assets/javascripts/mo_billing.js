@@ -88,7 +88,12 @@ angular.module("moBilling", [
 
         $routeProvider.when("/account/edit", {
             templateUrl: "account-edit.html",
-            controller: "AccountEditAccountController"
+            controller: "AccountEditController",
+            resolve: {
+                user: function (User) {
+                    return User.get().$promise;
+                }
+            }
         });
 
         $routeProvider.when("/claims/:claim_id/edit", {

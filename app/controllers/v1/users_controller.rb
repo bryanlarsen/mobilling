@@ -17,14 +17,26 @@ class V1::UsersController < V1::BaseController
   end
 
   def create
-    @interactor = CreateUser.new(create_user_params)
+    @interactor = CreateUser.new(update_user_params)
     @interactor.perform
     respond_with @interactor, location: nil, status: :created
   end
 
+  api :PUT, "/v1/claims/:id", "Updates a claim"
+  param :user, Hash, required: true do
+    param :name, String
+    param :email, String
+  end
+
+  def update
+    # NOT USING APIPIE FOR THIS UPDATE, FEEL FREE TO CHANGE
+    @current_user.update_attributes(update_user_params)
+    respond_with @current_user, location: nil
+  end
+
   private
 
-  def create_user_params
+  def update_user_params
     params.require(:user).permit(:name, :email, :password)
   end
 end

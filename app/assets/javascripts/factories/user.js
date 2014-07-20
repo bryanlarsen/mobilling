@@ -5,7 +5,14 @@ angular.module("moBilling.factories.user", [])
             auth: function () {
                 return window.localStorage.getItem("authenticationToken");
             }
-        });
+        },
+        {
+          save: {
+              method: "PUT"
+          }
+      });
 
         return User;
     });
+
+
