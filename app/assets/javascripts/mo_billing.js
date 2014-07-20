@@ -16,6 +16,7 @@ angular.module("moBilling", [
     "ngResource",
     "ngRoute",
     "moBilling.constants",
+    "moBilling.controllers.accountEdit",
     "moBilling.controllers.claimEdit",
     "moBilling.controllers.claimEditClaim",
     "moBilling.controllers.claimEditConsult",
@@ -83,6 +84,11 @@ angular.module("moBilling", [
         $routeProvider.when("/claims/new", {
             templateUrl: "loading.html",
             controller: "ClaimNewController"
+        });
+
+        $routeProvider.when("/account/edit", {
+            templateUrl: "account-edit.html",
+            controller: "AccountEditController"
         });
 
         $routeProvider.when("/claims/:claim_id/edit", {
