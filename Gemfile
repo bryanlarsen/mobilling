@@ -29,6 +29,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'pry-byebug'
+  gem 'faker'
 end
 
 group :test do

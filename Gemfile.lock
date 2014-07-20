@@ -70,6 +70,8 @@ GEM
     factory_girl_rails (4.4.1)
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
+    faker (1.4.1)
+      i18n (~> 0.5)
     hike (1.2.3)
     i18n (0.6.11)
     interception (0.5)
@@ -188,6 +190,7 @@ DEPENDENCIES
   carrierwave
   database_cleaner
   factory_girl_rails
+  faker
   jbuilder
   less-rails
   letter_opener
