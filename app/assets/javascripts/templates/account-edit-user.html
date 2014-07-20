@@ -35,7 +35,7 @@
         <label for="user-agent_id" class="control-label col-xs-12">Billing Agent</label>
         <div class="form-control-wrapper col-xs-12">
           <select ng-model="user.agent_id" class="form-control input-lg" id="user-agent_id">
-            <option ng-repeat="agent in user.agents" value='agent.id' selected="agent.id == user.agent_id">{{agent.name}}</option>
+            <option ng-repeat="agent in user.agents" value='{{agent.id}}' selected="agent.id == user.agent_id">{{agent.name}}</option>
           </select>
         </div>
       </div>

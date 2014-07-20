@@ -1,6 +1,6 @@
 class V1::UsersController < V1::BaseController
   skip_before_action :require_user, only: %i[create]
-  wrap_parameters :user, include: [:name, :email, :password], format: :json
+  wrap_parameters :user, include: [:name, :email, :password, :agent_id], format: :json
   resource_description { resource_id "users" }
 
   api :GET, "/v1/user", "Returns the current user"
@@ -23,14 +23,13 @@ class V1::UsersController < V1::BaseController
   end
 
   api :PUT, "/v1/claims/:id", "Updates a claim"
-  param :user, Hash, required: true do
-    param :name, String
-    param :email, String
+  param :user, Hash do
+    param :name, String, required: true
+    param :email, String, required: true
     param :agent_id, String
   end
 
   def update
-    # NOT USING APIPIE FOR THIS UPDATE, FEEL FREE TO CHANGE
     @current_user.update_attributes(update_user_params)
     respond_with @current_user, location: nil
   end

@@ -10,7 +10,8 @@ angular.module("moBilling.controllers.accountEdit", [])
       if ($scope.userForm.$valid) {
           $scope.submitting = true;
           $scope.updateStatus = null;
-          User.save($scope.user, function () {
+          updateUser = _.omit(_.cloneDeep($scope.user), ["agents"])
+          User.save(updateUser, function () {
               $scope.submitting = false;
               $scope.updateStatus = "saved";
               console.log("saved", $scope.updateStatus)
