@@ -25,6 +25,7 @@ angular.module("moBilling", [
     "moBilling.controllers.claimListSaved",
     "moBilling.controllers.claimListUnprocessed",
     "moBilling.controllers.claimNew",
+    "moBilling.controllers.dashboardList",
     "moBilling.controllers.signIn",
     "moBilling.controllers.signOut",
     "moBilling.controllers.signUp",
@@ -85,6 +86,11 @@ angular.module("moBilling", [
         $routeProvider.when("/claims/new", {
             templateUrl: "loading.html",
             controller: "ClaimNewController"
+        });
+
+        $routeProvider.when("/dashboard", {
+            templateUrl: "dashboard-list.html",
+            controller: "DashboardListController"
         });
 
         $routeProvider.when("/account/edit", {
