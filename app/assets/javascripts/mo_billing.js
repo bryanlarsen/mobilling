@@ -38,6 +38,7 @@ angular.module("moBilling", [
     "moBilling.directives.validateTotalTime",
     "moBilling.factories.claim",
     "moBilling.factories.dayType",
+    "moBilling.factories.doctor",
     "moBilling.factories.detailsGenerator",
     "moBilling.factories.photo",
     "moBilling.factories.session",
@@ -90,7 +91,12 @@ angular.module("moBilling", [
 
         $routeProvider.when("/dashboard", {
             templateUrl: "dashboard-list.html",
-            controller: "DashboardListController"
+            controller: "DashboardListController",
+            resolve: {
+                doctors: function (Doctor) {
+                    return Doctor.get().$promise;
+                }
+            }
         });
 
         $routeProvider.when("/account/edit", {

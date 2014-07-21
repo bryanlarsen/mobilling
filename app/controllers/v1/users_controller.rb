@@ -3,6 +3,12 @@ class V1::UsersController < V1::BaseController
   wrap_parameters :user, include: [:name, :email, :password, :agent_id], format: :json
   resource_description { resource_id "users" }
 
+  api :GET, "/v1/user/doctors", "Returns doctors"
+
+  def doctors
+    @users = User.all
+  end
+
   api :GET, "/v1/user", "Returns the current user"
 
   def show
