@@ -4,6 +4,10 @@
 //= require_tree ./directives
 //= require_tree ./templates
 
+//= require ./libs/bootstrap-datepicker
+//= require ./libs/date.format
+//= require ./libs/modernizr.min
+
 angular.module("moBilling", [
     "ui.select2",
     "mobile-angular-ui.directives.navbars",
