@@ -1,7 +1,7 @@
 angular.module("moBilling.factories.doctor", [])
 
     .factory("Doctor", function ($resource, API_URL) {
-        var Doctor = $resource(API_URL + "/v1/doctor.json?auth=:auth", {
+        var Doctor = $resource(API_URL + "/v1/doctors.json?auth=:auth", {
             auth: function () {
                 return window.localStorage.getItem("authenticationToken");
             }
@@ -12,5 +12,5 @@ angular.module("moBilling.factories.doctor", [])
           }
       });
 
-        return User;
+        return Doctor;
     });
