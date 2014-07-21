@@ -1,7 +1,7 @@
-<table class="table table-striped">
+<table class="table table-striped sort-table">
   <thead>
     <tr>
-      <th>
+      <th ng-click="predicate = 'name'; reverse=!reverse">
         ▴&nbsp;Doctor
       </th>
       <th class="text-center">
@@ -28,7 +28,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="doctor in doctors">
+    <tr ng-repeat="doctor in doctors | orderBy:predicate:reverse">
       <td>{{doctor.name}}</td>
       <td>0</td>
       <td>0</td>
