@@ -13,7 +13,7 @@ gem "less-rails"
 gem "mini_magick"
 gem "pg"
 gem "sprockets-redirect"
-gem "therubyracer"
+# gem "therubyracer"
 gem "uuid_validator"
 gem "valid_email"
 

@@ -94,7 +94,7 @@ angular.module("moBilling", [
             controller: "DashboardListController",
             resolve: {
                 doctors: function (Doctor) {
-                    return Doctor.get().$promise;
+                    return Doctor.query().$promise;
                 }
             }
         });
