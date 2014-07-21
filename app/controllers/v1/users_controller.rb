@@ -34,7 +34,7 @@ class V1::UsersController < V1::BaseController
       {user: current_user}.merge!(update_user_params)
     )
     @interactor.perform
-    respond_with @interactor, location: nil
+    respond_with @interactor, location: nil, status: :updated
   end
 
   private

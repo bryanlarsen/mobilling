@@ -6,6 +6,41 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.sign_in
   end
 
+  test "can view the menu" do
+    @doctor.click_on("Menu")
+    assert @doctor.see?("Sign out")
+  end
+
+  test "can view Edit Account page" do
+    @doctor.click_on("Menu")
+    @doctor.click_on("Edit Account")
+    assert @doctor.see?("Billing Agent")
+  end
+
+  test "can update Account settings" do
+    @doctor.click_on("Menu")
+    @doctor.click_on("Edit Account")
+    @doctor.fill_in("Email", with: "test@test.com")
+    @doctor.click_on("Save")
+    assert @doctor.see?("Your account information was updated")
+  end
+
+  test "will see alert message when removing email address" do
+    @doctor.click_on("Menu")
+    @doctor.click_on("Edit Account")
+    @doctor.fill_in("Email", with: "")
+    @doctor.click_on("Save")
+    assert @doctor.see?("Please provide required user information")
+  end
+
+  test "will see alert message when removing name" do
+    @doctor.click_on("Menu")
+    @doctor.click_on("Edit Account")
+    @doctor.fill_in("Name", with: "")
+    @doctor.click_on("Save")
+    assert @doctor.see?("Please provide required user information")
+  end
+
   test "can save claim as draft" do
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")

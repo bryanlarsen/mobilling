@@ -8,11 +8,7 @@
         <span>Edit Account</span>
       </div>
 
-      <div class="btn-group pull-left">
-        <div ng-click="toggle('menu-sidebar')" class="btn btn-navbar sidebar-toggle">
-          <i class="fa fa-bars"></i> Menu
-        </div>
-      </div>
+      <div ng-include="'menu-button.html'"></div>
       <div class="btn-group pull-right">
           <button type="button" ng-click="save()" class="btn btn-navbar" ng-disabled="submitting">
             <span ng-show="submitting" class="ng-hide"><i class="fa fa-spinner fa-spin"></i> Saving…</span>
