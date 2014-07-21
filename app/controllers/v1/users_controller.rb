@@ -31,7 +31,7 @@ class V1::UsersController < V1::BaseController
 
   def update
     @interactor = UpdateUser.new(
-      {id: params[:id]}.merge!(update_user_params)
+      {user: current_user}.merge!(update_user_params)
     )
     @interactor.perform
     respond_with @interactor, location: nil

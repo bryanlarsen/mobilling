@@ -1,21 +1,22 @@
 class UpdateUser
   include ActiveModel::Model
 
-  attr_accessor :id, :email, :password, :name, :agent_id, :role
-  attr_reader :user
+  attr_accessor :user, :email, :password, :name, :agent_id, :role
 
   validates :email, presence: true, email: true
   validates :name, presence: true
-  validates :id, presence: true
+  validates :user, presence: true
 
   def perform
-    @user = User.find(id)
     if valid?
-      @user.update!(
+      user.update!(
         name: name,
         email: email,
         agent_id: agent_id
       )
+      user.role = role if role
+      user.password = password if password
+      user.save!
     else
       false
     end
