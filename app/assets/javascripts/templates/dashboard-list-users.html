@@ -30,13 +30,13 @@
   <tbody>
     <tr ng-repeat="doctor in doctors | orderBy:predicate:reverse">
       <td>{{doctor.name}}</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>{{doctor.saved_count}}</td>td>
+      <td>{{doctor.unprocessed_count}}</td>td>
+      <td>{{doctor.processed_count}}</td>td>
+      <td>{{doctor.rejected_admin_attention_count}}</td>
+      <td>{{doctor.rejected_doctor_attention_count}}</td>
+      <td>{{doctor.paid_count}}</td>
+      <td>-</td>
     </tr>
   </tbody>
 </table>
