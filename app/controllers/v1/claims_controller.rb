@@ -5,7 +5,13 @@ class V1::ClaimsController < V1::BaseController
   api :GET, "/v1/claims", "Returns claims"
 
   def index
-    @claims = current_user.claims
+    if doctor?
+      @claims = current_user.claims
+    elsif admin?
+      @claims = Claim.all
+    elsif billing_agent?
+      current_user.agent_claims
+    end
   end
 
   api :GET, "/v1/claims/:id", "Returns a claim"

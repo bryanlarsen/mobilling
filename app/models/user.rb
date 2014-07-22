@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
 
   after_touch :update_claim_counts
 
+  def agent_claims
+    User.where(agent_id: id).map(&:claims).flatten
+  end
+
 private
 
   def update_claim_counts

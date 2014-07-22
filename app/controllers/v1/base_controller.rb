@@ -28,6 +28,18 @@ class V1::BaseController < ActionController::Base
     @current_user = User.find_by(authentication_token: authentication_token) if authentication_token.present?
   end
 
+  def doctor?
+    current_user && current_user.role == "doctor"
+  end
+
+  def admin?
+    current_user && current_user.role == "admin"
+  end
+
+  def billing_agent?
+    current_user && current_user.role == "billing_agent"
+  end
+
   def require_user
     return if current_user.present?
     render json: {error: "param is missing or the value is invalid: auth"}, status: :unauthorized
