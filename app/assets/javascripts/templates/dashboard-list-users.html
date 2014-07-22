@@ -1,25 +1,25 @@
 <table class="table table-striped sort-table">
   <thead>
     <tr>
-      <th ng-click="predicate = 'name'; reverse=!reverse">
-        ▴&nbsp;Doctor
+      <th ng-click="predicate = 'name'; reverse=!reverse" ng-class="{current: predicate == 'name', reverse: reverse}">
+        Doctor
       </th>
-      <th class="text-center">
+      <th ng-click="predicate = 'saved_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'saved_count', reverse: reverse}">
         Saved Count
       </th>
-      <th class="text-center">
+      <th ng-click="predicate = 'unprocessed_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'unprocessed_count', reverse: reverse}">
         Unprocessed Count
       </th>
-      <th class="text-center">
+      <th ng-click="predicate = 'processed_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'processed_count', reverse: reverse}">
         Processed Count
       </th>
-      <th class="text-center">
+      <th ng-click="predicate = 'rejected_admin_attention_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'rejected_admin_attention_count', reverse: reverse}">
         Rejected Admin Attention Count
       </th>
-      <th class="text-center">
+      <th ng-click="predicate = 'rejected_doctor_attention_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'rejected_doctor_attention_count', reverse: reverse}">
         Rejected Doctor Attention Count
       </th>
-      <th class="text-center">
+      <th ng-click="predicate = 'paid_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'paid_count', reverse: reverse}">
         Paid Count
       </th>
       <th class="text-right">
@@ -30,9 +30,9 @@
   <tbody>
     <tr ng-repeat="doctor in doctors | orderBy:predicate:reverse">
       <td>{{doctor.name}}</td>
-      <td>{{doctor.saved_count}}</td>td>
-      <td>{{doctor.unprocessed_count}}</td>td>
-      <td>{{doctor.processed_count}}</td>td>
+      <td>{{doctor.saved_count}}</td>
+      <td>{{doctor.unprocessed_count}}</td>
+      <td>{{doctor.processed_count}}</td>
       <td>{{doctor.rejected_admin_attention_count}}</td>
       <td>{{doctor.rejected_doctor_attention_count}}</td>
       <td>{{doctor.paid_count}}</td>
