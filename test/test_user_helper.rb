@@ -73,7 +73,7 @@ module Test
     end
 
     def click_element_with_id(id)
-      find(:css, "##{id}").click
+      find(:css, "##{id}").trigger('click')
     end
 
     def has_element_with_class?(cls)
