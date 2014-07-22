@@ -17,6 +17,12 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Billing Agent")
   end
 
+  test "can view Dashboard page" do
+    @doctor.click_on("Menu")
+    @doctor.click_on("Dashboard")
+    assert @doctor.see?("Dashboard") && @doctor.see?("Count")
+  end
+
   test "can update Account settings" do
     @doctor.click_on("Menu")
     @doctor.click_on("Edit Account")
