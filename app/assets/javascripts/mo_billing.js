@@ -66,7 +66,7 @@ angular.module("moBilling", [
         });
 
         $routeProvider.when("/claims", {
-            templateUrl: "claim-list-all.html",
+            templateUrl: "claim-list.html",
             controller: "ClaimListAllController",
             resolve: {
                 claims: function (Claim) {

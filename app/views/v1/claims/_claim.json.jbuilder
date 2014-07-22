@@ -2,6 +2,7 @@ json.id                         claim.id
 json.status                     claim.status
 json.photo_id                   claim.photo_id
 json.number                     claim.number
+json.doctor                     claim.doctor_name
 json.patient_name               claim.details["patient_name"]
 json.hospital                   claim.details["hospital"]
 json.referring_physician        claim.details["referring_physician"]

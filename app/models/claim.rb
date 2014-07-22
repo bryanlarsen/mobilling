@@ -9,4 +9,8 @@ class Claim < ActiveRecord::Base
   belongs_to :user, touch: true
   belongs_to :photo
 
+  def doctor_name
+    user.name if user
+  end
+
 end

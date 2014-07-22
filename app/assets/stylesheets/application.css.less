@@ -25,6 +25,9 @@ body {
     position: relative;
 }
 
+.app-content {
+    padding: 0 10px;
+}
 .loading-spinner {
     position: absolute;
     font-size: 50px;
@@ -39,10 +42,16 @@ body {
 }
 
 .sort-table {
+    border: 1px solid #CCC;
+    th, td {
+        border-right: 1px solid #CCC;
+    }
     th {
         cursor: pointer;
         position: relative;
         padding-left: 10px;
+        text-align: center;
+        vertical-align: middle;
     }
     th:hover {
         background: #F9F9F9;
