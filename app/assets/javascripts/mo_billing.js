@@ -22,6 +22,7 @@ angular.module("moBilling", [
     "moBilling.controllers.claimEditClaim",
     "moBilling.controllers.claimEditConsult",
     "moBilling.controllers.claimEditDetails",
+    "moBilling.controllers.claimListAll",
     "moBilling.controllers.claimListSaved",
     "moBilling.controllers.claimListUnprocessed",
     "moBilling.controllers.claimNew",
@@ -62,6 +63,16 @@ angular.module("moBilling", [
         $routeProvider.when("/sign-out", {
             templateUrl: "loading.html",
             controller: "SignOutController"
+        });
+
+        $routeProvider.when("/claims", {
+            templateUrl: "claim-list-all.html",
+            controller: "ClaimListAllController",
+            resolve: {
+                claims: function (Claim) {
+                    return Claim.query().$promise;
+                }
+            }
         });
 
         $routeProvider.when("/claims/saved", {
