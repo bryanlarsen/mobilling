@@ -41,11 +41,24 @@ body {
 .sort-table {
     th {
         cursor: pointer;
+        position: relative;
+        padding-left: 10px;
     }
     th:hover {
         background: #F9F9F9;
     }
     th.current {
         background: #DDD;
+    }
+    th.current:before {
+        content:  "\25B2 "
+    }
+    .reverse th.current:before {
+        content:  "\25BC "
+    }
+    th.current:before, .reverse th.current:before {
+        position: absolute;
+        bottom: 10px;
+        left: 5px;
     }
 }

@@ -4,8 +4,13 @@ angular.module("moBilling.controllers.dashboardList", [])
     $scope.predicate = 'name';
     $scope.reverse = false;
 
-    $scope.isCurrent = function(column) {
-      return column == $scope.predicate;
+    $scope.clickHeader = function(field) {
+      if ($scope.predicate == field) {
+        $scope.reverse = !$scope.reverse;
+      } else {
+        $scope.predicate = field;
+        $scope.reverse = false;
+      }
     };
 
   });

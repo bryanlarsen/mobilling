@@ -1,26 +1,26 @@
 <table class="table table-striped sort-table">
   <thead>
-    <tr>
-      <th ng-click="predicate = 'name'; reverse=!reverse" ng-class="{current: predicate == 'name', reverse: reverse}">
-        Doctor
+    <tr ng-class="{reverse: reverse}">
+      <th class="text-center" ng-click="clickHeader('name')" ng-class="{current: predicate == 'name'}">
+        <div class='text'>Doctor</div>
       </th>
-      <th ng-click="predicate = 'saved_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'saved_count', reverse: reverse}">
-        Saved Count
+      <th ng-click="clickHeader('saved_count')" class="text-center" ng-class="{current: predicate == 'saved_count'}">
+        <div class='text'>Saved Count</div>
       </th>
-      <th ng-click="predicate = 'unprocessed_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'unprocessed_count', reverse: reverse}">
-        Unprocessed Count
+      <th ng-click="clickHeader('unprocessed_count')" class="text-center" ng-class="{current: predicate == 'unprocessed_count'}">
+        <div class='text'>Unprocessed Count</div>
       </th>
-      <th ng-click="predicate = 'processed_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'processed_count', reverse: reverse}">
-        Processed Count
+      <th ng-click="clickHeader('processed_count')" class="text-center" ng-class="{current: predicate == 'processed_count'}">
+        <div class='text'>Processed Count</div>
       </th>
-      <th ng-click="predicate = 'rejected_admin_attention_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'rejected_admin_attention_count', reverse: reverse}">
-        Rejected Admin Attention Count
+      <th ng-click="clickHeader('rejected_admin_attention_count')" class="text-center" ng-class="{current: predicate == 'rejected_admin_attention_count'}">
+        <div class='text'>Rejected Admin Attention Count</div>
       </th>
-      <th ng-click="predicate = 'rejected_doctor_attention_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'rejected_doctor_attention_count', reverse: reverse}">
-        Rejected Doctor Attention Count
+      <th ng-click="clickHeader('rejected_doctor_attention_count')" class="text-center" ng-class="{current: predicate == 'rejected_doctor_attention_count'}">
+        <div class='text'>Rejected Doctor Attention Count</div>
       </th>
-      <th ng-click="predicate = 'paid_count'; reverse=!reverse" class="text-center" ng-class="{current: predicate == 'paid_count', reverse: reverse}">
-        Paid Count
+      <th ng-click="clickHeader('paid_count')" class="text-center" ng-class="{current: predicate == 'paid_count'}">
+        <div class='text'>Paid Count</div>
       </th>
       <th class="text-right">
         Actions
