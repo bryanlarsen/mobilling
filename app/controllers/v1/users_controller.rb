@@ -3,6 +3,12 @@ class V1::UsersController < V1::BaseController
   wrap_parameters :user, include: [:name, :email, :password, :agent_id], format: :json
   resource_description { resource_id "users" }
 
+  api :GET, "/v1/user/doctors", "Returns doctors"
+
+  def doctors
+    @users = User.all
+  end
+
   api :GET, "/v1/user", "Returns the current user"
 
   def show
@@ -30,8 +36,11 @@ class V1::UsersController < V1::BaseController
   end
 
   def update
-    @current_user.update_attributes(update_user_params)
-    respond_with @current_user, location: nil
+    @interactor = UpdateUser.new(
+      {user: current_user}.merge!(update_user_params)
+    )
+    @interactor.perform
+    respond_with @interactor, location: nil
   end
 
   private

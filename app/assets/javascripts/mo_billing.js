@@ -29,6 +29,7 @@ angular.module("moBilling", [
     "moBilling.controllers.claimListSaved",
     "moBilling.controllers.claimListUnprocessed",
     "moBilling.controllers.claimNew",
+    "moBilling.controllers.dashboardList",
     "moBilling.controllers.signIn",
     "moBilling.controllers.signOut",
     "moBilling.controllers.signUp",
@@ -41,6 +42,7 @@ angular.module("moBilling", [
     "moBilling.directives.validateTotalTime",
     "moBilling.factories.claim",
     "moBilling.factories.dayType",
+    "moBilling.factories.doctor",
     "moBilling.factories.detailsGenerator",
     "moBilling.factories.photo",
     "moBilling.factories.session",
@@ -89,6 +91,16 @@ angular.module("moBilling", [
         $routeProvider.when("/claims/new", {
             templateUrl: "loading.html",
             controller: "ClaimNewController"
+        });
+
+        $routeProvider.when("/dashboard", {
+            templateUrl: "dashboard-list.html",
+            controller: "DashboardListController",
+            resolve: {
+                doctors: function (Doctor) {
+                    return Doctor.query().$promise;
+                }
+            }
         });
 
         $routeProvider.when("/account/edit", {

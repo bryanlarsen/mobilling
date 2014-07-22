@@ -5,22 +5,17 @@
   <div class="app">
     <div class="navbar navbar-app navbar-absolute-top">
       <div class="navbar-brand navbar-brand-center">
-        <span>Edit Account</span>
+        <span>Dashboard</span>
       </div>
 
       <div ng-include="'menu-button.html'"></div>
-      <div class="btn-group pull-right">
-          <button type="button" ng-click="save()" class="btn btn-navbar" ng-disabled="submitting">
-            <span ng-show="submitting" class="ng-hide"><i class="fa fa-spinner fa-spin"></i> Saving…</span>
-            <span ng-hide="submitting" class=""><i class="fa fa-check"></i> Save</span>
-          </button>
-      </div>
   </div>
   <div class="app-body">
     <div ng-show="loading" class="app-content-loading">
       <i class="fa fa-spinner fa-spin loading-spinner"></i>
     </div>
+    <div class="scrollable-content section">
+      <div ng-show="!loading" class="app-content" ng-include="'dashboard-list-users.html'"></div>
 
-    <div ng-show="!loading" class="app-content" ng-include="'account-edit-user.html'"></div>
   </div>
 </div>

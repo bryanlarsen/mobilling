@@ -6,6 +6,7 @@ class Claim < ActiveRecord::Base
 
   scope :submitted, -> { where(status: statuses.except("saved").values) }
 
-  belongs_to :user
+  belongs_to :user, touch: true
   belongs_to :photo
+
 end
