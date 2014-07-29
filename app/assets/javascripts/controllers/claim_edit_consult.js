@@ -13,7 +13,7 @@ angular.module("moBilling.controllers.claimEditConsult", [])
             var hoursAndMinutes = time.split(':');
 
             return parseInt(hoursAndMinutes[0], 10) * 60 + parseInt(hoursAndMinutes[1], 10);
-        };
+        }
 
         $scope.$watch("claim.first_seen_on", function (first_seen_on) {
             if (first_seen_on) {
