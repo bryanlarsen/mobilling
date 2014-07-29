@@ -13,8 +13,7 @@ class V1::UsersControllerTest < ActionController::TestCase
 
   test "update responds correctly" do
     user = create(:user, :authenticated)
-    uuid = SecureRandom.uuid
-    put :update, id: uuid, auth: user.authentication_token, format: "json", claim: {id: uuid, status: "saved"}
+    put :update, auth: user.authentication_token, format: "json", user: {name: "Bob"}
     assert_template "update"
   end
 end

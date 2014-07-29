@@ -30,8 +30,9 @@ class V1::UsersController < V1::BaseController
   end
 
   def update
-    @current_user.update_attributes(update_user_params)
-    respond_with @current_user, location: nil
+    @user = @current_user
+    @user.update(update_user_params)
+    respond_with @user, location: nil
   end
 
   private

@@ -107,6 +107,8 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")
     @doctor.fill_in("Admission date", with: "2014-07-19")
+    # close date picker manually - we need a better way of handling date inputs
+    @doctor.click_element_with_id("claim-patient-name")
     @doctor.click_element_with_id("is-first-seen-on-hidden")
     @doctor.fill_in("First seen date", with: "2014-07-22")
     @doctor.fill_in("Last seen date", with: "2014-07-24")
@@ -116,8 +118,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_element_with_id("claim-consult-premium-visit-weekday-evening")
     @doctor.click_link_with_text("Daily Details")
     @doctor.click_on("Generate codes")
-    @doctor.screenshot()
-    @doctor.assert_input_with_valid_code()
-
+    @doctor.assert_no_selector("input.ng-invalid")
   end
 end

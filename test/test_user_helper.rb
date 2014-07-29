@@ -75,14 +75,6 @@ module Test
     def click_element_with_id(id)
       find(:css, "##{id}").click
     end
-
-    def has_element_with_class?(cls)
-      has_selector?(".#{cls}")
-    end
-
-    def assert_input_with_valid_code()
-      assert_no_selector("input.ng-invalid")
-    end
   end
 
   class Guest < User
