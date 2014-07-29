@@ -30,6 +30,7 @@ angular.module("moBilling", [
     "moBilling.controllers.signUp",
     "moBilling.directives.confirmation",
     "moBilling.directives.date",
+    "moBilling.directives.datePicker",
     "moBilling.directives.time",
     "moBilling.directives.server",
     "moBilling.directives.upload",

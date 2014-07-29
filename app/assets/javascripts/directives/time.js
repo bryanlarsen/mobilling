@@ -13,7 +13,7 @@ angular.module("moBilling.directives.time", [])
                         hour   = parseInt(modelValue.split(":")[0], 10);
                         minute = parseInt(modelValue.split(":")[1], 10);
 
-                        return new Date(1900, 0, 1, hour, minute);
+                        return new Date(Date.UTC(1900, 0, 1, hour, minute));
                     } else {
                         return undefined;
                     }
