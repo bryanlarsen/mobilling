@@ -18,18 +18,10 @@ gem "uuid_validator"
 gem "valid_email"
 
 group :development do
+  gem "better_errors"
   gem "letter_opener"
+  gem "quiet_assets"
   gem "spring"
-  gem 'quiet_assets'
-  gem 'better_errors'
-  gem 'binding_of_caller', :platforms=>[:mri_21]
-end
-
-group :development, :test do
-  gem 'pry-rails'
-  gem 'pry-rescue'
-  gem 'pry-byebug'
-  gem 'faker'
 end
 
 group :test do
@@ -37,4 +29,5 @@ group :test do
   gem "database_cleaner"
   gem "factory_girl_rails"
   gem "poltergeist"
+  gem "teaspoon"
 end

@@ -1,0 +1,6 @@
+  /home/kuba/Projects/mo-billing/lib/tasks:
+  total used in directory 8 available 39948992
+  drwxr-xr-x 1 kuba users  82 Jul 30 12:15 .
+  drwxr-xr-x 1 kuba users  10 Jun 17 12:40 ..
+  -rw-r--r-- 1 kuba users 211 Jul 30 12:14 test_interactors.rake
+  -rw-r--r-- 1 kuba users 145 Jul 30 12:15 test_javascripts.rake
