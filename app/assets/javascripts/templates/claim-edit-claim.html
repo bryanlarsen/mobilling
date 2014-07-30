@@ -89,7 +89,7 @@
 
         <div class="form-group row" ng-class="{'has-error': (claimForm.first_seen_on.$dirty || submitted) && claimForm.first_seen_on.$invalid}" ng-hide="isFirstSeenOnHidden">
           <label for="claim-first-seen-on" class="control-label col-xs-12">First seen date</label>
-p          <div class="form-control-wrapper col-xs-12">
+          <div class="form-control-wrapper col-xs-12">
             <mb-date name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" required>
             <div ng-messages="claimForm.first_seen_on_on.$error" ng-show="submitted">
               <p class="help-block" ng-message="required">is missing</p>
