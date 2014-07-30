@@ -153,7 +153,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                             }
 
                         } else {
-                            if(!admission) {
+                            if (!admission) {
                                 details.push({ day: day, code: "C132" });
                             } else {
                                 details.push({ day: day, code: "C122" });
@@ -189,7 +189,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                     if (mrp) {
                         details.push({ day: day, code: "C132" });
 
-                        if(admission){
+                        if (admission) {
                             details.push({ day: day, code: "E083" });
                         }
                     } else {
