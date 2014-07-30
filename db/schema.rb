@@ -44,13 +44,11 @@ ActiveRecord::Schema.define(version: 20140720083836) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "role"
-    t.integer  "billing_agent_id"
     t.string   "agent_id"
   end
 
   add_index "users", ["agent_id"], name: "index_users_on_agent_id", using: :btree
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
-  add_index "users", ["billing_agent_id"], name: "index_users_on_billing_agent_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
 end
