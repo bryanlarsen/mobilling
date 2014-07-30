@@ -122,17 +122,16 @@ angular.module("moBilling.factories.detailsGenerator", [])
                             // admission premium
                             details.push({ day: day, code: "E082" });
                         }
-                    }else{
-                        if(icu){
-                            if(!admission && mrp){
+                    } else {
+                        if (icu) {
+                            if (!admission && mrp) {
                                 details.push({ day: day, code: "C142" });
                             }
-                        }else{
-                            if(!admission && mrp){
+                        } else {
+                            if (!admission && mrp) {
                                 details.push({ day: day, code: "C132" });
                             }
                         }
-                        
                     }
                 } else if (day === last && discharge && admission) {
                     // discharge
@@ -146,17 +145,17 @@ angular.module("moBilling.factories.detailsGenerator", [])
                     // first day after admission
                     if (mrp) {
                         if (icu) {
-                            if(!admission){
+                            if (!admission) {
                                 details.push({ day: day, code: "C143" });
-                            }else{
+                            } else {
                                 details.push({ day: day, code: "C142" });
                                 details.push({ day: day, code: "E083" });
                             }
 
                         } else {
-                            if(!admission){
+                            if(!admission) {
                                 details.push({ day: day, code: "C132" });
-                            }else{
+                            } else {
                                 details.push({ day: day, code: "C122" });
                                 details.push({ day: day, code: "E083" });
                             }
@@ -168,16 +167,16 @@ angular.module("moBilling.factories.detailsGenerator", [])
                     // second day after admission
                     if (mrp) {
                         if (icu) {
-                            if(admission){
+                            if (admission) {
                                 details.push({ day: day, code: "C143" });
                                 details.push({ day: day, code: "E083" });
-                            }else{
+                            } else {
                                 details.push({ day: day, code: "C132" });
                             }
                         } else {
-                            if(!admission){
+                            if (!admission) {
                                 details.push({ day: day, code: "C132" });
-                            }else{
+                            } else {
                                 details.push({ day: day, code: "C123" });
                                 details.push({ day: day, code: "E083" });
                             }
@@ -193,7 +192,6 @@ angular.module("moBilling.factories.detailsGenerator", [])
                         if(admission){
                             details.push({ day: day, code: "E083" });
                         }
-                        
                     } else {
                         details.push({ day: day, code: "C138" });
                     }
