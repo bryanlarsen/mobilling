@@ -1,10 +1,30 @@
 angular.module("moBilling.factories.dayType", [])
 
     .factory("dayType", function () {
+        function parseDate(year, month, day) {
+            var date;
+
+            if (!month && !day) {
+                date = year;
+
+                if (typeof date === "string") {
+                    year  = parseInt(date.split("-")[0], 10);
+                    month = parseInt(date.split("-")[1], 10) - 1;
+                    day   = parseInt(date.split("-")[2], 10);
+
+                    return parseDate(year, month, day);
+                } else {
+                    return new Date(date);
+                }
+            } else {
+                return new Date(Date.UTC(year, month, day));
+            }
+        }
+
         function easter(string) {
             var c, n, k, i, j, l, month, day, year;
 
-            year = new Date(string).getFullYear();
+            year = parseDate(string).getFullYear();
 
             c = Math.floor(year / 100);
             n = year - 19 * Math.floor(year / 19);
@@ -19,38 +39,38 @@ angular.module("moBilling.factories.dayType", [])
             month = 3 + Math.floor((l + 40) / 44);
             day = l + 28 - 31 * Math.floor(month / 4);
 
-            return new Date(Date.UTC(year, month - 1, day));
+            return parseDate(year, month - 1, day);
         }
 
         function firstMonday(string) {
             var date, day, year, month;
 
-            date = new Date(string);
+            date = parseDate(string);
             year = date.getFullYear();
             month = date.getMonth();
-            day = new Date(Date.UTC(year, month, 1)).getDay();
+            day = parseDate(year, month, 1).getDay();
 
-            return new Date(Date.UTC(year, month, 1 + ((7 - day + 1) % 7)));
+            return parseDate(year, month, 1 + ((7 - day + 1) % 7));
         }
 
         function goodFriday(string) {
-            var holiday = new Date(easter(string) - 1000 * 60 * 60 * 24 * 2),
-                date = new Date(string);
+            var holiday = parseDate(easter(string) - 1000 * 60 * 60 * 24 * 2),
+                date = parseDate(string);
 
             return date.getFullYear() === holiday.getFullYear() && date.getMonth() === holiday.getMonth() && date.getDate() === holiday.getDate();
         }
 
         function boxingDay(string) {
-            var date = new Date(string);
+            var date = parseDate(string);
 
             return date.getMonth() === 11 && date.getDate() === 26;
         }
 
         function canadaDay(string) {
             var holiday,
-                date = new Date(string),
-                julyFirst = new Date(Date.UTC(date.getFullYear(), 6, 1)),
-                julySecond = new Date(Date.UTC(date.getFullYear(), 6, 2));
+                date = parseDate(string),
+                julyFirst = parseDate(date.getFullYear(), 6, 1),
+                julySecond = parseDate(date.getFullYear(), 6, 2);
 
             if (julyFirst.getDay() === 0) {
                 holiday = julySecond;
@@ -62,63 +82,63 @@ angular.module("moBilling.factories.dayType", [])
         }
 
         function christmas(string) {
-            var date = new Date(string);
+            var date = parseDate(string);
 
             return date.getMonth() === 11 && date.getDate() === 25;
         }
 
         function civicHoliday(string) {
             var holiday,
-                date = new Date(string);
+                date = parseDate(string);
 
-            holiday = firstMonday(new Date(Date.UTC(date.getFullYear(), 7, 1)));
+            holiday = firstMonday(parseDate(date.getFullYear(), 7, 1));
 
             return date.getFullYear() === holiday.getFullYear() && date.getMonth() === holiday.getMonth() && date.getDate() === holiday.getDate();
         }
 
         function labourDay(string) {
             var holiday,
-                date = new Date(string);
+                date = parseDate(string);
 
-            holiday = firstMonday(new Date(Date.UTC(date.getFullYear(), 8, 1)));
+            holiday = firstMonday(parseDate(date.getFullYear(), 8, 1));
 
             return date.getFullYear() === holiday.getFullYear() && date.getMonth() === holiday.getMonth() && date.getDate() === holiday.getDate();
         }
 
         function newYearsDay(string) {
-            var date = new Date(string);
+            var date = parseDate(string);
 
             return date.getMonth() === 0 && date.getDate() === 1;
         }
 
         function thanksgiving(string) {
             var holiday,
-                date = new Date(string);
+                date = parseDate(string);
 
-            holiday = new Date(firstMonday(new Date(Date.UTC(date.getFullYear(), 9, 1))).getTime() + 1000 * 60 * 60 * 24 * 7);
+            holiday = parseDate(firstMonday(new Date(date.getFullYear(), 9, 1)).getTime() + 1000 * 60 * 60 * 24 * 7);
 
             return date.getFullYear() === holiday.getFullYear() && date.getMonth() === holiday.getMonth() && date.getDate() === holiday.getDate();
         }
 
         function victoriaDay(string) {
             var year, holiday, mayTwentyFourth,
-                date = new Date(string);
+                date = parseDate(string);
 
             year = date.getFullYear();
 
-            mayTwentyFourth = new Date(Date.UTC(year, 4, 24));
+            mayTwentyFourth = parseDate(year, 4, 24);
 
             if (mayTwentyFourth.getDay() > 1) {
-                holiday = new Date(Date.UTC(mayTwentyFourth.getTime() - (mayTwentyFourth.getDay() - 1) * 1000 * 60 * 60 * 24));
+                holiday = parseDate(mayTwentyFourth.getTime() - (mayTwentyFourth.getDay() - 1) * 1000 * 60 * 60 * 24);
             } else if (mayTwentyFourth.getDay() === 0) {
-                holiday = new Date(Date.UTC(mayTwentyFourth.getTime() - 1000 * 60 * 60 * 24 * 6));
+                holiday = parseDate(mayTwentyFourth.getTime() - 1000 * 60 * 60 * 24 * 6);
             }
 
             return date.getFullYear() === holiday.getFullYear() && date.getMonth() === holiday.getMonth() && date.getDate() === holiday.getDate();
         }
 
         function weekend(string) {
-            var date = new Date(string);
+            var date = parseDate(string);
 
             return date.getDay() === 0 || date.getDay() === 6;
         }
