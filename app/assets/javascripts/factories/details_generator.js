@@ -90,9 +90,9 @@ angular.module("moBilling.factories.detailsGenerator", [])
         }
 
         function detailsGenerator(claim) {
-            var first = claim.first_seen_on,
+            var admission = claim.admission_on,
+                first = claim.first_seen_on,
                 last = claim.last_seen_on,
-                admission = claim.admission_on === claim.first_seen_on,
                 mrp = claim.most_responsible_physician,
                 consult = claim.consult_type,
                 visit = claim.consult_premium_visit,
@@ -102,7 +102,11 @@ angular.module("moBilling.factories.detailsGenerator", [])
                 discharge = claim.last_seen_discharge,
                 details = [];
 
-            daysRange(first, last).forEach(function (day, i) {
+            daysRange(admission, last).forEach(function (day, i) {
+                if (day < first) {
+                    return;
+                }
+
                 if (day === first) {
                     if (consult) {
                         // consult
@@ -118,22 +122,27 @@ angular.module("moBilling.factories.detailsGenerator", [])
                             }
                         }
 
-                        if (admission && mrp) {
+                        if (admission === first && mrp) {
                             // admission premium
                             details.push({ day: day, code: "E082" });
                         }
                     } else {
-                        if (icu) {
-                            if (!admission && mrp) {
-                                details.push({ day: day, code: "C142" });
-                            }
-                        } else {
-                            if (!admission && mrp) {
-                                details.push({ day: day, code: "C132" });
+                        if (admission !== first) {
+                            if (icu) {
+                                if (mrp) {
+                                    details.push({ day: day, code: "C142" });
+                                }
+                            } else {
+                                if (mrp) {
+                                    details.push({ day: day, code: "C132" });
+                                    details.push({ day: day, code: "E083" });
+                                } else {
+                                    details.push({ day: day, code: "C138" });
+                                }
                             }
                         }
                     }
-                } else if (day === last && discharge && admission) {
+                } else if (day === last && discharge && admission === first) {
                     // discharge
                     if (mrp) {
                         details.push({ day: day, code: "C124" });
@@ -145,7 +154,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                     // first day after admission
                     if (mrp) {
                         if (icu) {
-                            if (!admission) {
+                            if (admission !== first) {
                                 details.push({ day: day, code: "C143" });
                             } else {
                                 details.push({ day: day, code: "C142" });
@@ -153,7 +162,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                             }
 
                         } else {
-                            if (!admission) {
+                            if (admission !== first) {
                                 details.push({ day: day, code: "C132" });
                             } else {
                                 details.push({ day: day, code: "C122" });
@@ -167,14 +176,14 @@ angular.module("moBilling.factories.detailsGenerator", [])
                     // second day after admission
                     if (mrp) {
                         if (icu) {
-                            if (admission) {
+                            if (admission === first) {
                                 details.push({ day: day, code: "C143" });
                                 details.push({ day: day, code: "E083" });
                             } else {
                                 details.push({ day: day, code: "C132" });
                             }
                         } else {
-                            if (!admission) {
+                            if (admission !== first) {
                                 details.push({ day: day, code: "C132" });
                             } else {
                                 details.push({ day: day, code: "C123" });
