@@ -19,7 +19,7 @@ angular.module("moBilling.factories.dayType", [])
             month = 3 + Math.floor((l + 40) / 44);
             day = l + 28 - 31 * Math.floor(month / 4);
 
-            return new Date(year, month - 1, day);
+            return new Date(Date.UTC(year, month - 1, day));
         }
 
         function firstMonday(string) {
@@ -28,9 +28,9 @@ angular.module("moBilling.factories.dayType", [])
             date = new Date(string);
             year = date.getUTCFullYear();
             month = date.getUTCMonth();
-            day = new Date(year, month, 1).getUTCDay();
+            day = new Date(Date.UTC(year, month, 1)).getUTCDay();
 
-            return new Date(year, month, 1 + ((7 - day + 1) % 7));
+            return new Date(Date.UTC(year, month, 1 + ((7 - day + 1) % 7)));
         }
 
         function goodFriday(string) {
@@ -49,8 +49,8 @@ angular.module("moBilling.factories.dayType", [])
         function canadaDay(string) {
             var holiday,
                 date = new Date(string),
-                julyFirst = new Date(date.getUTCFullYear(), 6, 1),
-                julySecond = new Date(date.getUTCFullYear(), 6, 2);
+                julyFirst = new Date(Date.UTC(date.getUTCFullYear(), 6, 1)),
+                julySecond = new Date(Date.UTC(date.getUTCFullYear(), 6, 2));
 
             if (julyFirst.getUTCDay() === 0) {
                 holiday = julySecond;
@@ -71,7 +71,7 @@ angular.module("moBilling.factories.dayType", [])
             var holiday,
                 date = new Date(string);
 
-            holiday = firstMonday(new Date(date.getUTCFullYear(), 7, 1));
+            holiday = firstMonday(new Date(Date.UTC(date.getUTCFullYear(), 7, 1)));
 
             return date.getUTCFullYear() === holiday.getUTCFullYear() && date.getUTCMonth() === holiday.getUTCMonth() && date.getUTCDate() === holiday.getUTCDate();
         }
@@ -80,7 +80,7 @@ angular.module("moBilling.factories.dayType", [])
             var holiday,
                 date = new Date(string);
 
-            holiday = firstMonday(new Date(date.getUTCFullYear(), 8, 1));
+            holiday = firstMonday(new Date(Date.UTC(date.getUTCFullYear(), 8, 1)));
 
             return date.getUTCFullYear() === holiday.getUTCFullYear() && date.getUTCMonth() === holiday.getUTCMonth() && date.getUTCDate() === holiday.getUTCDate();
         }
@@ -95,7 +95,7 @@ angular.module("moBilling.factories.dayType", [])
             var holiday,
                 date = new Date(string);
 
-            holiday = new Date(firstMonday(new Date(date.getUTCFullYear(), 9, 1)).getTime() + 1000 * 60 * 60 * 24 * 7);
+            holiday = new Date(firstMonday(new Date(Date.UTC(date.getUTCFullYear(), 9, 1))).getTime() + 1000 * 60 * 60 * 24 * 7);
 
             return date.getUTCFullYear() === holiday.getUTCFullYear() && date.getUTCMonth() === holiday.getUTCMonth() && date.getUTCDate() === holiday.getUTCDate();
         }
@@ -106,7 +106,7 @@ angular.module("moBilling.factories.dayType", [])
 
             year = date.getUTCFullYear();
 
-            mayTwentyFourth = new Date(year, 4, 24);
+            mayTwentyFourth = new Date(Date.UTC(year, 4, 24));
 
             if (mayTwentyFourth.getUTCDay() > 1) {
                 holiday = new Date(mayTwentyFourth.getTime() - (mayTwentyFourth.getUTCDay() - 1) * 1000 * 60 * 60 * 24);

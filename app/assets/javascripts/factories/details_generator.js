@@ -176,6 +176,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                         } else {
                             if (!admission) {
                                 details.push({ day: day, code: "C132" });
+                                details.push({ day: day, code: "E083" });
                             } else {
                                 details.push({ day: day, code: "C123" });
                                 details.push({ day: day, code: "E083" });
@@ -188,10 +189,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                     // 3-35 day after admission
                     if (mrp) {
                         details.push({ day: day, code: "C132" });
-
-                        if (admission) {
-                            details.push({ day: day, code: "E083" });
-                        }
+                        details.push({ day: day, code: "E083" });
                     } else {
                         details.push({ day: day, code: "C138" });
                     }
