@@ -4,6 +4,8 @@ unless defined?(Rails)
   require File.expand_path("../../config/environment", __FILE__)
 end
 
+ENV["TZ"] = "Canada/Eastern"
+
 Teaspoon.configure do |config|
   config.suite do |suite|
     suite.use_framework :jasmine, "1.3.1"

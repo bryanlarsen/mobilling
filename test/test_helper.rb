@@ -4,7 +4,6 @@ require "rails/test_help"
 require "test_user_helper"
 require "capybara/rails"
 require "capybara/poltergeist"
-
 DatabaseCleaner.strategy = :deletion
 
 class ActiveSupport::TestCase
