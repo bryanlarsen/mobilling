@@ -6,6 +6,8 @@ end
 
 Teaspoon.configure do |config|
   config.suite do |suite|
-    suite.use_framework :qunit
+    suite.use_framework :jasmine, "1.3.1"
+    suite.matcher = "{test/javascripts}/**/*_test.js"
+    suite.helper = "test_helper"
   end
 end

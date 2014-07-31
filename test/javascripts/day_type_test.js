@@ -1,70 +1,72 @@
-module("day type", {
-    setup: function () {
-        this.$scope = injector.get("$rootScope").$new();
-        this.dayType = injector.get("dayType");
-    }
-});
+describe("day type", function () {
+    var injector, dayType;
 
-test("returns 'holiday' for Good Friday 2015", 1, function () {
-    strictEqual(this.dayType("2015-04-03"), "holiday");
-});
+    beforeEach(function () {
+        injector = angular.injector(["ng", "ngMock", "moBilling"]);
+        dayType = injector.get("dayType");
+    });
 
-test("returns 'holiday' for Boxing Day 2015", 1, function () {
-    strictEqual(this.dayType("2015-12-26"), "holiday");
-});
+    it("returns 'holiday' for Good Friday 2015", function () {
+        expect(dayType("2015-04-03")).toEqual("holiday");
+    });
 
-test("returns 'holiday' for Canada Day 2015", 1, function () {
-    strictEqual(this.dayType("2015-07-01"), "holiday");
-});
+    it("returns 'holiday' for Boxing Day 2015", function () {
+        expect(dayType("2015-12-26")).toEqual("holiday");
+    });
 
-test("returns 'holiday' for Christmas 2015", 1, function () {
-    strictEqual(this.dayType("2015-12-25"), "holiday");
-});
+    it("returns 'holiday' for Canada Day 2015", function () {
+        expect(dayType("2015-07-01")).toEqual("holiday");
+    });
 
-test("returns 'holiday' for Civic Holiday 2015", 1, function () {
-    strictEqual(this.dayType("2015-08-03"), "holiday");
-});
+    it("returns 'holiday' for Christmas 2015", function () {
+        expect(dayType("2015-12-25")).toEqual("holiday");
+    });
 
-test("returns 'holiday' for Labour Day 2015", 1, function () {
-    strictEqual(this.dayType("2015-09-07"), "holiday");
-});
+    it("returns 'holiday' for Civic Holiday 2015", function () {
+        expect(dayType("2015-08-03")).toEqual("holiday");
+    });
 
-test("returns 'holiday' for New Years Day 2015", 1, function () {
-    strictEqual(this.dayType("2015-01-01"), "holiday");
-});
+    it("returns 'holiday' for Labour Day 2015", function () {
+        expect(dayType("2015-09-07")).toEqual("holiday");
+    });
 
-test("returns 'holiday' for Thanksgiving 2015", 1, function () {
-    strictEqual(this.dayType("2015-10-12"), "holiday");
-});
+    it("returns 'holiday' for New Years Day 2015", function () {
+        expect(dayType("2015-01-01")).toEqual("holiday");
+    });
 
-test("returns 'holiday' for Victoria Day 2015", 1, function () {
-    strictEqual(this.dayType("2015-05-18"), "holiday");
-});
+    it("returns 'holiday' for Thanksgiving 2015", function () {
+        expect(dayType("2015-10-12")).toEqual("holiday");
+    });
 
-test("returns 'weekend' for Saturday", 1, function () {
-    strictEqual(this.dayType("2014-08-02"), "weekend");
-});
+    it("returns 'holiday' for Victoria Day 2015", function () {
+        expect(dayType("2015-05-18")).toEqual("holiday");
+    });
 
-test("returns 'weekend' for Sunday", 1, function () {
-    strictEqual(this.dayType("2014-08-03"), "weekend");
-});
+    it("returns 'weekend' for Saturday", function () {
+        expect(dayType("2014-08-02")).toEqual("weekend");
+    });
 
-test("returns 'weekday' for Monday", 1, function () {
-    strictEqual(this.dayType("2014-08-11"), "weekday");
-});
+    it("returns 'weekend' for Sunday", function () {
+        expect(dayType("2014-08-03")).toEqual("weekend");
+    });
 
-test("returns 'weekday' for Tuesday", 1, function () {
-    strictEqual(this.dayType("2014-08-05"), "weekday");
-});
+    it("returns 'weekday' for Monday", function () {
+        expect(dayType("2014-08-11")).toEqual("weekday");
+    });
 
-test("returns 'weekday' for Wednesday", 1, function () {
-    strictEqual(this.dayType("2014-08-06"), "weekday");
-});
+    it("returns 'weekday' for Tuesday", function () {
+        expect(dayType("2014-08-05")).toEqual("weekday");
+    });
 
-test("returns 'weekday' for Thursday", 1, function () {
-    strictEqual(this.dayType("2014-08-07"), "weekday");
-});
+    it("returns 'weekday' for Wednesday", function () {
+        expect(dayType("2014-08-06")).toEqual("weekday");
+    });
 
-test("returns 'weekday' for Friday", 1, function () {
-    strictEqual(this.dayType("2014-08-08"), "weekday");
+    it("returns 'weekday' for Thursday", function () {
+        expect(dayType("2014-08-07")).toEqual("weekday");
+    });
+
+    it("returns 'weekday' for Friday", function () {
+        expect(dayType("2014-08-08")).toEqual("weekday");
+    });
 });
