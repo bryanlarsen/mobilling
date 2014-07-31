@@ -157,8 +157,8 @@ angular.module("moBilling.factories.detailsGenerator", [])
                                 details.push({ day: day, code: "C132" });
                             } else {
                                 details.push({ day: day, code: "C122" });
-                                details.push({ day: day, code: "E083" });
                             }
+                            details.push({ day: day, code: "E083" });
                         }
                     } else {
                         details.push({ day: day, code: "C138" });
@@ -176,11 +176,10 @@ angular.module("moBilling.factories.detailsGenerator", [])
                         } else {
                             if (!admission) {
                                 details.push({ day: day, code: "C132" });
-                                details.push({ day: day, code: "E083" });
                             } else {
                                 details.push({ day: day, code: "C123" });
-                                details.push({ day: day, code: "E083" });
                             }
+                            details.push({ day: day, code: "E083" });
                         }
                     } else {
                         details.push({ day: day, code: "C138" });
