@@ -1,6 +1,6 @@
 angular.module("moBilling.directives.date", [])
 
-    .directive("mbDate", function (dateFilter) {
+    .directive("mbDate", function () {
         return {
             restrict: "E",
             require: "ngModel",
@@ -22,14 +22,23 @@ angular.module("moBilling.directives.date", [])
                             month = parseInt(modelValue.split("-")[1], 10) - 1;
                             day   = parseInt(modelValue.split("-")[2], 10);
 
-                            return new Date(Date.UTC(year, month, day));
+                            // angular displays "2014-07-31" as
+                            // "2014-07-30" when the timezone offset
+                            // is a positive number - we need to add
+                            // it to prevent this behaviour
+
+                            return new Date(Date.UTC(year, month, day) + new Date().getTimezoneOffset() * 60 * 1000);
                         } else {
                             return undefined;
                         }
                     });
 
                     ngModelController.$parsers.push(function (viewValue) {
-                        return dateFilter(viewValue, "yyyy-MM-dd");
+                        if (viewValue) {
+                            return viewValue.toISOString().substr(0, 10);
+                        } else {
+                            return undefined;
+                        }
                     });
                 } else {
                     $(element).datepicker({ autoclose: true, format: "yyyy-mm-dd" });
