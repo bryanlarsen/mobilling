@@ -90,7 +90,9 @@ angular.module("moBilling.factories.detailsGenerator", [])
         }
 
         function detailsGenerator(claim) {
-            var admission = claim.admission_on,
+            var daysAfterFirstSeen,
+                admissionOffset = 0,
+                admission = claim.admission_on,
                 first = claim.first_seen_on,
                 last = claim.last_seen_on,
                 mrp = claim.most_responsible_physician,
@@ -102,10 +104,14 @@ angular.module("moBilling.factories.detailsGenerator", [])
                 discharge = claim.last_seen_discharge,
                 details = [];
 
-            daysRange(admission, last).forEach(function (day, i) {
+            daysRange(admission, last).forEach(function (day, daysAfterAdmission) {
+                // no codes before first seen date
                 if (day < first) {
+                    admissionOffset++;
                     return;
                 }
+
+                daysAfterFirstSeen = daysAfterAdmission - admissionOffset;
 
                 if (day === first) {
                     if (consult) {
@@ -129,9 +135,8 @@ angular.module("moBilling.factories.detailsGenerator", [])
                     } else {
                         if (admission !== first) {
                             if (icu) {
-                                if (mrp) {
-                                    details.push({ day: day, code: "C142" });
-                                }
+                                details.push({ day: day, code: "C142" });
+                                details.push({ day: day, code: "E083" });
                             } else {
                                 if (mrp) {
                                     details.push({ day: day, code: "C132" });
@@ -142,7 +147,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                             }
                         }
                     }
-                } else if (day === last && discharge && admission === first) {
+                } else if (day === last && discharge && (admission === first || icu)) {
                     // discharge
                     if (mrp) {
                         details.push({ day: day, code: "C124" });
@@ -150,67 +155,46 @@ angular.module("moBilling.factories.detailsGenerator", [])
                     } else {
                         details.push({ day: day, code: "C138" });
                     }
-                } else if (i === 1) {
-                    // first day after admission
+                } else if (daysAfterFirstSeen === 1 && icu) {
+                    details.push({ day: day, code: "C143" });
+                    details.push({ day: day, code: "E083" });
+                } else if (daysAfterAdmission === 1) {
                     if (mrp) {
-                        if (icu) {
-                            if (admission !== first) {
-                                details.push({ day: day, code: "C143" });
-                            } else {
-                                details.push({ day: day, code: "C142" });
-                                details.push({ day: day, code: "E083" });
-                            }
-
+                        if (admission !== first) {
+                            details.push({ day: day, code: "C132" });
                         } else {
-                            if (admission !== first) {
-                                details.push({ day: day, code: "C132" });
-                            } else {
-                                details.push({ day: day, code: "C122" });
-                            }
-                            details.push({ day: day, code: "E083" });
+                            details.push({ day: day, code: "C122" });
                         }
+                        details.push({ day: day, code: "E083" });
                     } else {
                         details.push({ day: day, code: "C138" });
                     }
-                } else if (i === 2) {
-                    // second day after admission
+                } else if (daysAfterAdmission === 2) {
                     if (mrp) {
-                        if (icu) {
-                            if (admission === first) {
-                                details.push({ day: day, code: "C143" });
-                                details.push({ day: day, code: "E083" });
-                            } else {
-                                details.push({ day: day, code: "C132" });
-                            }
+                        if (admission !== first) {
+                            details.push({ day: day, code: "C132" });
                         } else {
-                            if (admission !== first) {
-                                details.push({ day: day, code: "C132" });
-                            } else {
-                                details.push({ day: day, code: "C123" });
-                            }
-                            details.push({ day: day, code: "E083" });
+                            details.push({ day: day, code: "C123" });
                         }
+                        details.push({ day: day, code: "E083" });
                     } else {
                         details.push({ day: day, code: "C138" });
                     }
-                } else if (i >= 3 && i <= 35) {
-                    // 3-35 day after admission
+                } else if (daysAfterAdmission >= 3 && daysAfterAdmission <= 35) {
                     if (mrp) {
                         details.push({ day: day, code: "C132" });
                         details.push({ day: day, code: "E083" });
                     } else {
                         details.push({ day: day, code: "C138" });
                     }
-                } else if (i >= 36 && i <= 91) {
-                    // 36-91 day after admission
+                } else if (daysAfterAdmission >= 36 && daysAfterAdmission <= 91) {
                     if (mrp) {
                         details.push({ day: day, code: "C137" });
                         details.push({ day: day, code: "E083" });
                     } else {
                         details.push({ day: day, code: "C138" });
                     }
-                } else if (i >= 92) {
-                    // 92+ day after admission
+                } else if (daysAfterAdmission >= 92) {
                     if (mrp) {
                         details.push({ day: day, code: "C139" });
                         details.push({ day: day, code: "E083" });
