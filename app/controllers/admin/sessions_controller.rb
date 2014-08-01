@@ -1,10 +1,12 @@
 class Admin::SessionsController < Admin::ApplicationController
   def new
     @interactor = CreateAdminSession.new
+    authorize :session, :create?
   end
 
   def create
     @interactor = CreateAdminSession.new(session_params)
+    authorize :session, :create?
     if @interactor.perform
       sign_in(@interactor.user)
       redirect_to root_url
@@ -14,6 +16,7 @@ class Admin::SessionsController < Admin::ApplicationController
   end
 
   def destroy
+    authorize :session, :destroy?
     sign_out
     redirect_to root_url
   end

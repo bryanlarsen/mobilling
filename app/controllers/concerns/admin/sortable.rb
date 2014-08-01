@@ -1,4 +1,4 @@
-module Sortable
+module Admin::Sortable
   extend ActiveSupport::Concern
 
   included do
