@@ -18,7 +18,7 @@ class Admin::SessionsController < Admin::ApplicationController
   def destroy
     authorize :session, :destroy?
     sign_out
-    redirect_to root_url
+    redirect_to admin_root_url
   end
 
   private

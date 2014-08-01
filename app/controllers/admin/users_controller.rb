@@ -9,7 +9,7 @@ class Admin::UsersController < Admin::ApplicationController
     # @users = User.accessible_by(current_ability).includes(:agent).where(filters).order("#{sort_column} #{sort_direction}")
     # @users = ::User.includes(:agent).where(filters).order("#{sort_column} #{sort_direction}")
     @users = ::User.order("#{sort_column} #{sort_direction}")
-    # authorize! :manage, User
+    authorize :user, :read?
   end
 
   def new
