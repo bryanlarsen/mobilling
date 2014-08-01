@@ -14,13 +14,13 @@ class Admin::UsersController < Admin::ApplicationController
 
   def new
     @user = User.new
-    @user.attributes = {agent: current_user, role: "doctor"} if current_user.role.agent?
+    # @user.attributes = {agent: current_user} if current_user.role.agent?
     authorize! :manage, @user
   end
 
   def create
     @user = User.new
-    @user.attributes = {agent: current_user, role: "doctor"} if current_user.role.agent?
+    # @user.attributes = {agent: current_user} if current_user.role.agent?
     authorize! :manage, @user
     if @user.update(permitted_params)
       redirect_to admin_users_path
