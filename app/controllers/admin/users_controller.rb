@@ -15,13 +15,13 @@ class Admin::UsersController < Admin::ApplicationController
   def new
     @user = User.new
     # @user.attributes = {agent: current_user} if current_user.role.agent?
-    authorize! :manage, @user
+    authorize :user, :create?
   end
 
   def create
     @user = User.new
     # @user.attributes = {agent: current_user} if current_user.role.agent?
-    authorize! :manage, @user
+    authorize :user, :create?
     if @user.update(permitted_params)
       redirect_to admin_users_path
     else
@@ -30,13 +30,13 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
-    authorize! :manage, @user
+    @user = ::User.find(params[:id])
+    authorize :user, :update?
   end
 
   def update
-    @user = User.find(params[:id])
-    authorize! :manage, @user
+    @user = ::User.find(params[:id])
+    authorize :user, :update?
     if @user.update(permitted_params)
       redirect_to admin_users_path
     else

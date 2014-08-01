@@ -8,4 +8,16 @@ class UserPolicy < Struct.new(:current_user, :user)
   def read?
     current_user.present?
   end
+
+  def create?
+    current_user.present?
+  end
+
+  def update?
+    current_user.present?
+  end
+
+  def destroy?
+    current_user.present?
+  end
 end
