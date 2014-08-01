@@ -4,7 +4,7 @@
 
     <div class="form-group">
       <div class="col-md-10 col-md-offset-2">
-        <%= icon_submit "check", "Update", type: "submit", class: "btn btn-success" %>
+        <%= icon_submit "check", "Update", type: "submit", class: "btn btn-primary" %>
         <%= icon_link_to "trash-o", "Delete", admin_user_path(@interactor.user), class: "btn btn-danger btn-default", method: :delete, data: {confirm: "Are you sure?"} %>
         <%= icon_link_to "times", "Cancel", admin_users_path, class: "btn btn-default" %>
       </div>

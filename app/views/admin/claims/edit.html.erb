@@ -14,9 +14,9 @@
         <label class="control-label col-md-2">Patient ID Photo</label>
         <div class="col-md-10">
           <p class="form-control-static">
-            <% if @interactor.photo.present? %>
-              <%= link_to @interactor.photo.file.url do %>
-                <%= image_tag @interactor.photo.file.small.url, width: 300, class: "thumbnail", data: {lightbox: @interactor.photo.file.url} %>
+            <% if @interactor.claim.photo.present? %>
+              <%= link_to @interactor.claim.photo.file.url do %>
+                <%= image_tag @interactor.claim.photo.file.small.url, width: 300, class: "thumbnail", data: {lightbox: @interactor.claim.photo.file.url} %>
               <% end %>
             <% else %>
               None
@@ -117,8 +117,8 @@
 
     <div class="form-group">
       <div class="col-md-10 col-md-offset-2">
-        <%= icon_submit "ok", "Update", type: "submit", class: "btn btn-success" %>
-        <%= icon_link_to "remove", "Cancel", admin_claims_path, class: "btn btn-default" %>
+        <%= icon_submit "check", "Update", type: "submit", class: "btn btn-primary" %>
+        <%= icon_link_to "times", "Cancel", admin_claims_path, class: "btn btn-default" %>
       </div>
     </div>
   <% end %>

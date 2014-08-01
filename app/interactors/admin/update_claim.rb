@@ -7,8 +7,6 @@ class Admin::UpdateClaim
 
   validates :status, inclusion: {in: %w[saved unprocessed]}
 
-  delegate :photo, to: :claim
-
   def initialize(attributes)
     @claim = ::Claim.find(attributes[:id])
     self.status = @claim.status
