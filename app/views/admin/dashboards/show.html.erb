@@ -12,7 +12,7 @@
         <td><%= user.name %></td>
         <% Claim.statuses.keys.each do |state| %>
           <td class="text-center">
-            <%= link_to_unless user["#{state}_count"].zero?, user["#{state}_count"], admin_claims_path(user_id: user.id, state: state) %>
+            <%= link_to_unless user["#{state}_count"] == 0, user["#{state}_count"], admin_claims_path(user_id: user.id, state: state) %>
           </td>
         <% end %>
         <td class="text-right">
