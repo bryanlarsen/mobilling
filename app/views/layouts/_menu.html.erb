@@ -12,29 +12,29 @@
 
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <% if can?(:read, :dashboard) %>
+        <%# if can?(:read, :dashboard) %>
           <li class="<%= 'active' if current_page?(admin_dashboard_path) %>">
             <%= link_to "Dashboard", admin_dashboard_path %>
           </li>
-        <% end %>
-        <% if can?(:manage, Claim) %>
+        <%# end %>
+        <%# if can?(:manage, Claim) %>
           <li class="<%= 'active' if current_page?(admin_claims_path) %>">
             <%= link_to "Claims", admin_claims_path %>
           </li>
-        <% end %>
-        <% if can?(:manage, User) %>
+        <%# end %>
+        <%# if can?(:manage, User) %>
           <li class="<%= 'active' if current_page?(admin_users_path) %>">
             <%= link_to "Users", admin_users_path %>
           </li>
-        <% end %>
+        <%# end %>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <% if can?(:destroy, ActiveModel::Session) %>
+        <%# if can?(:destroy, ActiveModel::Session) %>
           <li>
-            <%= icon_link_to "log-out", "Log Out", session_path, method: "delete" %>
+            <%= icon_link_to "sign-out", "Sign Out", admin_session_path, method: "delete" %>
           </li>
-        <% end %>
+        <%# end %>
       </ul>
     </div>
   </div>
