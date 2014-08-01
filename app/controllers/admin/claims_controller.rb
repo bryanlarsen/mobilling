@@ -1,23 +1,23 @@
 class Admin::ClaimsController < Admin::ApplicationController
-  include Sortable
+  include Admin::Sortable
 
-  self.sortable_columns = %w[id backend_number users.name state submitted_date patient_name]
+  self.sortable_columns = %w[id users.name status patient_name]
 
-  helper_method :user_id_filter, :state_filter
+  helper_method :user_id_filter, :status_filter
 
   def index
-    @claims = Claim.accessible_by(current_ability).includes(:user).where(filters).order("#{sort_column} #{sort_direction}")
-    authorize! :manage, Claim
+    @claims = Claim.includes(:user).where(filters).order("#{sort_column} #{sort_direction}")
+    authorize :claim, :read?
   end
 
   def edit
     @claim = Claim.find(params[:id])
-    authorize! :manage, @claim
+    authorize :claim, :update?
   end
 
   def update
     @claim = Claim.find(params[:id])
-    authorize! :manage, @claim
+    authorize :claim, :update?
 
     @claim.attributes = claim_params
     emails = @claim.comments.reject(&:persisted?).map do |comment|
@@ -44,22 +44,22 @@ class Admin::ClaimsController < Admin::ApplicationController
     end
   end
 
-  def state_filter
-    if params.key?(:state)
-      cookies[:claims_index_state_filter] = Array.wrap(params[:state]).select(&:present?)
+  def status_filter
+    if params.key?(:status)
+      cookies[:claims_index_status_filter] = Array.wrap(params[:status]).select(&:present?)
     else
-      cookies[:claims_index_state_filter].to_s.split("&")
+      cookies[:claims_index_status_filter].to_s.split("&")
     end
   end
 
   def filters
     {}.tap do |filters|
       filters[:user_id] = user_id_filter if user_id_filter.present?
-      filters[:state] = state_filter if state_filter.present?
+      filters[:status] = status_filter if status_filter.present?
     end
   end
 
   def claim_params
-    params.require(:claim).permit(:patient_name, :backend_number, :state, :value, comments_attributes: [:body])
+    params.require(:claim).permit(:patient_name, :status, :value, comments_attributes: [:body])
   end
 end

@@ -10,18 +10,18 @@
             <div class="form-group">
               <%= label_tag :user_id, "Doctor", class: "control-label col-md-2" %>
               <div class="col-md-10">
-                <%= select_tag :user_id, options_from_collection_for_select(User.accessible_by(current_ability), "id", "name", user_id_filter), class: "form-control", prompt: "All" %>
+                <%= select_tag :user_id, options_from_collection_for_select(policy_scope(:user), "id", "name", user_id_filter), class: "form-control", prompt: "All" %>
               </div>
             </div>
             <div class="form-group">
-              <label class="control-label col-md-2">State</label>
+              <label class="control-label col-md-2">Status</label>
               <div class="col-md-10">
-                <%= hidden_field_tag "state[]", nil %>
-                <% Claim::States::ALL.each do |state| %>
+                <%= hidden_field_tag "status[]", nil %>
+                <% Claim.statuses.each do |name, value| %>
                   <div class="checkbox">
                     <label>
-                      <%= check_box_tag "state[]", state, state_filter.include?(state) %>
-                      <%= state.humanize %>
+                      <%= check_box_tag "status[]", value, status_filter.include?(value.to_s) %>
+                      <%= name.humanize %>
                     </label>
                   </div>
                 <% end %>
@@ -41,21 +41,17 @@
       <table class="table table-striped">
         <tr>
           <th><%= sortable_link_to "id", "#" %></th>
-          <th class="text-center"><%= sortable_link_to "backend_number", "Backend #" %></th>
           <th class="text-center"><%= sortable_link_to "users.name", "Doctor" %></th>
-          <th class="text-center"><%= sortable_link_to "state" %></th>
-          <th class="text-center"><%= sortable_link_to "submitted_date" %></th>
+          <th class="text-center"><%= sortable_link_to "status" %></th>
           <th class="text-center"><%= sortable_link_to "patient_name" %></th>
           <th class="text-right">Actions</th>
         </tr>
         <% @claims.each do |claim| %>
           <tr>
             <td><%= claim.id %></td>
-            <td class="text-center"><%= claim.backend_number %></td>
             <td class="text-center"><%= claim.user.name %></td>
-            <td class="text-center"><%= claim.state.humanize %></td>
-            <td class="text-center"><%= claim.submitted_date %></td>
-            <td class="text-center"><%= claim.patient_name %></td>
+            <td class="text-center"><%= claim.status.humanize %></td>
+            <td class="text-center"><%= claim.details["patient_name"] %></td>
             <td class="text-right"><%= link_to "Edit", edit_admin_claim_path(claim) %></td>
           </tr>
         <% end %>
