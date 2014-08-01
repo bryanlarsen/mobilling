@@ -41,6 +41,6 @@ class Admin::UpdateClaim
   def claim_attributes_details
     {
       "patient_name" => patient_name
-    }
+    }.reverse_merge(@claim.details)
   end
 end
