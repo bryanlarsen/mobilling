@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::ApplicationController
-  include Sortable
+  include Admin::Sortable
 
   self.sortable_columns = %w[id name email role agents_users.name]
 
@@ -7,7 +7,8 @@ class Admin::UsersController < Admin::ApplicationController
 
   def index
     # @users = User.accessible_by(current_ability).includes(:agent).where(filters).order("#{sort_column} #{sort_direction}")
-    @users = User.includes(:agent).where(filters).order("#{sort_column} #{sort_direction}")
+    # @users = ::User.includes(:agent).where(filters).order("#{sort_column} #{sort_direction}")
+    @users = ::User.order("#{sort_column} #{sort_direction}")
     # authorize! :manage, User
   end
 
