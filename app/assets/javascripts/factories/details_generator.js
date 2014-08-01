@@ -147,7 +147,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                             }
                         }
                     }
-                } else if (day === last && discharge && (admission === first || icu)) {
+                } else if (day === last && discharge) {
                     // discharge
                     if (mrp) {
                         details.push({ day: day, code: "C124" });
