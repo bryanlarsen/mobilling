@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Mo-Billing Admin</title>
+<%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+<%= csrf_meta_tags %>
+<meta name="viewport" content="width=device-width, user-scalable=0">
+
+</head>
+<body>
+
+<%= render "layouts/menu" %>
+<%= render "layouts/flash" %>
+
+<%= yield %>
+
+<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+
+</body>
+</html>

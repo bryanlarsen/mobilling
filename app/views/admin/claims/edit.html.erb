@@ -1,0 +1,207 @@
+<div class="container">
+  <%= form_for @claim, as: :claim, url: admin_claim_path, html: {class: "form-horizontal", multipart: true} do |form| %>
+    <fieldset>
+      <legend>Claim</legend>
+
+      <%= form.group :state do %>
+        <label class="control-label col-md-2">State</label>
+        <div class="col-md-10">
+          <p class="form-control-static"><%= @claim.state.humanize %></p>
+        </div>
+      <% end %>
+
+      <% if @claim.fields.include?(:patient_id_photo) %>
+        <%= form.group :patient_id_photo do %>
+          <label class="control-label col-md-2">Patient ID Photo</label>
+          <div class="col-md-10">
+            <p class="form-control-static">
+              <% if @claim.patient_id_photo.present? %>
+                <%= link_to @claim.patient_id_photo.url do %>
+                  <%= image_tag @claim.patient_id_photo.small.url, width: 300, class: "thumbnail", data: {lightbox: @claim.patient_id_photo.url} %>
+                <% end %>
+              <% else %>
+                None
+              <% end %>
+            </p>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if @claim.fields.include?(:patient_name) %>
+        <%= form.group :patient_name do %>
+          <%= form.label :patient_name, "Patient Name, DOB, HC#", class: "control-label col-md-2" %>
+          <div class="col-md-4">
+            <%= form.text_field :patient_name, class: "form-control" %>
+            <%= form.help_block :patient_name %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if @claim.fields.include?(:hospital) %>
+        <%= form.group :hospital do %>
+          <label class="control-label col-md-2">Hospital</label>
+          <div class="col-md-10">
+            <%= form.static :hospital %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if @claim.fields.include?(:referring_physician) %>
+        <%= form.group :referring_physician do %>
+          <label class="control-label col-md-2">Referring Physician</label>
+          <div class="col-md-10">
+            <%= form.static :referring_physician %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if @claim.fields.include?(:diagnosis) %>
+        <%= form.group :diagnosis do %>
+          <label class="control-label col-md-2">Diagnosis</label>
+          <div class="col-md-10">
+            <%= form.static :diagnosis %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if @claim.fields.include?(:procedure_date) %>
+        <%= form.group :last_seen_date do %>
+          <label class="control-label col-md-2">Procedure Date</label>
+          <div class="col-md-10">
+            <%= form.static :procedure_date %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if @claim.fields.include?(:admission_date) %>
+        <%= form.group :admission_date do %>
+          <label class="control-label col-md-2">Admission Date</label>
+          <div class="col-md-10">
+            <%= form.static :admission_date %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if @claim.fields.include?(:first_seen_date) %>
+        <%= form.group :first_seen_date do %>
+          <label class="control-label col-md-2">First Seen Date</label>
+          <div class="col-md-10">
+            <%= form.static :first_seen_date %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if @claim.fields.include?(:last_seen_date) %>
+        <%= form.group :last_seen_date do %>
+          <label class="control-label col-md-2">Last Seen Date</label>
+          <div class="col-md-10">
+            <%= form.static :last_seen_date %>
+          </div>
+        <% end %>
+      <% end %>
+    </fieldset>
+
+    <fieldset>
+      <legend>Daily Details</legend>
+
+      <% if @claim.details.present? %>
+        <% @claim.details.each do |detail| %>
+          <div class="form-group">
+            <label class="control-label col-md-2">
+              <% if @claim.details_fields.include?(:day) %>
+                <%= detail.day %>
+              <% end %>
+            </label>
+            <div class="col-md-10">
+              <p class="form-control-static">
+                <% if @claim.details_fields.include?(:code) %>
+                  <%= detail.code_with_name %>
+                <% end %>
+                <% if @claim.details_fields.include?(:time_in) and @claim.details_fields.include?(:time_out) %>
+                  (<%= detail.time_in.to_s(:time) %> &mdash; <%= detail.time_out.to_s(:time) %>)
+                <% end %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="col-md-10 col-md-offset-2">None</p>
+      <% end %>
+    </fieldset>
+
+    <fieldset>
+      <legend>Backend</legend>
+
+      <div class="form-group">
+        <%= form.label :state, class: "control-label col-md-2" %>
+        <div class="col-md-10">
+          <% Claim::States::ALL.each do |state| %>
+            <div class="radio">
+              <label>
+                <%= form.radio_button :state, state %>
+                <%= state.humanize %>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <%= form.group :value do %>
+        <%= form.label :value, class: "control-label col-md-2" %>
+        <div class="col-md-2">
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= form.number_field :value, class: "form-control", min: 0, step: 0.01 %>
+          </div>
+          <%= form.help_block :value %>
+        </div>
+      <% end %>
+
+      <%= form.group :backend_number do %>
+        <%= form.label :backend_number, class: "control-label col-md-2" %>
+        <div class="col-md-2">
+          <%= form.text_field :backend_number, class: "form-control" %>
+          <%= form.help_block :backend_number %>
+        </div>
+      <% end %>
+    </fieldset>
+
+    <fieldset>
+      <legend>Comments</legend>
+
+      <% @claim.comments.each do |comment| %>
+        <div class="form-group">
+          <label class="control-label col-md-2">
+            <%= comment.created_at.to_date %>
+            <% if comment.user.present? %>
+              <br><small class="text-muted"><%= comment.user.name %></small>
+            <% end %>
+          </label>
+          <div class="col-md-10">
+            <p class="form-control-static">
+              <%= comment.body %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+
+      <%= form.fields_for :comments, @claim.comments.build do |comment_form| %>
+        <%= comment_form.group :body do %>
+          <%= comment_form.label :body, "Comment", class: "control-label col-md-2" %>
+          <div class="col-md-4">
+            <%= comment_form.text_area :body, class: "form-control", rows: 5 %>
+          </div>
+        <% end %>
+      <% end %>
+    </fieldset>
+
+    <div class="form-group">
+      <div class="col-md-10 col-md-offset-2">
+        <%= icon_submit "ok", "Update", type: "submit", class: "btn btn-success" %>
+        <%= icon_link_to "remove", "Cancel", admin_claims_path, class: "btn btn-default" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= render "layouts/lightbox", title: "Patient ID Photo" %>

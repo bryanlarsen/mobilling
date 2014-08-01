@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="row">
+    <% if current_user.role.admin? %>
+      <div class="col-md-4 col-md-push-8">
+        <form action="<%= admin_users_path %>" method="get" class="form-horizontal">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong>Filters</strong>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <%= label_tag :agent_id, "Agent", class: "control-label col-md-2" %>
+                <div class="col-md-10">
+                  <%= select_tag :agent_id, options_from_collection_for_select(User.agents, :id, :name, agent_id_filter), class: "form-control", prompt: "All" %>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-10 col-md-offset-2">
+                  <%= icon_submit "filter", "Filter", class: "btn btn-primary", name: "" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    <% end %>
+
+    <div class="<%= (current_user.role.admin?) ? 'col-md-8 col-md-pull-4' : 'col-md-12' %>">
+      <table class="table table-striped">
+        <tr>
+          <th>
+            <%= sortable_link_to "name" %>
+          </th>
+          <th class="text-center">
+            <%= sortable_link_to "email" %>
+          </th>
+          <th class="text-center">
+            <%= sortable_link_to "role" %>
+          </th>
+          <th class="text-center">
+            <%= sortable_link_to "agents_users.name", "Agent" %>
+          </th>
+          <th class="text-right">
+            Actions
+            <span class="text-muted">|</span>
+            <%= link_to "New", new_admin_user_path %>
+          </th>
+        </tr>
+        <% @users.each do |user| %>
+          <tr>
+            <td>
+              <%= user.name %>
+            </td>
+            <td class="text-center">
+              <%= user.email %>
+            </td>
+            <td class="text-center">
+              <%= user.role %>
+            </td>
+            <td class="text-center">
+              <% if user.role.doctor? %>
+                <%= user.agent.try(:name) || "none" %>
+              <% else %>
+                <span class="text-muted">n/a</span>
+              <% end %>
+            </td>
+            <td class="text-right">
+              <%= link_to "Edit", edit_admin_user_path(user) %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

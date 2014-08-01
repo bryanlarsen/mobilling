@@ -1,0 +1,86 @@
+<fieldset>
+  <legend>User</legend>
+
+  <%= form.group :name do %>
+    <%= form.label :name, class: "control-label col-md-2" %>
+    <div class="col-md-4">
+      <%= form.text_field :name, class: "form-control input" %>
+      <%= form.help_block :name %>
+    </div>
+  <% end %>
+
+  <%= form.group :email do %>
+    <%= form.label :email, class: "control-label col-md-2" %>
+    <div class="col-md-4">
+      <%= form.email_field :email, class: "form-control input" %>
+      <%= form.help_block :email %>
+    </div>
+  <% end %>
+
+  <%= form.group :billing_number do %>
+    <%= form.label :billing_number, class: "control-label col-md-2" %>
+    <div class="col-md-4">
+      <%= form.text_field :billing_number, class: "form-control input" %>
+      <%= form.help_block :billing_number %>
+    </div>
+  <% end %>
+
+  <%= form.group :specialties do %>
+    <%= form.label :specialties, class: "control-label col-md-2" %>
+    <div class="col-md-10">
+      <%= form.collection_check_boxes :specialties, User::Specialties::ALL, :to_s, :titleize do |specialty_form| %>
+        <div class="checkbox">
+          <%= specialty_form.check_box %>
+          <%= specialty_form.label %>
+        </div>
+      <% end %>
+      <%= form.help_block :specialties %>
+    </div>
+  <% end %>
+
+  <%= form.group :password do %>
+    <%= form.label :password, class: "control-label col-md-2" %>
+    <div class="col-md-4">
+      <%= form.password_field :password, class: "form-control input" %>
+      <%= form.help_block :password %>
+    </div>
+  <% end %>
+
+  <%= form.group :password_confirmation do %>
+    <%= form.label :password_confirmation, class: "control-label col-md-2" %>
+    <div class="col-md-4">
+      <%= form.password_field :password_confirmation, class: "form-control input" %>
+      <%= form.help_block :password_confirmation %>
+    </div>
+  <% end %>
+
+  <% if param_filters.include?(:plan) %>
+    <%= form.group :plan do %>
+      <%= form.label :plan, class: "control-label col-md-2" %>
+      <div class="col-md-4">
+        <%= form.select :plan, options_for_select(User::Payments::PLANS, selected: form.object.plan), {}, class: "form-control input" %>
+        <%= form.help_block :plan %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if param_filters.include?(:role) %>
+    <%= form.group :role do %>
+      <%= form.label :role, class: "control-label col-md-2" %>
+      <div class="col-md-4">
+        <%= form.select :role, options_for_select(User::Roles::ALL, selected: form.object.role), {}, class: "form-control input" %>
+        <%= form.help_block :role %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if param_filters.include?(:agent_id) %>
+    <%= form.group :agent_id do %>
+      <%= form.label :agent_id, class: "control-label col-md-2" %>
+      <div class="col-md-4">
+        <%= form.collection_select :agent_id, User.agents, :id, :name, {prompt: true}, class: "form-control input" %>
+        <%= form.help_block :agent_id %>
+      </div>
+    <% end %>
+  <% end %>
+</fieldset>
