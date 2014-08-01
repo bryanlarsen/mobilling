@@ -1,12 +1,12 @@
 <div class="container">
-  <%= form_for @user, url: admin_user_path(@user), html: {class: "form-horizontal"} do |form| %>
+  <%= form_for @interactor, url: admin_user_path(@interactor.user), html: {class: "form-horizontal"} do |form| %>
     <%= render "form", form: form %>
 
     <div class="form-group">
       <div class="col-md-10 col-md-offset-2">
-        <%= icon_submit "ok", "Update", type: "submit", class: "btn btn-success" %>
-        <%= icon_link_to "trash", "Delete", admin_user_path(@user), class: "btn btn-danger btn-default", method: :delete, data: {confirm: "Are you sure?"} %>
-        <%= icon_link_to "remove", "Cancel", admin_users_path, class: "btn btn-default" %>
+        <%= icon_submit "check", "Update", type: "submit", class: "btn btn-success" %>
+        <%= icon_link_to "trash-o", "Delete", admin_user_path(@interactor.user), class: "btn btn-danger btn-default", method: :delete, data: {confirm: "Are you sure?"} %>
+        <%= icon_link_to "times", "Cancel", admin_users_path, class: "btn btn-default" %>
       </div>
     </div>
   <% end %>

@@ -6,9 +6,7 @@ class Admin::UsersController < Admin::ApplicationController
   helper_method :agent_id_filter
 
   def index
-    # @users = User.accessible_by(current_ability).includes(:agent).where(filters).order("#{sort_column} #{sort_direction}")
-    # @users = ::User.includes(:agent).where(filters).order("#{sort_column} #{sort_direction}")
-    @users = ::User.order("#{sort_column} #{sort_direction}")
+    @users = policy_scope(:user).where(filters).order("#{sort_column} #{sort_direction}")
     authorize :user, :read?
   end
 
@@ -18,7 +16,7 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def create
-    @interactor = Admin::CreateUser.new(user_params)
+    @interactor = Admin::CreateUser.new(create_user_params)
     authorize :user, :create?
     if @interactor.perform
       redirect_to admin_users_path
@@ -28,14 +26,14 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def edit
-    @user = ::User.find(params[:id])
+    @interactor = Admin::UpdateUser.new(id: params[:id])
     authorize :user, :update?
   end
 
   def update
-    @user = ::User.find(params[:id])
+    @interactor = Admin::UpdateUser.new(update_user_params.merge(id: params[:id]))
     authorize :user, :update?
-    if @user.update(permitted_params)
+    if @interactor.perform
       redirect_to admin_users_path
     else
       render "edit"
@@ -51,8 +49,12 @@ class Admin::UsersController < Admin::ApplicationController
 
   private
 
-  def user_params
+  def create_user_params
     params.require(:admin_create_user).permit(:name, :email, :password, :password_confirmation, :agent_id)
+  end
+
+  def update_user_params
+    params.require(:admin_update_user).permit(:name, :email, :password, :password_confirmation, :agent_id)
   end
 
   def agent_id_filter

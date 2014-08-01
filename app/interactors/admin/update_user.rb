@@ -1,21 +1,31 @@
-class Admin::CreateUser
+class Admin::UpdateUser
   include ActiveModel::Model
 
-  attr_accessor :email, :password, :name, :agent_id
+  attr_accessor :id, :email, :password, :name, :agent_id
   attr_reader :user
 
   validates :email, presence: true, email: true
-  validates :password, presence: true, confirmation: true
+  validates :password, confirmation: true
   validates :name, presence: true
   validate :existence
 
+  def initialize(attributes)
+    @user = ::User.find(attributes[:id])
+    self.email = @user.email
+    self.name = @user.name
+    super
+  end
+
   def perform
-    @user = ::User.find_or_initialize_by(email: email.to_s.downcase)
     if valid?
       @user.update!(user_attributes)
     else
       false
     end
+  end
+
+  def persisted?
+    true
   end
 
   private
@@ -29,6 +39,6 @@ class Admin::CreateUser
   end
 
   def existence
-    errors.add :email, :taken if user.persisted?
+    errors.add :email, :taken if ::User.where(::User.arel_table[:id].not_eq(id)).where(email: email).exists?
   end
 end
