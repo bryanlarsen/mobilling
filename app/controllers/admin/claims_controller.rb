@@ -11,12 +11,12 @@ class Admin::ClaimsController < Admin::ApplicationController
   end
 
   def edit
-    @interactor = Admin::UpdateClaim.new(id: params[:id])
+    @interactor = Admin::UpdateClaim.new(params[:id])
     authorize :claim, :update?
   end
 
   def update
-    @interactor = Admin::UpdateClaim.new(update_claim_params.merge(id: params[:id]))
+    @interactor = Admin::UpdateClaim.new(params[:id], update_claim_params)
     authorize :claim, :update?
 
     if @interactor.perform

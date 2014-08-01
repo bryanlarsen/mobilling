@@ -1,7 +1,7 @@
 class Admin::UpdateUser
   include ActiveModel::Model
 
-  attr_accessor :id, :email, :password, :name, :agent_id
+  attr_accessor :email, :password, :name, :agent_id
   attr_reader :user
 
   validates :email, presence: true, email: true
@@ -9,11 +9,11 @@ class Admin::UpdateUser
   validates :name, presence: true
   validate :existence
 
-  def initialize(attributes)
-    @user = ::User.find(attributes[:id])
+  def initialize(id, attributes = nil)
+    @user = ::User.find(id)
     self.email = @user.email
     self.name = @user.name
-    super
+    super(attributes)
   end
 
   def perform

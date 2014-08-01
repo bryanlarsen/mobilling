@@ -11,12 +11,12 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def edit
-    @interactor = Admin::UpdateUser.new(id: params[:id])
+    @interactor = Admin::UpdateUser.new(params[:id])
     authorize :user, :update?
   end
 
   def update
-    @interactor = Admin::UpdateUser.new(update_user_params.merge(id: params[:id]))
+    @interactor = Admin::UpdateUser.new(params[:id], update_user_params)
     authorize :user, :update?
     if @interactor.perform
       redirect_to admin_users_path
