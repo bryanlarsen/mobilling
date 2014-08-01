@@ -25,7 +25,7 @@ module Admin::CurrentUser
     sign_in(current_user_id)
   rescue SessionExpired => exception
     sign_out
-    redirect_to new_session_path, alert: exception.message
+    redirect_to new_admin_session_path, alert: exception.message
   end
 
   def current_user
