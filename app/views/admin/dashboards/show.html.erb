@@ -2,7 +2,7 @@
   <table class="table table-striped">
     <tr>
       <th><%= sortable_link_to "name", "Doctor" %></th>
-      <% Claim::States::ALL.each do |state| %>
+      <% Claim.statuses.keys.each do |state| %>
         <th class="text-center"><%= sortable_link_to "#{state}_count" %></th>
       <% end %>
       <th class="text-right">Actions</th>
@@ -10,7 +10,7 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= user.name %></td>
-        <% Claim::States::ALL.each do |state| %>
+        <% Claim.statuses.keys.each do |state| %>
           <td class="text-center">
             <%= link_to_unless user["#{state}_count"].zero?, user["#{state}_count"], admin_claims_path(user_id: user.id, state: state) %>
           </td>
