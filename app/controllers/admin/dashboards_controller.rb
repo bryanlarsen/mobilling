@@ -5,7 +5,6 @@ class Admin::DashboardsController < Admin::ApplicationController
 
   def show
     authorize :dashboard, :read?
-    # @users = User.accessible_by(current_ability).dashboard.order("#{sort_column} #{sort_direction}")
-    @users = ::User.dashboard.order("#{sort_column} #{sort_direction}")
+    @users = policy_scope(:dashboard).order("#{sort_column} #{sort_direction}")
   end
 end
