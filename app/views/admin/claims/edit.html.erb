@@ -15,8 +15,8 @@
         <div class="col-md-10">
           <p class="form-control-static">
             <% if @claim.photo.present? %>
-              <%= link_to @claim.photo.url do %>
-                <%= image_tag @claim.photo.small.url, width: 300, class: "thumbnail", data: {lightbox: @claim.photo.url} %>
+              <%= link_to @claim.photo.file.url do %>
+                <%= image_tag @claim.photo.file.small.url, width: 300, class: "thumbnail", data: {lightbox: @claim.photo.file.url} %>
               <% end %>
             <% else %>
               None
@@ -25,13 +25,13 @@
         </div>
       <% end %>
 
-      <%#= form.group :patient_name do %>
-        <%#= form.label :patient_name, "Patient Name, DOB, HC#", class: "control-label col-md-2" %>
-        <div class="col-md-4">
-          <%#= form.text_field :patient_name, class: "form-control" %>
-          <%#= form.help_block :patient_name %>
-        </div>
-      <%# end %>
+      <!-- <%#= form.group :patient_name do %> -->
+      <!--   <%#= form.label :patient_name, "Patient Name, DOB, HC#", class: "control-label col-md-2" %> -->
+      <!--   <div class="col-md-4"> -->
+      <!--     <%#= form.text_field :patient_name, class: "form-control" %> -->
+      <!--     <%#= form.help_block :patient_name %> -->
+      <!--   </div> -->
+      <!-- <%# end %> -->
 
       <%= form.group :hospital do %>
         <label class="control-label col-md-2">Hospital</label>
@@ -136,4 +136,4 @@
   <% end %>
 </div>
 
-<%#= render "layouts/lightbox", title: "Photo" %>
+<%= render "layouts/lightbox", title: "Photo" %>
