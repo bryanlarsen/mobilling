@@ -1,12 +1,3 @@
-unless User.where(name: "Test Agent 1").exists?
-  p "Creating Test Agents"
-  (1..5).each do |num|
-    name = "Test Agent #{num}"
-    User.create!(
-      name: name,
-      email: "test_agent_#{num}@agency.com",
-      role: "agent"
-    )
-    p "Create #{name}"
-  end
+ActiveRecord::Migration.say_with_time "Adding admin account" do
+  Admin::User.create(name: "Admin", email: "admin@example.com", password: "secret", role: "admin")
 end

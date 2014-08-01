@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20140801084618) do
     t.datetime "updated_at"
   end
 
+  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
+
   create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.uuid     "user_id"
     t.uuid     "photo_id"
