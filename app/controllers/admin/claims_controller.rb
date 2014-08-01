@@ -11,25 +11,17 @@ class Admin::ClaimsController < Admin::ApplicationController
   end
 
   def edit
-    @claim = Claim.find(params[:id])
+    @interactor = Admin::UpdateClaim.new(id: params[:id])
     authorize :claim, :update?
   end
 
   def update
-    @claim = Claim.find(params[:id])
+    @interactor = Admin::UpdateClaim.new(update_claim_params.merge(id: params[:id]))
     authorize :claim, :update?
 
-    @claim.attributes = claim_params
-    emails = @claim.comments.reject(&:persisted?).map do |comment|
-      comment.user = current_user
-      UserMailer.claim_commented(@claim.user, @claim, comment)
-    end
-
-    if @claim.save
-      emails.each(&:deliver)
+    if @interactor.perform
       redirect_to admin_claims_path, notice: "Claim updated successfully."
     else
-      flash.now[:error] = "Unable to save the record."
       render :edit
     end
   end
@@ -59,7 +51,7 @@ class Admin::ClaimsController < Admin::ApplicationController
     end
   end
 
-  def claim_params
-    params.require(:claim).permit(:patient_name, :status, :value, comments_attributes: [:body])
+  def update_claim_params
+    params.require(:claim).permit(:patient_name, :status)
   end
 end

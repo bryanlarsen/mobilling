@@ -16,11 +16,5 @@ module FormHelper
       class_names << "help-block"
       @template.content_tag(:span, object.errors[attribute].first, options.merge(class: class_names.join(" ")))
     end
-
-    def static(attribute, options = {})
-      class_names = options.fetch(:class, "").split(" ")
-      class_names << "form-control-static"
-      @template.content_tag(:p, object[attribute], options.merge(class: class_names.join(" ")))
-    end
   end
 end
