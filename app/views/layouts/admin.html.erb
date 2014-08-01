@@ -6,7 +6,7 @@
 <%= stylesheet_link_tag "admin", media: "all", "data-turbolinks-track" => true %>
 <%= csrf_meta_tags %>
 <meta name="viewport" content="width=device-width, user-scalable=0">
-
+<%= javascript_include_tag "admin", "data-turbolinks-track" => true %>
 </head>
 <body>
 
@@ -14,8 +14,6 @@
 <%= render "layouts/flash" %>
 
 <%= yield %>
-
-<%= javascript_include_tag "admin", "data-turbolinks-track" => true %>
 
 </body>
 </html>

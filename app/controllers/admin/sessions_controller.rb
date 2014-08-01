@@ -1,11 +1,11 @@
 class Admin::SessionsController < Admin::ApplicationController
   def new
-    @interactor = CreateAdminSession.new
+    @interactor = Admin::CreateSession.new
     authorize :session, :create?
   end
 
   def create
-    @interactor = CreateAdminSession.new(session_params)
+    @interactor = Admin::CreateSession.new(session_params)
     authorize :session, :create?
     if @interactor.perform
       sign_in(@interactor.user)
@@ -24,6 +24,6 @@ class Admin::SessionsController < Admin::ApplicationController
   private
 
   def session_params
-    params.require(:create_admin_session).permit(:email, :password)
+    params.require(:admin_create_session).permit(:email, :password)
   end
 end

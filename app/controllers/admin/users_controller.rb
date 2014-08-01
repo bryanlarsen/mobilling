@@ -13,16 +13,14 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def new
-    @user = User.new
-    # @user.attributes = {agent: current_user} if current_user.role.agent?
+    @interactor = Admin::CreateUser.new
     authorize :user, :create?
   end
 
   def create
-    @user = User.new
-    # @user.attributes = {agent: current_user} if current_user.role.agent?
+    @interactor = Admin::CreateUser.new(user_params)
     authorize :user, :create?
-    if @user.update(permitted_params)
+    if @interactor.perform
       redirect_to admin_users_path
     else
       render "new"
@@ -45,13 +43,17 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
-    authorize! :manage, @user
+    @user = ::User.find(params[:id])
+    authorize :user, :destroy?
     @user.destroy
     redirect_to admin_users_path
   end
 
   private
+
+  def user_params
+    params.require(:admin_create_user).permit(:name, :email, :password, :password_confirmation, :agent_id)
+  end
 
   def agent_id_filter
     if params.key?(:agent_id)

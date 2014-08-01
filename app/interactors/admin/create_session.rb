@@ -1,4 +1,4 @@
-class CreateAdminSession
+class Admin::CreateSession
   include ActiveModel::Model
 
   attr_accessor :email, :password
