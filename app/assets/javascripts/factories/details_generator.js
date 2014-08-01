@@ -113,69 +113,46 @@ angular.module("moBilling.factories.detailsGenerator", [])
 
                 daysAfterFirstSeen = daysAfterAdmission - admissionOffset;
 
-                if (day === first) {
-                    if (consult) {
-                        // consult
-                        details.push({ day: day, code: consultCode(consult) });
+                if (day === first && consult) {
+                    details.push({ day: day, code: consultCode(consult) });
 
-                        if (visit) {
-                            // visit premium
-                            details.push({ day: day, code: premiumVisitCode(true, er, visit) });
+                    if (visit) {
+                        // visit premium
+                        details.push({ day: day, code: premiumVisitCode(true, er, visit) });
 
-                            if (travel) {
-                                // travel premium
-                                details.push({ day: day, code: premiumTravelCode(er, visit) });
-                            }
-                        }
-
-                        if (admission === first && mrp) {
-                            // admission premium
-                            details.push({ day: day, code: "E082" });
-                        }
-                    } else {
-                        if (admission !== first) {
-                            if (icu) {
-                                details.push({ day: day, code: "C142" });
-                                details.push({ day: day, code: "E083" });
-                            } else {
-                                if (mrp) {
-                                    details.push({ day: day, code: "C132" });
-                                    details.push({ day: day, code: "E083" });
-                                } else {
-                                    details.push({ day: day, code: "C138" });
-                                }
-                            }
+                        if (travel) {
+                            // travel premium
+                            details.push({ day: day, code: premiumTravelCode(er, visit) });
                         }
                     }
+
+                    if (admission === first && mrp) {
+                        // admission premium
+                        details.push({ day: day, code: "E082" });
+                    }
                 } else if (day === last && discharge) {
-                    // discharge
                     if (mrp) {
                         details.push({ day: day, code: "C124" });
                         details.push({ day: day, code: "E083" });
                     } else {
                         details.push({ day: day, code: "C138" });
                     }
+                } else if (daysAfterFirstSeen === 0 && icu) {
+                    details.push({ day: day, code: "C142" });
+                    details.push({ day: day, code: "E083" });
                 } else if (daysAfterFirstSeen === 1 && icu) {
                     details.push({ day: day, code: "C143" });
                     details.push({ day: day, code: "E083" });
                 } else if (daysAfterAdmission === 1) {
                     if (mrp) {
-                        if (admission !== first) {
-                            details.push({ day: day, code: "C132" });
-                        } else {
-                            details.push({ day: day, code: "C122" });
-                        }
+                        details.push({ day: day, code: "C122" });
                         details.push({ day: day, code: "E083" });
                     } else {
                         details.push({ day: day, code: "C138" });
                     }
                 } else if (daysAfterAdmission === 2) {
                     if (mrp) {
-                        if (admission !== first) {
-                            details.push({ day: day, code: "C132" });
-                        } else {
-                            details.push({ day: day, code: "C123" });
-                        }
+                        details.push({ day: day, code: "C123" });
                         details.push({ day: day, code: "E083" });
                     } else {
                         details.push({ day: day, code: "C138" });
