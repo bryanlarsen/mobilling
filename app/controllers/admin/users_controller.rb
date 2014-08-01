@@ -10,21 +10,6 @@ class Admin::UsersController < Admin::ApplicationController
     authorize :user, :read?
   end
 
-  def new
-    @interactor = Admin::CreateUser.new
-    authorize :user, :create?
-  end
-
-  def create
-    @interactor = Admin::CreateUser.new(create_user_params)
-    authorize :user, :create?
-    if @interactor.perform
-      redirect_to admin_users_path
-    else
-      render "new"
-    end
-  end
-
   def edit
     @interactor = Admin::UpdateUser.new(id: params[:id])
     authorize :user, :update?

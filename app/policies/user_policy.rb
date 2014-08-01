@@ -9,10 +9,6 @@ class UserPolicy < Struct.new(:current_user, :user)
     current_user.present?
   end
 
-  def create?
-    current_user.present?
-  end
-
   def update?
     current_user.present?
   end

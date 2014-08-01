@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     resource :dashboard, only: %i[show]
     resource :session, only: %i[new create destroy]
     resources :claims, only: %i[index edit update]
-    resources :users, only: %i[index new create edit update destroy]
+    resources :users, only: %i[index edit update destroy]
     root to: redirect("/admin/dashboard")
   end
 end
