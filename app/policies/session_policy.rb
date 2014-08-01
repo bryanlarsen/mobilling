@@ -1,9 +1,9 @@
-class SessionPolicy < Struct.new(:user, :session)
+class SessionPolicy < Struct.new(:current_user, :session)
   def create?
-    user.blank?
+    current_user.blank?
   end
 
   def destroy?
-    user.present?
+    current_user.present?
   end
 end
