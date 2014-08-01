@@ -15,5 +15,6 @@ Rails.application.routes.draw do
     resource :session, only: %i[new create destroy]
     resources :claims, only: %i[index edit update]
     resources :users, only: %i[index new create edit update destroy]
+    root to: "dashboards#show"
   end
 end

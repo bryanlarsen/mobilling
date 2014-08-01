@@ -4,7 +4,7 @@ class Admin::DashboardsController < Admin::ApplicationController
   # self.sortable_columns = User::Dashboard::SORTABLE_COLUMNS
 
   def show
-    # authorize! :read, :dashboard
+    authorize :dashboard, :read?
     # @users = User.accessible_by(current_ability).dashboard.order("#{sort_column} #{sort_direction}")
   end
 end
