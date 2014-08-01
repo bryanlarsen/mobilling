@@ -35,7 +35,7 @@ angular.module("moBilling.directives.date", [])
 
                     ngModelController.$parsers.push(function (viewValue) {
                         if (viewValue) {
-                            return viewValue.toISOString().substr(0, 10);
+                            return new Date(viewValue.getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString().substr(0, 10);
                         } else {
                             return undefined;
                         }
