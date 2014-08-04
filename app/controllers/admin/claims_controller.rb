@@ -53,6 +53,6 @@ class Admin::ClaimsController < Admin::ApplicationController
   end
 
   def update_claim_params
-    params.require(:claim).permit(:patient_name, :status)
+    params.require(:admin_update_claim).permit(:patient_name, :status)
   end
 end

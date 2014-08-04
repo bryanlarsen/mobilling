@@ -69,12 +69,12 @@ class Admin::ClaimsControllerTest < ActionController::TestCase
     assert_equal [bob_claim, alice_claim], assigns(:claims)
   end
 
-  test "edit redirects to sign in when no user logged in" do
+  test "edit raises exception when no user logged in" do
     claim = create(:claim)
     assert_raises(ActiveRecord::RecordNotFound) { get :edit, id: claim.id }
   end
 
-  test "edit redirects to sign in when agent logged in and unassociated claim given" do
+  test "edit raises exception when agent logged in and unassociated claim given" do
     agent = create(:admin_user, role: "agent")
     claim = create(:claim)
     @controller.sign_in(agent)
@@ -89,12 +89,12 @@ class Admin::ClaimsControllerTest < ActionController::TestCase
     assert_template "edit"
   end
 
-  test "update redirects to sign in when no user logged in" do
+  test "update raises exception when no user logged in" do
     claim = create(:claim)
     assert_raises(ActiveRecord::RecordNotFound) { put :update, id: claim.id }
   end
 
-  test "update redirects to sign in when agent logged in and unassociated claim given" do
+  test "update raises exception when agent logged in and unassociated claim given" do
     agent = create(:admin_user, role: "agent")
     claim = create(:claim)
     @controller.sign_in(agent)
@@ -105,7 +105,7 @@ class Admin::ClaimsControllerTest < ActionController::TestCase
     admin = create(:admin_user, role: "admin")
     claim = create(:claim)
     @controller.sign_in(admin)
-    put :update, id: claim.id, claim: {patient_name: "Alice"}
+    put :update, id: claim.id, admin_update_claim: {patient_name: "Alice"}
     assert_redirected_to admin_claims_path
   end
 
@@ -113,7 +113,7 @@ class Admin::ClaimsControllerTest < ActionController::TestCase
     admin = create(:admin_user, role: "admin")
     claim = create(:claim)
     @controller.sign_in(admin)
-    put :update, id: claim.id, claim: {status: ""}
+    put :update, id: claim.id, admin_update_claim: {status: ""}
     assert_template "edit"
   end
 end
