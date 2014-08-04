@@ -3,7 +3,7 @@ module Admin::CurrentUser
 
   class SessionExpired < StandardError; end
 
-  SESSION_TIMEOUT = 15.minutes
+  SESSION_TIMEOUT = 24.hours
 
   included do
     helper_method :current_user

@@ -1,12 +1,12 @@
 class Admin::ClaimsController < Admin::ApplicationController
   include Admin::Sortable
 
-  self.sortable_columns = %w[id users.name status patient_name]
+  self.sortable_columns = %w[number doctor_name patient_name]
 
   helper_method :user_id_filter, :status_filter
 
   def index
-    @claims = Claim.includes(:user).where(filters).order("#{sort_column} #{sort_direction}")
+    @claims = policy_scope(:claim).where(filters).order("#{sort_column} #{sort_direction}")
     authorize :claim, :read?
   end
 
