@@ -53,6 +53,10 @@ module Test
       has_no_content?(*args)
     end
 
+    def within_row(name, &block)
+      within(:xpath, "//td[contains(., '#{name}')]/..", &block)
+    end
+
     def emails
       ActionMailer::Base.deliveries.select { |mail| mail.to.include?(email) }
     end
@@ -87,6 +91,27 @@ module Test
   class Doctor < User
     def initialize(user = FactoryGirl.create(:user, :authenticated))
       super(user)
+    end
+  end
+
+  class Admin < User
+    def initialize(user = FactoryGirl.create(:admin_user, role: "admin"))
+      super(user)
+    end
+
+    def sign_in
+      visit(admin_root_path)
+      fill_in("Email", with: email)
+      fill_in("Password", with: password)
+      click_on("Sign In")
+    end
+
+    def sign_out
+      click_on("Sign Out")
+    end
+
+    def navigate_to(title)
+      within(".navbar") { click_on(title) }
     end
   end
 end
