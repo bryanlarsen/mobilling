@@ -1,7 +1,7 @@
 <div class="container">
   <table class="table table-striped">
     <tr>
-      <th><%= sortable_link_to "name", "Doctor" %></th>
+      <th><%= sortable_link_to "users.name", "Doctor" %></th>
       <% Claim.statuses.keys.each do |state| %>
         <th class="text-center"><%= sortable_link_to "#{state}_count" %></th>
       <% end %>
