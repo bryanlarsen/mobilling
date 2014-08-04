@@ -41,9 +41,9 @@
       <table class="table table-striped">
         <tr>
           <th><%= sortable_link_to "number", "#" %></th>
-          <th class="text-center"><%= sortable_link_to "doctor_name", "Doctor" %></th>
+          <th class="text-center"><%= sortable_link_to "users.name", "Doctor" %></th>
           <th class="text-center"><%= sortable_link_to "status" %></th>
-          <th class="text-center"><%= sortable_link_to "patient_name" %></th>
+          <th class="text-center"><%= sortable_link_to "details->>'patient_name'", "Patient Name" %></th>
           <th class="text-right">Actions</th>
         </tr>
         <% @claims.each do |claim| %>

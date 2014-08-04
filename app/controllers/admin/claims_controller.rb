@@ -1,7 +1,7 @@
 class Admin::ClaimsController < Admin::ApplicationController
   include Admin::Sortable
 
-  self.sortable_columns = %w[number doctor_name patient_name]
+  self.sortable_columns = %w[number users.name details->>'patient_name']
 
   helper_method :user_id_filter, :status_filter
 

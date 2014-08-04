@@ -1,7 +1,7 @@
 class UserPolicy < Struct.new(:current_user, :user)
   class Scope < Struct.new(:current_user, :scope)
     def resolve
-      ::User.includes(:agent)
+      ::User.includes(:agent).all
     end
   end
 
