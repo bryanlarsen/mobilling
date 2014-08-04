@@ -40,10 +40,10 @@
     <div class="col-md-8 col-md-pull-4">
       <table class="table table-striped">
         <tr>
-          <th><%= sortable_link_to "number", "#" %></th>
+          <th><%= sortable_link_to "claims.number", "Number" %></th>
           <th class="text-center"><%= sortable_link_to "users.name", "Doctor" %></th>
-          <th class="text-center"><%= sortable_link_to "status" %></th>
-          <th class="text-center"><%= sortable_link_to "details->>'patient_name'", "Patient Name" %></th>
+          <th class="text-center"><%= sortable_link_to "claims.status" %></th>
+          <th class="text-center"><%= sortable_link_to "claims.details->>'patient_name'", "Patient Name" %></th>
           <th class="text-right">Actions</th>
         </tr>
         <% @claims.each do |claim| %>

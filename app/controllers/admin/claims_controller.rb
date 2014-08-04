@@ -1,7 +1,7 @@
 class Admin::ClaimsController < Admin::ApplicationController
   include Admin::Sortable
 
-  self.sortable_columns = %w[number users.name details->>'patient_name']
+  self.sortable_columns = %w[claims.number users.name claims.status claims.details->>'patient_name']
 
   helper_method :user_id_filter, :status_filter
 
@@ -11,14 +11,15 @@ class Admin::ClaimsController < Admin::ApplicationController
   end
 
   def edit
-    @interactor = Admin::UpdateClaim.new(params[:id])
+    @claim = policy_scope(:claim).find(params[:id])
     authorize :claim, :update?
+    @interactor = Admin::UpdateClaim.new(@claim)
   end
 
   def update
-    @interactor = Admin::UpdateClaim.new(params[:id], update_claim_params)
+    @claim = policy_scope(:claim).find(params[:id])
     authorize :claim, :update?
-
+    @interactor = Admin::UpdateClaim.new(@claim, update_claim_params)
     if @interactor.perform
       redirect_to admin_claims_path, notice: "Claim updated successfully."
     else

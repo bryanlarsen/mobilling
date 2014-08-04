@@ -1,7 +1,9 @@
 class UserPolicy < Struct.new(:current_user, :user)
   class Scope < Struct.new(:current_user, :scope)
     def resolve
-      ::User.includes(:agent).all
+      scope = ::User.includes(:agent)
+      scope = scope.where(admin_users: {id: current_user.id})
+      scope
     end
   end
 

@@ -1,7 +1,9 @@
 class ClaimPolicy < Struct.new(:current_user, :user)
   class Scope < Struct.new(:current_user, :scope)
     def resolve
-      ::Claim.includes(:user)
+      scope = ::Claim.includes(:user)
+      scope = scope.where(users: {agent_id: current_user.id}) if current_user.agent?
+      scope
     end
   end
 

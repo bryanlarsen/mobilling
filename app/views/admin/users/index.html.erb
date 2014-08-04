@@ -29,14 +29,16 @@
       <table class="table table-striped">
         <tr>
           <th>
-            <%= sortable_link_to "name" %>
+            <%= sortable_link_to "users.name", "Name" %>
           </th>
           <th class="text-center">
-            <%= sortable_link_to "email" %>
+            <%= sortable_link_to "users.email", "Email" %>
           </th>
-          <th class="text-center">
-            <%= sortable_link_to "admin_users.name", "Agent" %>
-          </th>
+          <% if current_user.admin? %>
+            <th class="text-center">
+              <%= sortable_link_to "admin_users.name", "Agent" %>
+            </th>
+          <% end %>
           <th class="text-right">
             Actions
           </th>
@@ -49,9 +51,11 @@
             <td class="text-center">
               <%= user.email %>
             </td>
-            <td class="text-center">
-              <%= user.agent.try(:name) || "none" %>
-            </td>
+            <% if current_user.admin? %>
+              <td class="text-center">
+                <%= user.agent.try(:name) || "none" %>
+              </td>
+            <% end %>
             <td class="text-right">
               <%= link_to "Edit", edit_admin_user_path(user) %>
             </td>

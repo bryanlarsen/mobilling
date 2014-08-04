@@ -7,8 +7,8 @@ class Admin::UpdateClaim
 
   validates :status, inclusion: {in: %w[saved unprocessed]}
 
-  def initialize(id, attributes = nil)
-    @claim = ::Claim.find(id)
+  def initialize(claim, attributes = nil)
+    @claim = claim
     self.status = @claim.status
     self.patient_name = @claim.details["patient_name"]
     super(attributes)
