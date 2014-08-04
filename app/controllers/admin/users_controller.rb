@@ -11,12 +11,14 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def edit
-    @interactor = Admin::UpdateUser.new(params[:id])
+    @user = policy_scope(:user).find(params[:id])
+    @interactor = Admin::UpdateUser.new(@user)
     authorize :user, :update?
   end
 
   def update
-    @interactor = Admin::UpdateUser.new(params[:id], update_user_params)
+    @user = policy_scope(:user).find(params[:id])
+    @interactor = Admin::UpdateUser.new(@user, update_user_params)
     authorize :user, :update?
     if @interactor.perform
       redirect_to admin_users_path
@@ -26,7 +28,7 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   def destroy
-    @user = ::User.find(params[:id])
+    @user = policy_scope(:user).find(params[:id])
     authorize :user, :destroy?
     @user.destroy
     redirect_to admin_users_path

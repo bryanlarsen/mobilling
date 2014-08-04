@@ -9,8 +9,8 @@ class Admin::UpdateUser
   validates :name, presence: true
   validate :existence
 
-  def initialize(id, attributes = nil)
-    @user = ::User.find(id)
+  def initialize(user, attributes = nil)
+    @user = user
     self.email = @user.email
     self.name = @user.name
     super(attributes)
