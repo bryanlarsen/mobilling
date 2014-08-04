@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="row">
+    <% if current_user.admin? %>
+      <div class="col-md-4 col-md-push-8">
+        <form action="<%= admin_users_path %>" method="get" class="form-horizontal">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong>Filters</strong>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <%= label_tag :agent_id, "Agent", class: "control-label col-md-2" %>
+                <div class="col-md-10">
+                  <%= select_tag :agent_id, options_from_collection_for_select(Admin::User.agent, :id, :name, agent_id_filter), class: "form-control", prompt: "All" %>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-10 col-md-offset-2">
+                  <%= icon_submit "filter", "Filter", class: "btn btn-primary", name: "" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    <% end %>
+
+    <div class="<%= (current_user.admin?) ? 'col-md-8 col-md-pull-4' : 'col-md-12' %>">
+      <table class="table table-striped">
+        <tr>
+          <th>
+            <%= sortable_link_to "users.name", "Name" %>
+          </th>
+          <th class="text-center">
+            <%= sortable_link_to "users.email", "Email" %>
+          </th>
+          <% if current_user.admin? %>
+            <th class="text-center">
+              <%= sortable_link_to "admin_users.name", "Agent" %>
+            </th>
+          <% end %>
+          <th class="text-right">
+            Actions
+          </th>
+        </tr>
+        <% @users.each do |user| %>
+          <tr>
+            <td>
+              <%= user.name %>
+            </td>
+            <td class="text-center">
+              <%= user.email %>
+            </td>
+            <% if current_user.admin? %>
+              <td class="text-center">
+                <%= user.agent.try(:name) || "none" %>
+              </td>
+            <% end %>
+            <td class="text-right">
+              <%= link_to "Edit", edit_admin_user_path(user) %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

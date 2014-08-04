@@ -11,11 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140720083836) do
+ActiveRecord::Schema.define(version: 20140801124328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "admin_users", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "password_digest"
+    t.integer  "role",            default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
 
   create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.uuid     "user_id"
@@ -43,11 +54,9 @@ ActiveRecord::Schema.define(version: 20140720083836) do
     t.string   "authentication_token"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "role"
-    t.string   "agent_id"
+    t.uuid     "agent_id"
   end
 
-  add_index "users", ["agent_id"], name: "index_users_on_agent_id", using: :btree
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 

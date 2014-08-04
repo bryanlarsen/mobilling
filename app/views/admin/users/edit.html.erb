@@ -1,0 +1,57 @@
+<div class="container">
+  <%= form_for @interactor, url: admin_user_path(@interactor.user), html: {class: "form-horizontal"} do |form| %>
+    <fieldset>
+      <legend>User</legend>
+
+      <%= form.group :name do %>
+        <%= form.label :name, class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :name, class: "form-control input" %>
+          <%= form.help_block :name %>
+        </div>
+      <% end %>
+
+      <%= form.group :email do %>
+        <%= form.label :email, class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.email_field :email, class: "form-control input" %>
+          <%= form.help_block :email %>
+        </div>
+      <% end %>
+
+      <%= form.group :password do %>
+        <%= form.label :password, class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.password_field :password, class: "form-control input" %>
+          <%= form.help_block :password %>
+        </div>
+      <% end %>
+
+      <%= form.group :password_confirmation do %>
+        <%= form.label :password_confirmation, class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.password_field :password_confirmation, class: "form-control input" %>
+          <%= form.help_block :password_confirmation %>
+        </div>
+      <% end %>
+
+      <%= form.group :agent_id do %>
+        <%= form.label :agent_id, class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.collection_select :agent_id, Admin::User.agent, :id, :name, {prompt: true}, class: "form-control input" %>
+          <%= form.help_block :agent_id %>
+        </div>
+      <% end %>
+    </fieldset>
+
+    <div class="form-group">
+      <div class="col-md-10 col-md-offset-2">
+        <%= icon_submit "check", "Update", type: "submit", class: "btn btn-primary" %>
+        <% if policy(:user).destroy? %>
+          <%= icon_link_to "trash-o", "Delete", admin_user_path(@interactor.user), class: "btn btn-danger btn-default", method: :delete, data: {confirm: "Are you sure?"} %>
+        <% end %>
+        <%= icon_link_to "times", "Cancel", admin_users_path, class: "btn btn-default" %>
+      </div>
+    </div>
+  <% end %>
+</div>

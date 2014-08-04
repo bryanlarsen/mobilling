@@ -1,0 +1,127 @@
+<div class="container">
+  <%= form_for @interactor, url: admin_claim_path, html: {class: "form-horizontal", multipart: true} do |form| %>
+    <fieldset>
+      <legend>Claim</legend>
+
+      <%= form.group :status do %>
+        <label class="control-label col-md-2">Status</label>
+        <div class="col-md-10">
+          <p class="form-control-static"><%= @interactor.status.humanize %></p>
+        </div>
+      <% end %>
+
+      <%= form.group :photo_id do %>
+        <label class="control-label col-md-2">Patient ID Photo</label>
+        <div class="col-md-10">
+          <p class="form-control-static">
+            <% if @interactor.claim.photo.present? %>
+              <%= link_to @interactor.claim.photo.file.url do %>
+                <%= image_tag @interactor.claim.photo.file.small.url, width: 300, class: "thumbnail", data: {lightbox: @interactor.claim.photo.file.url} %>
+              <% end %>
+            <% else %>
+              None
+            <% end %>
+          </p>
+        </div>
+      <% end %>
+
+      <%= form.group :patient_name do %>
+        <%= form.label :patient_name, "Patient Name, DOB, HC#", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :patient_name, class: "form-control" %>
+          <%= form.help_block :patient_name %>
+        </div>
+      <% end %>
+
+      <%= form.group :hospital do %>
+        <label class="control-label col-md-2">Hospital</label>
+        <div class="col-md-10">
+          <p class="form-control-static"><%= @interactor.claim.details["hospital"] %></p>
+        </div>
+      <% end %>
+
+      <%= form.group :referring_physician do %>
+        <label class="control-label col-md-2">Referring Physician</label>
+        <div class="col-md-10">
+          <p class="form-control-static"><%= @interactor.claim.details["referring_physician"] %></p>
+        </div>
+      <% end %>
+
+      <%= form.group :diagnosis do %>
+        <label class="control-label col-md-2">Diagnosis</label>
+        <div class="col-md-10">
+          <p class="form-control-static"><%= @interactor.claim.details["diagnosis"] %></p>
+        </div>
+      <% end %>
+
+      <%= form.group :admission_on do %>
+        <label class="control-label col-md-2">Admission Date</label>
+        <div class="col-md-10">
+          <p class="form-control-static"><%= @interactor.claim.details["admission_on"] %></p>
+        </div>
+      <% end %>
+
+      <%= form.group :first_seen_on do %>
+        <label class="control-label col-md-2">First Seen Date</label>
+        <div class="col-md-10">
+          <p class="form-control-static"><%= @interactor.claim.details["first_seen_on"] %></p>
+        </div>
+      <% end %>
+
+      <%= form.group :last_seen_on do %>
+        <label class="control-label col-md-2">Last Seen Date</label>
+        <div class="col-md-10">
+          <p class="form-control-static"><%= @interactor.claim.details["last_seen_on"] %></p>
+        </div>
+      <% end %>
+    </fieldset>
+
+    <fieldset>
+      <legend>Daily Details</legend>
+
+      <% if @interactor.claim.details["daily_details"].present? %>
+        <% @interactor.claim.details["daily_details"].each do |daily_detail| %>
+          <div class="form-group">
+            <label class="control-label col-md-2">
+              <%= daily_detail["day"] %>
+            </label>
+            <div class="col-md-10">
+              <p class="form-control-static">
+                <%= daily_detail["code"] %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="col-md-10 col-md-offset-2">None</p>
+      <% end %>
+    </fieldset>
+
+    <fieldset>
+      <legend>Backend</legend>
+
+      <div class="form-group">
+        <%= form.label :status, class: "control-label col-md-2" %>
+        <div class="col-md-10">
+          <% Claim.statuses.keys.each do |status| %>
+            <div class="radio">
+              <label>
+                <%= form.radio_button :status, status %>
+                <%= status.humanize %>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="form-group">
+      <div class="col-md-10 col-md-offset-2">
+        <%= icon_submit "check", "Update", type: "submit", class: "btn btn-primary" %>
+        <%= icon_link_to "times", "Cancel", admin_claims_path, class: "btn btn-default" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= render "layouts/lightbox", title: "Photo" %>

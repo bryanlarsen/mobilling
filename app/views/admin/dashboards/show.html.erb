@@ -1,0 +1,25 @@
+<div class="container">
+  <table class="table table-striped">
+    <tr>
+      <th><%= sortable_link_to "users.name", "Doctor" %></th>
+      <% Claim.statuses.keys.each do |state| %>
+        <th class="text-center"><%= sortable_link_to "#{state}_count" %></th>
+      <% end %>
+      <th class="text-right">Actions</th>
+    </tr>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <% Claim.statuses.keys.each do |state| %>
+          <td class="text-center">
+            <%= link_to_unless user["#{state}_count"] == 0, user["#{state}_count"], admin_claims_path(user_id: user.id, state: state) %>
+          </td>
+        <% end %>
+        <td class="text-right">
+          <%= link_to "List all", admin_claims_path(user_id: user.id, state: "") %>
+          <%= link_to "Edit", edit_admin_user_path(user) %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

@@ -42,7 +42,7 @@ class V1::ClaimsController < V1::BaseController
   end
 
   def update
-    @interactor = UpdateClaim.new(update_claim_params)
+    @interactor = ::UpdateClaim.new(update_claim_params)
     @interactor.user = current_user
     @interactor.perform
     respond_with @interactor, location: nil

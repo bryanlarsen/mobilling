@@ -10,7 +10,7 @@ class V1::SessionsController < V1::BaseController
   end
 
   def create
-    @interactor = CreateSession.new(create_session_params)
+    @interactor = ::CreateSession.new(create_session_params)
     @interactor.perform
     respond_with @interactor, location: nil, status: :created
   end

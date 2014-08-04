@@ -1,0 +1,29 @@
+<div class="container">
+  <%= form_for @interactor, url: admin_session_path, html: {class: "form-horizontal"} do |form| %>
+    <fieldset>
+      <legend>Sign In</legend>
+
+      <%= form.group :email do %>
+        <%= form.label :email, class: "control-label col-md-2" %>
+        <div class="col-md-10">
+          <%= form.email_field :email, class: "form-control input-lg" %>
+          <%= form.help_block :email %>
+        </div>
+      <% end %>
+
+      <%= form.group :password do %>
+        <%= form.label :password, class: "control-label col-md-2" %>
+        <div class="col-md-10">
+          <%= form.password_field :password, class: "form-control input-lg" %>
+          <%= form.help_block :password %>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <div class="col-md-10 col-md-offset-2">
+          <%= icon_submit "sign-in", "Sign In", class: "btn btn-block btn-lg btn-primary" %>
+        </div>
+      </div>
+    </fieldset>
+  <% end %>
+</div>

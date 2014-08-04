@@ -1,0 +1,41 @@
+<div class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to "Mo-Billing Admin", admin_dashboard_path, class: "navbar-brand" %>
+    </div>
+
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <% if policy(:dashboard).read? %>
+          <li class="<%= 'active' if current_page?(admin_dashboard_path) %>">
+            <%= link_to "Dashboard", admin_dashboard_path %>
+          </li>
+        <% end %>
+        <% if policy(:claim).read? %>
+          <li class="<%= 'active' if current_page?(admin_claims_path) %>">
+            <%= link_to "Claims", admin_claims_path %>
+          </li>
+        <% end %>
+        <% if policy(:user).read? %>
+          <li class="<%= 'active' if current_page?(admin_users_path) %>">
+            <%= link_to "Users", admin_users_path %>
+          </li>
+        <% end %>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <% if policy(:session).destroy? %>
+          <li>
+            <%= icon_link_to "sign-out", "Sign Out", admin_session_path, method: "delete" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
