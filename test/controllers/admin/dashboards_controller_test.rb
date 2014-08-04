@@ -23,11 +23,12 @@ class Admin::DashboardsControllerTest < ActionController::TestCase
   end
 
   test "show sorts by saved count" do
+    admin = create(:admin_user, role: "admin")
     alice = create(:user)
     create_list(:claim, 1, user: alice, status: "saved")
     bob = create(:user)
     create_list(:claim, 2, user: bob, status: "saved")
-    @controller.sign_in(create(:admin_user, role: "admin"))
+    @controller.sign_in(admin)
     get :show, sort: "saved_count", direction: "desc"
     assert_equal bob, assigns(:users).first
     assert_equal alice, assigns(:users).second
