@@ -3,6 +3,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "User #{n}" }
     sequence(:email) { |n| "user#{n}@example.com" }
     password "secret"
+    association :agent, factory: :admin_user, role: "agent"
 
     trait :authenticated do
       authentication_token SecureRandom.hex(32)

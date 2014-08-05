@@ -2,7 +2,8 @@ require "test_helper"
 
 class V1::UsersControllerTest < ActionController::TestCase
   test "create responds with created" do
-    post :create, user: attributes_for(:user), format: "json"
+    agent = create(:admin_user, role: "agent")
+    post :create, user: attributes_for(:user).merge(agent_id: agent.id), format: "json"
     assert_response :created
   end
 
