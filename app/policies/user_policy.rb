@@ -17,6 +17,6 @@ class UserPolicy < Struct.new(:current_user, :user)
   end
 
   def destroy?
-    current_user.admin?
+    current_user.present? and current_user.admin?
   end
 end

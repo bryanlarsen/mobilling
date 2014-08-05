@@ -39,6 +39,6 @@ class Admin::UpdateUser
   end
 
   def existence
-    errors.add :email, :taken if ::User.where(::User.arel_table[:id].not_eq(user.id)).where(email: email).exists?
+    errors.add :email, :taken if ::User.where.not(id: user.id).where(email: email).exists?
   end
 end

@@ -1,0 +1,15 @@
+<div class="container">
+  <%= form_for @interactor, url: admin_admin_user_path(@admin_user), html: {class: "form-horizontal"} do |form| %>
+    <%= render "form", form: form %>
+
+    <div class="form-group">
+      <div class="col-md-10 col-md-offset-2">
+        <%= icon_submit "check", "Update", type: "submit", class: "btn btn-primary" %>
+        <% if policy(:admin_user).destroy? %>
+          <%= icon_link_to "trash-o", "Delete", admin_admin_user_path(@admin_user), class: "btn btn-danger btn-default", method: :delete, data: {confirm: "Are you sure?"} %>
+        <% end %>
+        <%= icon_link_to "times", "Cancel", admin_admin_users_path, class: "btn btn-default" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <tr>
+          <th>
+            <%= sortable_link_to "admin_users.name", "Name" %>
+          </th>
+          <th class="text-center">
+            <%= sortable_link_to "admin_users.email", "Email" %>
+          </th>
+          <th class="text-center">
+            <%= sortable_link_to "admin_users.role", "Role" %>
+          </th>
+          <th class="text-right">
+            Actions
+            <% if policy(:admin_user).create? %>
+              | <%= link_to "New", new_admin_admin_user_path %>
+            <% end %>
+          </th>
+        </tr>
+        <% @admin_users.each do |admin_user| %>
+          <tr>
+            <td>
+              <%= admin_user.name %>
+            </td>
+            <td class="text-center">
+              <%= admin_user.email %>
+            </td>
+            <td class="text-center">
+              <%= admin_user.role %>
+            </td>
+            <td class="text-right">
+              <%= link_to "Edit", edit_admin_admin_user_path(admin_user) %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

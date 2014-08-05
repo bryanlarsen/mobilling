@@ -27,6 +27,11 @@
             <%= link_to "Users", admin_users_path %>
           </li>
         <% end %>
+        <% if policy(:admin_user).read? %>
+          <li class="<%= 'active' if current_page?(admin_admin_users_path) %>">
+            <%= link_to "Admins / Agents", admin_admin_users_path %>
+          </li>
+        <% end %>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
