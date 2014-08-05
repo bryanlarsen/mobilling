@@ -17,7 +17,7 @@ class V1::UsersController < V1::BaseController
   end
 
   def create
-    @interactor = ::CreateUser.new(update_user_params)
+    @interactor = ::CreateUser.new(create_user_params)
     @interactor.perform
     respond_with @interactor, location: nil, status: :created
   end
@@ -26,18 +26,23 @@ class V1::UsersController < V1::BaseController
   param :user, Hash do
     param :name, String, required: true
     param :email, String, required: true
-    param :agent_id, String
+    param :agent_id, String, required: true
   end
 
   def update
     @user = @current_user
-    @user.update(update_user_params)
-    respond_with @user, location: nil
+    @interactor = ::UpdateUser.new(@user, update_user_params)
+    @interactor.perform
+    respond_with @interactor, location: nil
   end
 
   private
 
-  def update_user_params
+  def create_user_params
     params.require(:user).permit(:name, :email, :password, :agent_id)
+  end
+
+  def update_user_params
+    params.require(:user).permit(:name, :email, :agent_id)
   end
 end

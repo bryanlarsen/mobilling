@@ -1,17 +1,23 @@
-class CreateUser
+class UpdateUser
   include ActiveModel::Model
 
-  attr_accessor :email, :password, :name, :agent_id
+  attr_accessor :email, :name, :agent_id
   attr_reader :user
 
   validates :email, presence: true, email: true
   validates :agent_id, presence: true
-  validates :password, presence: true
   validates :name, presence: true
   validate :existence
 
+  def initialize(user, attributes = nil)
+    @user = user
+    self.name = @user.name
+    self.email = @user.email
+    self.agent_id = @user.agent_id
+    super(attributes)
+  end
+
   def perform
-    @user = User.find_or_initialize_by(email: email.to_s.downcase)
     if valid?
       @user.update!(user_params)
     else
@@ -23,14 +29,13 @@ class CreateUser
 
   def user_params
     {
-      password: password,
       name: name,
+      email: email,
       agent_id: agent_id,
-      authentication_token: SecureRandom.hex(32)
     }
   end
 
   def existence
-    errors.add :email, :taken if user.persisted?
+    errors.add :email, :taken if User.where.not(id: user.id).where(email: email).exists?
   end
 end

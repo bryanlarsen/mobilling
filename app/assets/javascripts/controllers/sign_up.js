@@ -1,6 +1,7 @@
 angular.module("moBilling.controllers.signUp", [])
 
-    .controller("SignUpController", function ($scope, $location, User) {
+    .controller("SignUpController", function ($scope, $location, User, agents) {
+        $scope.agents = agents;
         $scope.user = {};
 
         function success(user) {

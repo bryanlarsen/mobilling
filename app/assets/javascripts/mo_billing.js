@@ -5,7 +5,6 @@
 //= require_tree ./templates
 
 angular.module("moBilling", [
-    "ui.select2",
     "mobile-angular-ui.directives.navbars",
     "mobile-angular-ui.directives.overlay",
     "mobile-angular-ui.directives.sidebars",
@@ -35,6 +34,7 @@ angular.module("moBilling", [
     "moBilling.directives.upload",
     "moBilling.directives.switch",
     "moBilling.directives.validateTotalTime",
+    "moBilling.factories.agent",
     "moBilling.factories.claim",
     "moBilling.factories.dayType",
     "moBilling.factories.detailsGenerator",
@@ -54,7 +54,12 @@ angular.module("moBilling", [
         $routeProvider.when("/sign-up", {
             templateUrl: "sign-up.html",
             controller: "SignUpController",
-            guest: true
+            guest: true,
+            resolve: {
+                agents: function (Agent) {
+                    return Agent.query().$promise;
+                }
+            }
         });
 
         $routeProvider.when("/sign-out", {
@@ -91,6 +96,9 @@ angular.module("moBilling", [
             templateUrl: "account-edit.html",
             controller: "AccountEditController",
             resolve: {
+                agents: function (Agent) {
+                    return Agent.query().$promise;
+                },
                 user: function (User) {
                     return User.get().$promise;
                 }

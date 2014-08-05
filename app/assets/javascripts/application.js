@@ -15,8 +15,6 @@
 //= require angular-rails-templates
 //= require uuid
 //= require lodash
-//= require select2
-//= require angular.ui.select2
 //= require bootstrap-datepicker
 //= require date.format
 //= require modernizr

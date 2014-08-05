@@ -1,27 +1,15 @@
 angular.module("moBilling.controllers.accountEdit", [])
 
-  .controller("AccountEditController", function ($scope, User, user) {
+    .controller("AccountEditController", function ($scope, User, user, agents, $location) {
+        $scope.agents = agents;
+        $scope.user = user.toJSON();
 
-    $scope.user = user.toJSON();
-    $scope.updateStatus = null;
-
-    $scope.save = function () {
-      $scope.submitted = true;
-      if ($scope.userForm.$valid) {
-          $scope.submitting = true;
-          $scope.updateStatus = null;
-          updateUser = _.omit(_.cloneDeep($scope.user), ["agents"])
-          User.update(updateUser, function () {
-              $scope.submitting = false;
-              $scope.updateStatus = "saved";
-              console.log("saved", $scope.updateStatus)
-          }, function () {
-              $scope.submitting = false;
-              $scope.updateStatus = "error";
-              console.log("error", $scope.updateStatus)
-          });
-      } else {
-
-      }
-    };
-  });
+        $scope.save = function () {
+            $scope.submitting = true;
+            User.update($scope.user, function () {
+                $location.path("/claims/saved").hash("").replace();
+            }, function () {
+                $scope.submitting = false;
+            });
+        };
+    });
