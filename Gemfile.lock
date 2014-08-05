@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/elabs/pundit.git
-  revision: 9d578a0a2d123e3aefd3c734235e5429f07fea1c
+  revision: 165c7f4e5c523e25d64f508da3a03cfd1c7f53db
   specs:
     pundit (0.2.3)
       activesupport (>= 3.0.0)
