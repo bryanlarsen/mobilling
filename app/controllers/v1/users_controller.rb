@@ -13,6 +13,7 @@ class V1::UsersController < V1::BaseController
   param :user, Hash, required: true do
     param :name, String, desc: "Name", required: true
     param :email, String, desc: "Email", required: true
+    param :agent_id, String, desc: "Agent ID", required: true
     param :password, String, desc: "Password", required: true
   end
 
@@ -22,11 +23,12 @@ class V1::UsersController < V1::BaseController
     respond_with @interactor, location: nil, status: :created
   end
 
-  api :PUT, "/v1/claims/:id", "Updates a claim"
+  api :PUT, "/v1/user", "Updates a user"
   param :user, Hash do
-    param :name, String, required: true
-    param :email, String, required: true
-    param :agent_id, String, required: true
+    param :name, String, desc: "Name", required: true
+    param :email, String, desc: "Email", required: true
+    param :agent_id, String, desc: "Agent ID", required: true
+    param :password, String, desc: "Password"
   end
 
   def update
@@ -43,6 +45,6 @@ class V1::UsersController < V1::BaseController
   end
 
   def update_user_params
-    params.require(:user).permit(:name, :email, :agent_id)
+    params.require(:user).permit(:name, :email, :password, :agent_id)
   end
 end

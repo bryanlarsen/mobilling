@@ -41,6 +41,18 @@ class Admin::UpdateAdminUserTest < ActiveSupport::TestCase
     assert_invalid @interactor, :password_confirmation
   end
 
+  test "does not update password if not given" do
+    @interactor.password = nil
+    @interactor.perform
+    assert @interactor.admin_user.authenticate("oldsecret")
+  end
+
+  test "does not update password if empty" do
+    @interactor.password = ""
+    @interactor.perform
+    assert @interactor.admin_user.authenticate("oldsecret")
+  end
+
   test "is invalid without name" do
     @interactor.name = ""
     @interactor.perform

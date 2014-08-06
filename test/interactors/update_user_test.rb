@@ -66,6 +66,12 @@ class UpdateUserTest < ActiveSupport::TestCase
   end
 
   test "does not update password if not given" do
+    @interactor.password = nil
+    @interactor.perform
+    assert @interactor.user.authenticate("oldsecret")
+  end
+
+  test "does not update password empty" do
     @interactor.password = ""
     @interactor.perform
     assert @interactor.user.authenticate("oldsecret")
