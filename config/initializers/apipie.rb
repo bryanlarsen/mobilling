@@ -3,7 +3,7 @@ Apipie.configure do |config|
   config.app_info                = ""
   config.api_base_url            = ""
   config.doc_base_url            = "/docs"
-  config.api_controllers_matcher = "#{Rails.root}/app/controllers/**/*.rb"
+  config.api_controllers_matcher = "#{Rails.root}/app/controllers/v1/**/*.rb"
   config.validate                = false
   config.show_all_examples       = true
 end
