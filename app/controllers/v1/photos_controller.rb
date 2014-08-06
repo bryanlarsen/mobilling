@@ -10,7 +10,7 @@ class V1::PhotosController < V1::BaseController
   end
 
   def create
-    @interactor = ::CreatePhoto.new(create_photo_params)
+    @interactor = CreatePhoto.new(create_photo_params)
     @interactor.user = current_user
     @interactor.perform
     respond_with @interactor, location: nil, status: :created

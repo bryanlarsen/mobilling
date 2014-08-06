@@ -1,0 +1,544 @@
+Typhoid and paratyphoid fevers 002
+Other salmonella infections 003
+Food poisoning 005
+Amoebiasis, amoebic dysentery 006
+Diarrhea, gastro-enteritis, viral gastro-enteritis 009
+Primary tuberculous infection, including recent positive TB skin test conversion 010
+Pulmonary tuberculosis 011
+Other respiratory tuberculosis, tuberculous pleurisy with or without effusion 012
+Tuberculosis of bones and joints 015
+Tuberculosis of other organs 017
+Brucellosis 023
+Leprosy (Hansen's Disease) 030
+Diphtheria 032
+Whooping cough, pertussis 033
+Streptococcal sore throat, scarlet fever 034
+Erysipelas 035
+Meningococcal infection or meningitis 036
+Tetanus 037
+Septicemia, blood poisoning 038
+Actinomycotic infections 039
+Other bacterial diseases 040
+AIDS 042
+AIDS-related complex (ARC) 043
+Other human immunodeficiency virus infection 044
+Acute poliomyelitis 045
+Meningitis due to enterovirus 047
+Other non-arthropod-borne viral diseases of central nervous system 049
+Chickenpox 052
+Herpes zoster, shingles 053
+Herpes simplex, cold sore 054
+Measles 055
+German measles, rubella 056
+Other viral disorders accompanied by rash (e.g., roseola) 057
+Mosquito-borne viral encephalitis 062
+Other arthropod-borne viral diseases 066
+Viral hepatitis 070
+Mumps 072
+Diseases due to Coxsackie virus: pleurodynia, myocarditis 074
+Infectious mononucleosis, glandular fever 075
+Warts 078
+Other viral diseases 079
+Syphilis - all sites and stages 097
+Gonococcal infections 098
+Other venereal diseases (e.g., herpes genitalis) 099
+Ringworm of scalp, beard, or foot 110
+Candidiasis, monilia infection - all sites, thrush 112
+Histoplasmosis 115
+Other mycoses 117
+Echinococcosis, hydadid cyst - all sites 122
+Taenia, Tenia or tapeworm infestation - all types 123
+Pinworm infestation 127
+Other helminthiases 128
+Toxoplasmosis 130
+Trichomonas infection 131
+Head or body lice, pediculosis 132
+Scabies, acariasis 133
+Sarcoidosis 135
+Other infectious or parasitic diseases 136
+Neoplasms, Lip 140
+Neoplasms, Tongue 141
+Neoplasms, Major salivary glands 142
+Neoplasms, Gum 143
+Neoplasms, Floor of mouth 144
+Neoplasms, Other and unspecified parts of mouth 145
+Neoplasms, Oropharynx 146
+Neoplasms, Nasopharynx 147
+Neoplasms, Hypopharynx 148
+Neoplasms, Other and ill-defined sites within the lip, oral cavity, and pharynx 149
+Neoplasms, Esophagus 150
+Neoplasms, Stomach 151
+Neoplasms, Small intestine, including duodenum 152
+Neoplasms, Large intestine - excluding rectum 153
+Neoplasms, Rectum, rectosigmoid and anus 154
+Neoplasms, Primary malignancy of liver (not secondary spread or metastatic disease) 155
+Neoplasms, Gallbladder and extra hepatic bile ducts 156
+Neoplasms, Pancreas 157
+Neoplasms, Retroperitoneum and peritoneum 158
+Neoplasms, Other and ill-defined sites within the digestive organs and peritoneum 159
+Neoplasms, Nasal cavities, middle ear, and accessory sinuses 160
+Neoplasms, Larynx, trachea 161
+Neoplasms, Bronchus, lung 162
+Neoplasms, Pleura 163
+Neoplasms, Thymus, heart, and mediastinum 164
+Neoplasms, Other sites within the respiratory system and intrathoracic organs 165
+Neoplasms, Bone 170
+Neoplasms, Connective and other soft tissue 171
+Neoplasms, Melanoma of skin 172
+Neoplasms, Other skin malignancies, BCC, Basal, SCC, Squamous 173
+Neoplasms, Female breast 174
+Neoplasms, Male breast 175
+Neoplasms, Malignant Neoplasms Uterus, part unspecified 179
+Neoplasms, Cervix 180
+Neoplasms, Placenta 181
+Neoplasms, Body of uterus 182
+Neoplasms, Ovary, fallopian tube, broad ligament 183
+Neoplasms, Vagina, vulva, other female genital organs 184
+Neoplasms, Prostate 185
+Neoplasms, Testis 186
+Neoplasms, Other male genital organs 187
+Neoplasms, Bladder 188
+Neoplasms, Kidney, other urinary organs 189
+Neoplasms, Eye 190
+Neoplasms, Brain 191
+Neoplasms, Cranial nerves, spinal cord, other parts of nervous system 192
+Neoplasms, Thyroid 193
+Neoplasms, Other endocrine glands and related structures 194
+Neoplasms, Other ill-defined sites 195
+Secondary neoplasm of lymph nodes 196
+Secondary neoplasm of respiratory and digestive systems 197
+Metastatic or secondary malignant neoplasm, carcinomatosis 198
+Other malignant neoplasms 199
+Lymphosarcoma, reticulosarcoma 200
+Hodgkin's disease 201
+Other malignant neoplasms of lymphoid and histiocytic tissue 202
+Multiple myeloma, plasma cell leukemia 203
+Lymphoid leukemia (including lymphatic and histiocytic leukemia) 204
+Myeloid leukemia (including granulocytic and myelogenous leukemia) 205
+Monocytic leukemia 206
+Other specified leukemia 207
+Other types of leukemia 208
+Benign neoplasm, Lip, oral cavity, pharynx 210
+Benign neoplasm, Other parts of digestive system, peritoneum 211
+Benign neoplasm, Respiratory and intra-thoracic organs 212
+Benign neoplasm, Bone, cartilage 213
+Lipoma 214
+Benign neoplasm, Connective and other soft tissue 215
+Benign neoplasm, Skin (e.g., pigmented naevus, dermatofibroma) 216
+Benign neoplasm, Breast 217
+Uterine fibroid, leiomyoma 218
+Other benign neoplasms of uterus (e.g., cervical polyp) 219
+Benign neoplasm, Ovary (e.g., ovarian cyst) 220
+Other benign neoplasms of female genital organs 221
+Benign neoplasm, of male genital organs 222
+Benign neoplasm, Kidney, ureter, bladder 223
+Benign neoplasm, Eye 224
+Benign neoplasm, Brain, spinal cord, peripheral nerves 225
+Benign neoplasm, Thyroid (e.g., adenoma or cystadenoma) 226
+Benign neoplasm, Other endocrine glands and related structures 227
+Haemangioma and lymphangioma 228
+Other benign neoplasms 229
+Carcinoma in Situ, Digestive organs 230
+Carcinoma in Situ, Respiratory system 231
+Carcinoma in Situ, Skin 232
+Carcinoma in Situ, Breast and genito-urinary system 233
+Carcinoma in Situ, Other 234
+Neoplasms of Uncertain Behavior, Digestive and respiratory systems 235
+Neoplasms of Uncertain Behavior, Genitourinary organs 236
+Neoplasms of Uncertain Behavior, Endocrine glands and nervous system 237
+Neoplasms of Uncertain Behavior, Other and unspecified sites and tissues 238
+Unspecified neoplasms (e.g., polycythemia vera) 239
+Simple thyroid goitre 240
+Nontoxic nodular goitre 241
+Hyperthyroidism, thyrotoxicosis, exophthalmic goitre 242
+Hypothyroidism - congenital (i.e., cretinism) 243
+Hypothyroidism - acquired (i.e., myxedema) 244
+Thyroiditis 245
+Pre-diabetes 249
+Diabetes mellitus, including complications 250
+Other disorders of pancreatic internal secretions (e.g., insulinoma, neo-natal hypoglycemia, Zollinger -Ellison
+syndrome) 251
+Parathyroid gland disorders (e.g., hyperparathyroidism, hypoparathyroidism) 252
+Pituitary gland disorders (e.g., acromegaly, dwarfism, diabetes insipidus) 253
+Adrenal gland disorders (e.g., Cushing's syndrome, hyperaldosteronism, Conn's syndrome, adrenogenital syndrome, Addison's disease) 255
+Ovarian dysfunction (e.g., ovarian failure, polycystic ovaries, Stein-Leventhal syndrome) 256
+Testicular dysfunction 257
+Other endocrine disorders 259
+Unspecified malnutrition 263
+Vitamin and other nutritional deficiencies 269
+Disorders of amino-acid metabolism (e.g., cystinuria, Fanconi syndrome) 270
+Disorders of lipoid metabolism (e.g., hypercholesterolemia, lipoprotein disorders) 272
+Gout 274
+Other metabolic disorders 277
+Obesity 278
+Hypogammaglobulinemia, agammaglobulinemia, other immunity disorders 279
+Iron deficiency anaemia, anemia 280
+Pernicious anaemia, anemia 281
+Hereditary hemolytic anaemia, anemia (e.g., thalassemia, sickle-cell anaemia, anemia) 282
+Acquired hemolytic anaemia, anemia, excluding hemolytic disease of newborn 283
+Aplastic anaemia, anemia 284
+Other anaemia, anemias 285
+Coagulation defects (e.g., hemophilia, other factor deficiencies) 286
+Purpura, thrombocytopenia, other hemorrhagic conditions 287
+Neutropenia, acranulocytosis, eosinophilia 288
+Other diseases of blood, marrow, spleen 289
+Senile dementia, presenile dementia 290
+Alcoholic psychosis, delirium tremens, Korsakov's psychosis 291
+Drug psychosis 292
+Schizophrenia, Schizophrenic Disorders 295
+Manic depressive psychosis, involutional melancholia, Affective Psychoses 296
+Paranoid states 297
+Other psychoses 298
+Childhood psychoses (e.g., autism) 299
+Anxiety neurosis, hysteria, neurasthenia, obsessive compulsive neurosis, reactive depression 300
+Personality disorders (e.g., paranoid personality, schizoid personality, obsessive compulsive personality) 301
+Sexual deviations, Sexual Disorders 302
+Alcoholism 303
+Drug dependence, drug addiction 304
+Tobacco abuse, Non-dependent Drug Abuse 305
+Psychosomatic disturbances 306
+Habit spasms, tics, stuttering, tension headaches, anorexia nervosa, sleep disorders, enuresis 307
+Acute reaction to Stress, 308
+Adjustment reaction 309
+Depressive or other non-psychotic disorders, not elsewhere classified 311
+Behaviour disorders of childhood and adolescence 313
+Hyperkinetic syndrome of childhood 314
+Specified delays in development (e.g., dyslexia,dyslalia, motor retardation) 315
+Mental retardation 319
+Bacterial meningitis 320
+Meningitis due to other organisms 321
+Encephalitis, encephalomyelitis 323
+Tay-Sachs disease 330
+Other cerebral degenerations 331
+Parkinson's disease 332
+Multiple sclerosis 340
+Cerebral palsy 343
+Epilepsy 345
+Migraine 346
+Other diseases of central nervous system (e.g., brain abscess, narcolepsy, motor neuron disease, syringomyelia) 349
+Trigeminal neuralgia, tic douloureux 350
+Bell's palsy, facial nerve disorders 351
+Disorders of other cranial nerves 352
+Idiopathic peripheral neuritis 356
+Myoneural disorders (e.g., myasthenia gravis) 358
+Peripheral Nervous System
+Muscular dystrophies 359
+Aphakia 360
+Retinal detachment 361
+Hypertensive retinopathy and other retinal diseases not specifically listed 362
+Chorioretinitis 363
+Iritis 364
+Glaucoma 365
+Cataract, excludes diabetic or congenital 366
+Myopia, astigmatism (except for the specific conditions defined by diagnostic code 371), presbyopia and other disorders of refraction and accommodation 367
+Amblyopia, visual field defects 368
+Blindness and low vision 369
+Keratitis, corneal ulcer 370
+High Myopia greater than 9 diopters; Irregular Astigmatism resulting from corneal grafting or corneal scarring from diseases 371
+Conjunctiva disorders (e.g., conjunctivitis, pterygium) 372
+Blepharitis, chalazion, stye 373
+Other eyelid disorders (e.g., entropion, ectropion, ptosis) 374
+Dacryocystitis, obstruction of lacrimal duct 375
+Keratoconus 376
+Optic neuritis 377
+Strabismus 378
+Other disorders of the eye 379
+Otitis externa 380
+Serous otitis media, eustachian tube disorders 381
+Suppurative otitis media 382
+Mastoiditis 383
+Perforation of tympanic membrane 384
+Meniere's disease, labyrinthitis 386
+Otosclerosis 387
+Wax or cerumen in ear, other disorders of ear and mastoid, tinnitus 388
+Deafness 389
+NYD - Convulsions, ataxia, vertigo, headache 780
+Rheumatic fever without endocarditis, myocarditis or pericarditis 390
+Rheumatic fever with endocarditis, myocarditis, or pericarditis 391
+Chorea 392
+Mitral stenosis, mitral insufficiency 394
+Other rheumatic heart disease 398
+Essential, benign hypertension 401
+Hypertensive heart disease 402
+Hypertensive renal disease 403
+Acute myocardial infarction, MI 410
+Old myocardial infarction, chronic coronary artery disease of arteriosclerotic heart disease, without symptoms 412
+Acute coronary insufficiency, angina pectoris, acute ischaemic heart disease 413
+Pulmonary embolism, pulmonary infarction 415
+Heart blocks, other conduction disorders 426
+Paroxysmal tachycardia, atrial or ventricular flutter or fibrillation, cardiac arrest, other arrythmias 427
+Congestive heart failure, CHF 428
+All other forms of heart disease 429
+Intracranial Haemorrhage 432
+Transient cerebral ischaemia 435
+Acute cerebrovascular accident, C.V.A., stroke, CVA 436
+hypertensive encephalopathy 437
+Generalized arteriosclerosis, atherosclerosis 440
+Aortic aneurysm (non-syphilitic) 441
+Raynaud's disease, Buerger's disease, peripheral vascular disease, PVD, intermittent claudication 443
+Polyarteritis nodosa, temporal arteritis 446
+Other disorders of arteries 447
+Phlebitis, thrombophlebitis, deep vein thrombosis, DVT 451
+Portal vein thrombosis 452
+Varicose veins of lower extremities with or without ulcer 454
+Haemorrhoids 455
+Lymphangitis, lymphedema 457
+Other disorders of circulatory system 459
+NYD - Chest pain, tachycardia, syncope, shock, edema, masses 785
+Acute nasopharyngitis, common cold, URTI 460
+Acute sinusitis 461
+Acute tonsillitis 463
+Acute laryngitis, tracheitis, croup, epiglottis 464
+Acute bronchitis 466
+Deviated nasal septum 470
+Nasal polyp 471
+Chronic sinusitis 473
+Hypertrophy or chronic infection of tonsils and/or adenoids 474
+Allergic rhinitis, hay fever 477
+Pneumonia - all types 486
+Influenza 487
+Chronic bronchitis 491
+Emphysema 492
+Asthma, allergic bronchitis 493
+Bronchiectasis 494
+Other chronic obstructive pulmonary disease, COPD 496
+Asbestosis 501
+Silicosis 502
+Pleurisy with or without effusion 511
+Spontaneous pneumothorax, tension pneumothorax 512
+Pulmonary fibrosis 515
+Atelectasis, other diseases of lung 518
+Other diseases of respiratory system 519
+NYD - Epistaxis, hemoptysis, cough, dyspnea, masses, shortness of breath, hyperventilation, sleep apnea 786
+Dental caries, other diseases of hard tissues of teeth 521
+Gingivitis, periodontal disease 523
+Prognathism, micrognathism, macrognathism,retrognathism, malocclusion, temporomandibular joint disorders 524
+and supporting structure 525
+Disease of salivary glands 527
+Stomatitis, aphthous ulcers, canker sore, diseases of lips 528
+Diseases of Oral Cavity, Salivary Glands and Jaws Glossitis, other conditions of the tongue 529
+Esophagitis, cardiospasm, ulcer of esophagus; stricture, stenosis, or obstruction of esophagus 530
+Gastric ulcer, with or without haemorrage or perforation 531
+Duodenal ulcer, with or without haemorrhage or perforation 532
+Stomal ulcer, gastrojejunal ulcer 534
+Gastritis 535
+Hyperchlorhydria, hypochlorhydria, dyspepsia, indigestion, GERD 536
+Other disorders of stomach and duodenum 537
+Inguinal hernia, with or without obstruction 550
+Femoral, umbilical, ventral, diaphragmatic or hiatus hernia with obstruction 552
+Hernia Femoral, umbilical, ventral, diaphragmatic or hiatus hernia without obstruction 553
+Acute appendicitis, with or without abscess or peritonitis 540
+Regional enteritis, Crohn's disease 555
+Ulcerative colitis 556
+Mesenteric artery occlusion, other vascular conditions of intestine 557
+Intestinal obstruction, intussusception, paralytic ileus, volvulus, impaction of intestine 560
+Diverticulitis or diverticulosis of large or small intestine 562
+Spastic colon, irritable colon, mucous colitis, constipation 564
+Anal fissure, anal fistula 565
+Abscess of anal or rectal regions 566
+Peritonitis, with or without abscess 567
+Anal or rectal polyp, rectal prolapse, anal or rectal stricture, rectal bleeding, other disorders of intestine 569
+Cirrhosis of the liver (e.g., alcoholic cirrhosis, biliary cirrhosis) 571
+Other diseases of the liver 573
+Cholelithiasis (gall stones) with or without cholecystitis 574
+Cholecystitis, without gall stones 575
+Other diseases of gallbladder and biliary ducts 576
+Diseases of pancreas 577
+Malabsorption syndrome, sprue, celiac disease 579
+NYD - Anorexia, nausea and vomiting, heartburn, dysphagia, hiccough, hematemesis, jaundice, ascites, abdominal pain, melena, masses 787
+Acute glomerulonephritis 580
+Nephrotic Syndrome 581
+Acute renal failure 584
+Chronic renal failure, uremia 585
+Acute or chronic pyelonephritis, pyelitis, abscess 590
+Hydronephrosis 591
+Stone in kidney or ureter 592
+Other disorders of kidney or ureter 593
+Cystitis 595
+Non-specific urethritis (not sexually transmitted) 597
+Urethral stricture 598
+Other disorders of urinary tract 599
+Benign prostatic hypertrophy 600
+Prostatitis 601
+Hydrocele 603
+Orchitis, epididymitis 604
+Phimosis, paraphimosis 605
+Male infertility, oligospermia, azoospermia 606
+Seminal vesiculitis, spermatocele, torsion of cord or testis, undescended testicle, other disorders of male genital organs 608
+Newborn circumcision 609
+Cystic mastitis, chronic cystic disease, breast cyst, fibro-adenosis of breast 610
+Breast abscess, gynecomastia, hypertrophy, other disorders of breast 611
+Acute or chronic salpingitis or oophoritis or abscess, pelvic inflammatory disease, PID 614
+Acute or chronic endometritis 615
+Cervicitis, vaginitis, cyst or abscess of Bartholin's gland, vulvitis 616
+Endometriosis 617
+Cystocele, rectocele, urethrocele, enterocele, uterine prolapse 618
+Retroversion of uterus, endometrial hyperplasia, other disorders of uterus 621
+Cervical erosion, cervical dysplasia 622
+Stricture or stenosis of vagina 623
+Dyspareunia, dysmenorrhea, premenstrual tension, stress incontinence 625
+Disorders of menstruation 626
+Menopause, post-menopausal bleeding 627
+Infertility 628
+Other disorders of female genital organs 629
+Chorioretinitis 636
+NYD - Renal colic, urinary retention, nocturia, masses 788
+Missed abortion 632
+Ectopic pregnancy 633
+Incomplete abortion, complete abortion 634
+Therapeutic abortion 635
+Threatened abortion, haemorrhage in early pregnancy 640
+Abruptio placentae, placenta praevia 641
+Pre-eclampsia, eclampsia, toxaemia 642
+Vomiting, hyperemesis gravidarum 643
+False labour, threatened labour 644
+Prolonged pregnancy 645
+Other complications of pregnancy (e.g., vulvitis, vaginitis, cervicitis, pyelitis, cystitis) 646
+Normal delivery, uncomplicated pregnancy 650
+Multiple pregnancy 651
+Unusual position of fetu
+s, malpresentation 652
+Cephalo-pelvic disproportion 653
+Foetal distress 656
+Premature rupture of membrane 658
+Obstructed labour 660
+Uterine inertia 661
+Prolonged labour 662
+Perineal lacerations 664
+Post-Partum haemorrhage 666
+Retained placenta 667
+Delivery with other complications 669
+Post-Partum thrombophlebitis 671
+Post-Partum mastitis or nipple infection 675
+Post-Partum pulmonary 677
+Boil, carbuncle, furunculosis 680
+Cellulitis, abscess 682
+Acute lymphadenitis 683
+Impetigo 684
+Pilonidal cyst or abscess 685
+Pyoderma, pyogenic granuloma, other local infections 686
+Seborrheic dermatitis 690
+Eczema, atopic dermatitis, neurodermatitis 691
+Contact dermatitis 692
+Erythema multiforme, erythema nodosum, acne, rosacea, lupus erythematosus, intertrigo 695
+Psoriasis 696
+Pruritus ani, other itchy conditions 698
+Corns, calluses 700
+Hyperkeratosis, scleroderma, keloid 701
+Ingrown nail, onychogryposis 703
+Alopecia 704
+Acne, acne vulgaris, sebaceous cyst 706
+Debcubitus ulcer, bed sore 707
+Allergic urticaria 708
+Other disorders of skin and subcutaneous tissue 709
+Desseminated lupus erythematosus, generalized scleroderma, dermatomyositis, polymostitis 710
+Pyogenic arthritis 711
+Rheumatoid arthritis, Still's disease 714
+Osteoarthritis 715
+Traumatic arthritis 716
+Joint derangement, recurrent dislocation, ankylosis, meniscus or cartilage tear, loose body in joint 718
+Ankylosing spondylitis 720
+Sero- negative Spondyloarthropathies 721
+Intervertebral disc disorders 722
+Lumbar strain, lumbago, coccydynia, sciatica 724
+Synovitis, tenosynovitis, bursitis, bunion, ganglion 727
+Dupuytren's contracture 728
+Fibrositis, myositis, muscular rheumatism 729
+Osteomyelitis 730
+Osteitis deformans, Paget's disease of bone 731
+Osteochondritis, Legg-Perthes disease, Osgood-Schlatter disease, osteochondritis dissecans 732
+Osteoporosis, spontaneous fracture, other disorders of bone and cartilage 733
+Flat foot, pes planus 734
+Hallux valgus, hallux varus, hammer toe 735
+Scoliosis, kyphosis, lordosis 737
+Other diseases of musculoskeletal system and connective tissue 739
+NYD - Leg cramps, leg pain, muscle pain, joint pain, arthralgia, joint swelling, masses 781
+Spina bifida, with or without hydrocephalus, meningocele, meningomyelocele 741
+Hydrocephalus 742
+Congenital anomalies of eye 743
+Congenital anomalies of ear, face, and neck 744
+Transposition of great vessels, tetralogy of Fallot,ventricular septal defect, atrial septal defect 745
+Other congenital anomalies of heart 746
+Patent ductus arteriosus, coarctation of aorta, pulmonary artery stenosis, other anomalies of circulatory system 747
+Congenital anomalies of nose and respiratory system 748
+Cleft palate, cleft lip 749
+Other congenital anomalies of mouth esophagus, stomach and pylorus 750
+Digestive system 751
+Genital organs 752
+Urinary system 753
+Club foot 754
+Other congenital anomalies of limbs 755
+Other musculoskeletal anomalies 756
+Chromosomal anomalies (e.g., Down's syndrome, other autosomal anomalies, Klinefelter's syndrome, Turner's syndrome, other anomalies of sex chromosomes) 758
+Other congenital anomalies 759
+Compression of umbilical cord, prolapsed cord 762
+Due to complications of labour or delivery 763
+Prematurity, low-birthweight infant 765
+Postmaturity, high-birthweight infant 766
+Birth trauma 767
+Hyaline membrane disease, respiratory distress syndrome 769
+Hemolytic disease of newborn 773
+Perinatal disorders of digestive system 777
+Other conditions of fetus or newborn 779
+Non-specific findings on examination of blood 790
+Non-specific findings on examination of urine 791
+Chronic fatigue symdrome 795
+Other non-specific abnormal findings 796
+Senility, senescence 797
+Sudden death, cause unknown 798
+Other ill-defined conditions 799
+Accidents, Poisonings and Violence - Facial bones 802
+Accidents, Poisonings and Violence - Skull 803
+Accidents, Poisonings and Violence - Vertebral column - without spinal cord damage 805
+Accidents, Poisonings and Violence - Vertebral column - with spinal cord damage 806
+Accidents, Poisonings and Violence - Ribs 807
+Accidents, Poisonings and Violence - Pelvis 808
+Fractures - Clavicle 810
+Fractures - Humerus 812
+Fractures - Radius and/or ulna 813
+Fractures - Carpal bones 814
+Fractures - Metacarpals 815
+Fractures - Phalanges - foot or hand 816
+Fractures - Femur 821
+Fractures - Tibia and/or fibula 823
+Fractures - Ankle 824
+Other fractures 829
+Fractures - Shoulder 831
+Fractures - Elbow 832
+Fractures - Finger 834
+Other dislocations 839
+Dislocations - Shoulder, upper arm 840
+Dislocations - Wrist, hand, fingers 842
+Dislocations - Knee, leg 844
+Dislocations - Ankle, foot, toes 845
+Dislocations - Neck, low back, coccyx 847
+Other sprains and strains 848
+Concussion 850
+Other head injuries 854
+Internal injuries to organ(s) 869
+Lacerations, open wounds - except limbs 879
+Lacerations, open wounds, traumatic amputations - upper limb(s) 884
+Lacerations, open wounds, traumatic amputations - lower limb(s) 894
+Automated Visual Field (AVF) test 918
+Abrasions, bruises, contusions and other superficial injury including non-venomous bites 919
+Foreign body in eye, or other tissues 930
+Burns - thermal or chemical 949
+Other injuries or trauma 959
+Adverse Effects Of drugs and medications - including allergy, overdose, reactions 977
+Adverse Effects Of other chemicals (e.g., lead, pesticides, and venomous bites) 989
+Adverse Effects Of physical factors (e.g., heat, cold, frostbite, pressure) 994
+Adverse Effects Of surgical and medical care (e.g., wound infection, wound disruption, other iatrogenic disease) 998
+Family planning, contraceptive advice, advice on sterilization or abortion 895
+Immunization - all types 896
+Economic problems 897
+Marital difficulties 898
+Parent-child problems (e.g., child-abuse, battered child, child neglect) 899
+Problems with aged parents or in-laws 900
+Family disruption, divorce 901
+Educational problems 902
+Illegitimacy 903
+Social maladjustment 904
+Occupational problems, unemployment, difficulty at work 905
+Legal problems, litigation, imprisonment 906
+Other problems of social adjustment 909
+Well baby care 916
