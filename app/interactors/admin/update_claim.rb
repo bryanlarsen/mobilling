@@ -5,7 +5,7 @@ class Admin::UpdateClaim
 
   attr_reader :claim
 
-  validates :status, inclusion: {in: %w[saved unprocessed]}
+  validates :status, inclusion: {in: Claim.statuses.keys}
 
   def initialize(claim, attributes = nil)
     @claim = claim

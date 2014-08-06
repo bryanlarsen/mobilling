@@ -6,7 +6,7 @@ class UpdateClaimTest < ActiveSupport::TestCase
     @interactor = UpdateClaim.new(id: SecureRandom.uuid, user: @user, status: "saved", daily_details: [])
   end
 
-  test "performs properly updating authentication_token" do
+  test "performs properly" do
     assert @interactor.perform
     assert @interactor.claim.persisted?
   end
