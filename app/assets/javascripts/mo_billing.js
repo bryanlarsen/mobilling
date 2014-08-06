@@ -38,7 +38,10 @@ angular.module("moBilling", [
     "moBilling.factories.claim",
     "moBilling.factories.dayType",
     "moBilling.factories.detailsGenerator",
+    "moBilling.factories.diagnosis",
+    "moBilling.factories.hospital",
     "moBilling.factories.photo",
+    "moBilling.factories.serviceCode",
     "moBilling.factories.session",
     "moBilling.factories.user",
     "moBilling.templates"
