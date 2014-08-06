@@ -19,7 +19,7 @@ class UpdateUser
 
   def perform
     if valid?
-      @user.update!(user_params)
+      @user.update!(user_attributes)
     else
       false
     end
@@ -27,7 +27,7 @@ class UpdateUser
 
   private
 
-  def user_params
+  def user_attributes
     {
       name: name,
       email: email.to_s.downcase,

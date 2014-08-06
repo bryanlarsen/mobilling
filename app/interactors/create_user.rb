@@ -10,18 +10,19 @@ class CreateUser
   validates :name, presence: true
   validate :email_existence
 
-  def perform
+  def initialize(attributes = nil)
     @user = User.new
-    if valid?
-      @user.update!(user_params)
-    else
-      false
-    end
+    super(attributes)
+  end
+
+  def perform
+    return false if invalid?
+    @user.update!(user_attributes)
   end
 
   private
 
-  def user_params
+  def user_attributes
     {
       name: name,
       email: email.to_s.downcase,

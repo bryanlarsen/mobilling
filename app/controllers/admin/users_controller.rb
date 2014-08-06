@@ -12,13 +12,13 @@ class Admin::UsersController < Admin::ApplicationController
 
   def edit
     @user = policy_scope(:user).find(params[:id])
-    @interactor = Admin::UpdateUser.new(@user)
+    @interactor = UpdateUser.new(@user)
     authorize :user, :update?
   end
 
   def update
     @user = policy_scope(:user).find(params[:id])
-    @interactor = Admin::UpdateUser.new(@user, update_user_params)
+    @interactor = UpdateUser.new(@user, update_user_params)
     authorize :user, :update?
     if @interactor.perform
       redirect_to admin_users_path

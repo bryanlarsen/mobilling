@@ -19,11 +19,8 @@ class Admin::UpdateAdminUser
   end
 
   def perform
-    if valid?
-      @admin_user.update!(admin_user_attributes)
-    else
-      false
-    end
+    return false if invalid?
+    @admin_user.update!(admin_user_attributes)
   end
 
   def persisted?
