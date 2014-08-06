@@ -16,7 +16,12 @@ class Admin::UpdateClaim
 
   def perform
     return false if invalid?
+    status_was = @claim.status
     @claim.update!(claim_attributes)
+    if status_was != "rejected_doctor_attention" and status == "rejected_doctor_attention"
+      UserMailer.claim_rejected(claim.user, claim).deliver
+    end
+    true
   end
 
   def persisted?

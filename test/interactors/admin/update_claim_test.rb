@@ -1,6 +1,8 @@
 require "test_helper"
 
 class Admin::UpdateClaimTest < ActiveSupport::TestCase
+  include ActionMailer::TestHelper
+
   setup do
     old_attributes = {
       details: {
@@ -21,6 +23,11 @@ class Admin::UpdateClaimTest < ActiveSupport::TestCase
     assert @interactor.perform
     assert_equal @interactor.patient_name, @interactor.claim.details["patient_name"]
     assert_equal "OldHospital", @interactor.claim.details["hospital"]
+  end
+
+  test "sends an email when rejected_doctor_attention" do
+    @interactor.status = "rejected_doctor_attention"
+    assert_emails(1) { @interactor.perform }
   end
 
   test "is invalid without status" do
