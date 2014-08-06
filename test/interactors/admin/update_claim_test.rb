@@ -13,16 +13,20 @@ class Admin::UpdateClaimTest < ActiveSupport::TestCase
     }
     new_attributes = {
       patient_name: "Alice",
-      status: "unprocessed"
+      status: "unprocessed",
+      comment: "Comment"
     }
     @claim = create(:claim, old_attributes)
-    @interactor = Admin::UpdateClaim.new(@claim, new_attributes)
+    @admin_user = create(:admin_user)
+    @interactor = Admin::UpdateClaim.new(@claim, @admin_user, new_attributes)
   end
 
   test "performs properly" do
     assert @interactor.perform
     assert_equal @interactor.patient_name, @interactor.claim.details["patient_name"]
     assert_equal "OldHospital", @interactor.claim.details["hospital"]
+    assert_equal 1, @interactor.claim.comments.count
+    assert_equal "Comment", @interactor.claim.comments.first.body
   end
 
   test "sends no email when rejected_admin_attention" do

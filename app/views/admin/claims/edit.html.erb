@@ -98,6 +98,39 @@
     </fieldset>
 
     <fieldset>
+      <legend>Comments</legend>
+
+      <% if @interactor.claim.comments.present? %>
+        <% @interactor.claim.comments.each do |comment| %>
+          <div class="form-group">
+            <div class="control-label col-md-2">
+              <label>
+                <%= comment.created_at.to_date %>
+              </label>
+              <p class="text-muted"><%= comment.user.name %></p>
+            </div>
+            <div class="col-md-10">
+              <p class="form-control-static">
+                <%= comment.body %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="col-md-10 col-md-offset-2">
+          No comments
+        </p>
+      <% end %>
+
+      <%= form.group :comment do %>
+        <div class="col-md-4 col-md-push-2">
+          <%= form.text_field :comment, class: "form-control", placeholder: "Add a new comment" %>
+          <%= form.help_block :comment %>
+        </div>
+      <% end %>
+    </fieldset>
+
+    <fieldset>
       <legend>Backend</legend>
 
       <div class="form-group">
