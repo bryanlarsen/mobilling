@@ -11,8 +11,15 @@ class CreateUserTest < ActiveSupport::TestCase
     assert @interactor.user.authentication_token.present?
   end
 
-  test "is invalid with non-existing email" do
+  test "is invalid with already existing email" do
     create(:user, email: @interactor.email)
+    @interactor.perform
+    assert_invalid @interactor, :email
+  end
+
+  test "is invalid with already existing email regardless case" do
+    create(:user, email: @interactor.email)
+    @interactor.email = @interactor.email.upcase
     @interactor.perform
     assert_invalid @interactor, :email
   end
@@ -39,5 +46,11 @@ class CreateUserTest < ActiveSupport::TestCase
     @interactor.email = "invalid"
     @interactor.perform
     assert_invalid @interactor, :email
+  end
+
+  test "downcases email" do
+    @interactor.email = "Alice@example.com"
+    @interactor.perform
+    assert_equal "alice@example.com", @interactor.user.email
   end
 end

@@ -8,10 +8,10 @@ class CreateUser
   validates :agent_id, presence: true
   validates :password, presence: true
   validates :name, presence: true
-  validate :existence
+  validate :email_existence
 
   def perform
-    @user = User.find_or_initialize_by(email: email.to_s.downcase)
+    @user = User.new
     if valid?
       @user.update!(user_params)
     else
@@ -23,14 +23,15 @@ class CreateUser
 
   def user_params
     {
-      password: password,
       name: name,
+      email: email.to_s.downcase,
+      password: password,
       agent_id: agent_id,
       authentication_token: SecureRandom.hex(32)
     }
   end
 
-  def existence
-    errors.add :email, :taken if user.persisted?
+  def email_existence
+    errors.add :email, :taken if User.where(email: email.to_s.downcase).exists?
   end
 end

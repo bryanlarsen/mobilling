@@ -1,7 +1,7 @@
 class UpdateUser
   include ActiveModel::Model
 
-  attr_accessor :email, :name, :agent_id
+  attr_accessor :email, :name, :agent_id, :password
   attr_reader :user
 
   validates :email, presence: true, email: true
@@ -30,12 +30,13 @@ class UpdateUser
   def user_params
     {
       name: name,
-      email: email,
-      agent_id: agent_id,
+      email: email.to_s.downcase,
+      password: password,
+      agent_id: agent_id
     }
   end
 
   def existence
-    errors.add :email, :taken if User.where.not(id: user.id).where(email: email).exists?
+    errors.add :email, :taken if User.where.not(id: user.id).where(email: email.to_s.downcase).exists?
   end
 end
