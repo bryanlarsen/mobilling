@@ -1,10 +1,13 @@
 //= require jquery
 //= require overthrow
 //= require fastclick
+//= require bloodhound
+//= require typeahead.jquery
 //= require angular
 //= require angular-route
 //= require angular-messages
 //= require angular-resource
+//= require angular-typeahead
 //= require mobile-angular-ui/navbars
 //= require mobile-angular-ui/overlay
 //= require mobile-angular-ui/sidebars
