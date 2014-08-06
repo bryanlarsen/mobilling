@@ -70,7 +70,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
     admin = create(:admin_user, role: "admin")
     user = create(:user)
     @controller.sign_in(admin)
-    put :update, id: user.id, admin_update_user: attributes_for(:user)
+    put :update, id: user.id, update_user: attributes_for(:user)
     assert_redirected_to admin_users_path
   end
 
@@ -78,7 +78,7 @@ class Admin::UsersControllerTest < ActionController::TestCase
     admin = create(:admin_user, role: "admin")
     user = create(:user)
     @controller.sign_in(admin)
-    put :update, id: user.id, admin_update_user: {name: ""}
+    put :update, id: user.id, update_user: {name: ""}
     assert_template "edit"
   end
 
