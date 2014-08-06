@@ -4,7 +4,7 @@ angular.module("moBilling.factories.serviceCodes", [])
         var serviceCodes = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            remote: {
+            prefetch: {
                 url: API_URL + "/v1/service_codes.json",
                 filter: function (response) {
                     return response.map(function (name) {
