@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140801124328) do
+ActiveRecord::Schema.define(version: 20140806141003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,15 @@ ActiveRecord::Schema.define(version: 20140801124328) do
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
+
+  create_table "claim_comments", force: true do |t|
+    t.text     "body"
+    t.uuid     "user_id"
+    t.string   "user_type"
+    t.uuid     "claim_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.uuid     "user_id"
