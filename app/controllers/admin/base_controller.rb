@@ -1,4 +1,4 @@
-class Admin::ApplicationController < ActionController::Base
+class Admin::BaseController < ActionController::Base
   include Pundit
   include CurrentUser
   layout "admin"

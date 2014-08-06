@@ -1,4 +1,4 @@
-class Admin::SessionsController < Admin::ApplicationController
+class Admin::SessionsController < Admin::BaseController
   def new
     @interactor = Admin::CreateSession.new
     authorize :session, :create?

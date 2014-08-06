@@ -1,4 +1,4 @@
-class Admin::ClaimsController < Admin::ApplicationController
+class Admin::ClaimsController < Admin::BaseController
   include Admin::Sortable
 
   self.sortable_columns = %w[claims.number users.name claims.status claims.details->>'patient_name']

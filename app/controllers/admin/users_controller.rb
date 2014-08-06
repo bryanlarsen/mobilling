@@ -1,4 +1,4 @@
-class Admin::UsersController < Admin::ApplicationController
+class Admin::UsersController < Admin::BaseController
   include Admin::Sortable
 
   self.sortable_columns = %w[users.name users.email users.role admin_users.name]
