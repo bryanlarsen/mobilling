@@ -15,7 +15,9 @@ class V1::ClaimsControllerTest < ActionController::TestCase
 
   test "show renders template" do
     user = create(:user, :authenticated)
-    get :show, id: create(:claim, user: user).id, auth: user.authentication_token, format: "json"
+    claim = create(:claim, user: user)
+    create(:claim_comment, claim: claim, body: "Example comment")
+    get :show, id: claim.id, auth: user.authentication_token, format: "json"
     assert_template "show"
   end
 
