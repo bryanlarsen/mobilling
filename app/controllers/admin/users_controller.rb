@@ -36,12 +36,8 @@ class Admin::UsersController < Admin::ApplicationController
 
   private
 
-  def create_user_params
-    params.require(:admin_create_user).permit(:name, :email, :password, :password_confirmation, :agent_id)
-  end
-
   def update_user_params
-    params.require(:admin_update_user).permit(:name, :email, :password, :password_confirmation, :agent_id)
+    params.require(:update_user).permit(:name, :email, :password, :agent_id)
   end
 
   def agent_id_filter

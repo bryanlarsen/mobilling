@@ -22,6 +22,10 @@ class UpdateUser
     @user.update!(user_attributes)
   end
 
+  def persisted?
+    true
+  end
+
   private
 
   def user_attributes

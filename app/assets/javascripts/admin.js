@@ -2,6 +2,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap/modal
+//= require bootstrap/collapse
+//= require bootstrap/transition
 
 //= require_tree ./admin
 
