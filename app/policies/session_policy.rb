@@ -1,6 +1,6 @@
 class SessionPolicy < Struct.new(:current_user, :session)
   def create?
-    current_user.blank?
+    true
   end
 
   def destroy?
