@@ -27,7 +27,8 @@ class UpdateClaim
                 :first_seen_on, :first_seen_consult, :last_seen_on,
                 :last_seen_discharge, :icu_transfer, :consult_type,
                 :consult_time_in, :consult_time_out,
-                :consult_premium_visit, :consult_premium_travel
+                :consult_premium_visit, :consult_premium_travel,
+                :comment
 
   attr_writer :daily_details
   attr_reader :claim
@@ -51,6 +52,8 @@ class UpdateClaim
     return false if invalid?
     @claim = user.claims.saved.find_or_initialize_by(id: id)
     @claim.update!(claim_attributes)
+    @claim.comments.create!(user: user, body: comment) if comment.present?
+    true
   end
 
   def submitted?
