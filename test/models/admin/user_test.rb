@@ -1,7 +1,11 @@
-require 'test_helper'
+require "test_helper"
 
 class Admin::UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  setup do
+    @admin_user = build(:admin_user)
+  end
+
+  test "saves successfully with valid attributes" do
+    assert @admin_user.save!
+  end
 end
