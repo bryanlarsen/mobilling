@@ -8,9 +8,11 @@ angular.module("moBilling.controllers.claimEditConsult", [])
         *
         */
         function timeStringToMinutes (time) {
-            if(typeof time !== 'string' || time.indexOf(':') < 0) { return; }
+            if (typeof time !== "string" || time.indexOf(":") < 0) {
+                return undefined;
+            }
 
-            var hoursAndMinutes = time.split(':');
+            var hoursAndMinutes = time.split(":");
 
             return parseInt(hoursAndMinutes[0], 10) * 60 + parseInt(hoursAndMinutes[1], 10);
         }

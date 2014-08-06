@@ -12,6 +12,6 @@ angular.module("moBilling.controllers.claimEditDetails", [])
         };
 
         $scope.isTimeVisible = function (detail) {
-            return detail && (detail.code === 'A130' || detail.code === 'C130');
+            return detail && (detail.code === "A130" || detail.code === "C130");
         };
     });
