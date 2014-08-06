@@ -32,7 +32,7 @@ angular.module("moBilling.controllers.claimEdit", [])
 
         $scope.step = $location.hash();
 
-        if (!$scope.step || !/^(claim|consult|details)$/.test($scope.step)) {
+        if (!$scope.step || !/^(claim|consult|details|comments)$/.test($scope.step)) {
             $scope.setActiveStep("claim");
         }
 

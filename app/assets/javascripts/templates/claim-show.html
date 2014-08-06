@@ -20,7 +20,10 @@
         <i class="fa fa-user-md"></i> Consult
       </a>
       <a class="btn btn-default" ng-class="{'active': isActiveStep('details')}" ng-click="setActiveStep('details')">
-        <i class="fa fa-medkit"></i> Daily Details
+        <i class="fa fa-medkit"></i> Daily Details ({{claim.daily_details.length}})
+      </a>
+      <a class="btn btn-default" ng-class="{'active': isActiveStep('comments')}" ng-click="setActiveStep('comments')">
+        <i class="fa fa-comments"></i> Comments ({{claim.comments.length}})
       </a>
     </div>
   </div>
@@ -33,5 +36,6 @@
     <div ng-show="!loading && isActiveStep('claim')" class="app-content" ng-include="'claim-show-claim.html'"></div>
     <div ng-show="!loading && isActiveStep('consult')" class="app-content" ng-include="'claim-show-consult.html'"></div>
     <div ng-show="!loading && isActiveStep('details')" class="app-content" ng-include="'claim-show-details.html'"></div>
+    <div ng-show="!loading && isActiveStep('comments')" class="app-content" ng-include="'claim-show-comments.html'"></div>
   </div>
 </form>
