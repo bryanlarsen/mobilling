@@ -1,6 +1,6 @@
 class CreateDiagnoses < ActiveRecord::Migration
   def change
-    create_table :diagnoses do |t|
+    create_table :diagnoses, id: :uuid do |t|
       t.string :name
       t.timestamps
     end

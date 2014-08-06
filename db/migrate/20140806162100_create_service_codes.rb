@@ -1,6 +1,6 @@
 class CreateServiceCodes < ActiveRecord::Migration
   def change
-    create_table :service_codes do |t|
+    create_table :service_codes, id: :uuid do |t|
       t.text :name
       t.timestamps
     end

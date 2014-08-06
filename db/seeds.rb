@@ -20,6 +20,10 @@ end
 
 ActiveRecord::Migration.say_with_time "create_service_codes" do
   ServiceCode.destroy_all
-  service_codes = open(Rails.root.join("db/seeds/service_codes.txt")).readlines.map { |l| {name: l.strip} }
+  service_codes = open(Rails.root.join("db/seeds/service_codes.txt")).readlines.map do |line|
+    code = line[-6..-2].strip
+    desc = line[0..-9].strip
+    {name: "#{code} #{desc}"}
+  end
   ServiceCode.create(service_codes)
 end

@@ -5,6 +5,7 @@ class V1::HospitalsController < V1::BaseController
   api :GET, "/v1/hospitals", "Returns hospitals"
 
   def index
-    @hospitals = Hospital.all
+    @hospitals = Hospital.pluck(:name)
+    render json: @hospitals
   end
 end

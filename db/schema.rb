@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20140806162100) do
 
   add_index "claims", ["number", "user_id"], name: "index_claims_on_number_and_user_id", unique: true, using: :btree
 
-  create_table "diagnoses", force: true do |t|
+  create_table "diagnoses", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20140806162100) do
 
   add_index "diagnoses", ["name"], name: "index_diagnoses_on_name", unique: true, using: :btree
 
-  create_table "hospitals", force: true do |t|
+  create_table "hospitals", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20140806162100) do
     t.datetime "updated_at"
   end
 
-  create_table "service_codes", force: true do |t|
+  create_table "service_codes", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.text     "name"
     t.datetime "created_at"
     t.datetime "updated_at"
