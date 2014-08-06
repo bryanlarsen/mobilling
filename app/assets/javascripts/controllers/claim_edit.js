@@ -14,6 +14,10 @@ angular.module("moBilling.controllers.claimEdit", [])
 
         $scope.claim = claim.toJSON();
 
+        if (!$scope.claim.comments) {
+            $scope.claim.comments = [];
+        }
+
         if ($scope.claim.most_responsible_physician === undefined) {
             $scope.claim.most_responsible_physician = true;
         }
