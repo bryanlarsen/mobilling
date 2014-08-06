@@ -7,9 +7,13 @@ class CreatePhoto
   validates :user, presence: true
   validates :file, presence: true
 
+  def initialize(attributes = nil)
+    @photo = Photo.new
+    super
+  end
+
   def perform
     return false if invalid?
-    @photo = Photo.new(user: user, file: file)
-    @photo.save!
+    @photo.update!(user: user, file: file)
   end
 end

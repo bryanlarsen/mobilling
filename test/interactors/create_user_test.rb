@@ -2,8 +2,13 @@ require "test_helper"
 
 class CreateUserTest < ActiveSupport::TestCase
   setup do
-    agent = create(:admin_user, role: "agent")
-    @interactor = CreateUser.new(attributes_for(:user).merge(agent_id: agent.id))
+    attributes = {
+      name: "Alice",
+      email: "alice@example.com",
+      password: "secret",
+      agent_id: create(:admin_user, role: "agent").id
+    }
+    @interactor = CreateUser.new(attributes)
   end
 
   test "performs properly updating authentication_token" do
