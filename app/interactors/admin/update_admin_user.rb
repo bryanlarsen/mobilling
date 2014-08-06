@@ -7,8 +7,8 @@ class Admin::UpdateAdminUser
   validates :name, presence: true
   validates :email, presence: true, email: true
   validates :password, confirmation: true
-  validates :role, presence: true
-  validate :existence
+  validates :role, inclusion: {in: Admin::User.roles.keys}
+  validate :email_existence
 
   def initialize(admin_user, attributes = nil)
     @admin_user = admin_user
@@ -35,13 +35,13 @@ class Admin::UpdateAdminUser
   def admin_user_attributes
     {
       name: name,
-      email: email,
+      email: email.to_s.downcase,
       password: password,
       role: role
     }
   end
 
-  def existence
-    errors.add :email, :taken if ::Admin::User.where.not(id: admin_user.id).where(email: email).exists?
+  def email_existence
+    errors.add :email, :taken if Admin::User.where.not(id: admin_user.id).where(email: email.to_s.downcase).exists?
   end
 end

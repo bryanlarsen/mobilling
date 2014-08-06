@@ -7,7 +7,7 @@ class Admin::UpdateUser
   validates :email, presence: true, email: true
   validates :password, confirmation: true
   validates :name, presence: true
-  validate :existence
+  validate :email_existence
 
   def initialize(user, attributes = nil)
     @user = user
@@ -38,7 +38,7 @@ class Admin::UpdateUser
     }
   end
 
-  def existence
+  def email_existence
     errors.add :email, :taken if ::User.where.not(id: user.id).where(email: email).exists?
   end
 end

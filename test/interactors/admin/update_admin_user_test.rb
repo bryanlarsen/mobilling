@@ -1,31 +1,38 @@
 require "test_helper"
 
-class Admin::CreateAdminUserTest < ActiveSupport::TestCase
+class Admin::UpdateAdminUserTest < ActiveSupport::TestCase
   setup do
-    attributes = {
+    old_attributes = {
+      name: "OldAlice",
+      email: "oldalice@example.com",
+      password: "oldsecret",
+      password_confirmation: "oldsecret",
+      role: "agent"
+    }
+    new_attributes = {
       name: "Alice",
       email: "alice@example.com",
       password: "secret",
       password_confirmation: "secret",
       role: "admin"
     }
-    @interactor = Admin::CreateAdminUser.new(attributes)
+    @admin_user = create(:admin_user, old_attributes)
+    @interactor = Admin::UpdateAdminUser.new(@admin_user, new_attributes)
   end
 
   test "performs properly with valid attributes" do
     assert @interactor.perform
+    assert_equal @interactor.admin_user.name, @interactor.name
+    assert_equal @interactor.admin_user.email, @interactor.email
+    assert_equal @interactor.admin_user.role, @interactor.role
+    assert @interactor.admin_user.authenticate(@interactor.password)
   end
 
-  test "is invalid without password" do
+  test "is valid without password and password confirmation" do
     @interactor.password = ""
-    @interactor.perform
-    assert_invalid @interactor, :password
-  end
-
-  test "is invalid without password confirmation" do
     @interactor.password_confirmation = ""
-    @interactor.perform
-    assert_invalid @interactor, :password_confirmation
+    assert @interactor.perform
+    assert @interactor.admin_user.authenticate("oldsecret")
   end
 
   test "is invalid with invalid password confirmation" do

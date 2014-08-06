@@ -7,11 +7,11 @@ class Admin::CreateAdminUser
   validates :name, presence: true
   validates :email, presence: true, email: true
   validates :password, confirmation: true, presence: true
-  validates :role, inclusion: {in: ::Admin::User.roles.keys}
+  validates :role, inclusion: {in: Admin::User.roles.keys}
   validate :existence
 
   def initialize(attributes = nil)
-    @admin_user = ::Admin::User.new
+    @admin_user = Admin::User.new
     super(attributes)
   end
 
@@ -35,6 +35,6 @@ class Admin::CreateAdminUser
   end
 
   def existence
-    errors.add :email, :taken if ::Admin::User.where(email: email.to_s.downcase).exists?
+    errors.add :email, :taken if Admin::User.where(email: email.to_s.downcase).exists?
   end
 end
