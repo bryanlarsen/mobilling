@@ -76,7 +76,7 @@
   "admin_users#destroy": [
     {
       "verb": "DELETE",
-      "path": "/admin/admin_users/d3a6c57a-8e37-44d3-a6f9-84e3f1aebbd4",
+      "path": "/admin/admin_users/4cbec90f-63e2-407e-bbea-16bb9073a907",
       "versions": [
 
       ],
@@ -91,7 +91,7 @@
   "admin_users#edit": [
     {
       "verb": "GET",
-      "path": "/admin/admin_users/9b1a242e-a261-4220-a9ba-dcf2c08701e8/edit",
+      "path": "/admin/admin_users/4446699e-4331-42c1-99c7-1fd1628fb17a/edit",
       "versions": [
 
       ],
@@ -188,15 +188,15 @@
   "admin_users#update": [
     {
       "verb": "PUT",
-      "path": "/admin/admin_users/bf332aef-d5ac-44b6-bd9f-2c2faaea313a",
+      "path": "/admin/admin_users/e825e48c-d5af-4e81-8552-9898730a5d6c",
       "versions": [
 
       ],
       "query": null,
       "request_data": {
         "admin_update_admin_user": {
-          "name": "Admin 24",
-          "email": "admin24@example.com",
+          "name": "Admin 81",
+          "email": "admin80@example.com",
           "password": "secret"
         }
       },
@@ -207,7 +207,7 @@
     },
     {
       "verb": "PUT",
-      "path": "/admin/admin_users/459e7d6f-5de8-468e-a82c-51544aed8a2e",
+      "path": "/admin/admin_users/62bb65b0-b427-4c96-a502-19300a46d369",
       "versions": [
 
       ],
@@ -234,16 +234,16 @@
       "request_data": null,
       "response_data": [
         {
-          "id": "985349f8-67ca-4c9d-aae6-95de88f1025e",
-          "name": "Admin 59"
+          "id": "56947b7a-a170-4de8-a2a0-d760a0621f6b",
+          "name": "Admin 84"
         },
         {
-          "id": "5622a454-cf30-4f87-908a-c3e1b13bb8d6",
-          "name": "Admin 60"
+          "id": "72f23df7-85b3-4b51-a64e-d171b9cbceec",
+          "name": "Admin 85"
         },
         {
-          "id": "e222c3ad-7174-43ec-a269-794f36679911",
-          "name": "Admin 61"
+          "id": "621d9791-9399-454e-9054-90a413ab1229",
+          "name": "Admin 86"
         }
       ],
       "code": "200",
@@ -254,14 +254,14 @@
   "claims#destroy": [
     {
       "verb": "DELETE",
-      "path": "/v1/claims/8f66560f-8a45-40e9-b2ab-1b1bb12b45e7.json",
+      "path": "/v1/claims/167f08bc-16ff-43e2-a33c-1a3982fab92a.json",
       "versions": [
         "1.0"
       ],
-      "query": "auth=3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a",
+      "query": "auth=df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
       "request_data": null,
       "response_data": {
-        "id": "8f66560f-8a45-40e9-b2ab-1b1bb12b45e7",
+        "id": "167f08bc-16ff-43e2-a33c-1a3982fab92a",
         "status": "saved",
         "photo_id": null,
         "number": null,
@@ -284,8 +284,8 @@
         "daily_details": [
 
         ],
-        "created_at": "2014-08-06T10:16:19.543Z",
-        "updated_at": "2014-08-06T10:16:19.543Z"
+        "created_at": "2014-08-06T10:22:38.868Z",
+        "updated_at": "2014-08-06T10:22:38.868Z"
       },
       "code": "200",
       "show_in_doc": 1,
@@ -293,14 +293,14 @@
     },
     {
       "verb": "DELETE",
-      "path": "/v1/claims/e45904c2-6c4c-46a6-aaae-f4b7e6c561bb.json",
+      "path": "/v1/claims/70149ec9-a083-4dd5-80f8-4a196f44b5a7.json",
       "versions": [
         "1.0"
       ],
-      "query": "auth=3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a",
+      "query": "auth=df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
       "request_data": null,
       "response_data": {
-        "error": "Couldn't find Claim with 'id'=e45904c2-6c4c-46a6-aaae-f4b7e6c561bb [WHERE \"claims\".\"user_id\" = $1 AND \"claims\".\"status\" = 0]"
+        "error": "Couldn't find Claim with 'id'=70149ec9-a083-4dd5-80f8-4a196f44b5a7 [WHERE \"claims\".\"user_id\" = $1 AND \"claims\".\"status\" = 0]"
       },
       "code": "404",
       "show_in_doc": 1,
@@ -308,14 +308,14 @@
     },
     {
       "verb": "DELETE",
-      "path": "/v1/claims/e0a4ab7b-636e-498b-b31c-9fbf6e9f2af5.json",
+      "path": "/v1/claims/276a72bd-d81c-4398-85f8-b2dc31fc0b0d.json",
       "versions": [
         "1.0"
       ],
-      "query": "auth=3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a",
+      "query": "auth=df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
       "request_data": null,
       "response_data": {
-        "error": "Couldn't find Claim with 'id'=e0a4ab7b-636e-498b-b31c-9fbf6e9f2af5 [WHERE \"claims\".\"user_id\" = $1 AND \"claims\".\"status\" = 0]"
+        "error": "Couldn't find Claim with 'id'=276a72bd-d81c-4398-85f8-b2dc31fc0b0d [WHERE \"claims\".\"user_id\" = $1 AND \"claims\".\"status\" = 0]"
       },
       "code": "404",
       "show_in_doc": 1,
@@ -323,7 +323,7 @@
     },
     {
       "verb": "DELETE",
-      "path": "/v1/claims/b7f6f1b6-dd36-47fb-8cd2-a1584d3dd36c.json",
+      "path": "/v1/claims/adbaa695-7605-4cdc-ba7e-5f4b7a078548.json",
       "versions": [
         "1.0"
       ],
@@ -340,7 +340,7 @@
   "claims#edit": [
     {
       "verb": "GET",
-      "path": "/admin/claims/91fc1a0a-73f3-4b12-b2ae-6702264cb05b/edit",
+      "path": "/admin/claims/0d25f774-c59a-4b9d-bbfc-0202fb10c048/edit",
       "versions": [
 
       ],
@@ -385,7 +385,7 @@
       "versions": [
 
       ],
-      "query": "user_id=a37459e7-a565-4416-b02f-3afcf63b16e9",
+      "query": "user_id=e1e6970b-9faf-4ec3-afb8-b1bff24fba70",
       "request_data": null,
       "response_data": null,
       "code": "200",
@@ -450,11 +450,11 @@
       "versions": [
         "1.0"
       ],
-      "query": "auth=3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a",
+      "query": "auth=df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
       "request_data": null,
       "response_data": [
         {
-          "id": "1403b81b-8a08-450a-a526-bed1348fcb4e",
+          "id": "0d98b1a5-e6b4-4bd1-ab81-71d348ca1733",
           "status": "saved",
           "photo_id": null,
           "number": null,
@@ -477,11 +477,11 @@
           "daily_details": [
 
           ],
-          "created_at": "2014-08-06T10:16:19.615Z",
-          "updated_at": "2014-08-06T10:16:19.615Z"
+          "created_at": "2014-08-06T10:22:38.951Z",
+          "updated_at": "2014-08-06T10:22:38.951Z"
         },
         {
-          "id": "02db7624-2943-48ca-842f-087dcd91a4b0",
+          "id": "ca9a4a23-5f98-4dc2-94e2-747917d99c42",
           "status": "saved",
           "photo_id": null,
           "number": null,
@@ -504,11 +504,11 @@
           "daily_details": [
 
           ],
-          "created_at": "2014-08-06T10:16:19.616Z",
-          "updated_at": "2014-08-06T10:16:19.616Z"
+          "created_at": "2014-08-06T10:22:38.952Z",
+          "updated_at": "2014-08-06T10:22:38.952Z"
         },
         {
-          "id": "113c7d68-bc4d-42bf-bd98-fe0f6d5402b9",
+          "id": "fb387a52-dc15-46ce-b121-ce1489e94e55",
           "status": "saved",
           "photo_id": null,
           "number": null,
@@ -531,8 +531,8 @@
           "daily_details": [
 
           ],
-          "created_at": "2014-08-06T10:16:19.618Z",
-          "updated_at": "2014-08-06T10:16:19.618Z"
+          "created_at": "2014-08-06T10:22:38.954Z",
+          "updated_at": "2014-08-06T10:22:38.954Z"
         }
       ],
       "code": "200",
@@ -558,14 +558,14 @@
   "claims#show": [
     {
       "verb": "GET",
-      "path": "/v1/claims/99001e93-c54c-4a64-82a6-2180b9de9b14.json",
+      "path": "/v1/claims/73527e13-4d78-4982-9f52-d7eeb58da852.json",
       "versions": [
         "1.0"
       ],
-      "query": "auth=3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a",
+      "query": "auth=df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
       "request_data": null,
       "response_data": {
-        "id": "99001e93-c54c-4a64-82a6-2180b9de9b14",
+        "id": "73527e13-4d78-4982-9f52-d7eeb58da852",
         "status": "saved",
         "photo_id": null,
         "number": null,
@@ -588,8 +588,8 @@
         "daily_details": [
 
         ],
-        "created_at": "2014-08-06T10:16:19.638Z",
-        "updated_at": "2014-08-06T10:16:19.638Z"
+        "created_at": "2014-08-06T10:22:38.973Z",
+        "updated_at": "2014-08-06T10:22:38.973Z"
       },
       "code": "200",
       "show_in_doc": 1,
@@ -597,14 +597,14 @@
     },
     {
       "verb": "GET",
-      "path": "/v1/claims/21acd2a9-1f0d-4355-b78c-136a766c743c.json",
+      "path": "/v1/claims/5f7f09c9-96a4-439c-ba78-2112fb39f3aa.json",
       "versions": [
         "1.0"
       ],
-      "query": "auth=3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a",
+      "query": "auth=df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
       "request_data": null,
       "response_data": {
-        "error": "Couldn't find Claim with 'id'=21acd2a9-1f0d-4355-b78c-136a766c743c [WHERE \"claims\".\"user_id\" = $1]"
+        "error": "Couldn't find Claim with 'id'=5f7f09c9-96a4-439c-ba78-2112fb39f3aa [WHERE \"claims\".\"user_id\" = $1]"
       },
       "code": "404",
       "show_in_doc": 1,
@@ -612,7 +612,7 @@
     },
     {
       "verb": "GET",
-      "path": "/v1/claims/013cab63-2b6f-43de-97c6-4977f7c64eab.json",
+      "path": "/v1/claims/a8cc3362-7307-4bff-9e3a-955f768c0cdc.json",
       "versions": [
         "1.0"
       ],
@@ -629,7 +629,7 @@
   "claims#update": [
     {
       "verb": "PUT",
-      "path": "/admin/claims/ae7eda87-c4c9-4d75-b5af-dc5703232fa6",
+      "path": "/admin/claims/15dd7bf6-944b-4cff-88c0-845799f7fc3c",
       "versions": [
 
       ],
@@ -646,7 +646,7 @@
     },
     {
       "verb": "PUT",
-      "path": "/admin/claims/276b694a-161e-4879-a18b-2f195721edda",
+      "path": "/admin/claims/dff240f6-ffa3-4aed-8018-175f7e477da7",
       "versions": [
 
       ],
@@ -663,20 +663,20 @@
     },
     {
       "verb": "PUT",
-      "path": "/v1/claims/661f5f7d-9798-4ddf-bd19-5e1510497fa1.json",
+      "path": "/v1/claims/e584157d-36e0-415b-82cb-70ec20546037.json",
       "versions": [
         "1.0"
       ],
       "query": null,
       "request_data": {
-        "auth": "3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a",
+        "auth": "df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
         "claim": {
-          "id": "661f5f7d-9798-4ddf-bd19-5e1510497fa1",
+          "id": "e584157d-36e0-415b-82cb-70ec20546037",
           "status": "saved"
         }
       },
       "response_data": {
-        "id": "661f5f7d-9798-4ddf-bd19-5e1510497fa1",
+        "id": "e584157d-36e0-415b-82cb-70ec20546037",
         "status": "saved",
         "photo_id": null,
         "number": null,
@@ -699,8 +699,8 @@
         "daily_details": [
 
         ],
-        "created_at": "2014-08-06T10:16:19.705Z",
-        "updated_at": "2014-08-06T10:16:19.705Z"
+        "created_at": "2014-08-06T10:22:39.034Z",
+        "updated_at": "2014-08-06T10:22:39.034Z"
       },
       "code": "200",
       "show_in_doc": 1,
@@ -708,14 +708,14 @@
     },
     {
       "verb": "PUT",
-      "path": "/v1/claims/7acec600-b78d-4395-bbc8-351add0baeda.json",
+      "path": "/v1/claims/9b0c9206-22ee-4ce7-83ba-270b8264e187.json",
       "versions": [
         "1.0"
       ],
       "query": null,
       "request_data": {
         "claim": {
-          "id": "7acec600-b78d-4395-bbc8-351add0baeda"
+          "id": "9b0c9206-22ee-4ce7-83ba-270b8264e187"
         }
       },
       "response_data": {
@@ -736,7 +736,7 @@
         "claim": {
           "id": "invalid"
         },
-        "auth": "3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a"
+        "auth": "df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8"
       },
       "response_data": {
         "errors": {
@@ -754,20 +754,20 @@
     },
     {
       "verb": "PUT",
-      "path": "/v1/claims/98e80014-5619-41a6-8c41-372bf3456552.json",
+      "path": "/v1/claims/3a58c1d3-1450-4e03-99dd-9dbc9efd2464.json",
       "versions": [
         "1.0"
       ],
       "query": null,
       "request_data": {
-        "auth": "3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a",
+        "auth": "df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
         "claim": {
-          "id": "98e80014-5619-41a6-8c41-372bf3456552",
+          "id": "3a58c1d3-1450-4e03-99dd-9dbc9efd2464",
           "status": "saved"
         }
       },
       "response_data": {
-        "error": "PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint \"claims_pkey\"\nDETAIL:  Key (id)=(98e80014-5619-41a6-8c41-372bf3456552) already exists.\n: INSERT INTO \"claims\" (\"created_at\", \"details\", \"id\", \"updated_at\", \"user_id\") VALUES ($1, $2, $3, $4, $5) RETURNING \"id\""
+        "error": "PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint \"claims_pkey\"\nDETAIL:  Key (id)=(3a58c1d3-1450-4e03-99dd-9dbc9efd2464) already exists.\n: INSERT INTO \"claims\" (\"created_at\", \"details\", \"id\", \"updated_at\", \"user_id\") VALUES ($1, $2, $3, $4, $5) RETURNING \"id\""
       },
       "code": "422",
       "show_in_doc": 1,
@@ -859,7 +859,7 @@
         "photo": {
           "file": null
         },
-        "auth": "3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a"
+        "auth": "df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8"
       },
       "response_data": {
         "errors": {
@@ -869,6 +869,55 @@
         }
       },
       "code": "422",
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "photos#show": [
+    {
+      "verb": "GET",
+      "path": "/v1/photos/5128de8f-ebac-4b03-aec6-5b7c37146d5c.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "auth=df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
+      "request_data": null,
+      "response_data": {
+        "id": "5128de8f-ebac-4b03-aec6-5b7c37146d5c",
+        "url": "/uploads/photo/file/5128de8f-ebac-4b03-aec6-5b7c37146d5c/image.png",
+        "small_url": "/uploads/photo/file/5128de8f-ebac-4b03-aec6-5b7c37146d5c/small_image.png"
+      },
+      "code": "200",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "GET",
+      "path": "/v1/photos/c5e16411-c28b-43fa-9349-38676dbb1d3b.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "auth=df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
+      "request_data": null,
+      "response_data": {
+        "error": "Couldn't find Photo with 'id'=c5e16411-c28b-43fa-9349-38676dbb1d3b [WHERE \"photos\".\"user_id\" = $1]"
+      },
+      "code": "404",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "GET",
+      "path": "/v1/photos/1b4ce90b-2955-4fbc-9106-20ca6f89f157.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "",
+      "request_data": null,
+      "response_data": {
+        "error": "param is missing or the value is invalid: auth"
+      },
+      "code": "401",
       "show_in_doc": 1,
       "recorded": true
     }
@@ -919,16 +968,16 @@
       "query": null,
       "request_data": {
         "session": {
-          "email": "user22@example.com",
+          "email": "user41@example.com",
           "password": "secret"
         }
       },
       "response_data": {
-        "id": "f4b6efe3-4fd4-46a0-ba1a-b2fbd3215c9d",
-        "name": "User 20",
-        "email": "user22@example.com",
-        "authentication_token": "34ccd8728cb882138ac17d5dea8b0f7c6b66d2738b079aff076112d37d0ef505",
-        "agent_id": "bf83c425-7223-4b25-a9ad-60f83b7c0bab"
+        "id": "318f6667-ffa2-4491-aa9b-7c952b6671e8",
+        "name": "User 39",
+        "email": "user41@example.com",
+        "authentication_token": "5ef22e9ab6970817d7a1515eee17cd403f0bdcdb46e39c675ca503761e370e7d",
+        "agent_id": "c93bfb16-d752-4027-b04b-9962a27e3ddc"
       },
       "code": "201",
       "show_in_doc": 1,
@@ -1015,15 +1064,15 @@
           "name": "User 1",
           "email": "user1@example.com",
           "password": "secret",
-          "agent_id": "96153ba8-87e5-4048-8556-ff5ce294d1f7"
+          "agent_id": "c8401490-e260-4fa7-804b-fcc3ccfb356f"
         }
       },
       "response_data": {
-        "id": "f6a1a306-7714-4761-b4d7-b948c8041685",
+        "id": "309c8bd4-e723-4919-a317-c443f18a32d1",
         "name": "User 1",
         "email": "user1@example.com",
-        "authentication_token": "a62499e1b3b46a27373c44df3fddd55e13b5ee0bad437c5f7e5c64f2285a1871",
-        "agent_id": "96153ba8-87e5-4048-8556-ff5ce294d1f7"
+        "authentication_token": "3915198f474aa93fd924663bd20a3f07c440c07062561b8492b3c4d67c2ffe3c",
+        "agent_id": "c8401490-e260-4fa7-804b-fcc3ccfb356f"
       },
       "code": "201",
       "show_in_doc": 1,
@@ -1061,7 +1110,7 @@
   "users#destroy": [
     {
       "verb": "DELETE",
-      "path": "/admin/users/1214b8c4-868f-443c-8be8-3cbd2a497617",
+      "path": "/admin/users/4d0e7dc8-208f-4927-8f18-e157eb7f9640",
       "versions": [
 
       ],
@@ -1076,7 +1125,7 @@
   "users#edit": [
     {
       "verb": "GET",
-      "path": "/admin/users/90e32ef9-ca99-47e0-a8ca-7554a003f9a8/edit",
+      "path": "/admin/users/fa4d94c1-f8a2-45ee-b29f-197cd6d28aed/edit",
       "versions": [
 
       ],
@@ -1108,7 +1157,7 @@
       "versions": [
 
       ],
-      "query": "agent_id=50859cc2-c92a-485e-8179-84ca2e4b8c9a",
+      "query": "agent_id=90f89a3a-0015-4530-92e7-b755365c0853",
       "request_data": null,
       "response_data": null,
       "code": "200",
@@ -1142,6 +1191,42 @@
       "recorded": true
     }
   ],
+  "users#show": [
+    {
+      "verb": "GET",
+      "path": "/v1/user.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "auth=df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
+      "request_data": null,
+      "response_data": {
+        "id": "489d7f31-eb93-4aa4-8566-eb598d7d7178",
+        "name": "User 3",
+        "email": "user3@example.com",
+        "authentication_token": "df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
+        "agent_id": "9504f42e-f89f-403c-a934-20065b2dfe2a"
+      },
+      "code": "200",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "GET",
+      "path": "/v1/user.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": "",
+      "request_data": null,
+      "response_data": {
+        "error": "param is missing or the value is invalid: auth"
+      },
+      "code": "401",
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
   "users#update": [
     {
       "verb": "PUT",
@@ -1151,33 +1236,76 @@
       ],
       "query": null,
       "request_data": {
-        "auth": "3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a",
+        "auth": "df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
         "user": {
           "name": "Bob"
         }
       },
       "response_data": {
-        "id": "42da74c7-fb49-4f88-aa46-8292ade424f6",
+        "id": "bcb350ed-c7ef-487d-9399-95b7b7f92515",
         "name": "Bob",
-        "email": "user3@example.com",
-        "authentication_token": "3d4d22475ff0a8a63f49e90a3a5f7db22c7999699051619a19d393bc07ab796a",
-        "agent_id": "290a2116-6aa8-439a-b398-76588ff5267a"
+        "email": "user4@example.com",
+        "authentication_token": "df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
+        "agent_id": "d76e9e2a-9071-421f-bbe1-ab144568a5f4"
       },
       "code": "200",
       "show_in_doc": 1,
       "recorded": true
     },
     {
+      "verb": "POST",
+      "path": "/v1/user.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": null,
+      "request_data": {
+        "user": {
+          "name": ""
+        }
+      },
+      "response_data": {
+        "error": "param is missing or the value is invalid: auth"
+      },
+      "code": "401",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "POST",
+      "path": "/v1/user.json",
+      "versions": [
+        "1.0"
+      ],
+      "query": null,
+      "request_data": {
+        "auth": "df1eac37b5a4fa0b9d8372fa160f81aea7c1dd64d5b0283e126e8fb29753f3b8",
+        "user": {
+          "name": ""
+        }
+      },
+      "response_data": {
+        "errors": {
+          "name": [
+            "can't be blank"
+          ]
+        }
+      },
+      "code": "422",
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
       "verb": "PUT",
-      "path": "/admin/users/db0bad33-cebc-4984-9d4d-81ab9f51250b",
+      "path": "/admin/users/5334f112-7265-4868-8080-b5b399f425b0",
       "versions": [
 
       ],
       "query": null,
       "request_data": {
         "update_user": {
-          "name": "User 52",
-          "email": "user54@example.com",
+          "name": "User 56",
+          "email": "user58@example.com",
           "password": "secret"
         }
       },
@@ -1188,7 +1316,7 @@
     },
     {
       "verb": "PUT",
-      "path": "/admin/users/fd0ed661-2855-4f3f-963d-7763013bf562",
+      "path": "/admin/users/990b49f4-c2c8-4c82-ac09-02a4bc96897e",
       "versions": [
 
       ],
