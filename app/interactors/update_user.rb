@@ -1,19 +1,21 @@
 class UpdateUser
   include ActiveModel::Model
 
-  attr_accessor :email, :name, :agent_id, :password
+  attr_accessor :email, :name, :agent_id, :password, :pin
   attr_reader :user
 
   validates :email, presence: true, email: true
   validates :agent_id, presence: true
   validates :name, presence: true
+  validates :pin, format: {with: /\A\d{4}?\Z/}
   validate :existence
 
   def initialize(user, attributes = nil)
-    @user = user
-    self.name = @user.name
-    self.email = @user.email
+    @user         = user
+    self.name     = @user.name
+    self.email    = @user.email
     self.agent_id = @user.agent_id
+    self.pin      = @user.pin
     super(attributes)
   end
 
@@ -33,7 +35,8 @@ class UpdateUser
       name: name,
       email: email.to_s.downcase,
       password: password.to_s,
-      agent_id: agent_id
+      agent_id: agent_id,
+      pin: pin
     }
   end
 

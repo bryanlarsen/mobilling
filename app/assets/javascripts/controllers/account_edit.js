@@ -5,11 +5,14 @@ angular.module("moBilling.controllers.accountEdit", [])
         $scope.user = user.toJSON();
 
         $scope.save = function () {
-            $scope.submitting = true;
-            User.update($scope.user, function () {
-                $location.path("/claims/saved").hash("").replace();
-            }, function () {
-                $scope.submitting = false;
-            });
+            $scope.submitted = true;
+            if ($scope.form.$valid) {
+                $scope.submitting = true;
+                User.update($scope.user, function () {
+                    $location.path("/claims/saved").hash("").replace();
+                }, function () {
+                    $scope.submitting = false;
+                });
+            }
         };
     });

@@ -1,6 +1,6 @@
 class V1::UsersController < V1::BaseController
   skip_before_action :require_user, only: %i[create]
-  wrap_parameters :user, include: [:name, :email, :password, :agent_id], format: :json
+  wrap_parameters :user, include: [:name, :email, :password, :agent_id, :pin], format: :json
   resource_description { resource_id "users" }
 
   api :GET, "/v1/user", "Returns the current user"
@@ -29,6 +29,7 @@ class V1::UsersController < V1::BaseController
     param :email, String, desc: "Email", required: true
     param :agent_id, String, desc: "Agent ID", required: true
     param :password, String, desc: "Password"
+    param :pin, String, desc: "PIN"
   end
 
   def update
@@ -45,6 +46,6 @@ class V1::UsersController < V1::BaseController
   end
 
   def update_user_params
-    params.require(:user).permit(:name, :email, :password, :agent_id)
+    params.require(:user).permit(:name, :email, :password, :agent_id, :pin)
   end
 end
