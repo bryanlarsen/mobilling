@@ -24,7 +24,60 @@ ActiveRecord::Migration.say_with_time "create_service_codes" do
     match = line.strip.match(/\A(.*)\((.*)\)\Z/)
     code = match[2].strip
     description = match[1].strip
-    {name: "#{code} #{description}".strip}
+    {name: "#{code} #{description}".strip, code: code}
   end
   ServiceCode.create(service_codes)
+end
+
+ActiveRecord::Migration.say_with_time "schedule_master" do
+  Rails.root.join("db/seeds/schedule_master.txt").readlines.each do |line|
+    code = line.slice(0,4)
+    effective_date = Date.strptime(line.slice(4,8),"%Y%m%d")
+    if line.slice(12, 8)=='99999999'
+      end_date = nil
+    else
+      if line.slice(18, 2)=='00'
+        end_date = Date.strptime(line.slice(12,6)+'01', "%Y%m%d")
+      else
+        end_date = Date.strptime(line.slice(12,8), "%Y%m%d")
+      end
+    end
+    primary_fee = BigDecimal.new(line.slice(20,11))/10000
+    assistant_fee = BigDecimal.new(line.slice(31,11))/10000
+    specialist_fee = BigDecimal.new(line.slice(42,11))/10000
+    anaesthetist_fee = BigDecimal.new(line.slice(53,11))/10000
+    anaesthetist_fee = BigDecimal.new(line.slice(64,11))/10000 if anaesthetist_fee==0
+
+    # puts code, effective_date, primary_fee, assistant_fee, specialist_fee, anaesthetist_fee
+
+    # bug fixes
+    # assistant_fee = 72.8 if ['S740', 'S733', 'S751'].include?(line.slice(0,4))
+
+    if primary_fee!=0 or (assistant_fee==0 and anaesthetist_fee==0 and specialist_fee==0)
+
+      ServiceCode.where(:code => code+'A')
+        .update_all(effective_date: effective_date,
+                    termination_date: end_date,
+                    fee: primary_fee)
+    end
+    if assistant_fee!=0
+      ServiceCode.where(:code => code+'B')
+        .update_all(effective_date: effective_date,
+                    termination_date: end_date,
+                    fee: assistant_fee)
+    end
+    if anaesthetist_fee!=0
+      ServiceCode.where(:code => code+'C')
+        .update_all(effective_date: effective_date,
+                    termination_date: end_date,
+                    fee: anaesthetist_fee)
+    end
+    if specialist_fee!=0 and primary_fee==0
+      ServiceCode.where(:code => code+'A')
+        .update_all(effective_date: effective_date,
+                    termination_date: end_date,
+                    fee: specialist_fee,
+                    requires_specialist: true)
+    end
+  end
 end

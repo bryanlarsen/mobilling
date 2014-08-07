@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140806162100) do
+ActiveRecord::Schema.define(version: 20140807152303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,8 +76,14 @@ ActiveRecord::Schema.define(version: 20140806162100) do
     t.text     "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "code"
+    t.decimal  "fee",                 precision: 11, scale: 4
+    t.date     "effective_date"
+    t.date     "termination_date"
+    t.boolean  "requires_specialist",                          default: false, null: false
   end
 
+  add_index "service_codes", ["code"], name: "index_service_codes_on_code", using: :btree
   add_index "service_codes", ["name"], name: "index_service_codes_on_name", unique: true, using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
