@@ -186,6 +186,6 @@ angular.module("moBilling.controllers.claimEdit", [])
 
             generated = detailsGenerator($scope.claim);
 
-            $scope.isGenerateVisible = !angular.equals(generated.sort(sortDetails), existing.sort(sortDetails));
+            $scope.isGenerateDisabled = angular.equals(generated.sort(sortDetails), existing.sort(sortDetails));
         });
     });

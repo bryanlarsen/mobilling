@@ -6,9 +6,9 @@
           Please provide required details information or remove missing details below before submitting.
         </div>
 
-        <div class="row" ng-show="isGenerateVisible">
+        <div class="row">
           <div class="col-sm-12">
-            <button type="button" class="btn btn-info btn-lg btn-block" ng-click="generate()">
+            <button type="button" class="btn btn-info btn-lg btn-block" ng-click="generate()" ng-disabled="isGenerateDisabled">
               <i class="fa fa-cogs"></i> Generate codes
             </button>
             <br>

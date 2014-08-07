@@ -21,10 +21,10 @@
           <i class="fa fa-ellipsis-v"></i> More
         </button>
         <ul class="dropdown-menu" role="menu" toggle="off" bubble target="more">
-          <li ng-hide="isGenerateVisible">
+          <li ng-show="isGenerateDisabled">
             <a href="javascript:;" ng-click="submit()"><i class="fa fa-envelope-o"></i> Submit</a>
           </li>
-          <li ng-show="isGenerateVisible">
+          <li ng-hide="isGenerateDisabled">
             <a href="javascript:;" toggle bubble target="autogenerate"><i class="fa fa-exclamation-circle"></i> Submit</a>
           </li>
           <li class="divider">
