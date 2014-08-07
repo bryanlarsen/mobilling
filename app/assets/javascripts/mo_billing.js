@@ -22,9 +22,10 @@ angular.module("moBilling", [
     "moBilling.controllers.claimEditClaim",
     "moBilling.controllers.claimEditConsult",
     "moBilling.controllers.claimEditDetails",
+    "moBilling.controllers.claimListPaid",
     "moBilling.controllers.claimListRejected",
     "moBilling.controllers.claimListSaved",
-    "moBilling.controllers.claimListUnprocessed",
+    "moBilling.controllers.claimListSubmitted",
     "moBilling.controllers.claimNew",
     "moBilling.controllers.signIn",
     "moBilling.controllers.signOut",
@@ -83,9 +84,9 @@ angular.module("moBilling", [
             }
         });
 
-        $routeProvider.when("/claims/unprocessed", {
-            templateUrl: "claim-list-unprocessed.html",
-            controller: "ClaimListUnprocessedController",
+        $routeProvider.when("/claims/submitted", {
+            templateUrl: "claim-list-submitted.html",
+            controller: "ClaimListSubmittedController",
             resolve: {
                 claims: function (Claim) {
                     return Claim.query().$promise;
@@ -96,6 +97,16 @@ angular.module("moBilling", [
         $routeProvider.when("/claims/rejected", {
             templateUrl: "claim-list-rejected.html",
             controller: "ClaimListRejectedController",
+            resolve: {
+                claims: function (Claim) {
+                    return Claim.query().$promise;
+                }
+            }
+        });
+
+        $routeProvider.when("/claims/paid", {
+            templateUrl: "claim-list-paid.html",
+            controller: "ClaimListPaidController",
             resolve: {
                 claims: function (Claim) {
                     return Claim.query().$promise;

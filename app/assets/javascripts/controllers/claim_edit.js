@@ -72,9 +72,17 @@ angular.module("moBilling.controllers.claimEdit", [])
             }
         });
 
-        $scope.cancel = function (status) {
-            status || (status = "saved");
-            $location.path("/claims/" + status).hash("").replace();
+        $scope.cancel = function () {
+            var path = {
+                saved: "saved",
+                unprocessed: "submitted",
+                processed: "submitted",
+                rejected_doctor_attention: "rejected",
+                rejected_admin_attention: "rejected",
+                paid: "paid"
+            }[$scope.claim.status];
+
+            $location.path("/claims/" + path).hash("").replace();
         };
 
         $scope.save = function () {
@@ -123,7 +131,7 @@ angular.module("moBilling.controllers.claimEdit", [])
                 $scope.submitting = true;
                 $scope.claim.status = "unprocessed";
                 Claim.save($scope.claim, function () {
-                    $location.path("/claims/unprocessed").hash("").replace();
+                    $location.path("/claims/submitted").hash("").replace();
                 }, function () {
                     $scope.submitting = false;
                 });

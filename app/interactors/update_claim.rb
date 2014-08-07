@@ -35,7 +35,7 @@ class UpdateClaim
 
   validates :id, uuid: true
   validates :photo_id, uuid: true, allow_nil: true
-  validates :status, inclusion: {in: %w[saved unprocessed rejected_doctor_attention]}
+  validates :status, inclusion: {in: %w[saved unprocessed rejected_doctor_attention rejected_admin_attention]}
   validates :user, presence: true
   validates :patient_name, :hospital, :referring_physician, :diagnosis, type: {is_a: String}, allow_nil: true
   validates :most_responsible_physician, :first_seen_consult, :last_seen_discharge, :icu_transfer, :consult_premium_travel, inclusion: {in: [false, true]}, allow_nil: true
@@ -50,7 +50,8 @@ class UpdateClaim
 
   def perform
     return false if invalid?
-    @claim = user.claims.where(status: Claim.statuses.slice(:saved, :rejected_doctor_attention).values).find_by(id: id) || user.claims.build(id: id)
+    @claim = user.claims.where(status: Claim.statuses.slice(:saved, :rejected_doctor_attention, :rejected_admin_attention).values).find_by(id: id)
+    @claim ||= user.claims.build(id: id)
     @claim.update!(claim_attributes)
     @claim.comments.create!(user: user, body: comment) if comment.present?
     true
