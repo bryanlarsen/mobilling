@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140807152303) do
+ActiveRecord::Schema.define(version: 20140807200425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,14 @@ ActiveRecord::Schema.define(version: 20140807152303) do
 
   add_index "service_codes", ["code"], name: "index_service_codes_on_code", using: :btree
   add_index "service_codes", ["name"], name: "index_service_codes_on_name", unique: true, using: :btree
+
+  create_table "statutory_holidays", force: true do |t|
+    t.date     "day"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "statutory_holidays", ["day"], name: "index_statutory_holidays_on_day", unique: true, using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.string   "name"
