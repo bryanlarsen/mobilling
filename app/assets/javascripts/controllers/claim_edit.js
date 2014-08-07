@@ -18,6 +18,10 @@ angular.module("moBilling.controllers.claimEdit", [])
             $scope.claim.comments = [];
         }
 
+        if (!$scope.claim.status) {
+            $scope.claim.status = "saved";
+        }
+
         if ($scope.claim.most_responsible_physician === undefined) {
             $scope.claim.most_responsible_physician = true;
         }
@@ -75,9 +79,12 @@ angular.module("moBilling.controllers.claimEdit", [])
 
         $scope.save = function () {
             $scope.submitting = true;
-            $scope.claim.status = "saved";
             Claim.save($scope.claim, function () {
-                $location.path("/claims/saved").hash("").replace();
+                if ($scope.claim.status === "rejected_doctor_attention") {
+                    $location.path("/claims/rejected").hash("").replace();
+                } else {
+                    $location.path("/claims/saved").hash("").replace();
+                }
             }, function () {
                 $scope.submitting = false;
             });

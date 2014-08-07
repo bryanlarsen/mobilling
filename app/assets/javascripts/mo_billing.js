@@ -22,6 +22,7 @@ angular.module("moBilling", [
     "moBilling.controllers.claimEditClaim",
     "moBilling.controllers.claimEditConsult",
     "moBilling.controllers.claimEditDetails",
+    "moBilling.controllers.claimListRejected",
     "moBilling.controllers.claimListSaved",
     "moBilling.controllers.claimListUnprocessed",
     "moBilling.controllers.claimNew",
@@ -85,6 +86,16 @@ angular.module("moBilling", [
         $routeProvider.when("/claims/unprocessed", {
             templateUrl: "claim-list-unprocessed.html",
             controller: "ClaimListUnprocessedController",
+            resolve: {
+                claims: function (Claim) {
+                    return Claim.query().$promise;
+                }
+            }
+        });
+
+        $routeProvider.when("/claims/rejected", {
+            templateUrl: "claim-list-rejected.html",
+            controller: "ClaimListRejectedController",
             resolve: {
                 claims: function (Claim) {
                     return Claim.query().$promise;
