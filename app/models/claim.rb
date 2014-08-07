@@ -45,4 +45,25 @@ class Claim < ActiveRecord::Base
     end
     [fee, units]
   end
+
+  # note, if minutes is nil or 0, we assume no overtime
+  # probably not a good heuristic for 'A' codes
+  def self.overtime_rate_and_code(service_datetime, service_code, minutes)
+    return [0, nil] unless minutes && minutes > 0
+    raise RuntimeError, 'unimplemented' if service_code.last == 'A'
+
+    seconds = service_datetime.seconds_since_midnight
+
+    return [0.75, 'E401'+service_code.last] if seconds < 7*60*60
+
+    return [0.5, 'E400'+service_code.last] if seconds >= 17*60*60 ||
+      service_datetime.wday == 0 ||
+      service_datetime.wday == 6
+
+    date = service_datetime.to_date
+    holiday = StatutoryHoliday.find_by(day: date)
+
+    return [0.5, 'E400'+service_code.last] if holiday
+    return [0, nil]
+  end
 end
