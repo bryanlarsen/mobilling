@@ -31,6 +31,7 @@ angular.module("moBilling", [
     "moBilling.controllers.signIn",
     "moBilling.controllers.signOut",
     "moBilling.controllers.signUp",
+    "moBilling.controllers.unlock",
     "moBilling.directives.confirmation",
     "moBilling.directives.date",
     "moBilling.directives.objectToString",
@@ -73,6 +74,16 @@ angular.module("moBilling", [
             resolve: {
                 agents: function (Agent) {
                     return Agent.query().$promise;
+                }
+            }
+        });
+
+        $routeProvider.when("/unlock", {
+            templateUrl: "unlock.html",
+            controller: "UnlockController",
+            resolve: {
+                user: function (User) {
+                    return User.get().$promise;
                 }
             }
         });

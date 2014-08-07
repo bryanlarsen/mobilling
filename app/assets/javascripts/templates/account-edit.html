@@ -41,9 +41,10 @@
             <div class="form-group row" ng-class="{'has-error': (form.email.$dirty || submitted) && form.email.$invalid}">
               <label for="user-email" class="control-label col-xs-12">Email</label>
               <div class="form-control-wrapper col-xs-12">
-                <input type="text" name="email" ng-model="user.email" class="form-control input-lg" id="user-email" required>
+                <input type="text" name="email" ng-model="user.email" class="form-control input-lg" id="user-email" mb-server required>
                 <div ng-messages="form.email.$error" ng-show="submitted">
                   <p class="help-block" ng-message="required">is missing</p>
+                  <p class="help-block" ng-message="server">{{errors.email[0]}}</p>
                 </div>
               </div>
             </div>
