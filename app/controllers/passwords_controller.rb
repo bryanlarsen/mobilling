@@ -2,9 +2,9 @@ class PasswordsController < ApplicationController
   def new
     @interactor = CreatePassword.new(token: params[:token])
     if @interactor.perform
-      render text: "created"
+      render "success"
     else
-      render text: "not found"
+      render "error"
     end
   end
 end
