@@ -69,7 +69,8 @@ module Test
     end
 
     def sign_out
-      click_on("Sign Out")
+      find(".sidebar-toggle").click
+      click_on("Sign out")
     end
 
     def click_link_with_text(text)

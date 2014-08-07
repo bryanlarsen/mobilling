@@ -130,4 +130,27 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Generate codes")
     @doctor.assert_no_selector("input.ng-invalid")
   end
+
+  test "can reset password" do
+    @doctor.sign_out
+    @doctor.click_on("Forgot your password?")
+    @doctor.fill_in("Email", with: @doctor.email)
+    assert_emails(1) do
+      @doctor.click_on("Send instructions")
+      assert @doctor.see?("Forgot your password?")
+    end
+    link = URI.extract(@doctor.emails.last.body.to_s, /http|https/).first
+    assert link.present?
+    assert_emails(1) do
+      @doctor.visit(URI.parse(link).request_uri)
+      assert @doctor.see?("Success!")
+    end
+    assert @doctor.emails.last.body.to_s =~ /password: (.*)/
+    password = $1
+    @doctor.visit(root_path)
+    @doctor.fill_in("Email", with: @doctor.email)
+    @doctor.fill_in("Password", with: password)
+    @doctor.click_on("Sign In")
+    assert @doctor.see?("MENU")
+  end
 end
