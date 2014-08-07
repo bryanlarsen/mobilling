@@ -27,16 +27,17 @@ angular.module("moBilling", [
     "moBilling.controllers.claimListSaved",
     "moBilling.controllers.claimListSubmitted",
     "moBilling.controllers.claimNew",
+    "moBilling.controllers.passwordReset",
     "moBilling.controllers.signIn",
     "moBilling.controllers.signOut",
     "moBilling.controllers.signUp",
     "moBilling.directives.confirmation",
     "moBilling.directives.date",
-    "moBilling.directives.time",
-    "moBilling.directives.server",
-    "moBilling.directives.upload",
-    "moBilling.directives.switch",
     "moBilling.directives.objectToString",
+    "moBilling.directives.server",
+    "moBilling.directives.switch",
+    "moBilling.directives.time",
+    "moBilling.directives.upload",
     "moBilling.directives.validateTotalTime",
     "moBilling.factories.agent",
     "moBilling.factories.claim",
@@ -44,6 +45,7 @@ angular.module("moBilling", [
     "moBilling.factories.detailsGenerator",
     "moBilling.factories.diagnoses",
     "moBilling.factories.hospitals",
+    "moBilling.factories.passwordReset",
     "moBilling.factories.photo",
     "moBilling.factories.serviceCodes",
     "moBilling.factories.session",
@@ -55,6 +57,12 @@ angular.module("moBilling", [
         $routeProvider.when("/sign-in", {
             templateUrl: "sign-in.html",
             controller: "SignInController",
+            guest: true
+        });
+
+        $routeProvider.when("/password-reset", {
+            templateUrl: "password-reset.html",
+            controller: "PasswordResetController",
             guest: true
         });
 

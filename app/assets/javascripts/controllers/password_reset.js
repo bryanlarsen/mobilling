@@ -1,11 +1,11 @@
-angular.module("moBilling.controllers.signIn", [])
+angular.module("moBilling.controllers.passwordReset", [])
 
-    .controller("SignInController", function ($scope, $location, Session) {
-        $scope.session = {};
+    .controller("PasswordResetController", function ($scope, $location, PasswordReset) {
+        $scope.passwordReset = {};
 
-        function success(session) {
-            window.localStorage.setItem("authenticationToken", session.authentication_token);
-            $location.path("/claims").hash("").replace();
+        function success(passwordReset) {
+            window.localStorage.setItem("authenticationToken", passwordReset.authentication_token);
+            $location.path("/sign-in").hash("").replace();
         };
 
         function error(response) {
@@ -20,11 +20,11 @@ angular.module("moBilling.controllers.signIn", [])
 
         $scope.submit = function () {
             $scope.submitted = true;
-            $scope.form.password.$setValidity("server", true);
+            $scope.form.email.$setValidity("server", true);
 
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                Session.save($scope.session, success, error);
+                PasswordReset.save($scope.passwordReset, success, error);
             }
         };
     });
