@@ -9,4 +9,40 @@ class Claim < ActiveRecord::Base
   belongs_to :user
   belongs_to :photo
   has_many :comments
+
+  def self.fee_and_units(service_date, service_code, minutes, fee)
+    # adjust based on service_date if unit fee changes
+    if service_code.last == 'B'
+      unit_fee = BigDecimal.new(1204)/100
+      border1 = 60
+      border2 = 150
+    elsif service_code.last == 'C'
+      unit_fee = BigDecimal.new(1501)/100
+      border1 = 60
+      border2 = 90
+    end
+
+    if minutes && minutes>0 && service_code.last != 'A'
+      raise RuntimeError, 'non-integral base_fee: perhaps minutes should be 0' if fee % unit_fee != 0
+
+      units = ([minutes, border1].min / 15.0).ceil
+      if minutes > border1
+        units += ([minutes - border1, border2 - border1].min / 15.0).ceil*2
+      end
+      if minutes > border2
+        units += ((minutes - border2) / 15.0).ceil*3
+      end
+
+      raise RuntimeError, 'strange calculations' if fee % unit_fee != 0
+      units += (fee / unit_fee).to_i
+      fee = units * unit_fee
+    else
+      if service_code.last != 'A' && fee % unit_fee == 0
+        units = (fee / unit_fee).to_i
+      else
+        units = 1
+      end
+    end
+    [fee, units]
+  end
 end
