@@ -38,7 +38,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
 
   test "can edit rejected claim" do
     create(:claim, user: @doctor.model, status: "rejected_doctor_attention", details: {"patient_name" => "Alice"})
-    @doctor.find(".sidebar-toggle").click
+    @doctor.open_sidebar
     @doctor.click_on("Rejected")
     @doctor.click_on("Alice")
     @doctor.fill_in("Patient name", with: "Bob")
@@ -58,7 +58,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "has 'NEW' option on 'Submitted' page" do
-    @doctor.find(".sidebar-toggle").click
+    @doctor.open_sidebar
     @doctor.click_on("Submitted")
     assert @doctor.see?("NEW")
   end
@@ -151,6 +151,19 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.fill_in("Email", with: @doctor.email)
     @doctor.fill_in("Password", with: password)
     @doctor.click_on("Sign In")
+    assert @doctor.see?("MENU")
+  end
+
+  test "can lock screen" do
+    @doctor.open_sidebar
+    @doctor.click_on("Profile")
+    @doctor.fill_in("Screen lock PIN", with: "1234")
+    @doctor.click_on("Save")
+    @doctor.visit(root_path)
+    @doctor.open_sidebar
+    @doctor.click_on("Lock screen")
+    @doctor.fill_in("Pin", with: "1234")
+    @doctor.click_on("Unlock")
     assert @doctor.see?("MENU")
   end
 end

@@ -80,6 +80,10 @@ module Test
     def click_element_with_id(id)
       find(:css, "##{id}").click
     end
+
+    def open_sidebar
+      find(".sidebar-toggle").click
+    end
   end
 
   class Guest < User
