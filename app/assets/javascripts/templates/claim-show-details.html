@@ -6,9 +6,9 @@
       </div>
       <div ng-repeat="dailyDetail in claim.daily_details | unique : 'day'">
         <div class="list-group-item" name="detailForm" ng-repeat="detail in claim.daily_details | filter : { day: dailyDetail.day }">
-          <span>{{detail.day}}</span>
+          {{detail.day}}
           <i class="fa fa-angle-right"></i>
-          <strong>{{detail.code}}</strong>
+          {{detail.code}}
           <span ng-show="isTimeVisible(detail)">
             ({{claim.consult_time_in}} - {{claim.consult_time_out}})
           </span>
