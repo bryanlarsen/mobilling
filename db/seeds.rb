@@ -1,9 +1,9 @@
 ActiveRecord::Migration.say_with_time "create_admin" do
-  Admin::User.create(name: "Admin", email: "admin@example.com", password: "secret", role: "admin")
+  Admin::User.where(name: "Admin").first_or_create(email: "admin@example.com", password: "secret", role: "admin")
 end
 
 ActiveRecord::Migration.say_with_time "create_agent" do
-  Admin::User.create(name: "Agent", email: "agent@example.com", password: "secret", role: "agent")
+  Admin::User.where(name: "Agent").first_or_create(email: "agent@example.com", password: "secret", role: "agent")
 end
 
 ActiveRecord::Migration.say_with_time "create_hospitals" do
