@@ -73,7 +73,7 @@
             <div class="form-group row" ng-class="{'has-error': (form.pin.$dirty || submitted) && form.pin.$invalid}">
               <label for="user-pin" class="control-label col-xs-12">Pin</label>
               <div class="form-control-wrapper col-xs-12">
-                <input type="text" name="pin" ng-model="user.pin" class="form-control input-lg" id="user-pin" pattern="[0-9]{4}" inputmode="numeric">
+                <input type="text" name="pin" ng-model="user.pin" class="form-control input-lg" id="user-pin" pattern="^[0-9]{4}$" inputmode="numeric">
                 <div ng-messages="form.pin.$error" ng-show="submitted">
                   <p class="help-block" ng-message="pattern">should consist of 4 digits only</p>
                 </div>
