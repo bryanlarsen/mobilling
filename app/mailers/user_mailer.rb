@@ -7,6 +7,11 @@ class UserMailer < ActionMailer::Base
     mail(to: @user.email, subject: "Password Reset")
   end
 
+  def new_password(user)
+    @user = user
+    mail(to: @user.email, subject: "New Password")
+  end
+
   def claim_rejected(user, claim)
     @user = user
     @claim = claim

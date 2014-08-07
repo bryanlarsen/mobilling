@@ -17,12 +17,12 @@ class CreatePasswordReset
 
   private
 
-  def generate_token
-    @token = Base64.urlsafe_encode64(message_verifier.generate([Time.now.to_i, @user.password_digest]))
+  def message_verifier
+    Rails.application.message_verifier("password reset salt")
   end
 
-  def message_verifier
-    Rails.application.message_verifier("password reset")
+  def generate_token
+    @token = Base64.urlsafe_encode64(message_verifier.generate([Time.now.to_i, @user.password_digest]))
   end
 
   def email_existence
