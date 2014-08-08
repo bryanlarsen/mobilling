@@ -1,20 +1,21 @@
 angular.module("moBilling.factories.serviceCodes", [])
 
-    .factory("serviceCodes", function (API_URL) {
+    .factory("serviceCodes", function (API_URL, ServiceCode) {
         var serviceCodes = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            prefetch: {
-                url: API_URL + "/v1/service_codes.json",
-                filter: function (response) {
-                    return response.map(function (name) {
-                        return { name: name };
-                    });
-                }
-            }
+            local: []
         });
 
         serviceCodes.initialize();
+
+        ServiceCode.query().$promise.then(function (names) {
+            var datums = names.map(function (name) {
+                return { name: name };
+            });
+
+            serviceCodes.add(datums);
+        });
 
         return serviceCodes;
     });
