@@ -166,4 +166,15 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Unlock")
     assert @doctor.see?("MENU")
   end
+
+  test "sees missing consult warning" do
+    @doctor.click_on("New")
+    @doctor.fill_in("Admission date", with: "2014-07-02")
+    @doctor.fill_in("Last seen date", with: "2014-07-03")
+    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Generate codes")
+    assert @doctor.see?("Consult Missing")
+    @doctor.click_on("Generate without consult")
+    assert @doctor.see?("DAILY DETAILS (2)")
+  end
 end
