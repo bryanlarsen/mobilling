@@ -11,16 +11,15 @@
     </div>
 
     <div class="btn-group pull-right">
-      <button type="button" ng-click="save()" class="btn btn-navbar" ng-disabled="submitting">
-        <span ng-show="submitting"><i class="fa fa-spinner fa-spin"></i> Saving…</span>
-        <span ng-hide="submitting"><i class="fa fa-check"></i> Save</span>
-      </button>
-
-      <div class="btn-group pull-right toggleable-dropdown" active-class="open" id="more" toggleable>
-        <button type="button" class="btn btn-default dropdown-toggle" toggle target="more" ng-disabled="submitting">
-          <i class="fa fa-ellipsis-v"></i> More
+      <div class="btn-group pull-right toggleable-dropdown" active-class="open" id="save" toggleable>
+        <button type="button" class="btn btn-default dropdown-toggle" toggle target="save" ng-disabled="submitting">
+          <span ng-show="submitting"><i class="fa fa-spinner fa-spin"></i> Saving…</span>
+          <span ng-hide="submitting"><i class="fa fa-check"></i> Save</span>
         </button>
-        <ul class="dropdown-menu" role="menu" toggle="off" bubble target="more">
+        <ul class="dropdown-menu" role="menu" toggle="off" bubble target="save">
+          <li>
+            <a href="javascript:;" ng-click="save()"><i class="fa fa-save"></i> Save as draft</a>
+          </li>
           <li ng-show="isGenerateDisabled">
             <a href="javascript:;" ng-click="submit()"><i class="fa fa-envelope-o"></i> Submit</a>
           </li>

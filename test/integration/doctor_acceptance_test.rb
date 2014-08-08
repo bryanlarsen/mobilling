@@ -10,6 +10,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")
     @doctor.click_on("Save")
+    @doctor.click_on("Save as draft")
     assert @doctor.see?("Alice")
   end
 
@@ -31,7 +32,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
     @doctor.click_link_with_text("Daily Details")
     @doctor.click_on("Generate codes")
-    @doctor.click_on("More")
+    @doctor.click_on("Save")
     @doctor.click_on("Submit")
     assert @doctor.see?("Alice")
   end
@@ -43,6 +44,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Alice")
     @doctor.fill_in("Patient name", with: "Bob")
     @doctor.click_on("Save")
+    @doctor.click_on("Save as draft")
     assert @doctor.see?("Bob")
   end
 
@@ -50,8 +52,9 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")
     @doctor.click_on("Save")
+    @doctor.click_on("Save as draft")
     @doctor.click_on("Alice")
-    @doctor.click_on("More")
+    @doctor.click_on("Save")
     @doctor.click_on("Delete")
     @doctor.click_on("Delete")
     assert @doctor.not_see?("Alice")
