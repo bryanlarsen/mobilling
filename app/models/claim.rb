@@ -1,3 +1,6 @@
+
+require "#{Rails.root}/lib/record_builder.rb"
+
 class Claim < ActiveRecord::Base
   CONSULT_TYPES = %w[general_er general_non_er comprehensive_er comprehensive_non_er limited_er limited_non_er]
   CONSULT_PREMIUM_VISITS = %w[weekday_office_hours weekday_day weekday_evening weekday_night weekend_day weekend_night holiday_day holiday_night]
@@ -65,5 +68,33 @@ class Claim < ActiveRecord::Base
 
     return [0.5, 'E400'+service_code.last] if holiday
     return [0, nil]
+  end
+
+  def details_records
+    details['daily_details'].map do |dets|
+      code = dets['code'][0..4]
+      service_code = ServiceCode.find_by(code: code)
+      day = Date.strptime(dets['day'])
+      fee, units = Claim.fee_and_units(day, code, 0, service_code.fee)
+
+      r = ItemRecord.new
+      r['Service Code']=code
+      r['Fee Submitted']=fee*100
+      r['Number of Services']=units
+      r['Service Date']=day
+      r['Diagnostic Code']=details['diagnosis'][-3..-1] if details['diagnosis']
+
+      overtime_rate, overtime_code = Claim.overtime_rate_and_code(day, code, 0)
+      if overtime_code
+        r2=ItemRecord.new
+        r2['Service Code']=overtime_code
+        r2['Fee Submitted']=fee*overtime_rate
+        r2['Number of Services']=units
+        r2['Service Date']=day
+        r.to_s+r2.to_s
+      else
+        r.to_s
+      end
+    end.join
   end
 end
