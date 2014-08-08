@@ -77,15 +77,15 @@ angular.module("moBilling.factories.detailsGenerator", [])
         function premiumTravelCode(er, type) {
             return {
                 non_er_office_hours: "C961A",
-                non_er_day:          "C960",
-                non_er_evening:      "C962",
-                non_er_holiday:      "C963",
-                non_er_night:        "C964",
-                er_office_hours:     "K961",
-                er_day:              "K960",
+                non_er_day:          "C960A",
+                non_er_evening:      "C962A",
+                non_er_holiday:      "C963A",
+                non_er_night:        "C964A",
+                er_office_hours:     "K961A",
+                er_day:              "K960A",
                 er_evening:          "K962A",
-                er_holiday:          "K963",
-                er_night:            "K964"
+                er_holiday:          "K963A",
+                er_night:            "K964A"
             }[[erCode(er), visitCode(type)].join("_")];
         }
 
