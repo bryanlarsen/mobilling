@@ -45,7 +45,7 @@
           <div class="form-group row" ng-class="{'has-error': (consultForm.consult_time_in.$dirty || submitted) && (consultForm.consult_time_in.$invalid || consultForm.consult_total_time.$invalid)}" ng-if="isTimeVisible()">
             <label for="claim-consult-time-in" class="control-label col-xs-12">Time in</label>
             <div class="form-control-wrapper col-xs-12">
-              <input type="time" name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" mb-time required>
+              <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" required></mb-time>
               <div ng-messages="consultForm.consult_time_in.$error" ng-show="submitted">
                 <p class="help-block" ng-message="required">is missing</p>
               </div>
@@ -55,7 +55,7 @@
           <div class="form-group row" ng-class="{'has-error': (consultForm.consult_time_out.$dirty || submitted) && (consultForm.consult_time_out.$invalid || consultForm.consult_total_time.$invalid)}" ng-if="isTimeVisible()">
             <label for="claim-consult-time-out" class="control-label col-xs-12">Time out</label>
             <div class="form-control-wrapper col-xs-12">
-              <input type="time" name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out" mb-time required>
+              <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out" required></mb-time>
               <div ng-messages="consultForm.consult_time_out.$error" ng-show="submitted">
                 <p class="help-block" ng-message="required">is missing</p>
               </div>

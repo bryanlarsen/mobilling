@@ -48,20 +48,20 @@
                 </div>
 
 
-                <div class="clearfix time-pickers" ng-if="isTimeVisible(detail)">
-                    <label for="claim-consult-time-in" class="control-label col-xs-12">Time in</label>
-                    <div class="form-control-wrapper col-xs-12">
-                        <input type="time" name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" mb-time required>
-                    </div>
+                <div class="clearfix time-pickers row" ng-if="isTimeVisible(detail)">
+                  <label for="claim-consult-time-in-2" class="control-label col-xs-12">Time in</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in-2" required></mb-time>
+                  </div>
 
-                    <label for="claim-consult-time-out" class="control-label col-xs-12">Time out</label>
-                    <div class="form-control-wrapper col-xs-12">
-                        <input type="time" name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out" mb-time required>
-                    </div>
+                  <label for="claim-consult-time-out-2" class="control-label col-xs-12">Time out</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out-2" required></mb-time>
+                  </div>
 
-                    <div class="form-control-wrapper col-xs-12">
-                        <p class="help-block" ng-hide="claim.hasValidConsultTime()">Total time must be equal to or greater than 75 minutes.</p>
-                    </div>
+                  <div class="form-control-wrapper col-xs-12">
+                    <p class="help-block" ng-hide="claim.hasValidConsultTime()">Total time must be equal to or greater than 75 minutes.</p>
+                  </div>
                 </div>
               </div>
 

@@ -26,7 +26,11 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_link_with_text("Consult")
     @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
     @doctor.fill_in("Time in", with: "17:00")
+    # close time picker manually - we need a better way of handling date inputs
+    @doctor.click_link_with_text("Consult")
     @doctor.fill_in("Time out", with: "19:00")
+    # close time picker manually - we need a better way of handling date inputs
+    @doctor.click_link_with_text("Consult")
     @doctor.click_element_with_id("is-premium-visible")
     @doctor.click_element_with_id("claim-consult-premium-travel")
     @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
@@ -34,6 +38,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Generate codes")
     @doctor.click_on("Save")
     @doctor.click_on("Submit")
+    @doctor.screenshot
     assert @doctor.see?("Alice")
   end
 
