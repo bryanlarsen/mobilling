@@ -1,0 +1,15 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: mobilling_development
+  pool: 5
+  timeout: 5000
+  username: vagrant
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: mobilling_test
+  pool: 5
+  timeout: 5000
+  username: vagrant
