@@ -34,7 +34,7 @@ angular.module("moBilling", [
     "moBilling.controllers.unlock",
     "moBilling.directives.confirmation",
     "moBilling.directives.date",
-    "moBilling.directives.objectToString",
+    "moBilling.directives.typeahead",
     "moBilling.directives.server",
     "moBilling.directives.switch",
     "moBilling.directives.time",
