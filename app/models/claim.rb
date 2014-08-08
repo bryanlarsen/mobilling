@@ -49,8 +49,8 @@ class Claim < ActiveRecord::Base
   # note, if minutes is nil or 0, we assume no overtime
   # probably not a good heuristic for 'A' codes
   def self.overtime_rate_and_code(service_datetime, service_code, minutes)
+    return [0, nil] if service_code.last == 'A'
     return [0, nil] unless minutes && minutes > 0
-    raise RuntimeError, 'unimplemented' if service_code.last == 'A'
 
     seconds = service_datetime.seconds_since_midnight
 

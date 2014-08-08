@@ -65,6 +65,8 @@ class Claim::FeeTest < ActiveSupport::TestCase
      ['R441B', 4, 17,  0, 1, 0.5 , 'E400B'],
      ['C998B', 1,  6, 59, 0, 0.0 , nil],
      ['R441C', 1,  7,  0, 1, 0.5 , 'E400C'],
+     ['R441A', 4,  6, 59, 0, 0.0 , nil],
+     ['R441A', 4,  6, 59, 1, 0.0 , nil],
     ].each do |code, day, hour, minute, minutes, rate, ocode|
       _rate, _ocode = Claim.overtime_rate_and_code(DateTime.new(2014, 1, day, hour, minute), code, minutes)
       assert _ocode == ocode, _ocode.to_s + " was expected to be " + ocode.to_s
