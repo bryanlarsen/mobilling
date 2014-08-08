@@ -11,7 +11,7 @@ set -o xtrace
 export DEBIAN_FRONTEND=noninteractive
 
 apt-get update
-apt-get install -y python-software-properties make curl git postgresql-9.3 postgresql-contrib-9.3 libpq-dev
+apt-get install -y python-software-properties make curl git postgresql-9.3 postgresql-contrib-9.3 libpq-dev imagemagick
 apt-get -y dist-upgrade
 
 sudo -i -u postgres createuser -a vagrant || true
