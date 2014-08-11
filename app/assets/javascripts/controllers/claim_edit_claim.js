@@ -18,8 +18,6 @@ angular.module("moBilling.controllers.claimEditClaim", [])
             source: diagnoses.ttAdapter()
         };
 
-        window.A = $scope.claim;
-
         $scope.$watchGroup(["isFirstSeenOnHidden", "claim.admission_on"], function () {
             if ($scope.isFirstSeenOnHidden) {
                 $scope.claim.first_seen_on = $scope.claim.admission_on;

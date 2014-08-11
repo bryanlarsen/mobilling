@@ -176,6 +176,7 @@ angular.module("moBilling.controllers.claimEdit", [])
             "claim.consult_premium_travel",
             "claim.icu_transfer",
             "claim.last_seen_discharge",
+            "claim.daily_details",
             "claim.daily_details.length"
         ], function () {
             var existing, generated;

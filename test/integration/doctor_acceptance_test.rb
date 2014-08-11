@@ -185,4 +185,22 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Generate without consult")
     assert @doctor.see?("DAILY DETAILS (2)")
   end
+
+  test "can regenerate details when claim changed" do
+    @doctor.click_on("New")
+    @doctor.fill_in("Patient name", with: "Alice")
+    @doctor.fill_in("Admission date", with: "2014-08-05")
+    @doctor.fill_in("Last seen date", with: "2014-08-06")
+    @doctor.click_link_with_text("Consult")
+    @doctor.click_element_with_id("claim-consult-type-general-er")
+    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Generate codes")
+    @doctor.see?("DAILY DETAILS (4)")
+    assert @doctor.find_button("Generate codes", disabled: true)
+    @doctor.click_link_with_text("Consult")
+    @doctor.click_element_with_id("claim-consult-type-general-non-er")
+    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Generate codes")
+    assert @doctor.find_button("Generate codes", disabled: true)
+  end
 end
