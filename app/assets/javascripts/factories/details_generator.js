@@ -100,7 +100,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
                 visit = claim.consult_premium_visit,
                 premiumFirst = claim.consult_premium_first,
                 travel = claim.consult_premium_travel,
-                er = /_er$/.test(claim.consult_type),
+                er = /_er$/.test(claim.consult_type) && !/_non_er$/.test(claim.consult_type),
                 icu = claim.icu_transfer,
                 discharge = claim.last_seen_discharge,
                 details = [];

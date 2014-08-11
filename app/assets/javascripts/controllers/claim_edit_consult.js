@@ -34,6 +34,10 @@ angular.module("moBilling.controllers.claimEditConsult", [])
             }
         });
 
+        $scope.isER = function () {
+            return /_er$/.test($scope.claim.consult_type) && !/_non_er$/.test($scope.claim.consult_type);
+        };
+
         function timeStringToMinutes (timeString) {
             var hoursAndMinutes = timeString.split(":");
 
