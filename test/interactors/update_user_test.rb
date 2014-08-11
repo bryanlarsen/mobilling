@@ -76,4 +76,15 @@ class UpdateUserTest < ActiveSupport::TestCase
     @interactor.perform
     assert @interactor.user.authenticate("oldsecret")
   end
+
+  test "is valid with valid pin" do
+    @interactor.pin = "1234"
+    assert @interactor.perform
+  end
+
+  test "is invalid with invalid pin" do
+    @interactor.pin = "123"
+    @interactor.perform
+    assert_invalid @interactor, :pin
+  end
 end

@@ -19,6 +19,7 @@
 //= require uuid
 //= require lodash
 //= require bootstrap-datepicker
+//= require bootstrap-timepicker
 //= require date.format
 //= require modernizr
 //= require ./mo_billing

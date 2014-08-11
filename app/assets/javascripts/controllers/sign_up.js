@@ -6,8 +6,7 @@ angular.module("moBilling.controllers.signUp", [])
 
         function success(user) {
             window.localStorage.setItem("authenticationToken", user.authentication_token);
-            $location.replace();
-            $location.path("/claims");
+            $location.path("/claims").hash("").replace();
         };
 
         function error(response) {

@@ -1,18 +1,22 @@
-angular.module("moBilling.directives.objectToString", [])
+angular.module("moBilling.directives.typeahead", [])
 
-    .directive("mbObjectToString", function (dateFilter) {
+    .directive("mbTypeahead", function () {
         return {
             restrict: "A",
             require: "ngModel",
             priority: 1,
             link: function (scope, element, attributes, ngModelController) {
-                var key = attributes.mbObjectToString;
+                ngModelController.$formatters.push(function (modelValue) {
+                    $(element).typeahead("val", modelValue);
+
+                    return modelValue;
+                });
 
                 ngModelController.$parsers.push(function (viewValue) {
                     if (typeof viewValue === "string") {
                         return viewValue;
                     } else {
-                        return viewValue[key];
+                        return viewValue.name;
                     }
                 });
             }

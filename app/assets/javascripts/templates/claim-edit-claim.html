@@ -39,7 +39,7 @@
         <div class="form-group row" ng-class="{'has-error': (claimForm.hospital.$dirty || submitted) && claimForm.hospital.$invalid}">
           <label for="claim-hospital" class="control-label col-xs-12">Hospital</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="text" name="hospital" ng-model="claim.hospital" class="form-control input-lg" id="claim-hospital" options="typeaheadOptions" datasets="hospitals" sf-typeahead mb-object-to-string="name" required>
+            <input type="text" name="hospital" ng-model="claim.hospital" class="form-control input-lg" id="claim-hospital" options="typeaheadOptions" datasets="hospitals" sf-typeahead mb-typeahead required>
             <div ng-messages="claimForm.hospital.$error" ng-show="submitted">
               <p class="help-block" ng-message="required">is missing</p>
             </div>
@@ -56,7 +56,7 @@
         <div class="form-group row" ng-class="{'has-error': (claimForm.diagnosis.$dirty || submitted) && claimForm.diagnosis.$invalid}">
           <label for="claim-diagnosis" class="control-label col-xs-12">Diagnosis</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="text" name="diagnosis" ng-model="claim.diagnosis" class="form-control input-lg" id="claim-diagnosis" options="typeaheadOptions" datasets="diagnoses" mb-object-to-string="name" sf-typeahead required>
+            <input type="text" name="diagnosis" ng-model="claim.diagnosis" class="form-control input-lg" id="claim-diagnosis" options="typeaheadOptions" datasets="diagnoses" sf-typeahead mb-typeahead required>
             <div ng-messages="claimForm.diagnosis.$error" ng-show="submitted">
               <p class="help-block" ng-message="required">is missing</p>
             </div>

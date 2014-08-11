@@ -1,0 +1,57 @@
+<div class="app has-navbar-top">
+  <div class="navbar navbar-app navbar-absolute-top">
+    <div class="navbar-brand navbar-brand-center">
+      <span>Mo-Billing</span>
+    </div>
+
+    <div class="btn-group pull-left">
+      <div class="btn btn-navbar">
+        &nbsp;
+      </div>
+    </div>
+
+    <div class="btn-group pull-right">
+      <div class="btn btn-navbar">
+        &nbsp;
+      </div>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <div ng-show="loading" class="app-content-loading">
+      <i class="fa fa-spinner fa-spin loading-spinner"></i>
+    </div>
+
+    <div ng-hide="loading" class="app-content">
+      <div class="scrollable">
+        <div class="scrollable-content section">
+          <form name="form" ng-submit="submit()" novalidate>
+            <div class="panel">
+              <div class="panel-body">
+                <div class="form-group row" ng-class="{'has-error': (form.pin.$dirty || submitted) && form.pin.$invalid}">
+                  <div class="form-control-wrapper col-xs-12">
+                    <input type="text" name="pin" ng-model="unlock.pin" class="form-control input-lg" id="unlock-pin" placeholder="Pin" pattern="^[0-9]{4}$" inputmode="numeric" mb-server required>
+                    <div ng-messages="form.pin.$error" ng-show="submitted">
+                      <p class="help-block" ng-message="required">is missing</p>
+                      <p class="help-block" ng-message="pattern">should consist of 4 digits only</p>
+                      <p class="help-block" ng-message="server">{{errors.pin[0]}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions panel">
+              <div class="panel-body">
+                <button class="btn btn-primary btn-lg btn-block" ng-disabled="submitting">
+                  <span ng-show="submitting"><i class="fa fa-spinner fa-spin"></i> Unlocking…</span>
+                  <span ng-hide="submitting"><i class="fa fa-unlock"></i> Unlock</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

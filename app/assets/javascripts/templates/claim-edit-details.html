@@ -6,9 +6,12 @@
           Please provide required details information or remove missing details below before submitting.
         </div>
 
-        <div class="row" ng-show="isGenerateVisible">
+        <div class="row">
           <div class="col-sm-12">
-            <button type="button" class="btn btn-info btn-lg btn-block" ng-click="generate()">
+            <button type="button" class="btn btn-info btn-lg btn-block" toggle bubble target="consult-missing" ng-disabled="isGenerateDisabled" ng-if="isConsultVisible() && !claim.consult_type">
+              <i class="fa fa-cogs"></i> Generate codes
+            </button>
+            <button type="button" class="btn btn-info btn-lg btn-block" ng-click="generate()" ng-disabled="isGenerateDisabled" ng-if="!isConsultVisible() || claim.consult_type">
               <i class="fa fa-cogs"></i> Generate codes
             </button>
             <br>
@@ -39,26 +42,28 @@
 
               <div class="col-sm-7 col-xs-12" ng-class="{'has-error': (detailForm.code.$dirty || submitted) && detailForm.code.$invalid}">
                 <label class="visible-xs control-label">Code</label>
-                <input type="text" ng-model="detail.code" name="code" class="form-control input-lg" options="typeaheadOptions" datasets="serviceCodes" mb-object-to-string="name" sf-typeahead required>
+                <input type="text" ng-model="detail.code" name="code" class="form-control input-lg" options="typeaheadOptions" datasets="serviceCodes" mb-typeahead sf-typeahead required>
                 <div ng-messages="detailForm.code.$error" ng-show="submitted">
                   <p class="help-block" ng-message="required">is missing</p>
                 </div>
 
+                <div class="form-group row" ng-class="{'has-error': (detailForm.consult_time_in.$dirty || detailForm.consult_time_out.$dirty || submitted) && detailForm.consult_time.$invalid}" ng-if="isTimeVisible(detail)">
+                  <label for="claim-consult-time-in-2" class="control-label col-xs-12">Time in</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in-2" required></mb-time>
+                  </div>
 
-                <div class="clearfix time-pickers" ng-if="isTimeVisible(detail)">
-                    <label for="claim-consult-time-in" class="control-label col-xs-12">Time in</label>
-                    <div class="form-control-wrapper col-xs-12">
-                        <input type="time" name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" mb-time required>
-                    </div>
+                  <label for="claim-consult-time-out-2" class="control-label col-xs-12">Time out</label>
+                  <div class="form-control-wrapper col-xs-12">
+                    <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out-2" required></mb-time>
+                  </div>
 
-                    <label for="claim-consult-time-out" class="control-label col-xs-12">Time out</label>
-                    <div class="form-control-wrapper col-xs-12">
-                        <input type="time" name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out" mb-time required>
+                  <div class="col-xs-12">
+                    <input class="hide" type="number" ng-model="claim.consult_time" name="consult_time" min="75" required>
+                    <div ng-messages="detailForm.consult_time.$error" ng-show="submitted">
+                      <p class="help-block" ng-message="required">Total time must be equal to or greater than 75 minutes.</p>
                     </div>
-
-                    <div class="form-control-wrapper col-xs-12">
-                        <p class="help-block" ng-hide="claim.hasValidConsultTime()">Total time must be equal to or greater than 75 minutes.</p>
-                    </div>
+                  </div>
                 </div>
               </div>
 

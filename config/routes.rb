@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   apipie
 
   root to: "home#show"
+  resource :password, only: %i[new]
 
   namespace :v1 do
     resource :session, only: %i[create]
@@ -10,6 +11,7 @@ Rails.application.routes.draw do
     resources :claims, only: %i[index show update destroy]
     resources :diagnoses, only: %i[index]
     resources :hospitals, only: %i[index]
+    resources :password_resets, only: %i[create]
     resources :photos, only: %i[show create]
     resources :service_codes, only: %i[index]
   end

@@ -42,6 +42,7 @@ module Test
     end
 
     def screenshot
+      sleep 1
       session.save_screenshot(Rails.root.join("tmp", "screenshot.png"), full: true)
     end
 
@@ -69,7 +70,8 @@ module Test
     end
 
     def sign_out
-      click_on("Sign Out")
+      find(".sidebar-toggle").click
+      click_on("Sign out")
     end
 
     def click_link_with_text(text)
@@ -78,6 +80,15 @@ module Test
 
     def click_element_with_id(id)
       find(:css, "##{id}").click
+    end
+
+    def open_sidebar
+      find(".sidebar-toggle").click
+    end
+
+    def fill_in_and_blur(*args)
+      fill_in(*args)
+      find("body").click
     end
   end
 

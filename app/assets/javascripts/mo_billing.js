@@ -27,23 +27,25 @@ angular.module("moBilling", [
     "moBilling.controllers.claimListSaved",
     "moBilling.controllers.claimListSubmitted",
     "moBilling.controllers.claimNew",
+    "moBilling.controllers.passwordReset",
     "moBilling.controllers.signIn",
     "moBilling.controllers.signOut",
     "moBilling.controllers.signUp",
+    "moBilling.controllers.unlock",
     "moBilling.directives.confirmation",
     "moBilling.directives.date",
-    "moBilling.directives.time",
+    "moBilling.directives.typeahead",
     "moBilling.directives.server",
-    "moBilling.directives.upload",
     "moBilling.directives.switch",
-    "moBilling.directives.objectToString",
-    "moBilling.directives.validateTotalTime",
+    "moBilling.directives.time",
+    "moBilling.directives.upload",
     "moBilling.factories.agent",
     "moBilling.factories.claim",
     "moBilling.factories.dayType",
     "moBilling.factories.detailsGenerator",
     "moBilling.factories.diagnoses",
     "moBilling.factories.hospitals",
+    "moBilling.factories.passwordReset",
     "moBilling.factories.photo",
     "moBilling.factories.serviceCodes",
     "moBilling.factories.session",
@@ -58,6 +60,12 @@ angular.module("moBilling", [
             guest: true
         });
 
+        $routeProvider.when("/password-reset", {
+            templateUrl: "password-reset.html",
+            controller: "PasswordResetController",
+            guest: true
+        });
+
         $routeProvider.when("/sign-up", {
             templateUrl: "sign-up.html",
             controller: "SignUpController",
@@ -65,6 +73,16 @@ angular.module("moBilling", [
             resolve: {
                 agents: function (Agent) {
                     return Agent.query().$promise;
+                }
+            }
+        });
+
+        $routeProvider.when("/unlock", {
+            templateUrl: "unlock.html",
+            controller: "UnlockController",
+            resolve: {
+                user: function (User) {
+                    return User.get().$promise;
                 }
             }
         });
@@ -138,6 +156,9 @@ angular.module("moBilling", [
             resolve: {
                 claim: function ($route, Claim) {
                     return Claim.getOrInit({ id: $route.current.params.claim_id });
+                },
+                claims: function (Claim) {
+                    return Claim.query().$promise;
                 }
             }
         });
