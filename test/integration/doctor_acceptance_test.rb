@@ -25,12 +25,8 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.fill_in("Last seen date", with: "2014-07-07")
     @doctor.click_link_with_text("Consult")
     @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
-    @doctor.fill_in("Time in", with: "17:00")
-    # close time picker manually - we need a better way of handling date inputs
-    @doctor.click_link_with_text("Consult")
-    @doctor.fill_in("Time out", with: "19:00")
-    # close time picker manually - we need a better way of handling date inputs
-    @doctor.click_link_with_text("Consult")
+    @doctor.fill_in_and_blur("Time in", with: "17:00")
+    @doctor.fill_in_and_blur("Time out", with: "19:00")
     @doctor.click_element_with_id("is-premium-visible")
     @doctor.click_element_with_id("claim-consult-premium-travel")
     @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
@@ -38,7 +34,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Generate codes")
     @doctor.click_on("Save")
     @doctor.click_on("Submit")
-    @doctor.screenshot
     assert @doctor.see?("Alice")
   end
 
@@ -124,12 +119,10 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   test "special or travel premium codes should appear" do
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")
-    @doctor.fill_in("Admission date", with: "2014-07-19")
-    # close date picker manually - we need a better way of handling date inputs
-    @doctor.click_element_with_id("claim-patient-name")
+    @doctor.fill_in_and_blur("Admission date", with: "2014-07-19")
     @doctor.click_element_with_id("is-first-seen-on-hidden")
-    @doctor.fill_in("First seen date", with: "2014-07-22")
-    @doctor.fill_in("Last seen date", with: "2014-07-24")
+    @doctor.fill_in_and_blur("First seen date", with: "2014-07-22")
+    @doctor.fill_in_and_blur("Last seen date", with: "2014-07-24")
     @doctor.click_link_with_text("Consult")
     @doctor.click_element_with_id("claim-consult-type-general-er")
     @doctor.click_element_with_id("is-premium-visible")
@@ -177,8 +170,8 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
 
   test "sees missing consult warning" do
     @doctor.click_on("New")
-    @doctor.fill_in("Admission date", with: "2014-07-02")
-    @doctor.fill_in("Last seen date", with: "2014-07-03")
+    @doctor.fill_in_and_blur("Admission date", with: "2014-07-02")
+    @doctor.fill_in_and_blur("Last seen date", with: "2014-07-03")
     @doctor.click_link_with_text("Daily Details")
     @doctor.click_on("Generate codes")
     assert @doctor.see?("Consult Missing")
@@ -188,19 +181,30 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
 
   test "can regenerate details when claim changed" do
     @doctor.click_on("New")
-    @doctor.fill_in("Patient name", with: "Alice")
-    @doctor.fill_in("Admission date", with: "2014-08-05")
-    @doctor.fill_in("Last seen date", with: "2014-08-06")
+    @doctor.fill_in_and_blur("Admission date", with: "2014-08-05")
+    @doctor.fill_in_and_blur("Last seen date", with: "2014-08-06")
     @doctor.click_link_with_text("Consult")
     @doctor.click_element_with_id("claim-consult-type-general-er")
     @doctor.click_link_with_text("Daily Details")
     @doctor.click_on("Generate codes")
-    @doctor.see?("DAILY DETAILS (4)")
+    assert @doctor.see?("DAILY DETAILS (4)")
     assert @doctor.find_button("Generate codes", disabled: true)
     @doctor.click_link_with_text("Consult")
     @doctor.click_element_with_id("claim-consult-type-general-non-er")
     @doctor.click_link_with_text("Daily Details")
     @doctor.click_on("Generate codes")
     assert @doctor.find_button("Generate codes", disabled: true)
+  end
+
+  test "should not see a generate codes warning when no consult" do
+    @doctor.click_on("New")
+    @doctor.fill_in_and_blur("Admission date", with: "2014-08-04")
+    @doctor.click_element_with_id("is-first-seen-on-hidden")
+    @doctor.fill_in_and_blur("First seen date", with: "2014-08-05")
+    @doctor.click_element_with_id("claim-first-seen-consult")
+    @doctor.fill_in_and_blur("Last seen date", with: "2014-08-06")
+    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Generate codes")
+    assert @doctor.see?("DAILY DETAILS (4)")
   end
 end

@@ -52,7 +52,9 @@ angular.module("moBilling.controllers.claimEditConsult", [])
 
         $scope.claim.hasValidConsultTime = function () {
             // There is no need to validate consult time if it's not visible
-            if(!$scope.isTimeVisible()) { return true; }
+            if (!$scope.isTimeVisible()) {
+                return true;
+            }
 
             var minutesOut = timeStringToMinutes(this.consult_time_out),
                 minutesIn = timeStringToMinutes(this.consult_time_in),

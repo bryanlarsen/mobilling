@@ -42,6 +42,7 @@ module Test
     end
 
     def screenshot
+      sleep 1
       session.save_screenshot(Rails.root.join("tmp", "screenshot.png"), full: true)
     end
 
@@ -83,6 +84,11 @@ module Test
 
     def open_sidebar
       find(".sidebar-toggle").click
+    end
+
+    def fill_in_and_blur(*args)
+      fill_in(*args)
+      find("body").click
     end
   end
 
