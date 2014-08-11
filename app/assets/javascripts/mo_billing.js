@@ -156,6 +156,9 @@ angular.module("moBilling", [
             resolve: {
                 claim: function ($route, Claim) {
                     return Claim.getOrInit({ id: $route.current.params.claim_id });
+                },
+                claims: function (Claim) {
+                    return Claim.query().$promise;
                 }
             }
         });

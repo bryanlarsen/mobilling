@@ -1,6 +1,6 @@
 angular.module("moBilling.controllers.claimEdit", [])
 
-    .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, Claim, detailsGenerator) {
+    .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, claims, Claim, detailsGenerator) {
         // HACK: Do not reload the current template if it is not needed.
         var lastRoute = $route.current;
 
@@ -44,14 +44,14 @@ angular.module("moBilling.controllers.claimEdit", [])
             $scope.setActiveStep("claim");
         }
 
-        $scope.$watch('claim.first_seen_consult', function(value) {
-            if(value) {
+        $scope.$watch("claim.first_seen_consult", function (value) {
+            if (value) {
                 $scope.claim.icu_transfer = false;
             }
         });
 
-        $scope.$watch('claim.icu_transfer', function(value) {
-            if(value) {
+        $scope.$watch("claim.icu_transfer", function (value) {
+            if (value) {
                 $scope.claim.first_seen_consult = false;
             }
         });
@@ -188,5 +188,18 @@ angular.module("moBilling.controllers.claimEdit", [])
             generated = detailsGenerator($scope.claim);
 
             $scope.isGenerateDisabled = angular.equals(generated.sort(sortDetails), existing.sort(sortDetails));
+        });
+
+        $scope.$watchGroup([
+            "claim.first_seen_date",
+            "claim.consult_type",
+            "claim.consult_premium_visit"
+        ], function () {
+            $scope.claim.consult_number = claims.filter(function (claim) {
+                return claim.id !== $scope.claim.id
+                    && claim.first_seen_on === $scope.claim.first_seen_on
+                    && claim.consult_type === $scope.claim.consult_type
+                    && claim.consult_premium_visit === $scope.claim.consult_premium_visit;
+            }).length + 1;
         });
     });
