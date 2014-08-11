@@ -47,8 +47,7 @@
                   <p class="help-block" ng-message="required">is missing</p>
                 </div>
 
-
-                <div class="clearfix time-pickers row" ng-if="isTimeVisible(detail)">
+                <div class="form-group row" ng-class="{'has-error': (detailForm.consult_time_in.$dirty || detailForm.consult_time_out.$dirty || submitted) && detailForm.consult_time.$invalid}" ng-if="isTimeVisible(detail)">
                   <label for="claim-consult-time-in-2" class="control-label col-xs-12">Time in</label>
                   <div class="form-control-wrapper col-xs-12">
                     <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in-2" required></mb-time>
@@ -59,8 +58,11 @@
                     <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out-2" required></mb-time>
                   </div>
 
-                  <div class="form-control-wrapper col-xs-12">
-                    <p class="help-block" ng-hide="claim.hasValidConsultTime()">Total time must be equal to or greater than 75 minutes.</p>
+                  <div class="col-xs-12">
+                    <input class="hide" type="number" ng-model="claim.consult_time" name="consult_time" min="75" required>
+                    <div ng-messages="detailForm.consult_time.$error" ng-show="submitted">
+                      <p class="help-block" ng-message="required">Total time must be equal to or greater than 75 minutes.</p>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -42,31 +42,23 @@
             </div>
           </div>
 
-          <div class="form-group row" ng-class="{'has-error': (consultForm.consult_time_in.$dirty || submitted) && (consultForm.consult_time_in.$invalid || consultForm.consult_total_time.$invalid)}" ng-if="isTimeVisible()">
+          <div class="form-group row" ng-class="{'has-error': (consultForm.consult_time_in.$dirty || consultForm.consult_time_out.$dirty || submitted) && consultForm.consult_time.$invalid}" ng-if="isTimeVisible()">
             <label for="claim-consult-time-in" class="control-label col-xs-12">Time in</label>
             <div class="form-control-wrapper col-xs-12">
               <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" required></mb-time>
-              <div ng-messages="consultForm.consult_time_in.$error" ng-show="submitted">
-                <p class="help-block" ng-message="required">is missing</p>
-              </div>
             </div>
-          </div>
 
-          <div class="form-group row" ng-class="{'has-error': (consultForm.consult_time_out.$dirty || submitted) && (consultForm.consult_time_out.$invalid || consultForm.consult_total_time.$invalid)}" ng-if="isTimeVisible()">
             <label for="claim-consult-time-out" class="control-label col-xs-12">Time out</label>
             <div class="form-control-wrapper col-xs-12">
               <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out" required></mb-time>
-              <div ng-messages="consultForm.consult_time_out.$error" ng-show="submitted">
-                <p class="help-block" ng-message="required">is missing</p>
+            </div>
+
+            <div class="col-xs-12">
+              <input class="hide" type="number" ng-model="claim.consult_time" name="consult_time" min="75" required>
+              <div ng-messages="consultForm.consult_time.$error" ng-show="submitted">
+                <p class="help-block" ng-message="required">Total time must be equal to or greater than 75 minutes.</p>
               </div>
             </div>
-          </div>
-
-          <div class="row" ng-class="{ 'has-error': (consultForm.$dirty || submitted) && consultForm.consult_total_time.$invalid }" ng-hide="claim.hasValidConsultTime()" ng-if="isTimeVisible()">
-              <input type="hidden" name="consult_total_time" ng-model="claim.consult_total_time" id="claim-consult-total-time" mb-validate-total-time>
-              <div class="form-control-wrapper col-xs-12">
-                  <p class="help-block">Total time must be equal to or greater than 75 minutes.</p>
-              </div>
           </div>
 
           <br>
