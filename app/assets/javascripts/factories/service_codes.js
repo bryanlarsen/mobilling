@@ -1,6 +1,6 @@
 angular.module("moBilling.factories.serviceCodes", [])
 
-    .factory("serviceCodes", function (API_URL, ServiceCode) {
+    .factory("serviceCodes", function (API_URL, $resource) {
         var serviceCodes = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -9,7 +9,7 @@ angular.module("moBilling.factories.serviceCodes", [])
 
         serviceCodes.initialize();
 
-        ServiceCode.query().$promise.then(function (names) {
+        $resource(API_URL + "/v1/service_codes.json").query(function (names) {
             var datums = names.map(function (name) {
                 return { name: name };
             });

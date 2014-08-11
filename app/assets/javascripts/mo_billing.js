@@ -47,7 +47,6 @@ angular.module("moBilling", [
     "moBilling.factories.hospitals",
     "moBilling.factories.passwordReset",
     "moBilling.factories.photo",
-    "moBilling.factories.serviceCode",
     "moBilling.factories.serviceCodes",
     "moBilling.factories.session",
     "moBilling.factories.user",
