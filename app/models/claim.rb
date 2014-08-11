@@ -13,6 +13,8 @@ class Claim < ActiveRecord::Base
   belongs_to :photo
   has_many :comments
 
+  belongs_to :submission
+
   def self.fee_and_units(service_date, service_code, minutes, fee)
     # adjust based on service_date if unit fee changes
     if service_code.last == 'B'
@@ -57,25 +59,36 @@ class Claim < ActiveRecord::Base
 
     seconds = service_datetime.seconds_since_midnight
 
-    return [0.75, 'E401'+service_code.last] if seconds < 7*60*60
+    return [75, 'E401'+service_code.last] if seconds < 7*60*60
 
-    return [0.5, 'E400'+service_code.last] if seconds >= 17*60*60 ||
+    return [50, 'E400'+service_code.last] if seconds >= 17*60*60 ||
       service_datetime.wday == 0 ||
       service_datetime.wday == 6
 
     date = service_datetime.to_date
     holiday = StatutoryHoliday.find_by(day: date)
 
-    return [0.5, 'E400'+service_code.last] if holiday
+    return [50, 'E400'+service_code.last] if holiday
     return [0, nil]
   end
 
   def details_records
+    @num_records = 0
     details['daily_details'].map do |dets|
       code = dets['code'][0..4]
       service_code = ServiceCode.find_by(code: code)
+      raise RuntimeError, code if !service_code
       day = Date.strptime(dets['day'])
-      fee, units = Claim.fee_and_units(day, code, 0, service_code.fee)
+      time_in = dets['time_in'] && dets['time_in'].match(/^\d{1,2}:\d{2}$/) &&  Time.strptime(dets['time_in'], "%H:%M")
+      time_out = dets['time_out'] && dets['time_out'].match(/^\d{1,2}:\d{2}$/) &&  Time.strptime(dets['time_out'], "%H:%M")
+      if time_in && time_out
+        day_with_time = day.to_datetime + time_in.seconds_since_midnight.seconds
+        minutes = (time_out - time_in) / 60
+        minutes += 24*60 if minutes < 0 
+      else
+        minutes = 0
+      end
+      fee, units = Claim.fee_and_units(day, code, minutes, service_code.fee)
 
       r = ItemRecord.new
       r['Service Code']=code
@@ -84,8 +97,9 @@ class Claim < ActiveRecord::Base
       r['Service Date']=day
       r['Diagnostic Code']=details['diagnosis'][-3..-1] if details['diagnosis']
 
-      overtime_rate, overtime_code = Claim.overtime_rate_and_code(day, code, 0)
+      overtime_rate, overtime_code = Claim.overtime_rate_and_code(day_with_time, code, minutes)
       if overtime_code
+        @num_records += 2
         r2=ItemRecord.new
         r2['Service Code']=overtime_code
         r2['Fee Submitted']=fee*overtime_rate
@@ -93,8 +107,100 @@ class Claim < ActiveRecord::Base
         r2['Service Date']=day
         r.to_s+r2.to_s
       else
+        @num_records += 1
         r.to_s
       end
     end.join
+  end
+
+  def num_records
+    to_record unless @num_records
+    @num_records
+  end
+
+  # current assumptions:
+  # patient_name must be of form "First Last, ON 9876543217XX, 2001-12-25, M"
+  # payment program auto-selects between HCP and RMB; other forms not supported (worker's comp, etc)
+  # time in and time out is assumed to be named "time_in" and "time_out" in daily_details, and is in format "13:54".  Can be missing/nil if not needed.
+  # all times/dates in database are in local time
+  # payee is Provider (P)
+  # referring_laboratory is nil
+  # manual review indicator is nil
+  # service location is nil, should be one of [nil, "HDS", "HED", "HIP", "HOP"]
+  # group code is assumed to be "0000" (private practice)
+  # mri/mro code is 'D' (Ottawa)
+  # specialty is 0: family medicine
+  # provider is 18468 (Dr. B. Jackson)
+  def to_record
+    #  current assumptions
+    payee = 'P'
+
+    unless accounting_number
+      if new_record?
+        self.accounting_number = '00000000'
+      else
+        self.accounting_number = id[0..7].upcase
+        save!
+      end
+    end
+
+    error = 'patient_name must be of form First Last, ON 9876543217XX, 2001-12-25, M'
+    name, provhn, birthday, sex = details['patient_name'].split(',')
+    raise RuntimeError, error if not provhn
+
+    first_name, last_name = name.split(' ')
+    raise RuntimeError, error if not last_name
+
+    province, number = provhn.strip.split(' ')
+    raise RuntimeError, error if not number
+    raise RuntimeError, error if province.length != 2
+    province = province.upcase
+    payment_program = province == 'ON' ? 'HCP' : 'RMB'
+
+    birthday = Date.strptime(birthday.strip)
+    raise RuntimeError, error if not birthday
+
+    referring_provider = details['referring_physician']
+    if referring_provider
+      referring_provider = referring_provider.split(' ')[0]
+      raise RuntimeError, 'invalid referring provider' if referring_provider.length != 6
+    end
+
+    facility = details['hospital'].split(' ')[0]
+
+    r=ClaimHeaderRecord.new
+    r["Patient's Birthdate"]=birthday
+    r['Accounting Number']=accounting_number
+    r['Payment Program']=payment_program
+    r['Payee']=payee
+    r['Referring Health Care Provider Number']=referring_provider if referring_provider
+    r['Master Number']=facility
+    r['In-Patient Admission Date']=Date.strptime(details['admission_on']) if details['admission_on']
+    #r['Referring Laboratory License Number']=referring_laboratory.code if referring_laboratory
+    #r['Manual Review Indicator']='Y' if manual_review
+    #r['Service Location Indicator']=service_location.code if service_location
+
+    if payment_program == 'RMB'
+      sex = sex.strip[0].upcase
+      if sex == 'M'
+        sex = 1
+      elsif sex == 'F'
+        sex = 2
+      else
+        raise RuntimeError, error if sex.strip.length != 1
+      end
+
+      rmb=ClaimHeaderRMBRecord.new
+      rmb['Registration Number']=number
+      rmb["Patient's Last Name"]=last_name
+      rmb["Patient's First Name"]=first_name
+      rmb["Patient's Sex"]=sex
+      rmb["Province Code"]=province
+      r.to_s+rmb.to_s+details_records
+    else
+      r['Health Number']=number[0..9]
+      r['Version Code']=number[10..11].upcase
+      r.to_s+details_records
+    end
   end
 end
