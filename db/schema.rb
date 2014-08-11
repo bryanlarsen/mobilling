@@ -40,16 +40,14 @@ ActiveRecord::Schema.define(version: 20140811185844) do
   create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.uuid     "user_id"
     t.uuid     "photo_id"
-    t.integer  "status",            default: 0
-    t.json     "details",           default: {}
+    t.integer  "status",        default: 0
+    t.json     "details",       default: {}
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "number"
-    t.string   "accounting_number"
     t.uuid     "submission_id"
   end
 
-  add_index "claims", ["accounting_number"], name: "index_claims_on_accounting_number", unique: true, using: :btree
   add_index "claims", ["number", "user_id"], name: "index_claims_on_number_and_user_id", unique: true, using: :btree
   add_index "claims", ["submission_id"], name: "index_claims_on_submission_id", unique: true, using: :btree
 

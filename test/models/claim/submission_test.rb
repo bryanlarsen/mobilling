@@ -37,7 +37,7 @@ EOS
     create(:claim,
       user: @user,
       status: :unprocessed,
-      accounting_number: '99999999',
+      number: 99999999,
       patient_name: 'Santina Claus, ON 9876543217HO, 1914-12-25, F', 
       daily_details: [
         {code: 'P018B c-section', day: '2014-8-11', time_in: '09:00', time_out: '10:30'},
@@ -55,7 +55,7 @@ EOS
     create(:claim,
       user: @user,
       status: :unprocessed,
-      accounting_number: '99999999',
+      number: 99999999,
       patient_name: 'Jane Doe, ON 9876543217HO, 1914-12-25, F', 
       daily_details: [
         {code: 'P018B c-section', day: '2014-8-10', time_in: '03:00', time_out: '04:30'},
@@ -76,14 +76,14 @@ EOS
     create(:claim,
       user: @user,
       status: :unprocessed,
-      accounting_number: '99999999',
+      number: 99999999,
       patient_name: 'Santina Claus, ON 9876543217HO, 1914-12-25, F', 
       daily_details: [
         {code: 'P018B c-section', day: '2014-8-11', time_in: '09:00', time_out: '10:30'},
       ])
     s = Submission.generate(@user, DateTime.new(2014,8,10))
     s.save!
-    c=Claim.find_by(accounting_number: '99999999')
+    c=Claim.find_by(number: 99999999)
     assert c.submission_id == s.id
   end
 end
