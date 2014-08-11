@@ -98,8 +98,9 @@ angular.module("moBilling.factories.detailsGenerator", [])
                 mrp = claim.most_responsible_physician,
                 consult = claim.consult_type,
                 visit = claim.consult_premium_visit,
+                premiumFirst = claim.consult_premium_first,
                 travel = claim.consult_premium_travel,
-                er = /^(general|comprehensive|limited)_er$/.test(claim.consult_type),
+                er = /_er$/.test(claim.consult_type),
                 icu = claim.icu_transfer,
                 discharge = claim.last_seen_discharge,
                 details = [];
@@ -118,7 +119,7 @@ angular.module("moBilling.factories.detailsGenerator", [])
 
                     if (visit) {
                         // visit premium
-                        details.push({ day: day, code: premiumVisitCode(true, er, visit) });
+                        details.push({ day: day, code: premiumVisitCode(premiumFirst, er, visit) });
 
                         if (travel) {
                             // travel premium

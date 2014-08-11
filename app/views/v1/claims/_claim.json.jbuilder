@@ -17,6 +17,7 @@ json.consult_type               claim.details["consult_type"]
 json.consult_time_in            claim.details["consult_time_in"]
 json.consult_time_out           claim.details["consult_time_out"]
 json.consult_premium_visit      claim.details["consult_premium_visit"]
+json.consult_premium_first      claim.details["consult_premium_first"]
 json.consult_premium_travel     claim.details["consult_premium_travel"]
 json.daily_details claim.details["daily_details"] do |daily_detail|
   json.day           daily_detail["day"]

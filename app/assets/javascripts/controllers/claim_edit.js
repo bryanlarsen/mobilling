@@ -173,6 +173,7 @@ angular.module("moBilling.controllers.claimEdit", [])
             "claim.most_responsible_physician",
             "claim.consult_type",
             "claim.consult_premium_visit",
+            "claim.consult_premium_first",
             "claim.consult_premium_travel",
             "claim.icu_transfer",
             "claim.last_seen_discharge",
@@ -195,11 +196,17 @@ angular.module("moBilling.controllers.claimEdit", [])
             "claim.consult_type",
             "claim.consult_premium_visit"
         ], function () {
-            $scope.claim.consult_number = claims.filter(function (claim) {
+            var others = claims.filter(function (claim) {
                 return claim.id !== $scope.claim.id
                     && claim.first_seen_on === $scope.claim.first_seen_on
                     && claim.consult_type === $scope.claim.consult_type
                     && claim.consult_premium_visit === $scope.claim.consult_premium_visit;
-            }).length + 1;
+            });
+
+            $scope.claim.consult_premium_number = others.length + 1;
+
+            $scope.claim.consult_premium_first = others.filter(function (claim) {
+                return claim.consult_premium_first;
+            }).length === 0;
         });
     });
