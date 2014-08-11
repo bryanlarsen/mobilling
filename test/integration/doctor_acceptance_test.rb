@@ -209,4 +209,27 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Generate codes")
     assert @doctor.see?("DAILY DETAILS (4)")
   end
+
+  test "should see an error when a consult limit is reached" do
+    10.times do
+      @doctor.click_on("New")
+      @doctor.fill_in_and_blur("Admission date", with: "2014-08-11")
+      @doctor.click_link_with_text("Consult")
+      @doctor.click_element_with_id("claim-consult-type-general-er")
+      @doctor.click_element_with_id("is-premium-visible")
+      @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
+      @doctor.click_on("Save")
+      @doctor.click_on("Save as draft")
+    end
+    @doctor.click_on("New")
+    @doctor.fill_in_and_blur("Admission date", with: "2014-08-11")
+    @doctor.click_link_with_text("Consult")
+    @doctor.click_element_with_id("claim-consult-type-general-er")
+    @doctor.click_element_with_id("is-premium-visible")
+    @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
+    @doctor.click_on("Save")
+    @doctor.click_on("Submit")
+    @doctor.click_link_with_text("Consult")
+    assert @doctor.see?("May be used only 10 times in a single day")
+  end
 end
