@@ -76,12 +76,11 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("New")
     @doctor.click_link_with_text("Consult")
     @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
-    @doctor.fill_in("Time in", with: "12:00")
-    @doctor.fill_in("Time out", with: "13:15")
-    assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
-
-    @doctor.fill_in("Time in", with: "12:00")
-    @doctor.fill_in("Time out", with: "13:25")
+    @doctor.fill_in_and_blur("Time in", with: "12:00")
+    @doctor.fill_in_and_blur("Time out", with: "13:15")
+    @doctor.click_on("Save")
+    @doctor.click_on("Submit")
+    @doctor.click_link_with_text("Consult")
     assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
   end
 
@@ -91,6 +90,9 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
     @doctor.fill_in("Time in", with: "17:00")
     @doctor.fill_in("Time out", with: "17:45")
+    @doctor.click_on("Save")
+    @doctor.click_on("Submit")
+    @doctor.click_link_with_text("Consult")
     assert @doctor.see?("Total time must be equal to or greater than 75 minutes.")
   end
 
