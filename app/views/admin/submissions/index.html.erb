@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <h2><%= @user.name %>'s Submissions</h2>
+    <form action="<%= admin_user_submissions_path %>" method="post" class="form-horizontal"/>
+      <%= icon_submit "submit", "Create new Submission", class: "btn btn-primary", name: "" %>
+    </form>
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <tr>
+          <th>
+            <%= sortable_link_to "edt_files.filename", "Filename" %>
+          </th>
+          <th>
+            Claims
+          </th>
+        </tr>
+        <% @submissions.each do |submission| %>
+        <tr>
+          <td>
+            <%= submission.filename %>
+          </td>
+          <th>
+            <%= submission.claims.length %>
+          </th>
+          <th>
+            <%= link_to "Download", "#{admin_user_submission_path(id: submission, user_id: @user)}/#{submission.filename}", download: true, "data-no-turbolink" => true %>
+          </th>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

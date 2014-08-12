@@ -1,5 +1,7 @@
 class EdtFile < ActiveRecord::Base
-	enum status: %i[ready uploaded acknowledged processed]
+  belongs_to :user
+
+  enum status: %i[ready uploaded acknowledged processed]
 
   def filename
     filename_base.split('/')[1]+'.'+('%03i' % sequence_number)

@@ -1,16 +1,16 @@
 class Submission < EdtFile
   has_many :claims
 
-	def self.generate(user, timestamp=nil)
+  def self.generate(user, timestamp=nil)
     # assumptions
     provider = 18468
     group_number = '0000'
     office_code = 'D'
     specialty = 0
 
-    submission = self.new
+    claims = user.claims.unprocessed
+    submission = self.new(user: user, claims: claims)
     timestamp = DateTime.now if timestamp.nil?
-		claims = user.claims.unprocessed
 
     r=BatchHeaderRecord.new
     r['Batch Creation Date']=timestamp.to_date
@@ -33,8 +33,6 @@ class Submission < EdtFile
     submission.contents += tr.to_s
 
     submission.generate_filename('H', provider, timestamp)
-
-    submission.claims = claims
 
     submission
   end
