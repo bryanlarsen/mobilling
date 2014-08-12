@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140811185844) do
+ActiveRecord::Schema.define(version: 20140811214414) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,13 +60,17 @@ ActiveRecord::Schema.define(version: 20140811185844) do
   add_index "diagnoses", ["name"], name: "index_diagnoses_on_name", unique: true, using: :btree
 
   create_table "edt_files", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
-    t.integer  "status",     default: 0
-    t.string   "filename"
+    t.integer  "status",          default: 0
     t.text     "contents"
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "sequence_number"
+    t.string   "filename_base"
   end
+
+  add_index "edt_files", ["filename_base", "sequence_number"], name: "index_edt_files_on_filename_base_and_sequence_number", unique: true, using: :btree
+  add_index "edt_files", ["filename_base"], name: "index_edt_files_on_filename_base", using: :btree
 
   create_table "hospitals", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.string   "name"

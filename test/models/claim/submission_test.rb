@@ -86,4 +86,13 @@ EOS
     c=Claim.find_by(number: 99999999)
     assert c.submission_id == s.id
   end
+
+  test 'filename' do
+    s = Submission.generate(@user, DateTime.new(2014,8,10))
+    assert s.filename == 'HH018468.001', s.filename
+    s.save!
+    s2 = Submission.generate(@user, DateTime.new(2014,8,10))
+    assert s2.filename == 'HH018468.002', s2.filename
+  end
+
 end
