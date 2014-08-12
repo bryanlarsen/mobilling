@@ -191,15 +191,23 @@ angular.module("moBilling.controllers.claimEdit", [])
             $scope.isGenerateDisabled = angular.equals(generated.sort(sortDetails), existing.sort(sortDetails));
         });
 
+        $scope.isER = function () {
+            return /_er$/.test($scope.claim.consult_type) && !/_non_er$/.test($scope.claim.consult_type);
+        };
+
         $scope.$watchGroup([
             "claim.first_seen_date",
             "claim.consult_type",
             "claim.consult_premium_visit"
         ], function () {
-            var others = claims.filter(function (claim) {
+            var isER, others;
+
+            isER = $scope.isER($scope.claim);
+
+            others = claims.filter(function (claim) {
                 return claim.id !== $scope.claim.id
                     && claim.first_seen_on === $scope.claim.first_seen_on
-                    && claim.consult_type === $scope.claim.consult_type
+                    && $scope.isER($scope.claim) === isER
                     && claim.consult_premium_visit === $scope.claim.consult_premium_visit;
             });
 
