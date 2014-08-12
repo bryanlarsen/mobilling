@@ -19,6 +19,15 @@ class Claim::SubmissionTest < ActiveSupport::TestCase
     create(:statutory_holiday, day: Date.new(2014,1,1))
 
     @user = create(:user)
+
+    @claim_details = {
+      user: @user,
+      status: :unprocessed,
+      number: 99999999,
+      patient_name: 'Santina Claus, ON 9876543217HO, 1914-12-25, F',
+      daily_details:
+        [{code: 'P018B c-section', day: '2014-8-11', time_in: '09:00', time_out: '10:30'},]
+    }
   end
 
   def check(submission, contents)
@@ -34,14 +43,7 @@ EOS
   end
 
   test 'c-section assist' do
-    create(:claim,
-      user: @user,
-      status: :unprocessed,
-      number: 99999999,
-      patient_name: 'Santina Claus, ON 9876543217HO, 1914-12-25, F', 
-      daily_details: [
-        {code: 'P018B c-section', day: '2014-8-11', time_in: '09:00', time_out: '10:30'},
-      ])
+    create(:claim, @claim_details)
     s = Submission.generate(@user, DateTime.new(2014,8,10))
     check s, <<EOS
 HEBV03D201408100000000000000001846800                                          \r
@@ -52,15 +54,12 @@ EOS
   end
 
   test 'with overtime' do
-    create(:claim,
-      user: @user,
-      status: :unprocessed,
-      number: 99999999,
-      patient_name: 'Jane Doe, ON 9876543217HO, 1914-12-25, F', 
-      daily_details: [
-        {code: 'P018B c-section', day: '2014-8-10', time_in: '03:00', time_out: '04:30'},
-        {code: 'C999B late call-in', day: '2014-8-10'}
-      ])
+    dets = @claim_details.clone
+    dets[:daily_details][0][:day] = '2014-8-10'
+    dets[:daily_details][0][:time_in] = '03:00'
+    dets[:daily_details][0][:time_out] = '04:30'
+    dets[:daily_details] << {code: 'C999B late call-in', day: '2014-8-10'}
+    create(:claim, dets)
     s = Submission.generate(@user, DateTime.new(2014,8,10))
     check s, <<EOS
 HEBV03D201408100000000000000001846800                                          \r
@@ -73,14 +72,7 @@ EOS
   end
 
   test 'that submission_id gets saved' do
-    create(:claim,
-      user: @user,
-      status: :unprocessed,
-      number: 99999999,
-      patient_name: 'Santina Claus, ON 9876543217HO, 1914-12-25, F', 
-      daily_details: [
-        {code: 'P018B c-section', day: '2014-8-11', time_in: '09:00', time_out: '10:30'},
-      ])
+    create(:claim, @claim_details)
     s = Submission.generate(@user, DateTime.new(2014,8,10))
     s.save!
     c=Claim.find_by(number: 99999999)
@@ -94,5 +86,6 @@ EOS
     s2 = Submission.generate(@user, DateTime.new(2014,8,10))
     assert s2.filename == 'HH018468.002', s2.filename
   end
+
 
 end
