@@ -2,12 +2,13 @@ class CreateUser
   include ActiveModel::Model
 
   attr_accessor :email, :password, :name, :agent_id
-  attr_reader :user
+  attr_reader :user, :specialties
 
   validates :email, presence: true, email: true
   validates :agent_id, presence: true
   validates :password, presence: true
   validates :name, presence: true
+  validates :specialties, presence: true
   validate :email_existence
 
   def initialize(attributes = nil)
@@ -20,6 +21,10 @@ class CreateUser
     @user.update!(user_attributes)
   end
 
+  def specialties=(specialties)
+    @specialties = Array(specialties).select { |specialty| User::SPECIALTIES.include?(specialty) }
+  end
+
   private
 
   def user_attributes
@@ -28,6 +33,7 @@ class CreateUser
       email: email.to_s.downcase,
       password: password,
       agent_id: agent_id,
+      specialties: specialties,
       authentication_token: SecureRandom.hex(32)
     }
   end
