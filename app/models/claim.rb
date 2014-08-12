@@ -135,14 +135,7 @@ class Claim < ActiveRecord::Base
     #  current assumptions
     payee = 'P'
 
-    unless accounting_number
-      if new_record?
-        self.accounting_number = '00000000'
-      else
-        self.accounting_number = id[0..7].upcase
-        save!
-      end
-    end
+    raise RuntimeError, 'accounting number required' if not number
 
     error = 'patient_name must be of form First Last, ON 9876543217XX, 2001-12-25, M'
     name, provhn, birthday, sex = details['patient_name'].split(',')
@@ -151,8 +144,8 @@ class Claim < ActiveRecord::Base
     first_name, last_name = name.split(' ')
     raise RuntimeError, error if not last_name
 
-    province, number = provhn.strip.split(' ')
-    raise RuntimeError, error if not number
+    province, health_number = provhn.strip.split(' ')
+    raise RuntimeError, error if not health_number
     raise RuntimeError, error if province.length != 2
     province = province.upcase
     payment_program = province == 'ON' ? 'HCP' : 'RMB'
@@ -170,7 +163,7 @@ class Claim < ActiveRecord::Base
 
     r=ClaimHeaderRecord.new
     r["Patient's Birthdate"]=birthday
-    r['Accounting Number']=accounting_number
+    r['Accounting Number']=number
     r['Payment Program']=payment_program
     r['Payee']=payee
     r['Referring Health Care Provider Number']=referring_provider if referring_provider
@@ -191,15 +184,15 @@ class Claim < ActiveRecord::Base
       end
 
       rmb=ClaimHeaderRMBRecord.new
-      rmb['Registration Number']=number
+      rmb['Registration Number']=health_number
       rmb["Patient's Last Name"]=last_name
       rmb["Patient's First Name"]=first_name
       rmb["Patient's Sex"]=sex
       rmb["Province Code"]=province
       r.to_s+rmb.to_s+details_records
     else
-      r['Health Number']=number[0..9]
-      r['Version Code']=number[10..11].upcase
+      r['Health Number']=health_number[0..9]
+      r['Version Code']=health_number[10..11].upcase
       r.to_s+details_records
     end
   end
