@@ -13,7 +13,7 @@ class UpdateUserTest < ActiveSupport::TestCase
       name: "Alice",
       email: "alice@example.com",
       password: "secret",
-      specialties: ["internal_medicine"],
+      specialties: ["internal_medicine", "cardiology"],
       agent_id: create(:admin_user, role: "agent").id
     }
     @user = create(:user, old_attributes)
