@@ -117,7 +117,7 @@
             <div ng-if="dayType === 'weekday'">
               <div class="row form-group" ng-if="claim.consult_premium_travel" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_day' && consultForm.consult_premium_number.$invalid}">
                 <label class="control-label col-xs-12">
-                  Day
+                  Day 7:00-17:00
                   <span ng-if="isER() && claim.consult_premium_first">(K990)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K991)</span>
                   <span ng-if="!isER() && claim.consult_premium_first">(C990)</span>
@@ -137,7 +137,7 @@
 
               <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_office_hours' && consultForm.consult_premium_number.$invalid}">
                 <label class="control-label col-xs-12">
-                  Office hours
+                  Office hours 7:00-17:00
                   <span ng-if="isER() && claim.consult_premium_first">(K992)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K993)</span>
                   <span ng-if="!isER() && claim.consult_premium_first">(C992)</span>
@@ -157,7 +157,7 @@
 
               <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_evening' && consultForm.consult_premium_number.$invalid}">
                 <label class="control-label col-xs-12">
-                  Evening
+                  Evening 17:00-0:00
                   <span ng-if="isER() && claim.consult_premium_first">(K994)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K995)</span>
                   <span ng-if="!isER() && claim.consult_premium_first">(C994)</span>
@@ -177,7 +177,7 @@
 
               <div class="row">
                 <label class="control-label col-xs-12">
-                  Night
+                  Night 0:00-7:00
                   <span ng-if="isER() && claim.consult_premium_first">(K996)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K997)</span>
                   <span ng-if="!isER() && claim.consult_premium_first">(C996)</span>
@@ -192,7 +192,7 @@
             <div ng-if="dayType === 'weekend'">
               <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekend_day' && consultForm.consult_premium_number.$invalid}">
                 <label class="control-label col-xs-12">
-                  Weekend
+                  Weekend 7:00-0:00
                   <span ng-if="isER() && claim.consult_premium_first">(K998)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K999)</span>
                   <span ng-if="!isER() && claim.consult_premium_first">(C986)</span>
@@ -212,7 +212,7 @@
 
               <div class="row">
                 <label class="control-label col-xs-12">
-                  Night
+                  Night 0:00-7:00
                   <span ng-if="isER() && claim.consult_premium_first">(K996)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K997)</span>
                   <span ng-if="!isER() && claim.consult_premium_first">(C996)</span>
@@ -227,7 +227,7 @@
             <div ng-if="dayType === 'holiday'">
               <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'holiday_day' && consultForm.consult_premium_number.$invalid}">
                 <label class="control-label col-xs-12">
-                  Holiday
+                  Holiday 7:00-0:00
                   <span ng-if="isER() && claim.consult_premium_first">(K998)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K999)</span>
                   <span ng-if="!isER() && claim.consult_premium_first">(C986)</span>
@@ -247,7 +247,7 @@
 
               <div class="row">
                 <label class="control-label col-xs-12">
-                  Night
+                  Night 0:00-7:00
                   <span ng-if="isER() && claim.consult_premium_first">(K996)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K997)</span>
                   <span ng-if="!isER() && claim.consult_premium_first">(C996)</span>
