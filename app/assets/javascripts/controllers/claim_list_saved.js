@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.claimListSaved", [])
+angular.module("moBilling.controllers")
 
     .controller("ClaimListSavedController", function ($scope, claims) {
         $scope.claims = claims.filter(function (claim) {

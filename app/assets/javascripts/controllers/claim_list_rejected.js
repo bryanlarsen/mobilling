@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.claimListRejected", [])
+angular.module("moBilling.controllers")
 
     .controller("ClaimListRejectedController", function ($scope, claims) {
         $scope.claims = claims.filter(function (claim) {

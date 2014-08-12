@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.claimEditConsult", [])
+angular.module("moBilling.controllers")
 
     .controller("ClaimEditConsultController", function ($scope, dayType) {
         $scope.$watch("claim.first_seen_on", function (first_seen_on) {

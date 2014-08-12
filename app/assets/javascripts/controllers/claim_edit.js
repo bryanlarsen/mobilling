@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.claimEdit", [])
+angular.module("moBilling.controllers")
 
     .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, claims, Claim, detailsGenerator) {
         // HACK: Do not reload the current template if it is not needed.

@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.accountEdit", [])
+angular.module("moBilling.controllers")
 
     .controller("AccountEditController", function ($scope, User, user, agents, $location) {
         $scope.agents = agents;

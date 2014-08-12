@@ -1,4 +1,4 @@
-angular.module("moBilling.factories.claim", [])
+angular.module("moBilling.factories")
 
     .factory("Claim", function ($resource, $q, API_URL) {
         var Claim = $resource(API_URL + "/v1/claims/:id.json?auth=:auth", {

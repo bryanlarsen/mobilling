@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.passwordReset", [])
+angular.module("moBilling.controllers")
 
     .controller("PasswordResetController", function ($scope, $location, PasswordReset) {
         $scope.passwordReset = {};

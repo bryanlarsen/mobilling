@@ -1,4 +1,4 @@
-angular.module("moBilling.factories.detailsGenerator", [])
+angular.module("moBilling.factories")
 
     .factory("detailsGenerator", function () {
         function daysRange(first, last) {

@@ -1,4 +1,4 @@
-angular.module("moBilling.directives.confirmation", [])
+angular.module("moBilling.directives")
 
     .directive("mbConfirmation", function () {
 	return {

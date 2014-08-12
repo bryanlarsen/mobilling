@@ -1,4 +1,4 @@
-angular.module("moBilling.directives.typeahead", [])
+angular.module("moBilling.directives")
 
     .directive("mbTypeahead", function () {
         return {

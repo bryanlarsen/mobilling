@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.claimEditDetails", [])
+angular.module("moBilling.controllers")
 
     .controller("ClaimEditDetailsController", function ($scope, serviceCodes) {
         $scope.serviceCodes = {

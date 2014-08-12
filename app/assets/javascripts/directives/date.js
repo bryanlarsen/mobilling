@@ -1,4 +1,4 @@
-angular.module("moBilling.directives.date", [])
+angular.module("moBilling.directives")
 
     .directive("mbDate", function () {
         return {

@@ -1,4 +1,4 @@
-angular.module("moBilling.directives.switch", [])
+angular.module("moBilling.directives")
 
     .directive("mbSwitch", function () {
         return {
