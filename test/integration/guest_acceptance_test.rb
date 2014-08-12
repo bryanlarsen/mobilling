@@ -14,6 +14,7 @@ class GuestAcceptanceTest < ActionDispatch::IntegrationTest
     @guest.fill_in("Password", with: "secret")
     @guest.fill_in("Confirm password", with: "secret")
     @guest.select("Bob", from: "Billing Agent")
+    @guest.click_element_with_id("user-specialties-internal-medicine")
     @guest.click_on("Create Account")
     assert @guest.see?("MENU")
   end
