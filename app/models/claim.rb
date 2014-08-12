@@ -75,7 +75,8 @@ class Claim < ActiveRecord::Base
   def details_records
     @num_records = 0
     details['daily_details'].map do |dets|
-      code = dets['code'][0..4]
+      code = dets['code'][0..4].upcase
+      code[4]='A' if !code[4] || !'ABC'.include?(code[4])
       service_code = ServiceCode.find_by(code: code)
       raise RuntimeError, code if !service_code
       day = Date.strptime(dets['day'])
@@ -84,7 +85,7 @@ class Claim < ActiveRecord::Base
       if time_in && time_out
         day_with_time = day.to_datetime + time_in.seconds_since_midnight.seconds
         minutes = (time_out - time_in) / 60
-        minutes += 24*60 if minutes < 0 
+        minutes += 24*60 if minutes < 0
       else
         minutes = 0
       end
