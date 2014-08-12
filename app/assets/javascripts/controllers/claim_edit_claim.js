@@ -3,11 +3,6 @@ angular.module("moBilling.controllers.claimEditClaim", [])
     .controller("ClaimEditClaimController", function ($scope, Photo, diagnoses, hospitals) {
         $scope.isFirstSeenOnHidden = ($scope.claim.admission_on === $scope.claim.first_seen_on);
 
-        $scope.typeaheadOptions = {
-            hint: true,
-            highlight: true
-        };
-
         $scope.hospitals = {
             displayKey: "name",
             source: hospitals.ttAdapter()

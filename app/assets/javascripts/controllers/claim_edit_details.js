@@ -1,10 +1,6 @@
 angular.module("moBilling.controllers.claimEditDetails", [])
 
     .controller("ClaimEditDetailsController", function ($scope, serviceCodes) {
-        $scope.typeaheadOptions = {
-            highlight: true
-        };
-
         $scope.serviceCodes = {
             displayKey: "name",
             source: serviceCodes.ttAdapter()

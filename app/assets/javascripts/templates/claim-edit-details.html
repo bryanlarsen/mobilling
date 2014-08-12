@@ -42,7 +42,7 @@
 
               <div class="col-sm-7 col-xs-12" ng-class="{'has-error': (detailForm.code.$dirty || submitted) && detailForm.code.$invalid}">
                 <label class="visible-xs control-label">Code</label>
-                <input type="text" ng-model="detail.code" name="code" class="form-control input-lg" options="typeaheadOptions" datasets="serviceCodes" mb-typeahead sf-typeahead required>
+                <input type="text" ng-model="detail.code" name="code" class="form-control input-lg" datasets="serviceCodes" mb-typeahead sf-typeahead required>
                 <div ng-messages="detailForm.code.$error" ng-show="submitted">
                   <p class="help-block" ng-message="required">is missing</p>
                 </div>
