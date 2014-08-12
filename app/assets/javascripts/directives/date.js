@@ -41,6 +41,14 @@ angular.module("moBilling.directives.date", [])
                         }
                     });
                 } else {
+                    attributes.$observe("min", function (min) {
+                        $(element).datepicker("setStartDate", min);
+                    });
+
+                    attributes.$observe("max", function (max) {
+                        $(element).datepicker("setEndDate", max);
+                    });
+
                     $(element).datepicker({ autoclose: true, format: "yyyy-mm-dd" });
 
                     ngModelController.$formatters.push(function (modelValue) {

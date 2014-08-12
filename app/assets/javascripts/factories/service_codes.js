@@ -2,8 +2,8 @@ angular.module("moBilling.factories.serviceCodes", [])
 
     .factory("serviceCodes", function (API_URL, $resource) {
         var serviceCodes = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            datumTokenizer: Bloodhound.tokenizers.obj.nonword("name"),
+            queryTokenizer: Bloodhound.tokenizers.nonword,
             local: []
         });
 

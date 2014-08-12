@@ -2,8 +2,8 @@ angular.module("moBilling.factories.diagnoses", [])
 
     .factory("diagnoses", function (API_URL) {
         var diagnoses = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            datumTokenizer: Bloodhound.tokenizers.obj.nonword("name"),
+            queryTokenizer: Bloodhound.tokenizers.nonword,
             prefetch: {
                 url: API_URL + "/v1/diagnoses.json",
                 filter: function (response) {
