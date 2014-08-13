@@ -180,13 +180,13 @@ angular.module("moBilling.controllers")
         $scope.isER = function (claim) {
             claim || (claim = $scope.claim);
 
-            return /_er$/.test(claim) && !$scope.isNonER(claim);
+            return /_er$/.test(claim.consult_type) && !$scope.isNonER(claim);
         };
 
         $scope.isNonER = function (claim) {
             claim || (claim = $scope.claim);
 
-            return /_non_er$/.test(claim);
+            return /_non_er$/.test(claim.consult_type);
         };
 
         $scope.$watchGroup([
