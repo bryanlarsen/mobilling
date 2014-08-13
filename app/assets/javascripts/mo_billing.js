@@ -1,6 +1,6 @@
 //= require_self
 //= require ./constants
-//= require ./router
+//= require ./routes
 //= require_tree ./controllers
 //= require_tree ./factories
 //= require_tree ./directives

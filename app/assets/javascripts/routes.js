@@ -84,9 +84,9 @@ angular.module("moBilling")
             controller: "ClaimNewController"
         });
 
-        $routeProvider.when("/account/edit", {
-            templateUrl: "account-edit.html",
-            controller: "AccountEditController",
+        $routeProvider.when("/profile", {
+            templateUrl: "profile.html",
+            controller: "ProfileController",
             resolve: {
                 agents: function (Agent) {
                     return Agent.query().$promise;

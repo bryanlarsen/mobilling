@@ -1,6 +1,6 @@
 angular.module("moBilling.controllers")
 
-    .controller("AccountEditController", function ($scope, User, user, agents, $location) {
+    .controller("ProfileController", function ($scope, User, user, agents, $location) {
         $scope.agents = agents;
         $scope.user = user.toJSON();
 
