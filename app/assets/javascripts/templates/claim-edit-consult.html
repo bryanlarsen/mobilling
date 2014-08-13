@@ -120,8 +120,8 @@
                   Day 7:00-17:00
                   <span ng-if="isER() && claim.consult_premium_first">(K990)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K991)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C990)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C991)</span>
+                  <span ng-if="isNonER() && claim.consult_premium_first">(C990)</span>
+                  <span ng-if="isNonER() && !claim.consult_premium_first">(C991)</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day"></mb-switch>
@@ -140,8 +140,8 @@
                   Office hours 7:00-17:00
                   <span ng-if="isER() && claim.consult_premium_first">(K992)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K993)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C992)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C993)</span>
+                  <span ng-if="isNonER() && claim.consult_premium_first">(C992)</span>
+                  <span ng-if="isNonER() && !claim.consult_premium_first">(C993)</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_office_hours" id="claim-consult-premium-visit-weekday-office-hours"></mb-switch>
@@ -160,8 +160,8 @@
                   Evening 17:00-0:00
                   <span ng-if="isER() && claim.consult_premium_first">(K994)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K995)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C994)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C995)</span>
+                  <span ng-if="isNonER() && claim.consult_premium_first">(C994)</span>
+                  <span ng-if="isNonER() && !claim.consult_premium_first">(C995)</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_evening" id="claim-consult-premium-visit-weekday-evening"></mb-switch>
@@ -180,8 +180,8 @@
                   Night 0:00-7:00
                   <span ng-if="isER() && claim.consult_premium_first">(K996)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K997)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C996)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C997)</span>
+                  <span ng-if="isNonER() && claim.consult_premium_first">(C996)</span>
+                  <span ng-if="isNonER() && !claim.consult_premium_first">(C997)</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night"></mb-switch>
@@ -195,8 +195,8 @@
                   Weekend 7:00-0:00
                   <span ng-if="isER() && claim.consult_premium_first">(K998)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K999)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C986)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C987)</span>
+                  <span ng-if="isNonER() && claim.consult_premium_first">(C986)</span>
+                  <span ng-if="isNonER() && !claim.consult_premium_first">(C987)</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_day" id="claim-consult-premium-visit-weekend-day"></mb-switch>
@@ -215,8 +215,8 @@
                   Night 0:00-7:00
                   <span ng-if="isER() && claim.consult_premium_first">(K996)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K997)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C996)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C997)</span>
+                  <span ng-if="isNonER() && claim.consult_premium_first">(C996)</span>
+                  <span ng-if="isNonER() && !claim.consult_premium_first">(C997)</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_night" id="claim-consult-premium-visit-weekend-night"></mb-switch>
@@ -230,8 +230,8 @@
                   Holiday 7:00-0:00
                   <span ng-if="isER() && claim.consult_premium_first">(K998)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K999)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C986)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C987)</span>
+                  <span ng-if="isNonER() && claim.consult_premium_first">(C986)</span>
+                  <span ng-if="isNonER() && !claim.consult_premium_first">(C987)</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_day" id="claim-consult-premium-visit-holiday-day"></mb-switch>
@@ -250,8 +250,8 @@
                   Night 0:00-7:00
                   <span ng-if="isER() && claim.consult_premium_first">(K996)</span>
                   <span ng-if="isER() && !claim.consult_premium_first">(K997)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C996)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C997)</span>
+                  <span ng-if="isNonER() && claim.consult_premium_first">(C996)</span>
+                  <span ng-if="isNonER() && !claim.consult_premium_first">(C997)</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night"></mb-switch>

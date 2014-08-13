@@ -93,11 +93,7 @@ angular.module("moBilling.controllers")
 
         $scope.save = function () {
             $scope.submitting = true;
-            if ($scope.claim.id) {
-                Claim.update($scope.claim, back, error);
-            } else {
-                Claim.save($scope.claim, back, error);
-            }
+            Claim.save($scope.claim, back, error);
         };
 
         $scope.remove = function () {
@@ -124,11 +120,7 @@ angular.module("moBilling.controllers")
             if ($scope.form.$valid) {
                 $scope.submitting = true;
                 $scope.claim.status = "unprocessed";
-                if ($scope.claim.id) {
-                    Claim.update($scope.claim, back, error);
-                } else {
-                    Claim.save($scope.claim, back, error);
-                }
+                Claim.save($scope.claim, back, error);
             } else {
                 showError();
             }
@@ -185,8 +177,20 @@ angular.module("moBilling.controllers")
             $scope.isGenerateDisabled = angular.equals(generated.sort(sortDetails), existing.sort(sortDetails));
         });
 
-        $scope.isER = function () {
-            return /_er$/.test($scope.claim.consult_type) && !/_non_er$/.test($scope.claim.consult_type);
+        $scope.isER = function (claim) {
+            if (!claim) {
+                claim = $scope.claim;
+            }
+
+            return /_er$/.test($scope.claim.consult_type) && !$scope.isNonER();
+        };
+
+        $scope.isNonER = function (claim) {
+            if (!claim) {
+                claim = $scope.claim;
+            }
+
+            return /_non_er$/.test($scope.claim.consult_type);
         };
 
         $scope.$watchGroup([
@@ -194,14 +198,16 @@ angular.module("moBilling.controllers")
             "claim.consult_type",
             "claim.consult_premium_visit"
         ], function () {
-            var isER, others;
+            var isER, isNonER, others;
 
             isER = $scope.isER($scope.claim);
+            isNonEr = $scope.isNonER($scope.claim);
 
             others = claims.filter(function (claim) {
                 return claim.id !== $scope.claim.id
                     && claim.first_seen_on === $scope.claim.first_seen_on
                     && $scope.isER($scope.claim) === isER
+                    && $scope.isNonER($scope.claim) === isNonER
                     && claim.consult_premium_visit === $scope.claim.consult_premium_visit;
             });
 
