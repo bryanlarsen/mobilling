@@ -107,6 +107,15 @@
                   <label class="control-label col-xs-10">Cardiology</label>
                 </div>
 
+                <br>
+
+                <div class="row">
+                  <div class="col-xs-2">
+                    <mb-switch ng-model="user.specialties" id="user-specialties-family-medicine" name="specialties" on-value="family_medicine"></mb-switch>
+                  </div>
+                  <label class="control-label col-xs-10">Family Medicine</label>
+                </div>
+
                 <input class="hide" type="number" ng-model="user.specialties.length" name="specialties_length" min="1" required>
                 <div ng-messages="form.specialties_length.$error" ng-show="submitted">
                   <p class="help-block" ng-message="required">at least one specialty is required</p>

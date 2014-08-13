@@ -1,4 +1,4 @@
-<a href="#/claims/new_{{user.specialties[0]}}" class="btn-group pull-right" ng-if="user.specialties.length === 1">
+<a href="#/{{user.specialties[0]}}/claims/new" class="btn-group pull-right" ng-if="user.specialties.length === 1">
   <div class="btn btn-navbar">
     <i class="fa fa-plus"></i> New
   </div>
@@ -11,7 +11,7 @@
     </button>
     <ul class="dropdown-menu" role="menu" toggle="off" bubble target="new">
       <li ng-repeat="specialty in user.specialties">
-        <a href="#/claims/new_{{specialty}}"><i class="fa fa-file-text-o"></i> {{specialty | inflector}}</a>
+        <a href="#/{{specialty}}/claims/new"><i class="fa fa-file-text-o"></i> {{specialty | inflector}}</a>
       </li>
     </ul>
   </div>
