@@ -35,7 +35,7 @@ class V1::ClaimsControllerTest < ActionController::TestCase
 
   test "create renders template" do
     user = create(:user, :authenticated)
-    post :create, auth: user.authentication_token, format: "json", claim: {status: "saved"}
+    post :create, auth: user.authentication_token, format: "json", claim: {status: "saved", specialty: "internal_medicine"}
     assert_template "create"
   end
 

@@ -3,7 +3,7 @@ require "test_helper"
 class CreateClaimTest < ActiveSupport::TestCase
   setup do
     @user = create(:user)
-    @interactor = CreateClaim.new(status: "saved")
+    @interactor = CreateClaim.new(status: "saved", specialty: "internal_medicine")
     @interactor.user = @user
   end
 

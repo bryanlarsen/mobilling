@@ -65,6 +65,7 @@ class UpdateClaim
 
   def claim_attributes_details
     {
+      "specialty"                  => claim.details["specialty"],
       "patient_name"               => patient_name,
       "hospital"                   => hospital,
       "referring_physician"        => referring_physician,

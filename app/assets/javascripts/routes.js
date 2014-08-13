@@ -92,12 +92,12 @@ angular.module("moBilling")
             }
         });
 
-        $routeProvider.when("/claims/new", {
+        $routeProvider.when("/claims/new_internal_medicine", {
             templateUrl: "claim-edit.html",
             controller: "ClaimEditController",
             resolve: {
                 claim: function (Claim) {
-                    return new Claim();
+                    return new Claim({ specialty: "internal_medicine" });
                 },
                 claims: function (Claim) {
                     return Claim.query().$promise;
