@@ -4,7 +4,7 @@ class UpdateClaimTest < ActiveSupport::TestCase
   setup do
     @user = create(:user)
     @claim = create(:claim)
-    @interactor = UpdateClaim.new(@claim, status: "saved", specialty: "internal_medicine")
+    @interactor = UpdateClaim.new(@claim, status: "saved")
     @interactor.user = @user
   end
 
