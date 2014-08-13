@@ -140,6 +140,8 @@ angular.module("moBilling.factories")
                 discharge = claim.last_seen_discharge,
                 details = [];
 
+            console.log(claim);
+
             daysRange(admission, last).forEach(function (day, daysAfterAdmission) {
                 // no codes before first seen date
                 if (day < first) {
