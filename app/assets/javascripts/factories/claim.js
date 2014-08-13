@@ -16,19 +16,15 @@ angular.module("moBilling.factories")
         });
 
         Claim.prototype.$save = function () {
-            if (this.id) {
-                return this.$update.apply(this, arguments);
-            } else {
-                return this.$create.apply(this, arguments);
-            }
+            var method = this.id ? "$update" : "$create";
+
+            return this[method].apply(this, arguments);
         };
 
         Claim.save = function (claim) {
-            if (claim.id) {
-                return this.update.apply(this, arguments);
-            } else {
-                return this.create.apply(this, arguments);
-            }
+            var method = this.id ? "update" : "create";
+
+            return this[method].apply(this, arguments);
         };
 
         return Claim;
