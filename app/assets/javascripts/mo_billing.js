@@ -2,8 +2,8 @@
 //= require ./constants
 //= require ./routes
 //= require_tree ./controllers
-//= require_tree ./factories
 //= require_tree ./directives
+//= require_tree ./factories
 //= require_tree ./templates
 
 angular.module("moBilling", [
@@ -14,6 +14,7 @@ angular.module("moBilling", [
     "mobile-angular-ui.fastclick",
     "mobile-angular-ui.scrollable",
     "siyfion.sfTypeahead",
+    "ui.inflector",
     "ui.unique",
     "ngMessages",
     "ngResource",

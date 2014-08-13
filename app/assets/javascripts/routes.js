@@ -58,6 +58,9 @@ angular.module("moBilling")
             resolve: {
                 claims: function (Claim) {
                     return Claim.query().$promise;
+                },
+                user: function (User) {
+                    return User.get().$promise;
                 }
             }
         });
@@ -68,6 +71,9 @@ angular.module("moBilling")
             resolve: {
                 claims: function (Claim) {
                     return Claim.query().$promise;
+                },
+                user: function (User) {
+                    return User.get().$promise;
                 }
             }
         });
@@ -78,6 +84,9 @@ angular.module("moBilling")
             resolve: {
                 claims: function (Claim) {
                     return Claim.query().$promise;
+                },
+                user: function (User) {
+                    return User.get().$promise;
                 }
             }
         });
@@ -88,6 +97,9 @@ angular.module("moBilling")
             resolve: {
                 claims: function (Claim) {
                     return Claim.query().$promise;
+                },
+                user: function (User) {
+                    return User.get().$promise;
                 }
             }
         });
