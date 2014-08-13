@@ -95,6 +95,34 @@ angular.module("moBilling.factories")
             }[[erCode(er), visitCode(type)].join("_")];
         }
 
+        function firstFiveWeeksCode(specialty) {
+            return {
+                internal_medicine: "C132A",
+                cardiology:        "C602A"
+            }[specialty];
+        }
+
+        function sixthToThirteenthWeekInclusiveCode(specialty) {
+            return {
+                internal_medicine: "C137A",
+                cardiology:        "C607A"
+            }[specialty];
+        }
+
+        function afterThirtheenthWeekCode(specialty) {
+            return {
+                internal_medicine: "C139A",
+                cardiology:        "C609A"
+            }[specialty];
+        }
+
+        function concurrentCode(specialty) {
+            return {
+                internal_medicine: "C138A",
+                cardiology:        "C608A"
+            }[specialty];
+        }
+
         function detailsGenerator(claim) {
             var daysAfterFirstSeen,
                 specialty = claim.specialty,
@@ -143,7 +171,7 @@ angular.module("moBilling.factories")
                         details.push({ day: day, code: "C124A" });
                         details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138A" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterFirstSeen === 0 && icu) {
                     details.push({ day: day, code: "C142A" });
@@ -156,35 +184,35 @@ angular.module("moBilling.factories")
                         details.push({ day: day, code: "C122A" });
                         details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138A" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission === 2) {
                     if (mrp) {
                         details.push({ day: day, code: "C123A" });
                         details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138A" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission >= 3 && daysAfterAdmission <= 35) {
                     if (mrp) {
-                        details.push({ day: day, code: "C132A" });
+                        details.push({ day: day, code: firstFiveWeeksCode(specialty) });
                         details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138A" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission >= 36 && daysAfterAdmission <= 91) {
                     if (mrp) {
-                        details.push({ day: day, code: "C137A" });
+                        details.push({ day: day, code: sixthToThirteenthWeekInclusiveCode(specialty) });
                         details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138A" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission >= 92) {
                     if (mrp) {
-                        details.push({ day: day, code: "C139A" });
+                        details.push({ day: day, code: afterThirtheenthWeekCode(specialty) });
                         details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138A" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 }
             });
