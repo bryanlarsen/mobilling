@@ -178,19 +178,15 @@ angular.module("moBilling.controllers")
         });
 
         $scope.isER = function (claim) {
-            if (!claim) {
-                claim = $scope.claim;
-            }
+            claim || (claim = $scope.claim);
 
-            return /_er$/.test($scope.claim.consult_type) && !$scope.isNonER();
+            return /_er$/.test(claim) && !$scope.isNonER(claim);
         };
 
         $scope.isNonER = function (claim) {
-            if (!claim) {
-                claim = $scope.claim;
-            }
+            claim || (claim = $scope.claim);
 
-            return /_non_er$/.test($scope.claim.consult_type);
+            return /_non_er$/.test(claim);
         };
 
         $scope.$watchGroup([
@@ -201,7 +197,7 @@ angular.module("moBilling.controllers")
             var isER, isNonER, others;
 
             isER = $scope.isER($scope.claim);
-            isNonEr = $scope.isNonER($scope.claim);
+            isNonER = $scope.isNonER($scope.claim);
 
             others = claims.filter(function (claim) {
                 return claim.id !== $scope.claim.id
