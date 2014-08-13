@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140812151024) do
+ActiveRecord::Schema.define(version: 20140813142448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20140812151024) do
 
   add_index "claims", ["accounting_number"], name: "index_claims_on_accounting_number", unique: true, using: :btree
   add_index "claims", ["number", "user_id"], name: "index_claims_on_number_and_user_id", unique: true, using: :btree
-  add_index "claims", ["submission_id"], name: "index_claims_on_submission_id", unique: true, using: :btree
+  add_index "claims", ["submission_id"], name: "index_claims_on_submission_id", using: :btree
 
   create_table "diagnoses", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.string   "name"
@@ -72,8 +72,8 @@ ActiveRecord::Schema.define(version: 20140812151024) do
     t.uuid     "user_id"
   end
 
-  add_index "edt_files", ["filename_base", "sequence_number"], name: "index_edt_files_on_filename_base_and_sequence_number", unique: true, using: :btree
   add_index "edt_files", ["filename_base"], name: "index_edt_files_on_filename_base", using: :btree
+  add_index "edt_files", ["user_id", "filename_base", "sequence_number"], name: "index_edt_files_on_filename", unique: true, using: :btree
   add_index "edt_files", ["user_id"], name: "index_edt_files_on_user_id", using: :btree
 
   create_table "hospitals", id: :uuid, default: "uuid_generate_v4()", force: true do |t|

@@ -8,7 +8,7 @@ class Submission < EdtFile
     office_code = 'D'
     specialty = 0
 
-    claims = user.claims.unprocessed
+    claims = user.claims.unprocessed.where(submission_id: nil)
     submission = self.new(user: user, claims: claims)
     timestamp = DateTime.now if timestamp.nil?
 
@@ -32,7 +32,7 @@ class Submission < EdtFile
     tr.set_field!('T Count', num_records)
     submission.contents += tr.to_s
 
-    submission.generate_filename('H', provider, timestamp)
+    submission.generate_filename('H', user, provider, timestamp)
 
     submission
   end
