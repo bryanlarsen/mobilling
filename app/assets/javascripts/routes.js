@@ -117,6 +117,19 @@ angular.module("moBilling")
             }
         });
 
+        $routeProvider.when("/claims/new_cardiology", {
+            templateUrl: "claim-edit.html",
+            controller: "ClaimEditController",
+            resolve: {
+                claim: function (Claim) {
+                    return new Claim({ specialty: "cardiology" });
+                },
+                claims: function (Claim) {
+                    return Claim.query().$promise;
+                }
+            }
+        });
+
         $routeProvider.when("/claims/:claim_id/edit", {
             templateUrl: "claim-edit.html",
             controller: "ClaimEditController",
