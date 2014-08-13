@@ -1,4 +1,4 @@
-class UpdateClaim
+class CreateClaim
   include ActiveModel::Model
 
   attr_accessor :user, :status, :photo_id, :patient_name,
@@ -27,13 +27,9 @@ class UpdateClaim
   validates :daily_details, associated: true
   validates :daily_details, length: {minimum: 1}, if: :submitted?
 
-  def initialize(claim, attributes = nil)
-    @claim = claim
-    super(attributes)
-  end
-
   def perform
     return false if invalid?
+    @claim = user.claims.build
     @claim.update!(claim_attributes)
     @claim.comments.create!(user: user, body: comment) if comment.present?
     true

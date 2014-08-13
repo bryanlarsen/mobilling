@@ -7,12 +7,6 @@ angular.module("moBilling")
             guest: true
         });
 
-        $routeProvider.when("/password-reset", {
-            templateUrl: "password-reset.html",
-            controller: "PasswordResetController",
-            guest: true
-        });
-
         $routeProvider.when("/sign-up", {
             templateUrl: "sign-up.html",
             controller: "SignUpController",
@@ -22,6 +16,11 @@ angular.module("moBilling")
                     return Agent.query().$promise;
                 }
             }
+        });
+
+        $routeProvider.when("/sign-out", {
+            templateUrl: "loading.html",
+            controller: "SignOutController"
         });
 
         $routeProvider.when("/unlock", {
@@ -34,9 +33,23 @@ angular.module("moBilling")
             }
         });
 
-        $routeProvider.when("/sign-out", {
-            templateUrl: "loading.html",
-            controller: "SignOutController"
+        $routeProvider.when("/password-reset", {
+            templateUrl: "password-reset.html",
+            controller: "PasswordResetController",
+            guest: true
+        });
+
+        $routeProvider.when("/profile", {
+            templateUrl: "profile.html",
+            controller: "ProfileController",
+            resolve: {
+                agents: function (Agent) {
+                    return Agent.query().$promise;
+                },
+                user: function (User) {
+                    return User.get().$promise;
+                }
+            }
         });
 
         $routeProvider.when("/claims/saved", {
@@ -80,21 +93,18 @@ angular.module("moBilling")
         });
 
         $routeProvider.when("/claims/new", {
-            templateUrl: "loading.html",
-            controller: "ClaimNewController"
-        });
-
-        $routeProvider.when("/profile", {
-            templateUrl: "profile.html",
-            controller: "ProfileController",
+            templateUrl: "claim-edit.html",
+            controller: "ClaimEditController",
             resolve: {
-                agents: function (Agent) {
-                    return Agent.query().$promise;
+                claim: function (Claim) {
+                    return new Claim();
                 },
-                user: function (User) {
-                    return User.get().$promise;
+                claims: function (Claim) {
+                    return Claim.query().$promise;
                 }
             }
+            // templateUrl: "loading.html",
+            // controller: "ClaimNewController"
         });
 
         $routeProvider.when("/claims/:claim_id/edit", {

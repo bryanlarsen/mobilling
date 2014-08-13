@@ -33,30 +33,48 @@ class V1::ClaimsControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  test "create renders template" do
+    user = create(:user, :authenticated)
+    post :create, auth: user.authentication_token, format: "json", claim: {status: "saved"}
+    assert_template "create"
+  end
+
+  test "create responds with unauthorized when no auth" do
+    post :create, format: "json", claim: {status: "saved"}
+    assert_response :unauthorized
+  end
+
+  test "create responds with unprocessable entity when invalid params" do
+    user = create(:user, :authenticated)
+    post :create, format: "json", claim: {status: "invalid"}, auth: user.authentication_token
+    assert_response :unprocessable_entity
+  end
+
   test "update renders template" do
     user = create(:user, :authenticated)
-    uuid = SecureRandom.uuid
-    put :update, id: uuid, auth: user.authentication_token, format: "json", claim: {id: uuid, status: "saved"}
+    claim = create(:claim, user: user)
+    put :update, id: claim.id, auth: user.authentication_token, format: "json", claim: {status: "saved"}
     assert_template "update"
   end
 
   test "update responds with unauthorized when no auth" do
-    uuid = SecureRandom.uuid
-    put :update, id: uuid, format: "json", claim: {id: uuid}
+    claim = create(:claim)
+    put :update, id: claim.id, format: "json", claim: {status: "saved"}
     assert_response :unauthorized
   end
 
   test "update responds with unprocessable entity when invalid params" do
     user = create(:user, :authenticated)
-    put :update, id: "invalid", format: "json", claim: {id: "invalid"}, auth: user.authentication_token
+    claim = create(:claim, user: user)
+    put :update, id: claim.id, format: "json", claim: {status: "invalid"}, auth: user.authentication_token
     assert_response :unprocessable_entity
   end
 
-  test "update responds with unprocessable_entity when updating unprocessed claim" do
+  test "update responds with not_found when updating unprocessed claim" do
     user = create(:user, :authenticated)
     claim = create(:claim, user: user, status: "unprocessed")
-    put :update, id: claim.id, auth: user.authentication_token, format: "json", claim: {id: claim.id, status: "saved"}
-    assert_response :unprocessable_entity
+    put :update, id: claim.id, auth: user.authentication_token, format: "json", claim: {status: "saved"}
+    assert_response :not_found
   end
 
   test "destroy renders template" do

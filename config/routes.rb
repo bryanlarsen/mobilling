@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resource :session, only: %i[create]
     resource :user, only: %i[show create update]
     resources :agents, only: %i[index]
-    resources :claims, only: %i[index show update destroy]
+    resources :claims, only: %i[index show create update destroy]
     resources :diagnoses, only: %i[index]
     resources :hospitals, only: %i[index]
     resources :password_resets, only: %i[create]

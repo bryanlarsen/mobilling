@@ -7,20 +7,23 @@ angular.module("moBilling.factories")
                 return window.localStorage.getItem("authenticationToken");
             }
         }, {
-            save: {
+            // save: {
+            //     method: "PUT"
+            // }
+            update: {
                 method: "PUT"
             }
         });
 
-        Claim.getOrInit = function (attributes) {
-            return Claim.get(attributes).$promise.then(null, function (response) {
-                if (response.status === 404) {
-                    return new Claim(attributes);
-                } else {
-                    return $q.reject(response);
-                }
-            });
-        };
+        // Claim.getOrInit = function (attributes) {
+        //     return Claim.get(attributes).$promise.then(null, function (response) {
+        //         if (response.status === 404) {
+        //             return new Claim(attributes);
+        //         } else {
+        //             return $q.reject(response);
+        //         }
+        //     });
+        // };
 
         return Claim;
     });
