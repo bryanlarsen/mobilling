@@ -1,8 +1,10 @@
-angular.module("moBilling.controllers.signUp", [])
+angular.module("moBilling.controllers")
 
     .controller("SignUpController", function ($scope, $location, User, agents) {
         $scope.agents = agents;
-        $scope.user = {};
+        $scope.user = {
+            specialties: []
+        };
 
         function success(user) {
             window.localStorage.setItem("authenticationToken", user.authentication_token);

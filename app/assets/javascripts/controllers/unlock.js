@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.unlock", [])
+angular.module("moBilling.controllers")
 
     .controller("UnlockController", function ($scope, $location, user) {
         $scope.retries = 3;

@@ -26,8 +26,8 @@
           <li ng-hide="isGenerateDisabled">
             <a href="javascript:;" toggle bubble target="autogenerate"><i class="fa fa-exclamation-circle"></i> Submit</a>
           </li>
-          <li class="divider">
-          <li>
+          <li class="divider" ng-show="claim.id">
+          <li ng-show="claim.id">
             <a href="javascript:;" toggle bubble target="remove"><i class="fa fa-trash-o"></i> Delete</a>
           </li>
         </ul>

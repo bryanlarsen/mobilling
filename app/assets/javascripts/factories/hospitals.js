@@ -1,4 +1,4 @@
-angular.module("moBilling.factories.hospitals", [])
+angular.module("moBilling.factories")
 
     .factory("hospitals", function (API_URL) {
         var hospitals = new Bloodhound({

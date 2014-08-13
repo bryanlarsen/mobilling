@@ -1,4 +1,4 @@
-angular.module("moBilling.factories.photo", [])
+angular.module("moBilling.factories")
 
     .factory("Photo", function ($resource, API_URL) {
         var Photo = $resource(API_URL + "/v1/photos/:id.json?auth=:auth", {

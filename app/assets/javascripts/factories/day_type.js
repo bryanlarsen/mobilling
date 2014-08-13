@@ -1,4 +1,4 @@
-angular.module("moBilling.factories.dayType", [])
+angular.module("moBilling.factories")
 
     .factory("dayType", function () {
         function easter(string) {

@@ -1,6 +1,9 @@
-angular.module("moBilling.controllers.claimEditConsult", [])
+angular.module("moBilling.controllers")
 
-    .controller("ClaimEditConsultController", function ($scope, dayType) {
+    .controller("ClaimEditConsultController", function ($scope, dayType, detailsGenerator) {
+        $scope.consultCode = detailsGenerator.consultCode;
+        $scope.premiumVisitCode = detailsGenerator.premiumVisitCode;
+
         $scope.$watch("claim.first_seen_on", function (first_seen_on) {
             if (first_seen_on) {
                 $scope.dayType = dayType(first_seen_on);
@@ -24,7 +27,7 @@ angular.module("moBilling.controllers.claimEditConsult", [])
         });
 
         $scope.isTimeVisible = function () {
-            return $scope.claim.consult_type && $scope.claim.consult_type.indexOf("comprehensive") === 0;
+            return ["comprehensive_er", "comprehensive_non_er", "special_er", "special_non_er"].indexOf($scope.claim.consult_type) !== -1;
         };
 
         $scope.$watch($scope.isTimeVisible, function (isTimeVisible) {

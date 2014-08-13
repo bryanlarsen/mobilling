@@ -1,4 +1,4 @@
-angular.module("moBilling.directives.switch", [])
+angular.module("moBilling.directives")
 
     .directive("mbSwitch", function () {
         return {
@@ -10,7 +10,8 @@ angular.module("moBilling.directives.switch", [])
                 model: '=ngModel'
             },
             link: function (scope, element, attributes, ngModelController) {
-                var onValue = attributes.onValue,
+                var index,
+                    onValue = attributes.onValue,
                     offValue = attributes.offValue;
 
                 if (!attributes.hasOwnProperty("onValue")) {
@@ -29,13 +30,27 @@ angular.module("moBilling.directives.switch", [])
                     if (attributes.disabled == null) {
                         scope.$apply(function () {
                             scope.checked = !scope.checked;
-                            scope.model = scope.checked ? onValue : offValue;
+
+                            if (angular.isArray(scope.model)) {
+                                if (scope.checked) {
+                                    scope.model.push(onValue);
+                                } else {
+                                    index = scope.model.indexOf(onValue);
+                                    scope.model.splice(index, 1);
+                                }
+                            } else {
+                                scope.model = scope.checked ? onValue : offValue;
+                            }
                         });
                     }
                 });
 
                 ngModelController.$render = function () {
-                    scope.checked = (ngModelController.$viewValue === onValue);
+                    if (angular.isArray(ngModelController.$viewValue)) {
+                        scope.checked = (ngModelController.$viewValue.indexOf(onValue) !== -1);
+                    } else {
+                        scope.checked = (ngModelController.$viewValue === onValue);
+                    }
                 };
             }
         };

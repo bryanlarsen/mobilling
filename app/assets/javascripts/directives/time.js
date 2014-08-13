@@ -1,4 +1,4 @@
-angular.module("moBilling.directives.time", [])
+angular.module("moBilling.directives")
 
     .directive("mbTime", function () {
         return {

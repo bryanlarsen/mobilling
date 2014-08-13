@@ -1,4 +1,4 @@
-angular.module("moBilling.directives.upload", [])
+angular.module("moBilling.directives")
 
     .directive("mbUpload", function () {
 	return {

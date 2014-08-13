@@ -1,4 +1,4 @@
-angular.module("moBilling.factories.user", [])
+angular.module("moBilling.factories")
 
     .factory("User", function ($resource, API_URL) {
         var User = $resource(API_URL + "/v1/user.json?auth=:auth", {

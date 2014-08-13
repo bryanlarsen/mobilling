@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.claimEditClaim", [])
+angular.module("moBilling.controllers")
 
     .controller("ClaimEditClaimController", function ($scope, Photo, diagnoses, hospitals) {
         $scope.isFirstSeenOnHidden = ($scope.claim.admission_on === $scope.claim.first_seen_on);

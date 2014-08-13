@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 20140813142448) do
     t.datetime "updated_at"
     t.uuid     "agent_id"
     t.string   "pin"
+    t.string   "specialties",          default: [], array: true
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree

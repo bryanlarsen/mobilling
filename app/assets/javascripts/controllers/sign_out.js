@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.signOut", [])
+angular.module("moBilling.controllers")
 
     .controller("SignOutController", function ($scope, $location) {
         window.localStorage.removeItem("authenticationToken");

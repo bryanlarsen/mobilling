@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers.claimEdit", [])
+angular.module("moBilling.controllers")
 
     .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, claims, Claim, detailsGenerator) {
         // HACK: Do not reload the current template if it is not needed.
@@ -12,7 +12,7 @@ angular.module("moBilling.controllers.claimEdit", [])
         });
         // KCAH
 
-        $scope.claim = claim.toJSON();
+        $scope.claim = claim;
 
         if (!$scope.claim.comments) {
             $scope.claim.comments = [];
@@ -72,7 +72,7 @@ angular.module("moBilling.controllers.claimEdit", [])
             }
         });
 
-        $scope.cancel = function () {
+        function back() {
             var path = {
                 saved: "saved",
                 unprocessed: "submitted",
@@ -83,32 +83,22 @@ angular.module("moBilling.controllers.claimEdit", [])
             }[$scope.claim.status];
 
             $location.path("/claims/" + path).hash("").replace();
-        };
+        }
+
+        $scope.cancel = back;
+
+        function error() {
+            $scope.submitting = false;
+        }
 
         $scope.save = function () {
             $scope.submitting = true;
-            Claim.save($scope.claim, function () {
-                if ($scope.claim.status === "rejected_doctor_attention") {
-                    $location.path("/claims/rejected").hash("").replace();
-                } else {
-                    $location.path("/claims/saved").hash("").replace();
-                }
-            }, function () {
-                $scope.submitting = false;
-            });
+            Claim.save($scope.claim, back, error);
         };
 
         $scope.remove = function () {
             $scope.submitting = true;
-            Claim.remove({ id: $scope.claim.id }, function () {
-                $location.path("/claims/saved").hash("").replace();
-            }, function (error) {
-                if (error.status === 404) {
-                    $location.path("/claims/saved").hash("").replace();
-                } else {
-                    $scope.submitting = false;
-                }
-            });
+            Claim.remove({ id: $scope.claim.id }, back, error);
         };
 
         function showError() {
@@ -130,11 +120,7 @@ angular.module("moBilling.controllers.claimEdit", [])
             if ($scope.form.$valid) {
                 $scope.submitting = true;
                 $scope.claim.status = "unprocessed";
-                Claim.save($scope.claim, function () {
-                    $location.path("/claims/submitted").hash("").replace();
-                }, function () {
-                    $scope.submitting = false;
-                });
+                Claim.save($scope.claim, back, error);
             } else {
                 showError();
             }
@@ -191,23 +177,19 @@ angular.module("moBilling.controllers.claimEdit", [])
             $scope.isGenerateDisabled = angular.equals(generated.sort(sortDetails), existing.sort(sortDetails));
         });
 
-        $scope.isER = function () {
-            return /_er$/.test($scope.claim.consult_type) && !/_non_er$/.test($scope.claim.consult_type);
-        };
-
         $scope.$watchGroup([
             "claim.first_seen_date",
             "claim.consult_type",
             "claim.consult_premium_visit"
         ], function () {
-            var isER, others;
+            var erAffix, others;
 
-            isER = $scope.isER($scope.claim);
+            erAffix = detailsGenerator.erAffix($scope.claim.consult_type);
 
             others = claims.filter(function (claim) {
                 return claim.id !== $scope.claim.id
                     && claim.first_seen_on === $scope.claim.first_seen_on
-                    && $scope.isER($scope.claim) === isER
+                    && detailsGenerator.erAffix(claim.consult_type) === erAffix
                     && claim.consult_premium_visit === $scope.claim.consult_premium_visit;
             });
 

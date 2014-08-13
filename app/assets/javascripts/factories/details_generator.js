@@ -1,4 +1,4 @@
-angular.module("moBilling.factories.detailsGenerator", [])
+angular.module("moBilling.factories")
 
     .factory("detailsGenerator", function () {
         function daysRange(first, last) {
@@ -17,15 +17,26 @@ angular.module("moBilling.factories.detailsGenerator", [])
             return days;
         }
 
-        function firstCode(first) {
+        function firstAffix(first) {
             return first ? "first" : "second";
         }
 
-        function erCode(er) {
-            return er ? "er" : "non_er";
+        function erAffix(consult) {
+            return {
+                general_er:               "er",
+                general_non_er:           "non_er",
+                comprehensive_er:         "er",
+                comprehensive_non_er:     "non_er",
+                limited_er:               "er",
+                limited_non_er:           "non_er",
+                special_er:               "er",
+                special_non_er:           "non_er",
+                on_call_admission_er:     "er",
+                on_call_admission_non_er: "non_er"
+            }[consult];
         }
 
-        function visitCode(type) {
+        function visitAffix(type) {
             return {
                 weekday_office_hours: "office_hours",
                 weekday_day:          "day",
@@ -38,43 +49,57 @@ angular.module("moBilling.factories.detailsGenerator", [])
             }[type];
         }
 
-        function consultCode(type) {
+        function consultCode(specialty, consult) {
             return {
-                general_er:           "A135",
-                general_non_er:       "C135",
-                comprehensive_er:     "A130",
-                comprehensive_non_er: "C130",
-                limited_er:           "A435",
-                limited_non_er:       "C435"
-            }[type];
+                internal_medicine_general_er:             "A135A",
+                internal_medicine_general_non_er:         "C135A",
+                internal_medicine_comprehensive_er:       "A130A",
+                internal_medicine_comprehensive_non_er:   "C130A",
+                internal_medicine_limited_er:             "A435A",
+                internal_medicine_limited_non_er:         "C435A",
+                cardiology_general_er:                    "A605A",
+                cardiology_general_non_er:                "C605A",
+                cardiology_comprehensive_er:              "A600A",
+                cardiology_comprehensive_non_er:          "C600A",
+                cardiology_limited_er:                    "A675A",
+                cardiology_limited_non_er:                "C675A",
+                family_medicine_general_er:               "A005A",
+                family_medicine_general_non_er:           "C005A",
+                family_medicine_special_er:               "A911A",
+                family_medicine_special_non_er:           "C911A",
+                family_medicine_comprehensive_er:         "A912A",
+                family_medicine_comprehensive_non_er:     "C912A",
+                family_medicine_on_call_admission_er:     "A933A",
+                family_medicine_on_call_admission_non_er: "C933A"
+            }[[specialty, consult].join("_")];
         }
 
-        function premiumVisitCode(first, er, type) {
+        function premiumVisitCode(first, consult, visit) {
             return {
-                first_non_er_office_hours:  "C992",
-                first_non_er_day:           "C990",
-                first_non_er_evening:       "C994",
-                first_non_er_holiday:       "C986",
-                first_non_er_night:         "C996",
-                second_non_er_office_hours: "C993",
-                second_non_er_day:          "C991",
-                second_non_er_evening:      "C995",
-                second_non_er_holiday:      "C987",
-                second_non_er_night:        "C997",
-                first_er_office_hours:      "K992",
-                first_er_day:               "K990",
-                first_er_evening:           "K994",
-                first_er_holiday:           "K998",
-                first_er_night:             "K996",
-                second_er_office_hours:     "K993",
-                second_er_day:              "K991",
-                second_er_evening:          "K995",
-                second_er_holiday:          "K999",
-                second_er_night:            "K997"
-            }[[firstCode(first), erCode(er), visitCode(type)].join("_")];
+                first_non_er_office_hours:  "C992A",
+                first_non_er_day:           "C990A",
+                first_non_er_evening:       "C994A",
+                first_non_er_holiday:       "C986A",
+                first_non_er_night:         "C996A",
+                second_non_er_office_hours: "C993A",
+                second_non_er_day:          "C991A",
+                second_non_er_evening:      "C995A",
+                second_non_er_holiday:      "C987A",
+                second_non_er_night:        "C997A",
+                first_er_office_hours:      "K992A",
+                first_er_day:               "K990A",
+                first_er_evening:           "K994A",
+                first_er_holiday:           "K998A",
+                first_er_night:             "K996A",
+                second_er_office_hours:     "K993A",
+                second_er_day:              "K991A",
+                second_er_evening:          "K995A",
+                second_er_holiday:          "K999A",
+                second_er_night:            "K997A"
+            }[[firstAffix(first), erAffix(consult), visitAffix(visit)].join("_")];
         }
 
-        function premiumTravelCode(er, type) {
+        function premiumTravelCode(consult, visit) {
             return {
                 non_er_office_hours: "C961A",
                 non_er_day:          "C960A",
@@ -86,11 +111,44 @@ angular.module("moBilling.factories.detailsGenerator", [])
                 er_evening:          "K962A",
                 er_holiday:          "K963A",
                 er_night:            "K964A"
-            }[[erCode(er), visitCode(type)].join("_")];
+            }[[erAffix(consult), visitAffix(visit)].join("_")];
+        }
+
+        function firstFiveWeeksCode(specialty) {
+            return {
+                internal_medicine: "C132A",
+                cardiology:        "C602A",
+                family_medicine:   "C002A"
+            }[specialty];
+        }
+
+        function sixthToThirteenthWeekInclusiveCode(specialty) {
+            return {
+                internal_medicine: "C137A",
+                cardiology:        "C607A",
+                family_medicine:   "C007A"
+            }[specialty];
+        }
+
+        function afterThirtheenthWeekCode(specialty) {
+            return {
+                internal_medicine: "C139A",
+                cardiology:        "C609A",
+                family_medicine:   "C009A"
+            }[specialty];
+        }
+
+        function concurrentCode(specialty) {
+            return {
+                internal_medicine: "C138A",
+                cardiology:        "C608A",
+                family_medicine:   "C138A" // not defined in client's spec
+            }[specialty];
         }
 
         function detailsGenerator(claim) {
             var daysAfterFirstSeen,
+                specialty = claim.specialty,
                 admissionOffset = 0,
                 admission = claim.admission_on,
                 first = claim.first_seen_on,
@@ -100,7 +158,6 @@ angular.module("moBilling.factories.detailsGenerator", [])
                 visit = claim.consult_premium_visit,
                 premiumFirst = claim.consult_premium_first,
                 travel = claim.consult_premium_travel,
-                er = /_er$/.test(claim.consult_type) && !/_non_er$/.test(claim.consult_type),
                 icu = claim.icu_transfer,
                 discharge = claim.last_seen_discharge,
                 details = [];
@@ -115,69 +172,69 @@ angular.module("moBilling.factories.detailsGenerator", [])
                 daysAfterFirstSeen = daysAfterAdmission - admissionOffset;
 
                 if (day === first && consult) {
-                    details.push({ day: day, code: consultCode(consult) });
+                    details.push({ day: day, code: consultCode(specialty, consult) });
 
                     if (visit) {
                         // visit premium
-                        details.push({ day: day, code: premiumVisitCode(premiumFirst, er, visit) });
+                        details.push({ day: day, code: premiumVisitCode(premiumFirst, consult, visit) });
 
                         if (travel) {
                             // travel premium
-                            details.push({ day: day, code: premiumTravelCode(er, visit) });
+                            details.push({ day: day, code: premiumTravelCode(consult, visit) });
                         }
                     }
 
                     if (admission === first && mrp) {
                         // admission premium
-                        details.push({ day: day, code: "E082" });
+                        details.push({ day: day, code: "E082A" });
                     }
                 } else if (day === last && discharge) {
                     if (mrp) {
-                        details.push({ day: day, code: "C124" });
-                        details.push({ day: day, code: "E083" });
+                        details.push({ day: day, code: "C124A" });
+                        details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterFirstSeen === 0 && icu) {
-                    details.push({ day: day, code: "C142" });
-                    details.push({ day: day, code: "E083" });
+                    details.push({ day: day, code: "C142A" });
+                    details.push({ day: day, code: "E083A" });
                 } else if (daysAfterFirstSeen === 1 && icu) {
-                    details.push({ day: day, code: "C143" });
-                    details.push({ day: day, code: "E083" });
+                    details.push({ day: day, code: "C143A" });
+                    details.push({ day: day, code: "E083A" });
                 } else if (daysAfterAdmission === 1) {
                     if (mrp) {
-                        details.push({ day: day, code: "C122" });
-                        details.push({ day: day, code: "E083" });
+                        details.push({ day: day, code: "C122A" });
+                        details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission === 2) {
                     if (mrp) {
-                        details.push({ day: day, code: "C123" });
-                        details.push({ day: day, code: "E083" });
+                        details.push({ day: day, code: "C123A" });
+                        details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission >= 3 && daysAfterAdmission <= 35) {
                     if (mrp) {
-                        details.push({ day: day, code: "C132" });
-                        details.push({ day: day, code: "E083" });
+                        details.push({ day: day, code: firstFiveWeeksCode(specialty) });
+                        details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission >= 36 && daysAfterAdmission <= 91) {
                     if (mrp) {
-                        details.push({ day: day, code: "C137" });
-                        details.push({ day: day, code: "E083" });
+                        details.push({ day: day, code: sixthToThirteenthWeekInclusiveCode(specialty) });
+                        details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission >= 92) {
                     if (mrp) {
-                        details.push({ day: day, code: "C139" });
-                        details.push({ day: day, code: "E083" });
+                        details.push({ day: day, code: afterThirtheenthWeekCode(specialty) });
+                        details.push({ day: day, code: "E083A" });
                     } else {
-                        details.push({ day: day, code: "C138" });
+                        details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 }
             });
@@ -188,6 +245,10 @@ angular.module("moBilling.factories.detailsGenerator", [])
 
             return details;
         }
+
+        detailsGenerator.erAffix = erAffix;
+        detailsGenerator.consultCode = consultCode;
+        detailsGenerator.premiumVisitCode = premiumVisitCode;
 
         return detailsGenerator;
     });

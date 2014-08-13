@@ -1,4 +1,4 @@
-angular.module("moBilling.factories.serviceCodes", [])
+angular.module("moBilling.factories")
 
     .factory("serviceCodes", function (API_URL, $resource) {
         var serviceCodes = new Bloodhound({

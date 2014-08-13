@@ -1,4 +1,4 @@
-angular.module("moBilling.factories.claim", [])
+angular.module("moBilling.factories")
 
     .factory("Claim", function ($resource, $q, API_URL) {
         var Claim = $resource(API_URL + "/v1/claims/:id.json?auth=:auth", {
@@ -7,19 +7,24 @@ angular.module("moBilling.factories.claim", [])
                 return window.localStorage.getItem("authenticationToken");
             }
         }, {
-            save: {
+            create: {
+                method: "POST"
+            },
+            update: {
                 method: "PUT"
             }
         });
 
-        Claim.getOrInit = function (attributes) {
-            return Claim.get(attributes).$promise.then(null, function (response) {
-                if (response.status === 404) {
-                    return new Claim(attributes);
-                } else {
-                    return $q.reject(response);
-                }
-            });
+        Claim.prototype.$save = function () {
+            var method = this.id ? "$update" : "$create";
+
+            return this[method].apply(this, arguments);
+        };
+
+        Claim.save = function (claim) {
+            var method = claim.id ? "update" : "create";
+
+            return this[method].apply(this, arguments);
         };
 
         return Claim;

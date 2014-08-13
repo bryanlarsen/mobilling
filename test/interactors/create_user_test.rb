@@ -6,6 +6,7 @@ class CreateUserTest < ActiveSupport::TestCase
       name: "Alice",
       email: "alice@example.com",
       password: "secret",
+      specialties: ["internal_medicine"],
       agent_id: create(:admin_user, role: "agent").id
     }
     @interactor = CreateUser.new(attributes)

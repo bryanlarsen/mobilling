@@ -22,11 +22,46 @@
             </div>
             <div class="col-xs-3 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="general_er" id="claim-consult-type-general-er"></mb-switch>
-              <label class="control-label">(A135)</label>
+              <span class="label label-info">{{consultCode(claim.specialty, "general_er")}}</span>
             </div>
             <div class="col-xs-3 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="general_non_er" id="claim-consult-type-general-non-er"></mb-switch>
-              <label class="control-label">(C135)</label>
+              <span class="label label-info">{{consultCode(claim.specialty, "general_non_er")}}</span>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="row" ng-if="claim.specialty === 'family_medicine'">
+            <div class="col-xs-6">
+              <label class="control-label">Special</label>
+            </div>
+            <div class="col-xs-3 text-center">
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="special_er" id="claim-consult-type-special-er"></mb-switch>
+              <span class="label label-info">{{consultCode(claim.specialty, "special_er")}}</span>
+            </div>
+            <div class="col-xs-3 text-center">
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="special_non_er" id="claim-consult-type-special-non-er"></mb-switch>
+              <span class="label label-info">{{consultCode(claim.specialty, "special_non_er")}}</span>
+            </div>
+          </div>
+
+          <div class="form-group row" ng-class="{'has-error': (consultForm.consult_time_in.$dirty || consultForm.consult_time_out.$dirty || submitted) && consultForm.consult_time.$invalid}" ng-if="claim.consult_type === 'special_er' || claim.consult_type === 'special_non_er'">
+            <label for="claim-consult-time-in" class="control-label col-xs-12">Time in</label>
+            <div class="col-xs-12">
+              <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" required></mb-time>
+            </div>
+
+            <label for="claim-consult-time-out" class="control-label col-xs-12">Time out</label>
+            <div class="col-xs-12">
+              <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out" required></mb-time>
+            </div>
+
+            <div class="col-xs-12">
+              <input class="hide" type="number" ng-model="claim.consult_time" name="consult_time" min="50" required>
+              <div ng-messages="consultForm.consult_time.$error" ng-show="submitted">
+                <p class="help-block" ng-message="required">Total time must be equal to or greater than 50 minutes.</p>
+              </div>
             </div>
           </div>
 
@@ -38,15 +73,15 @@
             </div>
             <div class="col-xs-3 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="comprehensive_er" id="claim-consult-type-comprehensive-er"></mb-switch>
-              <label class="control-label">(A130)</label>
+              <span class="label label-info">{{consultCode(claim.specialty, "comprehensive_er")}}</span>
             </div>
             <div class="col-xs-3 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="comprehensive_non_er" id="claim-consult-type-comprehensive-non-er"></mb-switch>
-              <label class="control-label">(C130)</label>
+              <span class="label label-info">{{consultCode(claim.specialty, "comprehensive_non_er")}}</span>
             </div>
           </div>
 
-          <div class="form-group row" ng-class="{'has-error': (consultForm.consult_time_in.$dirty || consultForm.consult_time_out.$dirty || submitted) && consultForm.consult_time.$invalid}" ng-if="isTimeVisible()">
+          <div class="form-group row" ng-class="{'has-error': (consultForm.consult_time_in.$dirty || consultForm.consult_time_out.$dirty || submitted) && consultForm.consult_time.$invalid}" ng-if="claim.consult_type === 'comprehensive_er' || claim.consult_type === 'comprehensive_non_er'">
             <label for="claim-consult-time-in" class="control-label col-xs-12">Time in</label>
             <div class="col-xs-12">
               <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" required></mb-time>
@@ -67,17 +102,17 @@
 
           <br>
 
-          <div class="row">
+          <div class="row" ng-if="claim.specialty === 'internal_medicine' || claim.specialty === 'cardiology'">
             <div class="col-xs-6">
               <label class="control-label">Limited</label>
             </div>
             <div class="col-xs-3 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="limited_er" id="claim-consult-type-limited-er"></mb-switch>
-              <label class="control-label">(A435)</label>
+              <span class="label label-info">{{consultCode(claim.specialty, "limited_er")}}</span>
             </div>
             <div class="col-xs-3 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="limited_non_er" id="claim-consult-type-limited-non-er"></mb-switch>
-              <label class="control-label">(C435)</label>
+              <span class="label label-info">{{consultCode(claim.specialty, "limited_non_er")}}</span>
             </div>
           </div>
 
@@ -118,10 +153,7 @@
               <div class="row form-group" ng-if="claim.consult_premium_travel" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_day' && consultForm.consult_premium_number.$invalid}">
                 <label class="control-label col-xs-12">
                   Day 7:00-17:00
-                  <span ng-if="isER() && claim.consult_premium_first">(K990)</span>
-                  <span ng-if="isER() && !claim.consult_premium_first">(K991)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C990)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C991)</span>
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_day")}}</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day"></mb-switch>
@@ -138,10 +170,7 @@
               <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_office_hours' && consultForm.consult_premium_number.$invalid}">
                 <label class="control-label col-xs-12">
                   Office hours 7:00-17:00
-                  <span ng-if="isER() && claim.consult_premium_first">(K992)</span>
-                  <span ng-if="isER() && !claim.consult_premium_first">(K993)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C992)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C993)</span>
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_office_hours")}}</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_office_hours" id="claim-consult-premium-visit-weekday-office-hours"></mb-switch>
@@ -158,10 +187,7 @@
               <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_evening' && consultForm.consult_premium_number.$invalid}">
                 <label class="control-label col-xs-12">
                   Evening 17:00-0:00
-                  <span ng-if="isER() && claim.consult_premium_first">(K994)</span>
-                  <span ng-if="isER() && !claim.consult_premium_first">(K995)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C994)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C995)</span>
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_evening")}}</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_evening" id="claim-consult-premium-visit-weekday-evening"></mb-switch>
@@ -178,10 +204,7 @@
               <div class="row">
                 <label class="control-label col-xs-12">
                   Night 0:00-7:00
-                  <span ng-if="isER() && claim.consult_premium_first">(K996)</span>
-                  <span ng-if="isER() && !claim.consult_premium_first">(K997)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C996)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C997)</span>
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_night")}}</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night"></mb-switch>
@@ -193,10 +216,7 @@
               <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekend_day' && consultForm.consult_premium_number.$invalid}">
                 <label class="control-label col-xs-12">
                   Weekend 7:00-0:00
-                  <span ng-if="isER() && claim.consult_premium_first">(K998)</span>
-                  <span ng-if="isER() && !claim.consult_premium_first">(K999)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C986)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C987)</span>
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_day")}}</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_day" id="claim-consult-premium-visit-weekend-day"></mb-switch>
@@ -213,10 +233,7 @@
               <div class="row">
                 <label class="control-label col-xs-12">
                   Night 0:00-7:00
-                  <span ng-if="isER() && claim.consult_premium_first">(K996)</span>
-                  <span ng-if="isER() && !claim.consult_premium_first">(K997)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C996)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C997)</span>
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_night")}}</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_night" id="claim-consult-premium-visit-weekend-night"></mb-switch>
@@ -228,10 +245,7 @@
               <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'holiday_day' && consultForm.consult_premium_number.$invalid}">
                 <label class="control-label col-xs-12">
                   Holiday 7:00-0:00
-                  <span ng-if="isER() && claim.consult_premium_first">(K998)</span>
-                  <span ng-if="isER() && !claim.consult_premium_first">(K999)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C986)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C987)</span>
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_day")}}</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_day" id="claim-consult-premium-visit-holiday-day"></mb-switch>
@@ -248,10 +262,7 @@
               <div class="row">
                 <label class="control-label col-xs-12">
                   Night 0:00-7:00
-                  <span ng-if="isER() && claim.consult_premium_first">(K996)</span>
-                  <span ng-if="isER() && !claim.consult_premium_first">(K997)</span>
-                  <span ng-if="!isER() && claim.consult_premium_first">(C996)</span>
-                  <span ng-if="!isER() && !claim.consult_premium_first">(C997)</span>
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_night")}}</span>
                 </label>
                 <div class="col-xs-12">
                   <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night"></mb-switch>
