@@ -40,6 +40,7 @@ class Claim::SubmissionTest < ActiveSupport::TestCase
 HEBV03D201408100000000000000001846800                                          \r
 HEE0000000000000                                                               \r
 EOS
+    assert s.submitted_fee == 0
   end
 
   test 'c-section assist' do
@@ -51,6 +52,7 @@ HEH9876543217HO1914122599999999HCPP      1681                                  \
 HETP018B  0168561420140811                                                     \r
 HEE0001000000001                                                               \r
 EOS
+    assert s.submitted_fee == BigDecimal.new("168.56")
   end
 
   test 'with overtime' do
@@ -69,6 +71,7 @@ HETE401B  0126421420140810                                                     \
 HETC999B  0100000120140810                                                     \r
 HEE0001000000003                                                               \r
 EOS
+    assert s.submitted_fee == BigDecimal.new("394.98")
   end
 
   test 'that submission_id gets saved' do
@@ -77,14 +80,18 @@ EOS
     s.save!
     c=Claim.find_by(number: 99999999)
     assert c.submission_id == s.id
+    assert s.submitted_fee == BigDecimal.new("168.56")
   end
 
   test 'filename' do
+    create(:claim, @claim_details)
     s = Submission.generate(@user, DateTime.new(2014,8,10))
     assert s.filename == 'HH018468.001', s.filename
     s.save!
+    assert s.submitted_fee == BigDecimal.new("168.56")
     s2 = Submission.generate(@user, DateTime.new(2014,8,10))
     assert s2.filename == 'HH018468.002', s2.filename
+    assert s2.submitted_fee == 0
   end
 
 

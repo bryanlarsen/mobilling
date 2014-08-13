@@ -13,6 +13,11 @@
           <th>
             Claims
           </th>
+          <th>
+            Fee
+          </th>
+          <th>
+          </th>
         </tr>
         <% @submissions.each do |submission| %>
         <tr>
@@ -21,6 +26,9 @@
           </td>
           <th>
             <%= submission.claims.length %>
+          </th>
+          <th>
+            <%= submission.submitted_fee %>
           </th>
           <th>
             <%= link_to "Download", "#{admin_user_submission_path(id: submission, user_id: @user)}/#{submission.filename}", download: true, "data-no-turbolink" => true %>

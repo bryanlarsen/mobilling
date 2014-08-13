@@ -1,3 +1,5 @@
+require "#{Rails.root}/lib/record_builder.rb"
+
 class Submission < EdtFile
   has_many :claims
 
@@ -35,5 +37,27 @@ class Submission < EdtFile
     submission.generate_filename('H', user, provider, timestamp)
 
     submission
+  end
+
+  def claim_records(claim)
+    records = []
+    in_claim = false
+    Record.process_batch(contents).each do |record|
+      if record.kind_of?(ClaimHeaderRecord)
+        if record['Accounting Number'].to_i == claim.number.to_i
+          in_claim = true
+          records << record
+        else
+          in_claim = false
+        end
+      elsif (record.kind_of?(ClaimHeaderRMBRecord) || record.kind_of?(ItemRecord)) && in_claim
+        records << record
+      end
+    end
+    records
+  end
+
+  def submitted_fee
+    claims.reduce(0) { |memo, claim| claim.submitted_fee+memo }
   end
 end

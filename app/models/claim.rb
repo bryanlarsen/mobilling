@@ -197,4 +197,36 @@ class Claim < ActiveRecord::Base
       r.to_s+details_records
     end
   end
+
+  # we get information like total fee from the batch files rather than
+  # calculating it because these calculations can change over time
+  # so make sure a claim is never changed after it is submitted.   If
+  # you need to change a claim, clone it first
+  def submitted_details
+    return @submitted_details if @submitted_details
+
+    @submitted_details = { 'daily_details' => [] }
+    if submission
+      records = submission.claim_records(self)
+    else
+      records = Record.process_batch(to_record)
+    end
+
+    records.each do |record|
+      if record.kind_of?(ClaimHeaderRecord) || record.kind_of?(ClaimHeaderRMBRecord)
+        @submitted_details.merge(record.fields)
+      elsif record.kind_of?(ItemRecord)
+        @submitted_details['daily_details'] << record.fields
+      end
+    end
+
+    @submitted_details
+  end
+
+  def submitted_fee
+    submitted_details['daily_details']
+      .reduce(BigDecimal.new(0)) { |sum, dets|
+                sum += dets['Fee Submitted'] / BigDecimal.new(100)
+              }
+  end
 end
