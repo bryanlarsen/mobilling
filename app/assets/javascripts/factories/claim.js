@@ -22,7 +22,7 @@ angular.module("moBilling.factories")
         };
 
         Claim.save = function (claim) {
-            var method = this.id ? "update" : "create";
+            var method = claim.id ? "update" : "create";
 
             return this[method].apply(this, arguments);
         };
