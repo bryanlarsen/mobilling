@@ -12,7 +12,7 @@ angular.module("moBilling.controllers")
         });
         // KCAH
 
-        $scope.claim = claim.toJSON();
+        $scope.claim = claim;
 
         if (!$scope.claim.comments) {
             $scope.claim.comments = [];
@@ -72,7 +72,7 @@ angular.module("moBilling.controllers")
             }
         });
 
-        $scope.cancel = function () {
+        function back() {
             var path = {
                 saved: "saved",
                 unprocessed: "submitted",
@@ -83,32 +83,26 @@ angular.module("moBilling.controllers")
             }[$scope.claim.status];
 
             $location.path("/claims/" + path).hash("").replace();
-        };
+        }
+
+        $scope.cancel = back;
+
+        function error() {
+            $scope.submitting = false;
+        }
 
         $scope.save = function () {
             $scope.submitting = true;
-            Claim.save($scope.claim, function () {
-                if ($scope.claim.status === "rejected_doctor_attention") {
-                    $location.path("/claims/rejected").hash("").replace();
-                } else {
-                    $location.path("/claims/saved").hash("").replace();
-                }
-            }, function () {
-                $scope.submitting = false;
-            });
+            if ($scope.claim.id) {
+                Claim.update($scope.claim, back, error);
+            } else {
+                Claim.save($scope.claim, back, error);
+            }
         };
 
         $scope.remove = function () {
             $scope.submitting = true;
-            Claim.remove({ id: $scope.claim.id }, function () {
-                $location.path("/claims/saved").hash("").replace();
-            }, function (error) {
-                if (error.status === 404) {
-                    $location.path("/claims/saved").hash("").replace();
-                } else {
-                    $scope.submitting = false;
-                }
-            });
+            Claim.remove({ id: $scope.claim.id }, back, error);
         };
 
         function showError() {
@@ -130,11 +124,11 @@ angular.module("moBilling.controllers")
             if ($scope.form.$valid) {
                 $scope.submitting = true;
                 $scope.claim.status = "unprocessed";
-                Claim.save($scope.claim, function () {
-                    $location.path("/claims/submitted").hash("").replace();
-                }, function () {
-                    $scope.submitting = false;
-                });
+                if ($scope.claim.id) {
+                    Claim.update($scope.claim, back, error);
+                } else {
+                    Claim.save($scope.claim, back, error);
+                }
             } else {
                 showError();
             }

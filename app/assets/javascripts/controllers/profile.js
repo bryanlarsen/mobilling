@@ -2,7 +2,7 @@ angular.module("moBilling.controllers")
 
     .controller("ProfileController", function ($scope, User, user, agents, $location) {
         $scope.agents = agents;
-        $scope.user = user.toJSON();
+        $scope.user = user;
 
         function success() {
             $location.path("/claims/saved").hash("").replace();

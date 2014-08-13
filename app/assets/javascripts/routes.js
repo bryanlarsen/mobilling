@@ -103,8 +103,6 @@ angular.module("moBilling")
                     return Claim.query().$promise;
                 }
             }
-            // templateUrl: "loading.html",
-            // controller: "ClaimNewController"
         });
 
         $routeProvider.when("/claims/:claim_id/edit", {
@@ -112,7 +110,7 @@ angular.module("moBilling")
             controller: "ClaimEditController",
             resolve: {
                 claim: function ($route, Claim) {
-                    return Claim.getOrInit({ id: $route.current.params.claim_id });
+                    return Claim.get({ id: $route.current.params.claim_id });
                 },
                 claims: function (Claim) {
                     return Claim.query().$promise;
