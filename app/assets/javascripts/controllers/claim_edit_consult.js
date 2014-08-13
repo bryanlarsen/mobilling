@@ -1,6 +1,9 @@
 angular.module("moBilling.controllers")
 
-    .controller("ClaimEditConsultController", function ($scope, dayType) {
+    .controller("ClaimEditConsultController", function ($scope, dayType, detailsGenerator) {
+        $scope.consultCode = detailsGenerator.consultCode;
+        $scope.premiumVisitCode = detailsGenerator.premiumVisitCode;
+
         $scope.$watch("claim.first_seen_on", function (first_seen_on) {
             if (first_seen_on) {
                 $scope.dayType = dayType(first_seen_on);

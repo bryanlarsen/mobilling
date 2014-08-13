@@ -17,15 +17,22 @@ angular.module("moBilling.factories")
             return days;
         }
 
-        function firstCode(first) {
+        function firstAffix(first) {
             return first ? "first" : "second";
         }
 
-        function erCode(er) {
-            return er ? "er" : "non_er";
+        function erAffix(consult) {
+            return {
+                general_er:           "er",
+                general_non_er:       "non_er",
+                comprehensive_er:     "er",
+                comprehensive_non_er: "non_er",
+                limited_er:           "er",
+                limited_non_er:       "non_er"
+            }[consult];
         }
 
-        function visitCode(type) {
+        function visitAffix(type) {
             return {
                 weekday_office_hours: "office_hours",
                 weekday_day:          "day",
@@ -38,7 +45,7 @@ angular.module("moBilling.factories")
             }[type];
         }
 
-        function consultCode(specialty, type) {
+        function consultCode(specialty, consult) {
             return {
                 internal_medicine_general_er:           "A135A",
                 internal_medicine_general_non_er:       "C135A",
@@ -52,10 +59,10 @@ angular.module("moBilling.factories")
                 cardiology_comprehensive_non_er:        "C600A",
                 cardiology_limited_er:                  "A675A",
                 cardiology_limited_non_er:              "C675A"
-            }[[specialty, type].join("_")];
+            }[[specialty, consult].join("_")];
         }
 
-        function premiumVisitCode(first, er, type) {
+        function premiumVisitCode(first, consult, visit) {
             return {
                 first_non_er_office_hours:  "C992A",
                 first_non_er_day:           "C990A",
@@ -77,10 +84,10 @@ angular.module("moBilling.factories")
                 second_er_evening:          "K995A",
                 second_er_holiday:          "K999A",
                 second_er_night:            "K997A"
-            }[[firstCode(first), erCode(er), visitCode(type)].join("_")];
+            }[[firstAffix(first), erAffix(consult), visitAffix(visit)].join("_")];
         }
 
-        function premiumTravelCode(er, type) {
+        function premiumTravelCode(consult, visit) {
             return {
                 non_er_office_hours: "C961A",
                 non_er_day:          "C960A",
@@ -92,7 +99,7 @@ angular.module("moBilling.factories")
                 er_evening:          "K962A",
                 er_holiday:          "K963A",
                 er_night:            "K964A"
-            }[[erCode(er), visitCode(type)].join("_")];
+            }[[erAffix(consult), visitAffix(visit)].join("_")];
         }
 
         function firstFiveWeeksCode(specialty) {
@@ -135,12 +142,9 @@ angular.module("moBilling.factories")
                 visit = claim.consult_premium_visit,
                 premiumFirst = claim.consult_premium_first,
                 travel = claim.consult_premium_travel,
-                er = /_er$/.test(claim.consult_type) && !/_non_er$/.test(claim.consult_type),
                 icu = claim.icu_transfer,
                 discharge = claim.last_seen_discharge,
                 details = [];
-
-            console.log(claim);
 
             daysRange(admission, last).forEach(function (day, daysAfterAdmission) {
                 // no codes before first seen date
@@ -156,11 +160,11 @@ angular.module("moBilling.factories")
 
                     if (visit) {
                         // visit premium
-                        details.push({ day: day, code: premiumVisitCode(premiumFirst, er, visit) });
+                        details.push({ day: day, code: premiumVisitCode(premiumFirst, consult, visit) });
 
                         if (travel) {
                             // travel premium
-                            details.push({ day: day, code: premiumTravelCode(er, visit) });
+                            details.push({ day: day, code: premiumTravelCode(consult, visit) });
                         }
                     }
 
@@ -225,6 +229,10 @@ angular.module("moBilling.factories")
 
             return details;
         }
+
+        detailsGenerator.erAffix = erAffix;
+        detailsGenerator.consultCode = consultCode;
+        detailsGenerator.premiumVisitCode = premiumVisitCode;
 
         return detailsGenerator;
     });
