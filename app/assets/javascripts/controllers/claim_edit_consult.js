@@ -27,7 +27,7 @@ angular.module("moBilling.controllers")
         });
 
         $scope.isTimeVisible = function () {
-            return $scope.claim.consult_type && $scope.claim.consult_type.indexOf("comprehensive") === 0;
+            return ["comprehensive_er", "comprehensive_non_er", "special_er", "special_non_er"].indexOf($scope.claim.consult_type) !== -1;
         };
 
         $scope.$watch($scope.isTimeVisible, function (isTimeVisible) {

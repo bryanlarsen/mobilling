@@ -23,12 +23,16 @@ angular.module("moBilling.factories")
 
         function erAffix(consult) {
             return {
-                general_er:           "er",
-                general_non_er:       "non_er",
-                comprehensive_er:     "er",
-                comprehensive_non_er: "non_er",
-                limited_er:           "er",
-                limited_non_er:       "non_er"
+                general_er:               "er",
+                general_non_er:           "non_er",
+                comprehensive_er:         "er",
+                comprehensive_non_er:     "non_er",
+                limited_er:               "er",
+                limited_non_er:           "non_er",
+                special_er:               "er",
+                special_non_er:           "non_er",
+                on_call_admission_er:     "er",
+                on_call_admission_non_er: "non_er"
             }[consult];
         }
 
@@ -47,18 +51,26 @@ angular.module("moBilling.factories")
 
         function consultCode(specialty, consult) {
             return {
-                internal_medicine_general_er:           "A135A",
-                internal_medicine_general_non_er:       "C135A",
-                internal_medicine_comprehensive_er:     "A130A",
-                internal_medicine_comprehensive_non_er: "C130A",
-                internal_medicine_limited_er:           "A435A",
-                internal_medicine_limited_non_er:       "C435A",
-                cardiology_general_er:                  "A605A",
-                cardiology_general_non_er:              "C605A",
-                cardiology_comprehensive_er:            "A600A",
-                cardiology_comprehensive_non_er:        "C600A",
-                cardiology_limited_er:                  "A675A",
-                cardiology_limited_non_er:              "C675A"
+                internal_medicine_general_er:             "A135A",
+                internal_medicine_general_non_er:         "C135A",
+                internal_medicine_comprehensive_er:       "A130A",
+                internal_medicine_comprehensive_non_er:   "C130A",
+                internal_medicine_limited_er:             "A435A",
+                internal_medicine_limited_non_er:         "C435A",
+                cardiology_general_er:                    "A605A",
+                cardiology_general_non_er:                "C605A",
+                cardiology_comprehensive_er:              "A600A",
+                cardiology_comprehensive_non_er:          "C600A",
+                cardiology_limited_er:                    "A675A",
+                cardiology_limited_non_er:                "C675A",
+                family_medicine_general_er:               "A005A",
+                family_medicine_general_non_er:           "C005A",
+                family_medicine_special_er:               "A911A",
+                family_medicine_special_non_er:           "C911A",
+                family_medicine_comprehensive_er:         "A912A",
+                family_medicine_comprehensive_non_er:     "C912A",
+                family_medicine_on_call_admission_er:     "A933A",
+                family_medicine_on_call_admission_non_er: "C933A"
             }[[specialty, consult].join("_")];
         }
 
@@ -105,28 +117,32 @@ angular.module("moBilling.factories")
         function firstFiveWeeksCode(specialty) {
             return {
                 internal_medicine: "C132A",
-                cardiology:        "C602A"
+                cardiology:        "C602A",
+                family_medicine:   "C002A"
             }[specialty];
         }
 
         function sixthToThirteenthWeekInclusiveCode(specialty) {
             return {
                 internal_medicine: "C137A",
-                cardiology:        "C607A"
+                cardiology:        "C607A",
+                family_medicine:   "C007A"
             }[specialty];
         }
 
         function afterThirtheenthWeekCode(specialty) {
             return {
                 internal_medicine: "C139A",
-                cardiology:        "C609A"
+                cardiology:        "C609A",
+                family_medicine:   "C009A"
             }[specialty];
         }
 
         function concurrentCode(specialty) {
             return {
                 internal_medicine: "C138A",
-                cardiology:        "C608A"
+                cardiology:        "C608A",
+                family_medicine:   "C138A" // not defined in client's spec
             }[specialty];
         }
 
