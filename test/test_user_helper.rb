@@ -90,6 +90,10 @@ module Test
       fill_in(*args)
       find("body").click
     end
+
+    def within_list_item(name, &block)
+      within(:xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' list-group-item ') and contains(., '#{name}')]/..", &block)
+    end
   end
 
   class Guest < User

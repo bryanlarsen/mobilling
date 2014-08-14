@@ -50,8 +50,8 @@
               <span ng-if="claim.number">of {{claim.number}}</span>
               <span ng-if="claim.patient_name">of {{claim.patient_name}}</span>
               created on {{claim.created_at | date:"yyyy-MM-dd"}}
-              <div class="pull-right" ng-if="claim.status === 'saved'">
-                <button class="btn btn-danger btn-xs" ng-click="removeConfirm($event, claim)" target="remove" toggle>
+              <div class="pull-right">
+                <button class="btn btn-danger btn-xs" ng-click="removeConfirm($event, claim)" target="remove" value="remove" ng-if="claim.status === 'saved'" toggle>
                   <i class="fa fa-trash-o"></i>
                 </button>
                 &nbsp;
