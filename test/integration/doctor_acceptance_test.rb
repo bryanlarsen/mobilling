@@ -10,7 +10,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")
     @doctor.click_on("Save")
-    @doctor.click_on("Save as draft")
     assert @doctor.see?("Alice")
   end
 
@@ -32,7 +31,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
     @doctor.click_link_with_text("Daily Details")
     @doctor.click_on("Generate codes")
-    @doctor.click_on("Save")
     @doctor.click_on("Submit")
     assert @doctor.see?("Alice")
   end
@@ -44,7 +42,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Alice")
     @doctor.fill_in("Patient name", with: "Bob")
     @doctor.click_on("Save")
-    @doctor.click_on("Save as draft")
     assert @doctor.see?("Bob")
   end
 
@@ -52,7 +49,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")
     @doctor.click_on("Save")
-    @doctor.click_on("Save as draft")
     @doctor.click_on("Alice")
     @doctor.click_on("Save")
     @doctor.click_on("Delete")
@@ -78,7 +74,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
     @doctor.fill_in_and_blur("Time in", with: "12:00")
     @doctor.fill_in_and_blur("Time out", with: "13:15")
-    @doctor.click_on("Save")
     @doctor.click_on("Submit")
     @doctor.click_link_with_text("Consult")
     assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
@@ -90,7 +85,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
     @doctor.fill_in("Time in", with: "17:00")
     @doctor.fill_in("Time out", with: "17:45")
-    @doctor.click_on("Save")
     @doctor.click_on("Submit")
     @doctor.click_link_with_text("Consult")
     assert @doctor.see?("Total time must be equal to or greater than 75 minutes.")
@@ -219,7 +213,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
       @doctor.click_element_with_id("is-premium-visible")
       @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
       @doctor.click_on("Save")
-      @doctor.click_on("Save as draft")
     end
     @doctor.click_on("New")
     @doctor.fill_in_and_blur("Admission date", with: "2014-08-11")
