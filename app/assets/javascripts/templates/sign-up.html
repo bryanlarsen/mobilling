@@ -59,7 +59,7 @@
 
                 <div class="form-group row" ng-class="{'has-error': (form.password_confirmation.$dirty || submitted) && form.password_confirmation.$invalid}">
                   <div class="form-control-wrapper col-xs-12">
-                    <input type="password" name="password_confirmation" ng-model="user.password_confirmation" class="form-control input-lg" id="user-password-confirmation" placeholder="Confirm password" mb-confirmation="user.password" required>
+                    <input type="password" name="password_confirmation" ng-model="user.password_confirmation" class="form-control input-lg" id="user-password-confirmation" placeholder="Confirm password" ui-validate="{confirmation: '$value === user.password'}" ui-validate-watch="'user.password'" required>
                     <div ng-messages="form.password_confirmation.$error" ng-show="submitted">
                       <p class="help-block" ng-message="required">is missing</p>
                       <p class="help-block" ng-message="confirmation">does not match password</p>

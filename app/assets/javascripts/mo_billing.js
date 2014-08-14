@@ -16,6 +16,7 @@ angular.module("moBilling", [
     "siyfion.sfTypeahead",
     "ui.inflector",
     "ui.unique",
+    "ui.validate",
     "ngMessages",
     "ngResource",
     "ngRoute",
