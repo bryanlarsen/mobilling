@@ -1,7 +1,7 @@
 require "#{Rails.root}/lib/record_builder.rb"
 
 class Submission < EdtFile
-  has_many :claims
+  has_many :claims, inverse_of: :submission
 
   def self.generate(user, timestamp=nil)
     # assumptions
@@ -62,6 +62,10 @@ class Submission < EdtFile
     claims.reduce(0) { |memo, claim| claim.submitted_fee+memo }
   end
 
+  def paid_fee
+    claims.reduce(0) { |memo, claim| claim.paid_fee+memo }
+  end
+
   # upload files
   def process!
     Record.process_batch(contents).each {|record|
@@ -72,10 +76,13 @@ class Submission < EdtFile
         self.batch_id = record.to_s[7..18]
       when record.kind_of?(ClaimHeaderRecord)
         self.claims << Claim.new(user_id: user_id).from_record(record)
+        self.claims[-1].save!
       when record.kind_of?(ClaimHeaderRMBRecord)
         self.claims[-1].process_rmb_record(record)
+        self.claims[-1].save!
       when record.kind_of?(ItemRecord)
         self.claims[-1].process_item(record)
+        self.claims[-1].save!
       when record.kind_of?(BatchTrailerRecord)
         nil
       else

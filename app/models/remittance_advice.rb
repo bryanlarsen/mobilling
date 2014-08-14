@@ -74,7 +74,7 @@ class RemittanceAdvice < EdtFile
 
   def claim_details(claim)
     memo
-    return {} if @claim_records[claim.id].nil?
+    return nil if @claim_records[claim.id].nil?
     { 'items' => @item_records[claim.id].map(&:fields) }.merge(@claim_records[claim.id].fields)
   end
 end

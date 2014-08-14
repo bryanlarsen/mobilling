@@ -11,7 +11,7 @@ class Claim < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :photo
-  has_many :comments
+  has_many :comments, inverse_of: :claim
 
   belongs_to :submission
   belongs_to :batch_acknowledgment
@@ -203,6 +203,7 @@ class Claim < ActiveRecord::Base
   end
 
   def from_record(record)
+    details_will_change!
     if record['Health Number'] != 0
       details['patient_name'] = "Unknown Name, ON #{record['Health Number']}#{record['Version Code']}, #{record['Patient\'s Birthdate']}"
     else
@@ -224,10 +225,12 @@ class Claim < ActiveRecord::Base
   end
 
   def process_rmb_record(record)
+    details_will_change!
     details['patient_name'] = record["Patient's Last Name"].titleize + ' ' + record["Patient's First Name"].titleize + ", #{record['Registration Number']}, #{details['patient_name']}, " + record["Patient's Sex"].to_i == 1 ? 'M' : 'F'
   end
 
   def process_item(record)
+    details_will_change!
     details['daily_details'] << {
       "code" => record['Service Code'],
       "day" => record['Service Date'].strftime("%Y-%m-%d"),
@@ -267,11 +270,12 @@ class Claim < ActiveRecord::Base
   end
 
   def remittance_details
-    return {} if remittance_advice_id.nil?
+    return nil if remittance_advice_id.nil?
     remittance_advice.claim_details(self)
   end
 
   def paid_fee
+    return 0 if remittance_details.nil?
     remittance_details['items'].reduce(0) { |memo, dets|
       memo += dets['Amount Paid'] / BigDecimal.new(100)
     }
