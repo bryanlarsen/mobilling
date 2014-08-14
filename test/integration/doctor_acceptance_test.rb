@@ -56,7 +56,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "has 'NEW' option on 'Submitted' page" do
-    @doctor.open_sidebar
     @doctor.click_link_with_text("Submitted")
     assert @doctor.see?("NEW")
   end
@@ -150,13 +149,11 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "can lock screen" do
-    @doctor.open_sidebar
-    @doctor.click_on("Profile")
+    @doctor.navigate_to("Profile")
     @doctor.fill_in("Screen lock PIN", with: "1234")
     @doctor.click_on("Save")
     @doctor.visit(root_path)
-    @doctor.open_sidebar
-    @doctor.click_on("Lock screen")
+    @doctor.navigate_to("Lock screen")
     @doctor.fill_in("Pin", with: "1234")
     @doctor.click_on("Unlock")
     assert @doctor.see?("MENU")
