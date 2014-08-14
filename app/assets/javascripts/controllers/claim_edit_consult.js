@@ -4,6 +4,11 @@ angular.module("moBilling.controllers")
         $scope.consultCode = detailsGenerator.consultCode;
         $scope.premiumVisitCode = detailsGenerator.premiumVisitCode;
 
+        // on_call_admission_er is default in family_medicine
+        if ($scope.isConsultVisible() && $scope.claim.specialty === "family_medicine" && !$scope.claim.consult_type) {
+            $scope.claim.consult_type = "on_call_admission_er";
+        }
+
         $scope.$watch("claim.first_seen_on", function (first_seen_on) {
             if (first_seen_on) {
                 $scope.dayType = dayType(first_seen_on);
