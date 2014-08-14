@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resources :submissions, only: %i[index create show] do
         get ':filename', action: 'show', on: :member
       end
+      resources :edt_files, only: %i[create]
     end
     root to: redirect("/admin/dashboard")
   end

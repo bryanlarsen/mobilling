@@ -22,6 +22,7 @@ class Submission < EdtFile
     r['MOH Office Code']=office_code
     r['Specialty']=specialty
     submission.contents = r.to_s
+    submission.batch_id = submission.contents[7..18]
 
     num_records = 0
     claims.each do |claim|
@@ -60,4 +61,29 @@ class Submission < EdtFile
   def submitted_fee
     claims.reduce(0) { |memo, claim| claim.submitted_fee+memo }
   end
+
+  # upload files
+  def process!
+    Record.process_batch(contents).each {|record|
+      case
+      when record.kind_of?(BatchHeaderRecord)
+        #self.provider = Provider.find_by_code(record['Health Care Provider'])
+        #self.group = Group.find_by_code(record['Group Number'])
+        self.batch_id = record.to_s[7..18]
+      when record.kind_of?(ClaimHeaderRecord)
+        self.claims << Claim.new(user_id: user_id).from_record(record)
+      when record.kind_of?(ClaimHeaderRMBRecord)
+        self.claims[-1].process_rmb_record(record)
+      when record.kind_of?(ItemRecord)
+        self.claims[-1].process_item(record)
+      when record.kind_of?(BatchTrailerRecord)
+        nil
+      else
+        raise InvalidValue, record
+      end
+    }
+    save!
+    self
+  end
+
 end

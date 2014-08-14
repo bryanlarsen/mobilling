@@ -4,6 +4,11 @@
     <form action="<%= admin_user_submissions_path %>" method="post" class="form-horizontal"/>
       <%= icon_submit "submit", "Create new Submission", class: "btn btn-primary", name: "" %>
     </form>
+    <form action="<%= admin_user_edt_files_path %>" method="post" class="form-horizontal" enctype="multipart/form-data"/>
+      <input type='hidden' name='user_id' value="#{@user.id}"/>
+      <%= file_field_tag 'contents' %>
+      <%= icon_submit "submit", "Upload", class: "btn btn-primary", name: "" %>
+    </form>
     <div class="col-md-12">
       <table class="table table-striped">
         <tr>

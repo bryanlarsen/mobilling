@@ -14,6 +14,10 @@ class Claim < ActiveRecord::Base
   has_many :comments
 
   belongs_to :submission
+  belongs_to :batch_acknowledgment
+  belongs_to :error_report
+  belongs_to :remittance_advice
+#  belongs_to :reclaim, class_name: "Claim"
 
   def self.fee_and_units(service_date, service_code, minutes, fee)
     # adjust based on service_date if unit fee changes
@@ -198,6 +202,38 @@ class Claim < ActiveRecord::Base
     end
   end
 
+  def from_record(record)
+    if record['Health Number'] != 0
+      details['patient_name'] = "Unknown Name, ON #{record['Health Number']}#{record['Version Code']}, #{record['Patient\'s Birthdate']}"
+    else
+      details['patient_name'] = record["Patient's Birthdate"]
+      # the rest will be on the RMB record
+    end
+    #self.payment_program = PaymentProgram.find_by_code(record['Payment Program'])
+    #self.payee = Payee.find_by_code(record['Payee'])
+    details['referring_physician'] = record['Referring Health Care Provider Number']
+    details['hospital'] = record['Master Number']
+    #record['Service Location Indicator'].strip != ''
+    #manual_review = (record['Manual Review Indicator']=='Y')
+    #record['Referring Laboratory License Number']
+    details['admission_on'] = record["In-Patient Admission Date"].strftime("%Y-%m-%d") if record["In-Patient Admission Date"]
+    self.number = record["Accounting Number"].to_i
+    details['daily_details'] = []
+    self.status = 'unprocessed'
+    self
+  end
+
+  def process_rmb_record(record)
+    details['patient_name'] = record["Patient's Last Name"].titleize + ' ' + record["Patient's First Name"].titleize + ", #{record['Registration Number']}, #{details['patient_name']}, " + record["Patient's Sex"].to_i == 1 ? 'M' : 'F'
+  end
+
+  def process_item(record)
+    details['daily_details'] << {
+      "code" => record['Service Code'],
+      "day" => record['Service Date'].strftime("%Y-%m-%d"),
+    }
+  end
+
   # we get information like total fee from the batch files rather than
   # calculating it because these calculations can change over time
   # so make sure a claim is never changed after it is submitted.   If
@@ -228,5 +264,16 @@ class Claim < ActiveRecord::Base
       .reduce(BigDecimal.new(0)) { |sum, dets|
                 sum += dets['Fee Submitted'] / BigDecimal.new(100)
               }
+  end
+
+  def remittance_details
+    return {} if remittance_advice_id.nil?
+    remittance_advice.claim_details(self)
+  end
+
+  def paid_fee
+    remittance_details['items'].reduce(0) { |memo, dets|
+      memo += dets['Amount Paid'] / BigDecimal.new(100)
+    }
   end
 end

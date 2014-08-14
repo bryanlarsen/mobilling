@@ -107,10 +107,10 @@ end
 # currency
 class C < N
   def parse(record)
-    Dollars.new(super(record)) / BigDecimal("100")
+    BigDecimal.new(super(record)) / BigDecimal("100")
   end
 end
-    
+
 
 # all caps alphabetic
 class A < FieldDefinition
@@ -445,8 +445,7 @@ class ReconciliationClaimItemHeader < Record
     'Service Code' ,                 X.new(26, 5, true, true),
     'Reserved for MOH Use A' ,       S.new(31, 1, false, false),
     'Amount Submitted' ,             N.new(32, 6, true, true),
-    'Amount Paid' ,                  N.new(38, 6, true, true),
-    'Amount Paid Sign' ,             X.new(44, 1, true, true),
+    'Amount Paid' ,                  N.new(38, 6, true, true, :sign => 44),
     'Explanatory Code' ,             X.new(45, 2, true, true),
     'Reserved for MOH Use B' ,       S.new(47, 33, false, false)
   ]
@@ -461,8 +460,7 @@ class ReconciliationBalanceForward < Record
   @@field_definitions = OrderedHash[
     'Transaction Identifier' ,       A.new(1, 2, false, false, :value => 'HR'),
     'Record Identification' ,        X.new(3, 1, false, false, :value => '6'),
-    'Amount Brought Forward - Claim\'s Adjustment'      , N.new(4, 9, true, true),
-    'Amount Brought Forward - Claim\'s Adjustment Sign' , X.new(13, 1, true, true),
+    'Amount Brought Forward - Claim\'s Adjustment'      , N.new(4, 9, true, true, :sign => 13),
     'Amount Brought Forward - Advances'                 , N.new(14, 9, true, true, :sign => 23),
     'Amount Brought Forward - Reductions'               , N.new(24, 9, true, true, :sign => 33),
     'Amount Brought Forward - Other Deductions'         , N.new(34, 9, true, true, :sign => 43),
