@@ -47,7 +47,7 @@
             </div>
             <a href="javascript:;" ng-click="edit(claim)" class="list-group-item" ng-repeat="claim in claims | orderBy : ['number', 'created_at']">
               Claim
-              <span ng-if="claim.number">of {{claim.number}}</span>
+              <span ng-if="claim.number">No. {{claim.number}}</span>
               <span ng-if="claim.patient_name">of {{claim.patient_name}}</span>
               created on {{claim.created_at | date:"yyyy-MM-dd"}}
               <div class="pull-right">
