@@ -52,48 +52,9 @@ angular.module("moBilling")
             }
         });
 
-        $routeProvider.when("/claims/saved", {
-            templateUrl: "claim-list-saved.html",
-            controller: "ClaimListSavedController",
-            resolve: {
-                claims: function (Claim) {
-                    return Claim.query().$promise;
-                },
-                user: function (User) {
-                    return User.get().$promise;
-                }
-            }
-        });
-
-        $routeProvider.when("/claims/submitted", {
-            templateUrl: "claim-list-submitted.html",
-            controller: "ClaimListSubmittedController",
-            resolve: {
-                claims: function (Claim) {
-                    return Claim.query().$promise;
-                },
-                user: function (User) {
-                    return User.get().$promise;
-                }
-            }
-        });
-
-        $routeProvider.when("/claims/rejected", {
-            templateUrl: "claim-list-rejected.html",
-            controller: "ClaimListRejectedController",
-            resolve: {
-                claims: function (Claim) {
-                    return Claim.query().$promise;
-                },
-                user: function (User) {
-                    return User.get().$promise;
-                }
-            }
-        });
-
-        $routeProvider.when("/claims/paid", {
-            templateUrl: "claim-list-paid.html",
-            controller: "ClaimListPaidController",
+        $routeProvider.when("/claims", {
+            templateUrl: "claim-list.html",
+            controller: "ClaimListController",
             resolve: {
                 claims: function (Claim) {
                     return Claim.query().$promise;
@@ -144,7 +105,7 @@ angular.module("moBilling")
         });
 
         $routeProvider.otherwise({
-            redirectTo: "/claims/saved"
+            redirectTo: "/claims"
         });
     })
 
@@ -153,7 +114,7 @@ angular.module("moBilling")
             var authenticationToken = window.localStorage.getItem("authenticationToken");
 
             if (next.guest && authenticationToken) {
-                $location.path("/claims/saved").replace();
+                $location.path("/claims").replace();
             }
 
             if (!next.guest && !authenticationToken) {

@@ -73,7 +73,7 @@ angular.module("moBilling.controllers")
         });
 
         function back() {
-            var path = {
+            var hash = {
                 saved: "saved",
                 unprocessed: "submitted",
                 processed: "submitted",
@@ -82,7 +82,7 @@ angular.module("moBilling.controllers")
                 paid: "paid"
             }[$scope.claim.status];
 
-            $location.path("/claims/" + path).hash("").replace();
+            $location.path("/claims").hash(hash).replace();
         }
 
         $scope.cancel = back;
@@ -94,11 +94,6 @@ angular.module("moBilling.controllers")
         $scope.save = function () {
             $scope.submitting = true;
             Claim.save($scope.claim, back, error);
-        };
-
-        $scope.remove = function () {
-            $scope.submitting = true;
-            Claim.remove({ id: $scope.claim.id }, back, error);
         };
 
         function showError() {
