@@ -10,7 +10,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")
     @doctor.click_on("Save")
-    @doctor.click_on("Save as draft")
     assert @doctor.see?("Alice")
   end
 
@@ -32,19 +31,16 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
     @doctor.click_link_with_text("Daily Details")
     @doctor.click_on("Generate codes")
-    @doctor.click_on("Save")
     @doctor.click_on("Submit")
     assert @doctor.see?("Alice")
   end
 
   test "can edit rejected claim" do
     create(:claim, user: @doctor.model, status: "rejected_doctor_attention", details: {"patient_name" => "Alice"})
-    @doctor.open_sidebar
-    @doctor.click_on("Rejected")
+    @doctor.click_link_with_text("Rejected")
     @doctor.click_on("Alice")
     @doctor.fill_in("Patient name", with: "Bob")
     @doctor.click_on("Save")
-    @doctor.click_on("Save as draft")
     assert @doctor.see?("Bob")
   end
 
@@ -52,17 +48,15 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")
     @doctor.click_on("Save")
-    @doctor.click_on("Save as draft")
-    @doctor.click_on("Alice")
-    @doctor.click_on("Save")
-    @doctor.click_on("Delete")
+    @doctor.within_list_item("Alice") do
+      @doctor.click_on("remove")
+    end
     @doctor.click_on("Delete")
     assert @doctor.not_see?("Alice")
   end
 
   test "has 'NEW' option on 'Submitted' page" do
-    @doctor.open_sidebar
-    @doctor.click_on("Submitted")
+    @doctor.click_link_with_text("Submitted")
     assert @doctor.see?("NEW")
   end
 
@@ -78,7 +72,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
     @doctor.fill_in_and_blur("Time in", with: "12:00")
     @doctor.fill_in_and_blur("Time out", with: "13:15")
-    @doctor.click_on("Save")
     @doctor.click_on("Submit")
     @doctor.click_link_with_text("Consult")
     assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
@@ -90,7 +83,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
     @doctor.fill_in("Time in", with: "17:00")
     @doctor.fill_in("Time out", with: "17:45")
-    @doctor.click_on("Save")
     @doctor.click_on("Submit")
     @doctor.click_link_with_text("Consult")
     assert @doctor.see?("Total time must be equal to or greater than 75 minutes.")
@@ -100,11 +92,10 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("New")
     @doctor.click_link_with_text("Daily Details")
     @doctor.click_on("Add a new day")
-    @doctor.fill_in("code", with: "A130")
+    @doctor.fill_in("code", with: "A130A")
     assert @doctor.see?("Time in")
     assert @doctor.see?("Time out")
-
-    @doctor.fill_in("code", with: "C130")
+    @doctor.fill_in("code", with: "C130A")
     assert @doctor.see?("Time in")
     assert @doctor.see?("Time out")
   end
@@ -158,13 +149,11 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "can lock screen" do
-    @doctor.open_sidebar
-    @doctor.click_on("Profile")
+    @doctor.navigate_to("Profile")
     @doctor.fill_in("Screen lock PIN", with: "1234")
     @doctor.click_on("Save")
     @doctor.visit(root_path)
-    @doctor.open_sidebar
-    @doctor.click_on("Lock screen")
+    @doctor.navigate_to("Lock screen")
     @doctor.fill_in("Pin", with: "1234")
     @doctor.click_on("Unlock")
     assert @doctor.see?("MENU")
@@ -219,7 +208,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
       @doctor.click_element_with_id("is-premium-visible")
       @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
       @doctor.click_on("Save")
-      @doctor.click_on("Save as draft")
     end
     @doctor.click_on("New")
     @doctor.fill_in_and_blur("Admission date", with: "2014-08-11")
@@ -227,7 +215,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_element_with_id("claim-consult-type-general-er")
     @doctor.click_element_with_id("is-premium-visible")
     @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
-    @doctor.click_on("Save")
     @doctor.click_on("Submit")
     @doctor.click_link_with_text("Consult")
     assert @doctor.see?("May be used only 10 times in a single day")

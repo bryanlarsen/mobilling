@@ -41,8 +41,8 @@ module Test
       session.driver.debug
     end
 
-    def screenshot
-      sleep 1
+    def screenshot(wait_time = 1)
+      sleep(wait_time)
       session.save_screenshot(Rails.root.join("tmp", "screenshot.png"), full: true)
     end
 
@@ -70,8 +70,7 @@ module Test
     end
 
     def sign_out
-      find(".sidebar-toggle").click
-      click_on("Sign out")
+      navigate_to("Sign out")
     end
 
     def click_link_with_text(text)
@@ -82,13 +81,17 @@ module Test
       find(:css, "##{id}").click
     end
 
-    def open_sidebar
-      find(".sidebar-toggle").click
-    end
-
     def fill_in_and_blur(*args)
       fill_in(*args)
       find("body").click
+    end
+
+    def within_list_item(name, &block)
+      within(:xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' list-group-item ') and contains(., '#{name}')]/..", &block)
+    end
+
+    def navigate_to(title)
+      within("#menu-sidebar") { find_link(title).trigger("click") }
     end
   end
 

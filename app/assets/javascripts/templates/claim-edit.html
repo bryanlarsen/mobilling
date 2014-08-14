@@ -10,46 +10,23 @@
       </div>
     </div>
 
-    <div class="btn-group pull-right">
-      <div class="btn-group pull-right toggleable-dropdown" active-class="open" id="save" toggleable>
-        <button type="button" class="btn btn-default dropdown-toggle" toggle target="save" ng-disabled="submitting">
-          <span ng-show="submitting"><i class="fa fa-spinner fa-spin"></i> Saving…</span>
-          <span ng-hide="submitting"><i class="fa fa-check"></i> Save</span>
-        </button>
-        <ul class="dropdown-menu" role="menu" toggle="off" bubble target="save">
-          <li>
-            <a href="javascript:;" ng-click="save()"><i class="fa fa-save"></i> Save as draft</a>
-          </li>
-          <li ng-show="isGenerateDisabled">
-            <a href="javascript:;" ng-click="submit()"><i class="fa fa-envelope-o"></i> Submit</a>
-          </li>
-          <li ng-hide="isGenerateDisabled">
-            <a href="javascript:;" toggle bubble target="autogenerate"><i class="fa fa-exclamation-circle"></i> Submit</a>
-          </li>
-          <li class="divider" ng-show="claim.id">
-          <li ng-show="claim.id">
-            <a href="javascript:;" toggle bubble target="remove"><i class="fa fa-trash-o"></i> Delete</a>
-          </li>
-        </ul>
-      </div>
+    <div class="btn-group pull-right" ng-show="submitting">
+      <button type="button" class="btn btn-default" disabled="disabled" >
+        <span><i class="fa fa-spinner fa-spin"></i> Saving…</span>
+      </button>
     </div>
-  </div>
 
-  <div overlay="remove">
-    <h4 class="overlay-title">Delete Claim</h4>
-    <br>
-    <p>
-      Are you sure you want to delete this claim?
-    </p>
-    <br>
-    <p>
-      <button class="btn btn-primary btn-block btn-lg btn-danger" ng-click="remove()" toggle="off" target="remove">
-        <i class="fa fa-trash-o"></i> Delete
+    <div class="btn-group pull-right" ng-hide="submitting">
+      <button type="button" class="btn btn-default" ng-click="save()">
+        <i class="fa fa-save"></i> Save
       </button>
-      <button class="btn btn-default btn-block btn-lg" toggle="off" target="remove">
-        <i class="fa fa-times"></i> Cancel
+      <button type="button" class="btn btn-default" ng-click="submit()" ng-show="isGenerateDisabled" >
+        <i class="fa fa-envelope-o"></i> Submit
       </button>
-    </p>
+      <button type="button" class="btn btn-default" target="autogenerate" ng-hide="isGenerateDisabled" toggle bubble>
+        <i class="fa fa-exclamation-circle"></i> Submit
+      </button>
+    </div>
   </div>
 
   <div overlay="consult-missing">
@@ -73,7 +50,7 @@
     <h4 class="overlay-title">Autogeneration</h4>
     <br>
     <p>
-      Automatically generated details have changed, do you want to submit the claim or generate details first?
+      Automatically generated details have changed, do you want to submit the claim as it is or to generate details first?
     </p>
     <br>
     <p>

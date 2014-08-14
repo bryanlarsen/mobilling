@@ -9,7 +9,7 @@ angular.module("moBilling.controllers")
         }
 
         function success() {
-            $location.path("/claims/saved").hash("").replace();
+            $location.path("/claims").hash("").replace();
         };
 
         function error() {

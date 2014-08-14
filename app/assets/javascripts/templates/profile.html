@@ -9,7 +9,7 @@
       </div>
 
       <div class="btn-group pull-left">
-        <div ng-click="toggle('menu-sidebar')" class="btn btn-navbar sidebar-toggle">
+        <div class="btn btn-navbar sidebar-toggle" target="menu-sidebar" toggle>
           <i class="fa fa-bars"></i> Menu
         </div>
       </div>
@@ -62,7 +62,7 @@
             <div class="form-group row" ng-class="{'has-error': (form.password_confirmation.$dirty || submitted) && form.password_confirmation.$invalid}">
               <label for="user-password-confirmation" class="control-label col-xs-12">Password confirmation</label>
               <div class="form-control-wrapper col-xs-12">
-                <input type="password" name="password_confirmation" ng-model="user.password_confirmation" class="form-control input-lg" id="user-password-confirmation" mb-confirmation="user.password">
+                <input type="password" name="password_confirmation" ng-model="user.password_confirmation" class="form-control input-lg" id="user-password-confirmation" ui-validate="{confirmation: '$value === user.password'}" ui-validate-watch="'user.password'">
                 <div ng-messages="form.password_confirmation.$error" ng-show="submitted">
                   <p class="help-block" ng-message="required">is missing</p>
                   <p class="help-block" ng-message="confirmation">does not match password</p>
@@ -88,38 +88,35 @@
             </div>
 
             <div class="form-group row" ng-class="{'has-error': (form.specialties_length.$dirty || submitted) && form.specialties_length.$invalid}">
-              <label for="user-specialties" class="control-label col-xs-12">Specialties</label>
+              <label for="user-specialties" class="control-label col-xs-12">
+                Specialties
+              </label>
 
-              <div class="form-control-wrapper col-xs-12">
-                <div class="row">
-                  <div class="col-xs-2">
-                    <mb-switch ng-model="user.specialties" id="user-specialties-internal-medicine" name="specialties" on-value="internal_medicine"></mb-switch>
-                  </div>
-                  <label class="control-label col-xs-10">Internal Medicine</label>
-                </div>
+              <div class="col-xs-12">
+                <mb-switch ng-model="user.specialties" id="user-specialties-internal-medicine" name="specialties" on-value="internal_medicine" class="pull-left"></mb-switch>
+                &nbsp;
+                <label class="control-label">Internal Medicine</label>
+              </div>
 
-                <br>
+              <div class="col-xs-12"><br></div>
 
-                <div class="row">
-                  <div class="col-xs-2">
-                    <mb-switch ng-model="user.specialties" id="user-specialties-cardiology" name="specialties" on-value="cardiology"></mb-switch>
-                  </div>
-                  <label class="control-label col-xs-10">Cardiology</label>
-                </div>
+              <div class="col-xs-12">
+                <mb-switch ng-model="user.specialties" id="user-specialties-cardiology" name="specialties" on-value="cardiology" class="pull-left"></mb-switch>
+                &nbsp;
+                <label class="control-label">Cardiology</label>
+              </div>
 
-                <br>
+              <div class="col-xs-12"><br></div>
 
-                <div class="row">
-                  <div class="col-xs-2">
-                    <mb-switch ng-model="user.specialties" id="user-specialties-family-medicine" name="specialties" on-value="family_medicine"></mb-switch>
-                  </div>
-                  <label class="control-label col-xs-10">Family Medicine</label>
-                </div>
+              <div class="col-xs-12">
+                <mb-switch ng-model="user.specialties" id="user-specialties-family-medicine" name="specialties" on-value="family_medicine" class="pull-left"></mb-switch>
+                &nbsp;
+                <label class="control-label">Family Medicine</label>
+              </div>
 
-                <input class="hide" type="number" ng-model="user.specialties.length" name="specialties_length" min="1" required>
-                <div ng-messages="form.specialties_length.$error" ng-show="submitted">
-                  <p class="help-block" ng-message="required">at least one specialty is required</p>
-                </div>
+              <input class="hide" type="number" ng-model="user.specialties.length" name="specialties_length" min="1" required>
+              <div ng-messages="form.specialties_length.$error" ng-show="submitted" class="col-xs-12">
+                <p class="help-block" ng-message="required">at least one specialty is required</p>
               </div>
             </div>
           </div>

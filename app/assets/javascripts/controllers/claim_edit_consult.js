@@ -4,6 +4,11 @@ angular.module("moBilling.controllers")
         $scope.consultCode = detailsGenerator.consultCode;
         $scope.premiumVisitCode = detailsGenerator.premiumVisitCode;
 
+        // on_call_admission_er is default in family_medicine
+        if ($scope.isConsultVisible() && $scope.claim.specialty === "family_medicine" && !$scope.claim.consult_type) {
+            $scope.claim.consult_type = "on_call_admission_er";
+        }
+
         $scope.$watch("claim.first_seen_on", function (first_seen_on) {
             if (first_seen_on) {
                 $scope.dayType = dayType(first_seen_on);
@@ -59,4 +64,14 @@ angular.module("moBilling.controllers")
                 $scope.claim.consult_premium_visit = undefined;
             }
         });
+
+        $scope.consultTypes = {
+            internal_medicine: ["general", "comprehensive", "limited"],
+            cardiology: ["general", "comprehensive", "limited"],
+            family_medicine: ["general", "special", "comprehensive", "on_call_admission"]
+        }[$scope.claim.specialty];
+
+        $scope.isConsultTimeVisible = function () {
+            return ["comprehensive_er", "comprehensive_non_er", "special_er", "special_non_er"].indexOf($scope.claim.consult_type) !== -1;
+        };
     });
