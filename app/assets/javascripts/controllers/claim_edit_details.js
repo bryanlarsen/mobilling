@@ -17,6 +17,6 @@ angular.module("moBilling.controllers")
         };
 
         $scope.isConsultTimeVisible = function (detail) {
-            return ["A130A", "C130A", "A600A", "C600A", "A911A", "C911A", "A912A", "C912A"].indexOf(detail.code) !== -1;
+            return ["A130A", "C130A", "A600A", "C600A", "A911A", "C911A", "A912A", "C912A"].indexOf(detail.code.substr(0, 5)) !== -1;
         };
     });

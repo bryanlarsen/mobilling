@@ -93,11 +93,10 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("New")
     @doctor.click_link_with_text("Daily Details")
     @doctor.click_on("Add a new day")
-    @doctor.fill_in("code", with: "A130")
+    @doctor.fill_in("code", with: "A130A")
     assert @doctor.see?("Time in")
     assert @doctor.see?("Time out")
-
-    @doctor.fill_in("code", with: "C130")
+    @doctor.fill_in("code", with: "C130A")
     assert @doctor.see?("Time in")
     assert @doctor.see?("Time out")
   end
