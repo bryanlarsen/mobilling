@@ -14,6 +14,7 @@ angular.module("moBilling", [
     "mobile-angular-ui.fastclick",
     "mobile-angular-ui.scrollable",
     "siyfion.sfTypeahead",
+    "angularFilterPack",
     "ui.inflector",
     "ui.unique",
     "ui.validate",

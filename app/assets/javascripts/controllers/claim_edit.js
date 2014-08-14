@@ -199,4 +199,13 @@ angular.module("moBilling.controllers")
                 return claim.consult_premium_first;
             }).length === 0;
         });
+
+        $scope.minConsultTime = function () {
+            return {
+                comprehensive_er: 75,
+                comprehensive_non_er: 75,
+                special_er: 50,
+                special_non_er: 50
+            }[$scope.claim.consult_type];
+        };
     });

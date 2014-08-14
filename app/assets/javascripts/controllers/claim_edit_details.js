@@ -16,7 +16,7 @@ angular.module("moBilling.controllers")
             $scope.claim.daily_details.splice(index, 1);
         };
 
-        $scope.isTimeVisible = function (detail) {
-            return detail && (detail.code === "A130" || detail.code === "C130");
+        $scope.isConsultTimeVisible = function (detail) {
+            return ["A130A", "C130A", "A600A", "C600A", "A911A", "C911A", "A912A", "C912A"].indexOf(detail.code) !== -1;
         };
     });

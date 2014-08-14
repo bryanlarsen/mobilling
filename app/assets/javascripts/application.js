@@ -8,6 +8,7 @@
 //= require angular-messages
 //= require angular-resource
 //= require angular-typeahead
+//= require angular-filter-pack
 //= require mobile-angular-ui/navbars
 //= require mobile-angular-ui/overlay
 //= require mobile-angular-ui/sidebars

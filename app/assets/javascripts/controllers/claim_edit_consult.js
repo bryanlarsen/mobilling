@@ -59,4 +59,14 @@ angular.module("moBilling.controllers")
                 $scope.claim.consult_premium_visit = undefined;
             }
         });
+
+        $scope.consultTypes = {
+            internal_medicine: ["general", "comprehensive", "limited"],
+            cardiology: ["general", "comprehensive", "limited"],
+            family_medicine: ["general", "special", "comprehensive", "on_call_admission"]
+        }[$scope.claim.specialty];
+
+        $scope.isConsultTimeVisible = function () {
+            return ["comprehensive_er", "comprehensive_non_er", "special_er", "special_non_er"].indexOf($scope.claim.consult_type) !== -1;
+        };
     });

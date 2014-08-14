@@ -122,7 +122,7 @@ angular.module("moBilling")
             controller: "ClaimEditController",
             resolve: {
                 claim: function ($route, Claim) {
-                    return Claim.get({ id: $route.current.params.claim_id });
+                    return Claim.get({ id: $route.current.params.claim_id }).$promise;
                 },
                 claims: function (Claim) {
                     return Claim.query().$promise;
