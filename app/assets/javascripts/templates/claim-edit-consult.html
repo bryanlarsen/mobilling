@@ -116,6 +116,22 @@
             </div>
           </div>
 
+          <br>
+
+          <div class="row" ng-if="claim.specialty === 'family_medicine'">
+            <div class="col-xs-6">
+              <label class="control-label">On-Call Admission</label>
+            </div>
+            <div class="col-xs-3 text-center">
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="on_call_admission_er" id="claim-consult-type-on-call-admission-er"></mb-switch>
+              <span class="label label-info">{{consultCode(claim.specialty, "on_call_admission_er")}}</span>
+            </div>
+            <div class="col-xs-3 text-center">
+              <mb-switch ng-model="claim.consult_type" class="center-block" on-value="on_call_admission_non_er" id="claim-consult-type-on-call-admission-non-er"></mb-switch>
+              <span class="label label-info">{{consultCode(claim.specialty, "on_call_admission_non_er")}}</span>
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-xs-12">
               <input type="hidden" name="consult_type" ng-model="claim.consult_type" required>
