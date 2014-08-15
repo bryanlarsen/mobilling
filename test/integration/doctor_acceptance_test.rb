@@ -25,7 +25,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Consult")
     @doctor.find_by_id("claim-consult-type-comprehensive-er").click
     @doctor.fill_in("Time in", with: "17:00", blur: true)
-    @doctor.screenshot
     @doctor.fill_in("Time out", with: "19:00", blur: true)
     @doctor.find_by_id("is-premium-visible").click
     @doctor.find_by_id("claim-consult-premium-travel").click
