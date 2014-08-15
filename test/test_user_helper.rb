@@ -76,8 +76,8 @@ module Test
 
     def navigate_to(title)
       click_on("Menu")
-      sleep(0.5) # wait for menu to open
-      click_on(title)
+      # need to trigger click, otherwise getting totally random results
+      find(:link_or_button, title).trigger("click")
     end
   end
 
