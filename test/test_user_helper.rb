@@ -11,7 +11,7 @@ module Test
     end
 
     def self.take
-      (idle.pop || Capybara::Session.new(:webkit, Rails.application)).tap do |session|
+      (idle.pop || Capybara::Session.new(:poltergeist, Rails.application)).tap do |session|
         session.reset!
         session.visit("/#/sign-out")
         taken.push(session)

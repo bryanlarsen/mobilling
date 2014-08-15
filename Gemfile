@@ -31,7 +31,8 @@ group :test do
   gem "capybara"
   gem "database_cleaner"
   gem "factory_girl_rails"
-  gem "capybara-webkit"
+  gem "poltergeist"
+  # gem "capybara-webkit"
 end
 
 group :development, :test do
