@@ -11,7 +11,7 @@ module Test
     end
 
     def self.take
-      (idle.pop || Capybara::Session.new(:poltergeist, Rails.application)).tap do |session|
+      (idle.pop || Capybara::Session.new(:webkit, Rails.application)).tap do |session|
         session.reset!
         session.visit("/#/sign-out")
         taken.push(session)
@@ -43,7 +43,7 @@ module Test
 
     def screenshot(wait_time = 1)
       sleep(wait_time)
-      session.save_screenshot(Rails.root.join("tmp", "screenshot.png"), full: true)
+      session.save_screenshot(Rails.root.join("tmp", "screenshot.png"), width: 1024, height: 768)
     end
 
     def see?(*args)
@@ -52,10 +52,6 @@ module Test
 
     def not_see?(*args)
       has_no_content?(*args)
-    end
-
-    def within_row(name, &block)
-      within(:xpath, "//td[contains(., '#{name}')]/..", &block)
     end
 
     def emails
@@ -73,25 +69,15 @@ module Test
       navigate_to("Sign out")
     end
 
-    def click_link_with_text(text)
-      find(:xpath, "//a[contains(., '#{text}')]").click
-    end
-
-    def click_element_with_id(id)
-      find(:css, "##{id}").click
-    end
-
-    def fill_in_and_blur(*args)
-      fill_in(*args)
-      find("body").click
-    end
-
-    def within_list_item(name, &block)
-      within(:xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' list-group-item ') and contains(., '#{name}')]/..", &block)
+    def fill_in(*args, **options)
+      blur = options.delete(:blur)
+      session.fill_in(*args, **options).tap { find("body").click if blur }
     end
 
     def navigate_to(title)
-      within("#menu-sidebar") { find_link(title).trigger("click") }
+      click_on("Menu")
+      sleep(0.5) # wait for menu to open
+      click_on(title)
     end
   end
 

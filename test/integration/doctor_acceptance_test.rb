@@ -22,14 +22,15 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.fill_in("Diagnosis", with: "Flu")
     @doctor.fill_in("Admission date", with: "2014-07-02")
     @doctor.fill_in("Last seen date", with: "2014-07-07")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
-    @doctor.fill_in_and_blur("Time in", with: "17:00")
-    @doctor.fill_in_and_blur("Time out", with: "19:00")
-    @doctor.click_element_with_id("is-premium-visible")
-    @doctor.click_element_with_id("claim-consult-premium-travel")
-    @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Consult")
+    @doctor.find_by_id("claim-consult-type-comprehensive-er").click
+    @doctor.fill_in("Time in", with: "17:00", blur: true)
+    @doctor.screenshot
+    @doctor.fill_in("Time out", with: "19:00", blur: true)
+    @doctor.find_by_id("is-premium-visible").click
+    @doctor.find_by_id("claim-consult-premium-travel").click
+    @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours").click
+    @doctor.click_on("Details")
     @doctor.click_on("Generate codes")
     @doctor.click_on("Submit")
     assert @doctor.see?("Alice")
@@ -37,7 +38,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
 
   test "can edit rejected claim" do
     create(:claim, user: @doctor.model, status: "rejected_doctor_attention", details: {"patient_name" => "Alice"})
-    @doctor.click_link_with_text("Rejected")
+    @doctor.click_on("Rejected")
     @doctor.click_on("Alice")
     @doctor.fill_in("Patient name", with: "Bob")
     @doctor.click_on("Save")
@@ -48,7 +49,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")
     @doctor.click_on("Save")
-    @doctor.within_list_item("Alice") do
+    @doctor.within(".list-group-item", text: "Alice") do
       @doctor.click_on("remove")
     end
     @doctor.click_on("Delete")
@@ -56,41 +57,41 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "has 'NEW' option on 'Submitted' page" do
-    @doctor.click_link_with_text("Submitted")
+    @doctor.click_on("Submitted")
     assert @doctor.see?("NEW")
   end
 
   test "has no message if 'Comprehensive' isn't selected" do
     @doctor.click_on("New")
-    @doctor.click_link_with_text("Consult")
+    @doctor.click_on("Consult")
     assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
   end
 
   test "has no message if the total time is equal to or greater than 75 minutes" do
     @doctor.click_on("New")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
-    @doctor.fill_in_and_blur("Time in", with: "12:00")
-    @doctor.fill_in_and_blur("Time out", with: "13:15")
+    @doctor.click_on("Consult")
+    @doctor.find_by_id("claim-consult-type-comprehensive-er").click
+    @doctor.fill_in("Time in", with: "12:00", blur: true)
+    @doctor.fill_in("Time out", with: "13:15", blur: true)
     @doctor.click_on("Submit")
-    @doctor.click_link_with_text("Consult")
+    @doctor.click_on("Consult")
     assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
   end
 
   test "displays message if the total time is less than 75 minutes" do
     @doctor.click_on("New")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
+    @doctor.click_on("Consult")
+    @doctor.find_by_id("claim-consult-type-comprehensive-er").click
     @doctor.fill_in("Time in", with: "17:00")
     @doctor.fill_in("Time out", with: "17:45")
     @doctor.click_on("Submit")
-    @doctor.click_link_with_text("Consult")
+    @doctor.click_on("Consult")
     assert @doctor.see?("Total time must be equal to or greater than 75 minutes.")
   end
 
-  test "has 'Time in' and 'Time out' pickers on 'Daily Details' page for codes 'A130' and/or 'C130'"do
+  test "has 'Time in' and 'Time out' pickers on 'Details' page for codes 'A130' and/or 'C130'"do
     @doctor.click_on("New")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Details")
     @doctor.click_on("Add a new day")
     @doctor.fill_in("code", with: "A130A")
     assert @doctor.see?("Time in")
@@ -100,9 +101,9 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Time out")
   end
 
-  test "has no 'Time in' and 'Time out' pickers on 'Daily Details' page for other codes"do
+  test "has no 'Time in' and 'Time out' pickers on 'Details' page for other codes"do
     @doctor.click_on("New")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Details")
     @doctor.click_on("Add a new day")
     @doctor.fill_in("code", with: "C132")
     assert @doctor.not_see?("Time in")
@@ -112,15 +113,15 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   test "special or travel premium codes should appear" do
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")
-    @doctor.fill_in_and_blur("Admission date", with: "2014-07-19")
-    @doctor.click_element_with_id("is-first-seen-on-hidden")
-    @doctor.fill_in_and_blur("First seen date", with: "2014-07-22")
-    @doctor.fill_in_and_blur("Last seen date", with: "2014-07-24")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-general-er")
-    @doctor.click_element_with_id("is-premium-visible")
-    @doctor.click_element_with_id("claim-consult-premium-visit-weekday-evening")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.fill_in("Admission date", with: "2014-07-19", blur: true)
+    @doctor.find_by_id("is-first-seen-on-hidden").click
+    @doctor.fill_in("First seen date", with: "2014-07-22", blur: true)
+    @doctor.fill_in("Last seen date", with: "2014-07-24", blur: true)
+    @doctor.click_on("Consult")
+    @doctor.find_by_id("claim-consult-type-general-er").click
+    @doctor.find_by_id("is-premium-visible").click
+    @doctor.find_by_id("claim-consult-premium-visit-weekday-evening").click
+    @doctor.click_on("Details")
     @doctor.click_on("Generate codes")
     @doctor.assert_no_selector("input.ng-invalid")
   end
@@ -161,9 +162,9 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
 
   test "sees missing consult warning" do
     @doctor.click_on("New")
-    @doctor.fill_in_and_blur("Admission date", with: "2014-07-02")
-    @doctor.fill_in_and_blur("Last seen date", with: "2014-07-03")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.fill_in("Admission date", with: "2014-07-02", blur: true)
+    @doctor.fill_in("Last seen date", with: "2014-07-03", blur: true)
+    @doctor.click_on("Details")
     @doctor.click_on("Generate codes")
     assert @doctor.see?("Consult Missing")
     @doctor.click_on("Generate without consult")
@@ -172,29 +173,29 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
 
   test "can regenerate details when claim changed" do
     @doctor.click_on("New")
-    @doctor.fill_in_and_blur("Admission date", with: "2014-08-05")
-    @doctor.fill_in_and_blur("Last seen date", with: "2014-08-06")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-general-er")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.fill_in("Admission date", with: "2014-08-05", blur: true)
+    @doctor.fill_in("Last seen date", with: "2014-08-06", blur: true)
+    @doctor.click_on("Consult")
+    @doctor.find_by_id("claim-consult-type-general-er").click
+    @doctor.click_on("Details")
     @doctor.click_on("Generate codes")
     assert @doctor.see?("DAILY DETAILS (4)")
     assert @doctor.find_button("Generate codes", disabled: true)
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-general-non-er")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Consult")
+    @doctor.find_by_id("claim-consult-type-general-non-er").click
+    @doctor.click_on("Details")
     @doctor.click_on("Generate codes")
     assert @doctor.find_button("Generate codes", disabled: true)
   end
 
   test "should not see a generate codes warning when no consult" do
     @doctor.click_on("New")
-    @doctor.fill_in_and_blur("Admission date", with: "2014-08-04")
-    @doctor.click_element_with_id("is-first-seen-on-hidden")
-    @doctor.fill_in_and_blur("First seen date", with: "2014-08-05")
-    @doctor.click_element_with_id("claim-first-seen-consult")
-    @doctor.fill_in_and_blur("Last seen date", with: "2014-08-06")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.fill_in("Admission date", with: "2014-08-04", blur: true)
+    @doctor.find_by_id("is-first-seen-on-hidden").click
+    @doctor.fill_in("First seen date", with: "2014-08-05", blur: true)
+    @doctor.find_by_id("claim-first-seen-consult").click
+    @doctor.fill_in("Last seen date", with: "2014-08-06", blur: true)
+    @doctor.click_on("Details")
     @doctor.click_on("Generate codes")
     assert @doctor.see?("DAILY DETAILS (4)")
   end
@@ -202,21 +203,21 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   test "should see an error when a consult limit is reached" do
     10.times do
       @doctor.click_on("New")
-      @doctor.fill_in_and_blur("Admission date", with: "2014-08-11")
-      @doctor.click_link_with_text("Consult")
-      @doctor.click_element_with_id("claim-consult-type-general-er")
-      @doctor.click_element_with_id("is-premium-visible")
-      @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
+      @doctor.fill_in("Admission date", with: "2014-08-11", blur: true)
+      @doctor.click_on("Consult")
+      @doctor.find_by_id("claim-consult-type-general-er").click
+      @doctor.find_by_id("is-premium-visible").click
+      @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours").click
       @doctor.click_on("Save")
     end
     @doctor.click_on("New")
-    @doctor.fill_in_and_blur("Admission date", with: "2014-08-11")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-general-er")
-    @doctor.click_element_with_id("is-premium-visible")
-    @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
+    @doctor.fill_in("Admission date", with: "2014-08-11", blur: true)
+    @doctor.click_on("Consult")
+    @doctor.find_by_id("claim-consult-type-general-er").click
+    @doctor.find_by_id("is-premium-visible").click
+    @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours").click
     @doctor.click_on("Submit")
-    @doctor.click_link_with_text("Consult")
+    @doctor.click_on("Consult")
     assert @doctor.see?("May be used only 10 times in a single day")
   end
 end
