@@ -57,15 +57,18 @@
           <label class="control-label col-xs-12" for="claim-diagnoses-0-name">Diagnoses</label>
           <ng-form class="col-xs-12" name="diagnosisForm" ng-repeat="diagnosis in claim.diagnoses">
             <div class="form-group row" ng-class="{'has-error': (diagnosisForm.name.$dirty || submitted) && diagnosisForm.name.$invalid}">
-              <div class="form-control-wrapper col-sm-10 col-xs-12">
+              <div class="form-control-wrapper col-sm-11 col-xs-12">
                 <input id="claim-diagnoses-{{$index}}-name" type="text" name="name" ng-model="diagnosis.name" class="form-control input-lg" datasets="diagnoses" sf-typeahead mb-typeahead required>
                 <div ng-messages="diagnosisForm.name.$error" ng-show="submitted">
                   <p class="help-block" ng-message="required">is missing</p>
                 </div>
               </div>
-              <div class="col-xs-12 visible-xs" ng-if="$index > 0">&nbsp;</div>
-              <div class="col-sm-2 col-xs-12" ng-if="$index > 0">
-                <button type="button" class="btn btn-lg btn-danger btn-block" ng-click="remove(diagnosis)"><i class="fa fa-times"></i></button>
+              <div class="col-xs-12 visible-xs">&nbsp;</div>
+              <div class="col-sm-1 col-xs-12">
+                <button type="button" class="btn btn-lg btn-danger btn-block" ng-click="remove(diagnosis)" ng-disabled="claim.diagnoses.length <= 1">
+                  <span class="hidden-xs"><i class="fa fa-times"></i></span>
+                  <span class="visible-xs"><i class="fa fa-times"></i> Remove diagnosis</span>
+                </button>
               </div>
             </div>
           </ng-form>
@@ -73,7 +76,7 @@
 
         <div class="row">
           <div class="col-xs-12">
-            <button type="button" class="btn btn-lg btn-success btn-block" ng-click="add()"><i class="fa fa-plus"></i></button>
+            <button type="button" class="btn btn-lg btn-success btn-block" ng-click="add()"><i class="fa fa-plus"></i> Add a new diagnosis</button>
           </div>
         </div>
 

@@ -219,4 +219,17 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Consult")
     assert @doctor.see?("May be used only 10 times in a single day")
   end
+
+  test "can add multiple diagnoses" do
+    @doctor.click_on("New")
+    @doctor.fill_in("Patient name", with: "Alice")
+    @doctor.fill_in("claim-diagnoses-0-name", with: "Flu")
+    @doctor.click_on("Add a new diagnosis")
+    @doctor.fill_in("claim-diagnoses-1-name", with: "Cold")
+    @doctor.click_on("Save")
+    assert @doctor.see?("Alice")
+    @doctor.click_on("Alice")
+    assert_equal "Flu", @doctor.find_field("claim-diagnoses-0-name").value
+    assert_equal "Cold", @doctor.find_field("claim-diagnoses-1-name").value
+  end
 end
