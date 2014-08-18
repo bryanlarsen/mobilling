@@ -19,7 +19,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.fill_in("Patient name", with: "Alice")
     @doctor.fill_in("Hospital", with: "Test")
     @doctor.fill_in("Referring physician", with: "Bob")
-    @doctor.fill_in("Diagnosis", with: "Flu")
+    @doctor.fill_in("Diagnoses", with: "Flu")
     @doctor.fill_in("Admission date", with: "2014-07-02")
     @doctor.fill_in("Last seen date", with: "2014-07-07")
     @doctor.click_on("Consult")

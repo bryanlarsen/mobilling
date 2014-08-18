@@ -18,6 +18,10 @@ angular.module("moBilling.controllers")
             $scope.claim.comments = [];
         }
 
+        if (!$scope.claim.diagnoses) {
+            $scope.claim.diagnoses = [{ name: "" }];
+        }
+
         if (!$scope.claim.status) {
             $scope.claim.status = "saved";
         }

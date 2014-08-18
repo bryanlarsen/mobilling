@@ -17,7 +17,7 @@ class CreateClaimTest < ActiveSupport::TestCase
     @interactor.photo_id = create(:photo).id
     @interactor.patient_name = "Alice"
     @interactor.hospital = "Ottawa"
-    @interactor.diagnosis = "Flu"
+    @interactor.diagnoses = [{name: "Flu"}]
     @interactor.most_responsible_physician = true
     @interactor.admission_on = 1.week.ago.to_date.to_s
     @interactor.first_seen_on = 3.days.ago.to_date.to_s
@@ -78,15 +78,10 @@ class CreateClaimTest < ActiveSupport::TestCase
     assert_invalid @interactor, :hospital
   end
 
-  test "is invalid with invalid diagnosis" do
-    @interactor.diagnosis = 0
-    assert_invalid @interactor, :diagnosis
-  end
-
-  test "is invalid without diagnosis when submitted" do
+  test "is invalid without diagnoses when submitted" do
     @interactor.status = "unprocessed"
-    @interactor.diagnosis = nil
-    assert_invalid @interactor, :diagnosis
+    @interactor.diagnoses = []
+    assert_invalid @interactor, :diagnoses
   end
 
   test "is invalid with invalid referring_physician" do

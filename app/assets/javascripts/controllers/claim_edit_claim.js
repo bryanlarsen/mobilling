@@ -47,6 +47,16 @@ angular.module("moBilling.controllers")
             }
         });
 
+        $scope.add = function () {
+            $scope.claim.diagnoses.push({ name: "" });
+        };
+
+        $scope.remove = function (diagnosis) {
+            var index = $scope.claim.diagnoses.indexOf(diagnosis);
+
+            $scope.claim.diagnoses.splice(index, 1);
+        };
+
         function success(data) {
             $scope.$apply(function () {
                 $scope.uploading = false;
