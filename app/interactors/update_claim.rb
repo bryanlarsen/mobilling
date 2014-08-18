@@ -44,12 +44,12 @@ class UpdateClaim
 
   def daily_details
     return @daily_details unless @daily_details.is_a?(Array)
-    @daily_details.map { |daily_detail| Claim::DailyDetail.new(daily_detail).tap { |detail| detail.interactor = self } }
+    @daily_details.map { |daily_detail| DailyDetailForm.new(daily_detail).tap { |detail| detail.interactor = self } }
   end
 
   def diagnoses
     return @diagnoses unless @diagnoses.is_a?(Array)
-    @diagnoses.map { |diagnosis| Claim::Diagnosis.new(diagnosis).tap { |result| result.interactor = self } }
+    @diagnoses.map { |diagnosis| DiagnosisForm.new(diagnosis).tap { |result| result.interactor = self } }
   end
 
   private
