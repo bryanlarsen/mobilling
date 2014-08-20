@@ -1,6 +1,6 @@
 angular.module("moBilling.controllers")
 
-    .controller("ClaimEditConsultController", function ($scope, dayType, detailsGenerator) {
+    .controller("ClaimEditConsultController", function ($scope, $filter, dayType, detailsGenerator) {
         $scope.consultCode = detailsGenerator.consultCode;
         $scope.premiumVisitCode = detailsGenerator.premiumVisitCode;
 
@@ -73,5 +73,45 @@ angular.module("moBilling.controllers")
 
         $scope.isConsultTimeVisible = function () {
             return ["comprehensive_er", "comprehensive_non_er", "special_er", "special_non_er"].indexOf($scope.claim.consult_type) !== -1;
+        };
+
+        $scope.consultLimits = {
+            weekday_day: 10,
+            weekday_office_hours: 10,
+            weekday_evening: 10,
+            weekday_night: Infinity,
+            weekend_day: 20,
+            weekend_night: Infinity,
+            holiday_day: 20,
+            holiday_night: Infinity
+        };
+
+        $scope.$watchGroup([
+            "isPremiumVisitVisible",
+            "claim.first_seen_on",
+            "claim.consult_premium_visit"
+        ], function () {
+            var others;
+
+            $scope.consultCounts = {};
+
+            if ($scope.isPremiumVisitVisible && $scope.claim.first_seen_on) {
+                others = $scope.claims.filter(function (claim) {
+                    return claim.id !== $scope.claim.id && claim.first_seen_on === $scope.claim.first_seen_on;
+                });
+
+                ["weekday_day", "weekday_office_hours", "weekday_evening", "weekday_night", "weekend_day", "weekend_night", "holiday_day", "holiday_night"].forEach(function (consultPremiumVisit) {
+                    $scope.consultCounts[consultPremiumVisit] = $filter("filter")(others, { consult_premium_visit: consultPremiumVisit }).length;
+                });
+
+                $scope.claim.consult_premium_first = $filter("filter")(others, {
+                    consult_premium_visit: $scope.claim.consult_premium_visit,
+                    consult_premium_first: true
+                }).length === 0;
+            }
+        });
+
+        $scope.isConsultPremiumVisitDisabled = function (consultPremiumVisit) {
+            return $scope.claim.consult_premium_visit !== consultPremiumVisit && $scope.consultCounts[consultPremiumVisit] >= $scope.consultLimits[consultPremiumVisit];
         };
     });

@@ -1,6 +1,6 @@
 angular.module("moBilling.controllers")
 
-    .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, claims, Claim, detailsGenerator) {
+    .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, Claim, claims, detailsGenerator) {
         // HACK: Do not reload the current template if it is not needed.
         var lastRoute = $route.current;
 
@@ -12,6 +12,7 @@ angular.module("moBilling.controllers")
         });
         // KCAH
 
+        $scope.claims = claims;
         $scope.claim = claim;
 
         if (!$scope.claim.comments) {
@@ -174,29 +175,6 @@ angular.module("moBilling.controllers")
             generated = detailsGenerator($scope.claim);
 
             $scope.isGenerateDisabled = angular.equals(generated.sort(sortDetails), existing.sort(sortDetails));
-        });
-
-        $scope.$watchGroup([
-            "claim.first_seen_date",
-            "claim.consult_type",
-            "claim.consult_premium_visit"
-        ], function () {
-            var erAffix, others;
-
-            erAffix = detailsGenerator.erAffix($scope.claim.consult_type);
-
-            others = claims.filter(function (claim) {
-                return claim.id !== $scope.claim.id
-                    && claim.first_seen_on === $scope.claim.first_seen_on
-                    && detailsGenerator.erAffix(claim.consult_type) === erAffix
-                    && claim.consult_premium_visit === $scope.claim.consult_premium_visit;
-            });
-
-            $scope.claim.consult_premium_number = others.length + 1;
-
-            $scope.claim.consult_premium_first = others.filter(function (claim) {
-                return claim.consult_premium_first;
-            }).length === 0;
         });
 
         $scope.minConsultTime = function () {

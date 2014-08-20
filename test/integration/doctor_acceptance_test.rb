@@ -199,27 +199,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("DAILY DETAILS (4)")
   end
 
-  test "should see an error when a consult limit is reached" do
-    10.times do
-      @doctor.click_on("New")
-      @doctor.fill_in("Admission date", with: "2014-08-11", blur: true)
-      @doctor.click_on("Consult")
-      @doctor.find_by_id("claim-consult-type-general-er").click
-      @doctor.find_by_id("is-premium-visible").click
-      @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours").click
-      @doctor.click_on("Save")
-    end
-    @doctor.click_on("New")
-    @doctor.fill_in("Admission date", with: "2014-08-11", blur: true)
-    @doctor.click_on("Consult")
-    @doctor.find_by_id("claim-consult-type-general-er").click
-    @doctor.find_by_id("is-premium-visible").click
-    @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours").click
-    @doctor.click_on("Submit")
-    @doctor.click_on("Consult")
-    assert @doctor.see?("May be used only 10 times in a single day")
-  end
-
   test "can save claim with multiple diagnoses" do
     @doctor.click_on("New")
     @doctor.fill_in("Patient name", with: "Alice")

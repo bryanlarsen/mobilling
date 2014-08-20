@@ -83,122 +83,103 @@
               </div>
 
               <div ng-if="dayType === 'weekday'">
-                <div class="row form-group" ng-if="claim.consult_premium_travel" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_day' && consultForm.consult_premium_number.$invalid}">
+                <div class="row form-group" ng-if="claim.consult_premium_travel" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_day')}">
                   <label class="control-label col-xs-12">
                     Day 7:00-17:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_day")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day"></mb-switch>
-                  </div>
-
-                  <div class="col-xs-12" ng-show="claim.consult_premium_visit === 'weekday_day'">
-                    <input type="number" class="hide" ng-model="claim.consult_premium_number" name="consult_premium_number" max="10" required>
-                    <div ng-messages="consultForm.consult_premium_number.$error" ng-show="submitted">
-                      <p class="help-block" ng-message="required">May be used only 10 times in a single day</p>
-                    </div>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekday_day')"></mb-switch>
+                    &nbsp;
+                    <span class="control-label">You already have {{consultCounts.weekday_day}}</span>
                   </div>
                 </div>
 
-                <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_office_hours' && consultForm.consult_premium_number.$invalid}">
+                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_office_hours')}">
                   <label class="control-label col-xs-12">
                     Office hours 7:00-17:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_office_hours")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_office_hours" id="claim-consult-premium-visit-weekday-office-hours"></mb-switch>
-                  </div>
-
-                  <div class="col-xs-12" ng-show="claim.consult_premium_visit === 'weekday_office_hours'">
-                    <input type="number" class="hide" ng-model="claim.consult_premium_number" name="consult_premium_number" max="10" required>
-                    <div ng-messages="consultForm.consult_premium_number.$error" ng-show="submitted">
-                      <p class="help-block" ng-message="required">May be used only 10 times in a single day</p>
-                    </div>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_office_hours" id="claim-consult-premium-visit-weekday-office-hours" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekday_office_hours')"></mb-switch>
+                    &nbsp;
+                    <span class="control-label">You already have {{consultCounts.weekday_office_hours}}</span>
                   </div>
                 </div>
 
-                <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_evening' && consultForm.consult_premium_number.$invalid}">
+                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_evening')}">
                   <label class="control-label col-xs-12">
                     Evening 17:00-0:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_evening")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_evening" id="claim-consult-premium-visit-weekday-evening"></mb-switch>
-                  </div>
-
-                  <div class="col-xs-12" ng-show="claim.consult_premium_visit === 'weekday_evening'">
-                    <input type="number" class="hide" ng-model="claim.consult_premium_number" name="consult_premium_number" max="10" required>
-                    <div ng-messages="consultForm.consult_premium_number.$error" ng-show="submitted">
-                      <p class="help-block" ng-message="required">May be used only 10 times in a single day</p>
-                    </div>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_evening" id="claim-consult-premium-visit-weekday-evening" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekday_evening')"></mb-switch>
+                    &nbsp;
+                    <span class="control-label">You already have {{consultCounts.weekday_evening}}</span>
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_night')}">
                   <label class="control-label col-xs-12">
                     Night 0:00-7:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_night")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night"></mb-switch>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekday_night')"></mb-switch>
+                    &nbsp;
+                    <span class="control-label">You already have {{consultCounts.weekday_night}}</span>
                   </div>
                 </div>
               </div>
 
               <div ng-if="dayType === 'weekend'">
-                <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekend_day' && consultForm.consult_premium_number.$invalid}">
+                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekend_day')}">
                   <label class="control-label col-xs-12">
                     Weekend 7:00-0:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_day")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_day" id="claim-consult-premium-visit-weekend-day"></mb-switch>
-                  </div>
-
-                  <div class="col-xs-12" ng-show="claim.consult_premium_visit === 'weekend_day'">
-                    <input type="number" class="hide" ng-model="claim.consult_premium_number" name="consult_premium_number" max="20" required>
-                    <div ng-messages="consultForm.consult_premium_number.$error" ng-show="submitted">
-                      <p class="help-block" ng-message="required">May be used only 20 times in a single day</p>
-                    </div>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_day" id="claim-consult-premium-visit-weekend-day" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekend_day')"></mb-switch>
+                    &nbsp;
+                    <span class="control-label">You already have {{consultCounts.weekend_day}}</span>
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekend_night')}">
                   <label class="control-label col-xs-12">
                     Night 0:00-7:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_night")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_night" id="claim-consult-premium-visit-weekend-night"></mb-switch>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_night" id="claim-consult-premium-visit-weekend-night" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekend_night')"></mb-switch>
+                    &nbsp;
+                    <span class="control-label">You already have {{consultCounts.weekend_night}}</span>
                   </div>
                 </div>
               </div>
 
               <div ng-if="dayType === 'holiday'">
-                <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'holiday_day' && consultForm.consult_premium_number.$invalid}">
+                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('holiday_night')}">
                   <label class="control-label col-xs-12">
                     Holiday 7:00-0:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_day")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_day" id="claim-consult-premium-visit-holiday-day"></mb-switch>
-                  </div>
-
-                  <div class="col-xs-12" ng-show="claim.consult_premium_visit === 'holiday_day'">
-                    <input type="number" class="hide" ng-model="claim.consult_premium_number" name="consult_premium_number" max="20" required>
-                    <div ng-messages="consultForm.consult_premium_number.$error" ng-show="submitted">
-                      <p class="help-block" ng-message="required">May be used only 20 times in a single day</p>
-                    </div>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_day" id="claim-consult-premium-visit-holiday-day" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
+                    &nbsp;
+                    <span class="control-label">You already have {{consultCounts.holiday_night}}</span>
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('holiday_night')}">
                   <label class="control-label col-xs-12">
                     Night 0:00-7:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_night")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night"></mb-switch>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
+                    &nbsp;
+                    <span class="control-label">You already have {{consultCounts.holiday_night}}</span>
                   </div>
                 </div>
               </div>
