@@ -75,23 +75,27 @@
             </div>
 
             <div ng-if="dayType">
-              <div class="form-group row">
-                <label class="control-label col-xs-12">Travel premium</label>
-                <div class="col-xs-12">
-                  <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
-                </div>
-              </div>
-
               <div ng-if="dayType === 'weekday'">
-                <div class="row form-group" ng-if="claim.consult_premium_travel" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_day')}">
-                  <label class="control-label col-xs-12">
-                    Day 7:00-17:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_day")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekday_day')"></mb-switch>
-                    &nbsp;
-                    <span class="control-label">You already have {{consultCounts.weekday_day}}</span>
+                <div class="row">
+                  <div class="col-xs-6">
+                    <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_day')}">
+                      <label class="control-label col-xs-12">
+                        Day 7:00-17:00
+                        <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_day")}}</span>
+                      </label>
+                      <div class="col-xs-12">
+                        <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day" ng-disabled="isConsultPremiumVisitDisabled('weekday_day')"></mb-switch>
+                        <p class="help-block">You already have {{consultCounts.weekday_day}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-6">
+                    <div class="row">
+                      <label class="control-label col-xs-12">Travel premium</label>
+                      <div class="col-xs-12">
+                        <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -101,9 +105,8 @@
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_office_hours")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_office_hours" id="claim-consult-premium-visit-weekday-office-hours" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekday_office_hours')"></mb-switch>
-                    &nbsp;
-                    <span class="control-label">You already have {{consultCounts.weekday_office_hours}}</span>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_office_hours" id="claim-consult-premium-visit-weekday-office-hours" ng-disabled="isConsultPremiumVisitDisabled('weekday_office_hours')"></mb-switch>
+                    <p class="help-block">You already have {{consultCounts.weekday_office_hours}}</p>
                   </div>
                 </div>
 
@@ -113,9 +116,8 @@
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_evening")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_evening" id="claim-consult-premium-visit-weekday-evening" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekday_evening')"></mb-switch>
-                    &nbsp;
-                    <span class="control-label">You already have {{consultCounts.weekday_evening}}</span>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_evening" id="claim-consult-premium-visit-weekday-evening" ng-disabled="isConsultPremiumVisitDisabled('weekday_evening')"></mb-switch>
+                    <p class="help-block">You already have {{consultCounts.weekday_evening}}</p>
                   </div>
                 </div>
 
@@ -125,23 +127,28 @@
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_night")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekday_night')"></mb-switch>
-                    &nbsp;
-                    <span class="control-label">You already have {{consultCounts.weekday_night}}</span>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night" ng-disabled="isConsultPremiumVisitDisabled('weekday_night')"></mb-switch>
+                    <p class="help-block">You already have {{consultCounts.weekday_night}}</p>
                   </div>
                 </div>
               </div>
 
               <div ng-if="dayType === 'weekend'">
+                <div class="row">
+                  <label class="control-label col-xs-12">Travel premium</label>
+                  <div class="col-xs-12">
+                    <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
+                  </div>
+                </div>
+
                 <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekend_day')}">
                   <label class="control-label col-xs-12">
                     Weekend 7:00-0:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_day")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_day" id="claim-consult-premium-visit-weekend-day" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekend_day')"></mb-switch>
-                    &nbsp;
-                    <span class="control-label">You already have {{consultCounts.weekend_day}}</span>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_day" id="claim-consult-premium-visit-weekend-day" ng-disabled="isConsultPremiumVisitDisabled('weekend_day')"></mb-switch>
+                    <p class="help-block">You already have {{consultCounts.weekend_day}}</p>
                   </div>
                 </div>
 
@@ -151,23 +158,28 @@
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_night")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_night" id="claim-consult-premium-visit-weekend-night" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('weekend_night')"></mb-switch>
-                    &nbsp;
-                    <span class="control-label">You already have {{consultCounts.weekend_night}}</span>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_night" id="claim-consult-premium-visit-weekend-night" ng-disabled="isConsultPremiumVisitDisabled('weekend_night')"></mb-switch>
+                    <p class="help-block">You already have {{consultCounts.weekend_night}}</p>
                   </div>
                 </div>
               </div>
 
               <div ng-if="dayType === 'holiday'">
+                <div class="row">
+                  <label class="control-label col-xs-12">Travel premium</label>
+                  <div class="col-xs-12">
+                    <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
+                  </div>
+                </div>
+
                 <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('holiday_night')}">
                   <label class="control-label col-xs-12">
                     Holiday 7:00-0:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_day")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_day" id="claim-consult-premium-visit-holiday-day" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
-                    &nbsp;
-                    <span class="control-label">You already have {{consultCounts.holiday_night}}</span>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_day" id="claim-consult-premium-visit-holiday-day" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
+                    <p class="help-block">You already have {{consultCounts.holiday_night}}</p>
                   </div>
                 </div>
 
@@ -177,9 +189,8 @@
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_night")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night" class="pull-left" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
-                    &nbsp;
-                    <span class="control-label">You already have {{consultCounts.holiday_night}}</span>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
+                    <p class="help-block">You already have {{consultCounts.holiday_night}}</p>
                   </div>
                 </div>
               </div>

@@ -65,6 +65,12 @@ angular.module("moBilling.controllers")
             }
         });
 
+        $scope.$watch("claim.consult_premium_visit", function (consult_premium_visit) {
+            if (consult_premium_visit === "weekday_day") {
+                $scope.claim.consult_premium_travel = true;
+            }
+        });
+
         $scope.consultTypes = {
             internal_medicine: ["general", "comprehensive", "limited"],
             cardiology: ["general", "comprehensive", "limited"],
@@ -100,8 +106,8 @@ angular.module("moBilling.controllers")
                     return claim.id !== $scope.claim.id && claim.first_seen_on === $scope.claim.first_seen_on;
                 });
 
-                ["weekday_day", "weekday_office_hours", "weekday_evening", "weekday_night", "weekend_day", "weekend_night", "holiday_day", "holiday_night"].forEach(function (consultPremiumVisit) {
-                    $scope.consultCounts[consultPremiumVisit] = $filter("filter")(others, { consult_premium_visit: consultPremiumVisit }).length;
+                ["weekday_day", "weekday_office_hours", "weekday_evening", "weekday_night", "weekend_day", "weekend_night", "holiday_day", "holiday_night"].forEach(function (consult_premium_visit) {
+                    $scope.consultCounts[consult_premium_visit] = $filter("filter")(others, { consult_premium_visit: consult_premium_visit }).length;
                 });
 
                 $scope.claim.consult_premium_first = $filter("filter")(others, {
