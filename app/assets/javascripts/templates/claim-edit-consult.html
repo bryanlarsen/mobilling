@@ -59,12 +59,19 @@
             <div class="col-xs-12">&nbsp;</div>
           </div>
 
-          <div class="form-group row">
-            <label class="control-label col-xs-12">Special visit premium</label>
+          <div class="row">
             <div class="col-xs-12">
-              <mb-switch ng-model="isPremiumVisitVisible" id="is-premium-visible"></mb-switch>
+              <div class="pull-left">
+                <label class="control-label">Special visit premium</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <mb-switch ng-model="isPremiumVisitVisible" id="is-premium-visible"></mb-switch>
+              </div>
+              <div class="pull-left">
+                <label class="control-label">Travel premium</label>
+                <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
+              </div>
             </div>
           </div>
+
 
           <div class="form-group" ng-class="{'has-error': (consultForm.consult_premium_visit.$dirty || submitted) && consultForm.consult_premium_visit.$invalid}" ng-if="isPremiumVisitVisible">
 
@@ -76,26 +83,14 @@
 
             <div ng-if="dayType">
               <div ng-if="dayType === 'weekday'">
-                <div class="row">
-                  <div class="col-xs-6">
-                    <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_day')}">
-                      <label class="control-label col-xs-12">
-                        Day 7:00-17:00
-                        <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_day")}}</span>
-                      </label>
-                      <div class="col-xs-12">
-                        <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day" ng-disabled="isConsultPremiumVisitDisabled('weekday_day')"></mb-switch>
-                        <p class="help-block">Already used = {{consultCounts.weekday_day}}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-6">
-                    <div class="row">
-                      <label class="control-label col-xs-12">Travel premium</label>
-                      <div class="col-xs-12">
-                        <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
-                      </div>
-                    </div>
+                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_day')}">
+                  <label class="control-label col-xs-12">
+                    Day 7:00-17:00
+                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_day")}}</span>
+                  </label>
+                  <div class="col-xs-12">
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day" ng-disabled="isConsultPremiumVisitDisabled('weekday_day')"></mb-switch>
+                    <p class="help-block">Requires Travel Premium, already used = {{consultCounts.weekday_day}}</p>
                   </div>
                 </div>
 
