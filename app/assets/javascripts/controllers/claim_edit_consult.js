@@ -18,7 +18,6 @@ angular.module("moBilling.controllers")
         $scope.$watch("dayType", function (dayType, dayTypeWas) {
             if (dayType !== dayTypeWas) {
                 $scope.claim.consult_premium_visit = undefined;
-                $scope.claim.consult_premium_travel = undefined;
             }
         });
 
@@ -27,7 +26,6 @@ angular.module("moBilling.controllers")
         $scope.$watch("isPremiumVisitVisible", function (isPremiumVisitVisible) {
             if (!isPremiumVisitVisible) {
                 $scope.claim.consult_premium_visit = undefined;
-                $scope.claim.consult_premium_travel = undefined;
             }
         });
 
