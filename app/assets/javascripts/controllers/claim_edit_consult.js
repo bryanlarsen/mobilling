@@ -64,9 +64,13 @@ angular.module("moBilling.controllers")
             }
         });
 
-        $scope.$watch("claim.consult_premium_visit", function (consult_premium_visit) {
+        $scope.$watch("claim.consult_premium_visit", function (consult_premium_visit, consult_premium_visit_was) {
             if (consult_premium_visit === "weekday_day") {
                 $scope.claim.consult_premium_travel = true;
+            }
+
+            if (consult_premium_visit_was === "weekday_day") {
+                $scope.claim.consult_premium_travel = false;
             }
         });
 
