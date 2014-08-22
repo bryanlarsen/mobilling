@@ -22,7 +22,7 @@ angular.module("moBilling.controllers")
             }
         });
 
-        $scope.isPremiumVisitVisible = !!($scope.claim.consult_premium_visit || $scope.claim.consult_premium_travel);
+        $scope.isPremiumVisitVisible = !!$scope.claim.consult_premium_visit;
 
         $scope.$watch("isPremiumVisitVisible", function (isPremiumVisitVisible) {
             if (!isPremiumVisitVisible) {
