@@ -27,6 +27,7 @@ angular.module("moBilling.controllers")
         $scope.$watch("isPremiumVisitVisible", function (isPremiumVisitVisible) {
             if (!isPremiumVisitVisible) {
                 $scope.claim.consult_premium_visit = undefined;
+                $scope.claim.consult_premium_travel = undefined;
             }
         });
 
@@ -59,6 +60,10 @@ angular.module("moBilling.controllers")
         });
 
         $scope.$watch("claim.consult_premium_travel", function (consult_premium_travel) {
+            if (consult_premium_travel) {
+                $scope.isPremiumVisitVisible = true;
+            }
+
             if (!consult_premium_travel && $scope.claim.consult_premium_visit === "weekday_day") {
                 $scope.claim.consult_premium_visit = undefined;
             }
