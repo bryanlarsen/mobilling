@@ -87,6 +87,7 @@
                   <label class="control-label col-xs-12">
                     Day 7:00-17:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_day")}}</span>
+                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_day")}}</span>
                   </label>
                   <div class="col-xs-12">
                     <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day" ng-disabled="isConsultPremiumVisitDisabled('weekday_day')"></mb-switch>
@@ -98,6 +99,7 @@
                   <label class="control-label col-xs-12">
                     Office hours 7:00-17:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_office_hours")}}</span>
+                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_office_hours")}}</span>
                   </label>
                   <div class="col-xs-12">
                     <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_office_hours" id="claim-consult-premium-visit-weekday-office-hours" ng-disabled="isConsultPremiumVisitDisabled('weekday_office_hours')"></mb-switch>
@@ -109,6 +111,7 @@
                   <label class="control-label col-xs-12">
                     Evening 17:00-0:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_evening")}}</span>
+                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_evening")}}</span>
                   </label>
                   <div class="col-xs-12">
                     <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_evening" id="claim-consult-premium-visit-weekday-evening" ng-disabled="isConsultPremiumVisitDisabled('weekday_evening')"></mb-switch>
@@ -120,6 +123,7 @@
                   <label class="control-label col-xs-12">
                     Night 0:00-7:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_night")}}</span>
+                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_night")}}</span>
                   </label>
                   <div class="col-xs-12">
                     <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night" ng-disabled="isConsultPremiumVisitDisabled('weekday_night')"></mb-switch>
@@ -140,6 +144,7 @@
                   <label class="control-label col-xs-12">
                     Weekend 7:00-0:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_day")}}</span>
+                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekend_day")}}</span>
                   </label>
                   <div class="col-xs-12">
                     <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_day" id="claim-consult-premium-visit-weekend-day" ng-disabled="isConsultPremiumVisitDisabled('weekend_day')"></mb-switch>
@@ -151,6 +156,7 @@
                   <label class="control-label col-xs-12">
                     Night 0:00-7:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_night")}}</span>
+                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekend_night")}}</span>
                   </label>
                   <div class="col-xs-12">
                     <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_night" id="claim-consult-premium-visit-weekend-night" ng-disabled="isConsultPremiumVisitDisabled('weekend_night')"></mb-switch>
@@ -171,6 +177,7 @@
                   <label class="control-label col-xs-12">
                     Holiday 7:00-0:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_day")}}</span>
+                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "holiday_day")}}</span>
                   </label>
                   <div class="col-xs-12">
                     <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_day" id="claim-consult-premium-visit-holiday-day" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
@@ -182,6 +189,7 @@
                   <label class="control-label col-xs-12">
                     Night 0:00-7:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_night")}}</span>
+                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "holiday_night")}}</span>
                   </label>
                   <div class="col-xs-12">
                     <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
