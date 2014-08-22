@@ -2,29 +2,30 @@ source "https://rubygems.org"
 
 ruby "2.1.2"
 
-gem "rails", "4.1.5"
+gem "rails", "4.2.0.beta1"
 
 gem "angular-rails-templates"
 gem "apipie-rails"
 gem "bcrypt"
 gem "carrierwave"
+gem "email_validator"
 gem "jbuilder"
 gem "jquery-rails"
 gem "less-rails"
 gem "mini_magick"
 gem "pg"
 gem "pundit", github: "elabs/pundit"
+gem "responders"
 gem "sprockets-redirect"
 gem "therubyracer"
 gem "turbolinks"
 gem "uuid_validator"
-gem "valid_email"
 
 group :development do
-  gem "better_errors"
   gem "letter_opener"
-  gem "quiet_assets"
   gem "spring"
+  gem "byebug"
+  gem "web-console", "~> 2.0.0.beta2"
 end
 
 group :test do
