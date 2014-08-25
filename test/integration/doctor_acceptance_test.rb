@@ -239,4 +239,42 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Flu")
     assert @doctor.see?("Cold")
   end
+
+  test "cannot choose office hours option over the limit for the same period" do
+    10.times do
+      @doctor.click_on("New")
+      @doctor.fill_in("Admission date", with: "2014-07-02")
+      @doctor.click_on("Consult")
+      @doctor.find_by_id("claim-consult-type-general-er").click
+      @doctor.find_by_id("is-premium-visible").click
+      @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours").click
+      @doctor.click_on("Save")
+    end
+    @doctor.click_on("New")
+    @doctor.fill_in("Admission date", with: "2014-07-02")
+    @doctor.click_on("Consult")
+    @doctor.find_by_id("claim-consult-type-general-er").click
+    @doctor.find_by_id("is-premium-visible").click
+    assert_equal "disabled", @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours")["disabled"]
+  end
+
+  test "cannot choose travel premium option over the limit for the same period" do
+    2.times do
+      @doctor.click_on("New")
+      @doctor.fill_in("Admission date", with: "2014-07-02")
+      @doctor.click_on("Consult")
+      @doctor.find_by_id("claim-consult-type-general-er").click
+      @doctor.find_by_id("is-premium-visible").click
+      @doctor.find_by_id("claim-consult-premium-travel").click
+      @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours").click
+      @doctor.click_on("Save")
+    end
+    @doctor.click_on("New")
+    @doctor.fill_in("Admission date", with: "2014-07-02")
+    @doctor.click_on("Consult")
+    @doctor.find_by_id("claim-consult-type-general-er").click
+    @doctor.find_by_id("is-premium-visible").click
+    @doctor.find_by_id("claim-consult-premium-travel").click
+    assert_equal "disabled", @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours")["disabled"]
+  end
 end
