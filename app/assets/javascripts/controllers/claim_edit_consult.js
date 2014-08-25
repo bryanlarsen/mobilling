@@ -70,11 +70,12 @@ angular.module("moBilling.controllers")
         });
 
         $scope.$watch("claim.consult_premium_visit", function (consult_premium_visit, consult_premium_visit_was) {
+
             if (consult_premium_visit === "weekday_day") {
                 $scope.claim.consult_premium_travel = true;
             }
 
-            if (consult_premium_visit_was === "weekday_day") {
+            if (consult_premium_visit !== "weekday_day" && consult_premium_visit_was === "weekday_day") {
                 $scope.claim.consult_premium_travel = false;
             }
         });
@@ -89,25 +90,49 @@ angular.module("moBilling.controllers")
             return ["comprehensive_er", "comprehensive_non_er", "special_er", "special_non_er"].indexOf($scope.claim.consult_type) !== -1;
         };
 
-        $scope.consultLimits = {
-            weekday_day: 10,
-            weekday_office_hours: 10,
-            weekday_evening: 10,
-            weekday_night: Infinity,
-            weekend_day: 20,
-            weekend_night: Infinity,
-            holiday_day: 20,
-            holiday_night: Infinity
-        };
+        function consultPremiumVisitLimit(consultPremiumVisit) {
+            if (consultPremiumVisit === undefined) {
+                consultPremiumVisit = $scope.claim.consult_premium_visit;
+            }
+
+            return {
+                weekday_day:          10,
+                weekday_office_hours: 10,
+                weekday_evening:      10,
+                weekday_night:        Infinity,
+                weekend_day:          20,
+                weekend_night:        Infinity,
+                holiday_day:          20,
+                holiday_night:        Infinity
+            }[consultPremiumVisit];
+        }
+
+        function consultPremiumTravelLimit(consultPremiumVisit) {
+            if (consultPremiumVisit === undefined) {
+                consultPremiumVisit = $scope.claim.consult_premium_visit;
+            }
+
+            return {
+                weekday_day:          2,
+                weekday_office_hours: 2,
+                weekday_evening:      2,
+                weekday_night:        Infinity,
+                weekend_day:          6,
+                weekend_night:        Infinity,
+                holiday_day:          6,
+                holiday_night:        Infinity
+            }[consultPremiumVisit];
+        }
 
         $scope.$watchGroup([
             "isPremiumVisitVisible",
             "claim.first_seen_on",
-            "claim.consult_premium_visit"
+            "claim.consult_premium_visit",
+            "claim.consult_premium_travel"
         ], function () {
             var others;
 
-            $scope.consultCounts = {};
+            $scope.consultPremiumVisitCounts = {};
 
             if ($scope.isPremiumVisitVisible && $scope.claim.first_seen_on) {
                 others = $scope.claims.filter(function (claim) {
@@ -115,7 +140,7 @@ angular.module("moBilling.controllers")
                 });
 
                 ["weekday_day", "weekday_office_hours", "weekday_evening", "weekday_night", "weekend_day", "weekend_night", "holiday_day", "holiday_night"].forEach(function (consult_premium_visit) {
-                    $scope.consultCounts[consult_premium_visit] = $filter("filter")(others, { consult_premium_visit: consult_premium_visit }).length;
+                    $scope.consultPremiumVisitCounts[consult_premium_visit] = $filter("filter")(others, { consult_premium_visit: consult_premium_visit }).length;
                 });
 
                 $scope.claim.consult_premium_first = $filter("filter")(others, {
@@ -126,6 +151,6 @@ angular.module("moBilling.controllers")
         });
 
         $scope.isConsultPremiumVisitDisabled = function (consultPremiumVisit) {
-            return $scope.claim.consult_premium_visit !== consultPremiumVisit && $scope.consultCounts[consultPremiumVisit] >= $scope.consultLimits[consultPremiumVisit];
+            return $scope.claim.consult_premium_visit !== consultPremiumVisit && $scope.consultPremiumVisitCounts[consultPremiumVisit] >= consultPremiumVisitLimit(consultPremiumVisit);
         };
     });
