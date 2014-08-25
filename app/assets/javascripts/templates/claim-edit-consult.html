@@ -83,14 +83,14 @@
 
             <div ng-if="dayType">
               <div ng-if="dayType === 'weekday'">
-                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_day')}">
+                <div class="row" ng-class="{'text-muted': !claim.consult_premium_travel || isConsultPremiumVisitDisabled('weekday_day')}">
                   <label class="control-label col-xs-12">
                     Day 7:00-17:00
                     <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_day")}}</span>
                     <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_day")}}</span>
                   </label>
                   <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day" ng-disabled="isConsultPremiumVisitDisabled('weekday_day')"></mb-switch>
+                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day" ng-disabled="!claim.consult_premium_travel || isConsultPremiumVisitDisabled('weekday_day')"></mb-switch>
                     <p class="help-block">Requires <em>Travel premium</em>, already used = {{consultPremiumVisitCounts.weekday_day}}</p>
                   </div>
                 </div>

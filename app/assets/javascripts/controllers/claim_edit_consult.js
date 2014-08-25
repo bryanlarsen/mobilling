@@ -64,9 +64,7 @@ angular.module("moBilling.controllers")
                 $scope.isPremiumVisitVisible = true;
             }
 
-            if (!consult_premium_travel && $scope.claim.consult_premium_visit === "weekday_day") {
-                $scope.claim.consult_premium_visit = undefined;
-            }
+            $scope.claim.consult_premium_visit = undefined;
         });
 
         $scope.$watch("claim.consult_premium_visit", function (consult_premium_visit, consult_premium_visit_was) {
@@ -139,18 +137,26 @@ angular.module("moBilling.controllers")
                     return claim.id !== $scope.claim.id && claim.first_seen_on === $scope.claim.first_seen_on;
                 });
 
-                ["weekday_day", "weekday_office_hours", "weekday_evening", "weekday_night", "weekend_day", "weekend_night", "holiday_day", "holiday_night"].forEach(function (consult_premium_visit) {
+                [
+                    "weekday_day",
+                    "weekday_office_hours",
+                    "weekday_evening",
+                    "weekday_night",
+                    "weekend_day",
+                    "weekend_night",
+                    "holiday_day",
+                    "holiday_night"
+                ].forEach(function (consult_premium_visit) {
                     var consultPremiumVisitClaims = $filter("filter")(others, { consult_premium_visit: consult_premium_visit });
 
                     $scope.consultPremiumVisitCounts[consult_premium_visit] = consultPremiumVisitClaims.length;
 
                     if ($scope.claim.consult_premium_travel) {
-                        $scope.consultPremiumTravelCounts[consult_premium_visit] = $filter("filter")(consultPremiumVisitClaims, { consult_premium_travel: true }).length;
+                        $scope.consultPremiumTravelCounts[consult_premium_visit] = $filter("filter")(consultPremiumVisitClaims, {
+                            consult_premium_travel: true
+                        }).length;
                     }
                 });
-
-                console.log($scope.consultPremiumVisitCounts);
-                console.log($scope.consultPremiumTravelCounts);
 
                 $scope.claim.consult_premium_first = $filter("filter")(others, {
                     consult_premium_visit: $scope.claim.consult_premium_visit,
@@ -161,7 +167,7 @@ angular.module("moBilling.controllers")
 
         $scope.isConsultPremiumVisitDisabled = function (consultPremiumVisit) {
             return $scope.claim.consult_premium_visit !== consultPremiumVisit
-                && $scope.consultPremiumVisitCounts[consultPremiumVisit] >= consultPremiumVisitLimit(consultPremiumVisit)
-                && $scope.consultPremiumTravelCounts[consultPremiumVisit] >= consultPremiumTravelLimit(consultPremiumVisit);
+                && ($scope.consultPremiumVisitCounts[consultPremiumVisit] >= consultPremiumVisitLimit(consultPremiumVisit)
+                    || $scope.consultPremiumTravelCounts[consultPremiumVisit] >= consultPremiumTravelLimit(consultPremiumVisit));
         };
     });
