@@ -58,157 +58,157 @@
 
             <div class="col-xs-12">&nbsp;</div>
           </div>
+        </div>
 
-          <div class="row">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="pull-left">
+              <label class="control-label">Special visit premium</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <mb-switch ng-model="isPremiumVisitVisible" id="is-premium-visible"></mb-switch>
+            </div>
+            <div class="pull-left">
+              <label class="control-label">Travel premium</label>
+              <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': (consultForm.consult_premium_visit.$dirty || submitted) && consultForm.consult_premium_visit.$invalid}" ng-if="isPremiumVisitVisible">
+
+          <div ng-if="!dayType" class="has-error form-group row">
             <div class="col-xs-12">
-              <div class="pull-left">
-                <label class="control-label">Special visit premium</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <mb-switch ng-model="isPremiumVisitVisible" id="is-premium-visible"></mb-switch>
+              <p class="help-block">No admission date is set. Please ensure that the <em>Claim</em> tab has been completed before filling <em>Consult</em> details.</p>
+            </div>
+          </div>
+
+          <div ng-if="dayType">
+            <div ng-if="dayType === 'weekday'">
+              <div class="row" ng-class="{'text-muted': !claim.consult_premium_travel || isConsultPremiumVisitDisabled('weekday_day')}">
+                <label class="control-label col-xs-12">
+                  Day 7:00-17:00
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_day")}}</span>
+                  <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_day")}}</span>
+                </label>
+                <div class="col-xs-12">
+                  <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day" ng-disabled="!claim.consult_premium_travel || isConsultPremiumVisitDisabled('weekday_day')"></mb-switch>
+                  <p class="help-block">Requires <em>Travel premium</em>, already used = {{consultPremiumVisitCounts.weekday_day}}</p>
+                </div>
               </div>
-              <div class="pull-left">
-                <label class="control-label">Travel premium</label>
-                <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
+
+              <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_office_hours')}">
+                <label class="control-label col-xs-12">
+                  Office hours 7:00-17:00
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_office_hours")}}</span>
+                  <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_office_hours")}}</span>
+                </label>
+                <div class="col-xs-12">
+                  <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_office_hours" id="claim-consult-premium-visit-weekday-office-hours" ng-disabled="isConsultPremiumVisitDisabled('weekday_office_hours')"></mb-switch>
+                  <p class="help-block">Already used = {{consultPremiumVisitCounts.weekday_office_hours}}</p>
+                </div>
+              </div>
+
+              <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_evening')}">
+                <label class="control-label col-xs-12">
+                  Evening 17:00-0:00
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_evening")}}</span>
+                  <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_evening")}}</span>
+                </label>
+                <div class="col-xs-12">
+                  <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_evening" id="claim-consult-premium-visit-weekday-evening" ng-disabled="isConsultPremiumVisitDisabled('weekday_evening')"></mb-switch>
+                  <p class="help-block">Already used = {{consultPremiumVisitCounts.weekday_evening}}</p>
+                </div>
+              </div>
+
+              <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_night')}">
+                <label class="control-label col-xs-12">
+                  Night 0:00-7:00
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_night")}}</span>
+                  <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_night")}}</span>
+                </label>
+                <div class="col-xs-12">
+                  <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night" ng-disabled="isConsultPremiumVisitDisabled('weekday_night')"></mb-switch>
+                  <p class="help-block">Already used = {{consultPremiumVisitCounts.weekday_night}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div ng-if="dayType === 'weekend'">
+              <div class="row">
+                <label class="control-label col-xs-12">Travel premium</label>
+                <div class="col-xs-12">
+                  <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
+                </div>
+              </div>
+
+              <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekend_day')}">
+                <label class="control-label col-xs-12">
+                  Weekend 7:00-0:00
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_day")}}</span>
+                  <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekend_day")}}</span>
+                </label>
+                <div class="col-xs-12">
+                  <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_day" id="claim-consult-premium-visit-weekend-day" ng-disabled="isConsultPremiumVisitDisabled('weekend_day')"></mb-switch>
+                  <p class="help-block">Already used = {{consultPremiumVisitCounts.weekend_day}}</p>
+                </div>
+              </div>
+
+              <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekend_night')}">
+                <label class="control-label col-xs-12">
+                  Night 0:00-7:00
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_night")}}</span>
+                  <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekend_night")}}</span>
+                </label>
+                <div class="col-xs-12">
+                  <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_night" id="claim-consult-premium-visit-weekend-night" ng-disabled="isConsultPremiumVisitDisabled('weekend_night')"></mb-switch>
+                  <p class="help-block">Already used = {{consultPremiumVisitCounts.weekend_night}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div ng-if="dayType === 'holiday'">
+              <div class="row">
+                <label class="control-label col-xs-12">Travel premium</label>
+                <div class="col-xs-12">
+                  <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
+                </div>
+              </div>
+
+              <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('holiday_night')}">
+                <label class="control-label col-xs-12">
+                  Holiday 7:00-0:00
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_day")}}</span>
+                  <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "holiday_day")}}</span>
+                </label>
+                <div class="col-xs-12">
+                  <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_day" id="claim-consult-premium-visit-holiday-day" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
+                  <p class="help-block">Already used = {{consultPremiumVisitCounts.holiday_night}}</p>
+                </div>
+              </div>
+
+              <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('holiday_night')}">
+                <label class="control-label col-xs-12">
+                  Night 0:00-7:00
+                  <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_night")}}</span>
+                  <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "holiday_night")}}</span>
+                </label>
+                <div class="col-xs-12">
+                  <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
+                  <p class="help-block">Already used = {{consultPremiumVisitCounts.holiday_night}}</p>
+                </div>
               </div>
             </div>
           </div>
 
-
-          <div class="form-group" ng-class="{'has-error': (consultForm.consult_premium_visit.$dirty || submitted) && consultForm.consult_premium_visit.$invalid}" ng-if="isPremiumVisitVisible">
-
-            <div ng-if="!dayType" class="has-error form-group row">
-              <div class="col-xs-12">
-                <p class="help-block">No admission date is set. Please ensure that the <em>Claim</em> tab has been completed before filling <em>Consult</em> details.</p>
-              </div>
-            </div>
-
-            <div ng-if="dayType">
-              <div ng-if="dayType === 'weekday'">
-                <div class="row" ng-class="{'text-muted': !claim.consult_premium_travel || isConsultPremiumVisitDisabled('weekday_day')}">
-                  <label class="control-label col-xs-12">
-                    Day 7:00-17:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_day")}}</span>
-                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_day")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day" ng-disabled="!claim.consult_premium_travel || isConsultPremiumVisitDisabled('weekday_day')"></mb-switch>
-                    <p class="help-block">Requires <em>Travel premium</em>, already used = {{consultPremiumVisitCounts.weekday_day}}</p>
-                  </div>
-                </div>
-
-                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_office_hours')}">
-                  <label class="control-label col-xs-12">
-                    Office hours 7:00-17:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_office_hours")}}</span>
-                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_office_hours")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_office_hours" id="claim-consult-premium-visit-weekday-office-hours" ng-disabled="isConsultPremiumVisitDisabled('weekday_office_hours')"></mb-switch>
-                    <p class="help-block">Already used = {{consultPremiumVisitCounts.weekday_office_hours}}</p>
-                  </div>
-                </div>
-
-                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_evening')}">
-                  <label class="control-label col-xs-12">
-                    Evening 17:00-0:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_evening")}}</span>
-                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_evening")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_evening" id="claim-consult-premium-visit-weekday-evening" ng-disabled="isConsultPremiumVisitDisabled('weekday_evening')"></mb-switch>
-                    <p class="help-block">Already used = {{consultPremiumVisitCounts.weekday_evening}}</p>
-                  </div>
-                </div>
-
-                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekday_night')}">
-                  <label class="control-label col-xs-12">
-                    Night 0:00-7:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_night")}}</span>
-                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekday_night")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night" ng-disabled="isConsultPremiumVisitDisabled('weekday_night')"></mb-switch>
-                    <p class="help-block">Already used = {{consultPremiumVisitCounts.weekday_night}}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div ng-if="dayType === 'weekend'">
-                <div class="row">
-                  <label class="control-label col-xs-12">Travel premium</label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
-                  </div>
-                </div>
-
-                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekend_day')}">
-                  <label class="control-label col-xs-12">
-                    Weekend 7:00-0:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_day")}}</span>
-                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekend_day")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_day" id="claim-consult-premium-visit-weekend-day" ng-disabled="isConsultPremiumVisitDisabled('weekend_day')"></mb-switch>
-                    <p class="help-block">Already used = {{consultPremiumVisitCounts.weekend_day}}</p>
-                  </div>
-                </div>
-
-                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('weekend_night')}">
-                  <label class="control-label col-xs-12">
-                    Night 0:00-7:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_night")}}</span>
-                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "weekend_night")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_night" id="claim-consult-premium-visit-weekend-night" ng-disabled="isConsultPremiumVisitDisabled('weekend_night')"></mb-switch>
-                    <p class="help-block">Already used = {{consultPremiumVisitCounts.weekend_night}}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div ng-if="dayType === 'holiday'">
-                <div class="row">
-                  <label class="control-label col-xs-12">Travel premium</label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
-                  </div>
-                </div>
-
-                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('holiday_night')}">
-                  <label class="control-label col-xs-12">
-                    Holiday 7:00-0:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_day")}}</span>
-                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "holiday_day")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_day" id="claim-consult-premium-visit-holiday-day" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
-                    <p class="help-block">Already used = {{consultPremiumVisitCounts.holiday_night}}</p>
-                  </div>
-                </div>
-
-                <div class="row" ng-class="{'text-muted': isConsultPremiumVisitDisabled('holiday_night')}">
-                  <label class="control-label col-xs-12">
-                    Night 0:00-7:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_night")}}</span>
-                    <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, "holiday_night")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night" ng-disabled="isConsultPremiumVisitDisabled('holiday_night')"></mb-switch>
-                    <p class="help-block">Already used = {{consultPremiumVisitCounts.holiday_night}}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-xs-12">
-                <input type="hidden" name="consult_premium_visit" ng-model="claim.consult_premium_visit" required>
-                <div ng-messages="consultForm.consult_premium_visit.$error" ng-show="submitted">
-                  <p class="help-block" ng-message="required">is missing</p>
-                </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <input type="hidden" name="consult_premium_visit" ng-model="claim.consult_premium_visit" required>
+              <div ng-messages="consultForm.consult_premium_visit.$error" ng-show="submitted">
+                <p class="help-block" ng-message="required">is missing</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </ng-form>
