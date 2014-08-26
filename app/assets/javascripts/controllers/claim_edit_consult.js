@@ -63,18 +63,6 @@ angular.module("moBilling.controllers")
             if (consult_premium_travel) {
                 $scope.isPremiumVisitVisible = true;
             }
-
-            $scope.claim.consult_premium_visit = undefined;
-        });
-
-        $scope.$watch("claim.consult_premium_visit", function (consult_premium_visit, consult_premium_visit_was) {
-            if (consult_premium_visit === "weekday_day") {
-                $scope.claim.consult_premium_travel = true;
-            }
-
-            if (consult_premium_visit !== "weekday_day" && consult_premium_visit_was === "weekday_day") {
-                $scope.claim.consult_premium_travel = false;
-            }
         });
 
         $scope.consultTypes = {
@@ -165,9 +153,15 @@ angular.module("moBilling.controllers")
             }
         });
 
-        $scope.isConsultPremiumVisitDisabled = function (consultPremiumVisit) {
-            return $scope.claim.consult_premium_visit !== consultPremiumVisit
-                && ($scope.consultPremiumVisitCounts[consultPremiumVisit] >= consultPremiumVisitLimit(consultPremiumVisit)
-                    || $scope.consultPremiumTravelCounts[consultPremiumVisit] >= consultPremiumTravelLimit(consultPremiumVisit));
+        $scope.isConsultPremiumVisitLimitReached = function () {
+            var consult_premium_visit = $scope.claim.consult_premium_visit;
+
+            return $scope.consultPremiumVisitCounts[consult_premium_visit] >= consultPremiumVisitLimit(consult_premium_visit);
+        };
+
+        $scope.isConsultPremiumTravelLimitReached = function () {
+            var consult_premium_visit = $scope.claim.consult_premium_visit;
+
+            return $scope.consultPremiumTravelCounts[consult_premium_visit] >= consultPremiumTravelLimit(consult_premium_visit);
         };
     });

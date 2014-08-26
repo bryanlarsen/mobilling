@@ -255,7 +255,10 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Consult")
     @doctor.find_by_id("claim-consult-type-general-er").click
     @doctor.find_by_id("is-premium-visible").click
-    assert_equal "disabled", @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours")["disabled"]
+    @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours").click
+    @doctor.click_on("Submit")
+    @doctor.click_on("Consult")
+    assert @doctor.see?("Max visit premium used for selected code")
   end
 
   test "cannot choose travel premium option over the limit for the same period" do
@@ -275,6 +278,9 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.find_by_id("claim-consult-type-general-er").click
     @doctor.find_by_id("is-premium-visible").click
     @doctor.find_by_id("claim-consult-premium-travel").click
-    assert_equal "disabled", @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours")["disabled"]
+    @doctor.find_by_id("claim-consult-premium-visit-weekday-office-hours").click
+    @doctor.click_on("Submit")
+    @doctor.click_on("Consult")
+    assert @doctor.see?("Max travel premium used")
   end
 end
