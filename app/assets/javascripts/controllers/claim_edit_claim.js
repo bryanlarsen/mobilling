@@ -5,12 +5,22 @@ angular.module("moBilling.controllers")
 
         $scope.hospitals = {
             displayKey: "name",
-            source: hospitals.ttAdapter()
+            source: hospitals.ttAdapter(),
+            templates: {
+                suggestion: function (context) {
+                    return "<p class='needsclick'>" + context.name + "</p>";
+                }
+            }
         };
 
         $scope.diagnoses = {
             displayKey: "name",
-            source: diagnoses.ttAdapter()
+            source: diagnoses.ttAdapter(),
+            templates: {
+                suggestion: function (context) {
+                    return "<p class='needsclick'>" + context.name + "</p>";
+                }
+            }
         };
 
         $scope.$watchGroup(["isFirstSeenOnHidden", "claim.admission_on"], function () {

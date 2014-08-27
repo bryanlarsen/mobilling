@@ -3,7 +3,12 @@ angular.module("moBilling.controllers")
     .controller("ClaimEditDetailsController", function ($scope, serviceCodes) {
         $scope.serviceCodes = {
             displayKey: "name",
-            source: serviceCodes.ttAdapter()
+            source: serviceCodes.ttAdapter(),
+            templates: {
+                suggestion: function (context) {
+                    return "<p class='needsclick'>" + context.name + "</p>";
+                }
+            }
         };
 
         $scope.add = function (attributes) {
