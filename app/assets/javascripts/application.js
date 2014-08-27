@@ -1,8 +1,7 @@
 //= require jquery
 //= require overthrow
-//= require fastclick
 //= require bloodhound
-//= require typeahead.jquery
+//= require typeahead
 //= require angular
 //= require angular-route
 //= require angular-messages
@@ -17,8 +16,6 @@
 //= require mobile-angular-ui/scrollable
 //= require ui-utils
 //= require angular-rails-templates
-//= require uuid
-//= require lodash
 //= require bootstrap-datepicker
 //= require bootstrap-timepicker
 //= require date.format
