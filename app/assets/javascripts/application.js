@@ -2,6 +2,7 @@
 //= require overthrow
 //= require bloodhound
 //= require typeahead
+//= require fastclick
 //= require angular
 //= require angular-route
 //= require angular-messages
