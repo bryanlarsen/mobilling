@@ -8,42 +8,42 @@
 
         <div class="form-group" ng-class="{'has-error': (consultForm.consult_type.$dirty || submitted) && consultForm.consult_type.$invalid}">
           <div class="row">
-            <div class="col-xs-offset-6 col-xs-3 text-center">
+            <div class="col-xs-offset-4 col-xs-4 text-center">
               <label class="control-label">ER</label>
             </div>
-            <div class="col-xs-3 text-center">
+            <div class="col-xs-4 text-center">
               <label class="control-label">Non-ER</label>
             </div>
           </div>
 
           <div class="row" ng-repeat="consultType in consultTypes">
-            <div class="col-xs-6">
+            <div class="col-xs-4">
               <label class="control-label">{{consultType | inflector}}</label>
             </div>
-            <div class="col-xs-3 text-center">
+            <div class="col-xs-4 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="{{consultType}}_er" id="claim-consult-type-{{consultType | dasherize}}-er"></mb-switch>
               <span class="label label-info">{{consultCode(claim.specialty, consultType + "_er")}}</span>
             </div>
-            <div class="col-xs-3 text-center">
+            <div class="col-xs-4 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="{{consultType}}_non_er" id="claim-consult-type-{{consultType | dasherize}}-non-er"></mb-switch>
               <span class="label label-info">{{consultCode(claim.specialty, consultType + "_non_er")}}</span>
             </div>
 
             <div class="col-xs-12" ng-if="claim.consult_type.indexOf(consultType) === 0 && isConsultTimeVisible()">
               <div class="form-group row" ng-class="{'has-error': (consultForm.consult_time_in.$dirty || consultForm.consult_time_out.$dirty || submitted) && consultForm.consult_time.$invalid}">
-                <label for="claim-consult-time-in" class="control-label col-xs-6">
+                <label for="claim-consult-time-in" class="control-label col-xs-4">
                   Time in
                 </label>
-                <div class="col-xs-6">
+                <div class="col-xs-8">
                   <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" required></mb-time>
                 </div>
 
                 <div class="col-xs-12">&nbsp;</div>
 
-                <label for="claim-consult-time-out" class="control-label col-xs-6">
+                <label for="claim-consult-time-out" class="control-label col-xs-4">
                   Time out
                 </label>
-                <div class="col-xs-6">
+                <div class="col-xs-8">
                   <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out" required></mb-time>
                 </div>
 
@@ -62,24 +62,25 @@
 
         <div class="row">
           <div class="col-xs-12">
-            <div class="pull-left">
-              <label class="control-label">Special visit premium</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <mb-switch ng-model="isPremiumVisitVisible" id="is-premium-visible"></mb-switch>
-            </div>
-            <div class="pull-left" ng-class="{'has-error': consultForm.consult_premium_travel.$invalid}">
-              <label class="control-label">Travel premium</label>
-              <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
-              <input type="hidden" ng-model="claim.consult_premium_travel" name="consult_premium_travel" ui-validate="{required: '$value || claim.consult_premium_visit !== \'weekday_day\''}" ui-validate-watch="'claim.consult_premium_visit'">
-              <div ng-messages="consultForm.consult_premium_travel.$error" ng-show="submitted">
-                <p class="help-block" ng-message="required">is required</p>
-              </div>
+            <label class="control-label">Special visit premium</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <mb-switch ng-model="isPremiumVisitVisible" id="is-premium-visible"></mb-switch>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12" ng-class="{'has-error': consultForm.consult_premium_travel.$invalid}">
+            <label class="control-label">Travel premium</label>
+            <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
+            <input type="hidden" ng-model="claim.consult_premium_travel" name="consult_premium_travel" ui-validate="{required: '$value || claim.consult_premium_visit !== \'weekday_day\''}" ui-validate-watch="'claim.consult_premium_visit'">
+            <div ng-messages="consultForm.consult_premium_travel.$error" ng-show="submitted">
+              <p class="help-block" ng-message="required">is required</p>
             </div>
           </div>
         </div>
 
-        <div class="form-group" ng-class="{'has-error': (consultForm.consult_premium_visit.$dirty || submitted) && consultForm.consult_premium_visit.$invalid}" ng-if="isPremiumVisitVisible">
+        <div ng-class="{'has-error': (consultForm.consult_premium_visit.$dirty || submitted) && consultForm.consult_premium_visit.$invalid}" ng-if="isPremiumVisitVisible">
 
-          <div ng-if="!dayType" class="has-error form-group row">
+          <div ng-if="!dayType" class="has-error form-group">
             <div class="col-xs-12">
               <p class="help-block">No admission date is set. Please ensure that the <em>Claim</em> tab has been completed before filling <em>Consult</em> details.</p>
             </div>
