@@ -103,6 +103,7 @@ module Test
         hospital: "Test",
         referring_physician: "Bob",
         diagnoses: [{name: "Flu"}],
+        most_responsible_physician: true,
         admission_on: "2014-07-02",
         first_seen_on: "2014-07-02",
         first_seen_consult: true,

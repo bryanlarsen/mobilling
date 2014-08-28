@@ -172,9 +172,16 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Max travel premium used")
   end
 
-  test "displays 'Consult on first seen date' when admission date is different than first seen date" do
+  test "displays 'Consult on first seen date' when admission is different than first seen" do
     @doctor.add_claim(admission_on: "2014-07-02", first_seen_on: "2014-07-03", autogenerate: false)
     @doctor.click_on("Claim")
     assert @doctor.see?("Consult on first seen date")
+    assert @doctor.see?("Transfer from ICU/CCU")
+  end
+
+  test "displays 'Transfer from ICU/CCU' when MRP and admission is different than first seen" do
+    @doctor.add_claim(admission_on: "2014-07-02", first_seen_on: "2014-07-03", autogenerate: false, most_responsible_physician: true)
+    @doctor.click_on("Claim")
+    assert @doctor.see?("Transfer from ICU/CCU")
   end
 end
