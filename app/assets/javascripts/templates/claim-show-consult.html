@@ -13,14 +13,14 @@
           </div>
 
           <div class="row" ng-repeat="consultType in consultTypes">
-            <div class="col-xs-6">
+            <div class="col-xs-4">
               <label class="control-label">{{consultType | inflector}}</label>
             </div>
-            <div class="col-xs-3 text-center">
+            <div class="col-xs-4 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="{{consultType}}_er" id="claim-consult-type-{{consultType | dasherize}}-er" disabled="disabled"></mb-switch>
               <span class="label label-info">{{consultCode(claim.specialty, consultType + "_er")}}</span>
             </div>
-            <div class="col-xs-3 text-center">
+            <div class="col-xs-4 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="{{consultType}}_non_er" id="claim-consult-type-{{consultType | dasherize}}-non-er" disabled="disabled"></mb-switch>
               <span class="label label-info">{{consultCode(claim.specialty, consultType + "_non_er")}}</span>
             </div>
