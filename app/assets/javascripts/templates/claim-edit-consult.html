@@ -80,13 +80,13 @@
 
         <div ng-class="{'has-error': (consultForm.consult_premium_visit.$dirty || submitted) && consultForm.consult_premium_visit.$invalid}" ng-if="isPremiumVisitVisible">
 
-          <div ng-if="!dayType" class="has-error form-group">
+          <div ng-if="!dayType" class="row has-error">
             <div class="col-xs-12">
               <p class="help-block">No admission date is set. Please ensure that the <em>Claim</em> tab has been completed before filling <em>Consult</em> details.</p>
             </div>
           </div>
 
-          <div class="row">
+          <div ng-if="dayType" class="row has-error">
             <div class="col-xs-12">
               <input type="hidden" name="consult_premium_visit" ng-model="claim.consult_premium_visit" ui-validate="{visit_limit: '!isConsultPremiumVisitLimitReached()', travel_limit: '!isConsultPremiumTravelLimitReached()'}" ui-validate-watch="['isConsultPremiumVisitLimitReached()', 'isConsultPremiumTravelLimitReached()']" required>
               <div ng-messages="consultForm.consult_premium_visit.$error" ng-show="submitted">
