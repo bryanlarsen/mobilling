@@ -184,4 +184,20 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Claim")
     assert @doctor.see?("Transfer from ICU/CCU")
   end
+
+  test "doctor sees a list of typeahead suggestions for hospital" do
+    7.times { |i| create(:hospital, name: "Hospital #{i + 1}") }
+
+    click_on "New"
+    fill_in "Hospital", with: "hosp"
+    find_by_id("claim-hospital").trigger("focus")
+
+    assert has_content?("Hospital 1")
+    assert has_content?("Hospital 2")
+    assert has_content?("Hospital 3")
+    assert has_content?("Hospital 4")
+    assert has_content?("Hospital 5")
+    assert has_no_content?("Hospital 6")
+    assert has_no_content?("Hospital 7")
+  end
 end
