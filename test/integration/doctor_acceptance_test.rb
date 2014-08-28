@@ -112,12 +112,12 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Generate codes")
     assert @doctor.see?("Consult Missing")
     @doctor.click_on("Generate without consult")
-    assert @doctor.see?("DAILY DETAILS (1)")
+    assert @doctor.see?("DAILY DETAILS (2)")
   end
 
   test "can regenerate details when claim changed" do
     @doctor.add_claim(consult_type: "comprehensive_er", admission_on: "2014-07-02", first_seen_on: "2014-07-02", last_seen_on: "2014-07-07")
-    assert @doctor.see?("DAILY DETAILS (8)")
+    assert @doctor.see?("DAILY DETAILS (14)")
     @doctor.click_on("Details")
     assert @doctor.find_button("Generate codes", disabled: true)
     @doctor.click_on("Consult")
