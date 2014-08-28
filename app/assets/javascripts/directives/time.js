@@ -52,7 +52,7 @@ angular.module("moBilling.directives")
                         $(element).timepicker("option", "maxTime", max);
                     });
 
-                    $(element).timepicker({ timeFormat: "H:i", showDuration: true });
+                    $(element).timepicker({ timeFormat: "H:i", showDuration: true, step: 15 });
 
                     ngModelController.$formatters.push(function (modelValue) {
                         if (modelValue) {
