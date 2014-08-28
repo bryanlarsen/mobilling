@@ -186,8 +186,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "doctor sees a list of typeahead suggestions for hospital" do
-    7.times { |i| create(:hospital, name: "Hospital #{i + 1}") }
-
     @doctor.click_on("New")
     @doctor.fill_in "Hospital", with: "hosp"
     @doctor.press_down_arrow("#claim-hospital")
@@ -202,8 +200,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "doctor sees a list of typeahead suggestions for diagnosis" do
-    7.times { |i| create(:diagnosis, name: "Diagnosis #{i + 1}") }
-
     @doctor.click_on("New")
     @doctor.fill_in "claim-diagnoses-0-name", with: "diag"
     @doctor.press_down_arrow("#claim-diagnoses-0-name")
@@ -218,8 +214,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "doctor sees a list of typeahead suggestions for service code" do
-    7.times { |i| create(:service_code, name: "Service Code #{i + 1}") }
-
     @doctor.click_on("New")
     @doctor.click_on("Details")
     @doctor.click_on("Add a new day")

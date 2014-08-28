@@ -34,6 +34,7 @@ class ActionDispatch::IntegrationTest
 
   # Stop ActiveRecord from wrapping tests in transactions
   self.use_transactional_fixtures = false
+  fixtures :all
 
   def emails
     ActionMailer::Base.deliveries
