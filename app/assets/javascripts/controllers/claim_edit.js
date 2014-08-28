@@ -1,6 +1,6 @@
 angular.module("moBilling.controllers")
 
-    .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, Claim, claims, detailsGenerator) {
+    .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, Claim, claims, hospitals, diagnoses, serviceCodes, detailsGenerator) {
         // HACK: Do not reload the current template if it is not needed.
         var lastRoute = $route.current;
 
@@ -14,6 +14,36 @@ angular.module("moBilling.controllers")
 
         $scope.claims = claims;
         $scope.claim = claim;
+
+        $scope.hospitals = {
+            displayKey: "name",
+            source: hospitals.ttAdapter(),
+            templates: {
+                suggestion: function (context) {
+                    return "<p class='needsclick'>" + context.name + "</p>";
+                }
+            }
+        };
+
+        $scope.diagnoses = {
+            displayKey: "name",
+            source: diagnoses.ttAdapter(),
+            templates: {
+                suggestion: function (context) {
+                    return "<p class='needsclick'>" + context.name + "</p>";
+                }
+            }
+        };
+
+        $scope.serviceCodes = {
+            displayKey: "name",
+            source: serviceCodes.ttAdapter(),
+            templates: {
+                suggestion: function (context) {
+                    return "<p class='needsclick'>" + context.name + "</p>";
+                }
+            }
+        };
 
         if (!$scope.claim.comments) {
             $scope.claim.comments = [];

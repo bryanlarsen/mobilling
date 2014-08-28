@@ -1,6 +1,6 @@
 angular.module("moBilling.factories")
 
-    .factory("hospitals", function (API_URL) {
+    .factory("Hospital", function (API_URL) {
         var hospitals = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.nonword("name"),
             queryTokenizer: Bloodhound.tokenizers.nonword,
@@ -14,7 +14,11 @@ angular.module("moBilling.factories")
             }
         });
 
-        hospitals.initialize();
-
-        return hospitals;
+        return {
+            initialize: function () {
+                return hospitals.initialize().then(function () {
+                    return hospitals;
+                });
+            }
+        };
     });

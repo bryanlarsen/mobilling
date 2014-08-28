@@ -1,27 +1,7 @@
 angular.module("moBilling.controllers")
 
-    .controller("ClaimEditClaimController", function ($scope, Photo, diagnoses, hospitals) {
+    .controller("ClaimEditClaimController", function ($scope, Photo) {
         $scope.isFirstSeenOnHidden = ($scope.claim.admission_on === $scope.claim.first_seen_on);
-
-        $scope.hospitals = {
-            displayKey: "name",
-            source: hospitals.ttAdapter(),
-            templates: {
-                suggestion: function (context) {
-                    return "<p class='needsclick'>" + context.name + "</p>";
-                }
-            }
-        };
-
-        $scope.diagnoses = {
-            displayKey: "name",
-            source: diagnoses.ttAdapter(),
-            templates: {
-                suggestion: function (context) {
-                    return "<p class='needsclick'>" + context.name + "</p>";
-                }
-            }
-        };
 
         $scope.$watchGroup(["isFirstSeenOnHidden", "claim.admission_on"], function () {
             if ($scope.isFirstSeenOnHidden) {

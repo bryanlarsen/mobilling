@@ -74,6 +74,15 @@ angular.module("moBilling")
                 },
                 claims: function (Claim) {
                     return Claim.query().$promise;
+                },
+                diagnoses: function (Diagnosis) {
+                    return Diagnosis.initialize();
+                },
+                hospitals: function (Hospital) {
+                    return Hospital.initialize();
+                },
+                serviceCodes: function (ServiceCode) {
+                    return ServiceCode.initialize();
                 }
             }
         });
@@ -87,6 +96,15 @@ angular.module("moBilling")
                 },
                 claims: function (Claim) {
                     return Claim.query().$promise;
+                },
+                diagnoses: function (Diagnosis) {
+                    return Diagnosis.initialize();
+                },
+                hospitals: function (Hospital) {
+                    return Hospital.initialize();
+                },
+                serviceCodes: function (ServiceCode) {
+                    return ServiceCode.initialize();
                 }
             }
         });
