@@ -18,7 +18,7 @@
 //= require ui-utils
 //= require angular-rails-templates
 //= require bootstrap-datepicker
-//= require bootstrap-timepicker
+//= require jquery.timepicker
 //= require date.format
 //= require modernizr
 //= require ./mo_billing

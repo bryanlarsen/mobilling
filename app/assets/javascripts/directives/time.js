@@ -44,7 +44,15 @@ angular.module("moBilling.directives")
                         }
                     });
                 } else {
-                    $(element).timepicker({ showMeridian: false, defaultTime: false });
+                    attributes.$observe("min", function (min) {
+                        $(element).timepicker("option", "minTime", min);
+                    });
+
+                    attributes.$observe("max", function (max) {
+                        $(element).timepicker("option", "maxTime", max);
+                    });
+
+                    $(element).timepicker({ timeFormat: "H:i", showDuration: true });
 
                     ngModelController.$formatters.push(function (modelValue) {
                         if (modelValue) {

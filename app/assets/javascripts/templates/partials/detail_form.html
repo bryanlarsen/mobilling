@@ -25,7 +25,7 @@
 
     <label for="claim-details-consult-time-out" class="control-label col-xs-4">Time out</label>
     <div class="col-xs-8">
-      <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-details-consult-time-out" required></mb-time>
+      <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-details-consult-time-out" min="{{claim.consult_time_in}}" required></mb-time>
     </div>
 
     <div class="col-xs-12">
