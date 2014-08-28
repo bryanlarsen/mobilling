@@ -213,20 +213,20 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.not_see?("Diagnosis 7")
   end
 
-  test "doctor sees a list of typeahead suggestions for service code" do
-    @doctor.click_on("New")
-    @doctor.click_on("Details")
-    @doctor.click_on("Add a new day")
+  # test "doctor sees a list of typeahead suggestions for service code" do
+  #   @doctor.click_on("New")
+  #   @doctor.click_on("Details")
+  #   @doctor.click_on("Add a new day")
 
-    @doctor.fill_in "code", with: "code"
-    @doctor.press_down_arrow("input[name=code]")
+  #   @doctor.fill_in "code", with: "code"
+  #   @doctor.press_down_arrow("input[name=code]")
 
-    assert @doctor.see?("Service Code 1")
-    assert @doctor.see?("Service Code 2")
-    assert @doctor.see?("Service Code 3")
-    assert @doctor.see?("Service Code 4")
-    assert @doctor.see?("Service Code 5")
-    assert @doctor.not_see?("Service Code 6")
-    assert @doctor.not_see?("Service Code 7")
-  end
+  #   assert @doctor.see?("Service Code 1")
+  #   assert @doctor.see?("Service Code 2")
+  #   assert @doctor.see?("Service Code 3")
+  #   assert @doctor.see?("Service Code 4")
+  #   assert @doctor.see?("Service Code 5")
+  #   assert @doctor.not_see?("Service Code 6")
+  #   assert @doctor.not_see?("Service Code 7")
+  # end
 end
