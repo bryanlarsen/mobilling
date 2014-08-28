@@ -9,13 +9,13 @@ angular.module("moBilling.factories")
 
         serviceCodes.initialize();
 
-        // $resource(API_URL + "/v1/service_codes.json").query(function (names) {
-        //     var datums = names.map(function (name) {
-        //         return { name: name };
-        //     });
+        $resource(API_URL + "/v1/service_codes.json").query(function (names) {
+            var datums = names.map(function (name) {
+                return { name: name };
+            });
 
-        //     serviceCodes.add(datums);
-        // });
+            serviceCodes.add(datums);
+        });
 
         return serviceCodes;
     });
