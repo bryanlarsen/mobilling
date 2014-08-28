@@ -137,13 +137,17 @@ module Test
       find_by_id("claim-last-seen-discharge").click if claim_attributes[:last_seen_discharge]
 
       # consult
-      click_on("Consult")
-      find_by_id("claim-consult-type-#{claim_attributes[:consult_type].dasherize}").click
-      fill_in("Time in", with: claim_attributes[:consult_time_in], blur: true) if claim_attributes[:consult_time_in]
-      fill_in("Time out", with: claim_attributes[:consult_time_out], blur: true) if claim_attributes[:consult_time_out]
-      find_by_id("is-premium-visible").click if claim_attributes[:consult_premium_visit]
-      find_by_id("claim-consult-premium-travel").click if claim_attributes[:consult_premium_travel]
-      find_by_id("claim-consult-premium-visit-#{claim_attributes[:consult_premium_visit].dasherize}").click
+      if claim_attributes[:consult_type]
+        click_on("Consult")
+        find_by_id("claim-consult-type-#{claim_attributes[:consult_type].dasherize}").click
+        fill_in("Time in", with: claim_attributes[:consult_time_in], blur: true) if claim_attributes[:consult_time_in]
+        fill_in("Time out", with: claim_attributes[:consult_time_out], blur: true) if claim_attributes[:consult_time_out]
+        if claim_attributes[:consult_premium_visit]
+          find_by_id("is-premium-visible").click
+          find_by_id("claim-consult-premium-visit-#{claim_attributes[:consult_premium_visit].dasherize}").click
+        end
+        find_by_id("claim-consult-premium-travel").click if claim_attributes[:consult_premium_travel]
+      end
 
       # details
       click_on("Details")
