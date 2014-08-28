@@ -116,7 +116,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "can regenerate details when claim changed" do
-    @doctor.add_claim(consult_type: "comprehensive_er")
+    @doctor.add_claim(consult_type: "comprehensive_er", admission_on: "2014-07-02", first_seen_on: "2014-07-02", last_seen_on: "2014-07-07")
     assert @doctor.see?("DAILY DETAILS (8)")
     @doctor.click_on("Details")
     assert @doctor.find_button("Generate codes", disabled: true)

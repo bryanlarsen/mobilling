@@ -71,7 +71,10 @@ module Test
 
     def fill_in(*args, **options)
       blur = options.delete(:blur)
-      session.fill_in(*args, **options).tap { find("body").click if blur }
+      session.fill_in(*args, **options).tap do
+        # nothing seems to work in 100% of cases - using a brutal way
+        execute_script("$('.datepicker,.ui-timepicker').remove()") if blur
+      end
     end
 
     def navigate_to(title)
@@ -104,7 +107,7 @@ module Test
         first_seen_on: "2014-07-02",
         first_seen_consult: true,
         icu_transfer: false,
-        last_seen_on: "2014-07-07",
+        last_seen_on: "2014-07-02",
         last_seen_discharge: false,
         consult_type: "comprehensive_er",
         consult_time_in: "17:00",
