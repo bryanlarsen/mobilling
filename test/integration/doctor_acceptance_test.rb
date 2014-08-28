@@ -131,7 +131,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.add_claim(admission_on: "2014-08-04", first_seen_on: "2014-08-05", last_seen_on: "2014-08-06", first_seen_consult: false, consult_type: nil, autogenerate: false, daily_details: [])
     @doctor.click_on("Details")
     @doctor.click_on("Generate codes")
-    assert @doctor.see?("DAILY DETAILS (2)")
+    assert @doctor.see?("DAILY DETAILS (4)")
   end
 
   test "can save claim with multiple diagnoses" do
@@ -188,16 +188,51 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   test "doctor sees a list of typeahead suggestions for hospital" do
     7.times { |i| create(:hospital, name: "Hospital #{i + 1}") }
 
-    click_on "New"
-    fill_in "Hospital", with: "hosp"
-    find_by_id("claim-hospital").trigger("focus")
+    @doctor.click_on("New")
+    @doctor.fill_in "Hospital", with: "hosp"
+    @doctor.press_down_arrow("#claim-hospital")
 
-    assert has_content?("Hospital 1")
-    assert has_content?("Hospital 2")
-    assert has_content?("Hospital 3")
-    assert has_content?("Hospital 4")
-    assert has_content?("Hospital 5")
-    assert has_no_content?("Hospital 6")
-    assert has_no_content?("Hospital 7")
+    assert @doctor.see?("Hospital 1")
+    assert @doctor.see?("Hospital 2")
+    assert @doctor.see?("Hospital 3")
+    assert @doctor.see?("Hospital 4")
+    assert @doctor.see?("Hospital 5")
+    assert @doctor.not_see?("Hospital 6")
+    assert @doctor.not_see?("Hospital 7")
+  end
+
+  test "doctor sees a list of typeahead suggestions for diagnosis" do
+    7.times { |i| create(:diagnosis, name: "Diagnosis #{i + 1}") }
+
+    @doctor.click_on("New")
+    @doctor.fill_in "claim-diagnoses-0-name", with: "diag"
+    @doctor.press_down_arrow("#claim-diagnoses-0-name")
+
+    assert @doctor.see?("Diagnosis 1")
+    assert @doctor.see?("Diagnosis 2")
+    assert @doctor.see?("Diagnosis 3")
+    assert @doctor.see?("Diagnosis 4")
+    assert @doctor.see?("Diagnosis 5")
+    assert @doctor.not_see?("Diagnosis 6")
+    assert @doctor.not_see?("Diagnosis 7")
+  end
+
+  test "doctor sees a list of typeahead suggestions for service code" do
+    7.times { |i| create(:service_code, name: "Service Code #{i + 1}") }
+
+    @doctor.click_on("New")
+    @doctor.click_on("Details")
+    @doctor.click_on("Add a new day")
+
+    @doctor.fill_in "code", with: "code"
+    @doctor.press_down_arrow("input[name=code]")
+
+    assert @doctor.see?("Service Code 1")
+    assert @doctor.see?("Service Code 2")
+    assert @doctor.see?("Service Code 3")
+    assert @doctor.see?("Service Code 4")
+    assert @doctor.see?("Service Code 5")
+    assert @doctor.not_see?("Service Code 6")
+    assert @doctor.not_see?("Service Code 7")
   end
 end

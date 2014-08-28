@@ -82,6 +82,10 @@ module Test
       # need to trigger click, otherwise getting totally random results
       find(:link_or_button, title).trigger("click")
     end
+
+    def press_down_arrow(locator)
+      execute_script("$('#{locator}').trigger($.Event('keydown', {keyCode: 40}))")
+    end
   end
 
   class Guest < User
