@@ -171,4 +171,10 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Consult")
     assert @doctor.see?("Max travel premium used")
   end
+
+  test "displays 'Consult on first seen date' when admission date is different than first seen date" do
+    @doctor.add_claim(admission_on: "2014-07-02", first_seen_on: "2014-07-03", autogenerate: false)
+    @doctor.click_on("Claim")
+    assert @doctor.see?("Consult on first seen date")
+  end
 end
