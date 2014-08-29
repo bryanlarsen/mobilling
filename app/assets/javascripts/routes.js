@@ -118,6 +118,15 @@ angular.module("moBilling")
                 },
                 claims: function (Claim) {
                     return Claim.query().$promise;
+                },
+                diagnoses: function (Diagnosis) {
+                    return Diagnosis.promise;
+                },
+                hospitals: function (Hospital) {
+                    return Hospital.promise;
+                },
+                serviceCodes: function (ServiceCode) {
+                    return ServiceCode.promise;
                 }
             }
         });
