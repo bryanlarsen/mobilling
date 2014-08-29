@@ -14,11 +14,10 @@ angular.module("moBilling.factories")
             }
         });
 
-        return {
-            initialize: function () {
-                return hospitals.initialize().then(function () {
-                    return hospitals;
-                });
-            }
-        };
+        hospitals.promise = hospitals.initialize().then(function () {
+            return hospitals;
+        });
+
+
+        return hospitals;
     });

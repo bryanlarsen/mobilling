@@ -76,13 +76,13 @@ angular.module("moBilling")
                     return Claim.query().$promise;
                 },
                 diagnoses: function (Diagnosis) {
-                    return Diagnosis.initialize();
+                    return Diagnosis.promise;
                 },
                 hospitals: function (Hospital) {
-                    return Hospital.initialize();
+                    return Hospital.promise;
                 },
                 serviceCodes: function (ServiceCode) {
-                    return ServiceCode.initialize();
+                    return ServiceCode.promise;
                 }
             }
         });
@@ -98,13 +98,13 @@ angular.module("moBilling")
                     return Claim.query().$promise;
                 },
                 diagnoses: function (Diagnosis) {
-                    return Diagnosis.initialize();
+                    return Diagnosis.promise;
                 },
                 hospitals: function (Hospital) {
-                    return Hospital.initialize();
+                    return Hospital.promise;
                 },
                 serviceCodes: function (ServiceCode) {
-                    return ServiceCode.initialize();
+                    return ServiceCode.promise;
                 }
             }
         });

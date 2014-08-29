@@ -14,13 +14,9 @@ angular.module("moBilling.factories")
             }
         });
 
-        return {
-            initialize: function () {
-                console.log("qqq");
-                return diagnoses.initialize().then(function () {
-                    console.log("qqq2");
-                    return diagnoses;
-                });
-            }
-        };
+        diagnoses.promise = diagnoses.initialize().then(function () {
+            return diagnoses;
+        });
+
+        return diagnoses;
     });
