@@ -1,4 +1,4 @@
-angular.module("moBilling.controllers")
+ angular.module("moBilling.controllers")
 
     .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, Claim, claims, hospitals, diagnoses, serviceCodes, detailsGenerator) {
         // HACK: Do not reload the current template if it is not needed.
@@ -45,23 +45,23 @@ angular.module("moBilling.controllers")
             }
         };
 
-        if (!$scope.claim.comments) {
-            $scope.claim.comments = [];
+        if (!claim.comments) {
+            claim.comments = [];
         }
 
-        if (!$scope.claim.diagnoses) {
-            $scope.claim.diagnoses = [{ name: "" }];
+        if (!claim.diagnoses) {
+            claim.diagnoses = [{ name: "" }];
         }
 
-        if (!$scope.claim.status) {
-            $scope.claim.status = "saved";
+        if (!claim.status) {
+            claim.status = "saved";
         }
 
-        if ($scope.claim.most_responsible_physician === undefined) {
-            $scope.claim.most_responsible_physician = true;
+        if (claim.most_responsible_physician === undefined) {
+            claim.most_responsible_physician = true;
         }
 
-        $scope.claim.daily_details || ($scope.claim.daily_details = []);
+        claim.daily_details || (claim.daily_details = []);
 
         $scope.isActiveStep = function (step) {
             return $scope.step === step;
@@ -81,29 +81,29 @@ angular.module("moBilling.controllers")
 
         $scope.$watch("claim.first_seen_consult", function (value) {
             if (value) {
-                $scope.claim.icu_transfer = false;
+                claim.icu_transfer = false;
             }
         });
 
         $scope.$watch("claim.icu_transfer", function (value) {
             if (value) {
-                $scope.claim.first_seen_consult = false;
+                claim.first_seen_consult = false;
             }
         });
 
         $scope.isConsultVisible = function () {
-            return $scope.claim.admission_on === $scope.claim.first_seen_on && $scope.claim.first_seen_consult
-                || $scope.claim.admission_on !== $scope.claim.first_seen_on && $scope.claim.first_seen_consult && !$scope.claim.most_responsible_physician
-                || $scope.claim.admission_on !== $scope.claim.first_seen_on && $scope.claim.first_seen_consult && $scope.claim.most_responsible_physician && !$scope.claim.icu_transfer;
+            return claim.admission_on === claim.first_seen_on && claim.first_seen_consult
+                || claim.admission_on !== claim.first_seen_on && claim.first_seen_consult && !claim.most_responsible_physician
+                || claim.admission_on !== claim.first_seen_on && claim.first_seen_consult && claim.most_responsible_physician && !claim.icu_transfer;
         };
 
         $scope.$watch($scope.isConsultVisible, function (isConsultVisible) {
             if (!isConsultVisible) {
-                $scope.claim.consult_type = undefined;
-                $scope.claim.consult_premium_visit = undefined;
-                $scope.claim.consult_premium_travel = undefined;
-                $scope.claim.consult_time_in = undefined;
-                $scope.claim.consult_time_out = undefined;
+                claim.consult_type = undefined;
+                claim.consult_premium_visit = undefined;
+                claim.consult_premium_travel = undefined;
+                claim.consult_time_in = undefined;
+                claim.consult_time_out = undefined;
             }
         });
 
@@ -115,7 +115,7 @@ angular.module("moBilling.controllers")
                 rejected_doctor_attention: "rejected",
                 rejected_admin_attention: "rejected",
                 paid: "paid"
-            }[$scope.claim.status];
+            }[claim.status];
 
             $location.path("/claims").hash(hash).replace();
         }
@@ -128,7 +128,7 @@ angular.module("moBilling.controllers")
 
         $scope.save = function () {
             $scope.submitting = true;
-            Claim.save($scope.claim, back, error);
+            Claim.save(claim, back, error);
         };
 
         function showError() {
@@ -149,8 +149,8 @@ angular.module("moBilling.controllers")
             $scope.submitted = true;
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                $scope.claim.status = "unprocessed";
-                Claim.save($scope.claim, back, error);
+                claim.status = "unprocessed";
+                Claim.save(claim, back, error);
             } else {
                 showError();
             }
@@ -159,13 +159,13 @@ angular.module("moBilling.controllers")
         $scope.generate = function () {
             var generated, custom;
 
-            generated = detailsGenerator($scope.claim);
+            generated = detailsGenerator(claim);
 
-            custom = $scope.claim.daily_details.filter(function (detail) {
+            custom = claim.daily_details.filter(function (detail) {
                 return !detail.autogenerated;
             });
 
-            $scope.claim.daily_details = generated.concat(custom);
+            claim.daily_details = generated.concat(custom);
             $scope.setActiveStep("details");
         };
 
@@ -198,11 +198,11 @@ angular.module("moBilling.controllers")
         ], function () {
             var existing, generated;
 
-            existing = $scope.claim.daily_details.filter(function (detail) {
+            existing = claim.daily_details.filter(function (detail) {
                 return detail.autogenerated;
             });
 
-            generated = detailsGenerator($scope.claim);
+            generated = detailsGenerator(claim);
 
             $scope.isGenerateDisabled = angular.equals(generated.sort(sortDetails), existing.sort(sortDetails));
         });
@@ -213,6 +213,6 @@ angular.module("moBilling.controllers")
                 comprehensive_non_er: 75,
                 special_er: 50,
                 special_non_er: 50
-            }[$scope.claim.consult_type];
+            }[claim.consult_type];
         };
     });

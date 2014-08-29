@@ -1,5 +1,5 @@
 <div class="col-sm-4 col-xs-12" ng-class="{'has-error': (detailForm.day.$dirty || submitted) && detailForm.day.$invalid}">
-  <label class="visible-xs control-label" ng-show="!dailyDetail && $first">Day</label>
+  <label class="visible-xs control-label" ng-show="$first || !dailyDetail">Day</label>
   <mb-date ng-model="detail.day" name="day" class="form-control input-lg" ng-show="!dailyDetail || $first" required></mb-date>
   <div ng-messages="detailForm.day.$error" ng-show="(!dailyDetail || $first) && submitted">
     <p class="help-block" ng-message="required">is missing</p>

@@ -1,33 +1,35 @@
 angular.module("moBilling.controllers")
 
     .controller("ClaimEditClaimController", function ($scope, Photo) {
-        $scope.isFirstSeenOnHidden = ($scope.claim.admission_on === $scope.claim.first_seen_on);
+        var claim = $scope.claim;
+
+        $scope.isFirstSeenOnHidden = (claim.admission_on === claim.first_seen_on);
 
         $scope.$watchGroup(["isFirstSeenOnHidden", "claim.admission_on"], function () {
             if ($scope.isFirstSeenOnHidden) {
-                $scope.claim.first_seen_on = $scope.claim.admission_on;
+                claim.first_seen_on = claim.admission_on;
             }
         });
 
         // first_seen_consult
         $scope.isFirstSeenConsultVisible = function () {
-            return $scope.claim.admission_on !== $scope.claim.first_seen_on;
+            return claim.admission_on !== claim.first_seen_on;
         };
 
         $scope.$watch($scope.isFirstSeenConsultVisible, function (isFirstSeenConsultVisible) {
             if (!isFirstSeenConsultVisible) {
-                $scope.claim.first_seen_consult = true;
+                claim.first_seen_consult = true;
             }
         });
 
         // icu_transfer
         $scope.isICUTransferVisible = function () {
-            return $scope.isFirstSeenConsultVisible() && $scope.claim.most_responsible_physician;
+            return $scope.isFirstSeenConsultVisible() && claim.most_responsible_physician;
         };
 
         $scope.$watch($scope.isICUTransferVisible, function (isICUTransferVisible) {
             if (!isICUTransferVisible) {
-                $scope.claim.icu_transfer = false;
+                claim.icu_transfer = false;
             }
         });
 
@@ -38,19 +40,19 @@ angular.module("moBilling.controllers")
         });
 
         $scope.add = function () {
-            $scope.claim.diagnoses.push({ name: "" });
+            claim.diagnoses.push({ name: "" });
         };
 
         $scope.remove = function (diagnosis) {
-            var index = $scope.claim.diagnoses.indexOf(diagnosis);
+            var index = claim.diagnoses.indexOf(diagnosis);
 
-            $scope.claim.diagnoses.splice(index, 1);
+            claim.diagnoses.splice(index, 1);
         };
 
         function success(data) {
             $scope.$apply(function () {
                 $scope.uploading = false;
-                $scope.claim.photo_id = data.id;
+                claim.photo_id = data.id;
             });
         }
 
