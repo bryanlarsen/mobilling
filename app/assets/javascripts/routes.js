@@ -75,14 +75,14 @@ angular.module("moBilling")
                 claims: function (Claim) {
                     return Claim.query().$promise;
                 },
-                diagnoses: function (Diagnosis) {
-                    return Diagnosis.promise;
+                diagnoses: function (diagnosesEngine) {
+                    return diagnosesEngine.promise;
                 },
-                hospitals: function (Hospital) {
-                    return Hospital.promise;
+                hospitals: function (hospitalsEngine) {
+                    return hospitalsEngine.promise;
                 },
-                serviceCodes: function (ServiceCode) {
-                    return ServiceCode.promise;
+                serviceCodes: function (serviceCodesEngine) {
+                    return serviceCodesEngine.promise;
                 }
             }
         });
@@ -97,14 +97,14 @@ angular.module("moBilling")
                 claims: function (Claim) {
                     return Claim.query().$promise;
                 },
-                diagnoses: function (Diagnosis) {
-                    return Diagnosis.promise;
+                diagnoses: function (diagnosesEngine) {
+                    return diagnosesEngine.promise;
                 },
-                hospitals: function (Hospital) {
-                    return Hospital.promise;
+                hospitals: function (hospitalsEngine) {
+                    return hospitalsEngine.promise;
                 },
-                serviceCodes: function (ServiceCode) {
-                    return ServiceCode.promise;
+                serviceCodes: function (serviceCodesEngine) {
+                    return serviceCodesEngine.promise;
                 }
             }
         });
@@ -119,14 +119,14 @@ angular.module("moBilling")
                 claims: function (Claim) {
                     return Claim.query().$promise;
                 },
-                diagnoses: function (Diagnosis) {
-                    return Diagnosis.promise;
+                diagnoses: function (diagnosesEngine) {
+                    return diagnosesEngine.promise;
                 },
-                hospitals: function (Hospital) {
-                    return Hospital.promise;
+                hospitals: function (hospitalsEngine) {
+                    return hospitalsEngine.promise;
                 },
-                serviceCodes: function (ServiceCode) {
-                    return ServiceCode.promise;
+                serviceCodes: function (serviceCodesEngine) {
+                    return serviceCodesEngine.promise;
                 }
             }
         });

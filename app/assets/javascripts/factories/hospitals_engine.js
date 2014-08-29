@@ -1,7 +1,7 @@
 angular.module("moBilling.factories")
 
-    .factory("Hospital", function (API_URL) {
-        var hospitals = new Bloodhound({
+    .factory("hospitalsEngine", function (API_URL) {
+        var hospitalsEngine = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.nonword("name"),
             queryTokenizer: Bloodhound.tokenizers.nonword,
             prefetch: {
@@ -14,10 +14,9 @@ angular.module("moBilling.factories")
             }
         });
 
-        hospitals.promise = hospitals.initialize().then(function () {
-            return hospitals;
+        hospitalsEngine.promise = hospitalsEngine.initialize().then(function () {
+            return hospitalsEngine;
         });
 
-
-        return hospitals;
+        return hospitalsEngine;
     });
