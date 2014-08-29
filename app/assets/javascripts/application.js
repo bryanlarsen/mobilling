@@ -15,6 +15,7 @@
 //= require mobile-angular-ui/toggle
 //= require mobile-angular-ui/fastclick
 //= require mobile-angular-ui/scrollable
+//= require gestures
 //= require ui-utils
 //= require angular-rails-templates
 //= require bootstrap-datepicker

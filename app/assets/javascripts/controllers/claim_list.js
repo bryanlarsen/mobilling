@@ -38,9 +38,11 @@ angular.module("moBilling.controllers")
             }
         };
 
-        $scope.removeConfirm = function ($event, claim) {
-            $scope.selectedClaim = claim;
-            $event.stopPropagation();
+        $scope.removeConfirm = function (claim) {
+            if (claim.status === "saved") {
+                $scope.selectedClaim = claim;
+                $scope.toggle("remove");
+            }
         };
 
         $scope.removeOk = function () {

@@ -45,15 +45,12 @@
             <div class="list-group-item text-center" ng-if="claims.length === 0">
               <span class="text-muted">no {{step}} claims</span>
             </div>
-            <a href="javascript:;" ng-click="edit(claim)" class="list-group-item" ng-repeat="claim in claims | orderBy : ['number', 'created_at']">
+            <a href="javascript:;" hm-tap="edit(claim)" class="list-group-item" ng-repeat="claim in claims | orderBy : ['number', 'created_at']" hm-hold="removeConfirm(claim)">
               Claim
               <span ng-if="claim.number">No. {{claim.number}}</span>
               <span ng-if="claim.patient_name">of {{claim.patient_name}}</span>
               created on {{claim.created_at | date:"yyyy-MM-dd"}}
               <div class="pull-right">
-                <button class="btn btn-danger btn-xs" ng-click="removeConfirm($event, claim)" target="remove" value="remove" ng-if="claim.status === 'saved'" toggle>
-                  <i class="fa fa-trash-o"></i>
-                </button>
                 &nbsp;
                 <i class="fa fa-chevron-right"></i>
               </div>
