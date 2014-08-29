@@ -1,3 +1,4 @@
+//= require augment
 //= require jquery
 //= require overthrow
 //= require bloodhound
