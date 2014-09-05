@@ -50,16 +50,12 @@ angular.module("moBilling.controllers")
         };
 
         function success(data) {
-            $scope.$apply(function () {
-                $scope.uploading = false;
-                claim.photo_id = data.id;
-            });
+            $scope.uploading = false;
+            claim.photo_id = data.id;
         }
 
         function error() {
-            $scope.$apply(function () {
-                $scope.uploading = false;
-            });
+            $scope.uploading = false;
         }
 
         $scope.$watch("file", function (file) {
