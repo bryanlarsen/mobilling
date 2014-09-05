@@ -1,6 +1,6 @@
 angular.module("moBilling.controllers")
 
-    .controller("ClaimEditClaimController", function ($scope, Photo) {
+    .controller("ClaimEditClaimController", function ($scope, $window, Photo) {
         var claim = $scope.claim;
 
         $scope.isFirstSeenOnHidden = (claim.admission_on === claim.first_seen_on);
