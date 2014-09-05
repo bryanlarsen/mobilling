@@ -58,13 +58,8 @@ class UpdateClaim
     {
       photo_id: photo_id,
       status: status,
-      number: claim_number,
       details: claim_attributes_details
     }
-  end
-
-  def claim_number
-    user.claims.submitted.maximum(:number).to_i.succ if submitted?
   end
 
   def claim_attributes_details

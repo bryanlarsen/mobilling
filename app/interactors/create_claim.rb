@@ -61,7 +61,7 @@ class CreateClaim
   end
 
   def claim_number
-    user.claims.submitted.maximum(:number).to_i.succ if submitted?
+    user.claims.maximum(:number).to_i.succ
   end
 
   def claim_attributes_details
