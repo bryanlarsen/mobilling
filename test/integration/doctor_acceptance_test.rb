@@ -45,31 +45,31 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Total time must be equal to or greater than 75 minutes.")
   end
 
-  test "has 'Time in' and 'Time out' pickers on 'Details' page for code A130A"do
+  test "has 'Consult time in' and 'Consult time out' pickers on 'Details' page for code A130A"do
     @doctor.click_on("New")
     @doctor.click_on("Details")
     @doctor.click_on("Add a new day")
     @doctor.fill_in("code", with: "A130A")
-    assert @doctor.see?("Time in")
-    assert @doctor.see?("Time out")
+    assert @doctor.see?("Consult time in")
+    assert @doctor.see?("Consult time out")
   end
 
-  test "has 'Time in' and 'Time out' pickers on 'Details' page for codes C130A"do
+  test "has 'Consult time in' and 'Consult time out' pickers on 'Details' page for codes C130A"do
     @doctor.click_on("New")
     @doctor.click_on("Details")
     @doctor.click_on("Add a new day")
     @doctor.fill_in("code", with: "C130A")
-    assert @doctor.see?("Time in")
-    assert @doctor.see?("Time out")
+    assert @doctor.see?("Consult time in")
+    assert @doctor.see?("Consult time out")
   end
 
-  test "has no 'Time in' and 'Time out' pickers on 'Details' page for other codes"do
+  test "has no 'Consult time in' and 'Consult time out' pickers on 'Details' page for other codes"do
     @doctor.click_on("New")
     @doctor.click_on("Details")
     @doctor.click_on("Add a new day")
     @doctor.fill_in("code", with: "C132A")
-    assert @doctor.not_see?("Time in")
-    assert @doctor.not_see?("Time out")
+    assert @doctor.not_see?("Consult time in")
+    assert @doctor.not_see?("Consult time out")
   end
 
   test "can reset password" do

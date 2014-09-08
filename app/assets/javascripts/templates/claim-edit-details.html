@@ -6,7 +6,7 @@
           Please provide required details information or remove missing details below before submitting.
         </div>
 
-        <div class="row">
+        <div class="row" ng-if="!isSimplifiedTemplate()">
           <div class="col-sm-12">
             <button type="button" class="btn btn-info btn-lg btn-block" toggle bubble target="consult-missing" ng-disabled="isGenerateDisabled" ng-if="isConsultVisible() && !claim.consult_type">
               <i class="fa fa-cogs"></i> Generate codes

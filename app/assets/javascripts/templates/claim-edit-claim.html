@@ -78,70 +78,85 @@
           </div>
         </div>
 
-        <div class="form-group row">
-          <label class="control-label col-xs-12">Most responsible physician</label>
-          <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.most_responsible_physician" id="claim-most-responsible-physician"></mb-switch>
+        <div ng-if="!isSimplifiedTemplate()">
+          <div class="form-group row">
+            <label class="control-label col-xs-12">Most responsible physician</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-switch ng-model="claim.most_responsible_physician" id="claim-most-responsible-physician"></mb-switch>
+            </div>
           </div>
-        </div>
 
-        <div class="form-group row" ng-class="{'has-error': (claimForm.admission_on.$dirty || submitted) && claimForm.admission_on.$invalid}">
-          <label class="control-label col-xs-12" for="claim-admission-on">Admission date</label>
-          <div class="form-control-wrapper col-xs-12">
-            <mb-date name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" id="claim-admission-on" required></mb-date>
-            <div ng-messages="claimForm.admission_on.$error" ng-show="submitted">
-              <p class="help-block" ng-message="required">is missing</p>
+          <div class="form-group row" ng-class="{'has-error': (claimForm.admission_on.$dirty || submitted) && claimForm.admission_on.$invalid}">
+            <label class="control-label col-xs-12" for="claim-admission-on">Admission date</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-date name="admission_on" ng-model="claim.admission_on" class="form-control input-lg" id="claim-admission-on" required></mb-date>
+              <div ng-messages="claimForm.admission_on.$error" ng-show="submitted">
+                <p class="help-block" ng-message="required">is missing</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label col-xs-12">First seen date is admission</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-switch ng-model="isFirstSeenOnHidden" id="is-first-seen-on-hidden"></mb-switch>
+            </div>
+          </div>
+
+          <div class="form-group row" ng-class="{'has-error': (claimForm.first_seen_on.$dirty || submitted) && claimForm.first_seen_on.$invalid}" ng-hide="isFirstSeenOnHidden">
+            <label for="claim-first-seen-on" class="control-label col-xs-12">First seen date</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-date name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" min="{{claim.admission_on}}" required></mb-date>
+              <div ng-messages="claimForm.first_seen_on_on.$error" ng-show="submitted">
+                <p class="help-block" ng-message="required">is missing</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row" ng-if="isFirstSeenConsultVisible()">
+            <label class="control-label col-xs-12">Consult on first seen date</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-switch ng-model="claim.first_seen_consult" id="claim-first-seen-consult"></mb-switch>
+            </div>
+          </div>
+
+          <div class="form-group row" ng-if="isICUTransferVisible()">
+            <label class="control-label col-xs-12">Transfer from ICU/CCU</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-switch ng-model="claim.icu_transfer" id="claim-icu-transfer"></mb-switch>
+            </div>
+          </div>
+
+          <div class="form-group row" ng-class="{'has-error': (claimForm.last_seen_on.$dirty || submitted) && claimForm.last_seen_on.$invalid}">
+            <label for="claim-last-seen-on" class="control-label col-xs-12">Last seen date</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-date name="last_seen_on" ng-model="claim.last_seen_on" class="form-control input-lg" id="claim-last-seen-on" min="{{claim.first_seen_on}}" required></mb-date>
+              <div ng-messages="claimForm.last_seen_on.$error" ng-show="submitted">
+                <p class="help-block" ng-message="required">is missing</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label col-xs-12">Last seen date is discharge</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-switch ng-model="claim.last_seen_discharge" id="claim-last-seen-discharge"></mb-switch>
             </div>
           </div>
         </div>
 
-        <div class="form-group row">
-          <label class="control-label col-xs-12">First seen date is admission</label>
-          <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="isFirstSeenOnHidden" id="is-first-seen-on-hidden"></mb-switch>
-          </div>
-        </div>
-
-        <div class="form-group row" ng-class="{'has-error': (claimForm.first_seen_on.$dirty || submitted) && claimForm.first_seen_on.$invalid}" ng-hide="isFirstSeenOnHidden">
-          <label for="claim-first-seen-on" class="control-label col-xs-12">First seen date</label>
-          <div class="form-control-wrapper col-xs-12">
-            <mb-date name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" min="{{claim.admission_on}}" required></mb-date>
-            <div ng-messages="claimForm.first_seen_on_on.$error" ng-show="submitted">
-              <p class="help-block" ng-message="required">is missing</p>
+        <div ng-if="isSimplifiedTemplate()">
+          <div class="form-group row" ng-class="{'has-error': (claimForm.procedure_on.$dirty || submitted) && claimForm.procedure_on.$invalid}">
+            <label class="control-label col-xs-12" for="claim-procedure-on">Procedure / treatment date</label>
+            <div class="form-control-wrapper col-xs-12">
+              <mb-date name="procedure_on" ng-model="claim.procedure_on" class="form-control input-lg" id="claim-procedure-on" required></mb-date>
+              <div ng-messages="claimForm.procedure_on.$error" ng-show="submitted">
+                <p class="help-block" ng-message="required">is missing</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="form-group row" ng-if="isFirstSeenConsultVisible()">
-          <label class="control-label col-xs-12">Consult on first seen date</label>
-          <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.first_seen_consult" id="claim-first-seen-consult"></mb-switch>
-          </div>
-        </div>
-
-        <div class="form-group row" ng-if="isICUTransferVisible()">
-          <label class="control-label col-xs-12">Transfer from ICU/CCU</label>
-          <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.icu_transfer" id="claim-icu-transfer"></mb-switch>
-          </div>
-        </div>
-
-        <div class="form-group row" ng-class="{'has-error': (claimForm.last_seen_on.$dirty || submitted) && claimForm.last_seen_on.$invalid}">
-          <label for="claim-last-seen-on" class="control-label col-xs-12">Last seen date</label>
-          <div class="form-control-wrapper col-xs-12">
-            <mb-date name="last_seen_on" ng-model="claim.last_seen_on" class="form-control input-lg" id="claim-last-seen-on" min="{{claim.first_seen_on}}" required></mb-date>
-            <div ng-messages="claimForm.last_seen_on.$error" ng-show="submitted">
-              <p class="help-block" ng-message="required">is missing</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label class="control-label col-xs-12">Last seen date is discharge</label>
-          <div class="form-control-wrapper col-xs-12">
-            <mb-switch ng-model="claim.last_seen_discharge" id="claim-last-seen-discharge"></mb-switch>
-          </div>
-        </div>
       </div>
     </div>
   </div>
