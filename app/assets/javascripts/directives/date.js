@@ -6,14 +6,14 @@ angular.module("moBilling.directives")
             require: "ngModel",
             replace: true,
             template: function (element, attributes) {
-                if (!Modernizr.inputtypes.date) {
+                if (Modernizr.inputtypes.date) {
                     return '<input type="date">';
                 } else {
                     return '<input type="text">';
                 }
             },
             link: function (scope, element, attributes, ngModelController) {
-                if (!Modernizr.inputtypes.date) {
+                if (Modernizr.inputtypes.date) {
                     ngModelController.$formatters.push(function (modelValue) {
                         var year, month, day;
 
