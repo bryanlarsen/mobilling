@@ -58,7 +58,7 @@
           <ng-form class="col-xs-12" name="diagnosisForm" ng-repeat="diagnosis in claim.diagnoses">
             <div class="form-group row" ng-class="{'has-error': (diagnosisForm.name.$dirty || submitted) && diagnosisForm.name.$invalid}">
               <div class="form-control-wrapper col-xs-8 col-sm-10 col-md-11">
-                <input id="claim-diagnoses-{{$index}}-name" type="text" name="name" ng-model="diagnosis.name" class="form-control input-lg" datasets="diagnoses" sf-typeahead mb-typeahead required>
+                <input id="claim-diagnoses-{{$index}}-name" type="text" name="name" ng-model="diagnosis.name" class="form-control input-lg" datasets="diagnoses" sf-typeahead mb-typeahead required mb-scroll-into-view>
                 <div ng-messages="diagnosisForm.name.$error" ng-show="submitted">
                   <p class="help-block" ng-message="required">is missing</p>
                 </div>

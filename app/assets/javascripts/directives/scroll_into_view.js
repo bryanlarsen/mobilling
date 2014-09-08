@@ -6,7 +6,10 @@ angular.module("moBilling.directives")
             require: "ngModel",
             link: function (scope, element, attributes, ngModelController) {
                 ngModelController.$parsers.unshift(function (viewValue) {
-                    element[0].scrollIntoView();
+                    if (viewValue) {
+                        element.get(0).scrollIntoView();
+                    }
+
                     return viewValue;
                 });
             }
