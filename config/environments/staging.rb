@@ -92,4 +92,6 @@ Rails.application.configure do
     password:             Rails.application.secrets.smtp_password,
     enable_starttls_auto: true
   }
+
+  config.asset_host = "http://newapp.mo-billing.ca"
 end

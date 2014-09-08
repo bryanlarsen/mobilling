@@ -7,18 +7,22 @@ class AdminTest < ActionDispatch::IntegrationTest
   end
 
   test "admin can change patient name in claim" do
-    create(:claim)
+    create(:claim, details: {"patient_name" => "Alice"})
     @admin.navigate_to("Claims")
-    @admin.click_on("Edit")
+    @admin.within("tr", text: "Alice") do
+      @admin.click_on("Edit")
+    end
     @admin.fill_in("Patient Name", with: "Bob")
     @admin.click_on("Update")
     @admin.see?("Bob")
   end
 
   test "admin can change doctor name" do
-    create(:user)
+    create(:user, name: "Alice")
     @admin.navigate_to("Users")
-    @admin.click_on("Edit")
+    @admin.within("tr", text: "Alice") do
+      @admin.click_on("Edit")
+    end
     @admin.fill_in("Name", with: "Bob")
     @admin.click_on("Update")
     @admin.see?("Bob")
@@ -28,7 +32,7 @@ class AdminTest < ActionDispatch::IntegrationTest
     create(:user, name: "House")
     @admin.navigate_to("Users")
     @admin.see?("House")
-    @admin.within_row("House") do
+    @admin.within("tr", text: "House") do
       @admin.click_on("Edit")
     end
     @admin.click_on("Delete")

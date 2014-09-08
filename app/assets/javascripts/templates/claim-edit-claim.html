@@ -17,7 +17,7 @@
             </span>
             <span class="btn btn-primary btn-lg fileinput-button" ng-hide="uploading">
               <i class="fa fa-camera"></i> Upload
-              <input type="file" mb-upload="file" id="photo-file">
+              <input type="file" mb-upload="file" id="photo-file" accept="image/*;capture=camera"">
             </span>
             <input type="hidden" name="photo_id" ng-model="claim.photo_id" required>
             <div ng-messages="claimForm.photo_id.$error" ng-show="submitted">
@@ -39,7 +39,7 @@
         <div class="form-group row" ng-class="{'has-error': (claimForm.hospital.$dirty || submitted) && claimForm.hospital.$invalid}">
           <label for="claim-hospital" class="control-label col-xs-12">Hospital</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="text" name="hospital" ng-model="claim.hospital" class="form-control input-lg" id="claim-hospital" datasets="hospitals" sf-typeahead mb-typeahead required>
+            <input type="text" name="hospital" ng-model="claim.hospital" class="form-control input-lg" id="claim-hospital" datasets="hospitals" sf-typeahead mb-typeahead required mb-scroll-into-view>
             <div ng-messages="claimForm.hospital.$error" ng-show="submitted">
               <p class="help-block" ng-message="required">is missing</p>
             </div>
@@ -53,13 +53,28 @@
           </div>
         </div>
 
-        <div class="form-group row" ng-class="{'has-error': (claimForm.diagnosis.$dirty || submitted) && claimForm.diagnosis.$invalid}">
-          <label for="claim-diagnosis" class="control-label col-xs-12">Diagnosis</label>
-          <div class="form-control-wrapper col-xs-12">
-            <input type="text" name="diagnosis" ng-model="claim.diagnosis" class="form-control input-lg" id="claim-diagnosis" datasets="diagnoses" sf-typeahead mb-typeahead required>
-            <div ng-messages="claimForm.diagnosis.$error" ng-show="submitted">
-              <p class="help-block" ng-message="required">is missing</p>
+        <div class="row">
+          <label class="control-label col-xs-12" for="claim-diagnoses-0-name">Diagnoses</label>
+          <ng-form class="col-xs-12" name="diagnosisForm" ng-repeat="diagnosis in claim.diagnoses">
+            <div class="form-group row" ng-class="{'has-error': (diagnosisForm.name.$dirty || submitted) && diagnosisForm.name.$invalid}">
+              <div class="form-control-wrapper col-xs-8 col-sm-10 col-md-11">
+                <input id="claim-diagnoses-{{$index}}-name" type="text" name="name" ng-model="diagnosis.name" class="form-control input-lg" datasets="diagnoses" sf-typeahead mb-typeahead required mb-scroll-into-view>
+                <div ng-messages="diagnosisForm.name.$error" ng-show="submitted">
+                  <p class="help-block" ng-message="required">is missing</p>
+                </div>
+              </div>
+              <div class="col-xs-4 col-sm-2 col-md-1">
+                <button type="button" class="btn btn-lg btn-danger btn-block" ng-click="remove(diagnosis)" ng-disabled="claim.diagnoses.length <= 1">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
             </div>
+          </ng-form>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <button type="button" class="btn btn-lg btn-success btn-block" ng-click="add()"><i class="fa fa-plus"></i> Add a new diagnosis</button>
           </div>
         </div>
 

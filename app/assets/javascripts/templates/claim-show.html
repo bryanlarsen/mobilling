@@ -13,17 +13,24 @@
 
   <div class="navbar navbar-app navbar-absolute-bottom">
     <div class="btn-group justified nav-tabs">
-      <a class="btn btn-default" ng-class="{'active': isActiveStep('claim')}" ng-click="setActiveStep('claim')">
-        <i class="fa fa-file-text-o"></i> Claim
+      <a href="javascript:;" class="btn btn-default" ng-class="{'active': isActiveStep('claim')}" ng-click="setActiveStep('claim')">
+        <i class="fa fa-file-text-o hidden-xs"></i>
+        Claim
       </a>
-      <a class="btn btn-default" ng-class="{'active': isActiveStep('consult')}" ng-click="setActiveStep('consult')" ng-show="isConsultVisible()">
-        <i class="fa fa-user-md"></i> Consult
+      <a href="javascript:;"  class="btn btn-default" ng-class="{'active': isActiveStep('consult')}" ng-click="setActiveStep('consult')" ng-show="isConsultVisible()">
+        <i class="fa fa-user-md hidden-xs"></i>
+        Consult
       </a>
-      <a class="btn btn-default" ng-class="{'active': isActiveStep('details')}" ng-click="setActiveStep('details')">
-        <i class="fa fa-medkit"></i> Daily Details ({{claim.daily_details.length}})
+      <a href="javascript:;"  class="btn btn-default" ng-class="{'active': isActiveStep('details')}" ng-click="setActiveStep('details')">
+        <i class="fa fa-medkit hidden-xs"></i>
+        <span class="hidden-xs">Daily</span>
+        Details
+        <span class="hidden-xs">({{claim.daily_details.length}})</span>
       </a>
-      <a class="btn btn-default" ng-class="{'active': isActiveStep('comments')}" ng-click="setActiveStep('comments')">
-        <i class="fa fa-comments"></i> Comments ({{claim.comments.length}})
+      <a href="javascript:;"  class="btn btn-default" ng-class="{'active': isActiveStep('comments')}" ng-click="setActiveStep('comments')">
+        <i class="fa fa-medkit hidden-xs"></i>
+        Comments
+        <span class="hidden-xs">({{claim.comments.length}})</span>
       </a>
     </div>
   </div>

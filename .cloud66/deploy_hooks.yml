@@ -1,0 +1,4 @@
+production:
+  after_symlink:
+    command: "ln -s /var/deploy/mo_billing_javascript/web_head/shared/uploads /var/deploy/mo_billing_javascript/web_head/current/public/uploads"
+    target: any

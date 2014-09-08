@@ -27,54 +27,14 @@
           </div>
         </div>
 
-        <div ng-repeat="dailyDetail in claim.daily_details | unique : 'day'">
-          <ng-form name="detailForm" ng-repeat="detail in claim.daily_details | filter : { day: dailyDetail.day }">
+        <div ng-repeat="dailyDetail in claim.daily_details | filter : { bottom: '!true' } | unique : 'day'">
+          <ng-form name="detailForm" ng-repeat="detail in claim.daily_details | filter : { day: dailyDetail.day, bottom: '!true' }">
             <div class="row">
-              <div class="col-sm-4 col-xs-12" ng-class="{'has-error': (detailForm.day.$dirty || submitted) && detailForm.day.$invalid}">
-                <label class="visible-xs control-label" ng-show="$first">Day</label>
-                <mb-date ng-model="detail.day" name="day" class="form-control input-lg" ng-show="$first" required>
-                <div ng-messages="detailForm.day.$error" ng-show="$first && submitted">
-                  <p class="help-block" ng-message="required">is missing</p>
-                </div>
-              </div>
+              <ng-include src="'partials/detail_form.html'"></ng-include>
 
-              <div class="col-xs-12 visible-xs">&nbsp;</div>
-
-              <div class="col-sm-7 col-xs-12" ng-class="{'has-error': (detailForm.code.$dirty || submitted) && detailForm.code.$invalid}">
-                <label class="visible-xs control-label">Code</label>
-                <input type="text" ng-model="detail.code" name="code" class="form-control input-lg" datasets="serviceCodes" mb-typeahead sf-typeahead required>
-                <div ng-messages="detailForm.code.$error" ng-show="submitted">
-                  <p class="help-block" ng-message="required">is missing</p>
-                </div>
-
-                <div class="form-group row" ng-class="{'has-error': (detailForm.consult_time_in.$dirty || detailForm.consult_time_out.$dirty || submitted) && detailForm.consult_time.$invalid}" ng-if="isConsultTimeVisible(detail)">
-                  <label for="claim-details-consult-time-in" class="control-label col-xs-4">Time in</label>
-                  <div class="col-xs-8">
-                    <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-details-consult-time-in" required></mb-time>
-                  </div>
-
-                  <div class="col-xs-12">&nbsp;</div>
-
-                  <label for="claim-details-consult-time-out" class="control-label col-xs-4">Time out</label>
-                  <div class="col-xs-8">
-                    <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-details-consult-time-out" required></mb-time>
-                  </div>
-
-                  <div class="col-xs-12">
-                    <input class="hide" type="number" ng-model="claim.consult_time" name="consult_time" min="{{minConsultTime()}}" required>
-                    <div ng-messages="detailForm.consult_time.$error" ng-show="submitted">
-                      <p class="help-block" ng-message="required">Total time must be equal to or greater than {{minConsultTime()}} minutes.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xs-12 visible-xs">&nbsp;</div>
-
-              <div class="col-sm-1 col-xs-12">
+              <div class="col-xs-4 col-sm-2 col-md-1">
                 <button type="button" class="btn btn-danger btn-lg btn-block" ng-click="remove(detail)">
-                  <span class="hidden-xs"><i class="fa fa-times"></i></span>
-                  <span class="visible-xs"><i class="fa fa-times"></i> Remove code</span>
+                  <i class="fa fa-times"></i>
                 </button>
                 <br>
               </div>
@@ -82,7 +42,7 @@
           </ng-form>
 
           <div class="row">
-            <div class="col-sm-offset-11 col-sm-1 col-sx-12">
+            <div class="col-xs-12 col-sm-2 col-sm-offset-10 col-md-1 col-md-offset-11">
               <button type="button" class="btn btn-success btn-lg btn-block" ng-click="add({ day: dailyDetail.day })">
                 <span class="hidden-xs"><i class="fa fa-plus"></i></span>
                 <span class="visible-xs"><i class="fa fa-plus"></i> Add a new code</span>
@@ -92,9 +52,22 @@
           </div>
         </div>
 
+        <ng-form name="detailForm" ng-repeat="detail in claim.daily_details | filter : { bottom: true }">
+          <div class="row">
+            <ng-include src="'partials/detail_form.html'"></ng-include>
+
+            <div class="col-xs-4 col-sm-2 col-md-1">
+              <button type="button" class="btn btn-danger btn-lg btn-block" ng-click="remove(detail)">
+                <i class="fa fa-times"></i>
+              </button>
+              <br>
+            </div>
+          </div>
+        </ng-form>
+
         <div class="row">
           <div class="col-sm-12">
-            <button type="button" class="btn btn-success btn-lg btn-block" ng-click="add({ day: null })">
+            <button type="button" class="btn btn-success btn-lg btn-block" ng-click="add({ day: null, bottom: true })">
               <i class="fa fa-plus"></i> Add a new day
             </button>
           </div>

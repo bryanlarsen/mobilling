@@ -7,122 +7,69 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "can save claim as draft" do
-    @doctor.click_on("New")
-    @doctor.fill_in("Patient name", with: "Alice")
+    @doctor.add_claim(patient_name: "Alice", last_seen_on: "", autogenerate: false)
     @doctor.click_on("Save")
     assert @doctor.see?("Alice")
   end
 
   test "can submit claim" do
-    @doctor.click_on("New")
-    @doctor.attach_file("Patient photo", file_fixture("image.png"), visible: false)
-    @doctor.fill_in("Patient name", with: "Alice")
-    @doctor.fill_in("Hospital", with: "Test")
-    @doctor.fill_in("Referring physician", with: "Bob")
-    @doctor.fill_in("Diagnosis", with: "Flu")
-    @doctor.fill_in("Admission date", with: "2014-07-02")
-    @doctor.fill_in("Last seen date", with: "2014-07-07")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
-    @doctor.fill_in_and_blur("Time in", with: "17:00")
-    @doctor.fill_in_and_blur("Time out", with: "19:00")
-    @doctor.click_element_with_id("is-premium-visible")
-    @doctor.click_element_with_id("claim-consult-premium-travel")
-    @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
-    @doctor.click_link_with_text("Daily Details")
-    @doctor.click_on("Generate codes")
+    @doctor.add_claim(patient_name: "Alice")
     @doctor.click_on("Submit")
     assert @doctor.see?("Alice")
   end
 
   test "can edit rejected claim" do
     create(:claim, user: @doctor.model, status: "rejected_doctor_attention", details: {"patient_name" => "Alice"})
-    @doctor.click_link_with_text("Rejected")
+    @doctor.click_on("Rejected")
     @doctor.click_on("Alice")
     @doctor.fill_in("Patient name", with: "Bob")
     @doctor.click_on("Save")
     assert @doctor.see?("Bob")
   end
 
-  test "can delete claim" do
-    @doctor.click_on("New")
-    @doctor.fill_in("Patient name", with: "Alice")
-    @doctor.click_on("Save")
-    @doctor.within_list_item("Alice") do
-      @doctor.click_on("remove")
-    end
-    @doctor.click_on("Delete")
-    assert @doctor.not_see?("Alice")
-  end
+  # test "can delete claim" do
+  #   @doctor.click_on("New")
+  #   @doctor.fill_in("Patient name", with: "Alice")
+  #   @doctor.click_on("Save")
+  #   @doctor.within(".list-group-item", text: "Alice") do
+  #     @doctor.click_on("remove")
+  #   end
+  #   @doctor.click_on("Delete")
+  #   assert @doctor.not_see?("Alice")
+  # end
 
-  test "has 'NEW' option on 'Submitted' page" do
-    @doctor.click_link_with_text("Submitted")
-    assert @doctor.see?("NEW")
-  end
-
-  test "has no message if 'Comprehensive' isn't selected" do
-    @doctor.click_on("New")
-    @doctor.click_link_with_text("Consult")
-    assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
-  end
-
-  test "has no message if the total time is equal to or greater than 75 minutes" do
-    @doctor.click_on("New")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
-    @doctor.fill_in_and_blur("Time in", with: "12:00")
-    @doctor.fill_in_and_blur("Time out", with: "13:15")
+  test "displays error message if the total time is less than 75 minutes" do
+    @doctor.add_claim(consult_type: "comprehensive_er", consult_time_in: "10:00", consult_time_out: "10:45")
     @doctor.click_on("Submit")
-    @doctor.click_link_with_text("Consult")
-    assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
-  end
-
-  test "displays message if the total time is less than 75 minutes" do
-    @doctor.click_on("New")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-comprehensive-er")
-    @doctor.fill_in("Time in", with: "17:00")
-    @doctor.fill_in("Time out", with: "17:45")
-    @doctor.click_on("Submit")
-    @doctor.click_link_with_text("Consult")
+    @doctor.click_on("Consult")
     assert @doctor.see?("Total time must be equal to or greater than 75 minutes.")
   end
 
-  test "has 'Time in' and 'Time out' pickers on 'Daily Details' page for codes 'A130' and/or 'C130'"do
+  test "has 'Time in' and 'Time out' pickers on 'Details' page for code A130A"do
     @doctor.click_on("New")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Details")
     @doctor.click_on("Add a new day")
     @doctor.fill_in("code", with: "A130A")
     assert @doctor.see?("Time in")
     assert @doctor.see?("Time out")
+  end
+
+  test "has 'Time in' and 'Time out' pickers on 'Details' page for codes C130A"do
+    @doctor.click_on("New")
+    @doctor.click_on("Details")
+    @doctor.click_on("Add a new day")
     @doctor.fill_in("code", with: "C130A")
     assert @doctor.see?("Time in")
     assert @doctor.see?("Time out")
   end
 
-  test "has no 'Time in' and 'Time out' pickers on 'Daily Details' page for other codes"do
+  test "has no 'Time in' and 'Time out' pickers on 'Details' page for other codes"do
     @doctor.click_on("New")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Details")
     @doctor.click_on("Add a new day")
-    @doctor.fill_in("code", with: "C132")
+    @doctor.fill_in("code", with: "C132A")
     assert @doctor.not_see?("Time in")
     assert @doctor.not_see?("Time out")
-  end
-
-  test "special or travel premium codes should appear" do
-    @doctor.click_on("New")
-    @doctor.fill_in("Patient name", with: "Alice")
-    @doctor.fill_in_and_blur("Admission date", with: "2014-07-19")
-    @doctor.click_element_with_id("is-first-seen-on-hidden")
-    @doctor.fill_in_and_blur("First seen date", with: "2014-07-22")
-    @doctor.fill_in_and_blur("Last seen date", with: "2014-07-24")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-general-er")
-    @doctor.click_element_with_id("is-premium-visible")
-    @doctor.click_element_with_id("claim-consult-premium-visit-weekday-evening")
-    @doctor.click_link_with_text("Daily Details")
-    @doctor.click_on("Generate codes")
-    @doctor.assert_no_selector("input.ng-invalid")
   end
 
   test "can reset password" do
@@ -160,10 +107,8 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "sees missing consult warning" do
-    @doctor.click_on("New")
-    @doctor.fill_in_and_blur("Admission date", with: "2014-07-02")
-    @doctor.fill_in_and_blur("Last seen date", with: "2014-07-03")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.add_claim(admission_on: "2014-07-02", first_seen_on: "2014-07-02", last_seen_on: "2014-07-03", consult_type: nil, autogenerate: false, daily_details: [])
+    @doctor.click_on("Details")
     @doctor.click_on("Generate codes")
     assert @doctor.see?("Consult Missing")
     @doctor.click_on("Generate without consult")
@@ -171,52 +116,117 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "can regenerate details when claim changed" do
-    @doctor.click_on("New")
-    @doctor.fill_in_and_blur("Admission date", with: "2014-08-05")
-    @doctor.fill_in_and_blur("Last seen date", with: "2014-08-06")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-general-er")
-    @doctor.click_link_with_text("Daily Details")
-    @doctor.click_on("Generate codes")
-    assert @doctor.see?("DAILY DETAILS (4)")
+    @doctor.add_claim(consult_type: "comprehensive_er", admission_on: "2014-07-02", first_seen_on: "2014-07-02", last_seen_on: "2014-07-07")
+    assert @doctor.see?("DAILY DETAILS (14)")
+    @doctor.click_on("Details")
     assert @doctor.find_button("Generate codes", disabled: true)
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-general-non-er")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.click_on("Consult")
+    @doctor.find_by_id("claim-consult-type-comprehensive-non-er").click
+    @doctor.click_on("Details")
     @doctor.click_on("Generate codes")
     assert @doctor.find_button("Generate codes", disabled: true)
   end
 
   test "should not see a generate codes warning when no consult" do
-    @doctor.click_on("New")
-    @doctor.fill_in_and_blur("Admission date", with: "2014-08-04")
-    @doctor.click_element_with_id("is-first-seen-on-hidden")
-    @doctor.fill_in_and_blur("First seen date", with: "2014-08-05")
-    @doctor.click_element_with_id("claim-first-seen-consult")
-    @doctor.fill_in_and_blur("Last seen date", with: "2014-08-06")
-    @doctor.click_link_with_text("Daily Details")
+    @doctor.add_claim(admission_on: "2014-08-04", first_seen_on: "2014-08-05", last_seen_on: "2014-08-06", first_seen_consult: false, consult_type: nil, autogenerate: false, daily_details: [])
+    @doctor.click_on("Details")
     @doctor.click_on("Generate codes")
     assert @doctor.see?("DAILY DETAILS (4)")
   end
 
-  test "should see an error when a consult limit is reached" do
+  test "can save claim with multiple diagnoses" do
+    @doctor.add_claim(diagnoses: [{name: "Flu"}, {name: "Cold"}])
+    @doctor.click_on("Save")
+    @doctor.click_on("Alice")
+    assert_equal "Flu", @doctor.find_field("claim-diagnoses-0-name").value
+    assert_equal "Cold", @doctor.find_field("claim-diagnoses-1-name").value
+  end
+
+  test "can submit claim with multiple diagnoses" do
+    @doctor.add_claim(diagnoses: [{name: "Flu"}, {name: "Cold"}])
+    @doctor.click_on("Submit")
+    @doctor.click_on("Alice")
+    assert @doctor.see?("Flu")
+    assert @doctor.see?("Cold")
+  end
+
+  test "cannot choose office hours option over the limit for the same period" do
     10.times do
-      @doctor.click_on("New")
-      @doctor.fill_in_and_blur("Admission date", with: "2014-08-11")
-      @doctor.click_link_with_text("Consult")
-      @doctor.click_element_with_id("claim-consult-type-general-er")
-      @doctor.click_element_with_id("is-premium-visible")
-      @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
+      @doctor.add_claim(admission_on: "2014-07-02", consult_premium_visit: "weekday_office_hours")
       @doctor.click_on("Save")
     end
-    @doctor.click_on("New")
-    @doctor.fill_in_and_blur("Admission date", with: "2014-08-11")
-    @doctor.click_link_with_text("Consult")
-    @doctor.click_element_with_id("claim-consult-type-general-er")
-    @doctor.click_element_with_id("is-premium-visible")
-    @doctor.click_element_with_id("claim-consult-premium-visit-weekday-office-hours")
+    @doctor.add_claim(admission_on: "2014-07-02", consult_premium_visit: "weekday_office_hours")
     @doctor.click_on("Submit")
-    @doctor.click_link_with_text("Consult")
-    assert @doctor.see?("May be used only 10 times in a single day")
+    @doctor.click_on("Consult")
+    assert @doctor.see?("Max visit premium used for selected code")
+  end
+
+  test "cannot choose travel premium option over the limit for the same period" do
+    2.times do
+      @doctor.add_claim(admission_on: "2014-07-02", consult_premium_visit: "weekday_office_hours", consult_premium_travel: true)
+      @doctor.click_on("Save")
+    end
+    @doctor.add_claim(admission_on: "2014-07-02", consult_premium_visit: "weekday_office_hours", consult_premium_travel: true)
+    @doctor.click_on("Submit")
+    @doctor.click_on("Consult")
+    assert @doctor.see?("Max travel premium used")
+  end
+
+  test "displays 'Consult on first seen date' when admission is different than first seen" do
+    @doctor.add_claim(admission_on: "2014-07-02", first_seen_on: "2014-07-03", autogenerate: false)
+    @doctor.click_on("Claim")
+    assert @doctor.see?("Consult on first seen date")
+    assert @doctor.see?("Transfer from ICU/CCU")
+  end
+
+  test "displays 'Transfer from ICU/CCU' when MRP and admission is different than first seen" do
+    @doctor.add_claim(admission_on: "2014-07-02", first_seen_on: "2014-07-03", autogenerate: false, most_responsible_physician: true)
+    @doctor.click_on("Claim")
+    assert @doctor.see?("Transfer from ICU/CCU")
+  end
+
+  test "doctor sees a list of typeahead suggestions for hospital" do
+    @doctor.click_on("New")
+    @doctor.fill_in "Hospital", with: "hosp"
+    @doctor.press_down_arrow("#claim-hospital")
+
+    assert @doctor.see?("Hospital 1")
+    assert @doctor.see?("Hospital 2")
+    assert @doctor.see?("Hospital 3")
+    assert @doctor.see?("Hospital 4")
+    assert @doctor.see?("Hospital 5")
+    assert @doctor.not_see?("Hospital 6")
+    assert @doctor.not_see?("Hospital 7")
+  end
+
+  test "doctor sees a list of typeahead suggestions for diagnosis" do
+    @doctor.click_on("New")
+    @doctor.fill_in "claim-diagnoses-0-name", with: "diag"
+    @doctor.press_down_arrow("#claim-diagnoses-0-name")
+
+    assert @doctor.see?("Diagnosis 1")
+    assert @doctor.see?("Diagnosis 2")
+    assert @doctor.see?("Diagnosis 3")
+    assert @doctor.see?("Diagnosis 4")
+    assert @doctor.see?("Diagnosis 5")
+    assert @doctor.not_see?("Diagnosis 6")
+    assert @doctor.not_see?("Diagnosis 7")
+  end
+
+  test "doctor sees a list of typeahead suggestions for service code" do
+    @doctor.click_on("New")
+    @doctor.click_on("Details")
+    @doctor.click_on("Add a new day")
+
+    @doctor.fill_in "code", with: "code"
+    @doctor.press_down_arrow("input[name=code]")
+
+    assert @doctor.see?("Service Code 1")
+    assert @doctor.see?("Service Code 2")
+    assert @doctor.see?("Service Code 3")
+    assert @doctor.see?("Service Code 4")
+    assert @doctor.see?("Service Code 5")
+    assert @doctor.not_see?("Service Code 6")
+    assert @doctor.not_see?("Service Code 7")
   end
 end

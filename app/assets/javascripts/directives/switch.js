@@ -27,7 +27,7 @@ angular.module("moBilling.directives")
                 }
 
                 element.on("click tap", function (event) {
-                    if (attributes.disabled == null) {
+                    if (!attributes.disabled) {
                         scope.$apply(function () {
                             scope.checked = !scope.checked;
 

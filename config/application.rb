@@ -11,5 +11,6 @@ module MoBilling
     config.angular_templates.module_name = "moBilling.templates"
     config.assets.paths << Rails.root.join("vendor", "assets", "fonts")
     config.assets.precompile = %w[*.png *.jpg *.eot *.svg *.ttf *.woff application.css application.js]
+    config.active_record.raise_in_transactional_callbacks = true # surpress carrierwave deprecation warnings
   end
 end

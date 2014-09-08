@@ -6,45 +6,45 @@
           Please provide required consult information below before submitting.
         </div>
 
-        <div class="form-group" ng-class="{'has-error': (consultForm.consult_type.$dirty || submitted) && consultForm.consult_type.$invalid}">
+        <div ng-class="{'has-error': (consultForm.consult_type.$dirty || submitted) && consultForm.consult_type.$invalid}">
           <div class="row">
-            <div class="col-xs-offset-6 col-xs-3 text-center">
+            <div class="col-xs-offset-4 col-xs-4 text-center">
               <label class="control-label">ER</label>
             </div>
-            <div class="col-xs-3 text-center">
+            <div class="col-xs-4 text-center">
               <label class="control-label">Non-ER</label>
             </div>
           </div>
 
           <div class="row" ng-repeat="consultType in consultTypes">
-            <div class="col-xs-6">
+            <div class="col-xs-4">
               <label class="control-label">{{consultType | inflector}}</label>
             </div>
-            <div class="col-xs-3 text-center">
+            <div class="col-xs-4 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="{{consultType}}_er" id="claim-consult-type-{{consultType | dasherize}}-er"></mb-switch>
               <span class="label label-info">{{consultCode(claim.specialty, consultType + "_er")}}</span>
             </div>
-            <div class="col-xs-3 text-center">
+            <div class="col-xs-4 text-center">
               <mb-switch ng-model="claim.consult_type" class="center-block" on-value="{{consultType}}_non_er" id="claim-consult-type-{{consultType | dasherize}}-non-er"></mb-switch>
               <span class="label label-info">{{consultCode(claim.specialty, consultType + "_non_er")}}</span>
             </div>
 
             <div class="col-xs-12" ng-if="claim.consult_type.indexOf(consultType) === 0 && isConsultTimeVisible()">
-              <div class="form-group row" ng-class="{'has-error': (consultForm.consult_time_in.$dirty || consultForm.consult_time_out.$dirty || submitted) && consultForm.consult_time.$invalid}">
-                <label for="claim-consult-time-in" class="control-label col-xs-6">
+              <div ng-class="{'has-error': (consultForm.consult_time_in.$dirty || consultForm.consult_time_out.$dirty || submitted) && consultForm.consult_time.$invalid}">
+                <label for="claim-consult-time-in" class="control-label col-xs-4">
                   Time in
                 </label>
-                <div class="col-xs-6">
+                <div class="col-xs-8">
                   <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" required></mb-time>
                 </div>
 
                 <div class="col-xs-12">&nbsp;</div>
 
-                <label for="claim-consult-time-out" class="control-label col-xs-6">
+                <label for="claim-consult-time-out" class="control-label col-xs-4">
                   Time out
                 </label>
-                <div class="col-xs-6">
-                  <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out" required></mb-time>
+                <div class="col-xs-8">
+                  <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-consult-time-out" min="{{claim.consult_time_in}}" required></mb-time>
                 </div>
 
                 <div class="col-xs-12">
@@ -58,162 +58,61 @@
 
             <div class="col-xs-12">&nbsp;</div>
           </div>
+        </div>
 
-          <div class="form-group row">
-            <label class="control-label col-xs-12">Special visit premium</label>
+        <div class="row">
+          <div class="col-xs-12">
+            <label class="control-label">Special visit premium</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <mb-switch ng-model="isPremiumVisitVisible" id="is-premium-visible"></mb-switch>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12" ng-class="{'has-error': consultForm.consult_premium_travel.$invalid}">
+            <label class="control-label">Travel premium</label>
+            <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
+            <input type="hidden" ng-model="claim.consult_premium_travel" name="consult_premium_travel" ui-validate="{required: '$value || claim.consult_premium_visit !== \'weekday_day\''}" ui-validate-watch="'claim.consult_premium_visit'">
+            <div ng-messages="consultForm.consult_premium_travel.$error" ng-show="submitted">
+              <p class="help-block" ng-message="required">is required</p>
+            </div>
+          </div>
+        </div>
+
+        <div ng-class="{'has-error': (consultForm.consult_premium_visit.$dirty || submitted) && consultForm.consult_premium_visit.$invalid}" ng-if="isPremiumVisitVisible">
+
+          <div ng-if="!dayType" class="row has-error">
             <div class="col-xs-12">
-              <mb-switch ng-model="isPremiumVisitVisible" id="is-premium-visible"></mb-switch>
+              <p class="help-block">No admission date is set. Please ensure that the <em>Claim</em> tab has been completed before filling <em>Consult</em> details.</p>
             </div>
           </div>
 
-          <div class="form-group" ng-class="{'has-error': (consultForm.consult_premium_visit.$dirty || submitted) && consultForm.consult_premium_visit.$invalid}" ng-if="isPremiumVisitVisible">
-
-            <div ng-if="!dayType" class="has-error form-group row">
-              <div class="col-xs-12">
-                <p class="help-block">No admission date is set. Please ensure that the <em>Claim</em> tab has been completed before filling <em>Consult</em> details.</p>
+          <div ng-if="dayType" class="row has-error">
+            <div class="col-xs-12">
+              <input type="hidden" name="consult_premium_visit" ng-model="claim.consult_premium_visit" ui-validate="{visit_limit: '!isConsultPremiumVisitLimitReached()', travel_limit: '!isConsultPremiumTravelLimitReached()'}" ui-validate-watch="['isConsultPremiumVisitLimitReached()', 'isConsultPremiumTravelLimitReached()']" required>
+              <div ng-messages="consultForm.consult_premium_visit.$error" ng-show="submitted">
+                <p class="help-block" ng-message="required">You have to select a premium visit</p>
+                <p class="help-block" ng-message="visit_limit">Max visit premium used for selected code</p>
+                <p class="help-block" ng-message="travel_limit">Max travel premium used</p>
               </div>
             </div>
+          </div>
 
-            <div ng-if="dayType">
-              <div class="form-group row">
-                <label class="control-label col-xs-12">Travel premium</label>
-                <div class="col-xs-12">
-                  <mb-switch ng-model="claim.consult_premium_travel" id="claim-consult-premium-travel"></mb-switch>
-                </div>
-              </div>
-
-              <div ng-if="dayType === 'weekday'">
-                <div class="row form-group" ng-if="claim.consult_premium_travel" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_day' && consultForm.consult_premium_number.$invalid}">
-                  <label class="control-label col-xs-12">
-                    Day 7:00-17:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_day")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_day" id="claim-consult-premium-visit-weekday-day"></mb-switch>
-                  </div>
-
-                  <div class="col-xs-12" ng-show="claim.consult_premium_visit === 'weekday_day'">
-                    <input type="number" class="hide" ng-model="claim.consult_premium_number" name="consult_premium_number" max="10" required>
-                    <div ng-messages="consultForm.consult_premium_number.$error" ng-show="submitted">
-                      <p class="help-block" ng-message="required">May be used only 10 times in a single day</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_office_hours' && consultForm.consult_premium_number.$invalid}">
-                  <label class="control-label col-xs-12">
-                    Office hours 7:00-17:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_office_hours")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_office_hours" id="claim-consult-premium-visit-weekday-office-hours"></mb-switch>
-                  </div>
-
-                  <div class="col-xs-12" ng-show="claim.consult_premium_visit === 'weekday_office_hours'">
-                    <input type="number" class="hide" ng-model="claim.consult_premium_number" name="consult_premium_number" max="10" required>
-                    <div ng-messages="consultForm.consult_premium_number.$error" ng-show="submitted">
-                      <p class="help-block" ng-message="required">May be used only 10 times in a single day</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekday_evening' && consultForm.consult_premium_number.$invalid}">
-                  <label class="control-label col-xs-12">
-                    Evening 17:00-0:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_evening")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_evening" id="claim-consult-premium-visit-weekday-evening"></mb-switch>
-                  </div>
-
-                  <div class="col-xs-12" ng-show="claim.consult_premium_visit === 'weekday_evening'">
-                    <input type="number" class="hide" ng-model="claim.consult_premium_number" name="consult_premium_number" max="10" required>
-                    <div ng-messages="consultForm.consult_premium_number.$error" ng-show="submitted">
-                      <p class="help-block" ng-message="required">May be used only 10 times in a single day</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <label class="control-label col-xs-12">
-                    Night 0:00-7:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekday_night")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekday_night" id="claim-consult-premium-visit-weekday-night"></mb-switch>
-                  </div>
-                </div>
-              </div>
-
-              <div ng-if="dayType === 'weekend'">
-                <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'weekend_day' && consultForm.consult_premium_number.$invalid}">
-                  <label class="control-label col-xs-12">
-                    Weekend 7:00-0:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_day")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_day" id="claim-consult-premium-visit-weekend-day"></mb-switch>
-                  </div>
-
-                  <div class="col-xs-12" ng-show="claim.consult_premium_visit === 'weekend_day'">
-                    <input type="number" class="hide" ng-model="claim.consult_premium_number" name="consult_premium_number" max="20" required>
-                    <div ng-messages="consultForm.consult_premium_number.$error" ng-show="submitted">
-                      <p class="help-block" ng-message="required">May be used only 20 times in a single day</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <label class="control-label col-xs-12">
-                    Night 0:00-7:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "weekend_night")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="weekend_night" id="claim-consult-premium-visit-weekend-night"></mb-switch>
-                  </div>
-                </div>
-              </div>
-
-              <div ng-if="dayType === 'holiday'">
-                <div class="row form-group" ng-class="{'has-error': claim.consult_premium_visit === 'holiday_day' && consultForm.consult_premium_number.$invalid}">
-                  <label class="control-label col-xs-12">
-                    Holiday 7:00-0:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_day")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_day" id="claim-consult-premium-visit-holiday-day"></mb-switch>
-                  </div>
-
-                  <div class="col-xs-12" ng-show="claim.consult_premium_visit === 'holiday_day'">
-                    <input type="number" class="hide" ng-model="claim.consult_premium_number" name="consult_premium_number" max="20" required>
-                    <div ng-messages="consultForm.consult_premium_number.$error" ng-show="submitted">
-                      <p class="help-block" ng-message="required">May be used only 20 times in a single day</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <label class="control-label col-xs-12">
-                    Night 0:00-7:00
-                    <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, "holiday_night")}}</span>
-                  </label>
-                  <div class="col-xs-12">
-                    <mb-switch ng-model="claim.consult_premium_visit" on-value="holiday_night" id="claim-consult-premium-visit-holiday-night"></mb-switch>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-xs-12">
-                <input type="hidden" name="consult_premium_visit" ng-model="claim.consult_premium_visit" required>
-                <div ng-messages="consultForm.consult_premium_visit.$error" ng-show="submitted">
-                  <p class="help-block" ng-message="required">is missing</p>
-                </div>
-              </div>
+          <div class="row" ng-repeat="consultPremiumVisit in consultPremiumVisits" ng-show="consultPremiumVisit.indexOf(dayType) === 0">
+            <label class="control-label col-xs-12">
+              {{consultPremiumVisitLabels[consultPremiumVisit]}}
+              <span class="label label-info">{{premiumVisitCode(claim.consult_premium_first, claim.consult_type, consultPremiumVisit)}}</span>
+              <span class="label label-info" ng-if="claim.consult_premium_travel">{{premiumTravelCode(claim.consult_type, consultPremiumVisit)}}</span>
+            </label>
+            <div class="col-xs-12">
+              <mb-switch ng-model="claim.consult_premium_visit" on-value="{{consultPremiumVisit}}" off-value="" id="claim-consult-premium-visit-{{consultPremiumVisit | dasherize}}"></mb-switch>
+              <p class="help-block">
+                <span ng-if="consultPremiumVisit === 'weekday_day'">Requires <em>Travel premium</em>.</span>
+                Already used = {{consultPremiumVisitCounts[consultPremiumVisit]}}
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </ng-form>

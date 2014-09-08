@@ -249,6 +249,7 @@ angular.module("moBilling.factories")
         detailsGenerator.erAffix = erAffix;
         detailsGenerator.consultCode = consultCode;
         detailsGenerator.premiumVisitCode = premiumVisitCode;
+        detailsGenerator.premiumTravelCode = premiumTravelCode;
 
         return detailsGenerator;
     });

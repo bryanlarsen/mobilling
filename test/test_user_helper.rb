@@ -43,7 +43,7 @@ module Test
 
     def screenshot(wait_time = 1)
       sleep(wait_time)
-      session.save_screenshot(Rails.root.join("tmp", "screenshot.png"), full: true)
+      session.save_screenshot(Rails.root.join("tmp", "screenshot.png"), width: 1024, height: 768)
     end
 
     def see?(*args)
@@ -52,10 +52,6 @@ module Test
 
     def not_see?(*args)
       has_no_content?(*args)
-    end
-
-    def within_row(name, &block)
-      within(:xpath, "//td[contains(., '#{name}')]/..", &block)
     end
 
     def emails
@@ -73,25 +69,22 @@ module Test
       navigate_to("Sign out")
     end
 
-    def click_link_with_text(text)
-      find(:xpath, "//a[contains(., '#{text}')]").click
-    end
-
-    def click_element_with_id(id)
-      find(:css, "##{id}").click
-    end
-
-    def fill_in_and_blur(*args)
-      fill_in(*args)
-      find("body").click
-    end
-
-    def within_list_item(name, &block)
-      within(:xpath, "//*[contains(concat(' ', normalize-space(@class), ' '), ' list-group-item ') and contains(., '#{name}')]/..", &block)
+    def fill_in(*args, **options)
+      blur = options.delete(:blur)
+      session.fill_in(*args, **options).tap do
+        # nothing seems to work in 100% of cases - using a brutal way
+        execute_script("$('.datepicker,.ui-timepicker').remove()") if blur
+      end
     end
 
     def navigate_to(title)
-      within("#menu-sidebar") { find_link(title).trigger("click") }
+      click_on("Menu")
+      # need to trigger click, otherwise getting totally random results
+      find(:link_or_button, title).trigger("click")
+    end
+
+    def press_down_arrow(locator)
+      execute_script("$('#{locator}').trigger($.Event('keydown', {keyCode: 40}))")
     end
   end
 
@@ -105,6 +98,77 @@ module Test
   class Doctor < User
     def initialize(user = FactoryGirl.create(:user, :authenticated))
       super(user)
+    end
+
+    def add_claim(attributes = {})
+      claim_attributes = {
+        photo: "image.png",
+        patient_name: "Alice",
+        hospital: "Test",
+        referring_physician: "Bob",
+        diagnoses: [{name: "Flu"}],
+        most_responsible_physician: true,
+        admission_on: "2014-07-02",
+        first_seen_on: "2014-07-02",
+        first_seen_consult: true,
+        icu_transfer: false,
+        last_seen_on: "2014-07-02",
+        last_seen_discharge: false,
+        consult_type: "comprehensive_er",
+        consult_time_in: "17:00",
+        consult_time_out: "19:00",
+        consult_premium_visit: "weekday_office_hours",
+        consult_premium_travel: false,
+        autogenerate: true,
+        daily_details: [{day: "2014-07-02", code: "A666A"}],
+        comment: "Test"
+      }.merge(attributes)
+
+      click_on("New")
+
+      # claim details
+      attach_file("Patient photo", Rails.root.join("test", "fixtures", claim_attributes[:photo]), visible: false)
+      fill_in("Patient name", with: claim_attributes[:patient_name])
+      fill_in("Hospital", with: claim_attributes[:hospital])
+      fill_in("Referring physician", with: claim_attributes[:referring_physician])
+      claim_attributes[:diagnoses].each.with_index do |diagnosis, i|
+        click_on("Add a new diagnosis") unless i.zero?
+        fill_in("claim-diagnoses-#{i}-name", with: diagnosis[:name])
+      end
+      find_by_id("claim-most-responsible-physician").click unless claim_attributes[:most_responsible_physician]
+      fill_in("Admission date", with: claim_attributes[:admission_on], blur: true)
+      find_by_id("is-first-seen-on-hidden").click until has_css?("input#claim-first-seen-on")
+      fill_in("First seen date", with: claim_attributes[:first_seen_on], blur: true)
+      find_by_id("claim-first-seen-consult").click unless claim_attributes[:first_seen_consult]
+      find_by_id("claim-icu-transfer").click if claim_attributes[:icu_transfer]
+      fill_in("Last seen date", with: claim_attributes[:last_seen_on], blur: true)
+      find_by_id("claim-last-seen-discharge").click if claim_attributes[:last_seen_discharge]
+
+      # consult
+      if claim_attributes[:consult_type]
+        click_on("Consult")
+        find_by_id("claim-consult-type-#{claim_attributes[:consult_type].dasherize}").click
+        fill_in("Time in", with: claim_attributes[:consult_time_in], blur: true) if claim_attributes[:consult_time_in]
+        fill_in("Time out", with: claim_attributes[:consult_time_out], blur: true) if claim_attributes[:consult_time_out]
+        if claim_attributes[:consult_premium_visit]
+          find_by_id("is-premium-visible").click
+          find_by_id("claim-consult-premium-visit-#{claim_attributes[:consult_premium_visit].dasherize}").click
+        end
+        find_by_id("claim-consult-premium-travel").click if claim_attributes[:consult_premium_travel]
+      end
+
+      # details
+      click_on("Details")
+      click_on("Generate codes") if claim_attributes[:autogenerate]
+      claim_attributes[:daily_details].each do |daily_detail|
+        click_on("Add a new day")
+        all("input[name=day]").last.set daily_detail[:day]
+        all("input[name=code]").last.set daily_detail[:code]
+      end
+
+      # comments
+      click_on("Comments")
+      fill_in("claim-comment", with: claim_attributes[:comment])
     end
   end
 

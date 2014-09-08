@@ -4,7 +4,9 @@ require "rails/test_help"
 require "test_user_helper"
 require "capybara/rails"
 require "capybara/poltergeist"
+
 DatabaseCleaner.strategy = :deletion
+# Capybara.default_wait_time = 5
 
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
@@ -32,6 +34,7 @@ class ActionDispatch::IntegrationTest
 
   # Stop ActiveRecord from wrapping tests in transactions
   self.use_transactional_fixtures = false
+  fixtures :all
 
   def emails
     ActionMailer::Base.deliveries

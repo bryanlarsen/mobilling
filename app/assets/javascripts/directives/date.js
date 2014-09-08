@@ -41,19 +41,27 @@ angular.module("moBilling.directives")
                         }
                     });
                 } else {
+                    element.focus(function (event) {
+                        event.stopImmediatePropagation();
+                    });
+
+                    element.wrap('<div class="input-group date">');
+                    element.after('<span class="input-group-addon"><i class="fa fa-calendar"></i></span>');
+                    element = element.parent();
+
                     attributes.$observe("min", function (min) {
-                        $(element).datepicker("setStartDate", min);
+                        element.datepicker("setStartDate", min);
                     });
 
                     attributes.$observe("max", function (max) {
-                        $(element).datepicker("setEndDate", max);
+                        element.datepicker("setEndDate", max);
                     });
 
-                    $(element).datepicker({ autoclose: true, format: "yyyy-mm-dd" });
+                    element.datepicker({ autoclose: true, format: "yyyy-mm-dd" });
 
                     ngModelController.$formatters.push(function (modelValue) {
                         if (modelValue) {
-                            $(element).datepicker("setDate", modelValue);
+                            element.datepicker("setDate", modelValue);
                         }
 
                         return modelValue;

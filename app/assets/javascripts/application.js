@@ -1,8 +1,9 @@
+//= require augment
 //= require jquery
 //= require overthrow
-//= require fastclick
 //= require bloodhound
-//= require typeahead.jquery
+//= require typeahead
+//= require fastclick
 //= require angular
 //= require angular-route
 //= require angular-messages
@@ -15,12 +16,11 @@
 //= require mobile-angular-ui/toggle
 //= require mobile-angular-ui/fastclick
 //= require mobile-angular-ui/scrollable
+//= require gestures
 //= require ui-utils
 //= require angular-rails-templates
-//= require uuid
-//= require lodash
 //= require bootstrap-datepicker
-//= require bootstrap-timepicker
+//= require jquery.timepicker
 //= require date.format
 //= require modernizr
 //= require ./mo_billing
