@@ -1,4 +1,3 @@
-//= require augment
 //= require jquery
 //= require overthrow
 //= require bloodhound
@@ -21,7 +20,6 @@
 //= require angular-rails-templates
 //= require bootstrap-datepicker
 //= require jquery.timepicker
-//= require date.format
 //= require modernizr
 //= require ./mo_billing
 
