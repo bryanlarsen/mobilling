@@ -207,6 +207,7 @@ DEPENDENCIES
   byebug
   capybara
   carrierwave
+  coffee-rails
   database_cleaner
   email_validator
   factory_girl_rails
