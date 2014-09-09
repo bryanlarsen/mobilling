@@ -183,6 +183,9 @@ GEM
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    uglifier (2.5.3)
+      execjs (>= 0.3.0)
+      json (>= 1.8.0)
     uuid_validator (0.0.4)
       activemodel (>= 3.0.0)
     web-console (2.0.0.beta3)
@@ -222,5 +225,6 @@ DEPENDENCIES
   teaspoon
   therubyracer
   turbolinks
+  uglifier
   uuid_validator
   web-console (~> 2.0.0.beta2)
