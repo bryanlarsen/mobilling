@@ -131,21 +131,47 @@ module Test
       fill_in("Patient name", with: claim_attributes[:patient_name])
       fill_in("Hospital", with: claim_attributes[:hospital])
       fill_in("Referring physician", with: claim_attributes[:referring_physician])
+
       claim_attributes[:diagnoses].each.with_index do |diagnosis, i|
         click_on("Add a new diagnosis") unless i.zero?
         fill_in("claim-diagnoses-#{i}-name", with: diagnosis[:name])
       end
-      find_by_id("claim-most-responsible-physician").click unless claim_attributes[:most_responsible_physician]
-      fill_in("Admission date", with: claim_attributes[:admission_on], blur: true)
-      find_by_id("is-first-seen-on-hidden").click until has_css?("input#claim-first-seen-on")
-      fill_in("First seen date", with: claim_attributes[:first_seen_on], blur: true)
-      find_by_id("claim-first-seen-consult").click unless claim_attributes[:first_seen_consult]
-      find_by_id("claim-icu-transfer").click if claim_attributes[:icu_transfer]
-      fill_in("Last seen date", with: claim_attributes[:last_seen_on], blur: true)
-      find_by_id("claim-last-seen-discharge").click if claim_attributes[:last_seen_discharge]
+
+      unless claim_attributes[:most_responsible_physician].nil?
+        find_by_id("claim-most-responsible-physician").click unless claim_attributes[:most_responsible_physician]
+      end
+
+      unless claim_attributes[:procedure_on].nil?
+        fill_in("Procedure / treatment date", with: claim_attributes[:procedure_on], blur: true)
+      end
+
+      unless claim_attributes[:admission_on].nil?
+        fill_in("Admission date", with: claim_attributes[:admission_on], blur: true)
+      end
+
+      unless claim_attributes[:first_seen_on].nil?
+        find_by_id("is-first-seen-on-hidden").click until has_css?("input#claim-first-seen-on")
+        fill_in("First seen date", with: claim_attributes[:first_seen_on], blur: true)
+      end
+
+      unless claim_attributes[:first_seen_consult].nil?
+        find_by_id("claim-first-seen-consult").click unless claim_attributes[:first_seen_consult]
+      end
+
+      unless claim_attributes[:icu_transfer].nil?
+        find_by_id("claim-icu-transfer").click if claim_attributes[:icu_transfer]
+      end
+
+      unless claim_attributes[:last_seen_on].nil?
+        fill_in("Last seen date", with: claim_attributes[:last_seen_on], blur: true)
+      end
+
+      unless claim_attributes[:last_seen_discharge].nil?
+        find_by_id("claim-last-seen-discharge").click if claim_attributes[:last_seen_discharge]
+      end
 
       # consult
-      if claim_attributes[:consult_type]
+      unless claim_attributes[:consult_type].nil?
         click_on("Consult")
         find_by_id("claim-consult-type-#{claim_attributes[:consult_type].dasherize}").click
         fill_in("Time in", with: claim_attributes[:consult_time_in], blur: true) if claim_attributes[:consult_time_in]
@@ -161,9 +187,11 @@ module Test
       click_on("Details")
       click_on("Generate codes") if claim_attributes[:autogenerate]
       claim_attributes[:daily_details].each do |daily_detail|
-        click_on("Add a new day")
-        all("input[name=day]").last.set daily_detail[:day]
-        all("input[name=code]").last.set daily_detail[:code]
+        click_on("Add a new day") unless claim_attributes[:procedure_on]
+        all("input[name=day]").last.set(daily_detail[:day])
+        all("input[name=code]").last.set(daily_detail[:code])
+        all("input[name=time_in]").last.set(daily_detail[:time_in]) if daily_detail[:time_in]
+        all("input[name=time_out]").last.set(daily_detail[:time_out]) if daily_detail[:time_out]
       end
 
       # comments

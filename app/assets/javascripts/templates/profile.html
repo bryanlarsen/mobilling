@@ -93,26 +93,12 @@
                 Specialties
               </label>
 
-              <div class="col-xs-12">
-                <mb-switch ng-model="user.specialties" id="user-specialties-internal-medicine" name="specialties" on-value="internal_medicine" class="pull-left"></mb-switch>
-                &nbsp;
-                <label class="control-label">Internal Medicine</label>
-              </div>
-
-              <div class="col-xs-12"><br></div>
-
-              <div class="col-xs-12">
-                <mb-switch ng-model="user.specialties" id="user-specialties-cardiology" name="specialties" on-value="cardiology" class="pull-left"></mb-switch>
-                &nbsp;
-                <label class="control-label">Cardiology</label>
-              </div>
-
-              <div class="col-xs-12"><br></div>
-
-              <div class="col-xs-12">
-                <mb-switch ng-model="user.specialties" id="user-specialties-family-medicine" name="specialties" on-value="family_medicine" class="pull-left"></mb-switch>
-                &nbsp;
-                <label class="control-label">Family Medicine</label>
+              <div class="col-xs-12" ng-repeat="specialty in specialties">
+                <p>
+                  <mb-switch ng-model="user.specialties" id="user-specialties-{{specialty.name | dasherize}}" name="specialties" on-value="{{specialty.name}}" class="pull-left"></mb-switch>
+                  &nbsp;
+                  <label class="control-label">{{specialty.name | inflector}}</label>
+                </p>
               </div>
 
               <input class="hide" type="number" ng-model="user.specialties.length" name="specialties_length" min="1" required>

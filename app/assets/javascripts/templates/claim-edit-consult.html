@@ -29,7 +29,9 @@
               <span class="label label-info">{{consultCode(claim.specialty, consultType + "_non_er")}}</span>
             </div>
 
-            <div class="col-xs-12" ng-if="claim.consult_type.indexOf(consultType) === 0 && isConsultTimeVisible()">
+            <div ng-if="claim.consult_type.indexOf(consultType) === 0 && isConsultTimeVisible()">
+              <div class="col-xs-12">&nbsp;</div>
+
               <div ng-class="{'has-error': (consultForm.consult_time_in.$dirty || consultForm.consult_time_out.$dirty || submitted) && consultForm.consult_time.$invalid}">
                 <label for="claim-consult-time-in" class="control-label col-xs-4">
                   Time in

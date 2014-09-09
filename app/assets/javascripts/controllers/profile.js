@@ -1,7 +1,8 @@
 angular.module("moBilling.controllers")
 
-    .controller("ProfileController", function ($scope, User, user, agents, $location) {
+    .controller("ProfileController", function ($scope, $location, User, user, agents, specialties) {
         $scope.agents = agents;
+        $scope.specialties = specialties;
         $scope.user = user;
 
         function success() {
