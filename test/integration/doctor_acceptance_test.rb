@@ -18,6 +18,32 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Alice")
   end
 
+  test "can submit anesthesiologist claim" do
+    @doctor.update!(specialties: ["anesthesiologist"])
+    @doctor.sign_in
+    claim_attributes = {
+      patient_name: "Alice",
+      most_responsible_physician: nil,
+      procedure_on: "2014-09-09",
+      admission_on: nil,
+      first_seen_on: nil,
+      first_seen_consult: nil,
+      icu_transfer: nil,
+      last_seen_on: nil,
+      last_seen_discharge: nil,
+      consult_type: nil,
+      consult_time_in: nil,
+      consult_time_out: nil,
+      consult_premium_visit: nil,
+      consult_premium_travel: nil,
+      autogenerate: nil,
+      daily_details: [{day: "2014-07-02", code: "A666A", time_in: "17:00", time_out: "19:00"}],
+    }
+    @doctor.add_claim(claim_attributes)
+    @doctor.click_on("Submit")
+    assert @doctor.see?("Alice")
+  end
+
   test "can edit rejected claim" do
     create(:claim, user: @doctor.model, status: "rejected_doctor_attention", details: {"patient_name" => "Alice"})
     @doctor.click_on("Rejected")
