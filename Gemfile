@@ -38,8 +38,3 @@ end
 group :development, :test do
   gem "teaspoon"
 end
-
-group :assets do
-  gem "uglifier"
-  gem "coffee-rails"
-end
