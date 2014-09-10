@@ -69,12 +69,18 @@ module Test
       navigate_to("Sign out")
     end
 
-    def fill_in(*args, **options)
-      blur = options.delete(:blur)
-      session.fill_in(*args, **options).tap do
-        # nothing seems to work in 100% of cases - using a brutal way
-        execute_script("$('.datepicker,.ui-timepicker').remove()") if blur
-      end
+    def pick_a_date(locator, date)
+      find(:field, locator).click
+      date = Date.parse(date)
+      months = (date.year * 12 + date.month) - (Date.today.year * 12 + Date.today.month)
+      months.times { find(:link_or_button, "Next month").click } if months > 0
+      months.times { find(:link_or_button, "Previous month").click } if months < 0
+      execute_script("$('.picker__day.picker__day--infocus:contains(#{date.day})').click()")
+    end
+
+    def pick_a_time(locator, time)
+      find(:field, locator).click
+      execute_script("$('.picker__list-item:contains(#{time})').click()")
     end
 
     def navigate_to(title)
@@ -142,16 +148,16 @@ module Test
       end
 
       unless claim_attributes[:procedure_on].nil?
-        fill_in("Procedure / treatment date", with: claim_attributes[:procedure_on], blur: true)
+        pick_a_date("Procedure / treatment date", claim_attributes[:procedure_on])
       end
 
       unless claim_attributes[:admission_on].nil?
-        fill_in("Admission date", with: claim_attributes[:admission_on], blur: true)
+        pick_a_date("Admission date", claim_attributes[:admission_on])
       end
 
       unless claim_attributes[:first_seen_on].nil?
         find_by_id("is-first-seen-on-hidden").click until has_css?("input#claim-first-seen-on")
-        fill_in("First seen date", with: claim_attributes[:first_seen_on], blur: true)
+        pick_a_date("First seen date", claim_attributes[:first_seen_on])
       end
 
       unless claim_attributes[:first_seen_consult].nil?
@@ -163,7 +169,7 @@ module Test
       end
 
       unless claim_attributes[:last_seen_on].nil?
-        fill_in("Last seen date", with: claim_attributes[:last_seen_on], blur: true)
+        pick_a_date("Last seen date", claim_attributes[:last_seen_on])
       end
 
       unless claim_attributes[:last_seen_discharge].nil?
@@ -174,8 +180,8 @@ module Test
       unless claim_attributes[:consult_type].nil?
         click_on("Consult")
         find_by_id("claim-consult-type-#{claim_attributes[:consult_type].dasherize}").click
-        fill_in("Time in", with: claim_attributes[:consult_time_in], blur: true) if claim_attributes[:consult_time_in]
-        fill_in("Time out", with: claim_attributes[:consult_time_out], blur: true) if claim_attributes[:consult_time_out]
+        pick_a_time("Time in", claim_attributes[:consult_time_in]) if claim_attributes[:consult_time_in]
+        pick_a_time("Time out", claim_attributes[:consult_time_out]) if claim_attributes[:consult_time_out]
         if claim_attributes[:consult_premium_visit]
           find_by_id("is-premium-visible").click
           find_by_id("claim-consult-premium-visit-#{claim_attributes[:consult_premium_visit].dasherize}").click

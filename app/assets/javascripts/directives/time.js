@@ -7,39 +7,29 @@ angular.module("moBilling.directives")
             replace: true,
             template: '<input type="text">',
             link: function (scope, element, attributes, ngModelController) {
-                var picker = element.pickatime({
-                    interval: 15,
-                    container: "body",
-                    format: "HH:i",
-                    formatLabel: function (time) {
-                        if (this.get("min").pick) {
-                            var hours = (time.pick - this.get("min").pick) / 60;
-
-                            return  "HH:i <sm!all cl!ass='text-muted'>" + hours + "!h</sm!all>";
-                        } else {
-                            return "HH:i";
-                        }
-                    }
-                }).pickatime("picker");
-
-                ngModelController.$formatters.push(function (modelValue) {
-                    if (modelValue) {
-                        picker.set("select", modelValue);
-                    }
-
-                    return modelValue;
-                });
-
-                attributes.$observe("min", function (min) {
-                    picker.set({ min: min === undefined ? false : min });
-                });
-
-                attributes.$observe("max", function (max) {
-                    picker.set({ max: max === undefined ? false : max });
-                });
-
                 element.focus(function () {
                     element.blur();
+
+                    var picker = element.pickatime({
+                        interval: 15,
+                        format: "HH:i",
+                        container: "body",
+                        min: attributes.min === undefined ? false : attributes.min,
+                        max: attributes.max === undefined ? false : attributes.max,
+                        formatLabel: function (time) {
+                            if (this.get("min").pick) {
+                                var hours = (time.pick - this.get("min").pick) / 60;
+
+                                return  "HH:i <sm!all cl!ass='text-muted'>" + hours + "!h</sm!all>";
+                            } else {
+                                return "HH:i";
+                            }
+                        }
+                    }).pickatime("picker");
+
+                    picker.on("close", function () {
+                        picker.stop();
+                    });
                 });
             }
         };

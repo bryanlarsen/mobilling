@@ -7,7 +7,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "can save claim as draft" do
-    @doctor.add_claim(patient_name: "Alice", last_seen_on: "", autogenerate: false)
+    @doctor.add_claim(patient_name: "Alice", last_seen_on: nil, autogenerate: false)
     @doctor.click_on("Save")
     assert @doctor.see?("Alice")
   end
@@ -41,6 +41,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     }
     @doctor.add_claim(claim_attributes)
     @doctor.click_on("Submit")
+    @doctor.screenshot
     assert @doctor.see?("Alice")
   end
 
