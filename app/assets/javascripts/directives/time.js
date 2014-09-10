@@ -37,6 +37,10 @@ angular.module("moBilling.directives")
                 attributes.$observe("max", function (max) {
                     picker.set({ max: max === undefined ? false : max });
                 });
+
+                element.focus(function () {
+                    element.blur();
+                });
             }
         };
     });
