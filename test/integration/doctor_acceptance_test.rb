@@ -41,7 +41,6 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     }
     @doctor.add_claim(claim_attributes)
     @doctor.click_on("Submit")
-    @doctor.screenshot
     assert @doctor.see?("Alice")
   end
 
