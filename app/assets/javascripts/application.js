@@ -15,12 +15,12 @@
 //= require mobile-angular-ui/toggle
 //= require mobile-angular-ui/fastclick
 //= require mobile-angular-ui/scrollable
+//= require pickadate/picker
+//= require pickadate/picker.date
+//= require pickadate/picker.time
 //= require gestures
 //= require ui-utils
 //= require angular-rails-templates
-//= require bootstrap-datepicker
-//= require jquery.timepicker
-//= require modernizr
 //= require ./mo_billing
 
 angular.element(document).ready(function () {

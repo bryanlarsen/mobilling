@@ -1,11 +1,15 @@
 @import "mobile-angular-ui/less/mobile-angular-ui";
-@import "bootstrap-datepicker/less/bootstrap-datepicker";
-@import "jquery.timepicker/less/jquery.timepicker.less";
+
+@import "pickadate/less/base";
+@import "pickadate/less/base.date.less";
+@import "pickadate/less/base.time.less";
+@import "pickadate/less/default";
+@import "pickadate/less/default.date.less";
+@import "pickadate/less/default.time.less";
 
 @import "./fonts";
 @import "./fileupload";
 @import "./typeahead";
-// @import "./timepicker";
 
 @fa-font-path: "/assets";
 @font-family-sans-serif: OpenSans, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -49,6 +53,11 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.form-control[readonly] {
+    cursor: auto;
+    background-color: @input-bg;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
