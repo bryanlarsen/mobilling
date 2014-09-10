@@ -22,6 +22,14 @@ angular.module("moBilling.directives")
                     }
                 }).pickatime("picker");
 
+                ngModelController.$formatters.push(function (modelValue) {
+                    if (modelValue) {
+                        picker.set("select", modelValue);
+                    }
+
+                    return modelValue;
+                });
+
                 attributes.$observe("min", function (min) {
                     picker.set({ min: min === undefined ? false : min });
                 });
