@@ -12,6 +12,9 @@
           <span ng-show="isTimeVisible(detail)">
             ({{claim.consult_time_in}} - {{claim.consult_time_out}})
           </span>
+          <span ng-show="isSimplifiedTemplate()">
+            ({{detail.time_in}} - {{detail.time_out}})
+          </span>
         </div>
       </div>
     </div>

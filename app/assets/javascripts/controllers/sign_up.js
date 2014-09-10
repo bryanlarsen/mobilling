@@ -1,7 +1,8 @@
 angular.module("moBilling.controllers")
 
-    .controller("SignUpController", function ($scope, $location, User, agents) {
+    .controller("SignUpController", function ($scope, $location, User, agents, specialties) {
         $scope.agents = agents;
+        $scope.specialties = specialties;
         $scope.user = {
             specialties: []
         };

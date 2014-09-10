@@ -20,6 +20,7 @@ gem "sprockets-redirect"
 gem "therubyracer"
 gem "turbolinks"
 gem "uuid_validator"
+gem "uglifier"
 
 group :development do
   gem "letter_opener"
