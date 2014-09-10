@@ -7,6 +7,8 @@ angular.module("moBilling.controllers")
         $scope.consultCode = detailsGenerator.consultCode;
         $scope.premiumVisitCode = detailsGenerator.premiumVisitCode;
         $scope.premiumTravelCode = detailsGenerator.premiumTravelCode;
+        $scope.consultPremiumVisitCounts = {};
+        $scope.consultPremiumTravelCounts = {};
 
         // on_call_admission_er is default in family_medicine
         if ($scope.isConsultVisible() && claim.specialty === "family_medicine" && !claim.consult_type) {
