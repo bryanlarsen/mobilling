@@ -164,7 +164,8 @@ angular.module("moBilling")
 
         document.addEventListener("deviceready", function () {
             document.addEventListener("pause", function () {
-                window.location = "/#/unlock";
+                $location.path("/unlock").hash("").replace();
+                $rootScope.$apply();
             }, false);
         }, false);
     });
