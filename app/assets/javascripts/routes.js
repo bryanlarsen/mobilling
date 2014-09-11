@@ -177,9 +177,11 @@ angular.module("moBilling")
 
         document.addEventListener("deviceready", function () {
             $rootScope.$broadcast("lock");
+            $rootScope.$apply();
 
             document.addEventListener("pause", function () {
                 $rootScope.$broadcast("lock");
+                $rootScope.$apply();
             }, false);
 
         }, false);
