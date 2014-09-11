@@ -5,7 +5,7 @@ angular.module("moBilling.controllers")
 
         function success(session) {
             window.localStorage.setItem("authenticationToken", session.authentication_token);
-            $scope.emit("unlock");
+            $scope.$emit("unlock");
             $location.path("/claims").hash("").replace();
         };
 
