@@ -70,7 +70,11 @@ module Test
     end
 
     def pick_a_date(locator, date)
-      find(:field, locator).click
+      if locator.respond_to?(:click)
+        locator.click
+      else
+        find(:field, locator).click
+      end
       date = Date.parse(date)
       months = (date.year * 12 + date.month) - (Date.today.year * 12 + Date.today.month)
       months.abs.times { execute_script("$('.picker--focused .picker__nav--next').click()") } if months > 0
@@ -79,8 +83,12 @@ module Test
     end
 
     def pick_a_time(locator, time)
-      find(:field, locator).click
-      execute_script("$('.picker__list-item:contains(#{time})').click()")
+      if locator.respond_to?(:click)
+        locator.click
+      else
+        find(:field, locator).click
+      end
+      execute_script("$('.picker--focused .picker__list-item:contains(#{time})').click()")
     end
 
     def navigate_to(title)
@@ -194,10 +202,10 @@ module Test
       click_on("Generate codes") if claim_attributes[:autogenerate]
       claim_attributes[:daily_details].each do |daily_detail|
         click_on("Add a new day") unless claim_attributes[:procedure_on]
-        all("input[name=day]").last.set(daily_detail[:day])
+        pick_a_date(all("input[name=day]").last, daily_detail[:day])
         all("input[name=code]").last.set(daily_detail[:code])
-        all("input[name=time_in]").last.set(daily_detail[:time_in]) if daily_detail[:time_in]
-        all("input[name=time_out]").last.set(daily_detail[:time_out]) if daily_detail[:time_out]
+        pick_a_time(all("input[name=time_in]").last, daily_detail[:time_in]) if daily_detail[:time_in]
+        pick_a_time(all("input[name=time_out]").last, daily_detail[:time_out]) if daily_detail[:time_out]
       end
 
       # comments
