@@ -9,6 +9,7 @@ angular.module("moBilling.controllers")
 
         function success(user) {
             window.localStorage.setItem("authenticationToken", user.authentication_token);
+            $scope.emit("unlock");
             $location.path("/claims").hash("").replace();
         };
 
