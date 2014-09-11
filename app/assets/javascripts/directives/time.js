@@ -37,7 +37,7 @@ angular.module("moBilling.directives")
                                 ref = this.get("max").pick;
                             }
 
-                            if (ref) {
+                            if (ref !== undefined) {
                                 var hours = Math.abs(time.pick - ref) / 60;
 
                                 return  "HH:i <sm!all cl!ass='text-muted'>" + hours + "!h</sm!all>";
