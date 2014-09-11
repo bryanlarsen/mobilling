@@ -136,7 +136,7 @@ angular.module("moBilling")
         });
     })
 
-    .run(function ($rootScope, $location) {
+    .run(function ($rootScope, $location, $document) {
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             var authenticationToken = window.localStorage.getItem("authenticationToken");
 
@@ -162,15 +162,19 @@ angular.module("moBilling")
             $rootScope.loading = false;
         });
 
-        document.addEventListener("deviceready", function () {
+        // document.addEventListener("deviceready", function () {
 
-            document.addEventListener("pause", function () {
-                $location.path("/unlock").hash("").replace();
-            }, false);
+        //     document.addEventListener("pause", function () {
+        //         $location.path("/unlock").hash("").replace();
+        //     }, false);
 
-            document.addEventListener("resume", function () {
-                $location.path("/unlock").hash("").replace();
-            }, false);
+        //     document.addEventListener("resume", function () {
+        //         $location.path("/unlock").hash("").replace();
+        //     }, false);
 
-        }, false);
+        // }, false);
+
+        $document.addEventListener("resume", function () {
+            alert("resume");
+        });
     });
