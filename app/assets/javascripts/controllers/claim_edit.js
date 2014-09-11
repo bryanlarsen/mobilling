@@ -1,11 +1,11 @@
  angular.module("moBilling.controllers")
 
     .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, Claim, claims, hospitals, diagnoses, serviceCodes, detailsGenerator) {
-        // HACK: Do not reload the current template if it is not needed.
+        // HACK: Do not reload the current template if it is not necessary
         var lastRoute = $route.current;
 
         $scope.$on("$locationChangeSuccess", function () {
-            $scope.loading = false;
+            $scope.$emit("loaded");
             if (lastRoute.$$route.templateUrl === $route.current.$$route.templateUrl) {
                 $route.current = lastRoute;
             }

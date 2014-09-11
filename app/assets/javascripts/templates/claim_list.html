@@ -1,5 +1,5 @@
-<div ng-include="'sidebar.html'" class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="menu-sidebar">
-</div>
+<ng-include src="'common/sidebar.html'" class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="menu-sidebar"></ng-include>
+<ng-include src="'common/loading.html'"></ng-include>
 
 <div class="app">
   <div class="navbar navbar-app navbar-absolute-top">
@@ -27,11 +27,7 @@
   </div>
 
   <div class="app-body">
-    <div ng-show="loading" class="app-content-loading">
-      <i class="fa fa-spinner fa-spin loading-spinner"></i>
-    </div>
-
-    <div ng-hide="loading" class="app-content">
+    <div class="app-content">
       <div class="scrollable">
         <div class="scrollable-content">
           <div class="list-group">

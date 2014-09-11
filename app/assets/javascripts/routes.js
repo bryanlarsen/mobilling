@@ -2,13 +2,13 @@ angular.module("moBilling")
 
     .config(function ($routeProvider) {
         $routeProvider.when("/sign-in", {
-            templateUrl: "sign-in.html",
+            templateUrl: "sign_in.html",
             controller: "SignInController",
             guest: true
         });
 
         $routeProvider.when("/sign-up", {
-            templateUrl: "sign-up.html",
+            templateUrl: "sign_up.html",
             controller: "SignUpController",
             guest: true,
             resolve: {
@@ -19,7 +19,7 @@ angular.module("moBilling")
         });
 
         $routeProvider.when("/sign-out", {
-            templateUrl: "loading.html",
+            templateUrl: "common/loading.html",
             controller: "SignOutController"
         });
 
@@ -34,7 +34,7 @@ angular.module("moBilling")
         });
 
         $routeProvider.when("/password-reset", {
-            templateUrl: "password-reset.html",
+            templateUrl: "password_reset.html",
             controller: "PasswordResetController",
             guest: true
         });
@@ -53,7 +53,7 @@ angular.module("moBilling")
         });
 
         $routeProvider.when("/claims", {
-            templateUrl: "claim-list.html",
+            templateUrl: "claim_list.html",
             controller: "ClaimListController",
             resolve: {
                 claims: function (Claim) {
@@ -66,7 +66,7 @@ angular.module("moBilling")
         });
 
         $routeProvider.when("/:specialty/claims/new", {
-            templateUrl: "claim-edit.html",
+            templateUrl: "claim_edit.html",
             controller: "ClaimEditController",
             resolve: {
                 claim: function ($route, Claim) {
@@ -88,7 +88,7 @@ angular.module("moBilling")
         });
 
         $routeProvider.when("/claims/:claim_id/edit", {
-            templateUrl: "claim-edit.html",
+            templateUrl: "claim_edit.html",
             controller: "ClaimEditController",
             resolve: {
                 claim: function ($route, Claim) {
@@ -110,7 +110,7 @@ angular.module("moBilling")
         });
 
         $routeProvider.when("/claims/:claim_id", {
-            templateUrl: "claim-show.html",
+            templateUrl: "claim_show.html",
             controller: "ClaimEditController",
             resolve: {
                 claim: function ($route, Claim) {
@@ -137,6 +137,29 @@ angular.module("moBilling")
     })
 
     .run(function ($rootScope, $location) {
+        $rootScope.loading = false;
+        $rootScope.locked = false;
+
+        $rootScope.$on("lock", function () {
+            $rootScope.locked = true;
+        });
+
+        $rootScope.$on("unlock", function () {
+            $rootScope.locked = false;
+        });
+
+        $rootScope.$on("loading", function () {
+            $rootScope.loading = true;
+        });
+
+        $rootScope.$on("loaded", function () {
+            $rootScope.loading = false;
+        });
+
+        $rootScope.isAppReady = function () {
+            return !$rootScope.loading && !$rootScope.locked;
+        };
+
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             var authenticationToken = window.localStorage.getItem("authenticationToken");
 
@@ -148,7 +171,7 @@ angular.module("moBilling")
                 $location.path("/sign-in").hash("").replace();
             }
 
-            $rootScope.loading = true;
+            $rootScope.$broadcast("loading");
         });
 
         $rootScope.$on("$routeChangeError", function (event, next, current, error) {
@@ -159,14 +182,14 @@ angular.module("moBilling")
         });
 
         $rootScope.$on("$routeChangeSuccess", function () {
-            $rootScope.loading = false;
+            $rootScope.$broadcast("loaded");
         });
 
         document.addEventListener("deviceready", function () {
+
             document.addEventListener("pause", function () {
-                $rootScope.$apply(function () {
-                    $location.path("/unlock").hash("").replace();
-                });
+                $rootScope.$broadcast("lock");
             }, false);
+
         }, false);
     });

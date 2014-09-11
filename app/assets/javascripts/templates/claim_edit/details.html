@@ -30,7 +30,7 @@
         <div ng-repeat="dailyDetail in claim.daily_details | filter : { bottom: '!true' } | unique : 'day'">
           <ng-form name="detailForm" ng-repeat="detail in claim.daily_details | filter : { day: dailyDetail.day, bottom: '!true' }">
             <div class="row">
-              <ng-include src="'partials/detail_form.html'"></ng-include>
+              <ng-include src="'common/detail_form.html'"></ng-include>
 
               <div class="col-xs-4 col-sm-2 col-md-1">
                 <button type="button" class="btn btn-danger btn-lg btn-block" ng-click="remove(detail)">
@@ -54,7 +54,7 @@
 
         <ng-form name="detailForm" ng-repeat="detail in claim.daily_details | filter : { bottom: true }">
           <div class="row">
-            <ng-include src="'partials/detail_form.html'"></ng-include>
+            <ng-include src="'common/detail_form.html'"></ng-include>
 
             <div class="col-xs-4 col-sm-2 col-md-1">
               <button type="button" class="btn btn-danger btn-lg btn-block" ng-click="remove(detail)">

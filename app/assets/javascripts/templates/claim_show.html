@@ -1,3 +1,5 @@
+<ng-include src="'common/loading.html'"></ng-include>
+
 <form class="app" name="form" ng-submit="submit()" novalidate>
   <div class="navbar navbar-app navbar-absolute-top">
     <div class="navbar-brand navbar-brand-center">
@@ -36,13 +38,9 @@
   </div>
 
   <div class="app-body">
-    <div ng-show="loading" class="app-content-loading">
-      <i class="fa fa-spinner fa-spin loading-spinner"></i>
-    </div>
-
-    <div ng-show="!loading && isActiveStep('claim')" class="app-content" ng-include="'claim-show-claim.html'"></div>
-    <div ng-show="!loading && isActiveStep('consult')" class="app-content" ng-include="'claim-show-consult.html'"></div>
-    <div ng-show="!loading && isActiveStep('details')" class="app-content" ng-include="'claim-show-details.html'"></div>
-    <div ng-show="!loading && isActiveStep('comments')" class="app-content" ng-include="'claim-show-comments.html'"></div>
+    <div ng-show="isActiveStep('claim')" class="app-content" ng-include="'claim_show/claim.html'"></div>
+    <div ng-show="isActiveStep('consult')" class="app-content" ng-include="'claim_show/consult.html'"></div>
+    <div ng-show="isActiveStep('details')" class="app-content" ng-include="'claim_show/details.html'"></div>
+    <div ng-show="isActiveStep('comments')" class="app-content" ng-include="'claim_show/comments.html'"></div>
   </div>
 </form>
