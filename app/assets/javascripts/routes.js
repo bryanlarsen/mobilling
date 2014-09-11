@@ -161,4 +161,8 @@ angular.module("moBilling")
         $rootScope.$on("$routeChangeSuccess", function () {
             $rootScope.loading = false;
         });
+
+        document.addEventListener("pause", function () {
+            $location.path("/unlock").replace();
+        }, false);
     });
