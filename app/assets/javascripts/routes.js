@@ -168,5 +168,9 @@ angular.module("moBilling")
                 $location.path("/unlock").hash("").replace();
             }, false);
 
+            document.addEventListener("resume", function () {
+                $location.path("/unlock").hash("").replace();
+            }, false);
+
         }, false);
     });
