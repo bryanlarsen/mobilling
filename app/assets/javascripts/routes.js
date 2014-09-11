@@ -162,10 +162,15 @@ angular.module("moBilling")
             $rootScope.loading = false;
         });
 
+        function lock() {
+            $location.path("/unlock").hash("").replace();
+        }
+
         document.addEventListener("deviceready", function () {
+            $rootScope.$apply(lock);
+
             document.addEventListener("pause", function () {
-                $location.path("/unlock").hash("").replace();
-                $rootScope.$apply();
+                $rootScope.$apply(lock);
             }, false);
         }, false);
     });
