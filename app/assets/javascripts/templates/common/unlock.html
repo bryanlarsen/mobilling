@@ -1,6 +1,4 @@
-<ng-include src="'common/loading.html'"></ng-include>
-
-<form class="app" name="form" ng-submit="submit()" novalidate>
+<form class="app" name="form" ng-submit="submit()" ng-if="locked" ng-controller="UnlockController" novalidate>
   <div class="navbar navbar-app navbar-absolute-top">
     <div class="navbar-brand navbar-brand-center">
       <span>Mo-Billing</span>

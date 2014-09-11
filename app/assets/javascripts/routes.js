@@ -23,16 +23,6 @@ angular.module("moBilling")
             controller: "SignOutController"
         });
 
-        $routeProvider.when("/unlock", {
-            templateUrl: "unlock.html",
-            controller: "UnlockController",
-            resolve: {
-                user: function (User) {
-                    return User.get().$promise;
-                }
-            }
-        });
-
         $routeProvider.when("/password-reset", {
             templateUrl: "password_reset.html",
             controller: "PasswordResetController",
@@ -186,6 +176,7 @@ angular.module("moBilling")
         });
 
         document.addEventListener("deviceready", function () {
+            $rootScope.$broadcast("lock");
 
             document.addEventListener("pause", function () {
                 $rootScope.$broadcast("lock");

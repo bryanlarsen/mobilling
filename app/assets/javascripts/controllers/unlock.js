@@ -1,15 +1,18 @@
 angular.module("moBilling.controllers")
 
-    .controller("UnlockController", function ($scope, $location, user) {
+    .controller("UnlockController", function ($scope, $location, User) {
         $scope.retries = 3;
         $scope.unlock = {};
 
-        if (!user.pin) {
-            success();
-        }
+        // FIXME: potentially problematic
+        $scope.user = User.get(function () {
+            if (!$scope.user.pin) {
+                success();
+            }
+        });
 
         function success() {
-            $location.path("/claims").hash("").replace();
+            $scope.$emit("unlock");
         };
 
         function error() {
@@ -30,7 +33,7 @@ angular.module("moBilling.controllers")
 
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                if ($scope.unlock.pin === user.pin) {
+                if ($scope.unlock.pin === $scope.user.pin) {
                     success();
                 } else {
                     window.setTimeout(function () {
