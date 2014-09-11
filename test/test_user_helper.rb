@@ -73,9 +73,9 @@ module Test
       find(:field, locator).click
       date = Date.parse(date)
       months = (date.year * 12 + date.month) - (Date.today.year * 12 + Date.today.month)
-      months.times { find(:link_or_button, "Next month").click } if months > 0
-      months.times { find(:link_or_button, "Previous month").click } if months < 0
-      execute_script("$('.picker__day.picker__day--infocus:contains(#{date.day})').click()")
+      months.abs.times { execute_script("$('.picker--focused .picker__nav--next').click()") } if months > 0
+      months.abs.times { execute_script("$('.picker--focused .picker__nav--prev').click()") } if months < 0
+      execute_script("$('.picker--focused .picker__day.picker__day--infocus:contains(#{date.day})').click()")
     end
 
     def pick_a_time(locator, time)
