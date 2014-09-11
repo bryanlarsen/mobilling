@@ -7,6 +7,20 @@ angular.module("moBilling.directives")
             replace: true,
             template: '<input type="text" readonly>',
             link: function (scope, element, attributes, ngModelController) {
+                function validate() {
+                    ngModelController.$setValidity("min", attributes.min ? attributes.min <= ngModelController.$viewValue : true);
+                    ngModelController.$setValidity("max", attributes.max ? attributes.max >= ngModelController.$viewValue : true);
+                }
+
+                attributes.$observe("min", validate);
+                attributes.$observe("max", validate);
+
+                ngModelController.$parsers.unshift(function (viewValue) {
+                    validate();
+
+                    return viewValue;
+                });
+
                 element.on("click", function () {
                     var picker = element.pickadate({
                         format: "yyyy-mm-dd",
