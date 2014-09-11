@@ -99,11 +99,11 @@
           <div class="form-group row">
             <label class="control-label col-xs-12">First seen date is admission</label>
             <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="isFirstSeenOnHidden" id="is-first-seen-on-hidden"></mb-switch>
+              <mb-switch ng-model="claim.first_seen_on_admission" id="is-first-seen-on-hidden"></mb-switch>
             </div>
           </div>
 
-          <div class="form-group row" ng-class="{'has-error': (claimForm.first_seen_on.$dirty || submitted) && claimForm.first_seen_on.$invalid}" ng-hide="isFirstSeenOnHidden">
+          <div class="form-group row" ng-class="{'has-error': (claimForm.first_seen_on.$dirty || submitted) && claimForm.first_seen_on.$invalid}" ng-hide="claim.first_seen_on_admission">
             <label for="claim-first-seen-on" class="control-label col-xs-12">First seen date</label>
             <div class="form-control-wrapper col-xs-12">
               <mb-date name="first_seen_on" ng-model="claim.first_seen_on" class="form-control input-lg" id="claim-first-seen-on" min="{{claim.admission_on}}" max="{{claim.last_seen_on}}" placeholder="Select date" required></mb-date>

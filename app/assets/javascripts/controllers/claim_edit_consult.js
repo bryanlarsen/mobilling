@@ -27,10 +27,10 @@ angular.module("moBilling.controllers")
             }
         });
 
-        $scope.isPremiumVisitVisible = !!(claim.consult_premium_visit || claim.consult_premium_travel);
+        claim.consult_premium = !!(claim.consult_premium_visit || claim.consult_premium_travel);
 
-        $scope.$watch("isPremiumVisitVisible", function (isPremiumVisitVisible) {
-            if (!isPremiumVisitVisible) {
+        $scope.$watch("claim.consult_premium", function () {
+            if (!claim.consult_premium) {
                 claim.consult_premium_visit = undefined;
                 claim.consult_premium_travel = undefined;
             }
@@ -66,7 +66,7 @@ angular.module("moBilling.controllers")
 
         $scope.$watch("claim.consult_premium_travel", function (consult_premium_travel) {
             if (consult_premium_travel) {
-                $scope.isPremiumVisitVisible = true;
+                claim.consult_premium = true;
             }
         });
 
@@ -103,7 +103,7 @@ angular.module("moBilling.controllers")
         };
 
         $scope.$watchGroup([
-            "isPremiumVisitVisible",
+            "claim.consult_premium",
             "claim.first_seen_on",
             "claim.consult_premium_visit",
             "claim.consult_premium_travel"
@@ -111,7 +111,7 @@ angular.module("moBilling.controllers")
             $scope.consultPremiumVisitCounts = {};
             $scope.consultPremiumTravelCounts = {};
 
-            if ($scope.isPremiumVisitVisible && claim.first_seen_on) {
+            if (claim.consult_premium && claim.first_seen_on) {
                 var others = filter($scope.claims, { id: "!" + claim.id, first_seen_on: claim.first_seen_on });
 
                 $scope.consultPremiumVisits.forEach(function (consult_premium_visit) {

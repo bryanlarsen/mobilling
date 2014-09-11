@@ -65,7 +65,7 @@
         <div class="row">
           <div class="col-xs-12">
             <label class="control-label">Special visit premium</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <mb-switch ng-model="isPremiumVisitVisible" id="is-premium-visible"></mb-switch>
+            <mb-switch ng-model="claim.consult_premium" id="is-premium-visible"></mb-switch>
           </div>
         </div>
 
@@ -80,7 +80,7 @@
           </div>
         </div>
 
-        <div ng-class="{'has-error': (consultForm.consult_premium_visit.$dirty || submitted) && consultForm.consult_premium_visit.$invalid}" ng-if="isPremiumVisitVisible">
+        <div ng-class="{'has-error': (consultForm.consult_premium_visit.$dirty || submitted) && consultForm.consult_premium_visit.$invalid}" ng-if="claim.consult_premium">
 
           <div ng-if="!dayType" class="row has-error">
             <div class="col-xs-12">
