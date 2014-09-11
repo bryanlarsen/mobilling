@@ -132,7 +132,7 @@ angular.module("moBilling")
         });
 
         $routeProvider.otherwise({
-            redirectTo: "/claims"
+            redirectTo: "/unlock"
         });
     })
 
@@ -162,15 +162,11 @@ angular.module("moBilling")
             $rootScope.loading = false;
         });
 
-        function lock() {
-            $location.path("/unlock").hash("").replace();
-        }
-
         document.addEventListener("deviceready", function () {
-            $rootScope.$apply(lock);
-
             document.addEventListener("pause", function () {
-                $rootScope.$apply(lock);
+                $rootScope.$apply(function () {
+                    $location.path("/unlock").hash("").replace();
+                });
             }, false);
         }, false);
     });
