@@ -132,7 +132,7 @@ angular.module("moBilling")
         });
 
         $routeProvider.otherwise({
-            redirectTo: "/unlock"
+            redirectTo: "/claims"
         });
     })
 
