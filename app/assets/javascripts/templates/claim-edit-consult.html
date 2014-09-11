@@ -37,7 +37,7 @@
                   Time in
                 </label>
                 <div class="col-xs-8">
-                  <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" placeholder="Select time" required></mb-time>
+                  <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-consult-time-in" max="{{claim.consult_time_out}}" placeholder="Select time" required></mb-time>
                 </div>
 
                 <div class="col-xs-12">&nbsp;</div>

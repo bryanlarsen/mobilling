@@ -7,18 +7,24 @@ angular.module("moBilling.directives")
             replace: true,
             template: '<input type="text">',
             link: function (scope, element, attributes, ngModelController) {
-                element.focus(function () {
-                    element.blur();
-
+                element.on("click focus", function () {
                     var picker = element.pickatime({
                         interval: 15,
                         format: "HH:i",
                         container: "body",
-                        min: attributes.min === undefined ? false : attributes.min,
-                        max: attributes.max === undefined ? false : attributes.max,
                         formatLabel: function (time) {
-                            if (this.get("min").pick) {
-                                var hours = (time.pick - this.get("min").pick) / 60;
+                            var ref;
+
+                            if (attributes.min) {
+                                ref = this.get("min").pick;
+                            }
+
+                            if (attributes.max) {
+                                ref = this.get("max").pick;
+                            }
+
+                            if (ref) {
+                                var hours = Math.abs(time.pick - ref) / 60;
 
                                 return  "HH:i <sm!all cl!ass='text-muted'>" + hours + "!h</sm!all>";
                             } else {
@@ -27,9 +33,16 @@ angular.module("moBilling.directives")
                         }
                     }).pickatime("picker");
 
-                    picker.on("close", function () {
-                        picker.stop();
+                    picker.set({
+                        min: attributes.min === undefined ? false : attributes.min,
+                        max: attributes.max === undefined ? false : attributes.max
                     });
+
+                    picker.on("close", function () {
+                        element.blur();
+                    });
+
+                    return false;
                 });
             }
         };

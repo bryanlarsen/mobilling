@@ -7,19 +7,22 @@ angular.module("moBilling.directives")
             replace: true,
             template: '<input type="text">',
             link: function (scope, element, attributes, ngModelController) {
-                element.focus(function () {
-                    element.blur();
-
+                element.on("click focus", function () {
                     var picker = element.pickadate({
                         format: "yyyy-mm-dd",
-                        container: "body",
-                        min: attributes.min === undefined ? false : attributes.min,
-                        max: attributes.max === undefined ? false : attributes.max
+                        container: "body"
                     }).pickadate("picker");
 
-                    picker.on("close", function () {
-                        picker.stop();
+                    picker.set({
+                        min: attributes.min === undefined ? false : attributes.min,
+                        max: attributes.max === undefined ? false : attributes.max
                     });
+
+                    picker.on("close", function () {
+                        element.blur();
+                    });
+
+                    return false;
                 });
             }
         };
