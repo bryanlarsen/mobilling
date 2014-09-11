@@ -163,17 +163,8 @@ angular.module("moBilling")
         });
 
         document.addEventListener("deviceready", function () {
-            alert("ready");
-
             document.addEventListener("pause", function () {
-                alert("pause");
-                $location.path("/unlock").hash("").replace();
+                window.location = "/#/unlock";
             }, false);
-
-            document.addEventListener("resume", function () {
-                alert("resume");
-                $location.path("/unlock").hash("").replace();
-            }, false);
-
         }, false);
     });
