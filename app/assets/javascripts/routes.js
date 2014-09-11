@@ -141,11 +141,11 @@ angular.module("moBilling")
             var authenticationToken = window.localStorage.getItem("authenticationToken");
 
             if (next.guest && authenticationToken) {
-                $location.path("/claims").replace();
+                $location.path("/claims").hash("").replace();
             }
 
             if (!next.guest && !authenticationToken) {
-                $location.path("/sign-in").replace();
+                $location.path("/sign-in").hash("").replace();
             }
 
             $rootScope.loading = true;
@@ -154,7 +154,7 @@ angular.module("moBilling")
         $rootScope.$on("$routeChangeError", function (event, next, current, error) {
             if (error.status === 401) {
                 window.localStorage.removeItem("authenticationToken");
-                $location.path("/sign-in").replace();
+                $location.path("/sign-in").hash("").replace();
             }
         });
 
@@ -162,7 +162,11 @@ angular.module("moBilling")
             $rootScope.loading = false;
         });
 
-        document.addEventListener("pause", function () {
-            $location.path("/unlock").replace();
+        document.addEventListener("deviceready", function () {
+
+            document.addEventListener("pause", function () {
+                $location.path("/unlock").hash("").replace();
+            }, false);
+
         }, false);
     });
