@@ -1,10 +1,12 @@
 angular.module("moBilling.controllers")
 
     .controller("SignUpController", function ($scope, $location, User, agents, specialties, currentUser) {
-        $scope.agents = agents;
-        $scope.specialties = specialties;
-        $scope.user = {
-            specialties: []
+        $scope.initialize = function () {
+            $scope.agents = agents;
+            $scope.specialties = specialties;
+            $scope.user = {
+                specialties: []
+            };
         };
 
         function success(user) {
@@ -34,4 +36,6 @@ angular.module("moBilling.controllers")
                 User.save($scope.user, success, error);
             }
         };
+
+        $scope.initialize();
     });

@@ -1,7 +1,9 @@
 angular.module("moBilling.controllers")
 
     .controller("SignInController", function ($scope, $location, Session, currentUser) {
-        $scope.session = {};
+        $scope.initialize = function () {
+            $scope.session = {};
+        };
 
         function success(user) {
             currentUser.signIn(user);
@@ -28,4 +30,6 @@ angular.module("moBilling.controllers")
                 Session.save($scope.session, success, error);
             }
         };
+
+        $scope.initialize();
     });

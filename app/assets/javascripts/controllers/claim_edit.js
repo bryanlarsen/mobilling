@@ -12,60 +12,68 @@
         });
         // KCAH
 
-        $scope.claims = claims;
-        $scope.claim = claim;
+        $scope.initialize = function () {
+            $scope.claim = claim;
+            $scope.claims = claims;
 
-        $scope.hospitals = {
-            displayKey: "name",
-            source: hospitals.ttAdapter(),
-            templates: {
-                suggestion: function (context) {
-                    return "<p class='needsclick'>" + context.name + "</p>";
+            $scope.hospitals = {
+                displayKey: "name",
+                source: hospitals.ttAdapter(),
+                templates: {
+                    suggestion: function (context) {
+                        return "<p class='needsclick'>" + context.name + "</p>";
+                    }
                 }
+            };
+
+            $scope.diagnoses = {
+                displayKey: "name",
+                source: diagnoses.ttAdapter(),
+                templates: {
+                    suggestion: function (context) {
+                        return "<p class='needsclick'>" + context.name + "</p>";
+                    }
+                }
+            };
+
+            $scope.serviceCodes = {
+                displayKey: "name",
+                source: serviceCodes.ttAdapter(),
+                templates: {
+                    suggestion: function (context) {
+                        return "<p class='needsclick'>" + context.name + "</p>";
+                    }
+                }
+            };
+
+            if (!claim.comments) {
+                claim.comments = [];
             }
-        };
 
-        $scope.diagnoses = {
-            displayKey: "name",
-            source: diagnoses.ttAdapter(),
-            templates: {
-                suggestion: function (context) {
-                    return "<p class='needsclick'>" + context.name + "</p>";
-                }
+            if (!claim.diagnoses) {
+                claim.diagnoses = [{ name: "" }];
             }
-        };
 
-        $scope.serviceCodes = {
-            displayKey: "name",
-            source: serviceCodes.ttAdapter(),
-            templates: {
-                suggestion: function (context) {
-                    return "<p class='needsclick'>" + context.name + "</p>";
-                }
+            if (!claim.status) {
+                claim.status = "saved";
+            }
+
+            if (!$scope.isSimplifiedTemplate() && claim.most_responsible_physician === undefined) {
+                claim.most_responsible_physician = true;
+            }
+
+            claim.daily_details || (claim.daily_details = []);
+
+            $scope.step = $location.hash();
+
+            if (!$scope.step || !/^(claim|consult|details|comments)$/.test($scope.step)) {
+                $scope.setActiveStep("claim");
             }
         };
 
         $scope.isSimplifiedTemplate = function () {
             return ["surgical_assist", "psychotherapist", "anesthesiologist"].indexOf(claim.specialty) !== -1;
         };
-
-        if (!claim.comments) {
-            claim.comments = [];
-        }
-
-        if (!claim.diagnoses) {
-            claim.diagnoses = [{ name: "" }];
-        }
-
-        if (!claim.status) {
-            claim.status = "saved";
-        }
-
-        if (!$scope.isSimplifiedTemplate() && claim.most_responsible_physician === undefined) {
-            claim.most_responsible_physician = true;
-        }
-
-        claim.daily_details || (claim.daily_details = []);
 
         $scope.isActiveStep = function (step) {
             return $scope.step === step;
@@ -76,12 +84,6 @@
             $location.hash(step).replace();
             $anchorScroll();
         };
-
-        $scope.step = $location.hash();
-
-        if (!$scope.step || !/^(claim|consult|details|comments)$/.test($scope.step)) {
-            $scope.setActiveStep("claim");
-        }
 
         $scope.$watch("claim.first_seen_consult", function (value) {
             if (value) {
@@ -236,4 +238,6 @@
                 special_non_er: 50
             }[claim.consult_type];
         };
+
+        $scope.initialize();
     });

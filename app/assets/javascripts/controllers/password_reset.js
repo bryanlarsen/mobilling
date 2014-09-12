@@ -1,7 +1,9 @@
 angular.module("moBilling.controllers")
 
     .controller("PasswordResetController", function ($scope, $location, PasswordReset) {
-        $scope.passwordReset = {};
+        $scope.initialize = function () {
+            $scope.passwordReset = {};
+        };
 
         function success(passwordReset) {
             $location.path("/sign-in").hash("").replace();
@@ -26,4 +28,6 @@ angular.module("moBilling.controllers")
                 PasswordReset.save($scope.passwordReset, success, error);
             }
         };
+
+        $scope.initialize();
     });

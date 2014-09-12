@@ -4,16 +4,48 @@ angular.module("moBilling.controllers")
         var claim = $scope.claim,
             filter = $filter("filter");
 
-        $scope.consultCode = detailsGenerator.consultCode;
-        $scope.premiumVisitCode = detailsGenerator.premiumVisitCode;
-        $scope.premiumTravelCode = detailsGenerator.premiumTravelCode;
-        $scope.consultPremiumVisitCounts = {};
-        $scope.consultPremiumTravelCounts = {};
+        $scope.initialize = function () {
+            $scope.consultCode = detailsGenerator.consultCode;
+            $scope.premiumVisitCode = detailsGenerator.premiumVisitCode;
+            $scope.premiumTravelCode = detailsGenerator.premiumTravelCode;
+            $scope.consultPremiumVisitCounts = {};
+            $scope.consultPremiumTravelCounts = {};
 
-        // on_call_admission_er is default in family_medicine
-        if ($scope.isConsultVisible() && claim.specialty === "family_medicine" && !claim.consult_type) {
-            claim.consult_type = "on_call_admission_er";
-        }
+            // on_call_admission_er is default in family_medicine
+            if ($scope.isConsultVisible() && claim.specialty === "family_medicine" && !claim.consult_type) {
+                claim.consult_type = "on_call_admission_er";
+            }
+
+            claim.consult_premium = !!(claim.consult_premium_visit || claim.consult_premium_travel);
+
+            $scope.consultTypes = {
+                internal_medicine: ["general", "comprehensive", "limited"],
+                cardiology:        ["general", "comprehensive", "limited"],
+                family_medicine:   ["general", "special", "comprehensive", "on_call_admission"]
+            }[claim.specialty];
+
+            $scope.consultPremiumVisits = [
+                "weekday_day",
+                "weekday_office_hours",
+                "weekday_evening",
+                "weekday_night",
+                "weekend_day",
+                "weekend_night",
+                "holiday_day",
+                "holiday_night"
+            ];
+
+            $scope.consultPremiumVisitLabels = {
+                weekday_day:          "Day 7:00-17:00",
+                weekday_office_hours: "Office hours 7:00-17:00",
+                weekday_evening:      "Evening 17:00-0:00",
+                weekday_night:        "Night 0:00-7:00",
+                weekend_day:          "Weekend 7:00-0:00",
+                weekend_night:        "Night 0:00-7:00",
+                holiday_day:          "Holiday 7:00-0:00",
+                holiday_night:        "Night 0:00-7:00"
+            };
+        };
 
         $scope.$watch("claim.first_seen_on", function (first_seen_on) {
             if (first_seen_on) {
@@ -26,8 +58,6 @@ angular.module("moBilling.controllers")
                 claim.consult_premium_visit = undefined;
             }
         });
-
-        claim.consult_premium = !!(claim.consult_premium_visit || claim.consult_premium_travel);
 
         $scope.$watch("claim.consult_premium", function () {
             if (!claim.consult_premium) {
@@ -70,36 +100,8 @@ angular.module("moBilling.controllers")
             }
         });
 
-        $scope.consultTypes = {
-            internal_medicine: ["general", "comprehensive", "limited"],
-            cardiology:        ["general", "comprehensive", "limited"],
-            family_medicine:   ["general", "special", "comprehensive", "on_call_admission"]
-        }[claim.specialty];
-
         $scope.isConsultTimeVisible = function () {
             return ["comprehensive_er", "comprehensive_non_er", "special_er", "special_non_er"].indexOf(claim.consult_type) !== -1;
-        };
-
-        $scope.consultPremiumVisits = [
-            "weekday_day",
-            "weekday_office_hours",
-            "weekday_evening",
-            "weekday_night",
-            "weekend_day",
-            "weekend_night",
-            "holiday_day",
-            "holiday_night"
-        ];
-
-        $scope.consultPremiumVisitLabels = {
-            weekday_day:          "Day 7:00-17:00",
-            weekday_office_hours: "Office hours 7:00-17:00",
-            weekday_evening:      "Evening 17:00-0:00",
-            weekday_night:        "Night 0:00-7:00",
-            weekend_day:          "Weekend 7:00-0:00",
-            weekend_night:        "Night 0:00-7:00",
-            holiday_day:          "Holiday 7:00-0:00",
-            holiday_night:        "Night 0:00-7:00"
         };
 
         $scope.$watchGroup([
@@ -168,4 +170,6 @@ angular.module("moBilling.controllers")
 
             return $scope.consultPremiumTravelCounts[consult_premium_visit] >= limit;
         };
+
+        $scope.initialize();
     });

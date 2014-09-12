@@ -1,12 +1,14 @@
 angular.module("moBilling.controllers")
 
     .controller("UnlockController", function ($scope, $location, currentUser) {
-        $scope.retries = 3;
-        $scope.unlock = {};
+        $scope.initialize = function () {
+            $scope.retries = 3;
+            $scope.unlock = {};
 
-        if (!currentUser.pin) {
-            success();
-        }
+            if (!currentUser.pin) {
+                success();
+            }
+        };
 
         function success() {
             $scope.$emit("unlock");
@@ -39,4 +41,6 @@ angular.module("moBilling.controllers")
                 }
             }
         };
+
+        $scope.initialize();
     });
