@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resource :password, only: %i[new]
 
   namespace :v1 do
-    resource :session, only: %i[create]
+    resource :session, only: %i[create destroy]
     resource :user, only: %i[show create update]
     resources :agents, only: %i[index]
     resources :claims, only: %i[index show create update destroy]

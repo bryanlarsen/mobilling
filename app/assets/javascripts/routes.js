@@ -146,10 +146,6 @@ angular.module("moBilling")
             $rootScope.loading = false;
         });
 
-        $rootScope.isAppReady = function () {
-            return !$rootScope.loading && !$rootScope.locked;
-        };
-
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             var authenticationToken = window.localStorage.getItem("authenticationToken");
 
