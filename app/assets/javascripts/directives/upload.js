@@ -11,12 +11,12 @@ angular.module("moBilling.directives")
                             scope.$parent.$apply();
                             $timeout(function () {
                                 scope.$emit("unlock");
-                            }, 500);
+                            });
                         }, function (error) {
                             // add some error handling
                             $timeout(function () {
                                 scope.$emit("unlock");
-                            }, 500);
+                            });
                         }, {
                             destinationType: 1 // Return image file URI
                         });
