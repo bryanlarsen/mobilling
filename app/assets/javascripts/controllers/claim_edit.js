@@ -187,7 +187,7 @@
                 $scope.setActiveStep("details");
 
                 $scope.generating = false;
-            }, 250);
+            });
         };
 
         function sortDetails(a, b) {
