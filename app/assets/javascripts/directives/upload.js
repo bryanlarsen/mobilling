@@ -7,6 +7,7 @@ angular.module("moBilling.directives")
                 element.click(function (event) {
                     if (navigator.camera && navigator.camera.getPicture) {
                         navigator.camera.getPicture(function (file) {
+                            scope.$emit("unlock"); // prevent locking screen
                             scope.$parent[attributes.mbUpload] = file;
                             scope.$parent.$apply();
                         }, function (error) {
