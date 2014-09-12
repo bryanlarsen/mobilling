@@ -1,11 +1,11 @@
 <div class="col-sm-4 col-xs-12" ng-class="{'has-error': (detailForm.day.$dirty || submitted) && detailForm.day.$invalid}">
-  <mb-date ng-model="detail.day" name="day" class="form-control input-lg" ng-show="!dailyDetail || $first" placeholder="Select date" required></mb-date>
+  <mb-date ng-model="detail.day" name="day" class="form-control input-lg" ng-show="!dailyDetail || !detail.day || $first" placeholder="Select date" required></mb-date>
   <div ng-messages="detailForm.day.$error" ng-show="(!dailyDetail || $first) && submitted">
     <p class="help-block" ng-message="required">is missing</p>
   </div>
 </div>
 
-<div class="col-xs-12 visible-xs" ng-show="(!dailyDetail || $first)">&nbsp;</div>
+<div class="col-xs-12 visible-xs" ng-show="(!dailyDetail || !detail.day || $first)">&nbsp;</div>
 
 <div class="col-xs-8 col-sm-6 col-md-7">
   <div ng-class="{'has-error': (detailForm.code.$dirty || submitted) && detailForm.code.$invalid}">

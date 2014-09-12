@@ -4,7 +4,7 @@ angular.module("moBilling.directives")
         return {
             restrict: "A",
             link: function (scope, element, attributes) {
-                element.keypress(function () {
+                element.on("keypress keyup keydown", function () {
                     element.get(0).scrollIntoView();
                 });
             }
