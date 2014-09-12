@@ -4,7 +4,6 @@ angular.module("moBilling.controllers")
         $scope.passwordReset = {};
 
         function success(passwordReset) {
-            window.localStorage.setItem("authenticationToken", passwordReset.authentication_token);
             $location.path("/sign-in").hash("").replace();
         };
 

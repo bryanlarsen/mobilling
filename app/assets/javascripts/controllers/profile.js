@@ -1,11 +1,12 @@
 angular.module("moBilling.controllers")
 
-    .controller("ProfileController", function ($scope, $location, User, user, agents, specialties) {
+    .controller("ProfileController", function ($scope, $location, User, user, agents, specialties, currentUser) {
         $scope.agents = agents;
         $scope.specialties = specialties;
         $scope.user = user;
 
-        function success() {
+        function success(user) {
+            currentUser.signIn(user);
             $location.path("/claims").hash("").replace();
         };
 

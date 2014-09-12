@@ -1,15 +1,12 @@
 angular.module("moBilling.controllers")
 
-    .controller("UnlockController", function ($scope, $location, User) {
+    .controller("UnlockController", function ($scope, $location, currentUser) {
         $scope.retries = 3;
         $scope.unlock = {};
 
-        // FIXME: potentially problematic
-        $scope.user = User.get(function () {
-            if (!$scope.user.pin) {
-                success();
-            }
-        });
+        if (!currentUser.pin) {
+            success();
+        }
 
         function success() {
             $scope.$emit("unlock");
@@ -19,7 +16,7 @@ angular.module("moBilling.controllers")
             $scope.retries--;
 
             if ($scope.retries === 0) {
-                window.localStorage.removeItem("authenticationToken");
+                currentUser.signOut();
                 $location.path("/").hash("").replace();
             } else {
                 $scope.submitting = false;
@@ -33,7 +30,7 @@ angular.module("moBilling.controllers")
 
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                if ($scope.unlock.pin === $scope.user.pin) {
+                if ($scope.unlock.pin === currentUser.pin) {
                     success();
                 } else {
                     window.setTimeout(function () {

@@ -36,8 +36,8 @@ angular.module("moBilling")
                 agents: function (Agent) {
                     return Agent.query().$promise;
                 },
-                user: function (User) {
-                    return User.get().$promise;
+                user: function (currentUser) {
+                    return currentUser.init().$promise;
                 }
             }
         });
@@ -46,6 +46,9 @@ angular.module("moBilling")
             templateUrl: "claim_list.html",
             controller: "ClaimListController",
             resolve: {
+                currentUser: function (currentUser) {
+                    return currentUser.init().$promise;
+                },
                 claims: function (Claim) {
                     return Claim.query().$promise;
                 },
@@ -59,6 +62,9 @@ angular.module("moBilling")
             templateUrl: "claim_edit.html",
             controller: "ClaimEditController",
             resolve: {
+                currentUser: function (currentUser) {
+                    return currentUser.init().$promise;
+                },
                 claim: function ($route, Claim) {
                     return new Claim({ specialty: $route.current.params.specialty });
                 },
@@ -81,6 +87,9 @@ angular.module("moBilling")
             templateUrl: "claim_edit.html",
             controller: "ClaimEditController",
             resolve: {
+                currentUser: function (currentUser) {
+                    return currentUser.init().$promise;
+                },
                 claim: function ($route, Claim) {
                     return Claim.get({ id: $route.current.params.claim_id }).$promise;
                 },
@@ -103,6 +112,9 @@ angular.module("moBilling")
             templateUrl: "claim_show.html",
             controller: "ClaimEditController",
             resolve: {
+                currentUser: function (currentUser) {
+                    return currentUser.init().$promise;
+                },
                 claim: function ($route, Claim) {
                     return Claim.get({ id: $route.current.params.claim_id }).$promise;
                 },
@@ -126,7 +138,7 @@ angular.module("moBilling")
         });
     })
 
-    .run(function ($rootScope, $location) {
+    .run(function ($rootScope, $location, currentUser, User, authenticationToken) {
         $rootScope.loading = false;
         $rootScope.locked = false;
 
@@ -147,22 +159,12 @@ angular.module("moBilling")
         });
 
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
-            var authenticationToken = window.localStorage.getItem("authenticationToken");
-
-            if (next.guest && authenticationToken) {
-                $location.path("/claims").hash("").replace();
-            }
-
-            if (!next.guest && !authenticationToken) {
-                $location.path("/sign-in").hash("").replace();
-            }
-
             $rootScope.$broadcast("loading");
         });
 
         $rootScope.$on("$routeChangeError", function (event, next, current, error) {
             if (error.status === 401) {
-                window.localStorage.removeItem("authenticationToken");
+                currentUser.signOut();
                 $location.path("/sign-in").hash("").replace();
             }
         });
