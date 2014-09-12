@@ -18,7 +18,7 @@
   <div class="form-group row" ng-class="{'has-error': (detailForm.consult_time_in.$dirty || detailForm.consult_time_out.$dirty || submitted) && detailForm.consult_time.$invalid}" ng-if="isConsultTimeVisible(detail) && !isSimplifiedTemplate()">
     <label for="claim-details-consult-time-in" class="control-label col-xs-4">Consult time in</label>
     <div class="col-xs-8">
-      <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-details-consult-time-in" placeholder="Select time" required></mb-time>
+      <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-details-consult-time-in" placeholder="Select time" max="{{claim.consult_time_in}}" required></mb-time>
     </div>
 
     <div class="col-xs-12">&nbsp;</div>
@@ -40,7 +40,7 @@
     <div ng-class="{'has-error': (detailForm.time_in.$dirty || submitted) && detailForm.time_in.$invalid}">
       <label class="control-label col-xs-4">Time in</label>
       <div class="col-xs-8">
-        <mb-time name="time_in" ng-model="detail.time_in" class="form-control input-lg" required></mb-time>
+        <mb-time name="time_in" ng-model="detail.time_in" class="form-control input-lg" max="{{detail.time_out}}" required></mb-time>
       </div>
       <div class="col-xs-8 col-xs-offset-4" ng-messages="detailForm.time_in.$error" ng-show="submitted">
         <p class="help-block" ng-message="required">is missing</p>
