@@ -147,6 +147,7 @@ angular.module("moBilling")
         });
 
         $rootScope.$on("unlock", function () {
+            console.log("unlock");
             $rootScope.locked = false;
         });
 

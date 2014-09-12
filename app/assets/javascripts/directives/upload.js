@@ -1,6 +1,6 @@
 angular.module("moBilling.directives")
 
-    .directive("mbUpload", function () {
+    .directive("mbUpload", function ($timeout) {
 	return {
             restrict: "A",
 	    link: function (scope, element, attributes) {
@@ -9,10 +9,14 @@ angular.module("moBilling.directives")
                         navigator.camera.getPicture(function (file) {
                             scope.$parent[attributes.mbUpload] = file;
                             scope.$parent.$apply();
-                            scope.$parent.$emit("unlock");
+                            $timeout(function () {
+                                scope.$emit("unlock");
+                            }, 500);
                         }, function (error) {
                             // add some error handling
-                            scope.$parent.$emit("unlock");
+                            $timeout(function () {
+                                scope.$emit("unlock");
+                            }, 500);
                         }, {
                             destinationType: 1 // Return image file URI
                         });
