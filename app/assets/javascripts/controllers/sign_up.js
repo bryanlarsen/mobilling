@@ -10,6 +10,10 @@ angular.module("moBilling.controllers")
             };
         };
 
+        $scope.openBrowser = function () {
+            window.open("http://newapp.mo-billing.ca/", "_system", "location=yes");
+        };
+
         function success(user) {
             currentUser.signIn(user);
             $scope.$emit("unlock");
