@@ -5,8 +5,8 @@
         var lastRoute = $route.current;
 
         $scope.$on("$locationChangeSuccess", function () {
-            $scope.$emit("loaded");
             if (lastRoute.$$route.templateUrl === $route.current.$$route.templateUrl) {
+                $scope.$emit("loaded");
                 $route.current = lastRoute;
             }
         });
