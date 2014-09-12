@@ -8,11 +8,13 @@
 
         <div class="row" ng-if="!isSimplifiedTemplate()">
           <div class="col-sm-12">
-            <button type="button" class="btn btn-info btn-lg btn-block" toggle bubble target="consult-missing" ng-disabled="isGenerateDisabled" ng-if="isConsultVisible() && !claim.consult_type">
-              <i class="fa fa-cogs"></i> Generate codes
+            <button type="button" class="btn btn-info btn-lg btn-block" toggle bubble target="consult-missing" ng-disabled="isGenerateDisabled || generating" ng-if="isConsultVisible() && !claim.consult_type">
+              <span ng-show="generating"><i class="fa fa-spinner fa-spin"></i> Generating codes…</span>
+              <span ng-hide="generating"><i class="fa fa-cogs"></i> Generate codes</span>
             </button>
-            <button type="button" class="btn btn-info btn-lg btn-block" ng-click="generate()" ng-disabled="isGenerateDisabled" ng-if="!isConsultVisible() || claim.consult_type">
-              <i class="fa fa-cogs"></i> Generate codes
+            <button type="button" class="btn btn-info btn-lg btn-block" ng-click="generate()" ng-disabled="isGenerateDisabled || generating" ng-if="!isConsultVisible() || claim.consult_type">
+              <span ng-show="generating"><i class="fa fa-spinner fa-spin"></i> Generating codes…</span>
+              <span ng-hide="generating"><i class="fa fa-cogs"></i> Generate codes</span>
             </button>
             <br>
           </div>
