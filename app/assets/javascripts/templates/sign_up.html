@@ -1,5 +1,45 @@
 <ng-include src="'common/loading.html'"></ng-include>
 
+<div class="app">
+  <div class="navbar navbar-app navbar-absolute-top">
+    <div class="navbar-brand navbar-brand-center">
+      <span>Mo-Billing</span>
+    </div>
+
+    <div class="btn-group pull-left">
+      <div class="btn btn-navbar">
+        &nbsp;
+      </div>
+    </div>
+
+    <div class="btn-group pull-right">
+      <div class="btn btn-navbar">
+        &nbsp;
+      </div>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <div class="app-content">
+      <div class="scrollable">
+        <div class="scrollable-content section">
+          <div class="panel">
+            <div class="panel-body">
+              <button class="btn btn-primary btn-lg btn-block" disabled="disabled">
+                <i class="fa fa-user"></i> Create Account
+              </button>
+              <p class="text-center">
+                Please visit <a href="http://app.mo-billing.ca/" target="_system">mo-billing.ca</a> in order to create an account.
+              </p>
+              <a class="btn btn-link btn-lg btn-block" href="#/sign-in">Already have an account? Log in now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <form class="app" name="form" ng-submit="submit()" novalidate>
   <div class="navbar navbar-app navbar-absolute-top">
     <div class="navbar-brand navbar-brand-center">
