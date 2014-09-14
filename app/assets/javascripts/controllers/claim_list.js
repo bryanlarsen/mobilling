@@ -1,6 +1,18 @@
 angular.module("moBilling.controllers")
 
     .controller("ClaimListController", function ($scope, $route, $location, $anchorScroll, claims, user, Claim) {
+        // HACK: Do not reload the current template if it is not necessary
+        var lastRoute = $route.current;
+
+        $scope.$on("$locationChangeSuccess", function () {
+            if (lastRoute.$$route.templateUrl === $route.current.$$route.templateUrl) {
+                $scope.$emit("loaded");
+                $scope.initialize();
+                $route.current = lastRoute;
+            }
+        });
+        // KCAH
+
         $scope.isActiveStep = function (step) {
             return $scope.step === step;
         };
@@ -10,25 +22,6 @@ angular.module("moBilling.controllers")
             $location.hash(step).replace();
             $anchorScroll();
         };
-
-        $scope.step = $location.hash();
-
-        if (!$scope.step || !/^(saved|submitted|rejected|paid)$/.test($scope.step)) {
-            $scope.setActiveStep("saved");
-        }
-
-        $scope.user = user;
-
-        $scope.statuses = {
-            saved: ["saved"],
-            submitted: ["unprocessed", "processed"],
-            rejected: ["rejected_doctor_attention", "rejected_admin_attention"],
-            paid: ["paid"]
-        }[$scope.step];
-
-        $scope.claims = claims.filter(function (claim) {
-            return $scope.statuses.indexOf(claim.status) !== -1;
-        });
 
         $scope.edit = function (claim) {
             if (["saved", "rejected_doctor_attention", "rejected_admin_attention"].indexOf(claim.status) !== -1) {
@@ -52,4 +45,27 @@ angular.module("moBilling.controllers")
         $scope.removeCancel = function () {
             $scope.selectedClaim = undefined;
         };
+
+        $scope.initialize = function () {
+            $scope.step = $location.hash();
+
+            if (!$scope.step || !/^(saved|submitted|rejected|paid)$/.test($scope.step)) {
+                $scope.setActiveStep("saved");
+            }
+
+            $scope.user = user;
+
+            $scope.statuses = {
+                saved: ["saved"],
+                submitted: ["unprocessed", "processed"],
+                rejected: ["rejected_doctor_attention", "rejected_admin_attention"],
+                paid: ["paid"]
+            }[$scope.step];
+
+            $scope.claims = claims.filter(function (claim) {
+                return $scope.statuses.indexOf(claim.status) !== -1;
+            });
+        };
+
+        $scope.initialize();
     });

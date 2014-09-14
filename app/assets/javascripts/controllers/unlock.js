@@ -1,22 +1,24 @@
 angular.module("moBilling.controllers")
 
-    .controller("UnlockController", function ($scope, $location, user) {
-        $scope.retries = 3;
-        $scope.unlock = {};
+    .controller("UnlockController", function ($scope, $location, currentUser) {
+        $scope.initialize = function () {
+            $scope.retries = 3;
+            $scope.unlock = {};
 
-        if (!user.pin) {
-            success();
-        }
+            if (!currentUser.pin) {
+                success();
+            }
+        };
 
         function success() {
-            $location.path("/claims").hash("").replace();
+            $scope.$emit("unlock");
         };
 
         function error() {
             $scope.retries--;
 
             if ($scope.retries === 0) {
-                window.localStorage.removeItem("authenticationToken");
+                currentUser.signOut();
                 $location.path("/").hash("").replace();
             } else {
                 $scope.submitting = false;
@@ -30,7 +32,7 @@ angular.module("moBilling.controllers")
 
             if ($scope.form.$valid) {
                 $scope.submitting = true;
-                if ($scope.unlock.pin === user.pin) {
+                if ($scope.unlock.pin === currentUser.pin) {
                     success();
                 } else {
                     window.setTimeout(function () {
@@ -39,4 +41,6 @@ angular.module("moBilling.controllers")
                 }
             }
         };
+
+        $scope.initialize();
     });

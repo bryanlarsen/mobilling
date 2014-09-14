@@ -1,16 +1,24 @@
 angular.module("moBilling.directives")
 
-    .directive("mbUpload", function () {
+    .directive("mbUpload", function ($timeout) {
 	return {
             restrict: "A",
 	    link: function (scope, element, attributes) {
+                // camera triggers pause event - we need to
+                // unlock screen explicitely here
+                function unlock() {
+                    scope.$emit("unlock");
+                }
+
                 element.click(function (event) {
                     if (navigator.camera && navigator.camera.getPicture) {
                         navigator.camera.getPicture(function (file) {
                             scope.$parent[attributes.mbUpload] = file;
                             scope.$parent.$apply();
+                            $timeout(unlock);
                         }, function (error) {
                             // add some error handling
+                            $timeout(unlock);
                         }, {
                             destinationType: 1 // Return image file URI
                         });

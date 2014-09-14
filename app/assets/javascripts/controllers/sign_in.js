@@ -1,10 +1,13 @@
 angular.module("moBilling.controllers")
 
-    .controller("SignInController", function ($scope, $location, Session) {
-        $scope.session = {};
+    .controller("SignInController", function ($scope, $location, Session, currentUser) {
+        $scope.initialize = function () {
+            $scope.session = {};
+        };
 
-        function success(session) {
-            window.localStorage.setItem("authenticationToken", session.authentication_token);
+        function success(user) {
+            currentUser.signIn(user);
+            $scope.$emit("unlock");
             $location.path("/claims").hash("").replace();
         };
 
@@ -27,4 +30,6 @@ angular.module("moBilling.controllers")
                 Session.save($scope.session, success, error);
             }
         };
+
+        $scope.initialize();
     });

@@ -1,13 +1,22 @@
 angular.module("moBilling.controllers")
 
-    .controller("SignUpController", function ($scope, $location, User, agents) {
-        $scope.agents = agents;
-        $scope.user = {
-            specialties: []
+    .controller("SignUpController", function ($scope, $location, User, agents, specialties, currentUser) {
+        $scope.initialize = function () {
+            $scope.platform = (window.device && window.device.platform) ? window.device.platform : "Browser";
+            $scope.agents = agents;
+            $scope.specialties = specialties;
+            $scope.user = {
+                specialties: []
+            };
+        };
+
+        $scope.openBrowser = function () {
+            window.open("http://newapp.mo-billing.ca/", "_system", "location=yes");
         };
 
         function success(user) {
-            window.localStorage.setItem("authenticationToken", user.authentication_token);
+            currentUser.signIn(user);
+            $scope.$emit("unlock");
             $location.path("/claims").hash("").replace();
         };
 
@@ -32,4 +41,6 @@ angular.module("moBilling.controllers")
                 User.save($scope.user, success, error);
             }
         };
+
+        $scope.initialize();
     });

@@ -1,0 +1,107 @@
+<ng-include src="'common/sidebar.html'" class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="menu-sidebar"></ng-include>
+<ng-include src="'common/loading.html'"></ng-include>
+<ng-include src="'common/unlock.html'"></ng-include>
+
+<div class="app">
+  <div class="navbar navbar-app navbar-absolute-top">
+    <div class="navbar-brand navbar-brand-center">
+      <span>Claims</span>
+    </div>
+
+    <a href="javascript:;" class="btn-group pull-left">
+      <div class="btn btn-navbar sidebar-toggle" target="menu-sidebar" toggle>
+        <i class="fa fa-bars"></i> Menu
+      </div>
+    </a>
+
+    <a href="#/{{user.specialties[0]}}/claims/new" class="btn-group pull-right" ng-if="user.specialties.length === 1">
+      <div class="btn btn-navbar">
+        <i class="fa fa-plus"></i> New
+      </div>
+    </a>
+
+    <a href="javascript:;" class="btn-group pull-right" ng-if="user.specialties.length > 1">
+      <div class="btn btn-navbar" toggle target="create">
+        <i class="fa fa-plus"></i> New
+      </div>
+    </a>
+  </div>
+
+  <div class="app-body">
+    <div class="app-content">
+      <div class="scrollable">
+        <div class="scrollable-content">
+          <div class="list-group">
+            <div class="list-group-item text-center" ng-if="claims.length === 0">
+              <span class="text-muted">no {{step}} claims</span>
+            </div>
+            <a href="javascript:;" hm-tap="edit(claim)" class="list-group-item row" ng-repeat="claim in claims | orderBy : ['number', 'created_at']" hm-hold="removeConfirm(claim)">
+              <div class="col-xs-10 truncate">
+                Claim
+                <span ng-if="claim.number">No. {{claim.number}}</span>
+                <span ng-if="claim.patient_name">of {{claim.patient_name}}</span>
+                created on {{claim.created_at | date:"yyyy-MM-dd"}}
+              </div>
+              <div class="col-xs-2 text-right">
+                <i class="fa fa-chevron-right"></i>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div overlay="create">
+    <h4 class="overlay-title">Create Claim</h4>
+    <br>
+    <p>
+      Select a specialty that you want to create a claim for
+    </p>
+    <br>
+    <p toggle="off" target="create" bubble>
+      <a class="btn btn-primary btn-block btn-lg btn-success" href="#/{{specialty}}/claims/new" ng-repeat="specialty in user.specialties">
+        <i class="fa fa-file-text-o"></i> {{specialty | inflector}}
+      </a>
+      <button class="btn btn-default btn-block btn-lg">
+        <i class="fa fa-times"></i> Cancel
+      </button>
+    </p>
+  </div>
+
+  <div overlay="remove">
+    <h4 class="overlay-title">Delete Claim</h4>
+    <br>
+    <p>
+      Are you sure you want to delete claim
+      <span ng-if="selectedClaim.patient_name">of {{selectedClaim.patient_name}}</span>
+      created on {{selectedClaim.created_at | date:"yyyy-MM-dd"}}?
+    </p>
+    <br>
+    <p toggle="off" target="remove" bubble>
+      <button class="btn btn-primary btn-block btn-lg btn-danger" ng-click="removeOk()">
+        <i class="fa fa-trash-o"></i> Delete
+      </button>
+      <button class="btn btn-default btn-block btn-lg" ng-click="removeCancel()">
+        <i class="fa fa-times"></i> Cancel
+      </button>
+    </p>
+  </div>
+
+  <div class="navbar navbar-app navbar-absolute-bottom">
+    <div class="btn-group justified nav-tabs">
+      <a href="javascript:;" class="btn btn-default" ng-class="{'active': isActiveStep('saved')}" ng-click="setActiveStep('saved')">
+        Drafts
+      </a>
+      <a href="javascript:;" class="btn btn-default" ng-class="{'active': isActiveStep('submitted')}" ng-click="setActiveStep('submitted')">
+        Submitted
+      </a>
+      <a href="javascript:;" class="btn btn-default" ng-class="{'active': isActiveStep('rejected')}" ng-click="setActiveStep('rejected')">
+        Rejected
+      </a>
+      <a href="javascript:;" class="btn btn-default" ng-class="{'active': isActiveStep('paid')}" ng-click="setActiveStep('paid')">
+        Paid
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="col-sm-4 col-xs-12" ng-class="{'has-error': (detailForm.day.$dirty || submitted) && detailForm.day.$invalid}">
+  <mb-date ng-model="detail.day" name="day" class="form-control input-lg" ng-show="!dailyDetail || !detail.day || $first" placeholder="Select date" required></mb-date>
+  <div ng-messages="detailForm.day.$error" ng-show="(!dailyDetail || $first) && submitted">
+    <p class="help-block" ng-message="required">is missing</p>
+  </div>
+</div>
+
+<div class="col-xs-12 visible-xs" ng-show="(!dailyDetail || !detail.day || $first)">&nbsp;</div>
+
+<div class="col-xs-8 col-sm-6 col-md-7">
+  <div ng-class="{'has-error': (detailForm.code.$dirty || submitted) && detailForm.code.$invalid}">
+    <input type="text" ng-model="detail.code" name="code" class="form-control input-lg" datasets="serviceCodes" mb-typeahead sf-typeahead required mb-scroll-into-view>
+    <div ng-messages="detailForm.code.$error" ng-show="submitted">
+      <p class="help-block" ng-message="required">is missing</p>
+    </div>
+  </div>
+
+  <div class="form-group row" ng-class="{'has-error': (detailForm.consult_time_in.$dirty || detailForm.consult_time_out.$dirty || submitted) && detailForm.consult_time.$invalid}" ng-if="isConsultTimeVisible(detail) && !isSimplifiedTemplate()">
+    <label for="claim-details-consult-time-in" class="control-label col-xs-4">Consult time in</label>
+    <div class="col-xs-8">
+      <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-details-consult-time-in" placeholder="Select time" max="{{claim.consult_time_in}}" required></mb-time>
+    </div>
+
+    <div class="col-xs-12">&nbsp;</div>
+
+    <label for="claim-details-consult-time-out" class="control-label col-xs-4">Consult time out</label>
+    <div class="col-xs-8">
+      <mb-time name="consult_time_out" ng-model="claim.consult_time_out" class="form-control input-lg" id="claim-details-consult-time-out" min="{{claim.consult_time_in}}" placeholder="Select time" required></mb-time>
+    </div>
+
+    <div class="col-xs-12">
+      <input class="hide" type="number" ng-model="claim.consult_time" name="consult_time" min="{{minConsultTime()}}" required>
+      <div ng-messages="detailForm.consult_time.$error" ng-show="submitted">
+        <p class="help-block" ng-message="required">Total time must be equal to or greater than {{minConsultTime()}} minutes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row" ng-if="isSimplifiedTemplate()">
+    <div ng-class="{'has-error': (detailForm.time_in.$dirty || submitted) && detailForm.time_in.$invalid}">
+      <label class="control-label col-xs-4">Time in</label>
+      <div class="col-xs-8">
+        <mb-time name="time_in" ng-model="detail.time_in" class="form-control input-lg" max="{{detail.time_out}}" required></mb-time>
+      </div>
+      <div class="col-xs-8 col-xs-offset-4" ng-messages="detailForm.time_in.$error" ng-show="submitted">
+        <p class="help-block" ng-message="required">is missing</p>
+      </div>
+    </div>
+
+    <div class="col-xs-12">&nbsp;</div>
+
+    <div ng-class="{'has-error': (detailForm.time_out.$dirty || submitted) && detailForm.time_out.$invalid}">
+      <label class="control-label col-xs-4">Time out</label>
+      <div class="col-xs-8">
+        <mb-time name="time_out" ng-model="detail.time_out" class="form-control input-lg" min="{{detail.time_in}}" required></mb-time>
+      </div>
+      <div class="col-xs-8 col-xs-offset-4" ng-messages="detailForm.time_out.$error" ng-show="submitted">
+        <p class="help-block" ng-message="required">is missing</p>
+      </div>
+    </div>
+  </div>
+</div>

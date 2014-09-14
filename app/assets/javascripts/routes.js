@@ -2,13 +2,13 @@ angular.module("moBilling")
 
     .config(function ($routeProvider) {
         $routeProvider.when("/sign-in", {
-            templateUrl: "sign-in.html",
+            templateUrl: "sign_in.html",
             controller: "SignInController",
             guest: true
         });
 
         $routeProvider.when("/sign-up", {
-            templateUrl: "sign-up.html",
+            templateUrl: "sign_up.html",
             controller: "SignUpController",
             guest: true,
             resolve: {
@@ -19,22 +19,12 @@ angular.module("moBilling")
         });
 
         $routeProvider.when("/sign-out", {
-            templateUrl: "loading.html",
+            templateUrl: "common/loading.html",
             controller: "SignOutController"
         });
 
-        $routeProvider.when("/unlock", {
-            templateUrl: "unlock.html",
-            controller: "UnlockController",
-            resolve: {
-                user: function (User) {
-                    return User.get().$promise;
-                }
-            }
-        });
-
         $routeProvider.when("/password-reset", {
-            templateUrl: "password-reset.html",
+            templateUrl: "password_reset.html",
             controller: "PasswordResetController",
             guest: true
         });
@@ -46,16 +36,19 @@ angular.module("moBilling")
                 agents: function (Agent) {
                     return Agent.query().$promise;
                 },
-                user: function (User) {
-                    return User.get().$promise;
+                user: function (currentUser) {
+                    return currentUser.init().$promise;
                 }
             }
         });
 
         $routeProvider.when("/claims", {
-            templateUrl: "claim-list.html",
+            templateUrl: "claim_list.html",
             controller: "ClaimListController",
             resolve: {
+                currentUser: function (currentUser) {
+                    return currentUser.init().$promise;
+                },
                 claims: function (Claim) {
                     return Claim.query().$promise;
                 },
@@ -66,9 +59,12 @@ angular.module("moBilling")
         });
 
         $routeProvider.when("/:specialty/claims/new", {
-            templateUrl: "claim-edit.html",
+            templateUrl: "claim_edit.html",
             controller: "ClaimEditController",
             resolve: {
+                currentUser: function (currentUser) {
+                    return currentUser.init().$promise;
+                },
                 claim: function ($route, Claim) {
                     return new Claim({ specialty: $route.current.params.specialty });
                 },
@@ -88,9 +84,12 @@ angular.module("moBilling")
         });
 
         $routeProvider.when("/claims/:claim_id/edit", {
-            templateUrl: "claim-edit.html",
+            templateUrl: "claim_edit.html",
             controller: "ClaimEditController",
             resolve: {
+                currentUser: function (currentUser) {
+                    return currentUser.init().$promise;
+                },
                 claim: function ($route, Claim) {
                     return Claim.get({ id: $route.current.params.claim_id }).$promise;
                 },
@@ -110,9 +109,12 @@ angular.module("moBilling")
         });
 
         $routeProvider.when("/claims/:claim_id", {
-            templateUrl: "claim-show.html",
+            templateUrl: "claim_show.html",
             controller: "ClaimEditController",
             resolve: {
+                currentUser: function (currentUser) {
+                    return currentUser.init().$promise;
+                },
                 claim: function ($route, Claim) {
                     return Claim.get({ id: $route.current.params.claim_id }).$promise;
                 },
@@ -136,29 +138,48 @@ angular.module("moBilling")
         });
     })
 
-    .run(function ($rootScope, $location) {
-        $rootScope.$on("$routeChangeStart", function (event, next, current) {
-            var authenticationToken = window.localStorage.getItem("authenticationToken");
+    .run(function ($rootScope, $location, currentUser, User, authenticationToken) {
+        $rootScope.loading = false;
+        $rootScope.locked = false;
 
-            if (next.guest && authenticationToken) {
-                $location.path("/claims").replace();
-            }
+        $rootScope.$on("lock", function () {
+            $rootScope.locked = true;
+        });
 
-            if (!next.guest && !authenticationToken) {
-                $location.path("/sign-in").replace();
-            }
+        $rootScope.$on("unlock", function () {
+            $rootScope.locked = false;
+        });
 
+        $rootScope.$on("loading", function () {
             $rootScope.loading = true;
+        });
+
+        $rootScope.$on("loaded", function () {
+            $rootScope.loading = false;
+        });
+
+        $rootScope.$on("$routeChangeStart", function (event, next, current) {
+            $rootScope.$broadcast("loading");
         });
 
         $rootScope.$on("$routeChangeError", function (event, next, current, error) {
             if (error.status === 401) {
-                window.localStorage.removeItem("authenticationToken");
-                $location.path("/sign-in").replace();
+                currentUser.signOut();
+                $location.path("/sign-in").hash("").replace();
             }
         });
 
         $rootScope.$on("$routeChangeSuccess", function () {
-            $rootScope.loading = false;
+            $rootScope.$broadcast("loaded");
         });
+
+        document.addEventListener("deviceready", function () {
+            $rootScope.$broadcast("lock");
+
+            document.addEventListener("pause", function () {
+                $rootScope.$broadcast("lock");
+                $rootScope.$apply();
+            }, false);
+
+        }, false);
     });

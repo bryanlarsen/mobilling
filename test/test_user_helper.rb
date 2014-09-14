@@ -69,12 +69,26 @@ module Test
       navigate_to("Sign out")
     end
 
-    def fill_in(*args, **options)
-      blur = options.delete(:blur)
-      session.fill_in(*args, **options).tap do
-        # nothing seems to work in 100% of cases - using a brutal way
-        execute_script("$('.datepicker,.ui-timepicker').remove()") if blur
+    def pick_a_date(locator, date)
+      if locator.respond_to?(:click)
+        locator.click
+      else
+        find(:field, locator).click
       end
+      date = Date.parse(date)
+      months = (date.year * 12 + date.month) - (Date.today.year * 12 + Date.today.month)
+      months.abs.times { execute_script("$('.picker--focused .picker__nav--next').click()") } if months > 0
+      months.abs.times { execute_script("$('.picker--focused .picker__nav--prev').click()") } if months < 0
+      execute_script("$('.picker--focused .picker__day.picker__day--infocus:contains(#{date.day})').click()")
+    end
+
+    def pick_a_time(locator, time)
+      if locator.respond_to?(:click)
+        locator.click
+      else
+        find(:field, locator).click
+      end
+      execute_script("$('.picker--focused .picker__list-item:contains(#{time})').click()")
     end
 
     def navigate_to(title)
@@ -131,25 +145,51 @@ module Test
       fill_in("Patient name", with: claim_attributes[:patient_name])
       fill_in("Hospital", with: claim_attributes[:hospital])
       fill_in("Referring physician", with: claim_attributes[:referring_physician])
+
       claim_attributes[:diagnoses].each.with_index do |diagnosis, i|
         click_on("Add a new diagnosis") unless i.zero?
         fill_in("claim-diagnoses-#{i}-name", with: diagnosis[:name])
       end
-      find_by_id("claim-most-responsible-physician").click unless claim_attributes[:most_responsible_physician]
-      fill_in("Admission date", with: claim_attributes[:admission_on], blur: true)
-      find_by_id("is-first-seen-on-hidden").click until has_css?("input#claim-first-seen-on")
-      fill_in("First seen date", with: claim_attributes[:first_seen_on], blur: true)
-      find_by_id("claim-first-seen-consult").click unless claim_attributes[:first_seen_consult]
-      find_by_id("claim-icu-transfer").click if claim_attributes[:icu_transfer]
-      fill_in("Last seen date", with: claim_attributes[:last_seen_on], blur: true)
-      find_by_id("claim-last-seen-discharge").click if claim_attributes[:last_seen_discharge]
+
+      unless claim_attributes[:most_responsible_physician].nil?
+        find_by_id("claim-most-responsible-physician").click unless claim_attributes[:most_responsible_physician]
+      end
+
+      unless claim_attributes[:procedure_on].nil?
+        pick_a_date("Procedure / treatment date", claim_attributes[:procedure_on])
+      end
+
+      unless claim_attributes[:admission_on].nil?
+        pick_a_date("Admission date", claim_attributes[:admission_on])
+      end
+
+      unless claim_attributes[:first_seen_on].nil?
+        find_by_id("is-first-seen-on-hidden").click until has_css?("input#claim-first-seen-on")
+        pick_a_date("First seen date", claim_attributes[:first_seen_on])
+      end
+
+      unless claim_attributes[:first_seen_consult].nil?
+        find_by_id("claim-first-seen-consult").click unless claim_attributes[:first_seen_consult]
+      end
+
+      unless claim_attributes[:icu_transfer].nil?
+        find_by_id("claim-icu-transfer").click if claim_attributes[:icu_transfer]
+      end
+
+      unless claim_attributes[:last_seen_on].nil?
+        pick_a_date("Last seen date", claim_attributes[:last_seen_on])
+      end
+
+      unless claim_attributes[:last_seen_discharge].nil?
+        find_by_id("claim-last-seen-discharge").click if claim_attributes[:last_seen_discharge]
+      end
 
       # consult
-      if claim_attributes[:consult_type]
+      unless claim_attributes[:consult_type].nil?
         click_on("Consult")
         find_by_id("claim-consult-type-#{claim_attributes[:consult_type].dasherize}").click
-        fill_in("Time in", with: claim_attributes[:consult_time_in], blur: true) if claim_attributes[:consult_time_in]
-        fill_in("Time out", with: claim_attributes[:consult_time_out], blur: true) if claim_attributes[:consult_time_out]
+        pick_a_time("Time in", claim_attributes[:consult_time_in]) if claim_attributes[:consult_time_in]
+        pick_a_time("Time out", claim_attributes[:consult_time_out]) if claim_attributes[:consult_time_out]
         if claim_attributes[:consult_premium_visit]
           find_by_id("is-premium-visible").click
           find_by_id("claim-consult-premium-visit-#{claim_attributes[:consult_premium_visit].dasherize}").click
@@ -161,9 +201,11 @@ module Test
       click_on("Details")
       click_on("Generate codes") if claim_attributes[:autogenerate]
       claim_attributes[:daily_details].each do |daily_detail|
-        click_on("Add a new day")
-        all("input[name=day]").last.set daily_detail[:day]
-        all("input[name=code]").last.set daily_detail[:code]
+        click_on("Add a new day") unless claim_attributes[:procedure_on]
+        pick_a_date(all("input[name=day]").last, daily_detail[:day])
+        all("input[name=code]").last.set(daily_detail[:code])
+        pick_a_time(all("input[name=time_in]").last, daily_detail[:time_in]) if daily_detail[:time_in]
+        pick_a_time(all("input[name=time_out]").last, daily_detail[:time_out]) if daily_detail[:time_out]
       end
 
       # comments

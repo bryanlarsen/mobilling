@@ -5,63 +5,61 @@ angular.module("moBilling.directives")
             restrict: "E",
             require: "ngModel",
             replace: true,
-            template: function (element, attributes) {
-                if (Modernizr.inputtypes.time) {
-                    return '<input type="time">';
-                } else {
-                    return '<input type="text">';
-                }
-            },
+            template: '<input type="text" readonly>',
             link: function (scope, element, attributes, ngModelController) {
-                if (Modernizr.inputtypes.time) {
-                    var timezoneOffset = new Date(1900, 0, 1).getTimezoneOffset() * 60 * 1000;
-
-                    ngModelController.$formatters.push(function (modelValue) {
-                        var hour, minute;
-
-                        if (modelValue) {
-                            hour   = parseInt(modelValue.split(":")[0], 10);
-                            minute = parseInt(modelValue.split(":")[1], 10);
-
-                            return new Date(Date.UTC(1900, 0, 1, hour, minute) + timezoneOffset);
-                        } else {
-                            return undefined;
-                        }
-                    });
-
-                    ngModelController.$parsers.push(function (viewValue) {
-                        var hour, minute, date;
-
-                        if (viewValue) {
-                            date = new Date(viewValue.getTime() - timezoneOffset);
-
-                            hour   = "0" + date.getUTCHours();
-                            minute = "0" + date.getUTCMinutes();
-
-                            return hour.substr(-2) + ":" + minute.substr(-2);
-                        } else {
-                            return undefined;
-                        }
-                    });
-                } else {
-                    attributes.$observe("min", function (min) {
-                        $(element).timepicker("option", "minTime", min);
-                    });
-
-                    attributes.$observe("max", function (max) {
-                        $(element).timepicker("option", "maxTime", max);
-                    });
-
-                    $(element).timepicker({ timeFormat: "H:i", showDuration: true, step: 15 });
-
-                    ngModelController.$formatters.push(function (modelValue) {
-                        if (modelValue) {
-                            $(element).timepicker("setTime", modelValue);
-                        }
-
-                        return modelValue;
-                    });
+                function validate() {
+                    ngModelController.$setValidity("min", attributes.min ? attributes.min <= ngModelController.$viewValue : true);
+                    ngModelController.$setValidity("max", attributes.max ? attributes.max >= ngModelController.$viewValue : true);
                 }
+
+                attributes.$observe("min", validate);
+                attributes.$observe("max", validate);
+
+                ngModelController.$parsers.unshift(function (viewValue) {
+                    validate();
+
+                    return viewValue;
+                });
+
+                element.on("click", function () {
+                    var picker = element.pickatime({
+                        interval: 15,
+                        format: "HH:i",
+                        container: "body",
+                        formatLabel: function (time) {
+                            var ref;
+
+                            if (attributes.min) {
+                                ref = this.get("min").pick;
+                            }
+
+                            if (attributes.max) {
+                                ref = this.get("max").pick;
+                            }
+
+                            if (ref !== undefined) {
+                                var hours = Math.abs(time.pick - ref) / 60;
+
+                                return  "HH:i <sm!all cl!ass='text-muted'>" + hours + "!h</sm!all>";
+                            } else {
+                                return "HH:i";
+                            }
+                        },
+                        min: attributes.min === undefined ? false : attributes.min,
+                        max: attributes.max === undefined ? false : attributes.max
+                    }).pickatime("picker");
+
+                    picker.start();
+                    picker.open();
+
+                    picker.on("close", function () {
+                        element.blur();
+                        picker.stop();
+                        element.attr({ readonly: true });
+                    });
+
+                    return false;
+                });
             }
         };
     });

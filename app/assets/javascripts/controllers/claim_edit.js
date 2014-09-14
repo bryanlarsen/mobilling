@@ -1,67 +1,79 @@
  angular.module("moBilling.controllers")
 
-    .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, Claim, claims, hospitals, diagnoses, serviceCodes, detailsGenerator) {
-        // HACK: Do not reload the current template if it is not needed.
+    .controller("ClaimEditController", function ($scope, $location, $route, $anchorScroll, claim, Claim, claims, hospitals, diagnoses, serviceCodes, detailsGenerator, $timeout) {
+        // HACK: Do not reload the current template if it is not necessary
         var lastRoute = $route.current;
 
         $scope.$on("$locationChangeSuccess", function () {
-            $scope.loading = false;
             if (lastRoute.$$route.templateUrl === $route.current.$$route.templateUrl) {
+                $scope.$emit("loaded");
                 $route.current = lastRoute;
             }
         });
         // KCAH
 
-        $scope.claims = claims;
-        $scope.claim = claim;
+        $scope.initialize = function () {
+            $scope.claim = claim;
+            $scope.claims = claims;
 
-        $scope.hospitals = {
-            displayKey: "name",
-            source: hospitals.ttAdapter(),
-            templates: {
-                suggestion: function (context) {
-                    return "<p class='needsclick'>" + context.name + "</p>";
+            $scope.hospitals = {
+                displayKey: "name",
+                source: hospitals.ttAdapter(),
+                templates: {
+                    suggestion: function (context) {
+                        return "<p class='needsclick'>" + context.name + "</p>";
+                    }
                 }
+            };
+
+            $scope.diagnoses = {
+                displayKey: "name",
+                source: diagnoses.ttAdapter(),
+                templates: {
+                    suggestion: function (context) {
+                        return "<p class='needsclick'>" + context.name + "</p>";
+                    }
+                }
+            };
+
+            $scope.serviceCodes = {
+                displayKey: "name",
+                source: serviceCodes.ttAdapter(),
+                templates: {
+                    suggestion: function (context) {
+                        return "<p class='needsclick'>" + context.name + "</p>";
+                    }
+                }
+            };
+
+            if (!claim.comments) {
+                claim.comments = [];
+            }
+
+            if (!claim.diagnoses) {
+                claim.diagnoses = [{ name: "" }];
+            }
+
+            if (!claim.status) {
+                claim.status = "saved";
+            }
+
+            if (!$scope.isSimplifiedTemplate() && claim.most_responsible_physician === undefined) {
+                claim.most_responsible_physician = true;
+            }
+
+            claim.daily_details || (claim.daily_details = []);
+
+            $scope.step = $location.hash();
+
+            if (!$scope.step || !/^(claim|consult|details|comments)$/.test($scope.step)) {
+                $scope.setActiveStep("claim");
             }
         };
 
-        $scope.diagnoses = {
-            displayKey: "name",
-            source: diagnoses.ttAdapter(),
-            templates: {
-                suggestion: function (context) {
-                    return "<p class='needsclick'>" + context.name + "</p>";
-                }
-            }
+        $scope.isSimplifiedTemplate = function () {
+            return ["surgical_assist", "psychotherapist", "anesthesiologist"].indexOf(claim.specialty) !== -1;
         };
-
-        $scope.serviceCodes = {
-            displayKey: "name",
-            source: serviceCodes.ttAdapter(),
-            templates: {
-                suggestion: function (context) {
-                    return "<p class='needsclick'>" + context.name + "</p>";
-                }
-            }
-        };
-
-        if (!claim.comments) {
-            claim.comments = [];
-        }
-
-        if (!claim.diagnoses) {
-            claim.diagnoses = [{ name: "" }];
-        }
-
-        if (!claim.status) {
-            claim.status = "saved";
-        }
-
-        if (claim.most_responsible_physician === undefined) {
-            claim.most_responsible_physician = true;
-        }
-
-        claim.daily_details || (claim.daily_details = []);
 
         $scope.isActiveStep = function (step) {
             return $scope.step === step;
@@ -72,12 +84,6 @@
             $location.hash(step).replace();
             $anchorScroll();
         };
-
-        $scope.step = $location.hash();
-
-        if (!$scope.step || !/^(claim|consult|details|comments)$/.test($scope.step)) {
-            $scope.setActiveStep("claim");
-        }
 
         $scope.$watch("claim.first_seen_consult", function (value) {
             if (value) {
@@ -91,30 +97,41 @@
             }
         });
 
+        $scope.$watch("claim.procedure_on", function (value) {
+            if (value) {
+                if (claim.daily_details.length === 0) {
+                    claim.daily_details.push({ day: value, autogenerated: false });
+                } else if (claim.daily_details.length === 1) {
+                    claim.daily_details[0].day = value;
+                }
+            }
+        });
+
         $scope.isConsultVisible = function () {
-            return claim.admission_on === claim.first_seen_on && claim.first_seen_consult
-                || claim.admission_on !== claim.first_seen_on && claim.first_seen_consult && !claim.most_responsible_physician
-                || claim.admission_on !== claim.first_seen_on && claim.first_seen_consult && claim.most_responsible_physician && !claim.icu_transfer;
+            return !$scope.isSimplifiedTemplate()
+                && (claim.admission_on === claim.first_seen_on && claim.first_seen_consult
+                    || claim.admission_on !== claim.first_seen_on && claim.first_seen_consult && !claim.most_responsible_physician
+                    || claim.admission_on !== claim.first_seen_on && claim.first_seen_consult && claim.most_responsible_physician && !claim.icu_transfer);
         };
 
         $scope.$watch($scope.isConsultVisible, function (isConsultVisible) {
             if (!isConsultVisible) {
-                claim.consult_type = undefined;
-                claim.consult_premium_visit = undefined;
+                claim.consult_type           = undefined;
+                claim.consult_premium_visit  = undefined;
                 claim.consult_premium_travel = undefined;
-                claim.consult_time_in = undefined;
-                claim.consult_time_out = undefined;
+                claim.consult_time_in        = undefined;
+                claim.consult_time_out       = undefined;
             }
         });
 
         function back() {
             var hash = {
-                saved: "saved",
-                unprocessed: "submitted",
-                processed: "submitted",
+                saved:                     "saved",
+                unprocessed:               "submitted",
+                processed:                 "submitted",
                 rejected_doctor_attention: "rejected",
-                rejected_admin_attention: "rejected",
-                paid: "paid"
+                rejected_admin_attention:  "rejected",
+                paid:                      "paid"
             }[claim.status];
 
             $location.path("/claims").hash(hash).replace();
@@ -159,14 +176,20 @@
         $scope.generate = function () {
             var generated, custom;
 
-            generated = detailsGenerator(claim);
+            $scope.generating = true;
 
-            custom = claim.daily_details.filter(function (detail) {
-                return !detail.autogenerated;
+            $timeout(function () {
+                generated = detailsGenerator(claim);
+
+                custom = claim.daily_details.filter(function (detail) {
+                    return !detail.autogenerated;
+                });
+
+                claim.daily_details = generated.concat(custom);
+                $scope.setActiveStep("details");
+
+                $scope.generating = false;
             });
-
-            claim.daily_details = generated.concat(custom);
-            $scope.setActiveStep("details");
         };
 
         function sortDetails(a, b) {
@@ -215,4 +238,6 @@
                 special_non_er: 50
             }[claim.consult_type];
         };
+
+        $scope.initialize();
     });

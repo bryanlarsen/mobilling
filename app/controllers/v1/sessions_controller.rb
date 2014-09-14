@@ -15,6 +15,13 @@ class V1::SessionsController < V1::BaseController
     respond_with @interactor, location: nil, status: :created
   end
 
+  api :DELETE, "/v1/session", "Deletes an authentication token"
+  def destroy
+    @user = current_user
+    @user.update!(authentication_token: nil)
+    respond_with @user, location: nil
+  end
+
   private
 
   def create_session_params

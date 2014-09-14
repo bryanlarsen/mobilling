@@ -1,0 +1,22 @@
+<ng-form name="detailsForm" class="scrollable" ng-controller="ClaimEditDetailsController">
+  <div class="scrollable-content">
+    <div class="list-group">
+      <div class="list-group-item text-center" ng-if="claim.daily_details.length === 0">
+        <span class="text-muted">no details</span>
+      </div>
+      <div ng-repeat="dailyDetail in claim.daily_details | unique : 'day'">
+        <div class="list-group-item" name="detailForm" ng-repeat="detail in claim.daily_details | filter : { day: dailyDetail.day }">
+          {{detail.day}}
+          <i class="fa fa-angle-right"></i>
+          {{detail.code}}
+          <span ng-show="isTimeVisible(detail)">
+            ({{claim.consult_time_in}} - {{claim.consult_time_out}})
+          </span>
+          <span ng-show="isSimplifiedTemplate()">
+            ({{detail.time_in}} - {{detail.time_out}})
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-form>

@@ -3,10 +3,12 @@ angular.module("moBilling.controllers")
     .controller("ClaimEditClaimController", function ($scope, $window, Photo) {
         var claim = $scope.claim;
 
-        $scope.isFirstSeenOnHidden = (claim.admission_on === claim.first_seen_on);
+        $scope.initialize = function () {
+            claim.first_seen_on_admission = (claim.admission_on === claim.first_seen_on);
+        };
 
-        $scope.$watchGroup(["isFirstSeenOnHidden", "claim.admission_on"], function () {
-            if ($scope.isFirstSeenOnHidden) {
+        $scope.$watchGroup(["claim.first_seen_on_admission", "claim.admission_on"], function () {
+            if (claim.first_seen_on_admission) {
                 claim.first_seen_on = claim.admission_on;
             }
         });
@@ -64,4 +66,6 @@ angular.module("moBilling.controllers")
                 Photo.upload(file).then(success, error);
             }
         });
+
+        $scope.initialize();
     });

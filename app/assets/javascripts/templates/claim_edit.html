@@ -1,0 +1,102 @@
+<ng-include src="'common/loading.html'"></ng-include>
+<ng-include src="'common/unlock.html'"></ng-include>
+
+<form class="app" name="form" ng-submit="submit()" novalidate>
+  <div class="navbar navbar-app navbar-absolute-top">
+    <div class="navbar-brand navbar-brand-center">
+      <span class="hidden-xs">Claim</span>
+    </div>
+
+    <div class="btn-group pull-left">
+      <div class="btn btn-navbar" ng-click="cancel()">
+        <i class="fa fa-chevron-left"></i> Back
+      </div>
+    </div>
+
+    <div class="btn-group pull-right" ng-show="submitting">
+      <button type="button" class="btn btn-default" disabled="disabled" >
+        <span><i class="fa fa-spinner fa-spin"></i> Saving…</span>
+      </button>
+    </div>
+
+    <div class="btn-group pull-right" ng-hide="submitting">
+      <button type="button" class="btn btn-default" ng-click="save()">
+        <i class="fa fa-save"></i> Save
+      </button>
+      <button type="button" class="btn btn-default" ng-click="submit()" ng-show="isGenerateDisabled">
+        <i class="fa fa-envelope-o"></i> Submit
+      </button>
+      <button type="button" class="btn btn-default" target="autogenerate" ng-hide="isGenerateDisabled" toggle bubble>
+        <i class="fa fa-exclamation-circle"></i> Submit
+      </button>
+    </div>
+  </div>
+
+  <div overlay="consult-missing">
+    <h4 class="overlay-title">Consult Missing</h4>
+    <br>
+    <p>
+      Are you sure you want to generate details without filling consult details?
+    </p>
+    <br>
+    <p>
+      <button class="btn btn-info btn-block btn-lg" ng-click="generate()" toggle="off" target="consult-missing">
+        <i class="fa fa-cogs"></i> Generate without consult
+      </button>
+      <button class="btn btn-default btn-block btn-lg" toggle="off" target="consult-missing">
+        <i class="fa fa-times"></i> Cancel
+      </button>
+    </p>
+  </div>
+
+  <div overlay="autogenerate">
+    <h4 class="overlay-title">Autogeneration</h4>
+    <br>
+    <p>
+      Automatically generated details have changed, do you want to submit the claim as it is or to generate details first?
+    </p>
+    <br>
+    <p>
+      <button class="btn btn-info btn-block btn-lg" ng-click="generate()" toggle="off" target="autogenerate">
+        <i class="fa fa-cogs"></i> Generate
+      </button>
+      <button class="btn btn-warning btn-block btn-lg" ng-click="submit()" toggle="off" target="autogenerate">
+        <i class="fa fa-envelope-o"></i> Submit without generating
+      </button>
+      <button class="btn btn-default btn-block btn-lg" toggle="off" target="autogenerate">
+        <i class="fa fa-times"></i> Cancel
+      </button>
+    </p>
+  </div>
+
+  <div class="navbar navbar-app navbar-absolute-bottom">
+    <div class="btn-group justified nav-tabs">
+      <a href="javascript:;" class="btn btn-default" ng-class="{'active': isActiveStep('claim')}" ng-click="setActiveStep('claim')">
+        <i class="fa fa-file-text-o hidden-xs"></i>
+        Claim
+      </a>
+      <a href="javascript:;"  class="btn btn-default" ng-class="{'active': isActiveStep('consult')}" ng-click="setActiveStep('consult')" ng-show="isConsultVisible()">
+        <i class="fa fa-user-md hidden-xs"></i>
+        Consult
+      </a>
+      <a href="javascript:;"  class="btn btn-default" ng-class="{'active': isActiveStep('details')}" ng-click="setActiveStep('details')">
+        <i class="fa fa-medkit hidden-xs"></i>
+        <span class="hidden-xs">Daily</span>
+        Details
+        <span class="hidden-xs">({{claim.daily_details.length}})</span>
+      </a>
+      <a href="javascript:;"  class="btn btn-default" ng-class="{'active': isActiveStep('comments')}" ng-click="setActiveStep('comments')">
+        <i class="fa fa-medkit hidden-xs"></i>
+        Comments
+        <span class="hidden-xs">({{claim.comments.length}})</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <div ng-show="isActiveStep('claim')" class="app-content" ng-include="'claim_edit/claim.html'"></div>
+    <div ng-show="isActiveStep('consult')" class="app-content" ng-include="'claim_edit/consult.html'"></div>
+    <div ng-show="isActiveStep('details')" class="app-content" ng-include="'claim_edit/details.html'"></div>
+    <div ng-show="isActiveStep('comments')" class="app-content" ng-include="'claim_edit/comments.html'"></div>
+  </div>
+</form>

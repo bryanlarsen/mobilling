@@ -1,10 +1,14 @@
 angular.module("moBilling.controllers")
 
-    .controller("ProfileController", function ($scope, User, user, agents, $location) {
-        $scope.agents = agents;
-        $scope.user = user;
+    .controller("ProfileController", function ($scope, $location, User, user, agents, specialties, currentUser) {
+        $scope.initialize = function () {
+            $scope.agents = agents;
+            $scope.specialties = specialties;
+            $scope.user = user;
+        };
 
-        function success() {
+        function success(user) {
+            currentUser.signIn(user);
             $location.path("/claims").hash("").replace();
         };
 
@@ -25,4 +29,6 @@ angular.module("moBilling.controllers")
                 User.update($scope.user, success, error);
             }
         };
+
+        $scope.initialize();
     });

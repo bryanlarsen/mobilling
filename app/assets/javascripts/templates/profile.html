@@ -1,123 +1,109 @@
-<form name="form" class="scrollable" ng-submit="submit()" novalidate>
-  <div ng-include="'sidebar.html'" class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="menu-sidebar">
+<ng-include src="'common/sidebar.html'" class="sidebar sidebar-left" toggleable parent-active-class="sidebar-left-in" id="menu-sidebar"></ng-include>
+<ng-include src="'common/loading.html'"></ng-include>
+<ng-include src="'common/unlock.html'"></ng-include>
+
+<form class="app" name="form" ng-submit="submit()" novalidate>
+  <div class="navbar navbar-app navbar-absolute-top">
+    <div class="navbar-brand navbar-brand-center">
+      <span>Profile</span>
+    </div>
+
+    <a href="javascript:;" class="btn-group pull-left">
+      <div class="btn btn-navbar sidebar-toggle" target="menu-sidebar" toggle>
+        <i class="fa fa-bars"></i> Menu
+      </div>
+    </a>
+
+    <div class="btn-group pull-right">
+      <button type="button" ng-click="save()" class="btn btn-navbar" ng-disabled="submitting">
+        <span ng-show="submitting" class="ng-hide"><i class="fa fa-spinner fa-spin"></i> Saving…</span>
+        <span ng-hide="submitting" class=""><i class="fa fa-check"></i> Save</span>
+      </button>
+    </div>
   </div>
 
-  <div class="app">
-    <div class="navbar navbar-app navbar-absolute-top">
-      <div class="navbar-brand navbar-brand-center">
-        <span>Profile</span>
-      </div>
-
-      <a href="javascript:;" class="btn-group pull-left">
-        <div class="btn btn-navbar sidebar-toggle" target="menu-sidebar" toggle>
-          <i class="fa fa-bars"></i> Menu
-        </div>
-      </a>
-
-      <div class="btn-group pull-right">
-        <button type="button" ng-click="save()" class="btn btn-navbar" ng-disabled="submitting">
-          <span ng-show="submitting" class="ng-hide"><i class="fa fa-spinner fa-spin"></i> Saving…</span>
-          <span ng-hide="submitting" class=""><i class="fa fa-check"></i> Save</span>
-        </button>
-      </div>
-    </div>
-    <div class="app-body">
-      <div ng-show="loading" class="app-content-loading">
-        <i class="fa fa-spinner fa-spin loading-spinner"></i>
-      </div>
-
-      <div class="scrollable-content section">
-        <div class="panel" id="user">
-          <div class="panel-body">
-            <div class="form-group row" ng-class="{'has-error': (form.name.$dirty || submitted) && form.name.$invalid}">
-              <label for="user-name" class="control-label col-xs-12">Name</label>
-              <div class="form-control-wrapper col-xs-12">
-                <input type="text" name="name" ng-model="user.name" class="form-control input-lg" id="user-name" required>
-                <div ng-messages="form.name.$error" ng-show="submitted">
-                  <p class="help-block" ng-message="required">is missing</p>
+  <div class="app-body">
+    <div class="app-content">
+      <div class="scrollable">
+        <div class="scrollable-content section">
+          <div class="panel" id="user">
+            <div class="panel-body">
+              <div class="form-group row" ng-class="{'has-error': (form.name.$dirty || submitted) && form.name.$invalid}">
+                <label for="user-name" class="control-label col-xs-12">Name</label>
+                <div class="form-control-wrapper col-xs-12">
+                  <input type="text" name="name" ng-model="user.name" class="form-control input-lg" id="user-name" required>
+                  <div ng-messages="form.name.$error" ng-show="submitted">
+                    <p class="help-block" ng-message="required">is missing</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="form-group row" ng-class="{'has-error': (form.email.$dirty || submitted) && form.email.$invalid}">
-              <label for="user-email" class="control-label col-xs-12">Email</label>
-              <div class="form-control-wrapper col-xs-12">
-                <input type="text" name="email" ng-model="user.email" class="form-control input-lg" id="user-email" mb-server required>
-                <div ng-messages="form.email.$error" ng-show="submitted">
-                  <p class="help-block" ng-message="required">is missing</p>
-                  <p class="help-block" ng-message="server">{{errors.email[0]}}</p>
+              <div class="form-group row" ng-class="{'has-error': (form.email.$dirty || submitted) && form.email.$invalid}">
+                <label for="user-email" class="control-label col-xs-12">Email</label>
+                <div class="form-control-wrapper col-xs-12">
+                  <input type="text" name="email" ng-model="user.email" class="form-control input-lg" id="user-email" mb-server required>
+                  <div ng-messages="form.email.$error" ng-show="submitted">
+                    <p class="help-block" ng-message="required">is missing</p>
+                    <p class="help-block" ng-message="server">{{errors.email[0]}}</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="form-group row" ng-class="{'has-error': (form.password.$dirty || submitted) && form.password.$invalid}">
-              <label for="user-password" class="control-label col-xs-12">Password</label>
-              <div class="form-control-wrapper col-xs-12">
-                <input type="password" name="password" ng-model="user.password" class="form-control input-lg" id="user-password">
-                <div ng-messages="form.password.$error" ng-show="submitted">
-                  <p class="help-block" ng-message="required">is missing</p>
+              <div class="form-group row" ng-class="{'has-error': (form.password.$dirty || submitted) && form.password.$invalid}">
+                <label for="user-password" class="control-label col-xs-12">Password</label>
+                <div class="form-control-wrapper col-xs-12">
+                  <input type="password" name="password" ng-model="user.password" class="form-control input-lg" id="user-password">
+                  <div ng-messages="form.password.$error" ng-show="submitted">
+                    <p class="help-block" ng-message="required">is missing</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="form-group row" ng-class="{'has-error': (form.password_confirmation.$dirty || submitted) && form.password_confirmation.$invalid}">
-              <label for="user-password-confirmation" class="control-label col-xs-12">Password confirmation</label>
-              <div class="form-control-wrapper col-xs-12">
-                <input type="password" name="password_confirmation" ng-model="user.password_confirmation" class="form-control input-lg" id="user-password-confirmation" ui-validate="{confirmation: '$value === user.password'}" ui-validate-watch="'user.password'">
-                <div ng-messages="form.password_confirmation.$error" ng-show="submitted">
-                  <p class="help-block" ng-message="required">is missing</p>
-                  <p class="help-block" ng-message="confirmation">does not match password</p>
+              <div class="form-group row" ng-class="{'has-error': (form.password_confirmation.$dirty || submitted) && form.password_confirmation.$invalid}">
+                <label for="user-password-confirmation" class="control-label col-xs-12">Password confirmation</label>
+                <div class="form-control-wrapper col-xs-12">
+                  <input type="password" name="password_confirmation" ng-model="user.password_confirmation" class="form-control input-lg" id="user-password-confirmation" ui-validate="{confirmation: '$value === user.password'}" ui-validate-watch="'user.password'">
+                  <div ng-messages="form.password_confirmation.$error" ng-show="submitted">
+                    <p class="help-block" ng-message="required">is missing</p>
+                    <p class="help-block" ng-message="confirmation">does not match password</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="form-group row" ng-class="{'has-error': (form.pin.$dirty || submitted) && form.pin.$invalid}">
-              <label for="user-pin" class="control-label col-xs-12">Screen lock PIN</label>
-              <div class="form-control-wrapper col-xs-12">
-                <input type="text" name="pin" ng-model="user.pin" class="form-control input-lg" id="user-pin" pattern="^[0-9]{4}$" inputmode="numeric">
-                <div ng-messages="form.pin.$error" ng-show="submitted">
-                  <p class="help-block" ng-message="pattern">should consist of 4 digits only</p>
+              <div class="form-group row" ng-class="{'has-error': (form.pin.$dirty || submitted) && form.pin.$invalid}">
+                <label for="user-pin" class="control-label col-xs-12">Screen lock PIN</label>
+                <div class="form-control-wrapper col-xs-12">
+                  <input type="text" name="pin" ng-model="user.pin" class="form-control input-lg" id="user-pin" pattern="^[0-9]{4}$" inputmode="numeric">
+                  <div ng-messages="form.pin.$error" ng-show="submitted">
+                    <p class="help-block" ng-message="pattern">should consist of 4 digits only</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="form-group row">
-              <label for="user-agent-id" class="control-label col-xs-12">Billing Agent</label>
-              <div class="form-control-wrapper col-xs-12">
-                <select ng-model="user.agent_id" class="form-control input-lg" ng-options="agent.id as agent.name for agent in agents"></select>
-              </div>
-            </div>
-
-            <div class="form-group row" ng-class="{'has-error': (form.specialties_length.$dirty || submitted) && form.specialties_length.$invalid}">
-              <label for="user-specialties" class="control-label col-xs-12">
-                Specialties
-              </label>
-
-              <div class="col-xs-12">
-                <mb-switch ng-model="user.specialties" id="user-specialties-internal-medicine" name="specialties" on-value="internal_medicine" class="pull-left"></mb-switch>
-                &nbsp;
-                <label class="control-label">Internal Medicine</label>
+              <div class="form-group row">
+                <label for="user-agent-id" class="control-label col-xs-12">Billing Agent</label>
+                <div class="form-control-wrapper col-xs-12">
+                  <select ng-model="user.agent_id" class="form-control input-lg" ng-options="agent.id as agent.name for agent in agents"></select>
+                </div>
               </div>
 
-              <div class="col-xs-12"><br></div>
+              <div class="form-group row" ng-class="{'has-error': (form.specialties_length.$dirty || submitted) && form.specialties_length.$invalid}">
+                <label for="user-specialties" class="control-label col-xs-12">
+                  Specialties
+                </label>
 
-              <div class="col-xs-12">
-                <mb-switch ng-model="user.specialties" id="user-specialties-cardiology" name="specialties" on-value="cardiology" class="pull-left"></mb-switch>
-                &nbsp;
-                <label class="control-label">Cardiology</label>
-              </div>
+                <div class="col-xs-12" ng-repeat="specialty in specialties">
+                  <p>
+                    <mb-switch ng-model="user.specialties" id="user-specialties-{{specialty.name | dasherize}}" name="specialties" on-value="{{specialty.name}}" class="pull-left"></mb-switch>
+                    &nbsp;
+                    <label class="control-label">{{specialty.name | inflector}}</label>
+                  </p>
+                </div>
 
-              <div class="col-xs-12"><br></div>
-
-              <div class="col-xs-12">
-                <mb-switch ng-model="user.specialties" id="user-specialties-family-medicine" name="specialties" on-value="family_medicine" class="pull-left"></mb-switch>
-                &nbsp;
-                <label class="control-label">Family Medicine</label>
-              </div>
-
-              <input class="hide" type="number" ng-model="user.specialties.length" name="specialties_length" min="1" required>
-              <div ng-messages="form.specialties_length.$error" ng-show="submitted" class="col-xs-12">
-                <p class="help-block" ng-message="required">at least one specialty is required</p>
+                <input class="hide" type="number" ng-model="user.specialties.length" name="specialties_length" min="1" required>
+                <div ng-messages="form.specialties_length.$error" ng-show="submitted" class="col-xs-12">
+                  <p class="help-block" ng-message="required">at least one specialty is required</p>
+                </div>
               </div>
             </div>
           </div>

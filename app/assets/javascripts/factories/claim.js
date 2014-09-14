@@ -1,11 +1,9 @@
 angular.module("moBilling.factories")
 
-    .factory("Claim", function ($resource, $q, API_URL) {
+    .factory("Claim", function ($resource, $q, API_URL, authenticationToken) {
         var Claim = $resource(API_URL + "/v1/claims/:id.json?auth=:auth", {
             id: "@id",
-            auth: function () {
-                return window.localStorage.getItem("authenticationToken");
-            }
+            auth: authenticationToken.get
         }, {
             create: {
                 method: "POST"
