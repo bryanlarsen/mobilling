@@ -1,8 +1,8 @@
 angular.module("moBilling.directives")
 
-    .directive("mbFixViewportHeightOnIOS7", function ($document, $window) {
+    .directive("body", function ($document, $window) {
         return {
-            restrict: "A",
+            restrict: "E",
             link: function (scope, element, attributes) {
                 function fixViewportHeightOnIOS7() {
                     var height = Math.min(
