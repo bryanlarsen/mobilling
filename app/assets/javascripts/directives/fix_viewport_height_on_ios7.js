@@ -1,16 +1,18 @@
 angular.module("moBilling.directives")
 
-    .directive("body", function ($document, $window) {
+    .directive("body", function ($timeout, $document, $window) {
         return {
             restrict: "E",
             link: function (scope, element, attributes) {
                 function fixViewportHeightOnIOS7() {
-                    var height = Math.min(
-                        $($window).height(), // This is smaller on Desktop
-                        $window.innerHeight || Infinity // This is smaller on iOS7
-                    );
+                    $timeout(function () {
+                        var height = Math.min(
+                            $($window).height(), // This is smaller on Desktop
+                            $window.innerHeight || Infinity // This is smaller on iOS7
+                        );
 
-                    element.height(height);
+                        element.height(height);
+                    }, 100);
                 }
 
                 $window.addEventListener("resize", fixViewportHeightOnIOS7, false);
