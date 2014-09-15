@@ -17,6 +17,7 @@ angular.module("moBilling.directives")
 
                 $window.addEventListener("resize", fixViewportHeightOnIOS7, false);
                 $window.addEventListener("orientationchange", fixViewportHeightOnIOS7, false);
+                element.on("blur", "input,select,textarea", fixViewportHeightOnIOS7);
 
                 fixViewportHeightOnIOS7();
             }
