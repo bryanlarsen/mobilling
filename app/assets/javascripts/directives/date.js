@@ -1,6 +1,6 @@
 angular.module("moBilling.directives")
 
-    .directive("mbDate", function ($window) {
+    .directive("mbDate", function () {
         return {
             restrict: "E",
             require: "ngModel",
