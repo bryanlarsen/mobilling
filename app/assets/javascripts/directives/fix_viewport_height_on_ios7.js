@@ -1,8 +1,8 @@
 angular.module("moBilling.directives")
 
-    .directive("body", function ($document, $window, $interval) {
+    .directive("mbFixViewportHeightOnIos7", function ($document, $window, $interval) {
         return {
-            restrict: "E",
+            restrict: "A",
             link: function (scope, element, attributes) {
                 function fixViewportHeightOnIOS7() {
                     var height = Math.min($($window).height(), $window.innerHeight || Infinity);
@@ -11,14 +11,12 @@ angular.module("moBilling.directives")
                     $window.scrollTo(0, 0);
                 }
 
-                // $($window).on("resize orientationchange", fixViewportHeightOnIOS7);
+                $($window).on("resize orientationchange", fixViewportHeightOnIOS7);
 
                 // use native.keyboard events instead (ionic plugin)
-                // element.on("blur", "input,select,textarea", fixViewportHeightOnIOS7);
+                element.on("blur", "input,select,textarea", fixViewportHeightOnIOS7);
 
-                // fixViewportHeightOnIOS7();
-
-                $interval(fixViewportHeightOnIOS7, 5000);
+                fixViewportHeightOnIOS7();
             }
         };
     });
