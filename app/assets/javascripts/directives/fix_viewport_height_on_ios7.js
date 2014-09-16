@@ -11,10 +11,7 @@ angular.module("moBilling.directives")
                     $window.scrollTo(0, 0);
                 }
 
-                $($window).on("resize orientationchange", fixViewportHeightOnIOS7);
-
-                // use native.keyboard events instead (ionic plugin)
-                element.on("blur", "input,select,textarea", fixViewportHeightOnIOS7);
+                $($window).on("resize orientationchange native.keyboardhide native.keyboardshow", fixViewportHeightOnIOS7);
 
                 fixViewportHeightOnIOS7();
             }
