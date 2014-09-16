@@ -8,6 +8,7 @@ angular.module("moBilling.directives")
                     var height = Math.min($($window).height(), $window.innerHeight || Infinity);
 
                     element.height(height);
+                    $window.scrollTo(0, 0);
                 }
 
                 // $($window).on("resize orientationchange", fixViewportHeightOnIOS7);
