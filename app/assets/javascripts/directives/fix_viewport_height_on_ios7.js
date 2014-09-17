@@ -7,8 +7,6 @@ angular.module("moBilling.directives")
                 function fixViewportHeightOnIOS7() {
                     var height = Math.min($($window).height(), $window.innerHeight || Infinity);
 
-                    alert("fix");
-
                     element.height(height);
                     $window.scrollTo(0, 0);
                 }
