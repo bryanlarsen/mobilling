@@ -8,12 +8,12 @@ angular.module("moBilling.directives")
                     var height = Math.min($($window).height(), $window.innerHeight || Infinity);
 
                     element.height(height);
-                    // $window.scrollTo(0, 0);
+                    $window.scrollTo(0, 0);
                 }
 
                 if ($window.cordova && $window.cordova.plugins && $window.cordova.plugins.Keyboard) {
                     $window.cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-                    $window.cordova.plugins.Keyboard.disableScroll(true);
+                    // $window.cordova.plugins.Keyboard.disableScroll(true);
                 }
 
                 $window.addEventListener("resize", fixViewportHeightOnIOS7, false);
