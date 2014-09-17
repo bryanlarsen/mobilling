@@ -7,15 +7,12 @@ angular.module("moBilling.directives")
                 function fixViewportHeightOnIOS7() {
                     var height = Math.min($($window).height(), $window.innerHeight || Infinity);
 
+                    element.height(height);
                     element.parent().height(height);
                     $window.scrollTo(0, 0);
                 }
 
                 // $($window).on("resize orientationchange native.keyboardhide native.keyboardshow", fixViewportHeightOnIOS7);
-
-                $($window).on("native.keyboardhide", function () {
-                    alert("keyboardhide");
-                });
 
                 $interval(fixViewportHeightOnIOS7, 1000);
 
