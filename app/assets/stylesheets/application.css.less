@@ -67,6 +67,22 @@ body {
     background-color: @input-bg;
 }
 
+.picker.picker--opened {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.picker--opened .picker__holder {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     input[type=time],
     input[type=date],
