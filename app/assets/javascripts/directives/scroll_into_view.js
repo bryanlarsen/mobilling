@@ -5,14 +5,11 @@ angular.module("moBilling.directives")
             restrict: "A",
             link: function (scope, element, attributes) {
                 element.on("focus keypress keyup keydown", function () {
-                    var id, label, appContent, sectionContent;
+                    var id, label, scrollableContent;
 
-                    appContent = element.closest(".app-content");
-                    sectionContent = appContent.find(".scrollable-content *");
+                    scrollableContent = element.closest(".scrollable-content");
 
-                    if (appContent.height() < sectionContent.height()) {
-                        console.log("asd");
-
+                    if (scrollableContent.height() < scrollableContent.children().height()) {
                         id = element.attr("id");
                         label = $("label[for='" + id + "']");
 
