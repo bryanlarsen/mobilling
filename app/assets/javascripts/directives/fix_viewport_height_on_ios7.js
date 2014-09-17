@@ -13,6 +13,12 @@ angular.module("moBilling.directives")
 
                 $($window).on("resize orientationchange native.keyboardhide native.keyboardshow", fixViewportHeightOnIOS7);
 
+                window.addEventListener('native.keyboardhide', keyboardHideHandler);
+
+                function keyboardHideHandler(e){
+                    alert('Goodnight, sweet prince');
+                }
+
                 fixViewportHeightOnIOS7();
             }
         };
