@@ -4,16 +4,16 @@ angular.module("moBilling.directives")
         return {
             restrict: "A",
             link: function (scope, element, attributes) {
-                function fixViewportHeightOnIOS7() {
-                    var height = Math.min($($window).height(), $window.innerHeight || Infinity);
+                // function fixViewportHeightOnIOS7() {
+                //     var height = Math.min($($window).height(), $window.innerHeight || Infinity);
 
-                    element.height(height);
-                    $window.scrollTo(0, 0);
-                }
+                //     element.height(height);
+                //     $window.scrollTo(0, 0);
+                // }
 
-                $($window).on("resize orientationchange native.keyboardhide native.keyboardshow", fixViewportHeightOnIOS7);
+                // $($window).on("resize orientationchange native.keyboardhide native.keyboardshow", fixViewportHeightOnIOS7);
 
-                fixViewportHeightOnIOS7();
+                // fixViewportHeightOnIOS7();
             }
         };
     });
