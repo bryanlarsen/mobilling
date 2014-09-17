@@ -11,9 +11,9 @@ angular.module("moBilling.directives")
                     label = $("label[for='" + id + "']");
 
                     if (label.length > 0) {
-                        label.get(0).scrollIntoView();
+                        label.scrollIntoView(false);
                     } else {
-                        element.get(0).scrollIntoView();
+                        element.scrollIntoView(false);
                     }
                 });
             }

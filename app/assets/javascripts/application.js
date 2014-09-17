@@ -1,4 +1,5 @@
 //= require jquery
+//= require jquery.scrollIntoView
 //= require overthrow
 //= require bloodhound
 //= require typeahead
