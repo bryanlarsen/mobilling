@@ -17,7 +17,7 @@
             </span>
             <span class="btn btn-primary btn-lg fileinput-button" ng-hide="uploading">
               <i class="fa fa-camera"></i> Upload
-              <input type="file" mb-upload="file" id="photo-file" accept="image/*;capture=camera"">
+              <input type="file" mb-upload="file" id="photo-file" accept="image/*;capture=camera">
             </span>
             <input type="hidden" name="photo_id" ng-model="claim.photo_id" required>
             <div ng-messages="claimForm.photo_id.$error" ng-show="submitted">
@@ -29,7 +29,7 @@
         <div class="form-group row" ng-class="{'has-error': (claimForm.patient_name.$dirty || submitted) && claimForm.patient_name.$invalid}">
           <label for="claim-patient-name" class="control-label col-xs-12">Patient name</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="text" name="patient_name" ng-model="claim.patient_name" class="form-control input-lg" id="claim-patient-name" required>
+            <input type="text" name="patient_name" ng-model="claim.patient_name" class="form-control input-lg" id="claim-patient-name" mb-scroll-into-view required>
             <div ng-messages="claimForm.patient_name.$error" ng-show="submitted">
               <p class="help-block" ng-message="required">is missing</p>
             </div>
@@ -49,7 +49,7 @@
         <div class="form-group row">
           <label for="claim-referring-physician" class="control-label col-xs-12">Referring physician</label>
           <div class="form-control-wrapper col-xs-12">
-            <input type="text" name="referring_physician" ng-model="claim.referring_physician" class="form-control input-lg" id="claim-referring-physician">
+            <input type="text" name="referring_physician" ng-model="claim.referring_physician" class="form-control input-lg" id="claim-referring-physician" mb-scroll-into-view>
           </div>
         </div>
 

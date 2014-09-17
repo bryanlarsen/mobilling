@@ -13,7 +13,7 @@ angular.module("moBilling.directives")
 
                 if ($window.cordova && $window.cordova.plugins && $window.cordova.plugins.Keyboard) {
                     $window.cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-                    // $window.cordova.plugins.Keyboard.disableScroll(true);
+                    $window.cordova.plugins.Keyboard.disableScroll(true);
                 }
 
                 $window.addEventListener("resize", fixViewportHeightOnIOS7, false);

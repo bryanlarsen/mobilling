@@ -27,7 +27,7 @@
             <div class="panel-body">
               <div class="form-group row" ng-class="{'has-error': (form.email.$dirty || submitted) && form.email.$invalid}">
                 <div class="form-control-wrapper col-xs-12">
-                  <input type="email" name="email" ng-model="session.email" class="form-control input-lg" id="session-email" placeholder="Email" required>
+                  <input type="email" name="email" ng-model="session.email" class="form-control input-lg" id="session-email" placeholder="Email" mb-scroll-into-view required>
                   <div ng-messages="form.email.$error" ng-show="submitted">
                     <p class="help-block" ng-message="required">is missing</p>
                     <p class="help-block" ng-message="email">is invalid</p>
@@ -37,7 +37,7 @@
 
               <div class="form-group row" ng-class="{'has-error': (form.password.$dirty || submitted) && form.password.$invalid}">
                 <div class="form-control-wrapper col-xs-12">
-                  <input type="password" name="password" ng-model="session.password" class="form-control input-lg" id="session-password" placeholder="Password" mb-server required>
+                  <input type="password" name="password" ng-model="session.password" class="form-control input-lg" id="session-password" placeholder="Password" mb-server mb-scroll-into-view required>
                   <div ng-messages="form.password.$error" ng-show="submitted">
                     <p class="help-block" ng-message="required">is missing</p>
                     <p class="help-block" ng-message="server">{{errors.password[0]}}</p>
