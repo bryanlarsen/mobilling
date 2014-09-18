@@ -148,6 +148,10 @@ angular.module("moBilling")
             }
         }
 
+        function closePicker() {
+            $(".picker").remove();
+        }
+
         $rootScope.$on("lock", function () {
             $rootScope.locked = true;
         });
@@ -162,6 +166,7 @@ angular.module("moBilling")
 
         $rootScope.$on("loaded", function () {
             closeKeyboard();
+            closePicker();
             $rootScope.loading = false;
         });
 
