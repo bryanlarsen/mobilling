@@ -1,14 +1,16 @@
 angular.module("moBilling.directives")
 
-    .directive("mbFixViewportHeightOnIos7", function ($document, $window, $interval) {
+    .directive("mbFixViewportHeightOnIos7", function ($document, $window, $timeout) {
         return {
             restrict: "A",
             link: function (scope, element, attributes) {
                 function fixViewportHeightOnIOS7() {
-                    var height = Math.min($($window).height(), $window.innerHeight || Infinity);
+                    $timeout(function () {
+                        var height = Math.min($($window).height(), $window.innerHeight || Infinity);
 
-                    element.height(height);
-                    $window.scrollTo(0, 0);
+                        element.height(height);
+                        $window.scrollTo(0, 0);
+                    }, 500);
                 }
 
                 if ($window.cordova && $window.cordova.plugins && $window.cordova.plugins.Keyboard) {
