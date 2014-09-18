@@ -138,9 +138,15 @@ angular.module("moBilling")
         });
     })
 
-    .run(function ($rootScope, $location, currentUser, User, authenticationToken) {
+    .run(function ($rootScope, $location, $window, currentUser, User, authenticationToken) {
         $rootScope.loading = false;
         $rootScope.locked = false;
+
+        function closeKeyboard() {
+            if ($window.cordova && $window.cordova.plugins && $window.cordova.plugins.Keyboard && $window.cordova.plugins.Keyboard.close) {
+                $window.cordova.plugins.Keyboard.close();
+            }
+        }
 
         $rootScope.$on("lock", function () {
             $rootScope.locked = true;
@@ -155,6 +161,7 @@ angular.module("moBilling")
         });
 
         $rootScope.$on("loaded", function () {
+            closeKeyboard();
             $rootScope.loading = false;
         });
 
