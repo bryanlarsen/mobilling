@@ -11,17 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140813192430) do
+ActiveRecord::Schema.define(version: 20140918145816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
   create_table "admin_users", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "password_digest"
-    t.integer  "role",            default: 0
+    t.string   "name",            limit: 255
+    t.string   "email",           limit: 255
+    t.string   "password_digest", limit: 255
+    t.integer  "role",                        default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20140813192430) do
   create_table "claim_comments", force: true do |t|
     t.text     "body"
     t.uuid     "user_id"
-    t.string   "user_type"
+    t.string   "user_type",  limit: 255
     t.uuid     "claim_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -40,12 +40,12 @@ ActiveRecord::Schema.define(version: 20140813192430) do
   create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.uuid     "user_id"
     t.uuid     "photo_id"
-    t.integer  "status",                  default: 0
-    t.json     "details",                 default: {}
+    t.integer  "status",                              default: 0
+    t.json     "details",                             default: {}
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "number"
-    t.string   "accounting_number"
+    t.string   "accounting_number",       limit: 255
     t.uuid     "submission_id"
     t.uuid     "batch_acknowledgment_id"
     t.uuid     "remittance_advice_id"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20140813192430) do
   add_index "claims", ["submission_id"], name: "index_claims_on_submission_id", using: :btree
 
   create_table "diagnoses", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
-    t.string   "name"
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -65,16 +65,16 @@ ActiveRecord::Schema.define(version: 20140813192430) do
   add_index "diagnoses", ["name"], name: "index_diagnoses_on_name", unique: true, using: :btree
 
   create_table "edt_files", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
-    t.integer  "status",          default: 0
+    t.integer  "status",                      default: 0
     t.text     "contents"
-    t.string   "type"
+    t.string   "type",            limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "sequence_number"
-    t.string   "filename_base"
+    t.string   "filename_base",   limit: 255
     t.uuid     "user_id"
     t.uuid     "parent_id"
-    t.string   "batch_id"
+    t.string   "batch_id",        limit: 255
   end
 
   add_index "edt_files", ["filename_base"], name: "index_edt_files_on_filename_base", using: :btree
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20140813192430) do
   add_index "edt_files", ["user_id"], name: "index_edt_files_on_user_id", using: :btree
 
   create_table "hospitals", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
-    t.string   "name"
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20140813192430) do
 
   create_table "photos", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.uuid     "user_id"
-    t.string   "file"
+    t.string   "file",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -101,11 +101,11 @@ ActiveRecord::Schema.define(version: 20140813192430) do
     t.text     "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "code"
-    t.decimal  "fee",                 precision: 11, scale: 4
+    t.string   "code",                limit: 255
+    t.integer  "fee"
     t.date     "effective_date"
     t.date     "termination_date"
-    t.boolean  "requires_specialist",                          default: false, null: false
+    t.boolean  "requires_specialist",             default: false, null: false
   end
 
   add_index "service_codes", ["code"], name: "index_service_codes_on_code", using: :btree
@@ -120,15 +120,15 @@ ActiveRecord::Schema.define(version: 20140813192430) do
   add_index "statutory_holidays", ["day"], name: "index_statutory_holidays_on_day", unique: true, using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "password_digest"
-    t.string   "authentication_token"
+    t.string   "name",                 limit: 255
+    t.string   "email",                limit: 255
+    t.string   "password_digest",      limit: 255
+    t.string   "authentication_token", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.uuid     "agent_id"
-    t.string   "pin"
-    t.string   "specialties",          default: [], array: true
+    t.string   "pin",                  limit: 255
+    t.string   "specialties",                      default: [], array: true
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree

@@ -42,11 +42,11 @@ ActiveRecord::Migration.say_with_time "schedule_master" do
         end_date = Date.strptime(line.slice(12,8), "%Y%m%d")
       end
     end
-    primary_fee = BigDecimal.new(line.slice(20,11))/10000
-    assistant_fee = BigDecimal.new(line.slice(31,11))/10000
-    specialist_fee = BigDecimal.new(line.slice(42,11))/10000
-    anaesthetist_fee = BigDecimal.new(line.slice(53,11))/10000
-    anaesthetist_fee = BigDecimal.new(line.slice(64,11))/10000 if anaesthetist_fee==0
+    primary_fee = line.slice(20,9).to_i
+    assistant_fee = line.slice(31,9).to_i
+    specialist_fee = line.slice(42,9).to_i
+    anaesthetist_fee = line.slice(53,9).to_i
+    anaesthetist_fee = line.slice(64,9).to_i if anaesthetist_fee==0
 
     # puts code, effective_date, primary_fee, assistant_fee, specialist_fee, anaesthetist_fee
 
