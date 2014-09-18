@@ -31,7 +31,7 @@
               <p class="text-center">
                 Please visit <a href="javascript:;" ng-click="openBrowser()">newapp.mo-billing.ca</a> in order to create an account.
               </p>
-              <a class="btn btn-link btn-lg btn-block" href="#/sign-in">Already have an account? Log in now</a>
+              <a class="btn btn-link btn-lg btn-block" href="#/sign-in">Already have an account? <br> Log in now</a>
             </div>
           </div>
         </div>
@@ -105,12 +105,19 @@
               </div>
 
               <div class="form-group row" ng-class="{'has-error': (form.agent_id.$dirty || submitted) && form.agent_id.$invalid}">
-                <label for="user-agent-id" class="control-label col-xs-12">Billing Agent</label>
-                <div class="form-control-wrapper col-xs-12">
-                  <select name="agent_id" ng-model="user.agent_id" class="form-control input-lg" id="user-agent-id" ng-options="agent.id as agent.name for agent in agents" mb-scroll-into-view required></select>
-                  <div ng-messages="form.agent_id.$error" ng-show="submitted">
-                    <p class="help-block" ng-message="required">is missing</p>
-                  </div>
+                <label class="control-label col-xs-12">Billing Agent</label>
+
+                <div class="col-xs-12" ng-repeat="agent in agents">
+                  <p>
+                    <mb-switch ng-model="user.agent_id" id="user-agent-id-{{agent.id}}" on-value="{{agent.id}}" class="pull-left"></mb-switch>
+                    &nbsp;
+                    <label class="control-label">{{agent.name | inflector}}</label>
+                  </p>
+                </div>
+
+                <input type="hidden" ng-model="user.agent_id" name="agent_id" required>
+                <div ng-messages="form.agent_id.$error" ng-show="submitted" class="col-xs-12">
+                  <p class="help-block" ng-message="required">is missing</p>
                 </div>
               </div>
 
@@ -139,7 +146,7 @@
                 <span ng-show="submitting"><i class="fa fa-spinner fa-spin"></i> Creating Account…</span>
                 <span ng-hide="submitting"><i class="fa fa-user"></i> Create Account</span>
               </button>
-              <a class="btn btn-link btn-lg btn-block" href="#/sign-in">Already have an account? Log in now</a>
+              <a class="btn btn-link btn-lg btn-block" href="#/sign-in">Already have an account? <br> Log in now</a>
             </div>
           </div>
         </div>
