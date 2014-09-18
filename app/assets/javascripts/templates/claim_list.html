@@ -35,16 +35,14 @@
             <div class="list-group-item text-center" ng-if="claims.length === 0">
               <span class="text-muted">no {{step}} claims</span>
             </div>
-            <a href="javascript:;" hm-tap="edit(claim)" class="list-group-item row" ng-repeat="claim in claims | orderBy : ['number', 'created_at']" hm-hold="removeConfirm(claim)">
-              <div class="col-xs-10 truncate">
+            <a href="javascript:;" hm-tap="edit(claim)" class="list-group-item clearfix" ng-repeat="claim in claims | orderBy : ['number', 'created_at']" hm-hold="removeConfirm(claim)">
+              <div class="pull-left truncate" style="width: 90%;">
                 Claim
                 <span ng-if="claim.number">No. {{claim.number}}</span>
                 <span ng-if="claim.patient_name">of {{claim.patient_name}}</span>
                 created on {{claim.created_at | date:"yyyy-MM-dd"}}
               </div>
-              <div class="col-xs-2 text-right">
-                <i class="fa fa-chevron-right"></i>
-              </div>
+              <i class="fa fa-chevron-right pull-right"></i>
             </a>
           </div>
         </div>
