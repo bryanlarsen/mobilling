@@ -10,7 +10,7 @@ angular.module("moBilling.directives")
 
                         element.height(height);
                         $window.scrollTo(0, 0);
-                    }, 300);
+                    }, 100);
                 }
 
                 if ($window.cordova && $window.cordova.plugins && $window.cordova.plugins.Keyboard) {
