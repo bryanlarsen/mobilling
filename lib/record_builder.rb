@@ -4,10 +4,20 @@ require 'rubygems'
 
 OrderedHash = ActiveSupport::OrderedHash
 
-class ValueRequired < RuntimeError
+class ValueRequired < StandardError
+  def to_s
+    "Value required"
+  end
 end
 
-class InvalidValue < RuntimeError
+class InvalidValue < StandardError
+  def initialize(value)
+    @value
+  end
+
+  def to_s
+    'Cannot have value '+@value
+  end
 end
 
 class FieldDefinition
@@ -21,7 +31,7 @@ class FieldDefinition
     @display = display
   end
 
-  def insert(record, value, record_name, validate=true)
+  def insert(record, value, &on_err)
     if not value
       if !@required
         record[start-1, length] = ' '*length
@@ -32,11 +42,14 @@ class FieldDefinition
       elsif !validate
         record[start-1, length] = ' '*length
       else
-        raise ValueRequired, record_name
+        on_err.call(ValueRequired.new)
       end
     else
-      raise InvalidValue, record_name if not validate(value)
-      record[start-1, length] = format(value)
+      if validate(value)
+        record[start-1, length] = format(value)
+      else
+        on_err.call(InvalidValue.new(value))
+      end
     end
     record
   end
@@ -159,7 +172,7 @@ class S < FieldDefinition
 end
 
 class Record
-  attr_reader :fields
+  attr_reader :fields, :errors
 
   def [](key)
     raise IndexError, key if not self.class.field_definitions.has_key?(key)
@@ -171,35 +184,34 @@ class Record
     @fields.[]=(key, value)
   end
 
-  def to_s(validate = true)
+  def to_s
     record = '!'*79+"\r\n"
-    self.class.field_definitions.each {|k, field|
-      begin
-        record = field.insert(record, @fields[k], k, validate)
-      rescue Exception => e
-        raise InvalidValue, e.to_s+"\n'"+@fields[k].to_s+"'\n"+k.to_s
+    @errors = []
+    self.class.field_definitions.each do |k, field|
+      record = field.insert(record, @fields[k]) do |err|
+        puts "to_s err #{k} #{err}"
+        @errors << [k, err]
       end
-    }
+    end
     record
   end
 
   def parse(record)
     record=record.rstrip+' '*79
+    @errors = []
     self.class.field_definitions.each {|k, field|
-      begin
-        @fields[k] = field.parse(record)
-      rescue Exception => e
-        raise InvalidValue, e.to_s + "\n" + k
-      end
-      if field.spec[:value]
-        raise InvalidValue, record[field.start-1, field.length] if @fields[k] != field.spec[:value]
+      @fields[k] = field.parse(record)
+      if field.spec[:value] && @fields[k] != field.spec[:value]
+        @errors << [k, InvalidValue(record[field.start-1, field.length])]
       end
     }
     self
   end
 
-  def initialize
+  def initialize(err = nil)
     @fields = OrderedHash.new
+    @errors = []
+    @errors << err if err
   end
 
   def set_field!(field, value)
@@ -220,13 +232,9 @@ class Record
   def self.process_batch(batch)
     batch.split("\n").map {|record|
       if @@record_types.include?(record[0..2])
-        begin
-          @@record_types[record[0..2]].new.parse(record)
-        rescue Exception => e
-          raise InvalidValue, e.to_s + "\n" + record
-        end
+        @@record_types[record[0..2]].new.parse(record)
       else
-        raise InvalidValue, record
+        Record.new(['Record Type', InvalidValue.new(record[0..2])])
       end
     }
   end

@@ -3,43 +3,6 @@ require "#{Rails.root}/lib/record_builder.rb"
 class Submission < EdtFile
   has_many :claims, inverse_of: :submission
 
-  def self.generate(user, timestamp=nil)
-    # assumptions
-    provider = 18468
-    group_number = '0000'
-    office_code = 'D'
-    specialty = 0
-
-    claims = user.claims.unprocessed.where(submission_id: nil)
-    submission = self.new(user: user, claims: claims)
-    timestamp = DateTime.now if timestamp.nil?
-
-    r=BatchHeaderRecord.new
-    r['Batch Creation Date']=timestamp.to_date
-    r['Batch Identification Number']=timestamp.strftime("%H%M")
-    r['Group Number']=group_number
-    r['Health Care Provider']=provider
-    r['MOH Office Code']=office_code
-    r['Specialty']=specialty
-    submission.contents = r.to_s
-    submission.batch_id = submission.contents[7..18]
-
-    num_records = 0
-    claims.each do |claim|
-      submission.contents += claim.to_record
-      num_records += claim.details['daily_details'].length
-    end
-
-    tr = BatchTrailerRecord.new
-    tr.set_field!('H Count', claims.length)
-    tr.set_field!('T Count', num_records)
-    submission.contents += tr.to_s
-
-    submission.generate_filename('H', user, provider, timestamp)
-
-    submission
-  end
-
   def claim_records(claim)
     records = []
     in_claim = false

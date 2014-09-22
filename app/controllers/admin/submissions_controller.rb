@@ -16,7 +16,22 @@ class Admin::SubmissionsController < Admin::BaseController
 
   def create
     @user = policy_scope(:user).find(params[:user_id])
-    @submission = ::Submission.generate(@user)
+    @claims = @user.claims.unprocessed.where(submission_id: nil)
+
+    if @claims.length === 0
+      flash[:notice] = "no claims to process"
+      return redirect_to "#{admin_user_submissions_path(user_id: @user)}"
+    end
+
+    @interactor = GenerateSubmission.new
+    @interactor.perform(@user, @claims)
+    if @interactor.errors.length > 0
+      flash[:error] = @interactor.errors.to_yaml
+      return redirect_to "#{admin_user_submissions_path(user_id: @user)}"
+    end
+
+    @submission = ::Submission.new(user: @user, claims: @claims, contents: @interactor.contents)
+    @submission.generate_filename('H', @user, @interactor.provider, @interactor.timestamp)
     @submission.save!
     redirect_to "#{admin_user_submission_path(id: @submission, user_id: @user)}/#{@submission.filename}"
   end
