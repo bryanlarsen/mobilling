@@ -13,6 +13,7 @@ angular.module("moBilling.controllers")
             claim.daily_details.splice(index, 1);
         };
 
+        // FIXME: move to ClaimEditDetailController
         $scope.isConsultTimeVisible = function (detail) {
             var code = detail.code || "";
 
