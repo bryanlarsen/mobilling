@@ -12,19 +12,25 @@ angular.module("moBilling.directives")
 
                 element.click(function (event) {
                     if (navigator.camera && navigator.camera.getPicture) {
-                        navigator.camera.getPicture(function (file) {
-                            scope.$parent[attributes.mbUpload] = file;
-                            scope.$parent.$apply();
-                            $timeout(unlock);
-                        }, function (error) {
-                            // add some error handling
-                            $timeout(unlock);
-                        }, {
-                            quality: 75,
-                            sourceType: 2,
-                            destinationType: 1 // Return image file URI
-                        });
-                        event.preventDefault();
+                        navigator.notification.confirm("Select source", function (index) {
+                            var sourceType = [undefined, 1, 0][index];
+
+                            if (sourceType !== undefined) {
+                                navigator.camera.getPicture(function (file) {
+                                    scope.$parent[attributes.mbUpload] = file;
+                                    scope.$parent.$apply();
+                                    $timeout(unlock);
+                                }, function (error) {
+                                    // add some error handling
+                                    $timeout(unlock);
+                                }, {
+                                    quality: 75,
+                                    sourceType: sourceType,
+                                    destinationType: 1 // Return image file URI
+                                });
+                                event.preventDefault();
+                            }
+                        }, "Select source", ["Take a photo", "Photo library", "Cancel"]);
                     }
                 });
 
