@@ -4,9 +4,9 @@
       <div class="panel-body">
         <div class="form-group row">
           <label class="control-label col-xs-12">Patient photo</label>
-          <div class="form-control-wrapper col-xs-12">
+          <a href="{{photo.url}}" class="form-control-wrapper col-xs-12" ng-if="photo" target="photo-preview" toggle>
             <img ng-src="{{photo.small_url}}" width="300" class="thumbnail">
-          </div>
+          </a>
         </div>
 
         <div class="form-group row">

@@ -8,9 +8,9 @@
 
         <div class="form-group row">
           <label for="photo-file" class="control-label col-xs-12">Patient photo</label>
-          <div class="form-control-wrapper col-xs-12" ng-if="photo">
+          <a href="{{photo.url}}" class="form-control-wrapper col-xs-12" ng-if="photo" target="photo-preview" toggle>
             <img ng-src="{{photo.small_url}}" width="300" class="thumbnail">
-          </div>
+          </a>
           <div class="form-control-wrapper col-xs-12">
             <span class="btn btn-primary btn-lg" disabled="disabled" ng-show="uploading">
               <i class="fa fa-spinner fa-spin"></i> Uploading…
