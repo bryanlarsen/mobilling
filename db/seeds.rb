@@ -81,12 +81,3 @@ ActiveRecord::Migration.say_with_time "schedule_master" do
     end
   end
 end
-
-ActiveRecord::Migration.say_with_time "create_statutory_holidays" do
-  StatutoryHoliday.destroy_all
-  statutory_holidays = open(Rails.root.join("db/seeds/statutory_holidays.txt")).readlines.map do |line|
-    {day: Date.strptime(line)}
-  end
-  StatutoryHoliday.create(statutory_holidays)
-end
-
