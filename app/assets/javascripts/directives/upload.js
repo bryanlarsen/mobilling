@@ -12,7 +12,9 @@ angular.module("moBilling.directives")
 
                 element.click(function (event) {
                     if (navigator.camera && navigator.camera.getPicture) {
-                        navigator.notification.confirm("Select source", function (index) {
+                        event.preventDefault();
+
+                        navigator.notification.confirm("Would you like to take a new photo or choose an existing one from the library?", function (index) {
                             var sourceType = [undefined, 1, 0][index];
 
                             if (sourceType !== undefined) {
@@ -28,7 +30,6 @@ angular.module("moBilling.directives")
                                     sourceType: sourceType,
                                     destinationType: 1 // Return image file URI
                                 });
-                                event.preventDefault();
                             }
                         }, "Select source", ["Take a photo", "Photo library", "Cancel"]);
                     }
