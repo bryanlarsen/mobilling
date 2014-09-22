@@ -27,7 +27,7 @@ class Submission < EdtFile
     num_records = 0
     claims.each do |claim|
       submission.contents += claim.to_record
-      num_records += claim.num_records
+      num_records += claim.details['daily_details'].length
     end
 
     tr = BatchTrailerRecord.new

@@ -30,7 +30,7 @@
         </div>
 
         <div ng-repeat="dailyDetail in claim.daily_details | unique : 'day'">
-          <ng-form name="detailForm" ng-repeat="detail in claim.daily_details | filter : { day: dailyDetail.day }">
+          <ng-form name="detailForm" ng-repeat="detail in claim.daily_details | filter : { day: dailyDetail.day }" ng-controller="ClaimEditDetailController">
             <div class="row">
               <ng-include src="'common/detail_form.html'"></ng-include>
 

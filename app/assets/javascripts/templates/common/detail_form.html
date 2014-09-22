@@ -3,6 +3,14 @@
   <div ng-messages="detailForm.day.$error" ng-show="(!dailyDetail || $first) && submitted">
     <p class="help-block" ng-message="required">is missing</p>
   </div>
+
+  <div ng-if="detail.fee">
+    Fee: {{ detail.fee / 100 | currency }}
+  </div>
+
+  <div ng-if="detail.units">
+    Units: {{ detail.units }}
+  </div>
 </div>
 
 <div class="col-xs-12 visible-xs" ng-show="(!dailyDetail || !detail.day || $first)">&nbsp;</div>

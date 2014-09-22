@@ -19,70 +19,10 @@ class Claim < ActiveRecord::Base
   belongs_to :remittance_advice
 #  belongs_to :reclaim, class_name: "Claim"
 
-  def self.fee_and_units(service_date, service_code, minutes, fee)
-    # adjust based on service_date if unit fee changes
-    if service_code.last == 'B'
-      unit_fee = BigDecimal.new(1204)/100
-      border1 = 60
-      border2 = 150
-    elsif service_code.last == 'C'
-      unit_fee = BigDecimal.new(1501)/100
-      border1 = 60
-      border2 = 90
-    end
-
-    if minutes && minutes>0 && service_code.last != 'A'
-      raise RuntimeError, 'non-integral base_fee: perhaps minutes should be 0' if fee % unit_fee != 0
-
-      units = ([minutes, border1].min / 15.0).ceil
-      if minutes > border1
-        units += ([minutes - border1, border2 - border1].min / 15.0).ceil*2
-      end
-      if minutes > border2
-        units += ((minutes - border2) / 15.0).ceil*3
-      end
-
-      raise RuntimeError, 'strange calculations' if fee % unit_fee != 0
-      units += (fee / unit_fee).to_i
-      fee = units * unit_fee
-    else
-      if service_code.last != 'A' && fee % unit_fee == 0
-        units = (fee / unit_fee).to_i
-      else
-        units = 1
-      end
-    end
-    [fee, units]
-  end
-
-  # note, if minutes is nil or 0, we assume no overtime
-  # probably not a good heuristic for 'A' codes
-  def self.overtime_rate_and_code(service_datetime, service_code, minutes)
-    return [0, nil] if service_code.last == 'A'
-    return [0, nil] unless minutes && minutes > 0
-
-    seconds = service_datetime.seconds_since_midnight
-
-    return [75, 'E401'+service_code.last] if seconds < 7*60*60
-
-    return [50, 'E400'+service_code.last] if seconds >= 17*60*60 ||
-      service_datetime.wday == 0 ||
-      service_datetime.wday == 6
-
-    date = service_datetime.to_date
-    holiday = StatutoryHoliday.find_by(day: date)
-
-    return [50, 'E400'+service_code.last] if holiday
-    return [0, nil]
-  end
-
   def details_records
-    @num_records = 0
     details['daily_details'].map do |dets|
       code = dets['code'][0..4].upcase
       code[4]='A' if !code[4] || !'ABC'.include?(code[4])
-      service_code = ServiceCode.find_by(code: code)
-      raise RuntimeError, code if !service_code
       day = Date.strptime(dets['day'])
       time_in = dets['time_in'] && dets['time_in'].match(/^\d{1,2}:\d{2}$/) &&  Time.strptime(dets['time_in'], "%H:%M")
       time_out = dets['time_out'] && dets['time_out'].match(/^\d{1,2}:\d{2}$/) &&  Time.strptime(dets['time_out'], "%H:%M")
@@ -93,34 +33,16 @@ class Claim < ActiveRecord::Base
       else
         minutes = 0
       end
-      fee, units = Claim.fee_and_units(day, code, minutes, service_code.fee)
 
       r = ItemRecord.new
       r['Service Code']=code
-      r['Fee Submitted']=fee*100
-      r['Number of Services']=units
+      r['Fee Submitted']=dets['fee']
+      r['Number of Services']=dets['units']
       r['Service Date']=day
       r['Diagnostic Code']=details['diagnosis'][-3..-1] if details['diagnosis']
 
-      overtime_rate, overtime_code = Claim.overtime_rate_and_code(day_with_time, code, minutes)
-      if overtime_code
-        @num_records += 2
-        r2=ItemRecord.new
-        r2['Service Code']=overtime_code
-        r2['Fee Submitted']=fee*overtime_rate
-        r2['Number of Services']=units
-        r2['Service Date']=day
-        r.to_s+r2.to_s
-      else
-        @num_records += 1
-        r.to_s
-      end
+      r.to_s
     end.join
-  end
-
-  def num_records
-    to_record unless @num_records
-    @num_records
   end
 
   # current assumptions:
@@ -233,6 +155,8 @@ class Claim < ActiveRecord::Base
     details_will_change!
     details['daily_details'] << {
       "code" => record['Service Code'],
+      "fee" => record['Fee Submitted'],
+      "units" => record['Number of Services'],
       "day" => record['Service Date'].strftime("%Y-%m-%d"),
     }
   end
@@ -263,10 +187,9 @@ class Claim < ActiveRecord::Base
   end
 
   def submitted_fee
-    submitted_details['daily_details']
-      .reduce(BigDecimal.new(0)) { |sum, dets|
-                sum += dets['Fee Submitted'] / BigDecimal.new(100)
-              }
+    submitted_details['daily_details'] .reduce(0) { |sum, dets|
+      sum += dets['Fee Submitted']
+    }
   end
 
   def remittance_details
@@ -277,7 +200,7 @@ class Claim < ActiveRecord::Base
   def paid_fee
     return 0 if remittance_details.nil?
     remittance_details['items'].reduce(0) { |memo, dets|
-      memo += dets['Amount Paid'] / BigDecimal.new(100)
+      memo += dets['Amount Paid']
     }
   end
 end

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     resources :hospitals, only: %i[index]
     resources :password_resets, only: %i[create]
     resources :photos, only: %i[show create]
-    resources :service_codes, only: %i[index]
+    resources :service_codes, only: %i[index show]
   end
 
   namespace :admin do
