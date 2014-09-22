@@ -25,6 +25,18 @@
         <i class="fa fa-plus"></i> New
       </div>
     </a>
+
+    <a href="javascript:;" class="btn-group pull-right" ng-click="reorder('-number')" ng-if="orderBy === 'number'">
+      <div class="btn btn-navbar">
+        <i class="fa fa-sort-numeric-desc"></i> Reverse
+      </div>
+    </a>
+
+    <a href="javascript:;" class="btn-group pull-right" ng-click="reorder('number')" ng-if="orderBy === '-number'">
+      <div class="btn btn-navbar">
+        <i class="fa fa-sort-numeric-asc"></i> Reverse
+      </div>
+    </a>
   </div>
 
   <div class="app-body">
@@ -35,7 +47,7 @@
             <div class="list-group-item text-center" ng-if="claims.length === 0">
               <span class="text-muted">no {{step}} claims</span>
             </div>
-            <a href="javascript:;" class="list-group-item clearfix" ng-repeat="claim in claims | orderBy : ['number', 'created_at']" ng-click="edit(claim)" hm-hold="removeConfirm(claim)">
+            <a href="javascript:;" class="list-group-item clearfix" ng-repeat="claim in claims | orderBy : orderBy" ng-click="edit(claim)" hm-hold="removeConfirm(claim)">
               <div class="pull-left truncate" style="width: 90%;">
                 Claim
                 <span ng-if="claim.number">No. {{claim.number}}</span>

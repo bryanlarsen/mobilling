@@ -261,4 +261,20 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.not_see?("Service Code 6")
     assert @doctor.not_see?("Service Code 7")
   end
+
+  test "doctor can reverse a list of claims" do
+    @doctor.add_claim(patient_name: "Alice")
+    @doctor.click_on("Submit")
+    @doctor.add_claim(patient_name: "Bob")
+    @doctor.click_on("Submit")
+    assert @doctor.see?("Alice")
+    assert @doctor.see?("Bob")
+    claims = @doctor.all(".app-body .list-group-item").map(&:text)
+    assert_match(/Alice/, claims.first)
+    assert_match(/Bob/, claims.last)
+    @doctor.click_on("Reverse")
+    claims = @doctor.all(".app-body .list-group-item").map(&:text)
+    assert_match(/Bob/, claims.first)
+    assert_match(/Alice/, claims.last)
+  end
 end

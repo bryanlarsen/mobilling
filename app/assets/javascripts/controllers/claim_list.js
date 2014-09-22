@@ -13,6 +13,10 @@ angular.module("moBilling.controllers")
         });
         // KCAH
 
+        $scope.reorder = function (orderBy) {
+            $scope.orderBy = orderBy;
+        };
+
         $scope.isActiveStep = function (step) {
             return $scope.step === step;
         };
@@ -47,6 +51,7 @@ angular.module("moBilling.controllers")
         };
 
         $scope.initialize = function () {
+            $scope.orderBy = "number";
             $scope.step = $location.hash();
 
             if (!$scope.step || !/^(saved|submitted|rejected|paid)$/.test($scope.step)) {
