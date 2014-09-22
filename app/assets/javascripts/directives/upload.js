@@ -20,6 +20,8 @@ angular.module("moBilling.directives")
                             // add some error handling
                             $timeout(unlock);
                         }, {
+                            quality: 75,
+                            sourceType: 0,
                             destinationType: 1 // Return image file URI
                         });
                         event.preventDefault();
