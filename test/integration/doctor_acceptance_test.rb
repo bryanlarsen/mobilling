@@ -87,13 +87,24 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.fill_in("code", with: "C130A")
     assert @doctor.see?("Consult time in")
     assert @doctor.see?("Consult time out")
-  end
 
-  test "has no 'Consult time in' and 'Consult time out' pickers on 'Details' page for other codes"do
-    @doctor.click_on("New")
-    @doctor.click_on("Details")
-    @doctor.click_on("Add a new day")
+    @doctor.fill_in("code", with: "C130A with autofilled explanatory text")
+    assert @doctor.see?("Consult time in")
+    assert @doctor.see?("Consult time out")
+
+    @doctor.fill_in("code", with: "C130 assumes A specialty when not specified")
+    assert @doctor.see?("Consult time in")
+    assert @doctor.see?("Consult time out")
+
     @doctor.fill_in("code", with: "C132A")
+    assert @doctor.not_see?("Consult time in")
+    assert @doctor.not_see?("Consult time out")
+
+    @doctor.fill_in("code", with: "c130a")
+    assert @doctor.see?("Consult time in")
+    assert @doctor.see?("Consult time out")
+
+    @doctor.fill_in("code", with: "C132A not valid when C130A is billed")
     assert @doctor.not_see?("Consult time in")
     assert @doctor.not_see?("Consult time out")
   end
