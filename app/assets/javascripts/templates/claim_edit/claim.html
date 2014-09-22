@@ -6,7 +6,7 @@
           Please provide required claim information below before submitting.
         </div>
 
-        <div class="form-group row" ng-class="{'has-error': (claimForm.photo_id.$dirty || submitted) && claimForm.photo_id.$invalid}">
+        <div class="form-group row">
           <label for="photo-file" class="control-label col-xs-12">Patient photo</label>
           <div class="form-control-wrapper col-xs-12" ng-if="photo">
             <img ng-src="{{photo.small_url}}" width="300" class="thumbnail">
@@ -19,10 +19,6 @@
               <i class="fa fa-camera"></i> Upload
               <input type="file" mb-upload="file" id="photo-file" accept="image/*;capture=camera">
             </span>
-            <input type="hidden" name="photo_id" ng-model="claim.photo_id" required>
-            <div ng-messages="claimForm.photo_id.$error" ng-show="submitted">
-              <p class="help-block" ng-message="required">is missing</p>
-            </div>
           </div>
         </div>
 

@@ -141,7 +141,9 @@ module Test
       click_on("New")
 
       # claim details
-      attach_file("Patient photo", Rails.root.join("test", "fixtures", claim_attributes[:photo]), visible: false)
+      unless claim_attributes[:photo].nil?
+        attach_file("Patient photo", Rails.root.join("test", "fixtures", claim_attributes[:photo]), visible: false)
+      end
       fill_in("Patient name", with: claim_attributes[:patient_name])
       fill_in("Hospital", with: claim_attributes[:hospital])
       fill_in("Referring physician", with: claim_attributes[:referring_physician])

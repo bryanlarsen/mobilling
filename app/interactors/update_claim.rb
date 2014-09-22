@@ -22,7 +22,7 @@ class UpdateClaim
   validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, allow_nil: true
   validates :consult_premium_visit, inclusion: {in: Claim::CONSULT_PREMIUM_VISITS}, allow_nil: true
   validates :consult_time_in, :consult_time_out, time: true, format: {with: /\A\d{2}:\d{2}\Z/, type: {is_a: String}}, allow_nil: true
-  validates :photo_id, :patient_name, :hospital, :diagnoses, presence: true, if: :submitted?
+  validates :patient_name, :hospital, :diagnoses, presence: true, if: :submitted?
   validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { submitted? and not simplified? }
   validates :procedure_on, presence: true, if: -> { submitted? and simplified? }
   validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false]}, if: -> { submitted? and not simplified? }

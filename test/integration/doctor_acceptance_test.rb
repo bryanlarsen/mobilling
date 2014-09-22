@@ -18,6 +18,12 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Alice")
   end
 
+  test "can submit claim without photo" do
+    @doctor.add_claim(patient_name: "Alice", photo: nil)
+    @doctor.click_on("Submit")
+    assert @doctor.see?("Alice")
+  end
+
   test "can submit anesthesiologist claim" do
     @doctor.update!(specialties: ["anesthesiologist"])
     @doctor.sign_in
