@@ -2,7 +2,7 @@
   <div class="scrollable-content section">
     <div class="panel" id="details">
       <div class="panel-body">
-        <div class="alert alert-danger" ng-show="submitted && detailsForm.$invalid">
+        <div class="alert alert-danger" ng-show="submitted && claim.status === 'unprocessed' && claimForm.$invalid">
           Please provide required details information or remove missing details below before submitting.
         </div>
 

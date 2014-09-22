@@ -15,6 +15,8 @@
         $scope.initialize = function () {
             $scope.claim = claim;
             $scope.claims = claims;
+            $scope.submitted = false;
+            $scope.submitting = false;
 
             $scope.hospitals = {
                 displayKey: "name",
@@ -70,6 +72,24 @@
                 $scope.setActiveStep("claim");
             }
         };
+
+        $scope.$on("submitting", function () {
+            $scope.submitted = true;
+            $scope.submitting = true;
+        });
+
+        $scope.$on("submitted", function () {
+            $scope.submitted = true;
+            $scope.submitting = false;
+        });
+
+        $scope.$on("uploading", function () {
+            $scope.uploading = true;
+        });
+
+        $scope.$on("uploaded", function () {
+            $scope.uploading = false;
+        });
 
         $scope.isSimplifiedTemplate = function () {
             return ["surgical_assist", "psychotherapist", "anesthesiologist"].indexOf(claim.specialty) !== -1;
@@ -140,11 +160,11 @@
         $scope.cancel = back;
 
         function error() {
-            $scope.submitting = false;
+            $scope.$emit("submitted");
         }
 
         $scope.save = function () {
-            $scope.submitting = true;
+            $scope.$emit("submitting");
             Claim.save(claim, back, error);
         };
 
@@ -165,7 +185,7 @@
         $scope.submit = function () {
             $scope.submitted = true;
             if ($scope.form.$valid) {
-                $scope.submitting = true;
+                $scope.$emit("submitting");
                 claim.status = "unprocessed";
                 Claim.save(claim, back, error);
             } else {

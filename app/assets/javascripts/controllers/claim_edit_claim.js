@@ -52,17 +52,17 @@ angular.module("moBilling.controllers")
         };
 
         function success(data) {
-            $scope.uploading = false;
+            $scope.$emit("uploaded");
             claim.photo_id = data.id;
         }
 
         function error() {
-            $scope.uploading = false;
+            $scope.$emit("uploaded");
         }
 
         $scope.$watch("file", function (file) {
             if (file) {
-                $scope.uploading = true;
+                $scope.$emit("uploading");
                 Photo.upload(file).then(success, error);
             }
         });
