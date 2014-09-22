@@ -21,7 +21,7 @@ angular.module("moBilling.directives")
                             $timeout(unlock);
                         }, {
                             quality: 75,
-                            sourceType: 0,
+                            sourceType: 2,
                             destinationType: 1 // Return image file URI
                         });
                         event.preventDefault();
