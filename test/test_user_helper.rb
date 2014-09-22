@@ -201,7 +201,11 @@ module Test
 
       # details
       click_on("Details")
-      click_on("Generate codes") if claim_attributes[:autogenerate]
+      if claim_attributes[:autogenerate]
+        assert_selector(:button, "Generate codes")
+        # has_button?("Generate codes")
+        click_on("Generate codes")
+      end
       claim_attributes[:daily_details].each do |daily_detail|
         click_on("Add a new day") unless claim_attributes[:procedure_on]
         pick_a_date(all("input[name=day]").last, daily_detail[:day])
