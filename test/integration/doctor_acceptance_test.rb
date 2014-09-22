@@ -277,4 +277,11 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert_match(/Bob/, claims.first)
     assert_match(/Alice/, claims.last)
   end
+
+  test "hospital defaults to last chosen one" do
+    @doctor.add_claim(patient_name: "Alice", hospital: "General Hospital")
+    @doctor.click_on("Submit")
+    @doctor.click_on("New")
+    assert_equal "General Hospital", @doctor.find_field("Hospital").value
+  end
 end

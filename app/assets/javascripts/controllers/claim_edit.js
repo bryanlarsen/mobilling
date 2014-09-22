@@ -64,6 +64,17 @@
                 claim.most_responsible_physician = true;
             }
 
+
+            if (!claim.hospital) {
+                var last = claims.filter(function (claim) {
+                    return claim.hospital;
+                }).reverse()[0];
+
+                if (last) {
+                    claim.hospital = last.hospital;
+                }
+            }
+
             claim.daily_details || (claim.daily_details = []);
 
             $scope.step = $location.hash();
