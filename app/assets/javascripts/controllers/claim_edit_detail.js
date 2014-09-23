@@ -15,7 +15,7 @@ angular.module("moBilling.controllers")
                 if (code) code[0] = code[0]+'A';
             }
             if (code) {
-                if (code[0] !== $scope.service_code.code) {
+                if ($scope.service_code && code[0] !== $scope.service_code.code) {
                     var promise = ServiceCode.find(code[0]).then(function (service_code) {
                         $scope.service_code = service_code;
                     });
