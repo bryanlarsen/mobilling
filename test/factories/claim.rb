@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :claim do
     association :user
     status :saved
-    number 1
+    sequence(:number)
 
     ignore do
     	patient_name 'Ruby Larsen, ON 9876543217, 2011-9-19, F'
