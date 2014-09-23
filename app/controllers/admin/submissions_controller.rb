@@ -30,7 +30,7 @@ class Admin::SubmissionsController < Admin::BaseController
       return redirect_to "#{admin_user_submissions_path(user_id: @user)}"
     end
 
-    @submission = ::Submission.new(user: @user, claims: @claims, contents: @interactor.contents)
+    @submission = ::Submission.new(@interactor.attributes)
     @submission.generate_filename('H', @user, @interactor.provider, @interactor.timestamp)
     @submission.save!
     redirect_to "#{admin_user_submission_path(id: @submission, user_id: @user)}/#{@submission.filename}"

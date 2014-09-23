@@ -1,5 +1,5 @@
 class GenerateSubmission
-  attr_reader :contents, :errors, :timestamp, :provider
+  attr_reader :contents, :errors, :timestamp, :provider, :batch_id
 
   # current assumptions:
   # patient_name must be of form "First Last, ON 9876543217XX, 2001-12-25, M"
@@ -120,6 +120,8 @@ class GenerateSubmission
 
   def perform(user, claims, timestamp=nil)
     # assumptions: FIXME
+    @user = user
+    @claims = claims
     @provider = 18468
     group_number = '0000'
     office_code = 'D'
@@ -136,7 +138,7 @@ class GenerateSubmission
     r['Specialty']=specialty
     @contents += r.to_s
     @errors += r.errors
-    batch_id = @contents[7..18]
+    @batch_id = @contents[7..18]
 
     num_records = 0
     claims.each do |claim|
@@ -149,6 +151,15 @@ class GenerateSubmission
     tr.set_field!('T Count', num_records)
     @contents += tr.to_s
     @errors += tr.errors
+  end
+
+  def attributes
+    {
+      user: @user,
+      claims: @claims,
+      contents: @contents,
+      batch_id: @batch_id
+    }
   end
 
 end

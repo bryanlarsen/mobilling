@@ -26,7 +26,7 @@ class GenerateSubmission::SubmissionTest < ActiveSupport::TestCase
 HEBV03D201408100000000000000001846800                                          \r
 HEE0000000000000                                                               \r
 EOS
-#    assert s.submitted_fee == 0
+    assert @interactor.batch_id == '201408100000'
   end
 
   test 'c-section assist' do
@@ -36,7 +36,6 @@ HEH9876543217HO1914122599999999HCPP      1681                                  \
 HETP018B  0168561420140811                                                     \r
 HEE0001000000001                                                               \r
 EOS
-#    assert s.submitted_fee == 16856
   end
 
   test 'with overtime' do
