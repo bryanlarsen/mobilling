@@ -4,8 +4,6 @@ angular.module("moBilling.controllers")
         var detail = $scope.detail;
 
         $scope.service_code = { code: '' };
-        $scope.fee = 0;
-        $scope.units = 0;
 
         $scope.$watch("detail.code", function (value) {
             if (typeof value !== 'string') {
