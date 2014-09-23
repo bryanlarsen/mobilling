@@ -12,11 +12,11 @@ end
 
 class InvalidValue < StandardError
   def initialize(value)
-    @value
+    @value = value
   end
 
   def to_s
-    'Cannot have value '+@value
+    "Cannot have value #{@value}"
   end
 end
 
@@ -202,7 +202,7 @@ class Record
     self.class.field_definitions.each {|k, field|
       @fields[k] = field.parse(record)
       if field.spec[:value] && @fields[k] != field.spec[:value]
-        @errors << [k, InvalidValue(record[field.start-1, field.length])]
+        raise InvalidValue, record[field.start-1, field.length]
       end
     }
     self
@@ -234,7 +234,7 @@ class Record
       if @@record_types.include?(record[0..2])
         @@record_types[record[0..2]].new.parse(record)
       else
-        Record.new(['Record Type', InvalidValue.new(record[0..2])])
+        raise InvalidValue, record[0..2]
       end
     }
   end
@@ -242,7 +242,6 @@ class Record
   def display?(field)
     self.class.field_definitions[field].display
   end
-      
 end
 
 class BatchHeaderRecord < Record
