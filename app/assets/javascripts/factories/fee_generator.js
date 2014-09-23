@@ -2,7 +2,7 @@ angular.module("moBilling.factories")
 
     .factory("feeGenerator", function () {
         var inMinutes = function(time) {
-            return parseInt(time.slice(0,2))*60+parseInt(time.slice(3));
+            return parseInt(time.slice(0,2), 10) * 60 + parseInt(time.slice(3), 10);
         };
 
         var overtimeRate = function(service_code) {
