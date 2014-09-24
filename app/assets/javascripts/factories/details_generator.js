@@ -188,13 +188,6 @@ angular.module("moBilling.factories")
                         // admission premium
                         details.push({ day: day, code: "E082A" });
                     }
-                } else if (day === last && discharge) {
-                    if (mrp) {
-                        details.push({ day: day, code: "C124A" });
-                        details.push({ day: day, code: "E083A" });
-                    } else {
-                        details.push({ day: day, code: concurrentCode(specialty) });
-                    }
                 } else if (daysAfterFirstSeen === 0 && icu) {
                     details.push({ day: day, code: "C142A" });
                     details.push({ day: day, code: "E083A" });
@@ -211,6 +204,13 @@ angular.module("moBilling.factories")
                 } else if (daysAfterAdmission === 2) {
                     if (mrp) {
                         details.push({ day: day, code: "C123A" });
+                        details.push({ day: day, code: "E083A" });
+                    } else {
+                        details.push({ day: day, code: concurrentCode(specialty) });
+                    }
+                } else if (day === last && discharge) {
+                    if (mrp) {
+                        details.push({ day: day, code: "C124A" });
                         details.push({ day: day, code: "E083A" });
                     } else {
                         details.push({ day: day, code: concurrentCode(specialty) });
