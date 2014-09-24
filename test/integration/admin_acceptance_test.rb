@@ -50,4 +50,14 @@ class AdminTest < ActionDispatch::IntegrationTest
     @admin.click_on("Create")
     assert @admin.see?("Bob")
   end
+
+  test "admin can see multiple diagnoses" do
+    create(:claim, details: {"patient_name" => "Alice", "diagnoses" => [{"name" => "First diagnosis"}, {"name" => "Second diagnosis"}]})
+    @admin.navigate_to("Claims")
+    @admin.within("tr", text: "Alice") do
+      @admin.click_on("Edit")
+    end
+    @admin.see?("First diagnosis")
+    @admin.see?("Second diagnosis")
+  end
 end

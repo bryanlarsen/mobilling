@@ -47,10 +47,12 @@
         </div>
       <% end %>
 
-      <%= form.group :diagnosis do %>
-        <label class="control-label col-md-2">Diagnosis</label>
+      <%= form.group :diagnoses do %>
+        <label class="control-label col-md-2">Diagnoses</label>
         <div class="col-md-10">
-          <p class="form-control-static"><%= @interactor.claim.details["diagnosis"] %></p>
+          <% @interactor.claim.details.fetch("diagnoses", []).each do |diagnosis| %>
+            <p class="form-control-static"><%= diagnosis["name"] %></p>
+          <% end %>
         </div>
       <% end %>
 
