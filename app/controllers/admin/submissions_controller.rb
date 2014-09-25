@@ -31,7 +31,7 @@ class Admin::SubmissionsController < Admin::BaseController
     end
 
     @submission = ::Submission.new(@interactor.attributes)
-    @submission.generate_filename('H', @user, @interactor.provider, @interactor.timestamp)
+    @submission.generate_filename('H', @user, @interactor.timestamp)
     @submission.save!
     redirect_to "#{admin_user_submission_path(id: @submission, user_id: @user)}/#{@submission.filename}"
   end

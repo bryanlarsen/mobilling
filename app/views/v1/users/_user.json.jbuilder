@@ -5,3 +5,7 @@ json.authentication_token user.authentication_token
 json.agent_id             user.agent_id
 json.specialties          user.specialties
 json.pin                  user.pin
+json.provider_number      user.provider_number
+json.group_number         user.group_number
+json.office_code          user.office_code
+json.specialty_code       user.specialty_code

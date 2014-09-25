@@ -15,8 +15,8 @@ class EdtFile < ActiveRecord::Base
     self.sequence_number = seq.to_i
   end
 
-  def generate_filename(char, user, provider, timestamp)
-    self.filename_base = timestamp.year.to_s+'/'+char+(timestamp.month+"A".ord-1).chr+("%06i" % provider)
+  def generate_filename(char, user, timestamp)
+    self.filename_base = timestamp.year.to_s+'/'+char+(timestamp.month+"A".ord-1).chr+("%06i" % user.provider_number)
     self.sequence_number = EdtFile.where(user_id: user.id, filename_base: filename_base).count+1
   end
 

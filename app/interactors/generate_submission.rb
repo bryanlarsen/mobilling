@@ -119,23 +119,18 @@ class GenerateSubmission
   end
 
   def perform(user, claims, timestamp=nil)
-    # assumptions: FIXME
     @user = user
     @claims = claims
-    @provider = 18468
-    group_number = '0000'
-    office_code = 'D'
-    specialty = 0
 
     @timestamp = timestamp || DateTime.now
 
     r=BatchHeaderRecord.new
     r['Batch Creation Date']=@timestamp.to_date
     r['Batch Identification Number']=@timestamp.strftime("%H%M")
-    r['Group Number']=group_number
-    r['Health Care Provider']=@provider
-    r['MOH Office Code']=office_code
-    r['Specialty']=specialty
+    r['Group Number']=@user.group_number
+    r['Health Care Provider']=@user.provider_number
+    r['MOH Office Code']=@user.office_code
+    r['Specialty']=@user.specialty_code
     @contents += r.to_s
     @errors += r.errors
     @batch_id = @contents[7..18]

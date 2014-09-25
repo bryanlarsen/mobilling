@@ -1,7 +1,7 @@
 class UpdateUser
   include ActiveModel::Model
 
-  attr_accessor :email, :name, :agent_id, :password, :pin
+  attr_accessor :email, :name, :agent_id, :password, :pin, :provider_number, :group_number, :office_code, :specialty_code
   attr_reader :user, :specialties
 
   validates :email, presence: true, email: true
@@ -9,6 +9,10 @@ class UpdateUser
   validates :name, presence: true
   validates :specialties, presence: true
   validates :pin, format: {with: /\A\d{4}?\Z/}
+  validates :provider_number, numericality: {only_integer: true}, allow_blank: true
+  validates :group_number, length: {maximum: 4, minimum: 4}, allow_blank: true
+  validates :office_code, length: {maximum: 1}, allow_blank: true
+  validates :specialty_code, numericality: {only_integer: true}, allow_blank: true
   validate :existence
 
   def initialize(user, attributes = nil)
@@ -18,6 +22,10 @@ class UpdateUser
     self.agent_id    = @user.agent_id
     self.pin         = @user.pin
     self.specialties = @user.specialties
+    self.group_number= @user.group_number
+    self.office_code = @user.office_code
+    self.specialty_code = @user.specialty_code
+    self.provider_number  = @user.provider_number
     super(attributes)
   end
 
@@ -43,7 +51,11 @@ class UpdateUser
       password: password.to_s,
       agent_id: agent_id,
       specialties: specialties,
-      pin: pin
+      pin: pin,
+      provider_number: provider_number,
+      group_number: group_number,
+      office_code: office_code,
+      specialty_code: specialty_code,
     }
   end
 

@@ -3,7 +3,7 @@ require "test_helper"
 class GenerateSubmission::SubmissionTest < ActiveSupport::TestCase
   setup do
     @interactor = GenerateSubmission.new
-    @user = create(:user)
+    @user = create(:user, provider_number: 18469, group_number: '2468', office_code: 'Q', specialty_code: 99)
 
     @claim_details = {
       user: @user,
@@ -23,7 +23,7 @@ class GenerateSubmission::SubmissionTest < ActiveSupport::TestCase
 
   test 'empty' do
     check [], <<EOS
-HEBV03D201408100000000000000001846800                                          \r
+HEBV03Q201408100000000000246801846999                                          \r
 HEE0000000000000                                                               \r
 EOS
     assert @interactor.batch_id == '201408100000'
@@ -31,7 +31,7 @@ EOS
 
   test 'c-section assist' do
     check [build(:claim, @claim_details)], <<EOS
-HEBV03D201408100000000000000001846800                                          \r
+HEBV03Q201408100000000000246801846999                                          \r
 HEH9876543217HO1914122599999999HCPP      1681                                  \r
 HETP018B  0168561420140811                                                     \r
 HEE0001000000001                                                               \r
@@ -48,7 +48,7 @@ EOS
     dets[:daily_details][1][:fee] = 12642
     dets[:daily_details] << {code: 'C999B late call-in', day: '2014-8-10', fee: 10000, units: 1}
     check [build(:claim, dets)], <<EOS
-HEBV03D201408100000000000000001846800                                          \r
+HEBV03Q201408100000000000246801846999                                          \r
 HEH9876543217HO1914122599999999HCPP      1681                                  \r
 HETP018B  0168561420140810                                                     \r
 HETE401B  0126421420140810                                                     \r

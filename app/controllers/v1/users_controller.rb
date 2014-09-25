@@ -1,6 +1,6 @@
 class V1::UsersController < V1::BaseController
   skip_before_action :require_user, only: %i[create]
-  wrap_parameters :user, include: [:name, :email, :password, :agent_id, :pin, :specialties], format: :json
+  wrap_parameters :user, include: [:name, :email, :password, :agent_id, :pin, :specialties, :provider_number, :group_number, :office_code, :specialty_code], format: :json
   resource_description { resource_id "users" }
 
   api :GET, "/v1/user", "Returns the current user"
@@ -16,6 +16,10 @@ class V1::UsersController < V1::BaseController
     param :agent_id, String, desc: "Agent ID", required: true
     param :specialties, Array, desc: "Specialties", required: true
     param :password, String, desc: "Password", required: true
+    param :provider_number, Integer, desc: "OHIP Provider Number"
+    param :group_number, String, desc: "OHIP Group Code"
+    param :office_code, Integer, desc: "MOH Office Code"
+    param :specialty_code, Integer, desc: "OHIP Specialty Code"
   end
 
   def create
@@ -32,6 +36,10 @@ class V1::UsersController < V1::BaseController
     param :specialties, Array, desc: "Specialties", required: true
     param :password, String, desc: "Password"
     param :pin, String, desc: "PIN"
+    param :provider_number, Integer, desc: "OHIP Provider Number"
+    param :group_number, String, desc: "OHIP Group Number"
+    param :office_code, Integer, desc: "MOH Office COde"
+    param :specialty_code, Integer, desc: "OHIP Specialty Code"
   end
 
   def update
@@ -44,10 +52,10 @@ class V1::UsersController < V1::BaseController
   private
 
   def create_user_params
-    params.require(:user).permit(:name, :email, :password, :agent_id, specialties: [])
+    params.require(:user).permit(:name, :email, :password, :agent_id, :provider_number, :group_number, :office_code, :specialty_code, specialties: [])
   end
 
   def update_user_params
-    params.require(:user).permit(:name, :email, :password, :agent_id, :pin, specialties: [])
+    params.require(:user).permit(:name, :email, :password, :agent_id, :provider_number, :group_number, :office_code, :specialty_code, :pin, specialties: [])
   end
 end

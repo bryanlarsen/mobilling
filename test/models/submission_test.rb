@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SubmissionTest < ActiveSupport::TestCase
   setup do
-    @user = create(:user)
+    @user = create(:user, provider_number: 18469)
   end
 
   test 'saving' do
@@ -84,15 +84,15 @@ EOS
     interactor.perform(@user, [build(:claim, daily_details: [{code: 'P018A', day: '2014-8-11', fee: 500, units: 1},]
  )], DateTime.new(2014,8,10))
     s = Submission.new(interactor.attributes)
-    s.generate_filename('H', @user, 18468, Date.new(2014,8,10))
-    assert s.filename == 'HH018468.001', s.filename
+    s.generate_filename('H', @user, Date.new(2014,8,10))
+    assert s.filename == 'HH018469.001', s.filename
     assert s.batch_id == '201408100000'
     s.save!
     assert s.submitted_fee == 500
 
     s2 = Submission.new(interactor.attributes)
-    s2.generate_filename('H', @user, 18468, Date.new(2014,8,10))
-    assert s2.filename == 'HH018468.002', s2.filename
+    s2.generate_filename('H', @user, Date.new(2014,8,10))
+    assert s2.filename == 'HH018469.002', s2.filename
   end
 
 end
