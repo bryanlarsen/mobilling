@@ -2,6 +2,10 @@ class BatchAcknowledgment < EdtFile
   belongs_to :parent, :class_name => "Submission"
   has_many :claims
 
+  def filename_character
+    'H'
+  end
+
   def process!
     record = Record.process_batch(contents)[0]
     submission = Submission.find_by(user_id: user_id,

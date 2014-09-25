@@ -153,7 +153,9 @@ class GenerateSubmission
       user: @user,
       claims: @claims,
       contents: @contents,
-      batch_id: @batch_id
+      batch_id: @batch_id,
+      timestamp: @timestamp,
+      provider_number: @user.provider_number
     }
   end
 

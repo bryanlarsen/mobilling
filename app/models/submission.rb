@@ -3,6 +3,10 @@ require "#{Rails.root}/lib/record_builder.rb"
 class Submission < EdtFile
   has_many :claims, inverse_of: :submission
 
+  def filename_character
+    'H'
+  end
+
   def claim_records(claim)
     records = []
     in_claim = false

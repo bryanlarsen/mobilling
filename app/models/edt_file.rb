@@ -15,9 +15,25 @@ class EdtFile < ActiveRecord::Base
     self.sequence_number = seq.to_i
   end
 
-  def generate_filename(char, user, timestamp)
-    self.filename_base = timestamp.year.to_s+'/'+char+(timestamp.month+"A".ord-1).chr+("%06i" % user.provider_number)
+  def timestamp=(timestamp)
+    @timestamp = timestamp
+    possibly_generate_filename
+  end
+
+  def provider_number=(n)
+    @provider_number = n
+    possibly_generate_filename
+  end
+
+  def possibly_generate_filename
+    return unless @timestamp && @provider_number
+    return if self.sequence_number
+    self.filename_base = @timestamp.year.to_s+'/'+filename_character+(@timestamp.month+"A".ord-1).chr+("%06i" % @provider_number)
     self.sequence_number = EdtFile.where(user_id: user.id, filename_base: filename_base).count+1
+  end
+
+  def filename_character
+    raise StandardError.new, "pure virtual method called"
   end
 
   def self.new_child(params)

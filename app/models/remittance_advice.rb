@@ -2,6 +2,10 @@ class RemittanceAdvice < EdtFile
   validate :memo
   has_many :claims, inverse_of: :remittance_advice
 
+  def filename_character
+    'P'
+  end
+
   def memo
     return if @memo && @memo == contents
     @memo = contents
