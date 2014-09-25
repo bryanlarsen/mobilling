@@ -145,7 +145,7 @@
                   MOH Office Code
                 </label>
                 <div class="form-control-wrapper col-xs-12">
-                  <input type="text" name="office_code" ng-model="user.office_code" class="form-control input-lg" id="user-office-code" mb-server>
+                  <select name="office_code" ng-model="user.office_code" class="form-control input-lg" id="user-office-code" mb-server ng-options="office.code as office.name for office in office_codes"></select>
                   <div ng-messages="form.office_code.$error" ng-show="submitted">
                     <p class="help-block" ng-message="server">{{errors.office_code[0]}}</p>
                   </div>
@@ -157,7 +157,7 @@
                   OHIP Specialty Code
                 </label>
                 <div class="form-control-wrapper col-xs-12">
-                  <input type="text" name="specialty_code" ng-model="user.specialty_code" class="form-control input-lg" id="user-specialty-code" mb-server>
+                  <select name="specialty_code" ng-model="user.specialty_code" class="form-control input-lg" id="user-specialty-code" mb-server ng-options="specialty.code as specialty.name for specialty in specialty_codes"></select>
                   <div ng-messages="form.specialty_code.$error" ng-show="submitted">
                     <p class="help-block" ng-message="server">{{errors.specialty_code[0]}}</p>
                   </div>
