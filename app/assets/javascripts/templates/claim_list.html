@@ -5,7 +5,7 @@
 <div class="app">
   <div class="navbar navbar-app navbar-absolute-top">
     <div class="navbar-brand navbar-brand-center">
-      <span>Claims</span>
+      <span class="hidden-xs">Claims</span>
     </div>
 
     <a href="javascript:;" class="btn-group pull-left">
@@ -25,6 +25,18 @@
         <i class="fa fa-plus"></i> New
       </div>
     </a>
+
+    <a href="javascript:;" class="btn-group pull-right" ng-click="reorder('-number')" ng-if="orderBy === 'number'">
+      <div class="btn btn-navbar">
+        <i class="fa fa-sort-numeric-desc"></i> Reverse
+      </div>
+    </a>
+
+    <a href="javascript:;" class="btn-group pull-right" ng-click="reorder('number')" ng-if="orderBy === '-number'">
+      <div class="btn btn-navbar">
+        <i class="fa fa-sort-numeric-asc"></i> Reverse
+      </div>
+    </a>
   </div>
 
   <div class="app-body">
@@ -35,16 +47,14 @@
             <div class="list-group-item text-center" ng-if="claims.length === 0">
               <span class="text-muted">no {{step}} claims</span>
             </div>
-            <a href="javascript:;" hm-tap="edit(claim)" class="list-group-item row" ng-repeat="claim in claims | orderBy : ['number', 'created_at']" hm-hold="removeConfirm(claim)">
-              <div class="col-xs-10 truncate">
+            <a href="javascript:;" class="list-group-item clearfix" ng-repeat="claim in claims | orderBy : orderBy" ng-click="edit(claim)" hm-hold="removeConfirm(claim)">
+              <div class="pull-left truncate" style="width: 90%;">
                 Claim
                 <span ng-if="claim.number">No. {{claim.number}}</span>
                 <span ng-if="claim.patient_name">of {{claim.patient_name}}</span>
                 created on {{claim.created_at | date:"yyyy-MM-dd"}}
               </div>
-              <div class="col-xs-2 text-right">
-                <i class="fa fa-chevron-right"></i>
-              </div>
+              <i class="fa fa-chevron-right pull-right"></i>
             </a>
           </div>
         </div>

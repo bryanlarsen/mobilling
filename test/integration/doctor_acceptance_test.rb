@@ -18,6 +18,12 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Alice")
   end
 
+  test "can submit claim without photo" do
+    @doctor.add_claim(patient_name: "Alice", photo: nil)
+    @doctor.click_on("Submit")
+    assert @doctor.see?("Alice")
+  end
+
   test "can submit anesthesiologist claim" do
     @doctor.update!(specialties: ["anesthesiologist"])
     @doctor.sign_in
@@ -254,5 +260,28 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Service Code 5")
     assert @doctor.not_see?("Service Code 6")
     assert @doctor.not_see?("Service Code 7")
+  end
+
+  test "doctor can reverse a list of claims" do
+    @doctor.add_claim(patient_name: "Alice")
+    @doctor.click_on("Submit")
+    @doctor.add_claim(patient_name: "Bob")
+    @doctor.click_on("Submit")
+    assert @doctor.see?("Alice")
+    assert @doctor.see?("Bob")
+    claims = @doctor.all(".app-body .list-group-item").map(&:text)
+    assert_match(/Alice/, claims.first)
+    assert_match(/Bob/, claims.last)
+    @doctor.click_on("Reverse")
+    claims = @doctor.all(".app-body .list-group-item").map(&:text)
+    assert_match(/Bob/, claims.first)
+    assert_match(/Alice/, claims.last)
+  end
+
+  test "hospital defaults to last chosen one" do
+    @doctor.add_claim(patient_name: "Alice", hospital: "General Hospital")
+    @doctor.click_on("Submit")
+    @doctor.click_on("New")
+    assert_equal "General Hospital", @doctor.find_field("Hospital").value
   end
 end

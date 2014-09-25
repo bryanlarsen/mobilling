@@ -4,7 +4,7 @@ angular.module("moBilling.controllers")
         var claim = $scope.claim;
 
         $scope.initialize = function () {
-            claim.first_seen_on_admission = (claim.admission_on === claim.first_seen_on);
+            claim.first_seen_on_admission = false;
         };
 
         $scope.$watchGroup(["claim.first_seen_on_admission", "claim.admission_on"], function () {
@@ -52,17 +52,17 @@ angular.module("moBilling.controllers")
         };
 
         function success(data) {
-            $scope.uploading = false;
+            $scope.$emit("uploaded");
             claim.photo_id = data.id;
         }
 
         function error() {
-            $scope.uploading = false;
+            $scope.$emit("uploaded");
         }
 
         $scope.$watch("file", function (file) {
             if (file) {
-                $scope.uploading = true;
+                $scope.$emit("uploading");
                 Photo.upload(file).then(success, error);
             }
         });

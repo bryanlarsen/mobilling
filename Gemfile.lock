@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/elabs/pundit.git
-  revision: d09f8aed7e46741012c5111fbbea011120650c32
+  revision: 2214acf66194b7f69ea108e8a811418ea1e899eb
   specs:
     pundit (0.3.0)
       activesupport (>= 3.0.0)
@@ -57,7 +57,7 @@ GEM
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
       slop (~> 3.6)
-    capybara (2.4.1)
+    capybara (2.4.3)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
@@ -90,7 +90,7 @@ GEM
     factory_girl_rails (4.4.1)
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
-    globalid (0.2.3)
+    globalid (0.3.0)
       activesupport (>= 4.1.0)
     hike (1.2.3)
     i18n (0.7.0.beta1)
@@ -110,16 +110,16 @@ GEM
       less (~> 2.5.0)
     letter_opener (1.2.0)
       launchy (~> 2.2)
-    libv8 (3.16.14.5)
+    libv8 (3.16.14.7)
     mail (2.6.1)
       mime-types (>= 1.16, < 3)
     mime-types (2.3)
-    mini_magick (3.8.0)
+    mini_magick (3.8.1)
       subexec (~> 0.2.1)
     mini_portile (0.6.0)
     minitest (5.4.1)
     multi_json (1.10.1)
-    ngannotate-rails (0.9.11)
+    ngannotate-rails (0.10.1)
       execjs
       rails (>= 3.1)
     nokogiri (1.6.3.1)
@@ -159,7 +159,7 @@ GEM
     ref (1.0.5)
     responders (2.0.0)
       railties (>= 4.2.0.alpha, < 5)
-    sass (3.4.0)
+    sass (3.4.5)
     sass-rails (5.0.0.beta1)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.2)

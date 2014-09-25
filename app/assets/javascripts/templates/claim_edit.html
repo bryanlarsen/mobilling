@@ -19,7 +19,13 @@
       </button>
     </div>
 
-    <div class="btn-group pull-right" ng-hide="submitting">
+    <div class="btn-group pull-right" ng-show="uploading">
+      <button type="button" class="btn btn-default" disabled="disabled" >
+        <span><i class="fa fa-spinner fa-spin"></i> Uploading…</span>
+      </button>
+    </div>
+
+    <div class="btn-group pull-right" ng-hide="submitting || uploading">
       <button type="button" class="btn btn-default" ng-click="save()">
         <i class="fa fa-save"></i> Save
       </button>
@@ -67,6 +73,10 @@
         <i class="fa fa-times"></i> Cancel
       </button>
     </p>
+  </div>
+
+  <div overlay="photo-preview" ng-controller="ClaimEditClaimController">
+    <img ng-src="{{photo.url}}" toggle="off" target="photo-preview">
   </div>
 
   <div class="navbar navbar-app navbar-absolute-bottom">

@@ -6,14 +6,14 @@ class GuestAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   test "can sign up" do
-    create(:admin_user, role: "agent", name: "Bob")
+    agent = create(:admin_user, role: "agent", name: "Bob")
     @guest.visit(root_path)
     @guest.click_on("Create account now")
     @guest.fill_in("Name", with: "Alice")
     @guest.fill_in("Email", with: "alice@example.com")
     @guest.fill_in("Password", with: "secret")
     @guest.fill_in("Confirm password", with: "secret")
-    @guest.select("Bob", from: "Billing Agent")
+    @guest.find_by_id("user-agent-id-#{agent.id}").click
     @guest.find_by_id("user-specialties-internal-medicine").click
     @guest.click_on("Create Account")
     assert @guest.see?("MENU")

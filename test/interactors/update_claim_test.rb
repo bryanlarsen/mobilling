@@ -63,12 +63,6 @@ class UpdateClaimTest < ActiveSupport::TestCase
     assert_invalid @interactor, :photo_id
   end
 
-  test "is invalid without photo_id when submitted" do
-    @interactor.status = "unprocessed"
-    @interactor.photo_id = nil
-    assert_invalid @interactor, :photo_id
-  end
-
   test "is invalid with invalid status" do
     @interactor.status = "invalid"
     assert_invalid @interactor, :status

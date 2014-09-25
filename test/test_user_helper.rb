@@ -141,7 +141,9 @@ module Test
       click_on("New")
 
       # claim details
-      attach_file("Patient photo", Rails.root.join("test", "fixtures", claim_attributes[:photo]), visible: false)
+      unless claim_attributes[:photo].nil?
+        attach_file("Patient photo", Rails.root.join("test", "fixtures", claim_attributes[:photo]), visible: false)
+      end
       fill_in("Patient name", with: claim_attributes[:patient_name])
       fill_in("Hospital", with: claim_attributes[:hospital])
       fill_in("Referring physician", with: claim_attributes[:referring_physician])
@@ -199,7 +201,11 @@ module Test
 
       # details
       click_on("Details")
-      click_on("Generate codes") if claim_attributes[:autogenerate]
+      if claim_attributes[:autogenerate]
+        assert_selector(:button, "Generate codes")
+        # has_button?("Generate codes")
+        click_on("Generate codes")
+      end
       claim_attributes[:daily_details].each do |daily_detail|
         click_on("Add a new day") unless claim_attributes[:procedure_on]
         pick_a_date(all("input[name=day]").last, daily_detail[:day])

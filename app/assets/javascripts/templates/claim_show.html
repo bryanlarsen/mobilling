@@ -14,6 +14,10 @@
     </div>
   </div>
 
+  <div overlay="photo-preview" ng-controller="ClaimEditClaimController">
+    <img ng-src="{{photo.url}}" toggle="off" target="photo-preview">
+  </div>
+
   <div class="navbar navbar-app navbar-absolute-bottom">
     <div class="btn-group justified nav-tabs">
       <a href="javascript:;" class="btn btn-default" ng-class="{'active': isActiveStep('claim')}" ng-click="setActiveStep('claim')">
