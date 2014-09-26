@@ -24,7 +24,7 @@ angular.module("moBilling.directives")
                 element.on("click", function () {
                     var picker = element.pickadate({
                         format: "yyyy-mm-dd",
-                        container: "body",
+                        container: ".app-body",
                         min: attributes.min === undefined ? false : attributes.min,
                         max: attributes.max === undefined ? false : attributes.max
                     }).pickadate("picker");
