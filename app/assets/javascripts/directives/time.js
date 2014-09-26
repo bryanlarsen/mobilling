@@ -27,26 +27,25 @@ angular.module("moBilling.directives")
                         format: "HH:i",
                         container: "body",
                         formatLabel: function (time) {
-                            var ref;
+                            var min, max;
 
                             if (attributes.min) {
-                                ref = this.get("min").pick;
-                            }
-
-                            if (attributes.max) {
-                                ref = this.get("max").pick;
-                            }
-
-                            if (ref !== undefined) {
-                                var hours = Math.abs(time.pick - ref) / 60;
-
-                                return  "HH:i <sm!all cl!ass='text-muted'>" + hours + "!h</sm!all>";
+                                min = this.parse(null, attributes.min);
+                                max = time.pick;
+                            } else if (attributes.max) {
+                                max = this.parse(null, attributes.max);
+                                min = time.pick;
                             } else {
                                 return "HH:i";
                             }
-                        },
-                        min: attributes.min === undefined ? false : attributes.min,
-                        max: attributes.max === undefined ? false : attributes.max
+
+                            var hours = (max - min) / 60;
+                            if (hours < 0) {
+                                hours = hours + 24;
+                            }
+
+                            return  "HH:i <sm!all cl!ass='text-muted'>" + hours + "!h</sm!all>";
+                        }
                     }).pickatime("picker");
 
                     picker.start();
