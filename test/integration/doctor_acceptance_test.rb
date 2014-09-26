@@ -81,7 +81,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.add_claim(consult_type: "comprehensive_er", consult_time_in: "22:00", consult_time_out: "00:45")
     @doctor.click_on("Submit")
     @doctor.click_on("Consult")
-    assert !@doctor.see?("Total time must be equal to or greater than 75 minutes.")
+    assert @doctor.not_see?("Total time must be equal to or greater than 75 minutes.")
   end
 
   test "has 'Consult time in' and 'Consult time out' pickers on 'Details' page for code A130A"do
