@@ -176,6 +176,17 @@ namespace :db do
           end
         end
 
+        # consult premium first
+
+        if consult_premium_visit.present? and old_claim.first_seen_date.present?
+          consult_premium_first = !user.claims
+            .where.not(id: new_claim.id)
+            .where("details->>'first_seen_on' = ?", old_claim.first_seen_date)
+            .where("details->>'consult_premium_visit' = ?", consult_premium_visit)
+            .where("details->>'consult_premium_first' = ?", "true")
+            .exists?
+        end
+
         # details
 
         daily_details = old_claim.details.map do |daily_detail|
@@ -218,7 +229,7 @@ namespace :db do
           "consult_time_in" => nil,
           "consult_time_out" => nil,
           "consult_premium_visit" => consult_premium_visit,
-          "consult_premium_first" => nil, # TODO
+          "consult_premium_first" => consult_premium_first,
           "consult_premium_travel" => old_claim.initial_consult_travel, # TODO
           "daily_details" => daily_details
         }
