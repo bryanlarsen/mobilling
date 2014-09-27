@@ -76,6 +76,13 @@
           <p class="form-control-static"><%= @interactor.claim.details["last_seen_on"] %></p>
         </div>
       <% end %>
+
+      <%= form.group :procedure_on do %>
+        <label class="control-label col-md-2">Procedure / Treatment Date</label>
+        <div class="col-md-10">
+          <p class="form-control-static"><%= @interactor.claim.details["procedure_on"] %></p>
+        </div>
+      <% end %>
     </fieldset>
 
     <fieldset>
