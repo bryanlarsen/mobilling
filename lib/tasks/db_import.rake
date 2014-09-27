@@ -2,6 +2,7 @@ namespace :db do
   namespace :import do
     task :medicalbilling => :environment do
       Holidays.load_all
+      OLD_HOST = "https://app.mo-billing.ca/"
 
       class MedicalBilling < ActiveRecord::Base
         self.abstract_class = true
@@ -187,6 +188,11 @@ namespace :db do
             .exists?
         end
 
+        # no field to fetch from, maybe there's a way to figure it out
+        most_responsible_physician = nil
+        icu_transfer = nil
+        first_seen_consult = nil
+
         # details
 
         daily_details = old_claim.details.map do |daily_detail|
@@ -217,20 +223,20 @@ namespace :db do
           "hospital" => old_claim.hospital,
           "referring_physician" => old_claim.referring_physician,
           "diagnoses" => [{name: old_claim.diagnosis}],
-          "most_responsible_physician" => nil, # TODO
+          "most_responsible_physician" => most_responsible_physician,
           "admission_on" => old_claim.admission_date,
           "first_seen_on" => old_claim.first_seen_date,
-          "first_seen_consult" => nil, # TODO
+          "first_seen_consult" => first_seen_consult,
           "last_seen_on" => old_claim.last_seen_date,
           "last_seen_discharge" => old_claim.is_last_seen_date_discharge,
-          "icu_transfer" => nil, # TODO
+          "icu_transfer" => icu_transfer,
           "procedure_on" => old_claim.procedure_date,
           "consult_type" => consult_type,
-          "consult_time_in" => nil,
-          "consult_time_out" => nil,
+          "consult_time_in" => nil, # no field to fetch from
+          "consult_time_out" => nil, # no field to fetch from
           "consult_premium_visit" => consult_premium_visit,
           "consult_premium_first" => consult_premium_first,
-          "consult_premium_travel" => old_claim.initial_consult_travel, # TODO
+          "consult_premium_travel" => old_claim.initial_consult_travel,
           "daily_details" => daily_details
         }
 
@@ -244,6 +250,19 @@ namespace :db do
           new_comment.body = old_comment.body
           new_comment.user = new_user
           new_comment.save!
+        end
+
+        # photo
+
+        if old_claim.patient_id_photo.present?
+          photo_url = OLD_HOST + "uploads/claim/photo_uploader/#{old_claim.id}/#{old_claim.patient_id_photo}"
+          photo = new_claim.photo || new_claim.build_photo
+          photo.user = user
+          file = open(Rails.root.join("tmp", old_claim.patient_id_photo), "wb")
+          file << open(photo_url).read
+          photo.file = file
+          photo.save!
+          File.delete(file)
         end
       end
     end
