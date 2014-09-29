@@ -42,6 +42,8 @@ body {
     top: 50%;
     margin-left: -25px;
     margin-top: -25px;
+    -webkit-animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear;
 }
 
 .truncate {
@@ -70,4 +72,15 @@ input.ng-invalid, textarea.ng-invalid {
 
 .ng-dirty input.ng-invalid {
     border-color: @navbar-default-border;
+}
+
+@-webkit-keyframes spin {
+    0%   {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
