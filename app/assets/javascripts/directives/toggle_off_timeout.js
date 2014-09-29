@@ -7,12 +7,14 @@ angular.module("moBilling.directives")
                 $rootScope.$on(ToggleHelper.events.toggleableToggled, function (event, target, newState) {
                     var promise;
 
-                    if (newState) {
-                        promise = $timeout(function () {
-                            $rootScope.toggle(target, "off");
-                        }, attributes.mbToggleOffTimeout);
-                    } else {
-                        $timeout.cancel(promise);
+                    if (target === element.attr("id")) {
+                        if (newState) {
+                            promise = $timeout(function () {
+                                $rootScope.toggle(target, "off");
+                            }, attributes.mbToggleOffTimeout);
+                        } else {
+                            $timeout.cancel(promise);
+                        }
                     }
                 });
             }
