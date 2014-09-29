@@ -2,10 +2,6 @@
   <div class="scrollable-content section">
     <div class="panel" id="consult">
       <div class="panel-body">
-        <div class="alert alert-danger" ng-show="submitted && claim.status === 'unprocessed' && claimForm.$invalid">
-          Please provide required consult information below before submitting.
-        </div>
-
         <div ng-class="{'has-error': (consultForm.consult_type.$dirty || submitted) && consultForm.consult_type.$invalid}">
           <div class="row">
             <div class="col-xs-offset-4 col-xs-4 text-center">
