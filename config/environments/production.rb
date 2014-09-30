@@ -52,7 +52,7 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.asset_host = "http://canary.mo-billing-javascript.c66.me"
+  config.asset_host = "https://jsapp.mo-billing.ca"
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
