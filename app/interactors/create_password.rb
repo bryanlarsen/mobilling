@@ -12,7 +12,7 @@ class CreatePassword
   def perform
     return if invalid?
     user.update!(password: SecureRandom.hex(12))
-    UserMailer.new_password(user).deliver
+    UserMailer.new_password(user).deliver_now
     true
   end
 
