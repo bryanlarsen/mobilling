@@ -4,7 +4,7 @@ angular.module("moBilling.controllers")
         var claim = $scope.claim;
 
         $scope.initialize = function () {
-            claim.first_seen_on_admission = false;
+            claim.first_seen_on_admission = (claim.admission_on === claim.first_seen_on);
         };
 
         $scope.$watchGroup(["claim.first_seen_on_admission", "claim.admission_on"], function () {
