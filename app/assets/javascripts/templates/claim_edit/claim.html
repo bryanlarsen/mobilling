@@ -107,17 +107,17 @@
             </div>
           </div>
 
-          <div class="form-group row" ng-if="isFirstSeenConsultVisible()">
+          <div class="form-group row">
             <label class="control-label col-xs-12">Consult on first seen date</label>
             <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.first_seen_consult" id="claim-first-seen-consult"></mb-switch>
+              <mb-switch ng-model="claim.first_seen_consult" id="claim-first-seen-consult" ng-disabled="!isFirstSeenConsultEnabled()"></mb-switch>
             </div>
           </div>
 
-          <div class="form-group row" ng-if="isICUTransferVisible()">
+          <div class="form-group row">
             <label class="control-label col-xs-12">Transfer from ICU/CCU</label>
             <div class="form-control-wrapper col-xs-12">
-              <mb-switch ng-model="claim.icu_transfer" id="claim-icu-transfer"></mb-switch>
+              <mb-switch ng-model="claim.icu_transfer" id="claim-icu-transfer" ng-disabled="!isICUTransferEnabled()"></mb-switch>
             </div>
           </div>
 

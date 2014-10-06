@@ -74,6 +74,22 @@ input.ng-invalid, textarea.ng-invalid {
     border-color: @navbar-default-border;
 }
 
+.switch[disabled=disabled] {
+    background-color: #ddd;
+    border: 1px solid #ddd;
+    .switch-handle {
+        border: 1px solid #ddd;
+    }
+}
+
+.switch.active[disabled=disabled] {
+    background-color: #bbb;
+    border: 1px solid #bbb;
+    .switch-handle {
+        border: 1px solid #bbb;
+    }
+}
+
 @-webkit-keyframes spin {
     0%   {
         -webkit-transform: rotate(0deg);

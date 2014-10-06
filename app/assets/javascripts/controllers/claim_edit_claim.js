@@ -14,23 +14,23 @@ angular.module("moBilling.controllers")
         });
 
         // first_seen_consult
-        $scope.isFirstSeenConsultVisible = function () {
+        $scope.isFirstSeenConsultEnabled = function () {
             return claim.admission_on !== claim.first_seen_on;
         };
 
-        $scope.$watch($scope.isFirstSeenConsultVisible, function (isFirstSeenConsultVisible) {
-            if (!isFirstSeenConsultVisible) {
+        $scope.$watch($scope.isFirstSeenConsultEnabled, function (isFirstSeenConsultEnabled) {
+            if (!isFirstSeenConsultEnabled) {
                 claim.first_seen_consult = true;
             }
         });
 
         // icu_transfer
-        $scope.isICUTransferVisible = function () {
-            return $scope.isFirstSeenConsultVisible() && claim.most_responsible_physician;
+        $scope.isICUTransferEnabled = function () {
+            return $scope.isFirstSeenConsultEnabled() && claim.most_responsible_physician;
         };
 
-        $scope.$watch($scope.isICUTransferVisible, function (isICUTransferVisible) {
-            if (!isICUTransferVisible) {
+        $scope.$watch($scope.isICUTransferEnabled, function (isICUTransferEnabled) {
+            if (!isICUTransferEnabled) {
                 claim.icu_transfer = false;
             }
         });
