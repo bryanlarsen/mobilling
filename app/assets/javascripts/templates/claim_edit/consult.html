@@ -51,8 +51,8 @@
 
                 <div class="col-xs-12">
                   <input class="hide" type="number" ng-model="claim.consult_time" name="consult_time" min="{{minConsultTime()}}" required>
-                  <div ng-messages="consultForm.consult_time.$error" ng-show="submitted">
-                    <p class="help-block" ng-message="required">Total time must be equal to or greater than {{minConsultTime()}} minutes.</p>
+                  <div ng-messages="consultForm.consult_time.$error">
+                    <p class="help-block" ng-message="min">Total time must be equal to or greater than {{minConsultTime()}} minutes.</p>
                   </div>
                 </div>
               </div>
