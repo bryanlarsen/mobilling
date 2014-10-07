@@ -80,28 +80,25 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   test "has 'Consult time in' and 'Consult time out' pickers on 'Details' page for code A130A"do
     @doctor.click_on("New")
     @doctor.click_on("Details")
-    @doctor.click_on("Add a new day")
+    @doctor.click_on("Add a new code")
     @doctor.fill_in("code", with: "A130A")
-    assert @doctor.see?("Consult time in")
-    assert @doctor.see?("Consult time out")
+    assert @doctor.see?("Time")
   end
 
   test "has 'Consult time in' and 'Consult time out' pickers on 'Details' page for codes C130A"do
     @doctor.click_on("New")
     @doctor.click_on("Details")
-    @doctor.click_on("Add a new day")
+    @doctor.click_on("Add a new code")
     @doctor.fill_in("code", with: "C130A")
-    assert @doctor.see?("Consult time in")
-    assert @doctor.see?("Consult time out")
+    assert @doctor.see?("Time")
   end
 
   test "has no 'Consult time in' and 'Consult time out' pickers on 'Details' page for other codes"do
     @doctor.click_on("New")
     @doctor.click_on("Details")
-    @doctor.click_on("Add a new day")
+    @doctor.click_on("Add a new code")
     @doctor.fill_in("code", with: "C132A")
-    assert @doctor.not_see?("Consult time in")
-    assert @doctor.not_see?("Consult time out")
+    assert @doctor.not_see?("Time")
   end
 
   test "can reset password" do
@@ -144,12 +141,12 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.click_on("Generate codes")
     assert @doctor.see?("Consult Missing")
     @doctor.click_on("Generate without consult")
-    assert @doctor.see?("DAILY DETAILS (2)")
+    assert @doctor.see?("DAILY DETAILS (1)")
   end
 
   test "can regenerate details when claim changed" do
     @doctor.add_claim(consult_type: "comprehensive_er", admission_on: "2014-07-02", first_seen_on: "2014-07-02", last_seen_on: "2014-07-07")
-    assert @doctor.see?("DAILY DETAILS (14)")
+    assert @doctor.see?("DAILY DETAILS (7)")
     @doctor.click_on("Details")
     assert @doctor.find_button("Generate codes", disabled: true)
     @doctor.click_on("Consult")
@@ -163,7 +160,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.add_claim(admission_on: "2014-08-04", first_seen_on: "2014-08-05", last_seen_on: "2014-08-06", first_seen_consult: false, consult_type: nil, autogenerate: false, daily_details: [])
     @doctor.click_on("Details")
     @doctor.click_on("Generate codes")
-    assert @doctor.see?("DAILY DETAILS (4)")
+    assert @doctor.see?("DAILY DETAILS (2)")
   end
 
   test "can save claim with multiple diagnoses" do
@@ -248,7 +245,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   test "doctor sees a list of typeahead suggestions for service code" do
     @doctor.click_on("New")
     @doctor.click_on("Details")
-    @doctor.click_on("Add a new day")
+    @doctor.click_on("Add a new code")
 
     @doctor.fill_in "code", with: "code"
     @doctor.press_down_arrow("input[name=code]")

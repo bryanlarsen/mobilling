@@ -1,19 +1,14 @@
 describe("fee generator", function () {
-    var injector, feeGenerator, codes;
+    var injector, feeGenerator, codes, $q, $rootScope;
 
     beforeEach(function () {
-        injector = angular.injector(["ng", "ngMock", "moBilling"]);
-        feeGenerator = injector.get("feeGenerator");
-        codes = {}
-        var data = [ ['R441B',  9632],
-                     ['R441A', 61990],
-                     ['R441C', 12008],
-                     ['E676B',  7224],
-                     ['C998B',  6000],
-                     ['E401B',   604],
-                   ];
-        data.forEach(function(a) {
-              codes[a[0]] = { code: a[0], fee: a[1] };
+        module('moBilling');
+        module('moBilling.mocks');
+
+        inject(function($injector, _$q_, _$rootScope_) {
+            $q = _$q_;
+            $rootScope = _$rootScope_;
+            feeGenerator = $injector.get("feeGenerator");
         });
     });
 
@@ -45,36 +40,50 @@ describe("fee generator", function () {
                     ['R441C', '10:00', '11:30', 16,  24016],
                     ['R441C', '10:00', '11:31', 19,  28519],
                     ['R441C', '10:00', '14:59', 58,  87058]];
-        data.forEach(function(t) {
-             result = feeGenerator({}, {
+        var details = data.map(function (t) {
+            return {
                  day: '2014-09-18',
                  code: t[0],
                  time_in: t[1],
                  time_out: t[2]
-             }, codes[t[0]]);
-             expect(result.units).toEqual(t[3]);
-             expect(result.fee).toEqual(t[4]);
-         });
+             };
+        });
+        var promises = details.map(function (detail) {
+            return feeGenerator({}, detail);
+        });
+        $q.all(promises).then(function (_results) {
+        });
+        $rootScope.$apply();
+        for (var i = 0; i < data.length; ++i) {
+            expect(details[i].units).toEqual(data[i][3]);
+            expect(details[i].fee).toEqual(data[i][4]);
+        }
     });
-
     it("calculates overtime correctly", function() {
-        var master1 = { day: '2009-09-19', code: 'R441B', time_in: '03:00', time_out: '03:30', units: 10, fee: 12040};
-        var master2 = { day: '2009-09-19', code: 'C998B', time_in: '03:00', time_out: '03:30', units: 1, fee: 10000};
-        var ot = { day: '2009-09-19', code: 'E401B', time_in: '03:00', time_out: '03:30' };
+        var detail = { day: '2009-09-19', code: 'R441B', time_in: '03:00', time_out: '03:30', premiums: [ { code: 'E401B' } ] };
 
-        var claim = { daily_details: [master1, master2, claim] };
+        var handler = function (_result) {
+        };
 
-        expect(feeGenerator(claim, ot, codes['E401B']).fee).toEqual(12040*0.75);
-        var claim = { daily_details: [master2, master1, claim] };
-        expect(feeGenerator(claim, ot, codes['E401B']).fee).toEqual(12040*0.75);
-        var claim = { daily_details: [claim, master2, master1] };
-        expect(feeGenerator(claim, ot, codes['E401B']).fee).toEqual(12040*0.75);
+        feeGenerator({}, detail).then(handler);
+        $rootScope.$apply();
+        expect(detail.fee).toEqual(12040);
+        expect(detail.units).toEqual(10);
+        expect(detail.premiums[0].fee).toEqual(12040 * 0.75);
+        expect(detail.premiums[0].units).toEqual(10);
+        expect(detail.total_fee).toEqual(12040 * 1.75);
 
-        master1.time_out = '03:29';
-        expect(feeGenerator(claim, ot, codes['E401B']).fee).toEqual(undefined);
+        detail.premiums.push({ code: 'C998B' });
+        feeGenerator({}, detail).then(handler);
+        $rootScope.$apply();
+        expect(detail.premiums[1].fee).toEqual(6000);
+        expect(detail.premiums[1].units).toEqual(1);
+        expect(detail.total_fee).toEqual(12040 * 1.75 + 6000);
 
-        master1.time_out = '03:30';
-        master1.units = 1;
-        expect(feeGenerator(claim, ot, codes['E401B']).fee).toEqual(undefined);
+        detail.premiums.push({ code: 'Z999C' });
+        feeGenerator({}, detail).then(handler);
+        $rootScope.$apply();
+        expect(detail.total_fee).toEqual(undefined);
     });
+
 });

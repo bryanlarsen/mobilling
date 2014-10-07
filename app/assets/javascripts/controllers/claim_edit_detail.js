@@ -5,31 +5,34 @@ angular.module("moBilling.controllers")
 
         $scope.service_code = { code: '' };
 
-        $scope.$watch("detail.code", function (value) {
-            if (typeof value !== 'string') {
-                return;
-            }
-            var code = value.toUpperCase().match(/^[A-Z]\d\d\d[A-Z]/);
-            if (!code) {
-                code = value.toUpperCase().match(/^[A-Z]\d\d\d/);
-                if (code) code[0] = code[0]+'A';
-            }
-            if (code) {
-                if ($scope.service_code && code[0] !== $scope.service_code.code) {
-                    var promise = ServiceCode.find(code[0]).then(function (service_code) {
-                        $scope.service_code = service_code;
-                    });
-                }
-            } else {
-                $scope.service_code = { code: '' };
-            }
-        });
+        $scope.editing = function() {
+            return $scope.activated.index === $scope.index(detail);
+        }
 
-        $scope.$watchGroup(['service_code', 'detail.time_in', 'detail.time_out', 'detail.day'], function() {
-            if ($scope.service_code) {
-                var r = feeGenerator($scope.claim, detail, $scope.service_code);
-                detail.fee = r.fee;
-                detail.units = r.units;
+        $scope.openClaimDetail = function() {
+            $scope.activated.index = $scope.index(detail);
+        };
+
+        $scope.closeClaimDetail = function() {
+            $scope.activated.index = null;
+        };
+
+        $scope.addPremium = function() {
+            if (detail.premiums) {
+                detail.premiums.push({ code: '' });
+            } else {
+                detail.premiums = [{ code: '' }];
             }
-        });
+        };
+
+        $scope.removePremium = function(index) {
+            detail.premiums.splice(index, 1);
+        };
+
+
+        $scope.$watch('detail', function() {
+            feeGenerator($scope.claim, detail).then(function (result) {
+                // OK
+            });
+        }, true);
     });

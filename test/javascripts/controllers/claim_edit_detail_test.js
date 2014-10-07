@@ -1,42 +1,23 @@
 describe("ClaimEditDetailController", function() {
-    var injector, controller, scope, detail, mockServiceCode, $q, serviceCodes;
+    var injector, controller, scope, detail, $q, serviceCodes;
 
     beforeEach(function () {
-        injector = angular.injector(["ng", "ngMock", "moBilling"]);
-        $q = injector.get("$q");
-        var $rootScope = injector.get("$rootScope");
+        var $rootScope, $controller;
+        module('moBilling');
+        module('moBilling.mocks');
+
+        inject(function($injector, _$q_, _$rootScope_, _$controller_) {
+            $q = _$q_;
+            $rootScope = _$rootScope_;
+            $controller = _$controller_;
+            feeGenerator = $injector.get("feeGenerator");
+        });
         detail = {};
         $rootScope.detail = detail;
         scope = $rootScope.$new();
 
-        serviceCodes = [
-            { code: 'P018A', name: 'P018A C-section', fee: 57980 },
-            { code: 'P018B', name: 'P018A C-section', fee: 7224 },
-        ];
-
-        serviceCodeHash = {};
-        serviceCodes.forEach(function (service_code) {
-            serviceCodeHash[service_code.code] = service_code;
-        });
-
-        mockServiceCode = {
-            all: function() {
-                return $q(function (resolve, reject) {
-                    resolve(serviceCodes);
-                });
-            },
-
-            find: function(code) {
-                return $q(function (resolve, reject) {
-                    resolve(serviceCodeHash[code]);
-                });
-            }
-        };
-
-        controller = injector.get("$controller")('ClaimEditDetailController', {
+        controller = $controller('ClaimEditDetailController', {
             $scope: scope,
-            ServiceCode: mockServiceCode,
-            feeGenerator: injector.get('feeGenerator')
         });
         scope.$digest();
     });

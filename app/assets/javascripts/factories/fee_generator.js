@@ -1,6 +1,6 @@
 angular.module("moBilling.factories")
 
-    .factory("feeGenerator", function () {
+    .factory("feeGenerator", function (ServiceCode, $q) {
         var inMinutes = function(time) {
             return parseInt(time.slice(0,2), 10) * 60 + parseInt(time.slice(3), 10);
         };
@@ -10,12 +10,13 @@ angular.module("moBilling.factories")
                 'E400B': 0.5,
                 'E401B': 0.75,
                 'E400C': 0.5,
-                'E401C': 0.75
+                'E401C': 0.75,
+                'E082A': 0.3,
+                'E083A': 0.3
             }[service_code.code];
         };
 
-        return function(claim, detail, service_code) {
-            if (isNaN(Date.parse(detail.day)) || !service_code.code) return {};
+        var calculateFee = function(detail, service_code) {
             var unit_fee = service_code.fee, border1 = 0, border2 = 0;
             var units, fee;
 
@@ -36,26 +37,7 @@ angular.module("moBilling.factories")
                 if (minutes < 0) minutes = minutes + 24*60;
             }
 
-            var overtime = overtimeRate(service_code);
-            if (overtime) {
-                var master;
-                // find master detail
-                for (var i = 0; i < claim.daily_details.length; i++) {
-                    var master = claim.daily_details[i];
-                    if (master !== detail &&
-                        master.time_in === detail.time_in &&
-                        master.time_out === detail.time_out &&
-                        master.units !== 1) break;
-                    else master = null;
-                }
-
-                if (!master || !master.fee) return {};
-
-                return {
-                    fee: Math.round(master.fee * overtime),
-                    units: master.units
-                };
-            } else if (service_code.code[4] !== 'A' && service_code.fee % unit_fee === 0) {
+            if (service_code.code[4] !== 'A' && service_code.fee % unit_fee === 0) {
                 units = Math.ceil(Math.min(minutes, border1) / 15);
                 if (minutes > border1) {
                     units = units + Math.ceil(Math.min(minutes - border1, border2 - border1) / 15.0) * 2;
@@ -75,5 +57,68 @@ angular.module("moBilling.factories")
                 fee: fee,
                 units: units
             };
+         };
+
+        return function(claim, detail) {
+            var deferred = $q.defer();
+
+            detail.fee = null;
+            detail.units = null;
+            detail.total_fee = null;
+
+            if (isNaN(Date.parse(detail.day))) {
+                deferred.resolve(false);
+                return deferred.promise;
+            }
+
+            ServiceCode.find(detail.code).then(function (service_code) {
+                if (!service_code || !service_code.code) {
+                    return deferred.resolve(false);
+                }
+
+                var result = calculateFee(detail, service_code);
+                if (!result.fee) {
+                    return deferred.resolve(false);
+                } else {
+                    detail.fee = result.fee;
+                    detail.units = result.units;
+                }
+
+                $q.all((detail.premiums || []).map(function (premium) {
+                    premium.fee = undefined;
+                    premium.units = undefined;
+                    return ServiceCode.find(premium.code);
+                })).then(function (premium_codes) {
+                    detail.total_fee = result.fee;
+                    for(var i = 0; i < premium_codes.length; i++) {
+                        if (!premium_codes[i]) {
+                            detail.total_fee = undefined;
+                            return deferred.resolve(false);
+                        }
+
+                        var overtime = overtimeRate(premium_codes[i]);
+                        if (overtime) {
+                            var ofee = Math.round(result.fee * overtime);
+                            detail.total_fee = detail.total_fee + ofee;
+                            detail.premiums[i].fee = ofee;
+                            detail.premiums[i].units = detail.units;
+                        } else {
+                            var o = calculateFee(detail, premium_codes[i]);
+                            if (o.fee) {
+                                detail.premiums[i].fee = o.fee;
+                                detail.premiums[i].units = o.units;
+                                detail.total_fee = detail.total_fee + o.fee;
+                            } else {
+                                detail.total_fee = undefined;
+                                return deferred.resolve(false);
+                            }
+                        }
+                    }
+
+                    return deferred.resolve(true);
+               });
+            });
+
+            return deferred.promise;
         };
     });

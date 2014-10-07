@@ -206,8 +206,9 @@ module Test
         # has_button?("Generate codes")
         click_on("Generate codes")
       end
+
       claim_attributes[:daily_details].each do |daily_detail|
-        click_on("Add a new day") unless claim_attributes[:procedure_on]
+        all("button.add-code").last.click
         pick_a_date(all("input[name=day]").last, daily_detail[:day])
         all("input[name=code]").last.set(daily_detail[:code])
         pick_a_time(all("input[name=time_in]").last, daily_detail[:time_in]) if daily_detail[:time_in]

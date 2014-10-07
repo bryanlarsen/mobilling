@@ -1,4 +1,4 @@
-<ng-form name="detailsForm" class="scrollable" ng-controller="ClaimEditDetailsController">
+<ng-form name="detailsForm" class="scrollable detailsForm" ng-controller="ClaimEditDetailsController">
   <div class="scrollable-content section">
     <div class="panel" id="details">
       <div class="panel-body">
@@ -29,38 +29,39 @@
           </div>
         </div>
 
-        <div ng-repeat="dailyDetail in claim.daily_details | unique : 'day'">
-          <ng-form name="detailForm" ng-repeat="detail in claim.daily_details | filter : { day: dailyDetail.day }" ng-controller="ClaimEditDetailController">
-            <div class="row">
-              <ng-include src="'common/detail_form.html'"></ng-include>
+        <ng-form name="dailyForm" ng-repeat="dailyDetail in claim.daily_details | unique : 'day'">
 
-              <div class="col-xs-4 col-sm-2 col-md-1">
-                <button type="button" class="btn btn-danger btn-lg btn-block" ng-click="remove(detail)">
-                  <i class="fa fa-times"></i>
-                </button>
-                <br>
-              </div>
-            </div>
+          <div class="col-xs-12" style="border-bottom: 1px solid;">
+            <span>{{ dailyDetail.day | date : 'EEEE, MMMM d, yyyy' }}</span>
+            <span class="pull-right">{{ claim.daily_details | filter : { day: dailyDetail.day } | sumByKey : 'total_fee' | divide : 100 | currency }}</span>
+          </div>
+          <div class="col-xs-12">&nbsp;</div>
+
+          <ng-form name="detailForm" ng-repeat="detail in claim.daily_details | filter : { day: dailyDetail.day }" ng-controller="ClaimEditDetailController">
+            <ng-include src="'common/detail_form.html'" ng-if="editing()"></ng-include>
+            <ng-include src="'common/detail_text.html'" ng-if="!editing()"></ng-include>
           </ng-form>
 
           <div class="row">
-            <div class="col-xs-12 col-sm-2 col-sm-offset-10 col-md-1 col-md-offset-11">
-              <button type="button" class="btn btn-success btn-lg btn-block" ng-click="add({ day: dailyDetail.day })">
-                <span class="hidden-xs"><i class="fa fa-plus"></i></span>
-                <span class="visible-xs"><i class="fa fa-plus"></i> Add a new code</span>
+            <div class="col-xs-12">
+              <button type="button" class="btn btn-success btn-lg btn-block add-code" ng-click="add({ day: dailyDetail.day })">
+                <span class="visible"><i class="fa fa-plus"></i> Add a new code</span>
               </button>
               <br>
             </div>
           </div>
-        </div>
+        </ng-form>
 
-        <div class="row">
-          <div class="col-sm-12">
-            <button type="button" class="btn btn-success btn-lg btn-block" ng-click="add({ day: null })">
-              <i class="fa fa-plus"></i> Add a new day
-            </button>
+        <ng-form name="dailyForm" ng-if="!claim.daily_details || claim.daily_details.length===0">
+          <div class="row">
+            <div class="col-xs-12">
+              <button type="button" class="btn btn-success btn-lg btn-block add-code" ng-click="add({ day: claim.procedure_on })">
+                <span class="visible"><i class="fa fa-plus"></i> Add a new code</span>
+              </button>
+              <br>
+            </div>
           </div>
-        </div>
+        </ng-form>
       </div>
     </div>
   </div>

@@ -31,8 +31,23 @@ angular.module("moBilling.factories")
             // cf. get
             find: function(code) {
                 return exports.all().then(function (codes) {
-                    return hash[code];
+                    return hash[exports.normalize(code)];
                 });
+            },
+
+            // internal function, exported for testing
+            normalize: function(value) {
+                if (typeof value !== 'string') {
+                    return null;
+                }
+                var code = value.toUpperCase().match(/^[A-Z]\d\d\d[A-C]/);
+                if (code) {
+                    return code[0];
+                } else if (!code) {
+                    code = value.toUpperCase().match(/^[A-Z]\d\d\d/);
+                    if (code) return code[0]+'A';
+                }
+                return null;
             }
         };
 

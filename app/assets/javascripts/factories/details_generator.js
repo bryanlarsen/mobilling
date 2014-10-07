@@ -172,67 +172,60 @@ angular.module("moBilling.factories")
                 daysAfterFirstSeen = daysAfterAdmission - admissionOffset;
 
                 if (day === first && consult) {
-                    details.push({ day: day, code: consultCode(specialty, consult) });
+                    var detail = { day: day, code: consultCode(specialty, consult), premiums: [] };
 
                     if (visit) {
                         // visit premium
-                        details.push({ day: day, code: premiumVisitCode(premiumFirst, consult, visit) });
+                        detail.premiums.push({ code: premiumVisitCode(premiumFirst, consult, visit) });
 
                         if (travel) {
                             // travel premium
-                            details.push({ day: day, code: premiumTravelCode(consult, visit) });
+                            detail.premiums.push({ code: premiumTravelCode(consult, visit) });
                         }
                     }
 
                     if (admission === first && mrp) {
                         // admission premium
-                        details.push({ day: day, code: "E082A" });
+                        detail.premiums.push({ code: "E082A" });
                     }
+                    details.push(detail);
                 } else if (daysAfterFirstSeen === 0 && icu) {
-                    details.push({ day: day, code: "C142A" });
-                    details.push({ day: day, code: "E083A" });
+                    details.push({ day: day, code: "C142A", premiums: [{ code: 'E083A' }] });
                 } else if (daysAfterFirstSeen === 1 && icu) {
-                    details.push({ day: day, code: "C143A" });
-                    details.push({ day: day, code: "E083A" });
+                    details.push({ day: day, code: "C143A", premiums: [{ code: 'E083A' }] });
                 } else if (daysAfterAdmission === 1) {
                     if (mrp) {
-                        details.push({ day: day, code: "C122A" });
-                        details.push({ day: day, code: "E083A" });
+                        details.push({ day: day, code: "C122A", premiums: [{ code: 'E083A' }] });
                     } else {
                         details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission === 2) {
                     if (mrp) {
-                        details.push({ day: day, code: "C123A" });
-                        details.push({ day: day, code: "E083A" });
+                        details.push({ day: day, code: "C123A", premiums: [{ code: 'E083A' }] });
                     } else {
                         details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (day === last && discharge) {
                     if (mrp) {
-                        details.push({ day: day, code: "C124A" });
-                        details.push({ day: day, code: "E083A" });
+                        details.push({ day: day, code: "C124A", premiums: [{ code: 'E083A' }] });
                     } else {
                         details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission >= 3 && daysAfterAdmission <= 35) {
                     if (mrp) {
-                        details.push({ day: day, code: firstFiveWeeksCode(specialty) });
-                        details.push({ day: day, code: "E083A" });
+                        details.push({ day: day, code: firstFiveWeeksCode(specialty), premiums: [{ code: 'E083A' }] });
                     } else {
                         details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission >= 36 && daysAfterAdmission <= 91) {
                     if (mrp) {
-                        details.push({ day: day, code: sixthToThirteenthWeekInclusiveCode(specialty) });
-                        details.push({ day: day, code: "E083A" });
+                        details.push({ day: day, code: sixthToThirteenthWeekInclusiveCode(specialty), premiums: [{ code: 'E083A' }] });
                     } else {
                         details.push({ day: day, code: concurrentCode(specialty) });
                     }
                 } else if (daysAfterAdmission >= 92) {
                     if (mrp) {
-                        details.push({ day: day, code: afterThirtheenthWeekCode(specialty) });
-                        details.push({ day: day, code: "E083A" });
+                        details.push({ day: day, code: afterThirtheenthWeekCode(specialty), premiums: [{ code: 'E083A' }] });
                     } else {
                         details.push({ day: day, code: concurrentCode(specialty) });
                     }
