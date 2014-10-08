@@ -3,6 +3,21 @@ angular.module("moBilling.controllers")
     .controller("ClaimEditClaimController", function ($scope, $window, Photo) {
         var claim = $scope.claim;
 
+        $scope.province_codes = [
+            { name: 'Ontario', code: 'ON' },
+            { name: 'Alberta', code: 'AB' },
+            { name: 'British Columbia', code: 'BC' },
+            { name: 'Manitoba', code: 'MB' },
+            { name: 'Newfoundland and Labrador', code: 'NL' },
+            { name: 'New Brunswick', code: 'NB' },
+            { name: 'Northwest Territories', code: 'NT' },
+            { name: 'Nova Scotia', code: 'NS' },
+            { name: 'Prince Edward Island', code: 'PE' },
+            { name: 'Saskatchewan', code: 'SK' },
+            { name: 'Nunavut', code: 'NU' },
+            { name: 'Yukon', code: 'YT' }
+        ];
+
         $scope.initialize = function () {
             claim.first_seen_on_admission = (claim.admission_on === claim.first_seen_on);
         };

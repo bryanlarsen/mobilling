@@ -28,6 +28,64 @@
           </div>
         </div>
 
+        <div class="form-group row" ng-class="{'has-error': (claimForm.patient_number.$dirty || submitted) && claimForm.patient_number.$invalid}">
+          <label for="claim-patient-number" class="control-label col-xs-12">Patient number</label>
+          <div class="form-control-wrapper col-xs-12">
+            <input type="text" name="patient_number" ng-model="claim.patient_number" class="form-control input-lg" id="claim-patient-number" mb-scroll-into-view>
+            <div ng-messages="claimForm.patient_number.$error" ng-show="submitted">
+              <p class="help-block" ng-message="required">is missing</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (claimForm.patient_province.$dirty || submitted) && claimForm.patient_province.$invalid}">
+          <label for="claim-patient-province" class="control-label col-xs-12">Patient province</label>
+          <div class="form-control-wrapper col-xs-12">
+            <select name="patient_province" ng-model="claim.patient_province" class="form-control input-lg" id="claim-patient-province" ng-options="province.code as province.name for province in province_codes"></select>
+            <div ng-messages="claimForm.patient_province.$error" ng-show="submitted">
+              <p class="help-block" ng-message="required">is missing</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (claimForm.patient_birthday.$dirty || submitted) && claimForm.patient_birthday.$invalid}">
+          <label for="claim-patient-birthday" class="control-label col-xs-12">Patient birthday</label>
+          <div class="form-control-wrapper">
+            <div class="col-xs-9">
+              <input type="text" mb-date-valid name="patient_birthday" ng-model="claim.patient_birthday" class="form-control input-lg" id="claim-patient-birthday"></input>
+            </div>
+            <div class="col-xs-3">
+              <label class="btn btn-primary btn-lg btn-block">
+                <i class="fa fa-chevron-down"></i>
+                <mb-date name="patient_birthday_picker" ng-model="claim.patient_birthday" class="hide" id="claim-patient-birthday-picker" placeholder="Select" max="{ new Date().toISOSTring().slice(0,10) }" birthday="1" ></mb-date>
+              </label>
+            </div>
+            <div ng-messages="claimForm.patient_birthday.$error">
+              <p class="help-block" ng-message="required">is missing</p>
+              <p class="help-block" ng-message="format">must be in YYYY-mm-dd format</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (claimForm.patient_sex.$dirty || submitted) && claimForm.patient_sex.$invalid}">
+          <label for="claim-patient-sex" class="control-label col-xs-12">Patient sex</label>
+          <div class="form-control-wrapper col-xs-12">
+            <div type="btn-group">
+              <label class="btn btn-default btn-lg" ng-class="{ 'btn-primary': claim.patient_sex == '2' }">
+                <input type="radio" id="patient-sex-female" ng-model="claim.patient_sex" value="2" name="patient_sex" class="hide">
+                Female
+              </label>
+              <label class="btn btn-default btn-lg"  ng-class="{ 'btn-primary': claim.patient_sex == '1' }">
+                <input type="radio" id="patient-sex-male" ng-model="claim.patient_sex" value="1" name="patient_sex" class="hide">
+                Male
+              </label>
+            </div>
+            <div ng-messages="claimForm.patient_sex.$error" ng-show="submitted">
+              <p class="help-block" ng-message="required">is missing</p>
+            </div>
+          </div>
+        </div>
+
         <div class="form-group row" ng-class="{'has-error': (claimForm.hospital.$dirty || submitted) && claimForm.hospital.$invalid}">
           <label for="claim-hospital" class="control-label col-xs-12">Hospital</label>
           <div class="form-control-wrapper col-xs-12">
@@ -148,6 +206,65 @@
                 <p class="help-block" ng-message="required">is missing</p>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (claimForm.referring_laboratory.$dirty || submitted) && claimForm.referring_laboratory.$invalid}">
+          <label for="claim-referring-laboratory" class="control-label col-xs-12">Referring Laboratory</label>
+          <div class="form-control-wrapper col-xs-12">
+            <input type="text" name="referring_laboratory" ng-model="claim.referring_laboratory" class="form-control input-lg" id="claim-referring-laboratory">
+            <div ng-messages="claimForm.referring_laboratory.$error" ng-show="submitted">
+              <p class="help-block" ng-message="required">is missing</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (claimForm.payment_program.$dirty || submitted) && claimForm.payment_program.$invalid}">
+          <label for="claim-payment-program" class="control-label col-xs-12">Payment Program</label>
+          <div class="form-control-wrapper col-xs-12">
+            <div type="btn-group">
+	      <label class="btn btn-default btn-lg" ng-class="{ 'btn-primary': claim.payment_program === 'HCP', 'hide': claim.patient_province !== 'ON' }">
+                <input type="radio" id="payment-program-hcp" ng-model="claim.payment_program" value="HCP" name="payment_program" class="hide">
+                OHIP (HCP)
+              </label>
+	      <label class="btn btn-default btn-lg" ng-class="{ 'btn-primary': claim.payment_program === 'RMB', 'hide': claim.patient_province === 'ON' }">
+                <input type="radio" id="payment-program-rmb" ng-model="claim.payment_program" value="RMB" name="payment_program" class="hide">
+                Out of Province (RMB)
+              </label>
+	      <label class="btn btn-default btn-lg" ng-class="{ 'btn-primary': claim.payment_program === 'WCB' }">
+                <input type="radio" id="payment-program-wcb" ng-model="claim.payment_program" value="WCB" name="payment_program" class="hide">
+                Worker's Compensation (WCB)
+              </label>
+            </div>
+            <div ng-messages="claimForm.payment_program.$error" ng-show="submitted">
+              <p class="help-block" ng-message="required">is missing</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row" ng-class="{'has-error': (claimForm.payee.$dirty || submitted) && claimForm.payee.$invalid}">
+          <label for="claim-payee" class="control-label col-xs-12">Payee</label>
+          <div class="form-control-wrapper col-xs-12">
+            <div type="btn-group">
+	      <label class="btn btn-default btn-lg" ng-class="{ 'btn-primary': claim.payee === 'P' }">
+                <input type="radio" id="payee" ng-model="claim.payee" value="P" name="payee" class="hide">
+                Provider
+              </label>
+	      <label class="btn btn-default btn-lg" ng-class="{ 'btn-primary': claim.payee === 'S' }">
+                <input type="radio" id="payee" ng-model="claim.payee" value="S" name="payee" class="hide">
+                Patient
+              </label>
+            </div>
+            <div ng-messages="claimForm.payment_program.$error" ng-show="submitted">
+              <p class="help-block" ng-message="required">is missing</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Manual Review Flag</label>
+          <div class="form-control-wrapper col-xs-12">
+            <mb-switch ng-model="claim.manual_review_indicator" id="claim-last-seen-discharge" on-value="Y" off-value=""></mb-switch>
           </div>
         </div>
 

@@ -26,7 +26,10 @@ angular.module("moBilling.directives")
                         format: "yyyy-mm-dd",
                         container: ".app-body",
                         min: attributes.min === undefined ? false : attributes.min,
-                        max: attributes.max === undefined ? false : attributes.max
+                        max: attributes.max === undefined ? false : attributes.max,
+                        editable: attributes.birthday,
+                        selectYears: attributes.birthday ? 150 : false,
+                        selectMonths: attributes.birthday
                     }).pickadate("picker");
 
                     picker.start();

@@ -60,6 +60,19 @@
                 claim.status = "saved";
             }
 
+            if (!claim.patient_province) {
+                claim.patient_province = "ON";
+                claim.payment_program = "HCP";
+            }
+
+            if (!claim.patient_sex) {
+                claim.patient_sex = "2";
+            }
+
+            if (!claim.payee) {
+                claim.payee = "P";
+            }
+
             if (!$scope.isSimplifiedTemplate() && claim.most_responsible_physician === undefined) {
                 claim.most_responsible_physician = true;
             }
