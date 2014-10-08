@@ -7,9 +7,13 @@
 @import "pickadate/less/default.date.less";
 @import "pickadate/less/default.time.less";
 
+@import "snackbar/less/snackbar";
+@import "snackbar/less/material";
+
 @import "./fonts";
 @import "./fileupload";
 @import "./typeahead";
+@import "./spinner";
 
 @fa-font-path: "/assets";
 @font-family-sans-serif: OpenSans, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -34,11 +38,12 @@ body {
 
 .loading-spinner {
     position: absolute;
-    font-size: 50px;
     left: 50%;
     top: 50%;
     margin-left: -25px;
     margin-top: -25px;
+    -webkit-animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear;
 }
 
 .truncate {
@@ -59,4 +64,39 @@ body {
     top: 0;
     bottom: 0;
     right: 0;
+}
+
+input.ng-invalid, textarea.ng-invalid {
+    border-color: @navbar-default-border;
+}
+
+.ng-dirty input.ng-invalid {
+    border-color: @navbar-default-border;
+}
+
+.switch[disabled=disabled] {
+    background-color: #ddd;
+    border: 1px solid #ddd;
+    .switch-handle {
+        border: 1px solid #ddd;
+    }
+}
+
+.switch.active[disabled=disabled] {
+    background-color: #bbb;
+    border: 1px solid #bbb;
+    .switch-handle {
+        border: 1px solid #bbb;
+    }
+}
+
+@-webkit-keyframes spin {
+    0%   {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }

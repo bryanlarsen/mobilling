@@ -108,5 +108,11 @@
     <div ng-show="isActiveStep('consult')" class="app-content" ng-include="'claim_edit/consult.html'"></div>
     <div ng-show="isActiveStep('details')" class="app-content" ng-include="'claim_edit/details.html'"></div>
     <div ng-show="isActiveStep('comments')" class="app-content" ng-include="'claim_edit/comments.html'"></div>
+
+    <div id="snackbar-container">
+      <div id="snackbar-error" class="snackbar" active-class="snackbar-opened" toggleable toggle="off" target="snackbar-error" mb-toggle-off-timeout="5000">
+        <span class="snackbar-content">Please correct claim information before submitting.</span>
+      </div>
+    </div>
   </div>
 </form>

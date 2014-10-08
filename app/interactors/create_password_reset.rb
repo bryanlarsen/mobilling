@@ -11,7 +11,7 @@ class CreatePasswordReset
     @user = User.find_by(email: email.to_s.downcase)
     return if invalid?
     generate_token
-    UserMailer.password_reset(user, token).deliver
+    UserMailer.password_reset(user, token).deliver_now
     true
   end
 

@@ -25,7 +25,7 @@ angular.module("moBilling.directives")
                     var picker = element.pickatime({
                         interval: 15,
                         format: "HH:i",
-                        container: "body",
+                        container: ".app-body",
                         formatLabel: function (time) {
                             var ref;
 

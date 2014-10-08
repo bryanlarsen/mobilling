@@ -73,8 +73,8 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
   test "displays error message if the total time is less than 75 minutes" do
     @doctor.add_claim(consult_type: "comprehensive_er", consult_time_in: "10:00", consult_time_out: "10:45")
     @doctor.click_on("Submit")
-    @doctor.click_on("Consult")
-    assert @doctor.see?("Total time must be equal to or greater than 75 minutes.")
+    assert @doctor.see?("Please correct claim information before submitting")
+    assert @doctor.see?("Total time must be equal to or greater than 75 minutes")
   end
 
   test "has 'Consult time in' and 'Consult time out' pickers on 'Details' page for code A130A"do
@@ -186,7 +186,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     end
     @doctor.add_claim(admission_on: "2014-07-02", consult_premium_visit: "weekday_office_hours")
     @doctor.click_on("Submit")
-    @doctor.click_on("Consult")
+    assert @doctor.see?("Please correct claim information before submitting")
     assert @doctor.see?("Max visit premium used for selected code")
   end
 
@@ -197,7 +197,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     end
     @doctor.add_claim(admission_on: "2014-07-02", consult_premium_visit: "weekday_office_hours", consult_premium_travel: true)
     @doctor.click_on("Submit")
-    @doctor.click_on("Consult")
+    assert @doctor.see?("Please correct claim information before submitting")
     assert @doctor.see?("Max travel premium used")
   end
 

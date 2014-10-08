@@ -1,6 +1,6 @@
 angular.module("moBilling.directives")
 
-    .directive("mbTypeahead", function () {
+    .directive("mbTypeahead", function ($timeout) {
         return {
             restrict: "A",
             require: "ngModel",
@@ -16,6 +16,9 @@ angular.module("moBilling.directives")
                     if (typeof viewValue === "string") {
                         return viewValue;
                     } else {
+                        $timeout(function () {
+                            element.blur();
+                        });
                         return viewValue.name;
                     }
                 });

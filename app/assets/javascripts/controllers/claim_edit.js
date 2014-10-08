@@ -170,6 +170,8 @@
         };
 
         function showError() {
+            $scope.toggle("snackbar-error", "on");
+
             if ($scope.form.detailsForm.$invalid) {
                 $scope.setActiveStep("details");
             }

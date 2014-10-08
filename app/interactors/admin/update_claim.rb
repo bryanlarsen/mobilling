@@ -21,7 +21,7 @@ class Admin::UpdateClaim
     @claim.update!(claim_attributes)
     @claim.comments.create!(user: admin_user, body: comment) if comment.present?
     if status_was != "rejected_doctor_attention" and status == "rejected_doctor_attention"
-      UserMailer.claim_rejected(claim.user, claim).deliver
+      UserMailer.claim_rejected(claim.user, claim).deliver_now
     end
     true
   end
