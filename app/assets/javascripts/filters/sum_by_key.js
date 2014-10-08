@@ -1,4 +1,4 @@
-angular.module("moBilling.directives")
+angular.module("moBilling.filters")
 
     .filter("sumByKey", function () {
         return function(data, key) {
@@ -15,14 +15,3 @@ angular.module("moBilling.directives")
         };
     });
 
-
-angular.module("moBilling.directives")
-
-    .filter("divide", function () {
-        return function(data, divisor) {
-            if (typeof(data) === 'undefined' || typeof(divisor) === 'undefined') {
-                return 0;
-            }
-            return data / divisor;
-        };
-    });
