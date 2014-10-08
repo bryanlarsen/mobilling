@@ -194,6 +194,7 @@ module Test
         pick_a_time("Time out", claim_attributes[:consult_time_out]) if claim_attributes[:consult_time_out]
         if claim_attributes[:consult_premium_visit]
           find_by_id("is-premium-visible").click
+          sleep(0.2)
           find_by_id("claim-consult-premium-visit-#{claim_attributes[:consult_premium_visit].dasherize}").click
         end
         find_by_id("claim-consult-premium-travel").click if claim_attributes[:consult_premium_travel]
