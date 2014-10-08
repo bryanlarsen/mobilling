@@ -4,7 +4,7 @@
 <form class="app" name="form" ng-submit="submit()" novalidate>
   <div class="navbar navbar-app navbar-absolute-top">
     <div class="navbar-brand navbar-brand-center">
-      <span class="hidden-xs">Claim</span>
+      <span class="hidden-xs">Claim {{ claim.number }}: {{ claim | claimTotal | divide:100 | currency }}</span>
     </div>
 
     <div class="btn-group pull-left">
