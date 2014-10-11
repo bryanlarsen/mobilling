@@ -270,12 +270,12 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Alice")
     assert @doctor.see?("Bob")
     claims = @doctor.all(".app-body .list-group-item").map(&:text)
-    assert_match(/Bob/, claims.last)
-    assert_match(/Alice/, claims.first)
+    assert_match(/Bob/, claims.first)
+    assert_match(/Alice/, claims.last)
     @doctor.click_on("Reverse")
     claims = @doctor.all(".app-body .list-group-item").map(&:text)
-    assert_match(/Alice/, claims.last)
-    assert_match(/Bob/, claims.first)
+    assert_match(/Alice/, claims.first)
+    assert_match(/Bob/, claims.last)
   end
 
   test "hospital defaults to last chosen one" do
