@@ -51,7 +51,7 @@ angular.module("moBilling.controllers")
         };
 
         $scope.initialize = function () {
-            $scope.orderBy = "number";
+            $scope.orderBy = "-number";
             $scope.step = $location.hash();
 
             if (!$scope.step || !/^(saved|submitted|rejected|paid)$/.test($scope.step)) {
