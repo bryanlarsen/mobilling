@@ -59,16 +59,16 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Bob")
   end
 
-  # test "can delete claim" do
-  #   @doctor.click_on("New")
-  #   @doctor.fill_in("Patient name", with: "Alice")
-  #   @doctor.click_on("Save")
-  #   @doctor.within(".list-group-item", text: "Alice") do
-  #     @doctor.click_on("remove")
-  #   end
-  #   @doctor.click_on("Delete")
-  #   assert @doctor.not_see?("Alice")
-  # end
+  test "can delete claim" do
+    @doctor.click_on("New")
+    @doctor.fill_in("Patient name", with: "Alice")
+    @doctor.click_on("Save")
+    @doctor.within(".list-group-item", text: "Alice") do
+      @doctor.click_on("Remove")
+    end
+    @doctor.click_on("Delete")
+    assert @doctor.not_see?("Alice")
+  end
 
   test "displays error message if the total time is less than 75 minutes" do
     @doctor.add_claim(consult_type: "comprehensive_er", consult_time_in: "10:00", consult_time_out: "10:45")
@@ -270,12 +270,12 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Alice")
     assert @doctor.see?("Bob")
     claims = @doctor.all(".app-body .list-group-item").map(&:text)
-    assert_match(/Alice/, claims.first)
-    assert_match(/Bob/, claims.last)
-    @doctor.click_on("Reverse")
-    claims = @doctor.all(".app-body .list-group-item").map(&:text)
     assert_match(/Bob/, claims.first)
     assert_match(/Alice/, claims.last)
+    @doctor.click_on("Reverse")
+    claims = @doctor.all(".app-body .list-group-item").map(&:text)
+    assert_match(/Alice/, claims.first)
+    assert_match(/Bob/, claims.last)
   end
 
   test "hospital defaults to last chosen one" do
