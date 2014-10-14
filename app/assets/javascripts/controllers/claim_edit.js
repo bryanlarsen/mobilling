@@ -95,6 +95,8 @@
             if (!$scope.step || !/^(claim|consult|details|comments)$/.test($scope.step)) {
                 $scope.setActiveStep("claim");
             }
+
+            $scope.today = new Date().toISOString().slice(0,10);
         };
 
         $scope.$on("submitting", function () {
