@@ -12,7 +12,7 @@ class ClaimTest < ActiveSupport::TestCase
   test "submitted claim returns everything except saved claims" do
     saved_claim = create(:claim, status: "saved")
     unprocessed_claim = create(:claim, status: "unprocessed")
-    processed_claim = create(:claim, status: "processed")
+    processed_claim = create(:claim, status: "file_created")
     rejected_admin_attention_claim = create(:claim, status: "rejected_admin_attention")
     rejected_doctor_attention_claim = create(:claim, status: "rejected_doctor_attention")
     paid_claim = create(:claim, status: "paid")

@@ -31,7 +31,10 @@ class Admin::SubmissionsController < Admin::BaseController
     end
 
     @submission = ::Submission.new(@interactor.attributes)
-    @submission.save!
+    ActiveRecord::Base.transaction do
+      @submission.save!
+      @claims.update_all(status: Claim.statuses["uploaded"])
+    end
     redirect_to "#{admin_user_submission_path(id: @submission, user_id: @user)}/#{@submission.filename}"
   end
 

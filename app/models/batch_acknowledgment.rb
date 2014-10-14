@@ -22,7 +22,7 @@ class BatchAcknowledgment < EdtFile
       # FIXME: fail submission with record['Edit Message']
     else
       submission.claims.each do |claim|
-        claim.status = 'processed'
+        claim.status = 'acknowledged'
         claim.batch_acknowledgment = self
         claim.save!
       end

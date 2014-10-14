@@ -164,7 +164,9 @@
             var hash = {
                 saved:                     "saved",
                 unprocessed:               "submitted",
-                processed:                 "submitted",
+                file_created:              "submitted",
+                uploaded:                  "submitted",
+                acknowledged:              "submitted",
                 rejected_doctor_attention: "rejected",
                 rejected_admin_attention:  "rejected",
                 paid:                      "paid"

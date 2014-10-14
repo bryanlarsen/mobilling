@@ -23,7 +23,7 @@ EOS
     assert ack.parent_id == submission.id
     submission.reload
     assert submission.status == 'acknowledged'
-    assert submission.claims[0].status == 'processed'
+    assert submission.claims[0].status == 'acknowledged'
     assert submission.claims[0].batch_acknowledgment == ack
   end
 end
