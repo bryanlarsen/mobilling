@@ -22,18 +22,20 @@ class Claim < ActiveRecord::Base
   def from_record(record)
     details_will_change!
     if record['Health Number'] != 0
-      details['patient_name'] = "Unknown Name, ON #{record['Health Number']}#{record['Version Code']}, #{record['Patient\'s Birthdate']}"
+      details['patient_number'] = record['Health Number'].to_s+record['Version Code']
+      details['patient_birthday'] = record["Patient's Birthdate"]
+      details['patient_province'] = "ON"
     else
-      details['patient_name'] = record["Patient's Birthdate"]
+      details['patient_birthday'] = record["Patient's Birthdate"]
       # the rest will be on the RMB record
     end
-    #self.payment_program = PaymentProgram.find_by_code(record['Payment Program'])
-    #self.payee = Payee.find_by_code(record['Payee'])
-    details['referring_physician'] = record['Referring Health Care Provider Number']
     details['hospital'] = record['Master Number']
-    #record['Service Location Indicator'].strip != ''
-    #manual_review = (record['Manual Review Indicator']=='Y')
-    #record['Referring Laboratory License Number']
+    details['payment_program'] = record['Payment Program']
+    details['payee'] = record['Payee']
+    details['referring_physician'] = record['Referring Health Care Provider Number']
+    details['service_location'] = record['Service Location Indicator']
+    details['manual_review_indicator'] = record['Manual Review Indicator']
+    details['referring_laboratory'] = record['Referring Laboratory License Number']
     details['admission_on'] = record["In-Patient Admission Date"].strftime("%Y-%m-%d") if record["In-Patient Admission Date"]
     self.number = record["Accounting Number"].to_i
     details['daily_details'] = []
@@ -43,7 +45,9 @@ class Claim < ActiveRecord::Base
 
   def process_rmb_record(record)
     details_will_change!
-    details['patient_name'] = record["Patient's Last Name"].titleize + ' ' + record["Patient's First Name"].titleize + ", #{record['Registration Number']}, #{details['patient_name']}, " + record["Patient's Sex"].to_i == 1 ? 'M' : 'F'
+    details['patient_name'] = record["Patient's First Name"].titleize + ' ' + record["Patient's Last Name"].titleize
+    details['patient_number'] = record['Registration Number']
+    details['patient_sex'] = record["Patient's Sex"].to_i == 1 ? 'M' : 'F'
   end
 
   def process_item(record)

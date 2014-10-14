@@ -38,6 +38,12 @@ HEE0001000000001                                                               \
 EOS
                             user_id: @user.id)
     s.process!
+    assert_equal s.claims[0].details['patient_number'], '9876543217HO'
+    assert_equal s.claims[0].details['payee'], 'P'
+    assert_equal s.claims[0].details['payment_program'], 'HCP'
+    assert_equal s.claims[0].details['hospital'], '1681'
+    assert_equal s.claims[0].details['service_location'], ''
+    assert_equal s.claims[0].details['manual_review_indicator'], ''
     assert s.claims[0].details['daily_details'][0]['code'] == 'P018B'
     assert s.claims[0].details['daily_details'][0]['day'] == '2014-08-11'
     assert s.claims[0].details['daily_details'][0]['fee'] == 16856
