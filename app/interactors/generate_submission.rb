@@ -1,25 +1,7 @@
 class GenerateSubmission
   attr_reader :contents, :errors, :timestamp, :provider, :batch_id
 
-  # current assumptions:
-  # patient_name must be of form "First Last, ON 9876543217XX, 2001-12-25, M"
-  # payment program auto-selects between HCP and RMB; other forms not supported (worker's comp, etc)
-  # time in and time out is assumed to be named "time_in" and "time_out" in daily_details, and is in format "13:54".  Can be missing/nil if not needed.
-  # all times/dates in database are in local time
-  # payee is Provider (P)
-  # referring_laboratory is nil
-  # manual review indicator is nil
-  # service location is nil, should be one of [nil, "HDS", "HED", "HIP", "HOP"]
-  # group code is assumed to be "0000" (private practice)
-  # mri/mro code is 'D' (Ottawa)
-  # specialty is 0: family medicine
-  # provider is 18468 (Dr. B. Jackson)
   def generate_claim(claim)
-    #  current assumptions
-    payee = 'P'
-    referring_laboratory = nil
-    manual_review = false
-    service_location = nil
 
     raise RuntimeError, 'accounting number required' if not claim.number
 
@@ -27,21 +9,17 @@ class GenerateSubmission
       @errors << [claim.number, [['patient_name', 'must be of form First Last, ON 9876543217XX, 2001-12-25, M']]]
     }
 
-    name, provhn, birthday, sex = claim.details['patient_name'].split(',')
-    return name_err.call if not provhn
+    if claim.details['patient_name'].match(/,/)
+      last_name, first_name = claim.details['patient_name'].split(',')
+    else
+      first_name, last_name = claim.details['patient_name'].split(' ')
+    end
+    return @errors << [claim.number, [['patient_name', 'must contain first and last name']]] if !(last_name && first_name)
+    last_name.strip!
+    first_name.strip!
 
-    first_name, last_name = name.split(' ')
-    return name_err.call if not last_name
-
-    province, health_number = provhn.strip.split(' ')
-    return name_err.call if not health_number
-    return name_err.call if province.length != 2
-
-    province = province.upcase
-    payment_program = province == 'ON' ? 'HCP' : 'RMB'
-
-    birthday = Date.strptime(birthday.strip)
-    return name_err.call if not birthday
+    province = claim.details['patient_province'].upcase
+    payment_program = claim.details['payment_program'] == 'WCB' ? 'WCB' : (province == 'ON' ? 'HCP' : 'RMB')
 
     referring_provider = claim.details['referring_physician']
     if referring_provider
@@ -55,19 +33,19 @@ class GenerateSubmission
     facility = claim.details['hospital'].split(' ')[0]
 
     r=ClaimHeaderRecord.new
-    r["Patient's Birthdate"]=birthday
+    r["Patient's Birthdate"]=Date.strptime(claim.details['patient_birthday'])
     r['Accounting Number']=claim.number
     r['Payment Program']=payment_program
-    r['Payee']=payee
+    r['Payee']=claim.details['payee'] || 'P'
     r['Referring Health Care Provider Number']=referring_provider if referring_provider
     r['Master Number']=facility
     r['In-Patient Admission Date']=Date.strptime(claim.details['admission_on']) if claim.details['admission_on']
-    r['Referring Laboratory License Number']=referring_laboratory.code if referring_laboratory
-    r['Manual Review Indicator']='Y' if manual_review
-    r['Service Location Indicator']=service_location.code if service_location
+    r['Referring Laboratory License Number']=claim.details['referring_laboratory'] if claim.details['referring_laboratory']
+    r['Manual Review Indicator']=claim.details['manual_review_indicator']
+    r['Service Location Indicator']=claim.details['service_location'] if claim.details['service_location']
 
     if payment_program == 'RMB'
-      sex = sex.strip[0].upcase
+      sex = claim.details['patient_sex'].strip[0].upcase
       if sex == 'M'
         sex = 1
       elsif sex == 'F'
@@ -77,7 +55,7 @@ class GenerateSubmission
       end
 
       rmb=ClaimHeaderRMBRecord.new
-      rmb['Registration Number']=health_number
+      rmb['Registration Number']=claim.details['patient_number']
       rmb["Patient's Last Name"]=last_name
       rmb["Patient's First Name"]=first_name
       rmb["Patient's Sex"]=sex
@@ -87,8 +65,8 @@ class GenerateSubmission
       @contents += rmb.to_s
       @errors += [claim.number, rmb.errors] if rmb.errors.length > 0
     else
-      r['Health Number']=health_number[0..9]
-      r['Version Code']=health_number[10..11].upcase
+      r['Health Number']=claim.details['patient_number'][0..9]
+      r['Version Code']=claim.details['patient_number'][10..11].upcase
       @contents += r.to_s
       @errors += [claim.number, r.errors] if r.errors.length > 0
     end

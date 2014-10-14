@@ -66,7 +66,7 @@
             }
 
             if (!claim.patient_sex) {
-                claim.patient_sex = "2";
+                claim.patient_sex = "F";
             }
 
             if (!claim.payee) {

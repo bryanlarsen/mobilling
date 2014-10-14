@@ -9,7 +9,10 @@ class GenerateSubmission::SubmissionTest < ActiveSupport::TestCase
       user: @user,
       status: :unprocessed,
       number: 99999999,
-      patient_name: 'Santina Claus, ON 9876543217HO, 1914-12-25, F',
+      patient_name: "Santina Claus",
+      patient_number: "9876543217HO",
+      patient_birthday: "1914-12-25",
+      patient_sex: "F",
       daily_details:
         [{code: 'P018B c-section', day: '2014-8-11', time_in: '09:00', time_out: '10:30', fee: 16856, units: 14},]
     }

@@ -71,12 +71,12 @@
           <label for="claim-patient-sex" class="control-label col-xs-12">Patient sex</label>
           <div class="form-control-wrapper col-xs-12">
             <div type="btn-group">
-              <label class="btn btn-default btn-lg" ng-class="{ 'btn-primary': claim.patient_sex == '2' }">
-                <input type="radio" id="patient-sex-female" ng-model="claim.patient_sex" value="2" name="patient_sex" class="hide">
+              <label class="btn btn-default btn-lg" ng-class="{ 'btn-primary': claim.patient_sex == 'F' }">
+                <input type="radio" id="patient-sex-female" ng-model="claim.patient_sex" value="F" name="patient_sex" class="hide">
                 Female
               </label>
-              <label class="btn btn-default btn-lg"  ng-class="{ 'btn-primary': claim.patient_sex == '1' }">
-                <input type="radio" id="patient-sex-male" ng-model="claim.patient_sex" value="1" name="patient_sex" class="hide">
+              <label class="btn btn-default btn-lg"  ng-class="{ 'btn-primary': claim.patient_sex == 'M' }">
+                <input type="radio" id="patient-sex-male" ng-model="claim.patient_sex" value="M" name="patient_sex" class="hide">
                 Male
               </label>
             </div>
