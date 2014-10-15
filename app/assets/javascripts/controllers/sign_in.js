@@ -2,6 +2,7 @@ angular.module("moBilling.controllers")
 
     .controller("SignInController", function ($scope, $location, Session, currentUser) {
         $scope.initialize = function () {
+            $scope.platform = (window.device && window.device.platform) ? window.device.platform : "Browser";
             $scope.session = {};
         };
 

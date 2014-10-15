@@ -2,7 +2,6 @@ angular.module("moBilling.controllers")
 
     .controller("SignUpController", function ($scope, $location, User, agents, specialties, currentUser) {
         $scope.initialize = function () {
-            $scope.platform = (window.device && window.device.platform) ? window.device.platform : "Browser";
             $scope.agents = agents;
             $scope.specialties = specialties;
             $scope.user = {
