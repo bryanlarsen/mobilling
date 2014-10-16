@@ -77,6 +77,10 @@
                 claim.most_responsible_physician = true;
             }
 
+            if (!claim.service_location) {
+                claim.service_location = "";
+            }
+
 
             if (!claim.hospital) {
                 var last = claims.filter(function (claim) {

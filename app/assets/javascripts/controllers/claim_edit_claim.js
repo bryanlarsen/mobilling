@@ -18,6 +18,16 @@ angular.module("moBilling.controllers")
             { name: 'Yukon', code: 'YT' }
         ];
 
+        $scope.service_locations = [
+            { name: 'N/A', code: '' },
+            { name: 'Hospital Day Surgery', code: 'HDS' },
+            { name: 'Hospital Emergency Department', code: 'HED' },
+            { name: 'Hospital In-Patient', code: 'HIP' },
+            { name: 'Hospital Out-Patient', code: 'HOP' },
+            { name: 'Hospital Referral Patient', code: 'HRP' },
+            { name: 'Ontario Telemedicine Network', code: 'OTN' }
+        ];
+
         $scope.initialize = function () {
             claim.first_seen_on_admission = (claim.admission_on === claim.first_seen_on);
         };
