@@ -21,11 +21,13 @@ Rails.application.routes.draw do
     resource :session, only: %i[new create destroy]
     resources :admin_users, only: %i[index new create edit update destroy]
     resources :claims, only: %i[index edit update]
+    resources :edt_files, only: %i[index show create] do
+      get ':filename', action: 'show', on: :member
+    end
     resources :users, only: %i[index edit update destroy] do
-      resources :submissions, only: %i[index create show] do
+      resources :submissions, only: %i[create show] do
         get ':filename', action: 'show', on: :member
       end
-      resources :edt_files, only: %i[create]
     end
     root to: redirect("/admin/dashboard")
   end

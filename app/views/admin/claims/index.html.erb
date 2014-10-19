@@ -35,7 +35,32 @@
           </div>
         </div>
       </form>
-    </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <strong>Generate Submission</strong>
+        </div>
+        <div class="panel-body">
+          <% if user_id_filter.present? %>
+            <% if status_filter == [Claim.statuses["unprocessed"].to_s] %>
+              <% if @claims.length > 0 %>
+                <form action="<%= admin_user_submissions_path(user_id: user_id_filter) %>" method="post" class="form-horizontal">
+                  <%= icon_submit "cogs", "Generate", class: "btn btn-primary", name: "" %>
+                </form>
+              <% else %>
+                No claims ready for this doctor
+              <% end %>
+            <% else %>
+              <form action="<%= admin_claims_path %>" method="get" class="form-horizontal">
+                <%= hidden_field_tag :user_id, user_id_filter %>
+                <%= hidden_field_tag "status[]", Claim.statuses["unprocessed"] %>
+                <%= icon_submit "filter", "Show Ready Claims", class: "btn btn-primary", name: "" %>
+              </form>
+            <% end %>
+          <% else %>
+            Please select a doctor
+          <% end %>
+        </div>
+     </div>
 
     <div class="col-md-8 col-md-pull-4">
       <table class="table table-striped">

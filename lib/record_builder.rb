@@ -45,10 +45,14 @@ class FieldDefinition
         on_err.call(ValueRequired.new)
       end
     else
-      if validate(value)
-        record[start-1, length] = format(value)
-      else
-        on_err.call(InvalidValue.new(value))
+      begin
+        if validate(value)
+          record[start-1, length] = format(value)
+        else
+          raise InvalidValue.new(value)
+        end
+      rescue e
+        on_err.call(e)
       end
     end
     record
@@ -74,7 +78,7 @@ class X < FieldDefinition
   def format(value)
     value[0...length] + ' '*[0,length-value.length].max
   end
-  
+
   def parse(record)
     record[start-1, length].rstrip
   end
@@ -92,7 +96,7 @@ class N < FieldDefinition
   end
 
   def parse(record)
-    val = record[start-1, length].to_i
+    val = record[start-1, length].to_i(10)
     if spec[:sign]
       val = -val if record[spec[:sign]-1,1]=='-'
     end
@@ -113,7 +117,7 @@ class NS < FieldDefinition
   end
 
   def parse(record)
-    record[start-1, length].to_i
+    record[start-1, length].to_i(10)
   end
 end
 

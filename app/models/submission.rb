@@ -1,8 +1,6 @@
 require "#{Rails.root}/lib/record_builder.rb"
 
 class Submission < EdtFile
-  has_many :claims, inverse_of: :submission
-
   def filename_character
     'H'
   end
@@ -38,6 +36,7 @@ class Submission < EdtFile
     Record.process_batch(contents).each {|record|
       case
       when record.kind_of?(BatchHeaderRecord)
+        self.user = User.find_by(provider_number: record['Health Care Provider'])
         #self.provider = Provider.find_by_code(record['Health Care Provider'])
         #self.group = Group.find_by_code(record['Group Number'])
         self.batch_id = record.to_s[7..18]

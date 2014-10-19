@@ -8,7 +8,8 @@ class BatchAcknowledgment < EdtFile
 
   def process!
     record = Record.process_batch(contents)[0]
-    submission = Submission.find_by(user_id: user_id,
+    self.user = User.find_by(provider_number: record['Provider Number'])
+    submission = Submission.find_by(user_id: user.id,
                                     batch_id: contents[17..28])
 
     submission.status = 'acknowledged'

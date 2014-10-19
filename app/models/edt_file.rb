@@ -1,6 +1,8 @@
 class EdtFile < ActiveRecord::Base
   belongs_to :user
 
+  has_many :claims, inverse_of: :submission, foreign_key: "submission_id"
+
 # defined in children, so class_name can be more specific
 #  belongs_to :parent, class_name => "EdtFile"
 

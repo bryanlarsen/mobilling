@@ -31,13 +31,14 @@ class SubmissionTest < ActiveSupport::TestCase
   test 'upload submission' do
      s = EdtFile.new_child(filename: 'HH00740.564',
                             contents: <<EOS,
-HEBV03D201408100000000000000001846800                                          \r
+HEBV03D201408100000000000000001846900                                          \r
 HEH9876543217HO1914122599999999HCPP      1681                                  \r
 HETP018B  0168561420140811                                                     \r
 HEE0001000000001                                                               \r
 EOS
-                            user_id: @user.id)
+                           )
     s.process!
+    assert_equal s.user_id, @user.id
     assert_equal s.claims[0].details['patient_number'], '9876543217HO'
     assert_equal s.claims[0].details['payee'], 'P'
     assert_equal s.claims[0].details['payment_program'], 'HCP'

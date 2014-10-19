@@ -2,7 +2,7 @@ require 'test_helper'
 
 class BatchAcknowledgmentTest < ActiveSupport::TestCase
   setup do
-    @user = create(:user)
+    @user = create(:user, provider_number: 18468)
   end
 
   test 'acknowledgment' do
@@ -13,13 +13,13 @@ HEH9876543217HO1914122599999999HCPP      1681                                  \
 HETP018B  0168561420140811                                                     \r
 HEE0001000000001                                                               \r
 EOS
-                            user_id: @user.id)
+                                   )
     submission.process!
 
     ack = EdtFile.new_child(filename: 'BF00740.564',
-                            contents: "HB1V0300740000000201408100000D406253043930442HCP/WCB00000184680000200000620140625     ***  BATCH TOTALS  ***                        \r\n",
-                            user_id: @user.id)
+                            contents: "HB1V0300740000000201408100000D406253043930442HCP/WCB00000184680000200000620140625     ***  BATCH TOTALS  ***                        \r\n")
     ack.process!
+    assert_equal ack.user_id, @user.id
     assert ack.parent_id == submission.id
     submission.reload
     assert submission.status == 'acknowledged'

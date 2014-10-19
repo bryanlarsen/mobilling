@@ -22,6 +22,7 @@ class RemittanceAdvice < EdtFile
     @records.each {|record|
       case
       when record.kind_of?(ReconciliationFileHeader)
+        self.user = User.find_by(provider_number: record['Health Care Provider'])
         @header = record
       when record.kind_of?(ReconciliationAddressRecordOne)
         true

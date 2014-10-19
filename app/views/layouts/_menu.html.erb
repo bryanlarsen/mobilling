@@ -22,6 +22,11 @@
             <%= link_to "Claims", admin_claims_path %>
           </li>
         <% end %>
+        <% if policy(:edt_file).read? %>
+          <li class="<%= 'active' if current_page?(admin_edt_files_path) %>">
+            <%= link_to "Files", admin_edt_files_path %>
+          </li>
+        <% end %>
         <% if policy(:user).read? %>
           <li class="<%= 'active' if current_page?(admin_users_path) %>">
             <%= link_to "Users", admin_users_path %>
