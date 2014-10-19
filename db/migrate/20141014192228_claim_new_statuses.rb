@@ -8,7 +8,7 @@ class ClaimNewStatuses < ActiveRecord::Migration
       dir.up do
         Claim.all.each do |claim|
           if claim.status > 2
-            claim.status = claim.status + 2
+            claim.status = claim.status + 3
             claim.save!
           end
         end

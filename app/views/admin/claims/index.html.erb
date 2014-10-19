@@ -41,7 +41,7 @@
         </div>
         <div class="panel-body">
           <% if user_id_filter.present? %>
-            <% if status_filter == [Claim.statuses["unprocessed"].to_s] %>
+            <% if status_filter == [Claim.statuses["ready"].to_s] %>
               <% if @claims.length > 0 %>
                 <form action="<%= admin_user_submissions_path(user_id: user_id_filter) %>" method="post" class="form-horizontal">
                   <%= icon_submit "cogs", "Generate", class: "btn btn-primary", name: "" %>
@@ -52,7 +52,7 @@
             <% else %>
               <form action="<%= admin_claims_path %>" method="get" class="form-horizontal">
                 <%= hidden_field_tag :user_id, user_id_filter %>
-                <%= hidden_field_tag "status[]", Claim.statuses["unprocessed"] %>
+                <%= hidden_field_tag "status[]", Claim.statuses["ready"] %>
                 <%= icon_submit "filter", "Show Ready Claims", class: "btn btn-primary", name: "" %>
               </form>
             <% end %>

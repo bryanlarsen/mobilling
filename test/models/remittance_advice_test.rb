@@ -22,7 +22,7 @@ EOS
 
     assert_equal ra.user_id, @user.id
     submission.claims[0].reload
-    assert submission.claims[0].status == 'paid'
+    assert submission.claims[0].status == 'done'
     assert submission.claims[0].paid_fee == 16856
   end
 end

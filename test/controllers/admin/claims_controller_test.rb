@@ -39,14 +39,14 @@ class Admin::ClaimsControllerTest < ActionController::TestCase
   test "index filters by state" do
     admin = create(:admin_user, role: "admin")
     saved_claim = create(:claim, status: "saved")
-    unprocessed_claim = create(:claim, status: "unprocessed")
-    paid_claim = create(:claim, status: "paid")
+    unprocessed_claim = create(:claim, status: "for_agent")
+    done_claim = create(:claim, status: "done")
     @controller.sign_in(admin)
-    get :index, status: Claim.statuses.values_at("saved", "unprocessed")
+    get :index, status: Claim.statuses.values_at("saved", "for_agent")
     assert_template "index"
     assert assigns(:claims).include?(unprocessed_claim)
     assert assigns(:claims).include?(saved_claim)
-    refute assigns(:claims).include?(paid_claim)
+    refute assigns(:claims).include?(done_claim)
   end
 
   test "index sorts by number" do

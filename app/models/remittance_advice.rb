@@ -70,7 +70,7 @@ class RemittanceAdvice < EdtFile
     memo
     @claims.each do |claim|
       if @claim_records[claim.id]
-        claim.status = 'paid'
+        claim.status = 'done'
         claim.remittance_advice = self
         claim.save!
       end

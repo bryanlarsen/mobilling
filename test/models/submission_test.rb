@@ -10,7 +10,7 @@ class SubmissionTest < ActiveSupport::TestCase
 
     claims = [ build(:claim,
       user: @user,
-      status: :unprocessed,
+      status: :ready,
       number: 99999999,
       patient_name: 'Santina Claus, ON 9876543217HO, 1914-12-25, F',
       daily_details:

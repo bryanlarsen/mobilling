@@ -72,7 +72,7 @@ class V1::ClaimsControllerTest < ActionController::TestCase
 
   test "update responds with not_found when updating unprocessed claim" do
     user = create(:user, :authenticated)
-    claim = create(:claim, user: user, status: "unprocessed")
+    claim = create(:claim, user: user, status: "for_agent")
     put :update, id: claim.id, auth: user.authentication_token, format: "json", claim: {status: "saved"}
     assert_response :not_found
   end
@@ -92,7 +92,7 @@ class V1::ClaimsControllerTest < ActionController::TestCase
 
   test "destroy responds with not found when claim is unprocessed" do
     user = create(:user, :authenticated)
-    claim = create(:claim, user: user, status: "unprocessed")
+    claim = create(:claim, user: user, status: "for_agent")
     delete :destroy, id: claim.id, auth: user.authentication_token, format: "json"
     assert_response :not_found
   end

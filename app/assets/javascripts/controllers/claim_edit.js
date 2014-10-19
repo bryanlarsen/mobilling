@@ -167,13 +167,15 @@
         function back() {
             var hash = {
                 saved:                     "saved",
-                unprocessed:               "submitted",
+                for_agent:                 "submitted",
+                ready:                     "submitted",
                 file_created:              "submitted",
                 uploaded:                  "submitted",
                 acknowledged:              "submitted",
+                rejected:                  "submitted",
                 rejected_doctor_attention: "rejected",
-                rejected_admin_attention:  "rejected",
-                paid:                      "paid"
+                done:                      "paid",
+                reclaimed:                 "hidden",
             }[claim.status];
 
             $location.path("/claims").hash(hash).replace();
@@ -210,7 +212,7 @@
             $scope.submitted = true;
             if ($scope.form.$valid) {
                 $scope.$emit("submitting");
-                claim.status = "unprocessed";
+                claim.status = "for_agent";
                 Claim.save(claim, back, error);
             } else {
                 showError();

@@ -13,7 +13,7 @@ class Admin::UpdateClaimTest < ActiveSupport::TestCase
     }
     new_attributes = {
       patient_name: "Alice",
-      status: "unprocessed",
+      status: "for_agent",
       comment: "Comment"
     }
     @claim = create(:claim, old_attributes)

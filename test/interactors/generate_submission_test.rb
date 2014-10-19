@@ -7,7 +7,7 @@ class GenerateSubmission::SubmissionTest < ActiveSupport::TestCase
 
     @claim_details = {
       user: @user,
-      status: :unprocessed,
+      status: :for_agent,
       number: 99999999,
       patient_name: "Santina Claus",
       patient_number: "9876543217HO",

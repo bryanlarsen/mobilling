@@ -50,14 +50,14 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     assert @doctor.see?("Alice")
   end
 
-  test "can edit rejected claim" do
-    create(:claim, user: @doctor.model, status: "rejected_doctor_attention", details: {"patient_name" => "Alice"})
-    @doctor.click_on("Rejected")
-    @doctor.click_on("Alice")
-    @doctor.fill_in("Patient name", with: "Bob")
-    @doctor.click_on("Save")
-    assert @doctor.see?("Bob")
-  end
+  # test "can edit rejected claim" do
+  #   create(:claim, user: @doctor.model, status: "rejected_doctor_attention", details: {"patient_name" => "Alice"})
+  #   @doctor.click_on("Rejected")
+  #   @doctor.click_on("Alice")
+  #   @doctor.fill_in("Patient name", with: "Bob")
+  #   @doctor.click_on("Save")
+  #   assert @doctor.see?("Bob")
+  # end
 
   # test "can delete claim" do
   #   @doctor.click_on("New")

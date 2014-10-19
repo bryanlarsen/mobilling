@@ -17,7 +17,7 @@ class UpdateClaim
   attr_reader :claim
 
   validates :photo_id, uuid: true, allow_nil: true
-  validates :status, inclusion: {in: %w[saved unprocessed rejected_doctor_attention rejected_admin_attention]}
+  validates :status, inclusion: {in: %w[saved for_agent]}
   validates :user, presence: true
   validates :patient_name, :hospital, :referring_physician, type: {is_a: String}, allow_nil: true
   validates :most_responsible_physician, :first_seen_consult, :last_seen_discharge, :icu_transfer, :consult_premium_travel, :consult_premium_first, inclusion: {in: [false, true]}, allow_nil: true
@@ -45,7 +45,8 @@ class UpdateClaim
   end
 
   def submitted?
-    status == "unprocessed"
+    # FIXME: for validations, wrong
+    status == "for_agent"
   end
 
   def simplified?

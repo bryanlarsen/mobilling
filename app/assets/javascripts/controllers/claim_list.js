@@ -62,9 +62,9 @@ angular.module("moBilling.controllers")
 
             $scope.statuses = {
                 saved: ["saved"],
-                submitted: ["unprocessed", "file_created", "uploaded", "acknowledged"],
-                rejected: ["rejected_doctor_attention", "rejected_admin_attention"],
-                paid: ["paid"]
+                submitted: ["for_agent", "ready", "file_created", "uploaded", "acknowledged", "rejected"],
+                rejected: ["rejected_doctor_attention"],
+                paid: ["done"]
             }[$scope.step];
 
             $scope.claims = claims.filter(function (claim) {

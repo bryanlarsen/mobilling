@@ -11,17 +11,17 @@ class ClaimTest < ActiveSupport::TestCase
 
   test "submitted claim returns everything except saved claims" do
     saved_claim = create(:claim, status: "saved")
-    unprocessed_claim = create(:claim, status: "unprocessed")
+    for_agent_claim = create(:claim, status: "for_agent")
     processed_claim = create(:claim, status: "file_created")
-    rejected_admin_attention_claim = create(:claim, status: "rejected_admin_attention")
+    rejected_claim = create(:claim, status: "rejected")
     rejected_doctor_attention_claim = create(:claim, status: "rejected_doctor_attention")
-    paid_claim = create(:claim, status: "paid")
+    done_claim = create(:claim, status: "done")
 
     refute Claim.submitted.include?(saved_claim)
-    assert Claim.submitted.include?(unprocessed_claim)
+    assert Claim.submitted.include?(for_agent_claim)
     assert Claim.submitted.include?(processed_claim)
-    assert Claim.submitted.include?(rejected_admin_attention_claim)
+    assert Claim.submitted.include?(rejected_claim)
     assert Claim.submitted.include?(rejected_doctor_attention_claim)
-    assert Claim.submitted.include?(paid_claim)
+    assert Claim.submitted.include?(done_claim)
   end
 end
