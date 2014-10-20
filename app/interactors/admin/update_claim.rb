@@ -1,7 +1,7 @@
 class Admin::UpdateClaim
   include ActiveModel::Model
 
-  attr_accessor :status, :patient_name, :comment
+  attr_accessor :status, :patient_name, :comment, :patient_number, :patient_province, :patient_birthday, :patient_sex, :manual_review_indicator, :service_location
 
   attr_reader :claim, :admin_user
 
@@ -12,6 +12,12 @@ class Admin::UpdateClaim
     @admin_user = admin_user
     self.status = @claim.status
     self.patient_name = @claim.details["patient_name"]
+    self.patient_number = @claim.details["patient_number"]
+    self.patient_province = @claim.details["patient_province"]
+    self.patient_birthday = @claim.details["patient_birthday"]
+    self.patient_sex = @claim.details["patient_sex"]
+    self.manual_review_indicator = @claim.details["manual_review_indicator"]
+    self.service_location = @claim.details["service_location"]
     super(attributes)
   end
 
@@ -41,7 +47,13 @@ class Admin::UpdateClaim
 
   def claim_attributes_details
     {
-      "patient_name" => patient_name
+      "patient_name" => patient_name,
+      "patient_number" => patient_number,
+      "patient_province" => patient_province,
+      "patient_birthday" => patient_birthday,
+      "patient_sex" => patient_sex,
+      "manual_review_indicator" => manual_review_indicator,
+      "service_location" => service_location,
     }.reverse_merge(@claim.details)
   end
 end

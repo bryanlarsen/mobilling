@@ -69,7 +69,7 @@
           <th class="text-center"><%= sortable_link_to "users.name", "Doctor" %></th>
           <th class="text-center"><%= sortable_link_to "claims.status", "Status" %></th>
           <th class="text-center"><%= sortable_link_to "claims.details->>'patient_name'", "Patient Name" %></th>
-          <th class="text-right">Actions</th>
+          <th class="text-right" colspan="2">Actions</th>
         </tr>
         <% @claims.each do |claim| %>
           <tr>
@@ -77,7 +77,8 @@
             <td class="text-center"><%= claim.user.name %></td>
             <td class="text-center"><%= claim.status.humanize %></td>
             <td class="text-center"><%= claim.details["patient_name"] %></td>
-            <td class="text-right"><%= link_to "Edit", edit_admin_claim_path(claim) %></td>
+            <td class="text-right"><%= link_to "View", edit_admin_claim_path(claim) %></td>
+            <td class="text-right"><%= link_to "Edit", "/#/claims/#{claim.id}/edit" %></td>
           </tr>
         <% end %>
       </table>

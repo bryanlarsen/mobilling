@@ -26,10 +26,42 @@
       <% end %>
 
       <%= form.group :patient_name do %>
-        <%= form.label :patient_name, "Patient Name, DOB, HC#", class: "control-label col-md-2" %>
+        <%= form.label :patient_name, "Patient Name", class: "control-label col-md-2" %>
         <div class="col-md-4">
           <%= form.text_field :patient_name, class: "form-control" %>
           <%= form.help_block :patient_name %>
+        </div>
+      <% end %>
+
+      <%= form.group :patient_number do %>
+       <%= form.label :patient_number, "Patient Number", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :patient_number, class: "form-control" %>
+          <%= form.help_block :patient_number %>
+        </div>
+      <% end %>
+
+      <%= form.group :patient_province do %>
+       <%= form.label :patient_province, "Patient Province (2 character code)", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :patient_province, class: "form-control" %>
+          <%= form.help_block :patient_province %>
+        </div>
+      <% end %>
+
+      <%= form.group :patient_birthday do %>
+       <%= form.label :patient_birthday, "Patient Birthday (YYYY-mm-dd)", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :patient_birthday, class: "form-control" %>
+          <%= form.help_block :patient_birthday %>
+        </div>
+      <% end %>
+
+      <%= form.group :patient_sex do %>
+       <%= form.label :patient_sex, "Patient Sex (M or F)", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :patient_sex, class: "form-control" %>
+          <%= form.help_block :patient_sex %>
         </div>
       <% end %>
 
@@ -105,6 +137,26 @@
         <p class="col-md-10 col-md-offset-2">None</p>
       <% end %>
     </fieldset>
+
+    <fieldset>
+      <legend>Extra Fields</legend>
+      <%= form.group :manual_review_indicator do %>
+       <%= form.label :manual_review_indicator, "Manual Review Indicator", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.check_box :manual_review_indicator, class: "form-control" %>
+          <%= form.help_block :manual_review_indicator %>
+        </div>
+      <% end %>
+
+      <%= form.group :service_location do %>
+       <%= form.label :service_location, "Service Location ('', HDS, HED, HIP, HOP, HRP, OTN)", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :service_location, class: "form-control" %>
+          <%= form.help_block :service_location %>
+        </div>
+      <% end %>
+    </fieldset>
+
 
     <fieldset>
       <legend>Comments</legend>
