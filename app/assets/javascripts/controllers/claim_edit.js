@@ -18,6 +18,52 @@
             $scope.submitted = false;
             $scope.submitting = false;
 
+            var templateTabs = {
+                internal_medicine: {
+                    patient: [
+                        'claim_edit/patient_photo.html',
+                        'claim_edit/patient_name.html',
+                        'claim_edit/patient_details.html'
+                    ],
+                    claim: [
+                        'claim_edit/hospital.html',
+                        'claim_edit/referring_physician.html',
+                        'claim_edit/diagnoses.html',
+                        'claim_edit/most_responsible_physician.html',
+                        'claim_edit/admission_on.html',
+                        'claim_edit/first_seen_on.html',
+                        'claim_edit/last_seen_on.html',
+                    ]
+                },
+                surgical_assist: {
+                    patient: [
+                        'claim_edit/patient_photo.html',
+                        'claim_edit/patient_name.html',
+                        'claim_edit/patient_details.html'
+                    ],
+                    claim: [
+                        'claim_edit/hospital.html',
+                        'claim_edit/procedure_on.html',
+                        'claim_edit/manual_review_indicator.html',
+                    ]
+                },
+            };
+
+            // unused ATM:
+            //          'claim_edit/referring_laboratory.html'
+            //          'claim_edit/service_location.html'
+            //          'claim_edit/payment_program.html'
+            //          'claim_edit/paymee.html'
+            //
+
+            templateTabs['family_medicine'] = templateTabs['internal_medicine'];
+            templateTabs['cardiology'] = templateTabs['internal_medicine'];
+
+            templateTabs['psychotherapist'] = templateTabs['surgical_assist'];
+            templateTabs['anesthesiologist'] = templateTabs['surgical_assist'];
+
+            $scope.templateTabs = templateTabs[claim.specialty];
+
             $scope.hospitals = {
                 displayKey: "name",
                 source: hospitals.ttAdapter(),
@@ -97,7 +143,7 @@
             $scope.step = $location.hash();
 
             if (!$scope.step || !/^(claim|consult|details|comments)$/.test($scope.step)) {
-                $scope.setActiveStep("claim");
+                $scope.setActiveStep("patient");
             }
 
             $scope.today = new Date().toISOString().slice(0,10);
