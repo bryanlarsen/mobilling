@@ -43,6 +43,8 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
       consult_premium_visit: nil,
       consult_premium_travel: nil,
       autogenerate: nil,
+      diagnoses: [],
+      referring_physician: nil,
       daily_details: [{day: "2014-07-02", code: "A666A", time_in: "17:00", time_out: "19:00"}],
     }
     @doctor.add_claim(claim_attributes)
@@ -167,6 +169,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.add_claim(diagnoses: [{name: "Flu"}, {name: "Cold"}])
     @doctor.click_on("Save")
     @doctor.click_on("Alice")
+    @doctor.click_on("Claim")
     assert_equal "Flu", @doctor.find_field("claim-diagnoses-0-name").value
     assert_equal "Cold", @doctor.find_field("claim-diagnoses-1-name").value
   end
@@ -175,6 +178,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.add_claim(diagnoses: [{name: "Flu"}, {name: "Cold"}])
     @doctor.click_on("Submit")
     @doctor.click_on("Alice")
+    @doctor.click_on("Claim")
     assert @doctor.see?("Flu")
     assert @doctor.see?("Cold")
   end
@@ -216,6 +220,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
 
   test "doctor sees a list of typeahead suggestions for hospital" do
     @doctor.click_on("New")
+    @doctor.click_on("Claim")
     @doctor.fill_in "Hospital", with: "hosp"
     @doctor.press_down_arrow("#claim-hospital")
 
@@ -230,6 +235,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
 
   test "doctor sees a list of typeahead suggestions for diagnosis" do
     @doctor.click_on("New")
+    @doctor.click_on("Claim")
     @doctor.fill_in "claim-diagnoses-0-name", with: "diag"
     @doctor.press_down_arrow("#claim-diagnoses-0-name")
 
@@ -279,6 +285,7 @@ class DoctorAcceptanceTest < ActionDispatch::IntegrationTest
     @doctor.add_claim(patient_name: "Alice", hospital: "General Hospital")
     @doctor.click_on("Submit")
     @doctor.click_on("New")
+    @doctor.click_on("Claim")
     assert_equal "General Hospital", @doctor.find_field("Hospital").value
   end
 end

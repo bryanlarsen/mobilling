@@ -140,13 +140,18 @@ module Test
 
       click_on("New")
 
-      # claim details
+      # patient
       unless claim_attributes[:photo].nil?
         attach_file("Patient photo", Rails.root.join("test", "fixtures", claim_attributes[:photo]), visible: false)
       end
       fill_in("Patient name", with: claim_attributes[:patient_name])
+
+      # claim
+      click_on("Claim")
       fill_in("Hospital", with: claim_attributes[:hospital])
-      fill_in("Referring physician", with: claim_attributes[:referring_physician])
+      unless claim_attributes[:referring_physician].nil?
+        fill_in("Referring physician", with: claim_attributes[:referring_physician])
+      end
 
       claim_attributes[:diagnoses].each.with_index do |diagnosis, i|
         click_on("Add a new diagnosis") unless i.zero?

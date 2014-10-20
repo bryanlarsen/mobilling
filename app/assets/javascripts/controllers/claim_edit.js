@@ -32,6 +32,7 @@
                         'claim_edit/most_responsible_physician.html',
                         'claim_edit/admission_on.html',
                         'claim_edit/first_seen_on.html',
+                        'claim_edit/icu_transfer.html',
                         'claim_edit/last_seen_on.html',
                     ]
                 },

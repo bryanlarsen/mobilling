@@ -90,11 +90,11 @@ class UpdateClaimTest < ActiveSupport::TestCase
     assert_invalid @interactor, :hospital
   end
 
-  test "is invalid without diagnoses when submitted" do
-    @interactor.status = "for_agent"
-    @interactor.diagnoses = []
-    assert_invalid @interactor, :diagnoses
-  end
+  # test "is invalid without diagnoses when submitted" do
+  #   @interactor.status = "for_agent"
+  #   @interactor.diagnoses = []
+  #   assert_invalid @interactor, :diagnoses
+  # end
 
   test "is invalid with invalid referring_physician" do
     @interactor.referring_physician = 0
