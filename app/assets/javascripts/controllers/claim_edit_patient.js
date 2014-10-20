@@ -37,17 +37,9 @@ angular.module("moBilling.controllers")
             $scope.$emit("uploaded");
         }
 
-        $scope.$on('photoChanged', function(file) {
+        $scope.$on('photoChanged', function(event, file) {
             $scope.$emit("uploading");
             Photo.upload(file).then(success, error);
-        });
-
-
-        $scope.$watch("file", function (file) {
-            if (file) {
-                $scope.$emit("uploading");
-                Photo.upload(file).then(success, error);
-            }
         });
     });
 
