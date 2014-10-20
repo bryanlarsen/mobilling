@@ -1,0 +1,87 @@
+<div class="container">
+    <form action="<%#= admin_user_submissions_path %>" method="post" class="form-horizontal"/>
+      <%#= icon_submit "submit", "Create new Submission", class: "btn btn-primary", name: "" %>
+    </form>
+  <div class="row">
+    <div class="col-md-4 col-md-push-8">
+      <form action="<%= admin_edt_files_path %>" method="get" class="form-horizontal">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <strong>Filters</strong>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <div class="col-md-12">
+                <%= select_tag :user_id, options_from_collection_for_select(policy_scope(:user), "id", "name", user_id_filter), class: "form-control", prompt: "All" %>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-12">
+                <%= hidden_field_tag "types[]", nil %>
+                <% Rails.application.eager_load! if Rails.env.development? %>
+                <% EdtFile.subclasses.each do |klass| %>
+                  <div class="checkbox">
+                    <label>
+                      <%= check_box_tag "types[]", klass.name, type_filter.include?(klass.name) %>
+                      <%= klass.name.underscore.humanize %>
+                    </label>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-12">
+                <%= icon_submit "filter", "Filter", class: "btn btn-primary", name: "" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <form action="<%= admin_edt_files_path %>" method="post" class="form-horizontal" enctype="multipart/form-data">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <strong>Upload File</strong>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <div class="col-md-12">
+                <%= file_field_tag 'contents' %>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-12">
+                <%= icon_submit "upload", "Upload", class: "btn btn-primary", name: "" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-8 col-md-pull-4">
+      <table class="table table-striped">
+        <tr>
+          <th> <%= sortable_link_to "filename", "Filename" %> </th>
+          <th> <%= sortable_link_to "users.name", "Name" %> </th>
+          <th> <%= sortable_link_to "type", "File Type" %> </th>
+          <th> <%= sortable_link_to "created_at", "Date" %> </th>
+          <th> Claims </th>
+          <th> Claimed </th>
+          <th> Paid </th>
+          <th> </th> </tr>
+        <% @edt_files.each do |edt_file| %>
+        <tr>
+          <td> <%= edt_file.filename %> </td>
+          <td> <%= edt_file.user.name %> </td>
+          <td> <%= edt_file.type.underscore.humanize %> </td>
+          <td> <%= edt_file.created_at.to_date %> </td>
+          <td> <%= edt_file.claims.length %> </td>
+          <td> <%= edt_file.type=="Submission" ? ("%.2f" % (edt_file.submitted_fee/100.0)) : '' %> </td>
+          <td> <%= edt_file.type=="Submission" ? ("%.2f" % (edt_file.paid_fee/100.0)) : '' %> </td>
+          <td> <%#= link_to "Download", "#{admin_user_edt_file_path(id: edt_file, user_id: @user)}/#{edt_file.filename}", download: true, "data-no-turbolink" => true %> </td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
