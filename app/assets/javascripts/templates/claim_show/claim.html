@@ -3,20 +3,6 @@
     <div class="panel" id="claim">
       <div class="panel-body">
         <div class="form-group row">
-          <label class="control-label col-xs-12">Patient photo</label>
-          <a href="{{photo.url}}" class="form-control-wrapper col-xs-12" ng-if="photo" target="photo-preview" toggle>
-            <img ng-src="{{photo.small_url}}" width="300" class="thumbnail">
-          </a>
-        </div>
-
-        <div class="form-group row">
-          <label class="control-label col-xs-12">Patient name</label>
-          <div class="form-control-wrapper col-xs-12">
-            <p class="form-control-static">{{claim.patient_name}}</p>
-          </div>
-        </div>
-
-        <div class="form-group row">
           <label class="control-label col-xs-12">Hospital</label>
           <div class="form-control-wrapper col-xs-12">
             <p class="form-control-static">{{claim.hospital}}</p>
@@ -94,6 +80,13 @@
             <div class="form-control-wrapper col-xs-12">
               <p class="form-control-static">{{claim.procedure_on}}</p>
             </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="control-label col-xs-12">Manual Review Flag</label>
+          <div class="form-control-wrapper col-xs-12">
+            <mb-switch ng-model="claim.manual_review_indicator" disabled="disabled"></mb-switch>
           </div>
         </div>
       </div>
