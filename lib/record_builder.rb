@@ -39,8 +39,6 @@ class FieldDefinition
         record[start-1, length] = format(@spec[:value])
       elsif @spec[:default]
         record[start-1, length] = format(@spec[:default])
-      elsif !validate
-        record[start-1, length] = ' '*length
       else
         on_err.call(ValueRequired.new)
       end
@@ -51,7 +49,7 @@ class FieldDefinition
         else
           raise InvalidValue.new(value)
         end
-      rescue e
+      rescue StandardError => e
         on_err.call(e)
       end
     end
