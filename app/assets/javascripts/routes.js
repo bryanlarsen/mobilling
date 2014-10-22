@@ -138,22 +138,19 @@ angular.module("moBilling")
         });
     })
 
-    .run(function ($rootScope, $location, $window, currentUser, User, authenticationToken) {
+    .run(function ($rootScope, $location, $window, $timeout, lockTimeout, virtualKeyboard, currentUser, User, authenticationToken) {
         $rootScope.loading = false;
-        $rootScope.locked = false;
-
-        function closeKeyboard() {
-            if ($window.cordova && $window.cordova.plugins && $window.cordova.plugins.Keyboard && $window.cordova.plugins.Keyboard.close) {
-                $window.cordova.plugins.Keyboard.close();
-            }
-        }
+        $rootScope.locked = !!$window.localStorage.getItem("lock");
 
         $rootScope.$on("lock", function () {
+            $window.localStorage.setItem("lock", true);
             $rootScope.locked = true;
         });
 
         $rootScope.$on("unlock", function () {
             $rootScope.locked = false;
+            $window.localStorage.removeItem("lock");
+            lockTimeout.start();
         });
 
         $rootScope.$on("loading", function () {
@@ -161,7 +158,8 @@ angular.module("moBilling")
         });
 
         $rootScope.$on("loaded", function () {
-            closeKeyboard();
+            virtualKeyboard.close();
+            lockTimeout.start();
             $rootScope.loading = false;
         });
 
