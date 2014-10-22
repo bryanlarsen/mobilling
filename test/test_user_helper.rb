@@ -171,7 +171,7 @@ module Test
       end
 
       unless claim_attributes[:first_seen_consult].nil?
-        find_by_id("claim-first-seen-consult").click unless claim_attributes[:first_seen_consult]
+        find_by_id("claim-first-seen-consult").click if claim_attributes[:first_seen_consult]
       end
 
       unless claim_attributes[:icu_transfer].nil?

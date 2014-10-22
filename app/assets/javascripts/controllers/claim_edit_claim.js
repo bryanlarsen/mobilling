@@ -19,9 +19,7 @@ angular.module("moBilling.controllers")
         };
 
         $scope.$watch($scope.isFirstSeenConsultEnabled, function (isFirstSeenConsultEnabled) {
-            if (!isFirstSeenConsultEnabled) {
-                claim.first_seen_consult = true;
-            }
+            claim.first_seen_consult = !isFirstSeenConsultEnabled;
         });
 
         // icu_transfer
