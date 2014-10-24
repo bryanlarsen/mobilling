@@ -18,7 +18,6 @@ class Admin::SubmissionsController < Admin::BaseController
     @submission = ::Submission.new(@interactor.attributes)
     ActiveRecord::Base.transaction do
       @submission.save!
-      @claims.update_all(status: Claim.statuses["uploaded"])
     end
 
     flash[:notice] = "Your download should begin immediately.   If it does not please "+view_context.link_to("<i class='fa fa-download'></i> click here.".html_safe, download_admin_edt_file_path(id: @submission, filename: @submission.filename), download: true, "data-no-turbolink" => true) + %Q[<meta http-equiv="refresh" content=".1;url=#{download_admin_edt_file_path(id: @submission, filename: @submission.filename)}"/>]

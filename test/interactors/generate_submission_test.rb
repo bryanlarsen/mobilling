@@ -22,6 +22,9 @@ class GenerateSubmission::SubmissionTest < ActiveSupport::TestCase
     @interactor.perform(@user, claims, DateTime.new(2014,8,10))
     assert @interactor.errors.length == 0, @interactor.errors.to_yaml
     assert @interactor.contents == contents, 'is: '+@interactor.contents.split("\n").to_yaml+'should be: '+contents.split("\n").to_yaml
+    claims.each do |claim|
+      assert_equal claim.status, 'file_created'
+    end
   end
 
   test 'empty' do

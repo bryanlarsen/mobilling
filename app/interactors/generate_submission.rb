@@ -130,6 +130,7 @@ class GenerateSubmission
 
     claims.each do |claim|
       generate_claim(claim)
+      claim.status = 'file_created'
     end
 
     tr = BatchTrailerRecord.new
