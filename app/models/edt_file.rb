@@ -38,6 +38,10 @@ class EdtFile < ActiveRecord::Base
     raise StandardError.new, "pure virtual method called"
   end
 
+  def records
+    Record.process_batch(contents)
+  end
+
   def self.new_child(params)
     case params[:filename][0..0]
     when 'H'

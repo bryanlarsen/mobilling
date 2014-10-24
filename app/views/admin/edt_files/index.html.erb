@@ -70,7 +70,7 @@
         <% @edt_files.each do |edt_file| %>
         <tr>
           <td> <%= link_to raw("<i class='fa fa-download'></i>"), "#{download_admin_edt_file_path(id: edt_file, filename: edt_file.filename)}", download: true, "data-no-turbolink" => true %> </td>
-          <td> <%= edt_file.filename %> </td>
+          <td> <%= link_to edt_file.filename, admin_edt_file_path(edt_file) %> </td>
           <td> <%= edt_file.user.name %> </td>
           <td> <%= edt_file.type.underscore.humanize %> </td>
           <td> <%= edt_file.created_at.to_date %> </td>

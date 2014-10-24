@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>
+        <%= icon_link_to "download", "", "#{download_admin_edt_file_path(id: @file, filename: @file.filename)}", download: true, "data-no-turbolink" => true, class: "btn btn-primary" %>
+        <%= @file.filename %>
+      </h2>
+      <div><%= @file.created_at.to_date %></div>
+      <br/>
+    </div>
+  </div>
+  <% @file.records.each.with_index do |record, i| %>
+    <%= render partial: "record", locals: { record: record, index: i } %>
+  <% end %>
+</div>

@@ -30,6 +30,10 @@ class Admin::EdtFilesController < Admin::BaseController
     send_data @file.contents, filename: @file.filename, disposition: 'attachment', type: 'text/plain'
   end
 
+  def show
+    @file = policy_scope(:edt_file).find(params[:id])
+  end
+
   private
 
   def user_id_filter
