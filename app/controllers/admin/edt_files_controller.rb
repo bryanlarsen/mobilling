@@ -18,7 +18,7 @@ class Admin::EdtFilesController < Admin::BaseController
     begin
       file = EdtFile.new_child(filename: params['contents'].original_filename,
                                contents: params['contents'].read)
-      file.process!
+      message = file.process!
     rescue
       flash[:error] = "Invalid File"
     end

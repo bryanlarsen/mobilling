@@ -81,3 +81,39 @@ ActiveRecord::Migration.say_with_time "schedule_master" do
     end
   end
 end
+
+ActiveRecord::Migration.say_with_time "remittance_advice_codes" do
+  inside = false
+  current_code = nil
+  current_text = ''
+  count = 0
+
+  finish_code = lambda do
+    return if current_code.nil?
+    code = RemittanceAdviceCode.find_or_create_by!(:code => current_code)
+    code.name = current_text unless current_text.blank?
+    code.save!
+    current_code=nil
+    count += 1
+  end
+
+  Rails.root.join("db/seeds/tech_specific.txt").readlines.each do |line|
+    if inside
+      if line =~ /^\s\s([A-Z0-9][A-Z0-9])\s+(.*)/
+        finish_code.call
+        current_code = $1
+        current_text = $2
+      elsif line =~ /^\s{4,20}(\S.*)/
+        current_text += ' '+$1
+      elsif line =~ /^7./
+        inside = false
+      else
+        finish_code.call
+      end
+    elsif line =~ /^6.8\s+Remittance Advice Explanatory Codes/
+      inside = true
+    end
+  end
+
+  puts "#{count} codes"
+end

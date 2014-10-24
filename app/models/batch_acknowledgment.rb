@@ -28,5 +28,6 @@ class BatchAcknowledgment < EdtFile
         claim.save!
       end
     end
+    nil
   end
 end

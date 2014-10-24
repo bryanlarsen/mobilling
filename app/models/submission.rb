@@ -37,8 +37,6 @@ class Submission < EdtFile
       case
       when record.kind_of?(BatchHeaderRecord)
         self.user = User.find_by(provider_number: record['Health Care Provider'])
-        #self.provider = Provider.find_by_code(record['Health Care Provider'])
-        #self.group = Group.find_by_code(record['Group Number'])
         self.batch_id = record.to_s[7..18]
       when record.kind_of?(ClaimHeaderRecord)
         self.claims << Claim.new(user_id: user_id).from_record(record)
@@ -56,7 +54,7 @@ class Submission < EdtFile
       end
     }
     save!
-    self
+    nil
   end
 
 end
