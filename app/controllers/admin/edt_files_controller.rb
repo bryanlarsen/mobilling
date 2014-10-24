@@ -25,6 +25,11 @@ class Admin::EdtFilesController < Admin::BaseController
     redirect_to admin_user_edt_files_path
   end
 
+  def download
+    @file = policy_scope(:edt_file).find(params[:id])
+    send_data @file.contents, filename: @file.filename, disposition: 'attachment', type: 'text/plain'
+  end
+
   private
 
   def user_id_filter

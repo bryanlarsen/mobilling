@@ -61,6 +61,7 @@
     <div class="col-md-8 col-md-pull-4">
       <table class="table table-striped">
         <tr>
+          <th></th>
           <th> <%= sortable_link_to "filename", "Filename" %> </th>
           <th> <%= sortable_link_to "users.name", "Name" %> </th>
           <th> <%= sortable_link_to "type", "File Type" %> </th>
@@ -71,6 +72,7 @@
           <th> </th> </tr>
         <% @edt_files.each do |edt_file| %>
         <tr>
+          <td> <%= link_to raw("<i class='fa fa-download'></i>"), "#{download_admin_edt_file_path(id: edt_file, filename: edt_file.filename)}", download: true, "data-no-turbolink" => true %> </td>
           <td> <%= edt_file.filename %> </td>
           <td> <%= edt_file.user.name %> </td>
           <td> <%= edt_file.type.underscore.humanize %> </td>
@@ -78,7 +80,6 @@
           <td> <%= edt_file.claims.length %> </td>
           <td> <%= edt_file.type=="Submission" ? ("%.2f" % (edt_file.submitted_fee/100.0)) : '' %> </td>
           <td> <%= edt_file.type=="Submission" ? ("%.2f" % (edt_file.paid_fee/100.0)) : '' %> </td>
-          <td> <%#= link_to "Download", "#{admin_user_edt_file_path(id: edt_file, user_id: @user)}/#{edt_file.filename}", download: true, "data-no-turbolink" => true %> </td>
         </tr>
         <% end %>
       </table>
