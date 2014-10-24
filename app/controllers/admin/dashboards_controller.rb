@@ -1,7 +1,7 @@
 class Admin::DashboardsController < Admin::BaseController
   include Admin::Sortable
 
-  self.sortable_columns = %w[users.name saved_count for_agent_count ready_count file_created_count uploaded_count acknowledged_count rejected_admin_attention_count rejected_doctor_attention_count paid_count]
+  self.sortable_columns = %w[users.name saved_count for_agent_count ready_count file_created_count uploaded_count acknowledged_count agent_attention_count doctor_attention_count paid_count]
 
   def show
     authorize :dashboard, :read?

@@ -28,7 +28,7 @@ angular.module("moBilling.controllers")
         };
 
         $scope.edit = function (claim) {
-            if (["saved", "rejected_doctor_attention", "rejected_admin_attention"].indexOf(claim.status) !== -1) {
+            if (["saved"].indexOf(claim.status) !== -1) {
                 $location.path("/claims/" + claim.id + "/edit").hash("");
             } else {
                 $location.path("/claims/" + claim.id).hash("");
@@ -62,8 +62,8 @@ angular.module("moBilling.controllers")
 
             $scope.statuses = {
                 saved: ["saved"],
-                submitted: ["for_agent", "ready", "file_created", "uploaded", "acknowledged", "rejected"],
-                rejected: ["rejected_doctor_attention"],
+                submitted: ["for_agent", "ready", "file_created", "uploaded", "acknowledged", "agent_attention"],
+                rejected: ["doctor_attention"],
                 paid: ["done"]
             }[$scope.step];
 

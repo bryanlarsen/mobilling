@@ -13,8 +13,8 @@ class ClaimTest < ActiveSupport::TestCase
     saved_claim = create(:claim, status: "saved")
     for_agent_claim = create(:claim, status: "for_agent")
     processed_claim = create(:claim, status: "file_created")
-    rejected_claim = create(:claim, status: "rejected")
-    rejected_doctor_attention_claim = create(:claim, status: "rejected_doctor_attention")
+    rejected_claim = create(:claim, status: "agent_attention")
+    rejected_doctor_attention_claim = create(:claim, status: "doctor_attention")
     done_claim = create(:claim, status: "done")
 
     refute Claim.submitted.include?(saved_claim)

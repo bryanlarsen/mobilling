@@ -219,8 +219,8 @@
                 file_created:              "submitted",
                 uploaded:                  "submitted",
                 acknowledged:              "submitted",
-                rejected:                  "submitted",
-                rejected_doctor_attention: "rejected",
+                agent_attention:           "submitted",
+                doctor_attention:          "rejected",
                 done:                      "paid",
                 reclaimed:                 "hidden",
             }[claim.status];

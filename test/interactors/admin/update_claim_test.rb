@@ -30,12 +30,12 @@ class Admin::UpdateClaimTest < ActiveSupport::TestCase
   end
 
   test "sends no email when rejected_admin_attention" do
-    @interactor.status = "rejected_admin_attention"
+    @interactor.status = "agent_attention"
     assert_no_emails { @interactor.perform }
   end
 
   test "sends an email when rejected_doctor_attention" do
-    @interactor.status = "rejected_doctor_attention"
+    @interactor.status = "doctor_attention"
     assert_emails(1) { @interactor.perform }
   end
 
