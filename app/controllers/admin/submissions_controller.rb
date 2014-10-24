@@ -23,14 +23,4 @@ class Admin::SubmissionsController < Admin::BaseController
     flash[:notice] = "Your download should begin immediately.   If it does not please "+view_context.link_to("<i class='fa fa-download'></i> click here.".html_safe, download_admin_edt_file_path(id: @submission, filename: @submission.filename), download: true, "data-no-turbolink" => true) + %Q[<meta http-equiv="refresh" content=".1;url=#{download_admin_edt_file_path(id: @submission, filename: @submission.filename)}"/>]
     redirect_to :back
   end
-
-  def show
-    @user = policy_scope(:user).find(params[:user_id])
-    @submission = policy_scope(:submission).find(params[:id])
-    send_data @submission.contents, filename: @submission.filename, disposition: 'attachment', type: 'text/plain'
-  end
-
-  def download
-    byebug
-  end
 end
