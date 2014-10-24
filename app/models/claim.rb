@@ -76,9 +76,28 @@ class Claim < ActiveRecord::Base
 
     records.each do |record|
       if record.kind_of?(ClaimHeaderRecord) || record.kind_of?(ClaimHeaderRMBRecord)
-        @submitted_details.merge(record.fields)
+        @submitted_details.merge!(record.fields)
       elsif record.kind_of?(ItemRecord)
-        @submitted_details['daily_details'] << record.fields
+        found = false
+        items.each_with_index do |item, i|
+          if item[:day] == record['Service Date']
+            if item[:code] == record['Service Code']
+              @submitted_details['daily_details'][i] = record.fields
+              @submitted_details['daily_details'][i]['premiums'] = []
+              found = true
+            else
+              item[:premiums].each_with_index do |premium, j|
+                if premium[:code] == record['Service Code']
+                  @submitted_details['daily_details'][i]['premiums'][j] = record.fields
+                  found = true
+                end
+              end
+            end
+          end
+        end
+        if !found
+          raise "FIXME"
+        end
       end
     end
 
@@ -86,9 +105,11 @@ class Claim < ActiveRecord::Base
   end
 
   def submitted_fee
-    submitted_details['daily_details'] .reduce(0) { |sum, dets|
-      sum += dets['Fee Submitted']
-    }
+    submitted_details['daily_details'] .reduce(0) do |sum, dets|
+      sum += dets['Fee Submitted'] + dets['premiums'].reduce(0) do |sum2, prem|
+        sum2 += prem['Fee Submitted']
+      end
+    end
   end
 
   def remittance_details
@@ -98,8 +119,33 @@ class Claim < ActiveRecord::Base
 
   def paid_fee
     return 0 if remittance_details.nil?
-    remittance_details['items'].reduce(0) { |memo, dets|
-      memo += dets['Amount Paid']
-    }
+    remittance_details['items'].reduce(0) do |sum, dets|
+      sum += dets['Amount Paid'] + dets['premiums'].reduce(0) do |sum2, prem|
+        sum2 += prem['Amount Paid']
+      end
+    end
+  end
+
+  # daily_details, normalized, and with a better name
+  def items
+    details['daily_details'].map do |daily|
+      code = daily['code'][0..4].upcase
+      code[4]='A' if !code[4] || !'ABC'.include?(code[4])
+      { code: code,
+        day: Date.strptime(daily['day']),
+        fee: BigDecimal(daily['fee']) / BigDecimal(100),
+        units: daily['units'],
+        message: daily['message'],
+        premiums: (daily['premiums'] || []).map do |premium|
+          code = premium['code'][0..4].upcase
+          code[4]='A' if !code[4] || !'ABC'.include?(code[4])
+          { code: code,
+            fee: BigDecimal(premium['fee']) / BigDecimal(100),
+            units: premium['units'],
+            message: premium['message'],
+          }
+        end
+      }
+    end
   end
 end

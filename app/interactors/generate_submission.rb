@@ -70,30 +70,45 @@ class GenerateSubmission
       @contents += r.to_s
       @errors += [claim.number, r.errors] if r.errors.length > 0
     end
-    claim.details['daily_details'].each do |daily|
+    claim.items.each do |daily|
       generate_details(daily, claim)
     end
   end
 
   def generate_details(daily, claim)
-    code = daily['code'][0..4].upcase
-    code[4]='A' if !code[4] || !'ABC'.include?(code[4])
-    day = Date.strptime(daily['day'])
-
     r = ItemRecord.new
-    r['Service Code']=code
-    r['Fee Submitted']=daily['fee']
-    r['Number of Services']=daily['units']
-    r['Service Date']=day
+    r['Service Code']=daily[:code]
+    r['Fee Submitted']=daily[:fee]*100
+    r['Number of Services']=daily[:units]
+    r['Service Date']=daily[:day]
     r['Diagnostic Code']=claim.details['diagnosis'][-3..-1] if claim.details['diagnosis']
 
     @contents += r.to_s
-    @errors += ["#{claim.number}:#{daily['code'][0..4]}", r.errors] if r.errors.length > 0
+    @errors += ["#{claim.number}:#{daily[:code]}", r.errors] if r.errors.length > 0
+    @num_records += 1
+
+    daily[:premiums].each do |premium|
+      generate_premium(premium, daily, claim)
+    end
+  end
+
+  def generate_premium(premium, daily, claim)
+    r = ItemRecord.new
+    r['Service Code']=premium[:code]
+    r['Fee Submitted']=premium[:fee]*100
+    r['Number of Services']=premium[:units]
+    r['Service Date']=daily[:day]
+    r['Diagnostic Code']=claim.details['diagnosis'][-3..-1] if claim.details['diagnosis']
+
+    @contents += r.to_s
+    @errors += ["#{claim.number}:#{daily[:code]}:#{premium[:code]}", r.errors] if r.errors.length > 0
+    @num_records += 1
   end
 
   def initialize
     @contents = ""
     @errors = []
+    @num_records = 0
   end
 
   def perform(user, claims, timestamp=nil)
@@ -113,15 +128,13 @@ class GenerateSubmission
     @errors += r.errors
     @batch_id = @contents[7..18]
 
-    num_records = 0
     claims.each do |claim|
       generate_claim(claim)
-      num_records += claim.details['daily_details'].length
     end
 
     tr = BatchTrailerRecord.new
     tr.set_field!('H Count', claims.length)
-    tr.set_field!('T Count', num_records)
+    tr.set_field!('T Count', @num_records)
     @contents += tr.to_s
     @errors += tr.errors
   end

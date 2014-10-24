@@ -46,10 +46,9 @@ EOS
     dets[:daily_details][0][:day] = '2014-8-10'
     dets[:daily_details][0][:time_in] = '03:00'
     dets[:daily_details][0][:time_out] = '04:30'
-    dets[:daily_details] << dets[:daily_details][0].dup
-    dets[:daily_details][1][:code] = 'E401B'
-    dets[:daily_details][1][:fee] = 12642
-    dets[:daily_details] << {code: 'C999B late call-in', day: '2014-8-10', fee: 10000, units: 1}
+    dets[:daily_details][0][:premiums] = [ { code: 'E401B', fee: 12642, units: 14 } ,
+                                           { code: 'C999B late call-in', fee: 10000, units: 1 } ]
+
     check [build(:claim, dets)], <<EOS
 HEBV03Q201408100000000000246801846999                                          \r
 HEH9876543217HO1914122599999999HCPP      1681                                  \r
