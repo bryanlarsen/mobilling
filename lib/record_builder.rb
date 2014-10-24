@@ -86,11 +86,11 @@ end
 class N < FieldDefinition
   def validate(val)
     # will throw if cannot convert to integer
-    ("%*i" % [length, val]).length <= length
+    ("%*i" % [length, val.is_a?(String) ? Integer(val, 10) : val]).length <= length
   end
 
   def format(value)
-    "%0*i" % [length, value]
+    "%0*i" % [length, value.is_a?(String) ? Integer(value, 10) : value]
   end
 
   def parse(record)
@@ -106,7 +106,7 @@ end
 class NS < FieldDefinition
   def validate(val)
     # will throw if cannot convert to integer
-    ("%*i" % [length, val]).length <= length
+    ("%*i" % [length, val.is_a?(String) ? Integer(val, 10) : val]).length <= length
   end
 
   def format(value)
