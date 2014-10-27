@@ -63,4 +63,17 @@ EOS
 #    assert s.submitted_fee == 39498
   end
 
+  test 'rmb' do
+    dets = @claim_details.clone
+    dets[:patient_province] = 'NS'
+    dets[:patient_number] = '1234567890'
+    check [build(:claim, dets)], <<EOS
+HEBV03Q201408100000000000246801846999                                          \r
+HEH            1914122599999999RMBP      1681                                  \r
+HER1234567890  CLAUS    SANTI2NS                                               \r
+HETP018B  0168561420140811                                                     \r
+HEE0001000100001                                                               \r
+EOS
+  end
+
 end

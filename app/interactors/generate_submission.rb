@@ -64,6 +64,7 @@ class GenerateSubmission
       @errors += [claim.number, r.errors] if r.errors.length > 0
       @contents += rmb.to_s
       @errors += [claim.number, rmb.errors] if rmb.errors.length > 0
+      @num_rmb_claims += 1
     else
       r['Health Number']=claim.details['patient_number'][0..9]
       r['Version Code']=claim.details['patient_number'][10..11].upcase
@@ -109,6 +110,7 @@ class GenerateSubmission
     @contents = ""
     @errors = []
     @num_records = 0
+    @num_rmb_claims = 0
   end
 
   def perform(user, claims, timestamp=nil)
@@ -135,6 +137,7 @@ class GenerateSubmission
 
     tr = BatchTrailerRecord.new
     tr.set_field!('H Count', claims.length)
+    tr.set_field!('R Count', @num_rmb_claims)
     tr.set_field!('T Count', @num_records)
     @contents += tr.to_s
     @errors += tr.errors
