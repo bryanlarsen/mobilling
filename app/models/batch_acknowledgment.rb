@@ -12,16 +12,25 @@ class BatchAcknowledgment < EdtFile
     submission = Submission.find_by(user_id: user.id,
                                     batch_id: contents[17..28])
 
-    submission.status = 'acknowledged'
-    submission.save!
+    return "matching submission not found for batch report" if submission.nil?
 
     self.parent = submission
     self.save!
 
-    return if submission.nil?
     if record['Micro Start'].blank?
-      # FIXME: fail submission with record['Edit Message']
+      submission.status = 'rejected'
+      submission.save!
+
+      submission.claims.each do |claim|
+        claim.status = 'for_agent'
+        claim.batch_acknowledgment = self
+        claim.comments.create!(body: record['Edit Message'])
+        claim.save!
+      end
     else
+      submission.status = 'acknowledged'
+      submission.save!
+
       submission.claims.each do |claim|
         claim.status = 'acknowledged'
         claim.batch_acknowledgment = self

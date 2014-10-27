@@ -6,7 +6,7 @@ class EdtFile < ActiveRecord::Base
 # defined in children, so class_name can be more specific
 #  belongs_to :parent, class_name => "EdtFile"
 
-  enum status: %i[ready uploaded acknowledged]
+  enum status: %i[ready uploaded acknowledged rejected]
 
   def filename
     filename_base.split('/').last+'.'+('%03i' % sequence_number)
