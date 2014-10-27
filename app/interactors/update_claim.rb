@@ -12,7 +12,6 @@ class UpdateClaim
                 :patient_number, :patient_province, :patient_birthday, :patient_sex,
                 :referring_laboratory, :payment_program, :payee, :manual_review_indicator
 
-
   attr_writer :daily_details, :diagnoses
   attr_reader :claim
 
@@ -34,7 +33,10 @@ class UpdateClaim
 
   def initialize(claim, attributes = nil)
     @claim = claim
-    super(attributes)
+    attrs = claim.details.except("diagnosis")
+    attrs['status'] = claim.status   # can't use claim.attributes.slice because status is an enum
+    attrs['user'] = claim.user
+    super(attrs.merge(attributes))
   end
 
   def perform
