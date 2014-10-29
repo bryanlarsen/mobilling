@@ -227,6 +227,9 @@
       </div>
     </div>
   <% end %>
+  <form method="POST" action="<%= reclaim_admin_claim_path %>">
+    <%= icon_submit "check", "Reclaim", type: "submit", class: "btn btn-primary" %>
+  </form>
 </div>
 
 <%= render "layouts/lightbox", title: "Photo" %>

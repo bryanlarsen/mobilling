@@ -16,7 +16,7 @@ class Claim < ActiveRecord::Base
   has_many :files, through: :claim_files, class_name: "EdtFile", source: :edt_file
   has_many :claim_files
 
-#  belongs_to :original, class_name: "Claim"
+  belongs_to :original, class_name: "Claim"
 
   def from_record(record)
     details_will_change!
@@ -163,5 +163,26 @@ class Claim < ActiveRecord::Base
         end
       }
     end
+  end
+
+  def reclaim!
+    claim = dup
+    claim.user = user
+    claim.photo = photo
+    claim.status = 'for_agent'
+    claim.number = Claim.all.maximum(:number).to_i.succ
+    claim.original = self
+    self.status = 'reclaimed'
+    self.save!
+    details['daily_details'].each do |item|
+      item.delete('paid')
+      item.delete('message')
+      (item['premiums'] || []).each do |premium|
+        premium.delete('paid')
+        premium.delete('message')
+      end
+    end
+    claim.save!
+    claim
   end
 end

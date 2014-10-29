@@ -20,7 +20,9 @@ Rails.application.routes.draw do
     resource :dashboard, only: %i[show]
     resource :session, only: %i[new create destroy]
     resources :admin_users, only: %i[index new create edit update destroy]
-    resources :claims, only: %i[index edit update]
+    resources :claims, only: %i[index edit update] do
+      post :reclaim, on: :member
+    end
     resources :edt_files, only: %i[index create show] do
       get 'download/:filename', action: 'download', on: :member, as: :download
     end

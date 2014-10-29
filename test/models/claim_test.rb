@@ -33,4 +33,23 @@ class ClaimTest < ActiveSupport::TestCase
     assert_equal @claim.details["daily_details"][0]["fee"], 10000
   end
 
+  test "reclaim" do
+    @claim = create(:claim, patient_number: 17, status: "agent_attention", daily_details: [{code: "P018B", message: "foo", fee: 10000, paid: 32, premiums: [{code: "E676B"}]}])
+    reclaim = @claim.reclaim!
+
+    assert_equal reclaim.status, 'for_agent'
+    assert_equal @claim.status, 'reclaimed'
+
+    assert_equal reclaim.user, @claim.user
+    assert_equal reclaim.photo, @claim.photo
+
+    assert_not_equal reclaim.number, @claim.number
+
+    assert_equal reclaim.details['patient_number'], @claim.details['patient_number']
+    assert_equal reclaim.details['daily_details'][0]['code'], @claim.details['daily_details'][0]['code']
+    assert_nil reclaim.details['daily_details'][0]['paid']
+    assert_nil reclaim.details['daily_details'][0]['message']
+
+    assert_equal reclaim.original.id, @claim.id
+  end
 end
