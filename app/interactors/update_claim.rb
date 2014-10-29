@@ -8,9 +8,9 @@ class UpdateClaim
                 :last_seen_discharge, :icu_transfer, :consult_type,
                 :consult_time_in, :consult_time_out,
                 :consult_premium_first, :consult_premium_visit,
-                :consult_premium_travel, :comment,
+                :consult_premium_travel, :comment, :specialty,
                 :patient_number, :patient_province, :patient_birthday, :patient_sex,
-                :referring_laboratory, :payment_program, :payee, :manual_review_indicator
+                :referring_laboratory, :payment_program, :payee, :manual_review_indicator, :service_location
 
   attr_writer :daily_details, :diagnoses
   attr_reader :claim
@@ -77,7 +77,7 @@ class UpdateClaim
 
   def claim_attributes_details
     {
-      "specialty"                  => claim.details["specialty"],
+      "specialty"                  => specialty,
       "patient_name"               => patient_name,
       "hospital"                   => hospital,
       "referring_physician"        => referring_physician,
@@ -104,6 +104,7 @@ class UpdateClaim
       "payment_program"            => payment_program,
       "payee"                      => payee,
       "manual_review_indicator"    => manual_review_indicator,
+      "service_location"           => service_location,
       "daily_details"              => (daily_details || []).map(&:as_json).sort_by { |daily_detail| daily_detail["day"] }
     }
   end

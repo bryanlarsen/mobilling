@@ -47,21 +47,26 @@
             <div class="list-group-item text-center" ng-if="claims.length === 0">
               <span class="text-muted">no {{step}} claims</span>
             </div>
-            <a href="javascript:;" class="list-group-item clearfix" ng-repeat="claim in claims | orderBy : orderBy" ng-click="edit(claim)">
+            <div class="list-group-item clearfix" ng-repeat="claim in claims | orderBy : orderBy">
               <button class="btn btn-danger pull-left" ng-click="removeConfirm(claim, $event)" ng-if="claim.status === 'saved'" title="Remove">
                 <i class="fa fa-trash"></i>
               </button>
-              <div class="pull-left truncate" style="width: 70%;">
-                Claim
-                <span ng-if="claim.number">No. {{claim.number}}</span>
-                <span ng-if="claim.patient_name">of {{claim.patient_name}}</span>
-                created on {{claim.created_at | date:"yyyy-MM-dd"}}
-              </div>
-              <i class="fa fa-chevron-right pull-right"></i>
-	      <div class="pull-right">
-                {{ claim | claimTotal | divide : 100 | currency }}
-              </div>
-            </a>
+              <button class="btn btn-primary pull-left" ng-click="changeTemplate(claim, $event)" title="Change Template">
+                <i class="fa fa-code-fork"></i>
+              </button>
+              <a href="javascript:;" ng-click="edit(claim)">
+                <div class="pull-left truncate" style="width: 70%;">
+                  Claim
+                  <span ng-if="claim.number">No. {{claim.number}}</span>
+                  <span ng-if="claim.patient_name">of {{claim.patient_name}}</span>
+                  created on {{claim.created_at | date:"yyyy-MM-dd"}}
+                </div>
+                <i class="fa fa-chevron-right pull-right"></i>
+	        <div class="pull-right">
+                  {{ claim | claimTotal | divide : 100 | currency }}
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -77,6 +82,23 @@
     <br>
     <p toggle="off" target="create" bubble>
       <a class="btn btn-primary btn-block btn-lg btn-success" href="#/{{specialty}}/claims/new" ng-repeat="specialty in user.specialties">
+        <i class="fa fa-file-text-o"></i> {{specialty | inflector}}
+      </a>
+      <button class="btn btn-default btn-block btn-lg">
+        <i class="fa fa-times"></i> Cancel
+      </button>
+    </p>
+  </div>
+
+  <div overlay="choose">
+    <h4 class="overlay-title">Choose Claim Template</h4>
+    <br>
+    <p>
+      Select the specialty that you wish to use to edit the claim
+    </p>
+    <br>
+    <p toggle="off" target="choose" bubble>
+      <a class="btn btn-primary btn-block btn-lg btn-success" ng-click="chooseTemplate(specialty)" ng-repeat="specialty in user.specialties">
         <i class="fa fa-file-text-o"></i> {{specialty | inflector}}
       </a>
       <button class="btn btn-default btn-block btn-lg">
