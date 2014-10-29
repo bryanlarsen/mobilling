@@ -232,6 +232,7 @@
 
         function error() {
             $scope.$emit("submitted");
+            $scope.toggle("snackbar-server-error", "on");
         }
 
         $scope.save = function () {
