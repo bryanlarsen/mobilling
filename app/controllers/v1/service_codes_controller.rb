@@ -5,6 +5,7 @@ class V1::ServiceCodesController < V1::BaseController
   api :GET, "/v1/service_codes", "Returns service_codes"
 
   def index
+    expires_in 7.days, public: true
     render json: ServiceCode.all, only: %w[name code fee requires_specialist]
   end
 

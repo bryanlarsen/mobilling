@@ -25,7 +25,7 @@
             <div class="panel-body">
               <div class="form-group row" ng-class="{'has-error': (form.pin.$dirty || submitted) && form.pin.$invalid}">
                 <div class="form-control-wrapper col-xs-12">
-                  <input type="text" name="pin" ng-model="unlock.pin" class="form-control input-lg" id="unlock-pin" placeholder="Pin" pattern="^[0-9]{4}$" inputmode="numeric" mb-scroll-into-view mb-server required>
+                  <input type="password" name="pin" ng-model="unlock.pin" class="form-control input-lg" id="unlock-pin" placeholder="Pin" pattern="^[0-9]{4}$" inputmode="numeric" mb-scroll-into-view mb-server required>
                   <div ng-messages="form.pin.$error" ng-show="submitted">
                     <p class="help-block" ng-message="required">is missing</p>
                     <p class="help-block" ng-message="pattern">should consist of 4 digits only</p>

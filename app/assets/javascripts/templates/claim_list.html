@@ -47,8 +47,11 @@
             <div class="list-group-item text-center" ng-if="claims.length === 0">
               <span class="text-muted">no {{step}} claims</span>
             </div>
-            <a href="javascript:;" class="list-group-item clearfix" ng-repeat="claim in claims | orderBy : orderBy" ng-click="edit(claim)" hm-hold="removeConfirm(claim)">
-              <div class="pull-left truncate" style="width: 90%;">
+            <a href="javascript:;" class="list-group-item clearfix" ng-repeat="claim in claims | orderBy : orderBy" ng-click="edit(claim)">
+              <button class="btn btn-danger pull-left" ng-click="removeConfirm(claim, $event)" ng-if="claim.status === 'saved'" title="Remove">
+                <i class="fa fa-trash"></i>
+              </button>
+              <div class="pull-left truncate" style="width: 70%;">
                 Claim
                 <span ng-if="claim.number">No. {{claim.number}}</span>
                 <span ng-if="claim.patient_name">of {{claim.patient_name}}</span>

@@ -43,3 +43,7 @@ end
 group :development, :test do
   gem "teaspoon"
 end
+
+group :staging, :production do
+  gem "rack-cache"
+end

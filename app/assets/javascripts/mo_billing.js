@@ -5,6 +5,7 @@
 //= require_tree ./directives
 //= require_tree ./factories
 //= require_tree ./filters
+//= require_tree ./services
 //= require_tree ./templates
 
 angular.module("moBilling", [
@@ -28,6 +29,7 @@ angular.module("moBilling", [
     "moBilling.directives",
     "moBilling.factories",
     "moBilling.filters",
+    "moBilling.services",
     "moBilling.templates"
 ]);
 angular.module("moBilling.constants", []);
@@ -35,3 +37,4 @@ angular.module("moBilling.controllers", []);
 angular.module("moBilling.directives", []);
 angular.module("moBilling.factories", []);
 angular.module("moBilling.filters", []);
+angular.module("moBilling.services", []);
