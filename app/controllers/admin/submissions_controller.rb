@@ -1,7 +1,7 @@
 class Admin::SubmissionsController < Admin::BaseController
   def create
     @user = policy_scope(:user).find(params[:user_id])
-    @claims = @user.claims.ready.where(submission_id: nil)
+    @claims = @user.claims.ready
 
     if @claims.length === 0
       flash[:notice] = "no claims to process"
