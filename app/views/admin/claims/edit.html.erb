@@ -208,7 +208,8 @@
       <div class="form-group">
         <%= form.label :status, class: "control-label col-md-2" %>
         <div class="col-md-10">
-          <% Claim.statuses.keys.each do |status| %>
+          <% Claim::NEXT_STATUSES[@interactor.claim.status].each do |status| %>
+            <% next if status == "reclaimed" %>
             <div class="radio">
               <label>
                 <%= form.radio_button :status, status %>
@@ -223,13 +224,23 @@
     <div class="form-group">
       <div class="col-md-10 col-md-offset-2">
         <%= icon_submit "check", "Update", type: "submit", class: "btn btn-primary" %>
+        <% if params[:next] %>
+          <input type="hidden" name="next" value="<%= params[:next].join(',') %>"/>
+          <%= icon_submit "arrow-right", "Next", type: "submit", class: "btn btn-primary", name: "next_button" %>
+        <% end %>
         <%= icon_link_to "times", "Cancel", admin_claims_path, class: "btn btn-default" %>
       </div>
     </div>
   <% end %>
-  <form method="POST" action="<%= reclaim_admin_claim_path %>">
-    <%= icon_submit "check", "Reclaim", type: "submit", class: "btn btn-primary" %>
-  </form>
+  <% if Claim::NEXT_STATUSES[@interactor.claim.status].include?("reclaimed") %>
+    <form class="form-horizontal" method="POST" action="<%= reclaim_admin_claim_path %>">
+      <div class="form-group">
+        <div class="col-md-10 col-md-offset-2">
+          <%= icon_submit "check", "Reclaim", type: "submit", class: "btn btn-primary" %>
+        </div>
+      </div>
+    </form>
+  <% end %>
 </div>
 
 <%= render "layouts/lightbox", title: "Photo" %>

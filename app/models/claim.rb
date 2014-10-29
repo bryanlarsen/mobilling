@@ -7,7 +7,20 @@ class Claim < ActiveRecord::Base
 
   enum status: %i[saved for_agent ready file_created uploaded acknowledged agent_attention doctor_attention done reclaimed]
 
-  scope :submitted, -> { where(status: statuses.except("saved").values) }
+  NEXT_STATUSES = {
+    "saved" =>          %w[saved for_agent ready],
+    "for_agent" =>      %w[for_agent ready doctor_attention done],
+    "ready" =>          %w[for_agent ready doctor_attention done reclaimed],
+    "file_created" =>   %w[file_created uploaded acknowledged agent_attention done],
+    "uploaded" =>       %w[uploaded acknowledged agent_attention done],
+    "acknowledged" =>   %w[acknowledged agent_attention done],
+    "agent_attention" =>%w[agent_attention done reclaimed],
+    "doctor_attention"=>%w[doctor_attention for_agent ready],
+    "done" =>           %w[done reclaimed],
+    "reclaimed" =>      %w[done reclaimed],
+  }
+
+  scope :submitted, -> { where(status: statuses.except("saved", "doctor_attention").values) }
 
   belongs_to :user
   belongs_to :photo

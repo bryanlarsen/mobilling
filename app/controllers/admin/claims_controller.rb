@@ -21,7 +21,11 @@ class Admin::ClaimsController < Admin::BaseController
     authorize :claim, :update?
     @interactor = Admin::UpdateClaim.new(@claim, current_user, update_claim_params)
     if @interactor.perform
-      redirect_to admin_claims_path, notice: "Claim updated successfully."
+      if params[:next_button] && params[:next].split(',')[0]
+        redirect_to edit_admin_claim_path(params[:next].split(',')[0], next: params[:next].split(',')[1..-1])
+      else
+        redirect_to admin_claims_path, notice: "Claim updated successfully."
+      end
     else
       render :edit
     end
