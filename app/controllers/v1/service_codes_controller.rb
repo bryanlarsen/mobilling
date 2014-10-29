@@ -5,6 +5,7 @@ class V1::ServiceCodesController < V1::BaseController
   api :GET, "/v1/service_codes", "Returns service_codes"
 
   def index
+    expires_in 7.days, public: true
     @service_codes = ServiceCode.pluck(:name)
     render json: @service_codes
   end
