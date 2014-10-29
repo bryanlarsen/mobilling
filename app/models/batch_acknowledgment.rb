@@ -23,7 +23,7 @@ class BatchAcknowledgment < EdtFile
 
       submission.claims.each do |claim|
         claim.status = 'for_agent'
-        claim.batch_acknowledgment = self
+        claim.files << self
         claim.comments.create!(body: record['Edit Message'])
         claim.save!
       end
@@ -33,7 +33,7 @@ class BatchAcknowledgment < EdtFile
 
       submission.claims.each do |claim|
         claim.status = 'acknowledged'
-        claim.batch_acknowledgment = self
+        claim.files << self
         claim.save!
       end
     end

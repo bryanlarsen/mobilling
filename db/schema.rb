@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141021130046) do
+ActiveRecord::Schema.define(version: 20141029125018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,24 +37,27 @@ ActiveRecord::Schema.define(version: 20141021130046) do
     t.datetime "updated_at"
   end
 
+  create_table "claim_files", force: true do |t|
+    t.uuid     "claim_id"
+    t.uuid     "edt_file_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.uuid     "user_id"
     t.uuid     "photo_id"
-    t.integer  "status",                              default: 0
-    t.json     "details",                             default: {}
+    t.integer  "status",                        default: 0
+    t.json     "details",                       default: {}
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "number"
-    t.string   "accounting_number",       limit: 255
-    t.uuid     "submission_id"
-    t.uuid     "batch_acknowledgment_id"
-    t.uuid     "remittance_advice_id"
-    t.uuid     "error_report_id"
+    t.string   "accounting_number", limit: 255
+    t.uuid     "original_id"
   end
 
   add_index "claims", ["accounting_number"], name: "index_claims_on_accounting_number", unique: true, using: :btree
   add_index "claims", ["number", "user_id"], name: "index_claims_on_number_and_user_id", unique: true, using: :btree
-  add_index "claims", ["submission_id"], name: "index_claims_on_submission_id", using: :btree
 
   create_table "diagnoses", id: :uuid, default: "uuid_generate_v4()", force: true do |t|
     t.string   "name",       limit: 255

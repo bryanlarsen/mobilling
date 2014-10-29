@@ -99,7 +99,7 @@ class RemittanceAdvice < EdtFile
     @claims.each do |claim|
       if @claim_records[claim.id]
         claim.status = @claim_attn[claim.id] ? 'agent_attention' : 'done'
-        claim.remittance_advice = self
+        claim.files << self
         claim.details['daily_details'].each_with_index do |daily, i|
           record = @item_records[claim.id][i]
           if record

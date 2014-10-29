@@ -13,11 +13,10 @@ class Claim < ActiveRecord::Base
   belongs_to :photo
   has_many :comments, inverse_of: :claim
 
-  belongs_to :submission
-  belongs_to :batch_acknowledgment
-  belongs_to :error_report
-  belongs_to :remittance_advice
-#  belongs_to :reclaim, class_name: "Claim"
+  has_many :files, through: :claim_files, class_name: "EdtFile", source: :edt_file
+  has_many :claim_files
+
+#  belongs_to :original, class_name: "Claim"
 
   def from_record(record)
     details_will_change!
@@ -58,6 +57,19 @@ class Claim < ActiveRecord::Base
       "units" => record['Number of Services'],
       "day" => record['Service Date'].strftime("%Y-%m-%d"),
     }
+  end
+
+  # assumption is that submission with lowest status is the 'right' one
+  def submission
+    min_status = 99999
+    sub = nil
+    files.submissions.each do |file|
+      if EdtFile.statuses[file.status] < min_status
+        min_status = EdtFile.statuses[file.status]
+        sub = file
+      end
+    end
+    sub
   end
 
   # we get information like total fee from the batch files rather than
@@ -112,8 +124,12 @@ class Claim < ActiveRecord::Base
     end
   end
 
+  def remittance_advice
+    files.remittance_advices.order("created_at").last
+  end
+
   def remittance_details
-    return nil if remittance_advice_id.nil?
+    return nil if remittance_advice.nil?
     remittance_advice.claim_details(self)
   end
 

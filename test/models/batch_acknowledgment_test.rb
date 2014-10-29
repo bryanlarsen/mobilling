@@ -24,7 +24,7 @@ EOS
     @submission.reload
     assert @submission.status == 'acknowledged'
     assert @submission.claims[0].status == 'acknowledged'
-    assert @submission.claims[0].batch_acknowledgment == ack
+    assert @submission.claims[0].files.batch_acknowledgments[0] == ack
   end
 
   test 'batch failure' do
@@ -36,7 +36,7 @@ EOS
     @submission.reload
     assert @submission.status == 'rejected'
     assert @submission.claims[0].status == 'for_agent'
-    assert @submission.claims[0].batch_acknowledgment == ack
+    assert @submission.claims[0].files.batch_acknowledgments[0] == ack
     assert_equal @submission.claims[0].comments.last.body, "INVALID COUNTS IN TRAILER RECORD       R"
   end
 end

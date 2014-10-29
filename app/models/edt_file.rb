@@ -1,7 +1,13 @@
 class EdtFile < ActiveRecord::Base
   belongs_to :user
 
-  has_many :claims, inverse_of: :submission, foreign_key: "submission_id"
+  scope :submissions, -> { where(type: 'Submission') }
+  scope :remittance_advices, -> { where(type: 'RemittanceAdvice') }
+  scope :batch_acknowledgments, -> { where(type: 'BatchAcknowledgment') }
+  scope :error_reports, -> { where(type: 'ErrorReport') }
+
+  has_many :claims, :through => :claim_files
+  has_many :claim_files
 
 # defined in children, so class_name can be more specific
 #  belongs_to :parent, class_name => "EdtFile"

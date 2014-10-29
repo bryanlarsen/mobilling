@@ -24,7 +24,7 @@ class SubmissionTest < ActiveSupport::TestCase
     s.save!
 
     c=Claim.find_by(number: 99999999)
-    assert c.submission_id == s.id
+    assert c.submission.id == s.id
     assert s.submitted_fee == 16856
   end
 
