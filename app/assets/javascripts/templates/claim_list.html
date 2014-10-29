@@ -47,26 +47,28 @@
             <div class="list-group-item text-center" ng-if="claims.length === 0">
               <span class="text-muted">no {{step}} claims</span>
             </div>
-            <div class="list-group-item clearfix" ng-repeat="claim in claims | orderBy : orderBy">
-              <button class="btn btn-danger pull-left" ng-click="removeConfirm(claim, $event)" ng-if="claim.status === 'saved'" title="Remove">
-                <i class="fa fa-trash"></i>
-              </button>
-              <button class="btn btn-primary pull-left" ng-click="changeTemplate(claim, $event)" title="Change Template">
-                <i class="fa fa-code-fork"></i>
-              </button>
-              <a href="javascript:;" ng-click="edit(claim)">
-                <div class="pull-left truncate" style="width: 70%;">
-                  Claim
-                  <span ng-if="claim.number">No. {{claim.number}}</span>
-                  <span ng-if="claim.patient_name">of {{claim.patient_name}}</span>
-                  created on {{claim.created_at | date:"yyyy-MM-dd"}}
+            <a href="javascript:;" ng-click="edit(claim)" ng-repeat="claim in claims | orderBy : orderBy">
+              <div class="list-group-item clearfix">
+                <button class="btn btn-danger pull-left btn-xs" ng-click="removeConfirm(claim, $event)" ng-if="claim.status === 'saved'" title="Remove">
+                  <i class="fa fa-trash"></i>
+                </button>
+                <button class="btn btn-primary pull-left btn-xs" ng-click="changeTemplate(claim, $event)" title="Change Template">
+                  <i class="fa fa-code-fork"></i>
+                </button>
+                <div class="truncate">
+                  <span>
+                    Claim
+                    <span ng-if="claim.number">No. {{claim.number}}</span>
+                    <span ng-if="claim.patient_name">of {{claim.patient_name}}</span>
+                    created on {{claim.created_at | date:"yyyy-MM-dd"}}
+                  </span>
+                  <i class="fa fa-chevron-right pull-right"></i>
+	          <div class="pull-right">
+                    {{ claim | claimTotal | divide : 100 | currency }}
+                  </div>
                 </div>
-                <i class="fa fa-chevron-right pull-right"></i>
-	        <div class="pull-right">
-                  {{ claim | claimTotal | divide : 100 | currency }}
-                </div>
-              </a>
-            </div>
+              </div>
+            </a>
           </div>
         </div>
       </div>

@@ -47,6 +47,7 @@ angular.module("moBilling.controllers")
         };
 
         $scope.changeTemplate = function (claim, $event) {
+            $event.stopPropagation();
             $scope.activeClaim = claim;
             $("#choose").toggle();
         }
