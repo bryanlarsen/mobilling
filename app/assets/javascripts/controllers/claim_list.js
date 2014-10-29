@@ -28,7 +28,7 @@ angular.module("moBilling.controllers")
         };
 
         $scope.edit = function (claim) {
-            if (["saved"].indexOf(claim.status) !== -1) {
+            if (["saved", "doctor_attention"].indexOf(claim.status) !== -1) {
                 $location.path("/claims/" + claim.id + "/edit").hash("");
             } else {
                 $location.path("/claims/" + claim.id).hash("");
