@@ -117,3 +117,95 @@ ActiveRecord::Migration.say_with_time "remittance_advice_codes" do
 
   puts "#{count} codes"
 end
+
+ActiveRecord::Migration.say_with_time "error_report_explanatory_codes" do
+  inside = false
+  current_code = nil
+  current_text = ''
+  count = 0
+
+  finish_code = lambda do
+    return if current_code.nil?
+    code = ErrorReportExplanatoryCode.find_or_create_by!(:code => current_code)
+    code.name = current_text unless current_text.blank?
+    code.save!
+    current_code=nil
+    count += 1
+  end
+
+  Rails.root.join("db/seeds/tech_specific.txt").readlines.each do |line|
+    if inside
+      if line =~ /^\s{6,6}(\d{2,2})\s+(.*)/
+        finish_code.call
+        current_code = $1
+        current_text = $2
+      elsif line =~ /^\s{10,35}(\S.*)/
+        current_text += ' '+$1
+      elsif line =~ /^7.4/
+        inside = false
+      else
+        finish_code.call
+      end
+    elsif line =~ /^7.3\s+Error Report Explanatory Codes/
+      inside = true
+    end
+  end
+
+  puts "#{count} codes"
+end
+
+ActiveRecord::Migration.say_with_time "error_report_rejection_conditions" do
+  ErrorReportRejectionCondition.all.each &:destroy
+
+  inside = false
+  current_code = nil
+  current_text = ''
+  count = 0
+
+  finish_code = lambda do
+    return if current_code.nil?
+    code = ErrorReportRejectionCondition.create(:code => current_code, :name => current_text)
+    current_text = ""
+    count += 1
+  end
+
+  append_code = lambda do |s|
+    if s.starts_with?("\uF0A7")
+      finish_code.call unless current_text.blank?
+      current_text = s[1..-1].strip
+    else
+      if s.starts_with?("(")
+        current_text += "\n" + s
+      else
+        current_text += " " + s
+      end
+    end
+  end
+
+  Rails.root.join("db/seeds/tech_specific.txt").readlines.each do |line|
+    if inside
+      if line =~ /^\s{0,2}([A-Z0-9]{3,3})\s+(.*)/
+        if current_code != $1
+          finish_code.call
+          current_code = $1
+          append_code.call($2)
+        else
+          append_code.call($2)
+        end
+      elsif line =~ /^\s{0,2}\(cont.d.\)\s+(.*)/
+        append_code.call($1)
+      elsif line =~ /^\s{12,35}(\S.*)/
+        append_code.call($1)
+      elsif line =~ /^8/
+        inside = false
+      else
+        finish_code.call
+        current_code = nil
+      end
+    elsif line =~ /^7.4\s+Error Report Rejection Conditions/
+      inside = true
+    end
+  end
+
+  puts "#{count} codes"
+end
