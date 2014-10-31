@@ -13,7 +13,6 @@ class ErrorReport < EdtFile
     @claims = []
     @claim_header_records = {}
     @claim_rmb_records = {}
-    @claim_attn = {}
     @item_records = {}
     @premium_records = {}
     @message_text = ""
@@ -26,14 +25,13 @@ class ErrorReport < EdtFile
     @records.each {|record|
       case
       when record.kind_of?(ErrorReportHeader)
-        self.user = User.find_by(provider_number: record['Health Care Provider'])
+        self.user = User.find_by(provider_number: record['Provider Number'])
         if self.user
           @header = record
         else
           @unmatched_records << record
         end
-      when record.kind_of?(ErrorReportClaimHeader)
-        puts 'claim header', record.fields
+      when record.kind_of?(ErrorReportClaimHeader1)
         current_claim = Claim.find_by(user_id: user_id, number: record['Accounting Number'].to_i)
         if current_claim.nil?
           @unmatched_records << record
@@ -51,7 +49,6 @@ class ErrorReport < EdtFile
           @unmatched_records << record
         end
       when record.kind_of?(ErrorReportItem)
-        puts 'claim item', record.fields
         claim_item = nil
         if not current_claim.nil?
           daily_index = nil
@@ -61,17 +58,11 @@ class ErrorReport < EdtFile
             if daily['Service Date'] == record['Service Date']
               if daily['Service Code'] == record['Service Code']
                 @item_records[current_claim.id][i] = record
-                if !record['Explanatory Code'].blank?
-                  @claim_attn[current_claim.id] = true
-                end
                 found = true
               else
                 daily['premiums'].each_with_index do |premium, j|
                   @premium_records[current_claim.id][i] ||= []
                   @premium_records[current_claim.id][i][j] = record
-                  if !record['Explanatory Code'].blank?
-                    @claim_attn[current_claim.id] = true
-                  end
                   found = true
                 end
               end
@@ -99,15 +90,15 @@ class ErrorReport < EdtFile
 
   def messageFor(record)
     messages = []
-    if record['Explanatory Code'] != '  '
-      code = ErrorRecordExplanatoryCode.find_by(code: record['Explanatory Code'])
+    unless record.class.field_definitions["Explanatory Code"].nil? || record['Explanatory Code'].blank?
+      code = ErrorReportExplanatoryCode.find_by(code: record['Explanatory Code'])
       if code
         messages << "#{code.code}: #{code.name}"
       end
     end
-    (1..6).each do |n|
-      if record["Error Code #{n}"] != '   '
-        messages << ErrorRecordRejectionConditions.where(code: record['Explanatory Code']).map do |cond|
+    (1..5).each do |n|
+      unless record["Error Code #{n}"].blank?
+        messages << ErrorReportRejectionCondition.where(code: record["Error Code #{n}"]).map do |cond|
           "#{cond.code}: #{cond.name}"
         end.join("\n")
       end
@@ -122,24 +113,23 @@ class ErrorReport < EdtFile
     end
 
     @claims.each do |claim|
-      if @claim_records[claim.id]
-        claim.status = @claim_attn[claim.id] ? 'agent_attention' : 'done'
+      if @claim_header_records[claim.id]
+        claim.status = 'agent_attention'
         claim.files << self
+
+        if messageFor(@claim_header_records[claim.id])
+          claim.comments.create!(body: messageFor(@claim_header_records[claim.id]))
+        end
         claim.details['daily_details'].each_with_index do |daily, i|
           record = @item_records[claim.id][i]
           if record
-            if !record['Explanatory Code'].blank?
-              daily['message'] = messageFor(record)
-            end
+            daily['message'] = messageFor(record)
           end
 
           (daily['premiums'] || []).each_with_index do |premium, j|
             record = @premium_records[claim.id][i][j]
             if record
-              premium['paid'] = record['Amount Paid']
-              if !record['Explanatory Code'].blank?
-                premium['message'] = messageFor(record)
-              end
+              premium['message'] = messageFor(record)
             end
           end
         end

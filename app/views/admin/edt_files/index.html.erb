@@ -20,7 +20,7 @@
                   <div class="checkbox">
                     <label>
                       <%= check_box_tag "types[]", klass.name, type_filter.include?(klass.name) %>
-                      <%= klass.name.underscore.humanize %>
+                      <%= klass.name.underscore.titleize %>
                     </label>
                   </div>
                 <% end %>
