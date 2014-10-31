@@ -18,7 +18,7 @@ class ClaimTest < ActiveSupport::TestCase
     assert Claim.submitted.include?(for_agent_claim)
     assert Claim.submitted.include?(processed_claim)
     assert Claim.submitted.include?(rejected_claim)
-    assert Claim.submitted.include?(rejected_doctor_attention_claim)
+    refute Claim.submitted.include?(rejected_doctor_attention_claim)
     assert Claim.submitted.include?(done_claim)
   end
 
