@@ -58,8 +58,8 @@ class EdtFile < ActiveRecord::Base
 #      FileRejection.new(params)
     when 'P'
       RemittanceAdvice.new(params)
-#    when 'E'
-#      ErrorReport.new(params)
+    when 'E'
+      ErrorReport.new(params)
     else
       raise RuntimeError, 'unknown file'
       EdtFile.new(params)
