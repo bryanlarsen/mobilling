@@ -20,6 +20,7 @@ class EdtFile < ActiveRecord::Base
 
   def filename=(val)
     self.filename_base, seq = val.split('.')
+    self.filename_base = "#{(self.created_at || Date.today).year}/#{self.filename_base}" unless self.filename_base.include?("/")
     self.sequence_number = seq.to_i
   end
 

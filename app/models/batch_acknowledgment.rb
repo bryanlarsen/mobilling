@@ -14,6 +14,7 @@ class BatchAcknowledgment < EdtFile
 
     return "matching submission not found for batch report" if submission.nil?
 
+    self.created_at = record['Batch Process Date']
     self.parent = submission
     self.save!
 

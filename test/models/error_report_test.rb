@@ -35,6 +35,7 @@ class ErrorReportTest < ActiveSupport::TestCase
     assert_nil ra.process!
 
     assert_equal ra.user_id, @user.id
+    assert_equal ra.created_at, DateTime.new(2009,5,19)
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'agent_attention'
     assert_not @submission.claims[0].details['daily_details'][0]['message'].blank?

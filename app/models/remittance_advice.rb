@@ -1,6 +1,5 @@
 class RemittanceAdvice < EdtFile
   validate :memo
-  has_many :claims, inverse_of: :remittance_advice
 
   def filename_character
     'P'
@@ -15,7 +14,7 @@ class RemittanceAdvice < EdtFile
     @claim_attn = {}
     @item_records = {}
     @premium_records = {}
-    @message_text = ""
+    @message_texts = []
     @balance_records = []
     @accounting_records = []
     @unmatched_records = []
@@ -25,6 +24,7 @@ class RemittanceAdvice < EdtFile
       case
       when record.kind_of?(ReconciliationFileHeader)
         self.user = User.find_by(provider_number: record['Health Care Provider'])
+        self.created_at = record['Payment Date']
         if self.user
           @header = record
         else
@@ -83,18 +83,26 @@ class RemittanceAdvice < EdtFile
       when record.kind_of?(ReconciliationAccountingTransaction)
         @accounting_records << record
       when record.kind_of?(ReconciliationMessageFacility)
-        @message_text += record['Message Text']+"\n"
+        @message_texts << record['Message Text']
       else
         errors.add_to_base "Unknown record type: #{record.class}"
       end
     }
+    @messages = []
+    message = ""
+    @message_texts.each do |text|
+      if text.starts_with?("***")
+        @messages << message unless message.blank?
+        message = ""
+      else
+        message += text.rstrip + "\n"
+      end
+    end
+    @messages << message unless message.blank?
   end
 
   def process!
     memo
-    if !@unmatched_records.empty?
-      return "Could not find records for:\n"+@unmatched_records.join("\n")
-    end
 
     @claims.each do |claim|
       if @claim_records[claim.id]
@@ -119,10 +127,16 @@ class RemittanceAdvice < EdtFile
             end
           end
         end
+        @messages.each do |message|
+          claim.comments.create!(body: message)
+        end
         claim.save!
       end
     end
     save!
+    if !@unmatched_records.empty?
+      return "Could not find records for:\n"+@unmatched_records.join("\n")
+    end
     nil
   end
 

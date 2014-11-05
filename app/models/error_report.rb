@@ -26,6 +26,7 @@ class ErrorReport < EdtFile
       case
       when record.kind_of?(ErrorReportHeader)
         self.user = User.find_by(provider_number: record['Provider Number'])
+        self.created_at = record['Claim Process Date']
         if self.user
           @header = record
         else
