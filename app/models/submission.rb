@@ -31,6 +31,12 @@ class Submission < EdtFile
     claims.reduce(0) { |memo, claim| claim.paid_fee+memo }
   end
 
+  def messages
+    [
+     "#{claims.length} claims: $#{'%.2f' % (submitted_fee/100.0)}"
+    ]
+  end
+
   # upload files
   def process!
     Record.process_batch(contents).each {|record|

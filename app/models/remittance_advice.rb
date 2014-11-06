@@ -5,6 +5,14 @@ class RemittanceAdvice < EdtFile
     'P'
   end
 
+  def format_message(message)
+    if message.match(/   /)
+      "```\n#{message}```\n"
+    else
+      message
+    end
+  end
+
   def memo
     return if @memo && @memo == contents
     @memo = contents
@@ -19,6 +27,7 @@ class RemittanceAdvice < EdtFile
     @accounting_records = []
     @unmatched_records = []
     @overtime_records = []
+    @messages = []
     current_claim = nil
     @records.each {|record|
       case
@@ -30,6 +39,7 @@ class RemittanceAdvice < EdtFile
         else
           @unmatched_records << record
         end
+        @messages << "$#{record['Total Amount Payable']} paid on #{record['Payment Date'].to_s(:long)}."
       when record.kind_of?(ReconciliationAddressRecordOne)
         true
       when record.kind_of?(ReconciliationAddressRecordTwo)
@@ -79,8 +89,10 @@ class RemittanceAdvice < EdtFile
           @unmatched_records << record
         end
       when record.kind_of?(ReconciliationBalanceForward)
+        @messages << "*Amount Brought Forward*\n\n- Claim's Adjustment: #{record['Amount Brought Forward - Claim\'s Adjustment']}\n- Advances: #{record['Amount Brought Forward - Advances']}\n- Reductions: #{record['Amount Brought Forward - Reductions']}\n- Other Deductions: #{record['Amount Brought Forward - Other Deductions']}\n"
         @balance_records << record
       when record.kind_of?(ReconciliationAccountingTransaction)
+        @messages << "#{record['Transaction Message']}: #{record['Transaction Amount']}"
         @accounting_records << record
       when record.kind_of?(ReconciliationMessageFacility)
         @message_texts << record['Message Text']
@@ -88,17 +100,16 @@ class RemittanceAdvice < EdtFile
         errors.add_to_base "Unknown record type: #{record.class}"
       end
     }
-    @messages = []
     message = ""
     @message_texts.each do |text|
-      if text.starts_with?("***")
-        @messages << message unless message.blank?
+      if text.match(/^\s*\*\*\*/)
+        @messages << format_message(message) unless message.blank?
         message = ""
       else
         message += text.rstrip + "\n"
       end
     end
-    @messages << message unless message.blank?
+    @messages << format_message(message) unless message.blank?
   end
 
   def process!
@@ -127,8 +138,9 @@ class RemittanceAdvice < EdtFile
             end
           end
         end
+        comment_user = Admin::User.find_by(role: Admin::User.roles["ministry"])
         @messages.each do |message|
-          claim.comments.create!(body: message)
+          claim.comments.create!(body: message, user: comment_user)
         end
         claim.save!
       end
@@ -143,6 +155,11 @@ class RemittanceAdvice < EdtFile
   def unmatched_records
     memo
     @unmatched_records
+  end
+
+  def messages
+    memo
+    @messages
   end
 
   def claim_details(claim)

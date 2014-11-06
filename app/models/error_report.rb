@@ -1,6 +1,5 @@
 class ErrorReport < EdtFile
   validate :memo
-  has_many :claims, inverse_of: :remittance_advice
 
   def filename_character
     'P'
@@ -89,22 +88,38 @@ class ErrorReport < EdtFile
     }
   end
 
-  def messageFor(record)
+  def messageFor(record, message_records)
     messages = []
     unless record.class.field_definitions["Explanatory Code"].nil? || record['Explanatory Code'].blank?
       code = ErrorReportExplanatoryCode.find_by(code: record['Explanatory Code'])
       if code
         messages << "#{code.code}: #{code.name}"
+      else
+        messages << "#{record['Explanatory Code']}: (unknown)"
       end
     end
     (1..5).each do |n|
       unless record["Error Code #{n}"].blank?
-        messages << ErrorReportRejectionCondition.where(code: record["Error Code #{n}"]).map do |cond|
-          "#{cond.code}: #{cond.name}"
-        end.join("\n")
+        conds = ErrorReportRejectionCondition.where(code: record["Error Code #{n}"])
+        if conds.blank?
+          messages << record["Error Code #{n}"] + ": (unknown)"
+        else
+          messages << cond.map do
+            "#{cond.code}: #{cond.name}"
+          end.join("\n")
+        end
       end
     end
-    messages.join("\n")
+    message_records.each do |mr|
+      unless mr['Explanatory Code'].blank?
+        code = ErrorReportExplanatoryCode.find_by(code: mr['Explanatory Code'])
+        messages << "#{mr['Explanatory Code']}: #{code ? code.name : ''}"
+      end
+      messages << mr['Explanatory Description']
+    end
+    messages.map do |msg|
+      "- "+msg
+    end.join("\n")
   end
 
   def process!
@@ -113,24 +128,25 @@ class ErrorReport < EdtFile
       return "Could not find records for:\n"+@unmatched_records.join("\n")
     end
 
+    comment_user = Admin::User.find_by(role: Admin::User.roles["ministry"])
     @claims.each do |claim|
       if @claim_header_records[claim.id]
         claim.status = 'agent_attention'
         claim.files << self
 
-        if messageFor(@claim_header_records[claim.id])
-          claim.comments.create!(body: messageFor(@claim_header_records[claim.id]))
+        unless messageFor(@claim_header_records[claim.id], []).blank?
+          claim.comments.create!(body: messageFor(@claim_header_records[claim.id], []), user: comment_user)
         end
         claim.details['daily_details'].each_with_index do |daily, i|
           record = @item_records[claim.id][i]
           if record
-            daily['message'] = messageFor(record)
+            daily['message'] = messageFor(record, @message_records[claim.id])
           end
 
           (daily['premiums'] || []).each_with_index do |premium, j|
             record = @premium_records[claim.id][i][j]
             if record
-              premium['message'] = messageFor(record)
+              premium['message'] = messageFor(record, @message_records[claim.id])
             end
           end
         end

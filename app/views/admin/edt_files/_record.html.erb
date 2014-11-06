@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col-md-12">
+<div class="xrow">
+  <div class="xcol-md-12">
     <a class="collapse-chevron collapsed" data-toggle="collapse" href="#" data-target="#record-<%= index %>">
       <i class="fa toggle-chevron"></i>
       <%= record %>
@@ -7,12 +7,12 @@
   </div>
 </div>
 <div id="record-<%= index %>" class="collapse">
-  <div class="row">
-    <div class="col-md-offset-1 col-md-11">
-      <%= record.class %>
+  <div class="xrow">
+    <div class="xcol-md-offset-1 xcol-md-11">
+      <%= record.class.to_s.titleize %>
     <table>
     <% record.fields.each do |key, value| %>
-      <% unless ["Transaction Identifier", "Record Identification", "Reserved"].include?(key) %>
+      <% if record.class.field_definitions[key].display %>
       <tr>
         <th style="text-align: right; padding-right: 10px;">
           <%= key %>

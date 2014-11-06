@@ -131,14 +131,14 @@
                 <%= daily_detail["code"] %> <%= daily_detail["units"] %>@<%= daily_detail["fee"] / 100.0 %>
               </p>
               <p class="form-control-static">
-                <%= daily_detail["message"] %>
+                <%= markdown(daily_detail["message"]) %>
               </p>
               <% daily_detail["premiums"] && daily_detail["premiums"].each do |premium| %>
                 <p class="form-control-static">
                   <%= premium["code"] %> <%= premium["units"] %>@<%= premium["fee"] / 100.0 %>
                 </p>
                 <p class="form-control-static">
-                  <%= premium["message"] %>
+                  <%= markdown(premium["message"]) %>
                 </p>
               <% end %>
             </div>
@@ -183,7 +183,7 @@
             </div>
             <div class="col-md-10">
               <p class="form-control-static">
-                <%= comment.body %>
+                <%= markdown(comment.body) %>
               </p>
             </div>
           </div>

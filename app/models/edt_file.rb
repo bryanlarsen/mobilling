@@ -49,6 +49,10 @@ class EdtFile < ActiveRecord::Base
     Record.process_batch(contents)
   end
 
+  def messages
+    []
+  end
+
   def self.new_child(params)
     case params[:filename][0..0]
     when 'H'

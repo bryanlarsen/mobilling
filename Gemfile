@@ -25,6 +25,7 @@ gem "therubyracer"
 gem "turbolinks"
 gem "uglifier"
 gem "uuid_validator"
+gem "redcarpet"
 
 group :development do
   gem "letter_opener"

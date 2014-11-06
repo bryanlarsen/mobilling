@@ -40,8 +40,9 @@ class RemittanceAdviceTest < ActiveSupport::TestCase
     assert @submission.claims[0].paid_fee == 16856
     assert @submission.claims[0].details['daily_details'][0]['paid'] = 16856
     assert @submission.claims[0].details['daily_details'][0]['message'].blank?
-    assert_equal @submission.claims[0].comments[0].body, "This is a message from OHIP.\nThis is the second line of a message from OHIP\n"
-    assert_equal @submission.claims[0].comments[1].body, "This is another message from OHIP\n"
+    assert_equal @submission.claims[0].comments[0].body, "$14719.92 paid on July 15, 2014."
+    assert_equal @submission.claims[0].comments[-2].body, "This is a message from OHIP.\nThis is the second line of a message from OHIP\n"
+    assert_equal @submission.claims[0].comments[-1].body, "This is another message from OHIP\n"
   end
 
   test 'ra not paid' do

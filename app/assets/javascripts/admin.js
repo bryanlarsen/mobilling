@@ -10,4 +10,8 @@
 
 $(document).on("ready page:load", function () {
     $("[data-lightbox]:not(.electric-lightbox)").lightbox().addClass("electric-lightbox");
+
+    $(".max-height-clickable").click(function() {
+        $(this).toggleClass("on");
+    });
 });

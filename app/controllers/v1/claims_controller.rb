@@ -122,7 +122,8 @@ class V1::ClaimsController < V1::BaseController
   end
 
   def update
-    @claim = current_user.claims.where(status: Claim.statuses.slice(:saved, :rejected_doctor_attention, :rejected_admin_attention).values).find(params[:id])
+    # FIXME: .where(status: Claim.statuses.slice(:saved, :rejected_doctor_attention, :rejected_admin_attention).values)
+    @claim = current_user.claims.find(params[:id])
     @interactor = UpdateClaim.new(@claim, update_claim_params)
     @interactor.user = current_user
     @interactor.perform
