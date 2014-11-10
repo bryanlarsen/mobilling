@@ -1,17 +1,21 @@
 class V1::ClaimsController < V1::BaseController
-  wrap_parameters :claim, include: [:status,:photo_id, :patient_name, :hospital, :referring_physician, :diagnoses, :procedure_on, :admission_on, :first_seen_on, :first_seen_consult, :last_seen_on, :most_responsible_physician, :last_seen_discharge, :icu_transfer, :consult_type, :consult_time_in, :consult_time_out, :consult_premium_visit, :consult_premium_first, :consult_premium_travel, :daily_details, :comment, :specialty], format: :json
+  wrap_parameters :claim, include: [:status, :photo_id, :patient_name, :hospital, :referring_physician, :diagnoses, :procedure_on, :admission_on, :first_seen_on, :first_seen_consult, :last_seen_on, :most_responsible_physician, :last_seen_discharge, :icu_transfer, :consult_type, :consult_time_in, :consult_time_out, :consult_premium_visit, :consult_premium_first, :consult_premium_travel, :daily_details, :comment, :specialty], format: :json
   resource_description { resource_id "claims" }
 
   api :GET, "/v1/claims", "Returns claims"
 
   def index
-    @claims = current_user.claims
+    claims_for_json = current_user.claims.map do |claim|
+      claim.for_json(false)
+    end
+    render json: claims_for_json
   end
 
   api :GET, "/v1/claims/:id", "Returns a claim"
 
-  def show
-    @claim = current_user.claims.find(params[:id])
+  def show(claim = nil)
+    claim ||= current_user.claims.includes(:comments).find(params[:id])
+    render json: claim.for_json(true)
   end
 
   api :POST, "/v1/claims", "Creates a claim"
@@ -53,7 +57,7 @@ class V1::ClaimsController < V1::BaseController
     @interactor = CreateClaim.new(create_claim_params)
     @interactor.user = current_user
     @interactor.perform
-    respond_with @interactor, location: nil
+    show @interactor.claim
   end
 
   api :PUT, "/v1/claims/:id", "Updates a claim"
@@ -95,7 +99,7 @@ class V1::ClaimsController < V1::BaseController
     @interactor = UpdateClaim.new(@claim, update_claim_params)
     @interactor.user = current_user
     @interactor.perform
-    respond_with @interactor, location: nil
+    show @interactor.claim
   end
 
   api :DELETE, "/v1/claims/:id", "Deletes a claim"
@@ -103,7 +107,7 @@ class V1::ClaimsController < V1::BaseController
   def destroy
     @claim = current_user.claims.saved.find(params[:id])
     @claim.destroy
-    respond_with @claim, location: nil
+    show @claim
   end
 
   private

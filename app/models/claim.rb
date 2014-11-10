@@ -9,4 +9,28 @@ class Claim < ActiveRecord::Base
   belongs_to :user
   belongs_to :photo
   has_many :comments
+
+  def for_json(include_comments)
+    response = details.merge({id: id,
+                               status: status,
+                               photo_id: photo_id,
+                               number: number,
+                               created_at: created_at,
+                               updated_at: updated_at,
+                             })
+    if include_comments
+      response[:comments] = comments.map do |comment|
+        {
+          body: comment.body,
+          user_name: comment.user.try(:name),
+          created_at: comment.created_at,
+        }
+      end
+# if we're going to do this, we should use a counter cache.  Some
+# doctors have thousands of claims, so we have to watch out for n+1
+#    else
+#      response[:comments_count] = comments.size
+    end
+    response
+  end
 end
