@@ -6,7 +6,8 @@ class V1::ServiceCodesController < V1::BaseController
 
   def index
     expires_in 7.days, public: true
-    render json: ServiceCode.all, only: %w[name code fee requires_specialist]
+    service_codes = ServiceCode.all.map &:attributes
+    render json: service_codes, only: %w[name code fee requires_specialist]
   end
 
 end
