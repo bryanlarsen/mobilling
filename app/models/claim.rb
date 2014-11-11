@@ -10,7 +10,7 @@ class Claim < ActiveRecord::Base
   belongs_to :photo
   has_many :comments
 
-  def for_json(include_comments)
+  def as_json(options = nil)
     response = details.merge({id: id,
                                status: status,
                                photo_id: photo_id,
@@ -18,7 +18,7 @@ class Claim < ActiveRecord::Base
                                created_at: created_at,
                                updated_at: updated_at,
                              })
-    if include_comments
+    if options && options[:include_comments]
       response[:comments] = comments.map do |comment|
         {
           body: comment.body,

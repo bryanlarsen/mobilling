@@ -12,14 +12,14 @@ class V1::SessionsController < V1::BaseController
   def create
     @interactor = CreateSession.new(create_session_params)
     @interactor.perform
-    render json: @interactor.user.for_json
+    render json: @interactor.user
   end
 
   api :DELETE, "/v1/session", "Deletes an authentication token"
   def destroy
     @user = current_user
     @user.update!(authentication_token: nil)
-    render json: @user.for_json
+    render json: @user
   end
 
   private

@@ -5,17 +5,14 @@ class V1::ClaimsController < V1::BaseController
   api :GET, "/v1/claims", "Returns claims"
 
   def index
-    claims_for_json = current_user.claims.map do |claim|
-      claim.for_json(false)
-    end
-    render json: claims_for_json
+    render json: current_user.claims
   end
 
   api :GET, "/v1/claims/:id", "Returns a claim"
 
   def show(claim = nil)
     claim ||= current_user.claims.includes(:comments).find(params[:id])
-    render json: claim.for_json(true)
+    render json: claim.as_json(include_comments: true)
   end
 
   api :POST, "/v1/claims", "Creates a claim"

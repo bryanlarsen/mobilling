@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :photos, dependent: :destroy
   belongs_to :agent, class_name: "Admin::User"
 
-  def for_json
-    return attributes.slice(*%w[id name email authentication_token agent_id specialties pin provider_number group_number office_code specialty_code])
+  def as_json
+    attributes.slice(*%w[id name email authentication_token agent_id specialties pin provider_number group_number office_code specialty_code])
   end
 end
