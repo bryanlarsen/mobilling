@@ -5,7 +5,8 @@ class V1::ClaimsControllerTest < ActionController::TestCase
     user = create(:user, :authenticated)
     create_list(:claim, 3, user: user)
     get :index, auth: user.authentication_token, format: "json"
-    assert_template "index"
+    assert_response 200
+    assert_equal 3, JSON::parse(response.body).length
   end
 
   test "index responds with unauthorized when no auth" do
@@ -18,7 +19,8 @@ class V1::ClaimsControllerTest < ActionController::TestCase
     claim = create(:claim, user: user)
     create(:claim_comment, claim: claim, body: "Example comment")
     get :show, id: claim.id, auth: user.authentication_token, format: "json"
-    assert_template "show"
+    assert_equal "Example comment", JSON::parse(response.body)['comments'][0]['body']
+    assert_response 200
   end
 
   test "show responds with unauthorized when no auth" do
@@ -36,7 +38,8 @@ class V1::ClaimsControllerTest < ActionController::TestCase
   test "create renders template" do
     user = create(:user, :authenticated)
     post :create, auth: user.authentication_token, format: "json", claim: {status: "saved", specialty: "internal_medicine"}
-    assert_template "create"
+    assert_equal "internal_medicine", JSON::parse(response.body)['specialty']
+    assert_response 200
   end
 
   test "create responds with unauthorized when no auth" do
@@ -53,8 +56,9 @@ class V1::ClaimsControllerTest < ActionController::TestCase
   test "update renders template" do
     user = create(:user, :authenticated)
     claim = create(:claim, user: user)
-    put :update, id: claim.id, auth: user.authentication_token, format: "json", claim: {status: "saved"}
-    assert_template "update"
+    put :update, id: claim.id, auth: user.authentication_token, format: "json", claim: {status: "saved", patient_name: "Jane"}
+    assert_equal "Jane", JSON::parse(response.body)['patient_name']
+    assert_response 200
   end
 
   test "update responds with unauthorized when no auth" do
@@ -81,7 +85,7 @@ class V1::ClaimsControllerTest < ActionController::TestCase
     user = create(:user, :authenticated)
     claim = create(:claim, user: user)
     delete :destroy, id: claim.id, auth: user.authentication_token, format: "json"
-    assert_template "destroy"
+    assert_response 200
   end
 
   test "destroy responds with not found when no claim" do
