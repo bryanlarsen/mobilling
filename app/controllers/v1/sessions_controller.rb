@@ -11,8 +11,11 @@ class V1::SessionsController < V1::BaseController
 
   def create
     @interactor = CreateSession.new(create_session_params)
-    @interactor.perform
-    render json: @interactor.user
+    if @interactor.perform
+      render json: @interactor.user
+    else
+      render json: @interactor, status: 422
+    end
   end
 
   api :DELETE, "/v1/session", "Deletes an authentication token"

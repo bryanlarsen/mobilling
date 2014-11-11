@@ -50,6 +50,7 @@ class V1::ClaimsControllerTest < ActionController::TestCase
   test "create responds with unprocessable entity when invalid params" do
     user = create(:user, :authenticated)
     post :create, format: "json", claim: {status: "invalid"}, auth: user.authentication_token
+    assert JSON::parse(response.body)['errors']['status']
     assert_response :unprocessable_entity
   end
 
