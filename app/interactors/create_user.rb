@@ -1,7 +1,8 @@
 class CreateUser
   include ActiveModel::Model
 
-  attr_accessor :email, :password, :name, :agent_id
+  attr_accessor :email, :password, :name, :agent_id, :provider_number, :group_number, :office_code, :specialty_code
+
   attr_reader :user, :specialties
 
   validates :email, presence: true, email: true
@@ -9,6 +10,10 @@ class CreateUser
   validates :password, presence: true
   validates :name, presence: true
   validates :specialties, presence: true
+  validates :provider_number, numericality: {only_integer: true}, allow_blank: true
+  validates :group_number, length: {maximum: 4, minimum: 4}, allow_blank: true
+  validates :office_code, length: {maximum: 1}, allow_blank: true
+  validates :specialty_code, numericality: {only_integer: true}, allow_blank: true
   validate :email_existence
 
   def initialize(attributes = nil)
@@ -34,7 +39,11 @@ class CreateUser
       password: password,
       agent_id: agent_id,
       specialties: specialties,
-      authentication_token: SecureRandom.hex(32)
+      authentication_token: SecureRandom.hex(32),
+      provider_number: provider_number,
+      group_number: group_number,
+      office_code: office_code,
+      specialty_code: specialty_code,
     }
   end
 

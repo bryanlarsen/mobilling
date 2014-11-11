@@ -140,13 +140,18 @@ module Test
 
       click_on("New")
 
-      # claim details
+      # patient
       unless claim_attributes[:photo].nil?
         attach_file("Patient photo", Rails.root.join("test", "fixtures", claim_attributes[:photo]), visible: false)
       end
       fill_in("Patient name", with: claim_attributes[:patient_name])
+
+      # claim
+      click_on("Claim")
       fill_in("Hospital", with: claim_attributes[:hospital])
-      fill_in("Referring physician", with: claim_attributes[:referring_physician])
+      unless claim_attributes[:referring_physician].nil?
+        fill_in("Referring physician", with: claim_attributes[:referring_physician])
+      end
 
       claim_attributes[:diagnoses].each.with_index do |diagnosis, i|
         click_on("Add a new diagnosis") unless i.zero?
@@ -194,6 +199,7 @@ module Test
         pick_a_time("Time out", claim_attributes[:consult_time_out]) if claim_attributes[:consult_time_out]
         if claim_attributes[:consult_premium_visit]
           find_by_id("is-premium-visible").click
+          sleep(0.2)
           find_by_id("claim-consult-premium-visit-#{claim_attributes[:consult_premium_visit].dasherize}").click
         end
         find_by_id("claim-consult-premium-travel").click if claim_attributes[:consult_premium_travel]
@@ -206,8 +212,9 @@ module Test
         # has_button?("Generate codes")
         click_on("Generate codes")
       end
+
       claim_attributes[:daily_details].each do |daily_detail|
-        click_on("Add a new day") unless claim_attributes[:procedure_on]
+        all("button.add-code").last.click
         pick_a_date(all("input[name=day]").last, daily_detail[:day])
         all("input[name=code]").last.set(daily_detail[:code])
         pick_a_time(all("input[name=time_in]").last, daily_detail[:time_in]) if daily_detail[:time_in]

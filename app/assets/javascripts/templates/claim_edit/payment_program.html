@@ -1,0 +1,23 @@
+<div class="form-group row" ng-class="{'has-error': (claimForm.payment_program.$dirty || submitted) && claimForm.payment_program.$invalid}">
+  <label for="claim-payment-program" class="control-label col-xs-12">Payment Program</label>
+  <div class="form-control-wrapper col-xs-12">
+    <div type="btn-group">
+      <label class="btn btn-default btn-lg" ng-class="{ 'btn-primary': claim.payment_program === 'HCP', 'hide': claim.patient_province !== 'ON' }">
+        <input type="radio" id="payment-program-hcp" ng-model="claim.payment_program" value="HCP" name="payment_program" class="hide">
+        OHIP (HCP)
+      </label>
+      <label class="btn btn-default btn-lg" ng-class="{ 'btn-primary': claim.payment_program === 'RMB', 'hide': claim.patient_province === 'ON' }">
+        <input type="radio" id="payment-program-rmb" ng-model="claim.payment_program" value="RMB" name="payment_program" class="hide">
+        Out of Province (RMB)
+      </label>
+      <label class="btn btn-default btn-lg" ng-class="{ 'btn-primary': claim.payment_program === 'WCB' }">
+        <input type="radio" id="payment-program-wcb" ng-model="claim.payment_program" value="WCB" name="payment_program" class="hide">
+        Worker's Compensation (WCB)
+      </label>
+    </div>
+    <div ng-messages="claimForm.payment_program.$error" ng-show="submitted">
+      <p class="help-block" ng-message="required">is missing</p>
+    </div>
+  </div>
+</div>
+

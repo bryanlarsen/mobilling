@@ -1,7 +1,17 @@
 angular.module("moBilling.controllers")
 
-    .controller("ClaimEditClaimController", function ($scope, $window, Photo) {
+    .controller("ClaimEditClaimController", function ($scope, $window) {
         var claim = $scope.claim;
+
+        $scope.service_locations = [
+            { name: 'N/A', code: '' },
+            { name: 'Hospital Day Surgery', code: 'HDS' },
+            { name: 'Hospital Emergency Department', code: 'HED' },
+            { name: 'Hospital In-Patient', code: 'HIP' },
+            { name: 'Hospital Out-Patient', code: 'HOP' },
+            { name: 'Hospital Referral Patient', code: 'HRP' },
+            { name: 'Ontario Telemedicine Network', code: 'OTN' }
+        ];
 
         $scope.initialize = function () {
             claim.first_seen_on_admission = (claim.admission_on === claim.first_seen_on);
@@ -33,12 +43,6 @@ angular.module("moBilling.controllers")
             }
         });
 
-        $scope.$watch("claim.photo_id", function (photo_id) {
-            if (photo_id) {
-                $scope.photo = Photo.get({ id: photo_id });
-            }
-        });
-
         $scope.add = function () {
             claim.diagnoses.push({ name: "" });
         };
@@ -48,22 +52,6 @@ angular.module("moBilling.controllers")
 
             claim.diagnoses.splice(index, 1);
         };
-
-        function success(data) {
-            $scope.$emit("uploaded");
-            claim.photo_id = data.id;
-        }
-
-        function error() {
-            $scope.$emit("uploaded");
-        }
-
-        $scope.$watch("file", function (file) {
-            if (file) {
-                $scope.$emit("uploading");
-                Photo.upload(file).then(success, error);
-            }
-        });
 
         $scope.initialize();
     });

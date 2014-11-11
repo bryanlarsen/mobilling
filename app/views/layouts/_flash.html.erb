@@ -2,19 +2,27 @@
   <% if flash[:notice].present? %>
     <div class="alert alert-success">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <%= flash[:notice] %>
+      <% if flash[:notice].starts_with?("!!") %>
+        Your download should begin immediately.   If it does not please 
+         <a href="<%= flash[:notice][2..-1] %>" download="true" data-no-turbolink="true">
+           <i class="fa fa-download"></i> click here.
+         </a>
+         <meta http-equiv="refresh" content=".1;url=<%= flash[:notice][2..-1] %>" />
+      <% else %>
+        <%= sanitize flash[:notice] %>
+      <% end %>
     </div>
   <% end %>
   <% if flash[:alert].present? %>
     <div class="alert alert-warning">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <%= flash[:alert] %>
+      <%= sanitize flash[:alert] %>
     </div>
   <% end %>
   <% if flash[:error].present? %>
     <div class="alert alert-danger">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <%= flash[:error] %>
+      <%= sanitize flash[:error] %>
     </div>
   <% end %>
 </div>

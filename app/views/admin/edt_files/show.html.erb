@@ -1,0 +1,90 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>
+        <%= icon_link_to "download", "", "#{download_admin_edt_file_path(id: @file, filename: @file.filename)}", download: true, "data-no-turbolink" => true, class: "btn btn-primary" %>
+        <%= @file.type.titleize %>
+        <%= @file.filename %>
+      </h2>
+      <div><%= @file.created_at.to_date %></div>
+      <br/>
+    </div>
+  </div>
+
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+<% unless @file.messages.blank? %>
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="messages-head">
+        <div class="panel-title">
+          <a class="collapse-chevron collapsed" data-toggle="collapse" href="#messages" data-parent="#accordion" aria-expanded="false" aria-controls="messages-head">
+            <i class="fa toggle-chevron"></i>
+            Messages (<%= @file.messages.length %>)
+          </a>
+        </div>
+      </div>
+      <div id="messages" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="messages-head">
+        <div class="panel-body">
+          <% @file.messages.each do |message| %>
+            <div class="well max-height-clickable on">
+              <%= markdown(message) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="contents-head">
+        <div class="panel-title">
+          <a class="collapse-chevron collapsed" data-toggle="collapse" data-parent="#accordion" href="#contents" aria-controls="contents-head">
+            <i class="fa toggle-chevron"></i>
+            Raw Lines (<%= @file.records.length %>)
+          </a>
+        </div>
+      </div>
+      <div id="contents" class="panel-collapse collapse" role="tabpanel" aria-labelledby="contents-head">
+        <div class="panel-body">
+          <% @file.records.each.with_index do |record, i| %>
+            <%= render partial: "record", locals: { record: record, index: i } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="claims-head">
+        <div class="panel-title">
+          <a class="collapse-chevron collapsed" data-toggle="collapse" href="#claims" data-parent="#accordion" aria-expanded="false" aria-controls="claims-head">
+            <i class="fa toggle-chevron"></i>
+            Claims (<%= @file.claims.length %>)
+          </a>
+        </div>
+      </div>
+      <div id="claims" class="panel-collapse collapse" role="tabpanel" aria-labelledby="claims-head">
+        <div class="panel-body">
+          <%= render partial: "admin/claims/list", locals: {claims: @file.claims} %>
+        </div>
+      </div>
+    </div>
+
+<% related_files = @file.claims.map(&:files).flatten.uniq %>
+
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="files-head">
+        <div class="panel-title">
+          <a class="collapse-chevron collapsed" data-toggle="collapse" href="#files" data-parent="#accordion" aria-expanded="false" aria-controls="files-head">
+            <i class="fa toggle-chevron"></i>
+            Related Files (<%= related_files.length %>)
+          </a>
+        </div>
+      </div>
+      <div id="files" class="panel-collapse collapse" role="tabpanel" aria-labelledby="files-head">
+        <div class="panel-body">
+          <%= render partial: "admin/edt_files/list", locals: {files: related_files} %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

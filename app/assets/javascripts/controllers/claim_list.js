@@ -28,7 +28,7 @@ angular.module("moBilling.controllers")
         };
 
         $scope.edit = function (claim) {
-            if (["saved", "rejected_doctor_attention", "rejected_admin_attention"].indexOf(claim.status) !== -1) {
+            if (["saved", "doctor_attention"].indexOf(claim.status) !== -1) {
                 $location.path("/claims/" + claim.id + "/edit").hash("");
             } else {
                 $location.path("/claims/" + claim.id).hash("");
@@ -45,6 +45,21 @@ angular.module("moBilling.controllers")
                 $event.stopPropagation();
             }
         };
+
+        $scope.changeTemplate = function (claim, $event) {
+            $event.stopPropagation();
+            $scope.activeClaim = claim;
+            $("#choose").toggle();
+        }
+
+        $scope.chooseTemplate = function (template) {
+            console.log(template);
+            $("#choose").toggle();
+            $scope.activeClaim.specialty = template;
+            Claim.save($scope.activeClaim, function() {
+                $location.path('/claims/' + $scope.activeClaim.id + '/edit');
+            });
+        }
 
         $scope.removeOk = function () {
             Claim.remove({ id: $scope.selectedClaim.id }, $route.reload, $route.reload);
@@ -66,9 +81,9 @@ angular.module("moBilling.controllers")
 
             $scope.statuses = {
                 saved: ["saved"],
-                submitted: ["unprocessed", "processed"],
-                rejected: ["rejected_doctor_attention", "rejected_admin_attention"],
-                paid: ["paid"]
+                submitted: ["for_agent", "ready", "file_created", "uploaded", "acknowledged", "agent_attention"],
+                rejected: ["doctor_attention"],
+                paid: ["done"]
             }[$scope.step];
 
             $scope.claims = claims.filter(function (claim) {

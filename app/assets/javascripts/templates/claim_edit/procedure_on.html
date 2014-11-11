@@ -1,0 +1,10 @@
+<div class="form-group row" ng-class="{'has-error': (claimForm.procedure_on.$dirty || submitted) && claimForm.procedure_on.$invalid}">
+  <label class="control-label col-xs-12" for="claim-procedure-on">Procedure / treatment date</label>
+  <div class="form-control-wrapper col-xs-12">
+    <mb-date name="procedure_on" ng-model="claim.procedure_on" class="form-control input-lg" id="claim-procedure-on" placeholder="Select date" required></mb-date>
+    <div ng-messages="claimForm.procedure_on.$error" ng-show="submitted">
+      <p class="help-block" ng-message="required">is missing</p>
+    </div>
+  </div>
+</div>
+

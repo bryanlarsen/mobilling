@@ -26,10 +26,42 @@
       <% end %>
 
       <%= form.group :patient_name do %>
-        <%= form.label :patient_name, "Patient Name, DOB, HC#", class: "control-label col-md-2" %>
+        <%= form.label :patient_name, "Patient Name", class: "control-label col-md-2" %>
         <div class="col-md-4">
           <%= form.text_field :patient_name, class: "form-control" %>
           <%= form.help_block :patient_name %>
+        </div>
+      <% end %>
+
+      <%= form.group :patient_number do %>
+       <%= form.label :patient_number, "Patient Number", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :patient_number, class: "form-control" %>
+          <%= form.help_block :patient_number %>
+        </div>
+      <% end %>
+
+      <%= form.group :patient_province do %>
+       <%= form.label :patient_province, "Patient Province (2 character code)", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :patient_province, class: "form-control" %>
+          <%= form.help_block :patient_province %>
+        </div>
+      <% end %>
+
+      <%= form.group :patient_birthday do %>
+       <%= form.label :patient_birthday, "Patient Birthday (YYYY-mm-dd)", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :patient_birthday, class: "form-control" %>
+          <%= form.help_block :patient_birthday %>
+        </div>
+      <% end %>
+
+      <%= form.group :patient_sex do %>
+       <%= form.label :patient_sex, "Patient Sex (M or F)", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :patient_sex, class: "form-control" %>
+          <%= form.help_block :patient_sex %>
         </div>
       <% end %>
 
@@ -96,8 +128,19 @@
             </label>
             <div class="col-md-10">
               <p class="form-control-static">
-                <%= daily_detail["code"] %>
+                <%= daily_detail["code"] %> <%= daily_detail["units"] %>@<%= daily_detail["fee"] / 100.0 %>
               </p>
+              <p class="form-control-static">
+                <%= markdown(daily_detail["message"]) %>
+              </p>
+              <% daily_detail["premiums"] && daily_detail["premiums"].each do |premium| %>
+                <p class="form-control-static">
+                  <%= premium["code"] %> <%= premium["units"] %>@<%= premium["fee"] / 100.0 %>
+                </p>
+                <p class="form-control-static">
+                  <%= markdown(premium["message"]) %>
+                </p>
+              <% end %>
             </div>
           </div>
         <% end %>
@@ -105,6 +148,26 @@
         <p class="col-md-10 col-md-offset-2">None</p>
       <% end %>
     </fieldset>
+
+    <fieldset>
+      <legend>Extra Fields</legend>
+      <%= form.group :manual_review_indicator do %>
+       <%= form.label :manual_review_indicator, "Manual Review Indicator", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.check_box :manual_review_indicator, class: "form-control" %>
+          <%= form.help_block :manual_review_indicator %>
+        </div>
+      <% end %>
+
+      <%= form.group :service_location do %>
+       <%= form.label :service_location, "Service Location ('', HDS, HED, HIP, HOP, HRP, OTN)", class: "control-label col-md-2" %>
+        <div class="col-md-4">
+          <%= form.text_field :service_location, class: "form-control" %>
+          <%= form.help_block :service_location %>
+        </div>
+      <% end %>
+    </fieldset>
+
 
     <fieldset>
       <legend>Comments</legend>
@@ -120,7 +183,7 @@
             </div>
             <div class="col-md-10">
               <p class="form-control-static">
-                <%= comment.body %>
+                <%= markdown(comment.body) %>
               </p>
             </div>
           </div>
@@ -145,7 +208,8 @@
       <div class="form-group">
         <%= form.label :status, class: "control-label col-md-2" %>
         <div class="col-md-10">
-          <% Claim.statuses.keys.each do |status| %>
+          <% Claim::NEXT_STATUSES[@interactor.claim.status].each do |status| %>
+            <% next if status == "reclaimed" %>
             <div class="radio">
               <label>
                 <%= form.radio_button :status, status %>
@@ -160,9 +224,22 @@
     <div class="form-group">
       <div class="col-md-10 col-md-offset-2">
         <%= icon_submit "check", "Update", type: "submit", class: "btn btn-primary" %>
+        <% if params[:next] %>
+          <input type="hidden" name="next" value="<%= params[:next].join(',') %>"/>
+          <%= icon_submit "arrow-right", "Next", type: "submit", class: "btn btn-primary", name: "next_button" %>
+        <% end %>
         <%= icon_link_to "times", "Cancel", admin_claims_path, class: "btn btn-default" %>
       </div>
     </div>
+  <% end %>
+  <% if Claim::NEXT_STATUSES[@interactor.claim.status].include?("reclaimed") %>
+    <form class="form-horizontal" method="POST" action="<%= reclaim_admin_claim_path %>">
+      <div class="form-group">
+        <div class="col-md-10 col-md-offset-2">
+          <%= icon_submit "check", "Reclaim", type: "submit", class: "btn btn-primary" %>
+        </div>
+      </div>
+    </form>
   <% end %>
 </div>
 

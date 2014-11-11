@@ -21,10 +21,21 @@ class Admin::ClaimsController < Admin::BaseController
     authorize :claim, :update?
     @interactor = Admin::UpdateClaim.new(@claim, current_user, update_claim_params)
     if @interactor.perform
-      redirect_to admin_claims_path, notice: "Claim updated successfully."
+      if params[:next_button] && params[:next].split(',')[0]
+        redirect_to edit_admin_claim_path(params[:next].split(',')[0], next: params[:next].split(',')[1..-1])
+      else
+        redirect_to admin_claims_path, notice: "Claim updated successfully."
+      end
     else
       render :edit
     end
+  end
+
+  def reclaim
+    @claim = policy_scope(:claim).find(params[:id])
+    authorize :claim, :update?
+    @reclaim = @claim.reclaim!
+    redirect_to edit_admin_claim_path(@reclaim)
   end
 
   private
@@ -53,6 +64,6 @@ class Admin::ClaimsController < Admin::BaseController
   end
 
   def update_claim_params
-    params.require(:admin_update_claim).permit(:patient_name, :status, :comment)
+    params.require(:admin_update_claim).permit(:patient_name, :patient_province, :patient_province, :patient_birthday, :patient_sex, :patient_number, :status, :comment)
   end
 end

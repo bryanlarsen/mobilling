@@ -19,8 +19,7 @@ angular.module("moBilling.directives")
 
                             if (sourceType !== undefined) {
                                 navigator.camera.getPicture(function (file) {
-                                    scope.$parent[attributes.mbUpload] = file;
-                                    scope.$parent.$apply();
+                                    scope.$emit('photoChanged', file);
                                     $timeout(unlock);
                                 }, function (error) {
                                     // add some error handling
@@ -37,8 +36,7 @@ angular.module("moBilling.directives")
 
                 element.change(function (event) {
                     if (event.target.files.length) {
-                        scope.$parent[attributes.mbUpload] = event.target.files[0];
-                        scope.$parent.$apply();
+                        scope.$emit('photoChanged', event.target.files[0]);
                     }
 
                     element.wrap("<form>");

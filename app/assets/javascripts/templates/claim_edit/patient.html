@@ -1,0 +1,13 @@
+<ng-form name="patientForm" class="scrollable" ng-controller="ClaimEditPatientController">
+  <div class="scrollable-content section">
+    <div class="panel" id="patient">
+      <div class="panel-body">
+
+        <div ng-repeat="include in templateTabs['patient']">
+          <ng-include src="include"/>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-form>

@@ -13,15 +13,22 @@ Rails.application.routes.draw do
     resources :hospitals, only: %i[index]
     resources :password_resets, only: %i[create]
     resources :photos, only: %i[show create]
-    resources :service_codes, only: %i[index]
+    resources :service_codes, only: %i[index show]
   end
 
   namespace :admin do
     resource :dashboard, only: %i[show]
     resource :session, only: %i[new create destroy]
     resources :admin_users, only: %i[index new create edit update destroy]
-    resources :claims, only: %i[index edit update]
-    resources :users, only: %i[index edit update destroy]
+    resources :claims, only: %i[index edit update] do
+      post :reclaim, on: :member
+    end
+    resources :edt_files, only: %i[index create show] do
+      get 'download/:filename', action: 'download', on: :member, as: :download
+    end
+    resources :users, only: %i[index edit update destroy] do
+      resources :submissions, only: %i[create]
+    end
     root to: redirect("/admin/dashboard")
   end
 end

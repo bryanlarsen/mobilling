@@ -10,7 +10,7 @@ class AdminTest < ActionDispatch::IntegrationTest
     create(:claim, details: {"patient_name" => "Alice"})
     @admin.navigate_to("Claims")
     @admin.within("tr", text: "Alice") do
-      @admin.click_on("Edit")
+      @admin.click_on("View")
     end
     @admin.fill_in("Patient Name", with: "Bob")
     @admin.click_on("Update")
@@ -55,7 +55,7 @@ class AdminTest < ActionDispatch::IntegrationTest
     create(:claim, details: {"patient_name" => "Alice", "diagnoses" => [{"name" => "First diagnosis"}, {"name" => "Second diagnosis"}]})
     @admin.navigate_to("Claims")
     @admin.within("tr", text: "Alice") do
-      @admin.click_on("Edit")
+      @admin.click_on("View")
     end
     @admin.see?("First diagnosis")
     @admin.see?("Second diagnosis")

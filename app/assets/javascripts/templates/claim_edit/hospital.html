@@ -1,0 +1,10 @@
+<div class="form-group row" ng-class="{'has-error': (claimForm.hospital.$dirty || submitted) && claimForm.hospital.$invalid}">
+  <label for="claim-hospital" class="control-label col-xs-12">Hospital</label>
+  <div class="form-control-wrapper col-xs-12">
+    <input type="text" name="hospital" ng-model="claim.hospital" class="form-control input-lg" id="claim-hospital" datasets="hospitals" sf-typeahead mb-typeahead required mb-scroll-into-view>
+    <div ng-messages="claimForm.hospital.$error" ng-show="submitted">
+      <p class="help-block" ng-message="required">is missing</p>
+    </div>
+  </div>
+</div>
+

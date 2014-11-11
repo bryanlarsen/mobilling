@@ -115,6 +115,54 @@
                   <p class="help-block" ng-message="required">at least one specialty is required</p>
                 </div>
               </div>
+
+              <div class="form-group row" ng-class="{'has-error': (form.provider_number.$dirty || submitted) && form.provider_number.$invalid}">
+                <label for="user-provider-number" class="control-label col-xs-12">
+                  OHIP Provider Number
+                </label>
+                <div class="form-control-wrapper col-xs-12">
+                  <input type="text" name="provider_number" ng-model="user.provider_number" class="form-control input-lg" id="user-provider-number" mb-server>
+                  <div ng-messages="form.provider_number.$error" ng-show="submitted">
+                    <p class="help-block" ng-message="server">{{errors.provider_number[0]}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row" ng-class="{'has-error': (form.group_number.$dirty || submitted) && form.group_number.$invalid}">
+                <label for="user-group-number" class="control-label col-xs-12">
+                  OHIP Group Number (enter 0000 if you don't have one)
+                </label>
+                <div class="form-control-wrapper col-xs-12">
+                  <input type="text" name="group_number" ng-model="user.group_number" class="form-control input-lg" id="user-group-number" mb-server>
+                  <div ng-messages="form.group_number.$error" ng-show="submitted">
+                    <p class="help-block" ng-message="server">{{errors.group_number[0]}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row" ng-class="{'has-error': (form.office_code.$dirty || submitted) && form.office_code.$invalid}">
+                <label for="user-office-code" class="control-label col-xs-12">
+                  MOH Office Code
+                </label>
+                <div class="form-control-wrapper col-xs-12">
+                  <select name="office_code" ng-model="user.office_code" class="form-control input-lg" id="user-office-code" mb-server ng-options="office.code as office.name for office in office_codes"></select>
+                  <div ng-messages="form.office_code.$error" ng-show="submitted">
+                    <p class="help-block" ng-message="server">{{errors.office_code[0]}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row" ng-class="{'has-error': (form.specialty_code.$dirty || submitted) && form.specialty_code.$invalid}">
+                <label for="user-specialty-code" class="control-label col-xs-12">
+                  OHIP Specialty Code
+                </label>
+                <div class="form-control-wrapper col-xs-12">
+                  <select name="specialty_code" ng-model="user.specialty_code" class="form-control input-lg" id="user-specialty-code" mb-server ng-options="specialty.code as specialty.name for specialty in specialty_codes"></select>
+                  <div ng-messages="form.specialty_code.$error" ng-show="submitted">
+                    <p class="help-block" ng-message="server">{{errors.specialty_code[0]}}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -1,0 +1,10 @@
+<div class="form-group row" ng-class="{'has-error': (claimForm.patient_name.$dirty || submitted) && claimForm.patient_name.$invalid}">
+  <label for="claim-patient-name" class="control-label col-xs-12">Patient name</label>
+  <div class="form-control-wrapper col-xs-12">
+    <input type="text" name="patient_name" ng-model="claim.patient_name" class="form-control input-lg" id="claim-patient-name" mb-scroll-into-view required>
+    <div ng-messages="claimForm.patient_name.$error" ng-show="submitted">
+      <p class="help-block" ng-message="required">is missing</p>
+    </div>
+  </div>
+</div>
+

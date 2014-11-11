@@ -1,0 +1,17 @@
+<div class="form-group row" ng-class="{'has-error': (claimForm.last_seen_on.$dirty || submitted) && claimForm.last_seen_on.$invalid}">
+  <label for="claim-last-seen-on" class="control-label col-xs-12">Last seen date</label>
+  <div class="form-control-wrapper col-xs-12">
+    <mb-date name="last_seen_on" ng-model="claim.last_seen_on" class="form-control input-lg" id="claim-last-seen-on" min="{{claim.first_seen_on}}" placeholder="Select date" required></mb-date>
+    <div ng-messages="claimForm.last_seen_on.$error" ng-show="submitted">
+      <p class="help-block" ng-message="required">is missing</p>
+    </div>
+  </div>
+</div>
+
+<div class="form-group row">
+  <label class="control-label col-xs-12">Last seen date is discharge</label>
+  <div class="form-control-wrapper col-xs-12">
+    <mb-switch ng-model="claim.last_seen_discharge" id="claim-last-seen-discharge"></mb-switch>
+  </div>
+</div>
+
