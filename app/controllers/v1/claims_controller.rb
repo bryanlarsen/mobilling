@@ -53,8 +53,11 @@ class V1::ClaimsController < V1::BaseController
   def create
     @interactor = CreateClaim.new(create_claim_params)
     @interactor.user = current_user
-    @interactor.perform
-    show @interactor.claim
+    if @interactor.perform
+      show @interactor.claim
+    else
+      render json: @interactor, status: 422
+    end
   end
 
   api :PUT, "/v1/claims/:id", "Updates a claim"
@@ -95,8 +98,11 @@ class V1::ClaimsController < V1::BaseController
     @claim = current_user.claims.where(status: Claim.statuses.slice(:saved, :rejected_doctor_attention, :rejected_admin_attention).values).find(params[:id])
     @interactor = UpdateClaim.new(@claim, update_claim_params)
     @interactor.user = current_user
-    @interactor.perform
-    show @interactor.claim
+    if @interactor.perform
+      show @interactor.claim
+    else
+      render json: @interactor, status: 422
+    end
   end
 
   api :DELETE, "/v1/claims/:id", "Deletes a claim"

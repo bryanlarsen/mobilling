@@ -18,8 +18,11 @@ class V1::PhotosController < V1::BaseController
   def create
     @interactor = CreatePhoto.new(create_photo_params)
     @interactor.user = current_user
-    @interactor.perform
-    show @interactor.photo
+    if @interactor.perform
+      show @interactor.photo
+    else
+      render json: @interactor, status: 422
+    end
   end
 
   private
