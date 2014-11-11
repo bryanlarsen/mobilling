@@ -77,7 +77,7 @@ class V1::ClaimsControllerTest < ActionController::TestCase
 
   test "update responds with not_found when updating unprocessed claim" do
     user = create(:user, :authenticated)
-    claim = create(:claim, user: user, status: "for_agent")
+    claim = create(:claim, user: user, status: "ready")
     put :update, id: claim.id, auth: user.authentication_token, format: "json", claim: {status: "saved"}
     assert_response :not_found
   end

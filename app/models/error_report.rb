@@ -104,7 +104,7 @@ class ErrorReport < EdtFile
         if conds.blank?
           messages << record["Error Code #{n}"] + ": (unknown)"
         else
-          messages << cond.map do
+          messages << conds.map do |cond|
             "#{cond.code}: #{cond.name}"
           end.join("\n")
         end

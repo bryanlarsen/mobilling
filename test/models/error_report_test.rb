@@ -81,7 +81,7 @@ class ErrorReportTest < ActiveSupport::TestCase
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'agent_attention'
     assert @submission.claims[0].details['daily_details'][0]['message'].blank?
-    assert_equal @submission.claims[0].comments.last.body, "V09: Foo"
+    assert_equal @submission.claims[0].comments.last.body, "- V09: Foo"
   end
 
   test 'er premium' do
