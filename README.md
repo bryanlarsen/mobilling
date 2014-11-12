@@ -1,5 +1,7 @@
 ## Mo-Billing
 
+[ ![Codeship Status for bryanlarsen/mobilling](https://codeship.com/projects/87c92c00-4cd8-0132-5a34-5a56e8d5bc4a/status)](https://codeship.com/projects/47259)
+
 ### Requirements
 
 * Ruby 2.1.2
