@@ -6,7 +6,7 @@ class V1::UsersController < V1::BaseController
   api :GET, "/v1/user", "Returns the current user"
 
   def show
-    @user = @current_user
+    render json: @current_user
   end
 
   api :POST, "/v1/user", "Creates a new user"
@@ -20,8 +20,11 @@ class V1::UsersController < V1::BaseController
 
   def create
     @interactor = CreateUser.new(create_user_params)
-    @interactor.perform
-    respond_with @interactor, location: nil, status: :created
+    if @interactor.perform
+      render json: @interactor.user
+    else
+      render json: @interactor, status: 422
+    end
   end
 
   api :PUT, "/v1/user", "Updates a user"
@@ -37,8 +40,11 @@ class V1::UsersController < V1::BaseController
   def update
     @user = @current_user
     @interactor = UpdateUser.new(@user, update_user_params)
-    @interactor.perform
-    respond_with @interactor, location: nil
+    if @interactor.perform
+      render json: @interactor.user
+    else
+      render json: @interactor, status: 422
+    end
   end
 
   private
