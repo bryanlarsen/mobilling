@@ -5,6 +5,7 @@ FactoryGirl.define do
     sequence(:number)
 
     ignore do
+        specialty 'internal_medicine'
         patient_name 'Ruby Larsen'
         patient_number '9876543217'
         patient_province 'ON'
@@ -28,6 +29,7 @@ FactoryGirl.define do
     	referring_physician: referring_physician,
     	admission_on: admission_on,
     	daily_details: daily_details,
+        specialty: specialty
      }}
   end
 end
