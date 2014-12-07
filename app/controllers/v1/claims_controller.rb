@@ -5,14 +5,14 @@ class V1::ClaimsController < V1::BaseController
   api :GET, "/v1/claims", "Returns claims"
 
   def index
-    render json: current_user.claims
+    render json: current_user.claims.map {|claim| ClaimForm.new(claim)}
   end
 
   api :GET, "/v1/claims/:id", "Returns a claim"
 
   def show(claim = nil)
     claim ||= current_user.claims.includes(:comments).find(params[:id])
-    render json: claim.as_json(include_comments: true)
+    render json: ClaimForm.new(claim).as_json(include_comments: true)
   end
 
   # yes, I tried doing this recursively, but the blocks are executed
@@ -50,7 +50,7 @@ class V1::ClaimsController < V1::BaseController
     if @form.perform
       show @form.claim
     else
-      render json: @form, status: 422
+      render json: @form.as_json, status: 422
     end
   end
 
@@ -65,7 +65,7 @@ class V1::ClaimsController < V1::BaseController
     if @form.perform
       show @form.claim
     else
-      render json: @form, status: 422
+      render json: @form.as_json, status: 422
     end
   end
 

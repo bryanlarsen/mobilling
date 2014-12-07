@@ -1,16 +1,16 @@
 class DiagnosisForm
   include ActiveModel::Model
 
-  attr_accessor :interactor, :name
+  attr_accessor :name
 
   validates :name, type: {is_a: String}, allow_nil: true
   validates :name, presence: true, if: :submitted?
 
   def submitted?
-    interactor.present? and interactor.submitted?
+    false
   end
 
-  def as_json
+  def as_json(options = nil)
     super(only: %w[name])
   end
 end

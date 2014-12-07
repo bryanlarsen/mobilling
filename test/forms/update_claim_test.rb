@@ -60,177 +60,177 @@ class UpdateClaimTest < ActiveSupport::TestCase
     assert_equal old_number, @form.claim.number
   end
 
-  test "is invalid with invalid photo_id" do
-    @form.photo_id = "invalid"
-    assert_invalid @form, :photo_id
-  end
-
-  test "is invalid with invalid status" do
-    @form.status = "invalid"
-    assert_invalid @form, :status
-  end
-
-  test "is invalid with invalid patient_name" do
-    @form.patient_name = 0
-    assert_invalid @form, :patient_name
-  end
-
-  test "is invalid without patient_name when submitted" do
-    @form.status = "for_agent"
-    @form.patient_name = nil
-    assert_invalid @form, :patient_name
-  end
-
-  test "is invalid with invalid hospital" do
-    @form.hospital = 0
-    assert_invalid @form, :hospital
-  end
-
-  test "is invalid without hospital when submitted" do
-    @form.status = "for_agent"
-    @form.hospital = nil
-    assert_invalid @form, :hospital
-  end
-
-  # test "is invalid without diagnoses when submitted" do
-  #   @form.status = "for_agent"
-  #   @form.diagnoses = []
-  #   assert_invalid @form, :diagnoses
+  # test "is invalid with invalid photo_id" do
+  #   @form.photo_id = "invalid"
+  #   assert_invalid @form, :photo_id
   # end
 
-  test "is invalid with invalid referring_physician" do
-    @form.referring_physician = 0
-    assert_invalid @form, :referring_physician
-  end
+  # test "is invalid with invalid status" do
+  #   @form.status = "invalid"
+  #   assert_invalid @form, :status
+  # end
 
-  test "is invalid with invalid most_responsible_physician" do
-    @form.most_responsible_physician = "true"
-    assert_invalid @form, :most_responsible_physician
-  end
+  # test "is invalid with invalid patient_name" do
+  #   @form.patient_name = 0
+  #   assert_invalid @form, :patient_name
+  # end
 
-  test "is invalid without most_responsible_physician when submitted" do
-    @form.status = "for_agent"
-    @form.most_responsible_physician = nil
-    assert_invalid @form, :most_responsible_physician
-  end
+  # test "is invalid without patient_name when submitted" do
+  #   @form.status = "for_agent"
+  #   @form.patient_name = nil
+  #   assert_invalid @form, :patient_name
+  # end
 
-  test "is invalid with invalid first_seen_on" do
-    @form.first_seen_on = "01-01-2014"
-    assert_invalid @form, :first_seen_on
-  end
+  # test "is invalid with invalid hospital" do
+  #   @form.hospital = 0
+  #   assert_invalid @form, :hospital
+  # end
 
-  test "is invalid without first_seen_on when submitted" do
-    @form.status = "for_agent"
-    @form.first_seen_on = nil
-    assert_invalid @form, :first_seen_on
-  end
+  # test "is invalid without hospital when submitted" do
+  #   @form.status = "for_agent"
+  #   @form.hospital = nil
+  #   assert_invalid @form, :hospital
+  # end
 
-  test "is invalid with invalid last_seen_on" do
-    @form.last_seen_on = "01-01-2014"
-    assert_invalid @form, :last_seen_on
-  end
+  # # test "is invalid without diagnoses when submitted" do
+  # #   @form.status = "for_agent"
+  # #   @form.diagnoses = []
+  # #   assert_invalid @form, :diagnoses
+  # # end
 
-  test "is invalid without last_seen_on when submitted" do
-    @form.status = "for_agent"
-    @form.last_seen_on = nil
-    assert_invalid @form, :last_seen_on
-  end
+  # test "is invalid with invalid referring_physician" do
+  #   @form.referring_physician = 0
+  #   assert_invalid @form, :referring_physician
+  # end
 
-  test "is invalid with invalid admission_on" do
-    @form.admission_on = "01-01-2014"
-    assert_invalid @form, :admission_on
-  end
+  # test "is invalid with invalid most_responsible_physician" do
+  #   @form.most_responsible_physician = "true"
+  #   assert_invalid @form, :most_responsible_physician
+  # end
 
-  test "is invalid without admission_on when submitted" do
-    @form.status = "for_agent"
-    @form.admission_on = nil
-    assert_invalid @form, :admission_on
-  end
+  # test "is invalid without most_responsible_physician when submitted" do
+  #   @form.status = "for_agent"
+  #   @form.most_responsible_physician = nil
+  #   assert_invalid @form, :most_responsible_physician
+  # end
 
-  test "is invalid with invalid first_seen_consult" do
-    @form.first_seen_consult = "true"
-    assert_invalid @form, :first_seen_consult
-  end
+  # test "is invalid with invalid first_seen_on" do
+  #   @form.first_seen_on = "01-01-2014"
+  #   assert_invalid @form, :first_seen_on
+  # end
 
-  test "is invalid with invalid last_seen_discharge" do
-    @form.last_seen_discharge = "true"
-    assert_invalid @form, :last_seen_discharge
-  end
+  # test "is invalid without first_seen_on when submitted" do
+  #   @form.status = "for_agent"
+  #   @form.first_seen_on = nil
+  #   assert_invalid @form, :first_seen_on
+  # end
 
-  test "is invalid without last_seen_discharge when submitted" do
-    @form.status = "for_agent"
-    @form.last_seen_discharge = nil
-    assert_invalid @form, :last_seen_discharge
-  end
+  # test "is invalid with invalid last_seen_on" do
+  #   @form.last_seen_on = "01-01-2014"
+  #   assert_invalid @form, :last_seen_on
+  # end
 
-  test "is invalid with invalid icu_transfer" do
-    @form.icu_transfer = "true"
-    assert_invalid @form, :icu_transfer
-  end
+  # test "is invalid without last_seen_on when submitted" do
+  #   @form.status = "for_agent"
+  #   @form.last_seen_on = nil
+  #   assert_invalid @form, :last_seen_on
+  # end
 
-  test "is invalid with invalid consult_type" do
-    @form.consult_type = "invalid"
-    assert_invalid @form, :consult_type
-  end
+  # test "is invalid with invalid admission_on" do
+  #   @form.admission_on = "01-01-2014"
+  #   assert_invalid @form, :admission_on
+  # end
 
-  test "is invalid with invalid consult_premium_visit" do
-    @form.consult_premium_visit = "invalid"
-    assert_invalid @form, :consult_premium_visit
-  end
+  # test "is invalid without admission_on when submitted" do
+  #   @form.status = "for_agent"
+  #   @form.admission_on = nil
+  #   assert_invalid @form, :admission_on
+  # end
 
-  test "is invalid with invalid consult_time_in" do
-    @form.consult_time_in = "5am"
-    assert_invalid @form, :consult_time_in
-  end
+  # test "is invalid with invalid first_seen_consult" do
+  #   @form.first_seen_consult = "true"
+  #   assert_invalid @form, :first_seen_consult
+  # end
 
-  test "is invalid with invalid consult_time_out" do
-    @form.consult_time_out = "5am"
-    assert_invalid @form, :consult_time_out
-  end
+  # test "is invalid with invalid last_seen_discharge" do
+  #   @form.last_seen_discharge = "true"
+  #   assert_invalid @form, :last_seen_discharge
+  # end
 
-  test "is invalid with invalid consult_premium_travel" do
-    @form.consult_premium_travel = "true"
-    assert_invalid @form, :consult_premium_travel
-  end
+  # test "is invalid without last_seen_discharge when submitted" do
+  #   @form.status = "for_agent"
+  #   @form.last_seen_discharge = nil
+  #   assert_invalid @form, :last_seen_discharge
+  # end
 
-  test "is invalid with invalid daily_details autogenerated" do
-    @form.daily_details = [{autogenerated: 1}]
-    assert_invalid @form, :daily_details
-  end
+  # test "is invalid with invalid icu_transfer" do
+  #   @form.icu_transfer = "true"
+  #   assert_invalid @form, :icu_transfer
+  # end
 
-  test "is invalid with invalid daily_details day" do
-    @form.daily_details = [{day: "01-01-2014"}]
-    assert_invalid @form, :daily_details
-  end
+  # test "is invalid with invalid consult_type" do
+  #   @form.consult_type = "invalid"
+  #   assert_invalid @form, :consult_type
+  # end
 
-  test "is invalid with invalid daily_details code" do
-    @form.daily_details = [{code: 1}]
-    assert_invalid @form, :daily_details
-  end
+  # test "is invalid with invalid consult_premium_visit" do
+  #   @form.consult_premium_visit = "invalid"
+  #   assert_invalid @form, :consult_premium_visit
+  # end
 
-  test "is invalid with daily_details without day when submitted" do
-    @form.status = "for_agent"
-    @form.daily_details = [{code: "A082A", autogenerated: false}]
-    assert_invalid @form, :daily_details
-  end
+  # test "is invalid with invalid consult_time_in" do
+  #   @form.consult_time_in = "5am"
+  #   assert_invalid @form, :consult_time_in
+  # end
 
-  test "is invalid with daily_details without code when submitted" do
-    @form.status = "for_agent"
-    @form.daily_details = [{day: "2014-02-01", autogenerated: false}]
-    assert_invalid @form, :daily_details
-  end
+  # test "is invalid with invalid consult_time_out" do
+  #   @form.consult_time_out = "5am"
+  #   assert_invalid @form, :consult_time_out
+  # end
 
-  test "is invalid with daily_details without autogenerated when submitted" do
-    @form.status = "for_agent"
-    @form.daily_details = [{day: "2014-02-01", code: "A082"}]
-    assert_invalid @form, :daily_details
-  end
+  # test "is invalid with invalid consult_premium_travel" do
+  #   @form.consult_premium_travel = "true"
+  #   assert_invalid @form, :consult_premium_travel
+  # end
 
-  test "is invalid with empty daily_details when submitted" do
-    @form.status = "for_agent"
-    @form.daily_details = []
-    assert_invalid @form, :daily_details
-  end
+  # test "is invalid with invalid daily_details autogenerated" do
+  #   @form.daily_details = [{autogenerated: 1}]
+  #   assert_invalid @form, :daily_details
+  # end
+
+  # test "is invalid with invalid daily_details day" do
+  #   @form.daily_details = [{day: "01-01-2014"}]
+  #   assert_invalid @form, :daily_details
+  # end
+
+  # test "is invalid with invalid daily_details code" do
+  #   @form.daily_details = [{code: 1}]
+  #   assert_invalid @form, :daily_details
+  # end
+
+  # test "is invalid with daily_details without day when submitted" do
+  #   @form.status = "for_agent"
+  #   @form.daily_details = [{code: "A082A", autogenerated: false}]
+  #   assert_invalid @form, :daily_details
+  # end
+
+  # test "is invalid with daily_details without code when submitted" do
+  #   @form.status = "for_agent"
+  #   @form.daily_details = [{day: "2014-02-01", autogenerated: false}]
+  #   assert_invalid @form, :daily_details
+  # end
+
+  # test "is invalid with daily_details without autogenerated when submitted" do
+  #   @form.status = "for_agent"
+  #   @form.daily_details = [{day: "2014-02-01", code: "A082"}]
+  #   assert_invalid @form, :daily_details
+  # end
+
+  # test "is invalid with empty daily_details when submitted" do
+  #   @form.status = "for_agent"
+  #   @form.daily_details = []
+  #   assert_invalid @form, :daily_details
+  # end
 
   test "orders daily details by day" do
     @form.daily_details = [{"day" => "2014-12-31"}, {"day" => "2014-12-01"}]

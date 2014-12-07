@@ -1,5 +1,7 @@
 class ClaimForm
   include ActiveModel::Model
+  include Virtus.model
+  include ValidationScopes
 
   def self.model_params
     return [
@@ -27,7 +29,7 @@ class ClaimForm
             [:consult_time_out, String],
             [:consult_premium_visit, String],
             [:consult_premium_first, :bool],
-            [:consult_premium_travel, String],
+            [:consult_premium_travel, :bool],
             [:patient_number, String],
             [:patient_province, String],
             [:patient_birthday, String],
@@ -86,29 +88,41 @@ class ClaimForm
     param_names(all_params)
   end
 
-  attr_accessor *(scalar_params.map &:first)
+  all_params.each do |name, type|
+    if type == :bool
+      attribute name, Axiom::Types::Boolean
+    else
+      attribute name, type
+    end
+  end
+  attribute :user, User
 
-  attr_accessor :user, :photo_id
-  attr_writer :daily_details, :diagnoses
+#  attr_accessor *(scalar_params.map &:first)
+
+#  attr_accessor :user, :photo_id
+#  attr_writer :daily_details, :diagnoses
 
   attr_reader :claim
 
   validates :photo_id, uuid: true, allow_nil: true
-  validates :status, inclusion: {in: %w[saved for_agent doctor_attention agent_attention]}
+  validates :status, inclusion: {in: Claim.statuses.keys}
   validates :user, presence: true
-  validates :patient_name, :hospital, :referring_physician, type: {is_a: String}, allow_nil: true
+
   validates :most_responsible_physician, :first_seen_consult, :last_seen_discharge, :icu_transfer, :consult_premium_travel, :consult_premium_first, inclusion: {in: [false, true]}, allow_nil: true
   validates :first_seen_on, :last_seen_on, :admission_on, :procedure_on, date: true, format: {with: /\A\d{4}-\d{2}-\d{2}\Z/}, type: {is_a: String}, allow_nil: true
   validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, allow_nil: true
   validates :consult_premium_visit, inclusion: {in: Claim::CONSULT_PREMIUM_VISITS}, allow_nil: true
   validates :specialty, inclusion: {in: User::SPECIALTIES}
   validates :consult_time_in, :consult_time_out, time: true, format: {with: /\A\d{2}:\d{2}\Z/, type: {is_a: String}}, allow_nil: true
-  validates :patient_name, :hospital, presence: true, if: :submitted?
   validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { submitted? and not simplified? }
   validates :procedure_on, presence: true, if: -> { submitted? and simplified? }
   validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false]}, if: -> { submitted? and not simplified? }
   validates :daily_details, associated: true
   validates :daily_details, length: {minimum: 1}, if: :submitted?
+
+  validation_scope :warnings do |s|
+    s.validates :patient_name, :hospital, presence: true
+  end
 
   def submitted?
     # FIXME: used for validations, is wrong
@@ -121,16 +135,16 @@ class ClaimForm
 
   def daily_details
     return @daily_details unless @daily_details.is_a?(Array)
-    @daily_details.map { |daily_detail| DailyDetailForm.new(daily_detail).tap { |result| result.interactor = self } }
+    @daily_details.map { |daily_detail| DailyDetailForm.new(daily_detail) }
   end
 
   def diagnoses
     return @diagnoses unless @diagnoses.is_a?(Array)
-    @diagnoses.map { |diagnosis| DiagnosisForm.new(diagnosis).tap { |result| result.interactor = self } }
+    @diagnoses.map { |diagnosis| DiagnosisForm.new(diagnosis) }
   end
 
   def initialize(claim, attributes = nil)
-    if attributes.nil?
+    if !claim.is_a?(Claim)
       super(claim)
     else
       @claim = claim
@@ -138,7 +152,8 @@ class ClaimForm
       attrs['status'] = claim.status   # can't use claim.attributes.slice because status is an enum
       attrs['user'] = claim.user
       attrs['photo_id'] = claim.photo_id
-      super(attrs.merge(attributes))
+      attrs.merge!(attributes) if attributes
+      super(attrs)
     end
   end
 
@@ -171,4 +186,27 @@ class ClaimForm
     end
   end
 
+  def as_json(options = nil)
+    valid?
+    has_warnings?
+    attributes.merge(@claim ? {id: @claim.id,
+                       status: @claim.status,
+                       number: @claim.number,
+                       created_at: @claim.created_at,
+                       updated_at: @claim.updated_at
+                     } : {}).merge({
+                                     errors: errors,
+                                     warnings: warnings,
+                                   }).tap do |response|
+      if options && options[:include_comments]
+        response[:comments] = @claim.comments.map do |comment|
+          {
+            body: comment.body,
+            user_name: comment.user.try(:name),
+            created_at: comment.created_at,
+          }
+        end
+      end
+    end
+  end
 end

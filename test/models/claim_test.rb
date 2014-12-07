@@ -26,7 +26,7 @@ class ClaimTest < ActiveSupport::TestCase
     @claim = build(:claim, patient_number: 17, status: "saved", daily_details: [{code: "P018B", message: "foo"}])
     @form = ClaimForm.new(@claim, daily_details: [{code: "P018B", fee: 10000}])
     assert @form.perform
-    assert_equal @claim.details["patient_number"], 17
+    assert_equal @claim.details["patient_number"], "17"
     # WARNING: take note of this:  all claim item attributes that are
     # not round-tripped *will* be lost
     # assert_equal @claim.details["daily_details"][0]["message"], "foo"

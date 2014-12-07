@@ -28,6 +28,7 @@ gem "turbolinks"
 gem "uglifier"
 gem "uuid_validator"
 gem "validation_scopes", github: "ivalkeen/validation_scopes"
+gem "virtus"
 gem "redcarpet"
 
 group :development do
