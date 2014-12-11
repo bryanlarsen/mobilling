@@ -12,7 +12,7 @@
     <td class="text-center"><%= claim.user.name %></td>
     <td class="text-center"><%= claim.status.humanize %></td>
     <td class="text-center"><%= claim.details["patient_name"] %></td>
-    <td class="text-right"><%= link_to "View", edit_admin_claim_path(claim, next: claims.drop(index+1).map(&:id)) %></td>
+    <td class="text-right"><%= link_to "View", edit_admin_claim_path(claim, stack: claims.map(&:id)) %></td>
     <td class="text-right"><%= link_to "Edit", "/#/claims/#{claim.id}/edit" %></td>
   </tr>
   <% end %>

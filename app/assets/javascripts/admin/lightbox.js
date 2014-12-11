@@ -1,3 +1,4 @@
+/*
 $.fn.lightbox = function () {
     return this.each(function (_, element) {
         $(element).on("click", function (event) {
@@ -8,3 +9,4 @@ $.fn.lightbox = function () {
         });
     });
 };
+*/

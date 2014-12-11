@@ -31,6 +31,10 @@ gem "validation_scopes", github: "ivalkeen/validation_scopes"
 gem "virtus"
 gem "redcarpet"
 
+
+gem "es6-promise-rails"
+gem "react-rails", github: 'reactjs/react-rails', branch: 'master'
+
 group :development do
   gem "letter_opener"
   gem "spring"

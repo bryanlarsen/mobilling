@@ -1,14 +1,28 @@
 class PremiumForm
   include ActiveModel::Model
+  include Virtus.model
+  include ValidationScopes
 
-  attr_accessor :code, :fee, :units, :premiums
+  def self.all_params
+    return [
+            [:code, String],
+            [:fee, Integer],
+            [:units, Integer],
+            [:message, String],
+           ]
+  end
+
+  all_params.each do |name, type|
+    attribute name, type
+  end
 
   validates :code, type: {is_a: String}, allow_nil: true
-
-#  validates :fee, type: {is_a: Integer}
-#  validates :units, type: {is_a: Integer}
+  validation_scope :warnings do |s|
+    s.validates :code, format: {with: /\A[A-Za-z]\d{3}/}
+    s.validates :fee, :units, type: {is_a: Integer}, presence: true
+  end
 
   def as_json(options = nil)
-    super(only: %w[code fee units])
+    attributes
   end
 end

@@ -16,7 +16,13 @@
     "tests"
   ],
   "dependencies": {
+    "bootstrap": "*",
+    "moment": "*",
+    "pickadate": "*",
+    "react-bootstrap": "*",
+    "react-router": "*",
+    "typeahead.js": "*",
     "underscore": "*",
-    "angular-underscore": "*"
+    "underscore.string": "*"
   }
 }
