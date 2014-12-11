@@ -20,6 +20,7 @@ class EdtFile < ActiveRecord::Base
 
   def filename=(val)
     self.filename_base, seq = val.split('.')
+    self.filename_base = "#{(self.created_at || Date.today).year}/#{self.filename_base}" unless self.filename_base.include?("/")
     self.sequence_number = seq.to_i
   end
 
@@ -46,6 +47,10 @@ class EdtFile < ActiveRecord::Base
 
   def records
     Record.process_batch(contents)
+  end
+
+  def messages
+    []
   end
 
   def self.new_child(params)

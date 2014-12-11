@@ -1,6 +1,5 @@
 class BatchAcknowledgment < EdtFile
   belongs_to :parent, :class_name => "Submission"
-  has_many :claims
 
   def filename_character
     'H'
@@ -14,6 +13,7 @@ class BatchAcknowledgment < EdtFile
 
     return "matching submission not found for batch report" if submission.nil?
 
+    self.created_at = record['Batch Process Date']
     self.parent = submission
     self.save!
 
@@ -24,7 +24,8 @@ class BatchAcknowledgment < EdtFile
       submission.claims.each do |claim|
         claim.status = 'for_agent'
         claim.files << self
-        claim.comments.create!(body: record['Edit Message'])
+        comment_user = Admin::User.find_by(role: Admin::User.roles["ministry"])
+        claim.comments.create!(body: record['Edit Message'], user: comment_user)
         claim.save!
       end
     else

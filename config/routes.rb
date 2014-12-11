@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   root to: "home#show"
   resource :password, only: %i[new]
 
+  namespace :v3 do
+    root to: "home#show"
+  end
+
   namespace :v1 do
     resource :session, only: %i[create destroy]
     resource :user, only: %i[show create update]

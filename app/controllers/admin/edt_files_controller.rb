@@ -19,10 +19,17 @@ class Admin::EdtFilesController < Admin::BaseController
       file = EdtFile.new_child(filename: params['contents'].original_filename,
                                contents: params['contents'].read)
       message = file.process!
-    rescue
-      flash[:error] = "Invalid File"
+    rescue StandardError => e
+      puts e.to_s
+      flash[:error] = "Invalid File #{e.to_s}"
+      redirect_to admin_edt_files_path
     end
-    redirect_to admin_user_edt_files_path
+    puts message
+    unless message.blank?
+      flash[:error] = message
+      redirect_to admin_edt_files_path
+    end
+    redirect_to admin_edt_file_path(file)
   end
 
   def download

@@ -20,7 +20,7 @@
                   <div class="checkbox">
                     <label>
                       <%= check_box_tag "types[]", klass.name, type_filter.include?(klass.name) %>
-                      <%= klass.name.underscore.humanize %>
+                      <%= klass.name.underscore.titleize %>
                     </label>
                   </div>
                 <% end %>
@@ -56,30 +56,7 @@
     </div>
 
     <div class="col-md-8 col-md-pull-4">
-      <table class="table table-striped">
-        <tr>
-          <th></th>
-          <th> <%= sortable_link_to "filename", "Filename" %> </th>
-          <th> <%= sortable_link_to "users.name", "Name" %> </th>
-          <th> <%= sortable_link_to "type", "File Type" %> </th>
-          <th> <%= sortable_link_to "created_at", "Date" %> </th>
-          <th> Claims </th>
-          <th> Claimed </th>
-          <th> Paid </th>
-          <th> </th> </tr>
-        <% @edt_files.each do |edt_file| %>
-        <tr>
-          <td> <%= link_to raw("<i class='fa fa-download'></i>"), "#{download_admin_edt_file_path(id: edt_file, filename: edt_file.filename)}", download: true, "data-no-turbolink" => true %> </td>
-          <td> <%= link_to edt_file.filename, admin_edt_file_path(edt_file) %> </td>
-          <td> <%= edt_file.user.name %> </td>
-          <td> <%= edt_file.type.underscore.humanize %> </td>
-          <td> <%= edt_file.created_at.to_date %> </td>
-          <td> <%= edt_file.claims.length %> </td>
-          <td> <%= edt_file.type=="Submission" ? ("%.2f" % (edt_file.submitted_fee/100.0)) : '' %> </td>
-          <td> <%= edt_file.type=="Submission" ? ("%.2f" % (edt_file.paid_fee/100.0)) : '' %> </td>
-        </tr>
-        <% end %>
-      </table>
+      <%= render partial: "list", locals: {files: @edt_files} %>
     </div>
   </div>
 </div>

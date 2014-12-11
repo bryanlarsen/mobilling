@@ -1,8 +1,13 @@
 @import "bootstrap/less/bootstrap";
 @import "font-awesome/less/font-awesome";
 
+@import "pickadate/lib/themes/default.css";
+@import "pickadate/lib/themes/default.date.css";
+@import "pickadate/lib/themes/default.time.css";
+
 @import "./fonts";
 @import "./fileupload";
+@import "./typeahead";
 @import "./collapse-chevron";
 
 @fa-font-path: "/assets";
@@ -10,4 +15,9 @@
 
 body {
     font-weight: 300;
+}
+
+.max-height-clickable.on {
+    max-height: 95px;
+    overflow: hidden;
 }

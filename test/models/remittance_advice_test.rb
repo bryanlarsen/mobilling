@@ -30,16 +30,19 @@ class RemittanceAdviceTest < ActiveSupport::TestCase
     submit
 
     ra = EdtFile.new_child(filename: 'PG018468.637',
-                           contents: "HR1V030000001846800C220140715JACKSON                  DR BJ001471992 99999999  \r\nHR4D406253043410184680099999999                   ON9876543217HO  HCP    0000  \r\nHR5D406253043412014081113P018B 016856016856                                    \r\nHR720 2014062500007382-0.5% DISCOUNT OPTED-IN                                  \r\nHR8This is a message from OHIP.                                                \r\nHR8This is the second line of a message from OHIP                              \r\n")
+                           contents: "HR1V030000001846800C220140715JACKSON                  DR BJ001471992 99999999  \r\nHR4D406253043410184680099999999                   ON9876543217HO  HCP    0000  \r\nHR5D406253043412014081113P018B 016856016856                                    \r\nHR720 2014062500007382-0.5% DISCOUNT OPTED-IN                                  \r\nHR8This is a message from OHIP.                                                \r\nHR8This is the second line of a message from OHIP                              \r\nHR8****************************************************************************\r\nHR8This is another message from OHIP                                           \r\n")
     assert ra.process!.nil?
 
     assert_equal ra.user_id, @user.id
+    assert_equal ra.created_at, DateTime.new(2014,7,15)
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'done'
     assert @submission.claims[0].paid_fee == 16856
     assert @submission.claims[0].details['daily_details'][0]['paid'] = 16856
     assert @submission.claims[0].details['daily_details'][0]['message'].blank?
-
+    assert_equal @submission.claims[0].comments[0].body, "$14719.92 paid on July 15, 2014."
+    assert_equal @submission.claims[0].comments[-2].body, "This is a message from OHIP.\nThis is the second line of a message from OHIP\n"
+    assert_equal @submission.claims[0].comments[-1].body, "This is another message from OHIP\n"
   end
 
   test 'ra not paid' do

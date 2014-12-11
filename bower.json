@@ -1,0 +1,28 @@
+{
+  "name": "mobilling",
+  "version": "0.0.0",
+  "homepage": "https://github.com/bryanlarsen/mobilling",
+  "authors": [
+    "Bryan Larsen <bryan@larsen.st>"
+  ],
+  "license": "proprietary",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "*",
+    "moment": "*",
+    "pickadate": "*",
+    "react-bootstrap": "*",
+    "react-router": "*",
+    "typeahead.js": "*",
+    "underscore": "*",
+    "underscore.string": "*"
+  }
+}

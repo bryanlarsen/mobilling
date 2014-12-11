@@ -21,6 +21,10 @@ EOS
     assert ack.process!.nil?
     assert_equal ack.user_id, @user.id
     assert ack.parent_id == @submission.id
+    assert_equal ack.created_at, DateTime.new(2014,6,25)
+    assert_equal ack.filename_base, "2014/BF00740"
+    assert_equal ack.sequence_number, 564
+
     @submission.reload
     assert @submission.status == 'acknowledged'
     assert @submission.claims[0].status == 'acknowledged'

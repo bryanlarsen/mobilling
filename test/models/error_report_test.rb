@@ -15,7 +15,8 @@ class ErrorReportTest < ActiveSupport::TestCase
       daily_details:
         [{code: 'P018B c-section', day: '2014-08-11', time_in: '09:00', time_out: '10:30', fee: 16856, units: 14},]
     }
-    create(:remittance_advice_code, code: "D8", name: "Allowed with specific procedures only")
+    create(:error_report_rejection_condition, code: "V09", name: "Foo")
+    create(:error_report_explanatory_code, code: "10", name: "Bar")
   end
 
   def submit
@@ -26,54 +27,77 @@ class ErrorReportTest < ActiveSupport::TestCase
     @submission.save!
   end
 
-  test 'ra' do
+  test 'er' do
     submit
 
     ra = EdtFile.new_child(filename: 'EE018468.637',
-                           contents: "HX1V03D          00000000000184680013920090519                                 \r\nHXH5788495843RT1975083100000120HCPP      1681                                  \r\nHXTC999B  0081850120090428                                      EH2            \r\nHXTE401B  0102601220090428                                      EH2            \r\nHXTP018B  0136801220090428                                      EH2            \r\nHX90000001000000000000030000000                                                \r\n")
-    assert ra.process!.nil?
+                           contents: "HX1V03D          00000000000184680013920090519                                 \r\nHXH9876543217HO1914122599999999HCPP      1681                                  \r\nHXTP018B  0168561420140811                                      V09            \r\nHX90000001000000000000010000000                                                \r\n")
+    assert_nil ra.process!
 
     assert_equal ra.user_id, @user.id
+    assert_equal ra.created_at, DateTime.new(2009,5,19)
     @submission.claims[0].reload
-    assert @submission.claims[0].status == 'done'
-    assert @submission.claims[0].paid_fee == 16856
-    assert @submission.claims[0].details['daily_details'][0]['paid'] = 16856
-    assert @submission.claims[0].details['daily_details'][0]['message'].blank?
+    assert @submission.claims[0].status == 'agent_attention'
+    assert_not @submission.claims[0].details['daily_details'][0]['message'].blank?
 
   end
 
-  test 'ra not paid' do
+  test 'er explan' do
     submit
 
-    ra = EdtFile.new_child(filename: 'PG018468.637',
-                           contents: "HR1V030000001846800C220140715JACKSON                  DR BJ001471992 99999999  \r\nHR2                              3 CAMWOOD CRES                                \r\nHR3OTTAWA          ON K2H7X1                                                   \r\nHR4D406253043410184680099999999                   ON9876543217HO  HCP    0000  \r\nHR5D406253043412014081113P018B 016856000000 D8                                 \r\n")
-    assert ra.process!.nil?
+    ra = EdtFile.new_child(filename: 'EE018468.637',
+                           contents: "HX1V03D          00000000000184680013920090519                                 \r\nHXH9876543217HO1914122599999999HCPP      1681                                  \r\nHXTP018B  0168561420140811                                    10               \r\nHX90000001000000000000010000000                                                \r\n")
+    assert_nil ra.process!
 
     assert_equal ra.user_id, @user.id
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'agent_attention'
-    assert @submission.claims[0].paid_fee == 0
-    assert @submission.claims[0].details['daily_details'][0]['paid'] == 0
-    assert @submission.claims[0].details['daily_details'][0]['message'].starts_with?("D8: Allowed with")
+    assert_not @submission.claims[0].details['daily_details'][0]['message'].blank?
+
   end
 
-  test 'ra premium' do
+  test 'er multiple codes' do
+    submit
+
+    ra = EdtFile.new_child(filename: 'EE018468.637',
+                           contents: "HX1V03D          00000000000184680013920090519                                 \r\nHXH9876543217HO1914122599999999HCPP      1681                                  \r\nHXTP018B  0168561420140811                                      V09V09         \r\nHX90000001000000000000010000000                                                \r\n")
+    assert_nil ra.process!
+
+    assert_equal ra.user_id, @user.id
+    @submission.claims[0].reload
+    assert @submission.claims[0].status == 'agent_attention'
+    assert @submission.claims[0].details['daily_details'][0]['message'].split("\n").length == 2
+  end
+
+
+  test 'er codes in header' do
+    submit
+
+    ra = EdtFile.new_child(filename: 'EE018468.637',
+                           contents: "HX1V03D          00000000000184680013920090519                                 \r\nHXH9876543217HO1914122599999999HCPP      1681                   V09            \r\nHX90000001000000000000000000000                                                \r\n")
+    assert_nil ra.process!
+
+    assert_equal ra.user_id, @user.id
+    @submission.claims[0].reload
+    assert @submission.claims[0].status == 'agent_attention'
+    assert @submission.claims[0].details['daily_details'][0]['message'].blank?
+    assert_equal @submission.claims[0].comments.last.body, "- V09: Foo"
+  end
+
+  test 'er premium' do
     @claim_details[:daily_details][0]['premiums'] = [ { code: 'E676B', fee: 14448, units: 12 } ]
     submit
 
-    ra = EdtFile.new_child(filename: 'PG018468.637',
-                           contents: "HR1V030000001846800C220140715JACKSON                  DR BJ001471992 99999999  \r\nHR4D406253043410184680099999999                   ON9876543217HO  HCP    0000  \r\nHR5D406253043412014081113P018B 016856016856                                    \r\nHR5D406253043412014081113E676B 014448000001 D8                                 \r\n")
-    assert ra.process!.nil?
+    ra = EdtFile.new_child(filename: 'EE018468.637',
+                           contents: "HX1V03D          00000000000184680013920090519                                 \r\nHXH9876543217HO1914122599999999HCPP      1681                                  \r\nHXTP018B  0168561420140811                                      V09            \r\nHXTE676B  0144481420140811                                      V09            \r\nHX90000001000000000000010000000                                                \r\n")
+    assert_nil ra.process!
 
     assert_equal ra.user_id, @user.id
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'agent_attention'
-    assert_equal @submission.claims[0].paid_fee, 16857
-    assert @submission.claims[0].details['daily_details'][0]['paid'] == 16856
-    assert @submission.claims[0].details['daily_details'][0]['message'].blank?
-    assert @submission.claims[0].details['daily_details'][0]['premiums'][0]['paid'] == 1
-    assert @submission.claims[0].details['daily_details'][0]['premiums'][0]['message'].starts_with?("D8: Allowed with")
-  end
+    assert_not @submission.claims[0].details['daily_details'][0]['message'].blank?
+    assert_not @submission.claims[0].details['daily_details'][0]['premiums'][0]['message'].blank?
 
+  end
 end
 

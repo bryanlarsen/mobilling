@@ -10,8 +10,13 @@ class V1::PasswordResetsController < V1::BaseController
 
   def create
     @interactor = CreatePasswordReset.new(create_password_reset_params)
-    @interactor.perform
-    respond_with @interactor, location: nil, status: :created
+    if @interactor.perform
+      render json: {
+        email: @interactor.email
+      }
+    else
+      render json: @interactor, status: 422
+    end
   end
 
   private

@@ -1,0 +1,47 @@
+
+@import "./v3/bootstrap-import.less";
+@import "font-awesome/less/font-awesome";
+
+@import "pickadate/lib/themes/default.css";
+@import "pickadate/lib/themes/default.date.css";
+@import "pickadate/lib/themes/default.time.css";
+
+@import "./fonts";
+@import "./fileupload";
+@import "./typeahead";
+@import "./v3/simple-sidebar.css";
+
+@fa-font-path: "/assets";
+@font-family-sans-serif: OpenSans, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+
+html, body {
+    font-weight: 300;
+    height: 100%;
+}
+
+div.body {
+    padding-top: 55px;
+    height: 100%;
+}
+
+.bottom-bar {
+    position: fixed;
+    height: 100px;
+    bottom: 0;
+    left: 0;
+    right: 15%;
+}
+
+.with-bottom {
+    padding-bottom: 55px;
+}
+
+#highlight {
+    position: absolute;
+    height: 50px;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: 0.2;
+}

@@ -2,9 +2,10 @@ require "test_helper"
 
 class V1::UsersControllerTest < ActionController::TestCase
   test "show renders template" do
-    user = create(:user, :authenticated)
+    user = create(:user, :authenticated, name: "Jim")
     get :show, auth: user.authentication_token, format: "json"
-    assert_template "show"
+    assert_equal "Jim", JSON::parse(response.body)["name"]
+    assert_response :ok
   end
 
   test "show responds with unauthorized" do
@@ -15,7 +16,8 @@ class V1::UsersControllerTest < ActionController::TestCase
   test "create responds with created" do
     agent = create(:admin_user, role: "agent")
     post :create, user: attributes_for(:user).merge(agent_id: agent.id), format: "json"
-    assert_response :created
+    assert_equal agent.id, JSON::parse(response.body)["agent_id"]
+    assert_response :ok
   end
 
   test "create responds with unprocessable entity" do
@@ -24,9 +26,10 @@ class V1::UsersControllerTest < ActionController::TestCase
   end
 
   test "update responds correctly" do
-    user = create(:user, :authenticated)
+    user = create(:user, :authenticated, name: "Jim")
     put :update, auth: user.authentication_token, format: "json", user: {name: "Bob"}
-    assert_template "update"
+    assert_equal 'Bob', JSON::parse(response.body)["name"]
+    assert_response :ok
   end
 
   test "update responds with unprocessable entity" do

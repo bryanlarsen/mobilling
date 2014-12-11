@@ -548,7 +548,7 @@ class ErrorReportClaimHeader1 < Record
     'Payee' ,                        A.new(35, 1, true, true),
     'Referring Health Care Provider Number' , N.new(36, 6, true, true),
     'Master Number' ,                X.new(42, 4, true, true),
-    'In-Patient Admission Date' ,    D.new(46, 8, true, true),
+    'In-Patient Admission Date' ,    D.new(46, 8, false, true),
     'Referring Laboratory License Number' , N.new(54, 4, true, true),
     'Service Location Indicator' ,   X.new(58, 4, true, true),
     'Reserved for MOH Use' ,         S.new(62, 3, false, false),
@@ -666,8 +666,8 @@ class BatchEditReportRecord < Record
     'Batch Process Date' ,           D.new(74, 8, true, true),
     'Edit Message' ,                 X.new(82, 40, true, true),
     'Reserved for MOH Use' ,         X.new(122, 11, true, true)
-  ]  
-  
+  ]
+
   def self.field_definitions
     @@field_definitions
   end

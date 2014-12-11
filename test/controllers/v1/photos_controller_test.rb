@@ -5,7 +5,7 @@ class V1::PhotosControllerTest < ActionController::TestCase
     user = create(:user, :authenticated)
     photo = create(:photo, user: user)
     get :show, id: photo.id, auth: user.authentication_token, format: "json"
-    assert_template "show"
+    assert_response 200
   end
 
   test "show responds with unauthorized" do

@@ -1,9 +1,16 @@
 class RemittanceAdvice < EdtFile
   validate :memo
-  has_many :claims, inverse_of: :remittance_advice
 
   def filename_character
     'P'
+  end
+
+  def format_message(message)
+    if message.match(/   /)
+      "```\n#{message}```\n"
+    else
+      message
+    end
   end
 
   def memo
@@ -15,21 +22,24 @@ class RemittanceAdvice < EdtFile
     @claim_attn = {}
     @item_records = {}
     @premium_records = {}
-    @message_text = ""
+    @message_texts = []
     @balance_records = []
     @accounting_records = []
     @unmatched_records = []
     @overtime_records = []
+    @messages = []
     current_claim = nil
     @records.each {|record|
       case
       when record.kind_of?(ReconciliationFileHeader)
         self.user = User.find_by(provider_number: record['Health Care Provider'])
+        self.created_at = record['Payment Date']
         if self.user
           @header = record
         else
           @unmatched_records << record
         end
+        @messages << "$#{record['Total Amount Payable']} paid on #{record['Payment Date'].to_s(:long)}."
       when record.kind_of?(ReconciliationAddressRecordOne)
         true
       when record.kind_of?(ReconciliationAddressRecordTwo)
@@ -79,22 +89,31 @@ class RemittanceAdvice < EdtFile
           @unmatched_records << record
         end
       when record.kind_of?(ReconciliationBalanceForward)
+        @messages << "*Amount Brought Forward*\n\n- Claim's Adjustment: #{record['Amount Brought Forward - Claim\'s Adjustment']}\n- Advances: #{record['Amount Brought Forward - Advances']}\n- Reductions: #{record['Amount Brought Forward - Reductions']}\n- Other Deductions: #{record['Amount Brought Forward - Other Deductions']}\n"
         @balance_records << record
       when record.kind_of?(ReconciliationAccountingTransaction)
+        @messages << "#{record['Transaction Message']}: #{record['Transaction Amount']}"
         @accounting_records << record
       when record.kind_of?(ReconciliationMessageFacility)
-        @message_text += record['Message Text']+"\n"
+        @message_texts << record['Message Text']
       else
         errors.add_to_base "Unknown record type: #{record.class}"
       end
     }
+    message = ""
+    @message_texts.each do |text|
+      if text.match(/^\s*\*\*\*/)
+        @messages << format_message(message) unless message.blank?
+        message = ""
+      else
+        message += text.rstrip + "\n"
+      end
+    end
+    @messages << format_message(message) unless message.blank?
   end
 
   def process!
     memo
-    if !@unmatched_records.empty?
-      return "Could not find records for:\n"+@unmatched_records.join("\n")
-    end
 
     @claims.each do |claim|
       if @claim_records[claim.id]
@@ -119,16 +138,28 @@ class RemittanceAdvice < EdtFile
             end
           end
         end
+        comment_user = Admin::User.find_by(role: Admin::User.roles["ministry"])
+        @messages.each do |message|
+          claim.comments.create!(body: message, user: comment_user)
+        end
         claim.save!
       end
     end
     save!
+    if !@unmatched_records.empty?
+      return "Could not find records for:\n"+@unmatched_records.join("\n")
+    end
     nil
   end
 
   def unmatched_records
     memo
     @unmatched_records
+  end
+
+  def messages
+    memo
+    @messages
   end
 
   def claim_details(claim)

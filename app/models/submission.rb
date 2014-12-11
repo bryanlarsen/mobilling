@@ -31,12 +31,19 @@ class Submission < EdtFile
     claims.reduce(0) { |memo, claim| claim.paid_fee+memo }
   end
 
+  def messages
+    [
+     "#{claims.length} claims: $#{'%.2f' % (submitted_fee/100.0)}"
+    ]
+  end
+
   # upload files
   def process!
     Record.process_batch(contents).each {|record|
       case
       when record.kind_of?(BatchHeaderRecord)
         self.user = User.find_by(provider_number: record['Health Care Provider'])
+        self.created_at = record['Batch Creation Date']
         self.batch_id = record.to_s[7..18]
       when record.kind_of?(ClaimHeaderRecord)
         self.claims << Claim.new(user_id: user_id).from_record(record)

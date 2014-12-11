@@ -1,7 +1,6 @@
 //= require jquery/jquery
 //= require overthrow/overthrow
-//= require bloodhound/bloodhound
-//= require typeahead/typeahead
+//= require typeahead.js/dist/typeahead.bundle
 //= require fastclick/fastclick
 //= require angular/angular
 //= require angular/angular-route
@@ -15,12 +14,14 @@
 //= require mobile-angular-ui/toggle
 //= require mobile-angular-ui/fastclick
 //= require mobile-angular-ui/scrollable
-//= require pickadate/picker
-//= require pickadate/picker.date
-//= require pickadate/picker.time
+//= require pickadate/lib/picker
+//= require pickadate/lib/picker.date
+//= require pickadate/lib/picker.time
 //= require gestures/gestures
 //= require angular-ui/ui-utils
 //= require angular-rails-templates
+//= require underscore
+//= require angular-underscore
 //= require ./mo_billing
 
 angular.element(document).ready(function () {

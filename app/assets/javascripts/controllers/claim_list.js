@@ -52,15 +52,6 @@ angular.module("moBilling.controllers")
             $("#choose").toggle();
         }
 
-        $scope.chooseTemplate = function (template) {
-            console.log(template);
-            $("#choose").toggle();
-            $scope.activeClaim.specialty = template;
-            Claim.save($scope.activeClaim, function() {
-                $location.path('/claims/' + $scope.activeClaim.id + '/edit');
-            });
-        }
-
         $scope.removeOk = function () {
             Claim.remove({ id: $scope.selectedClaim.id }, $route.reload, $route.reload);
         };

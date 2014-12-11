@@ -11,23 +11,33 @@ class Admin::ClaimsController < Admin::BaseController
   end
 
   def edit
-    @claim = policy_scope(:claim).find(params[:id])
+    @claim = policy_scope(:claim).includes(:comments).includes(:photo).find(params[:id])
     authorize :claim, :update?
-    @interactor = Admin::UpdateClaim.new(@claim, current_user)
+    @form = ClaimForm.new(@claim)
+    @user = current_user
   end
 
   def update
     @claim = policy_scope(:claim).find(params[:id])
     authorize :claim, :update?
-    @interactor = Admin::UpdateClaim.new(@claim, current_user, update_claim_params)
-    if @interactor.perform
-      if params[:next_button] && params[:next].split(',')[0]
-        redirect_to edit_admin_claim_path(params[:next].split(',')[0], next: params[:next].split(',')[1..-1])
-      else
-        redirect_to admin_claims_path, notice: "Claim updated successfully."
+    @form = ClaimForm.new(@claim, update_claim_params)
+    success = @form.perform
+
+    respond_to do |format|
+      format.html do
+        if success
+          if params[:next_button] && params[:next].split(',')[0]
+            redirect_to edit_admin_claim_path(params[:next].split(',')[0], next: params[:next].split(',')[1..-1])
+          else
+            redirect_to admin_claims_path, notice: "Claim updated successfully."
+          end
+        else
+          render :edit
+        end
       end
-    else
-      render :edit
+      format.json do
+        render json: @form.as_json(include_warnings: true), status: success ? 200 : 422
+      end
     end
   end
 
@@ -64,6 +74,6 @@ class Admin::ClaimsController < Admin::BaseController
   end
 
   def update_claim_params
-    params.require(:admin_update_claim).permit(:patient_name, :patient_province, :patient_province, :patient_birthday, :patient_sex, :patient_number, :status, :comment)
+    params.require(:claim).permit(ClaimForm.all_param_names)
   end
 end

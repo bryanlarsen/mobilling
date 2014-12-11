@@ -52,10 +52,7 @@
                 <button class="btn btn-danger pull-left btn-xs" ng-click="removeConfirm(claim, $event)" ng-if="claim.status === 'saved'" title="Remove">
                   <i class="fa fa-trash"></i>
                 </button>
-                <button class="btn btn-primary pull-left btn-xs" ng-click="changeTemplate(claim, $event)" title="Change Template">
-                  <i class="fa fa-code-fork"></i>
-                </button>
-                <div class="truncate">
+                <div>
                   <span>
                     Claim
                     <span ng-if="claim.number">No. {{claim.number}}</span>
@@ -84,23 +81,6 @@
     <br>
     <p toggle="off" target="create" bubble>
       <a class="btn btn-primary btn-block btn-lg btn-success" href="#/{{specialty}}/claims/new" ng-repeat="specialty in user.specialties">
-        <i class="fa fa-file-text-o"></i> {{specialty | inflector}}
-      </a>
-      <button class="btn btn-default btn-block btn-lg">
-        <i class="fa fa-times"></i> Cancel
-      </button>
-    </p>
-  </div>
-
-  <div overlay="choose">
-    <h4 class="overlay-title">Choose Claim Template</h4>
-    <br>
-    <p>
-      Select the specialty that you wish to use to edit the claim
-    </p>
-    <br>
-    <p toggle="off" target="choose" bubble>
-      <a class="btn btn-primary btn-block btn-lg btn-success" ng-click="chooseTemplate(specialty)" ng-repeat="specialty in user.specialties">
         <i class="fa fa-file-text-o"></i> {{specialty | inflector}}
       </a>
       <button class="btn btn-default btn-block btn-lg">

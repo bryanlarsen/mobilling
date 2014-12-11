@@ -1,8 +1,8 @@
 source "https://rubygems.org"
 
-ruby "2.1.2"
+ruby "2.1.5"
 
-gem "rails", "4.2.0.beta2"
+gem "rails", "4.2.0.rc1"
 
 gem "angular-rails-templates"
 gem "apipie-rails"
@@ -16,6 +16,8 @@ gem "jquery-rails"
 gem "less-rails"
 gem "mini_magick"
 gem "ngannotate-rails"
+gem "oj"
+gem "oj_mimic_json"
 gem "pg"
 gem "pundit", github: "elabs/pundit"
 gem "responders"
@@ -25,6 +27,13 @@ gem "therubyracer"
 gem "turbolinks"
 gem "uglifier"
 gem "uuid_validator"
+gem "validation_scopes", github: "ivalkeen/validation_scopes"
+gem "virtus"
+gem "redcarpet"
+
+
+gem "es6-promise-rails"
+gem "react-rails", github: 'reactjs/react-rails', branch: 'master'
 
 group :development do
   gem "letter_opener"

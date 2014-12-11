@@ -6,6 +6,10 @@ ActiveRecord::Migration.say_with_time "create_agent" do
   Admin::User.where(name: "Agent").first_or_create(email: "agent@example.com", password: "secret", role: "agent")
 end
 
+ActiveRecord::Migration.say_with_time "create_ministry" do
+  Admin::User.where(role: Admin::User.roles['ministry']).first_or_create(email: "ministry@example.com", role: "ministry", name: "ministry")
+end
+
 ActiveRecord::Migration.say_with_time "create_hospitals" do
   Hospital.destroy_all
   hospitals = open(Rails.root.join("db/seeds/hospitals.txt")).readlines.map { |l| {name: l.strip} }
