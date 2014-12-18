@@ -5,6 +5,7 @@ class DailyDetailForm
 
   def self.scalar_params
     return [
+            [:uuid, String],
             [:day, String],
             [:code, String],
             [:time_in, String],
@@ -41,10 +42,9 @@ class DailyDetailForm
     s.validates :premiums, associated: true
   end
 
-  # cannot turn on validation here for several reasons:
-  #  1. the asynchronous nature of their generation means that they may not be generated as quickly as the test runs.   (However, in practice this isn't a problem since we are abusing integration tests instead of writing proper javascript & angular controller tests)
-  #  2. It's valid to submit incomplete claims when running in an agent-assisted mode.   It's the agent's job to fill in the missing details.
-
+  def uuid
+    @uuid ||= SecureRandom.uuid
+  end
 
   def submitted?
     false

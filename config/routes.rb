@@ -6,7 +6,8 @@ Rails.application.routes.draw do
 
   namespace :v3 do
     root to: "home#show"
-  end
+    resource :session, only: %i[new create destroy]
+   end
 
   namespace :v1 do
     resource :session, only: %i[create destroy]

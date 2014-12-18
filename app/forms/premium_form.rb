@@ -5,6 +5,7 @@ class PremiumForm
 
   def self.all_params
     return [
+            [:uuid, String],
             [:code, String],
             [:fee, Integer],
             [:units, Integer],
@@ -20,6 +21,10 @@ class PremiumForm
   validation_scope :warnings do |s|
     s.validates :code, format: {with: /\A[A-Za-z]\d{3}/}
     s.validates :fee, :units, type: {is_a: Integer}, presence: true
+  end
+
+  def uuid
+    @uuid ||= SecureRandom.uuid
   end
 
   def as_json(options = nil)

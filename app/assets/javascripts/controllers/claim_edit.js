@@ -235,6 +235,21 @@
             $scope.toggle("snackbar-server-error", "on");
         }
 
+        function doneSave(response) {
+            $scope.$emit("submitted");
+            _.each(response.warnings, function(warnings, key) {
+                _.each(warnings, function(e) {
+                    console.log(key, e);
+                    _.each([$scope.form.patientForm, $scope.form.claimForm, $scope.form.commentsForm, $scope.form.consultForm, $scope.form.detailsForm], function(form) {
+                        if (form[key]) {
+                            form[key].$dirty = true;
+                            form[key].$setValidity('warning', false);
+                        }
+                    });
+                });
+            });
+        }
+
         $scope.save = function () {
             $scope.$emit("submitting");
             Claim.save(claim, back, error);
