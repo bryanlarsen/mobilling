@@ -43,12 +43,5 @@ Rails.application.configure do
   # config.assets.debug = false
   config.assets.digets = false
 
-  config.dev_tweaks.autoload_rules do
-    keep :all
-    skip '/favicon.ico'
-    skip :assets
-    keep :forced
-  end
-
   config.middleware.insert 0, Middleware::TurboDev
 end
