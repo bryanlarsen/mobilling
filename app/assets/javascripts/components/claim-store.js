@@ -1,9 +1,10 @@
 (function(exports) {
 var originalClaim = {};
 exports.claimStore = Fynx.createSimpleStore(Immutable.fromJS({}));
-var claimActions = Fynx.createActions([
+var claimActions = exports.claimActions = Fynx.createActions([
   'init',
   'undo',
+  'newClaim',
   'updateFields',
   'newItem',
   'removeItem',
@@ -132,6 +133,29 @@ claimActions.undo.listen(function(id) {
   processClaimResponse({id: id, warnings: originalClaim.warnings, errors: originalClaim.errors});
   claimActions.attemptSave(id);
   claimStore(claimStore().setIn([id, 'changed'], false));
+});
+
+claimActions.newClaim.listen(function(opts) {
+  console.log('newClaim');
+  globalActions.startBusy();
+  $.ajax({
+    url: '/v1/claims',
+    data: JSON.stringify({claim: {status: 'saved'}}),
+    contentType: 'application/json',
+    dataType: 'json',
+    processData: false,
+    type: 'POST',
+    success: function(data) {
+      claimActions.init(data)
+      claimListActions.add(data);
+      globalActions.endBusy();
+      opts.callback && opts.callback(data.id);
+    },
+    error: function(xhr, status, err) {
+      globalActions.endBusy();
+      globalActions.unrecoverableError();
+    }
+  });
 });
 
 claimActions.saveComplete.listen(function(data) {

@@ -45,7 +45,10 @@ class V1::ClaimsController < V1::BaseController
   param_group :claim
 
   def create
-    @form = ClaimForm.new(claim_params)
+    attrs = claim_params
+    attrs['status'] ||= 'saved'
+    attrs['specialty'] ||= current_user.default_specialty
+    @form = ClaimForm.new(attrs)
     @form.user = current_user
     if @form.perform
       show @form.claim, 200

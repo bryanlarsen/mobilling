@@ -21,7 +21,7 @@ var StandardHeader = React.createClass({
           <NavItemLink className="hidden-xs" to="landing">
             Mo-Billing
           </NavItemLink>
-          <NavItemLink to="claim_patient" id="new">
+          <NavItemLink to="new_claim">
             <Icon i="plus">New</Icon>
           </NavItemLink>
           <NavItemLink to="claims" filter="drafts">
@@ -139,6 +139,7 @@ $(document).ready(function() {
       <Route name="profile" handler={Profile}/>
       <Route name="landing" handler={Landing}/>
       <Route name="signout" handler={Landing}/>
+      <Route name="new_claim" path="/new_claim" handler={NewClaimPage}/>
       <Route name="claim" path="/claim/:id" handler={ClaimPage}>
         <Route name="claim_patient" path="/claim/:id/patient" handler={PatientTab}/>
         <Route name="claim_claim" path="/claim/:id/claim" handler={ClaimTab}/>
@@ -316,7 +317,7 @@ var ClaimsPage = React.createClass({
 
           <div className="bottom-bar">
             <div className="pull-right">
-              <ButtonLink to="claim" id="new">
+              <ButtonLink to="new_claim">
                 <Icon i="plus">New Claim</Icon>
               </ButtonLink>
             </div>
