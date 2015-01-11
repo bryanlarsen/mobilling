@@ -2,7 +2,7 @@ class V3::SessionsController < V3::BaseController
   layout "v3_rails"
 
   def new
-    @interactor = V3::CreateSession.new
+    @interactor3 = V3::CreateSession.new
     authorize :session, :create?
   end
 
@@ -10,12 +10,12 @@ class V3::SessionsController < V3::BaseController
     authorize :session, :create?
     @interactor3 = V3::CreateSession.new(session_params)
     if @interactor3.perform
-      sign_in(@interactor.user)
+      sign_in(@interactor3.user)
     else
       render :new
       return
     end
-    @interactor1 = CreateSession.new(create_session_params)
+    @interactor1 = V1::CreateSession.new(session_params)
     if !@interactor1.perform
       render :new
       return

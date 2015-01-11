@@ -5,14 +5,14 @@ class V1::ClaimsController < V1::BaseController
   api :GET, "/v1/claims", "Returns claims"
 
   def index
-    render json: current_user.claims.map {|claim| ClaimForm.new(claim)}
+    render json: current_user.claims.select(:id, :number, :status).map {|claim| {id: claim.id, number: claim.number, status: claim.status} }
   end
 
   api :GET, "/v1/claims/:id", "Returns a claim"
 
-  def show(claim = nil)
-    claim ||= current_user.claims.includes(:comments).find(params[:id])
-    render json: ClaimForm.new(claim).as_json(include_comments: true)
+  def show(claim = nil, status = nil)
+    claim ||= policy_scope(:claim).includes(:comments).includes(:photo).find(params[:id])
+    render json: ClaimForm.new(claim).as_json(include_comments: true, include_warnings: true, include_photo: true), status: (status ? status : 200)
   end
 
   # yes, I tried doing this recursively, but the blocks are executed
@@ -48,9 +48,9 @@ class V1::ClaimsController < V1::BaseController
     @form = ClaimForm.new(claim_params)
     @form.user = current_user
     if @form.perform
-      show @form.claim
+      show @form.claim, 200
     else
-      render json: @form.as_json, status: 422
+      show @form.claim, 422
     end
   end
 
@@ -59,20 +59,21 @@ class V1::ClaimsController < V1::BaseController
   param_group :claim
 
   def update
-    @claim = current_user.claims.where(status: Claim.statuses.slice(:saved, :for_agent, :doctor_attention, :agent_attention).values).find(params[:id])
+    @claim = policy_scope(:claim).find(params[:id])
+    authorize :claim, :update?
     @form = ClaimForm.new(@claim, claim_params)
     @form.user = current_user
     if @form.perform
-      show @form.claim
+      show @form.claim, 200
     else
-      render json: @form.as_json, status: 422
+      show @form.claim, 422
     end
   end
 
   api :DELETE, "/v1/claims/:id", "Deletes a claim"
 
   def destroy
-    @claim = current_user.claims.saved.find(params[:id])
+    @claim = policy_scope(:claim).find(params[:id])
     @claim.destroy
     show @claim
   end

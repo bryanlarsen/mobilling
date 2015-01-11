@@ -30,15 +30,20 @@ shopt -s failglob
 set -o xtrace
 
 bundle install
+bower install
 EOF
 SCRIPT
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/trusty64"
-
   config.vm.provider "virtualbox" do |v|
+    config.vm.box = "ubuntu/trusty64"
     v.memory = 1536
     v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+  end
+
+  config.vm.provider "lxc" do |v|
+    config.vm.box = "fgrehm/trusty64-lxc"
+    v.customize "aa_allow_incomplete", 1
   end
 
   config.vm.provision "shell", inline: _script

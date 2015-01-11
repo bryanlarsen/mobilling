@@ -10,17 +10,6 @@ var Nav = ReactBootstrap.Nav;
 var DropdownButton = ReactBootstrap.DropdownButton;
 var MenuItem = ReactBootstrap.MenuItem;
 
-var Icon = React.createClass({
-  render: function() {
-    return (
-      <span>
-        <i className={"fa fa-"+this.props.i+(this.props.xsi?" hidden-xs":"")} />
-        <span className={this.props.xs ? "hidden-xs" : ""}> {this.props.children}</span>
-      </span>
-    );
-  }
-});
-
 React.initializeTouchEvents(true);
 
 var StandardHeader = React.createClass({
@@ -32,7 +21,7 @@ var StandardHeader = React.createClass({
           <NavItemLink className="hidden-xs" to="landing">
             Mo-Billing
           </NavItemLink>
-          <NavItemLink to="claim" id="new">
+          <NavItemLink to="claim_patient" id="new">
             <Icon i="plus">New</Icon>
           </NavItemLink>
           <NavItemLink to="claims" filter="drafts">
@@ -51,19 +40,24 @@ var StandardHeader = React.createClass({
 });
 
 var ClaimHeader = React.createClass({
+  mixins: [
+    Fynx.connect(globalStore, 'globalStore'),
+  ],
+
   render: function() {
     var userIcon=(<Icon i="user"></Icon>);
     return (
       <Navbar fixedTop>
         <Nav>
-          <NavItemLink className="hidden-xs" to="landing">
-            Mo-Billing
-          </NavItemLink>
-          <NavItemLink to="claims" filter="drafts">
-            <Icon i="cog fa-spin">Submit</Icon>
-          </NavItemLink>
           <NavItemLink to="claims" filter="drafts">
             <Icon i="list">List</Icon>
+          </NavItemLink>
+          <NavItem>
+            #{this.props.store.get('number')}: ${dollars(claimTotal(this.props.store))}
+            {this.props.store.get('unsaved') && <span className="text-danger"> (unsaved)</span>}
+          </NavItem>
+          <NavItemLink to="claims" filter="drafts">
+            <Icon i={"cog "+(this.state.globalStore.get('busy') ? "fa-spin" : "")}>Submit</Icon>
           </NavItemLink>
         </Nav>
         <Nav right>
@@ -85,6 +79,58 @@ var App = React.createClass({
   }
 });
 
+var PatientTab = React.createClass({
+  render: function() {
+    return (
+      <ClaimPatient {...this.props}/>
+    );
+  }
+});
+
+var ClaimTab = React.createClass({
+  admissionChanged: function(ev) {
+    if (!this.props.store.get('first_seen_on')) {
+      this.props.actions.updateFields([
+        [['admission_on'], ev.target.value],
+        [['first_seen_on'], ev.target.value]
+      ]);
+    } else {
+      this.props.actions.updateFields([
+        [['admission_on'], ev.target.value],
+      ]);
+    }
+    this.props.actions.recalculateConsult();
+  },
+
+  render: function() {
+    return (
+      <div>
+        <ClaimFormGroup label="Specialty">
+          <ClaimInputWrapper {...this.props} name="specialty">
+            <Select {...this.props} name="specialty" options={specialties} onChange={this.props.handleChange}/>
+          </ClaimInputWrapper>
+        </ClaimFormGroup>
+
+        <ClaimHospital {...this.props} />
+        <ClaimFormGroup label="Manual Review Required">
+          <ClaimYesNo {...this.props} name="manual_review_indicator" />
+        </ClaimFormGroup>
+
+        {['family_medicine', 'internal_medicine', 'cardiology'].indexOf(this.props.store.get('specialty')) !== -1 && (
+           <div>
+             <ClaimInputGroup name="referring_physician" type='text' store={this.props.store} onChange={this.props.handleChange} />
+             <ClaimDiagnoses {...this.props} />
+             <ClaimFormGroup label="Most Responsible Physician">
+               <ClaimYesNo {...this.props} name="most_responsible_physician" />
+             </ClaimFormGroup>
+             <ClaimAdmissionFirstLast {...this.props}/>
+           </div>
+         )
+        }
+      </div>
+    );
+  }
+});
 
 $(document).ready(function() {
   var routes = (
@@ -93,7 +139,13 @@ $(document).ready(function() {
       <Route name="profile" handler={Profile}/>
       <Route name="landing" handler={Landing}/>
       <Route name="signout" handler={Landing}/>
-      <Route name="claim" path="/claim/:id" handler={ClaimPage}/>
+      <Route name="claim" path="/claim/:id" handler={ClaimPage}>
+        <Route name="claim_patient" path="/claim/:id/patient" handler={PatientTab}/>
+        <Route name="claim_claim" path="/claim/:id/claim" handler={ClaimTab}/>
+        <Route name="claim_consult" path="/claim/:id/consult" handler={ConsultTab}/>
+        <Route name="claim_items" path="/claim/:id/items" handler={ItemsTab}/>
+        <Route name="claim_comments" path="/claim/:id/comments" handler={CommentsTab}/>
+      </Route>
       <Redirect from="/" to="/claims/drafts"/>
     </Route>
   );
@@ -126,28 +178,59 @@ var Landing = React.createClass({
 var SWIPE_DISTANCE=60;
 
 var ClaimPage = React.createClass({
-  tabs: ['profile', 'claim', 'consult', 'items', 'comments'],
+  mixins: [ ReactRouter.State, ReactRouter.Navigation,
+    Fynx.connect(claimStore, 'store'),
+  ],
 
-  getInitialState: function() {
-    return {
-      tab: 0,
-    };
+  icon: {
+    patient: 'user',
+    claim: 'medkit',
+    consult: 'user-md',
+    items: 'list-alt',
+    comments: 'comment-o'
   },
 
-  clickTab: function(ev) {
-    ev.preventDefault();
-    var tab= $(ev.target).parents("li").attr('name');
-    tab = this.tabs.indexOf(tab);
-    this.setState({tab: tab});
-    this.gotoTab(tab);
-    console.log(tab);
-//    this.refs.swipe.swipe.slide([].indexOf(tab));
+  tabs: function() {
+    if (['internal_medicine', 'family_medicine', 'cardiology'].indexOf(this.state.store.getIn([this.props.params.id, 'specialty'])) !== -1) {
+      return ['patient', 'claim', 'consult', 'items', 'comments'];
+    } else {
+      return ['patient', 'claim', 'items', 'comments'];
+    }
+  },
+
+  checkClaim: function() {
+    if (!this.state.store.get(this.props.params.id)) {
+      claimLoad(this.props.params.id);
+    }
   },
 
   componentDidMount: function(ev) {
+    this.fixTab();
+    this.checkClaim();
+  },
+
+  componentDidUpdate: function(ev) {
+    this.fixTab();
+    this.checkClaim();
+  },
+
+  getTab: function() {
+    return this.tabs().indexOf(_.find(this.tabs(), function(tab) {
+      return this.isActive('claim_'+tab);
+    }, this));
+  },
+
+  fixTab: function() {
     this.$ = $(this.getDOMNode());
     this.$highlight = this.$.find('#highlight');
-    this.gotoTab(this.state.tab);
+
+    var $el = this.$.find('#tab-nav > li:nth-child('+(this.getTab()+1)+')');
+    if ($el.length) {
+      this.$highlight.css({
+        width: $el.css('width'),
+        left: $el.position('left').left+'px'
+      });
+    }
   },
 
   touchStart: function(ev) {
@@ -165,56 +248,41 @@ var ClaimPage = React.createClass({
   },
 
   touchEnd: function(ev) {
-    var tab = this.state.tab;
+    var tab = this.getTab();
     var dist = parseInt(ev.changedTouches[0].clientX - this.startx);
     if (dist < -SWIPE_DISTANCE) {
       tab = tab - 1;
-      if (tab < 0) tab = this.tabs.length - 1;
+      if (tab < 0) tab = this.tabs().length - 1;
     } else if (dist > SWIPE_DISTANCE) {
       tab = tab + 1;
-      if (tab >= this.tabs.length) tab = 0;
+      if (tab >= this.tabs().length) tab = 0;
     }
-    this.setState({tab: tab});
-    this.gotoTab(tab);
+    this.transitionTo("claim_"+this.tabs()[tab], {id: this.props.params.id});
   },
 
-  gotoTab: function(tab) {
-    var $el = this.$.find('#tab-nav > li:nth-child('+(tab+1)+')');
-    this.$highlight.css({
-      width: $el.css('width'),
-      left: $el.position('left').left+'px'
-    });
+  handleChange: function(ev) {
+    claimActionsFor(this.props.params.id).updateFields([[[ev.target.name], ev.target.value]]);
   },
 
   render: function() {
-    var tab = this.tabs[this.state.tab]
+    console.log('render');
+    var store = this.state.store.get(this.props.params.id) || Immutable.fromJS({daily_details: [], diagnoses: []});
+    var actions = claimActionsFor(this.props.params.id);
     return (
       <div className="body" onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd}>
-        <ClaimHeader/>
+        <ClaimHeader {...this.props} store={store} actions={actions}/>
         <div className="container with-bottom">
-          <h1>{tab}</h1>
-            {_.times(10*this.state.tab, function(i) {
-              return <div key={'fill-'+i}>Fill {i}</div>;
-             })
-            }
+          <div className="form-horizontal">
+            <RouteHandler {...this.props} store={store} actions={actions} handleChange={this.handleChange} silent />
+          </div>
         </div>
         <Navbar fixedBottom>
           <ul id="tab-nav" className="nav navbar-nav nav-justified" style={{position: 'relative'}}>
-            <NavItem name="profile" onClick={this.clickTab}>
-              <Icon i="user" xs>Patient</Icon>
-            </NavItem>
-            <NavItem name="claim" onClick={this.clickTab}>
-              <Icon i="medkit" xs>Claim</Icon>
-            </NavItem>
-            <NavItem name="consult" onClick={this.clickTab}>
-              <Icon i="user-md" xs>Consult</Icon>
-            </NavItem>
-            <NavItem name="items" onClick={this.clickTab}>
-              <Icon i="list-alt" xs>Items</Icon>
-            </NavItem>
-            <NavItem name="comments" onClick={this.clickTab}>
-              <Icon i="comment-o" xs>comments</Icon>
-            </NavItem>
+            { _.map(this.tabs(), function(tab) {
+               return <NavItemLink key={"claim_tab_"+tab} to={"claim_"+tab} id={this.props.params.id}>
+                        <Icon i={this.icon[tab]} xs>{_.string.humanize(tab)}</Icon>
+                      </NavItemLink>;
+            }, this) }
             <div id="highlight"></div>
           </ul>
         </Navbar>
@@ -224,12 +292,27 @@ var ClaimPage = React.createClass({
 });
 
 var ClaimsPage = React.createClass({
+  mixins: [
+    Fynx.connect(claimListStore, 'store'),
+  ],
+
+  filters: {
+    drafts: ["saved"],
+    submitted: ["for_agent", "ready", "file_created", "uploaded", "acknowledged", "agent_attention"],
+    rejected: ["doctor_attention"],
+    done: ["done"]
+  },
+
   render: function() {
+    var claims = this.state.store.filter(function(claim) {
+      return this.filters[this.props.params.filter].indexOf(claim.get('status')) !== -1;
+    }, this);
+
     return (
       <div className="body">
         <StandardHeader/>
         <div className="content-body container">
-          <ClaimList filter={this.props.params.filter} />
+          <ClaimList store={claims} filter={this.props.params.filter} />
 
           <div className="bottom-bar">
             <div className="pull-right">
@@ -262,11 +345,12 @@ var ClaimsPage = React.createClass({
 
 var ClaimList = React.createClass({
   render: function() {
-    var claims = _.times(this.props.filter==='drafts' ? 100 : 1, function(claim) {
+    var claims = this.props.store.map(function(claim) {
+      console.log('id', claim.get('id'));
       return (
-        <li key={"claim-"+claim} className="list-group-item">Claim {claim}</li>
+        <Link key={"claim-"+claim.get('id')} to="claim_patient" params={{id: claim.get('id')}}><li className="list-group-item">Claim {claim.get('number')} {claim.get('status')}</li></Link>
       );
-    });
+    }).toJS();
     return (
       <ul className="list-group with-bottom">
         {claims}

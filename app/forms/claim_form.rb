@@ -17,7 +17,6 @@ class ClaimForm
             [:hospital, String],
             [:referring_physician, String],
             [:most_responsible_physician, :bool],
-            [:procedure_on, String],
             [:admission_on, String],
             [:first_seen_on, String],
             [:first_seen_consult, :bool],
@@ -39,6 +38,7 @@ class ClaimForm
             [:payee, String],
             [:manual_review_indicator, :bool],
             [:service_location, String],
+            [:last_code_generation, String],
            ]
   end
 
@@ -101,13 +101,15 @@ class ClaimForm
     s.validates :patient_province, inclusion: {in: %w[ON AB BC MB NL NB NT NS PE SK NU YT]}
     s.validates :patient_sex, inclusion: {in: %w[M F]}
     s.validates :hospital, format: {with: /\A\d{4}/}
-    s.validates :first_seen_on, :last_seen_on, :admission_on, :procedure_on, :patient_birthday, date: true, format: {with: /\A\d{4}-\d{2}-\d{2}\Z/}, allow_nil: true
+    s.validates :first_seen_on, :last_seen_on, :admission_on, :patient_birthday, date: true, format: {with: /\A\d{4}-\d{2}-\d{2}\Z/}, allow_nil: true
     s.validates :consult_time_in, :consult_time_out, time: true, format: {with: /\A\d{2}:\d{2}\Z/, type: {is_a: String}}, allow_nil: true
-    #validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { submitted? and not simplified? }
-    #validates :procedure_on, presence: true, if: -> { submitted? and simplified? }
-    #validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false]}, if: -> { submitted? and not simplified? }
+    s.validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { not simplified? }
+    s.validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false]}, if: -> { not simplified? }
     s.validates :daily_details, length: {minimum: 1}, associated: true
     s.validate :validate_patient_number
+    s.validate :validate_seen_on, if: -> { not simplified? }
+    s.validate :validate_consult_time, if: -> { not simplified? }   #FIXME
+    #s.validate :validate_premium_visit, if: -> { not simplified? }   #FIXME
   end
 
   def submitted?
@@ -181,7 +183,7 @@ class ClaimForm
   end
 
   def validate_patient_number
-    if patient_province == 'ON'
+    if patient_province == 'ON' && patient_number
       puts 'validate_patient_number', patient_province, patient_number
       if !patient_number.match(/\A\d{10}[a-zA-z]{0,2}\Z/)
         warnings.add(:patient_number, "must be 10 digits + 0-2 characters")
@@ -198,6 +200,21 @@ class ClaimForm
       }
       warnings.add(:patient_number, "checksum error") if (checksum+patient_int)%10 != 0
     end
+  end
+
+  def validate_seen_on
+    if first_seen_on && admission_on && first_seen_on < admission_on
+      warnings.add(:first_seen_on, "must be after admission date")
+      warnings.add(:admission_on, "must be before first seen date")
+    end
+    if last_seen_on && first_seen_on && last_seen_on < first_seen_on
+      warnings.add(:first_seen_on, "must be before last seen date")
+      warnings.add(:last_seen_on, "must be after first seen date")
+    end
+  end
+
+  def validate_consult_time
+    # FIXME
   end
 
   def as_json(options = nil)

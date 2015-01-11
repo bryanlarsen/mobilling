@@ -3,7 +3,6 @@
 //= require turbolinks
 //= require react
 //= require react_ujs
-//= require components
 //= require underscore
 //= require underscore.string
 //= require es6-promise
@@ -13,14 +12,7 @@
 //= require moment
 //= require typeahead.js/dist/typeahead.bundle
 //= require fynx
+//= require components
 
 //= require_tree ./admin
 
-/* $(document).on("ready page:load", function () {
-    $("[data-lightbox]:not(.electric-lightbox)").lightbox().addClass("electric-lightbox");
-
-    $(".max-height-clickable").click(function() {
-        $(this).toggleClass("on");
-    });
-});
-*/

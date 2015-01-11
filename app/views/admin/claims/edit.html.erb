@@ -1,8 +1,9 @@
 <script>
-claimActions.init(<%= @form.as_json(include_comments: true, include_photo: true, include_warnings: true).merge({url: admin_claim_path(@form.claim)}).to_json.html_safe %>);
+claimActionsFor("<%= @form.claim.id %>").init(<%= @form.as_json(include_comments: true, include_photo: true, include_warnings: true).merge({url: admin_claim_path(@form.claim)}).to_json.html_safe %>);
 </script>
 <div class="container">
   <%= react_component('ClaimEdit', {
+      id: @form.claim.id,
       user: @user.as_json,
       stack: params['stack'] || [],
       backURL: admin_claims_path

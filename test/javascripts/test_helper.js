@@ -1,3 +1,3 @@
-//= require application
-//= require angular/angular-mocks
-//= require_tree ./mocks
+//= require jquery
+//= require underscore
+//= require fynx

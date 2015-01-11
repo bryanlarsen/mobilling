@@ -1,3 +1,4 @@
+require 'middleware/turbo_dev'
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -36,5 +37,18 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  config.asset_host = "http://localhost:3000"
+  # config.asset_host = "http://localhost:3000"
+
+  config.assets.raise_runtime_errors = false
+  # config.assets.debug = false
+  config.assets.digets = false
+
+  config.dev_tweaks.autoload_rules do
+    keep :all
+    skip '/favicon.ico'
+    skip :assets
+    keep :forced
+  end
+
+  config.middleware.insert 0, Middleware::TurboDev
 end

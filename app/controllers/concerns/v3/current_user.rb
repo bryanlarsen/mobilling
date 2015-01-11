@@ -30,7 +30,7 @@ module V3::CurrentUser
 
   def current_user
     return @current_user if defined?(@current_user)
-    @current_user = User.find_by(id: current_user_id)
+    @current_user = ::User.find_by(id: current_user_id)
   end
 
   def sign_in(user)

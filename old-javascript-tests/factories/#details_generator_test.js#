@@ -439,7 +439,7 @@ describe("details generator", function () {
         expect(detailsGenerator({
             admission_on: "2014-06-09",
             first_seen_on: "2014-06-09",
-            last_seen_on: "2014-06-10",
+           last_seen_on: "2014-06-10",
             last_seen_discharge: true,
             most_responsible_physician: true,
             consult_type: "general_er",

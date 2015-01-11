@@ -5,6 +5,13 @@ class Admin::DashboardsController < Admin::BaseController
 
   def show
     authorize :dashboard, :read?
-    @users = policy_scope(:dashboard).order("#{sort_column} #{sort_direction}")
+    counts = ::Claim.statuses.map { |name, value| "(SELECT COUNT(*) FROM claims WHERE claims.user_id = users.id AND claims.status = #{value}) AS #{name}_count" }
+    @users = case current_user.role
+             when "admin" then @users = ::User.all
+             when "agent" then @users = ::User.where(agent_id: current_user.id)
+             when "doctor" then @users = ::User.where(id: current_user.id)
+             else ::User.none
+    end
+    @users = @users.select("*").select(counts).order("#{sort_column} #{sort_direction}")
   end
 end

@@ -3,7 +3,7 @@ require "#{Rails.root}/lib/record_builder.rb"
 
 class Claim < ActiveRecord::Base
   CONSULT_TYPES = %w[general_er general_non_er comprehensive_er comprehensive_non_er limited_er limited_non_er special_er special_non_er on_call_admission_er on_call_admission_non_er]
-  CONSULT_PREMIUM_VISITS = %w[weekday_office_hours weekday_day weekday_evening weekday_night weekend_day weekend_night holiday_day holiday_night]
+  CONSULT_PREMIUM_VISITS = %w[weekday_office_hours weekday_day weekday_evening weekday_night weekend_day weekend_night holiday_day holiday_night calculate]
 
   enum status: %i[saved for_agent ready file_created uploaded acknowledged agent_attention doctor_attention done reclaimed]
 

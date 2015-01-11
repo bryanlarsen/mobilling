@@ -33,7 +33,7 @@ FeeGenerator.prototype.normalizeCode = function(value) {
 }
 
 FeeGenerator.prototype.validateCode = function(code) {
-  return this.service_codes[this.normalizeCode(code)] ? [] : ['not found'];
+  return this.service_codes[this.normalizeCode(code)] ? false : ['not found'];
 }
 
 /* calculate the fee for a single line.  Date, time_in, time_out are
@@ -94,4 +94,29 @@ FeeGenerator.prototype.calculateFee = function(detail, code) {
     units: units
   };
 };
+
+var feeGenerator = new Promise(function(resolve, reject) {
+  setTimeout(function() {  // make sure all requests necessary to render page (like fonts) go ahead of us in the queue
+    $.ajax({
+      url: '/v1/service_codes.json',
+      dataType: 'json',
+      success: function(data) {
+        // FIXME: once we switch over, this should be done at the server
+        var array = new Array(_.size(data));
+        var hash = {};
+        _.each(data, function(sc, i) {
+          hash[sc.code] = sc;
+          array[i] = sc.name;
+        });
+        serviceCodesEngine.add(array);
+        resolve(new FeeGenerator(hash));
+      },
+      error: function(xhr, status, err) {
+        console.error('failed to load service codes');
+        reject(Error('failed to load service codes'));
+      }
+    });
+  }, 100);
+});
+
 

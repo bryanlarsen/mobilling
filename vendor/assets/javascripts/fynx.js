@@ -1,10 +1,16 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*jshint browserify: true */
 'use strict';
-window.Fynx = module.exports = {
-  createAction: require('axn'),
+var axn = require('axn');
+var createCursorStore = require('./lib/create-cursor-store');
+module.exports = {
+  createAction: axn,
   createActions: require('./lib/create-actions'),
-  createStore: require('./lib/create-store'),
+  createAsyncAction: axn.async,
+  createAsyncActions: require('./lib/create-async-actions'),
+  createStore: createCursorStore,
+  createSimpleStore: require('./lib/create-simple-store'),
+  createCursorStore: createCursorStore,
   createRawStore: require('./lib/create-raw-store'),
   listenTo: require('./lib/listento-mixin'),
   listenToProp: require('./lib/listento-prop-mixin'),
@@ -12,11 +18,9 @@ window.Fynx = module.exports = {
   connectProp: require('./lib/connect-prop-mixin'),
   connectVia: require('./lib/connect-via-mixin')
 };
-window.Immutable = require('immutable');
-window.AXN = require('axn');
+window.Fynx = module.exports;
 
-
-},{"./lib/connect-mixin":2,"./lib/connect-prop-mixin":3,"./lib/connect-via-mixin":4,"./lib/create-actions":5,"./lib/create-raw-store":6,"./lib/create-store":7,"./lib/listento-mixin":8,"./lib/listento-prop-mixin":9,"axn":10,"immutable":12}],2:[function(require,module,exports){
+},{"./lib/connect-mixin":2,"./lib/connect-prop-mixin":3,"./lib/connect-via-mixin":4,"./lib/create-actions":5,"./lib/create-async-actions":6,"./lib/create-cursor-store":7,"./lib/create-raw-store":8,"./lib/create-simple-store":9,"./lib/listento-mixin":10,"./lib/listento-prop-mixin":11,"axn":12}],2:[function(require,module,exports){
 /*jshint browserify: true */
 'use strict';
 module.exports = connect;
@@ -133,46 +137,35 @@ function createActions(specs) {
   }
   return obj;
 }
-},{"axn":10}],6:[function(require,module,exports){
-/*jshint browserify: true, -W014 */
+},{"axn":12}],6:[function(require,module,exports){
+/*jshint browserify: true */
 'use strict';
 var axn = require('axn');
-module.exports = createRawStore;
+module.exports = createActions;
 
-function createRawStore(emptyValue, prepare) {
-  var action = axn();
-  var state = emptyValue;
-  function store(value) {
-    if (value !== undefined) {
-      state = (
-        value === null
-        ? emptyValue
-        : (prepare ? prepare(value) : value)
-      );
-      action(state);
-    }
-    return state;
+function createActions(specs) {
+  var obj = {};
+  if (Array.isArray(specs)) {
+    specs.forEach(function (name) {
+      obj[name] = axn.async();
+    });
+  } else {
+    Object.keys(specs).forEach(function (name) {
+      obj[name] = axn.async(specs[name]);
+    });
   }
-  var emptyAction = axn({
-    beforeEmit: function(value)  {return value === emptyValue;}
-  });
-  action.listen(emptyAction);
-  store.listen = action.listen.bind(action);
-  store.unlisten = action.unlisten.bind(action);
-  store.isEmpty = function()  {return state === emptyValue;};
-  store.isEmpty.listen = emptyAction.listen.bind(emptyAction);
-  store.isEmpty.unlisten = emptyAction.unlisten.bind(emptyAction);
-  return store;
+  return obj;
 }
-},{"axn":10}],7:[function(require,module,exports){
+
+},{"axn":12}],7:[function(require,module,exports){
 /*jshint browserify: true, -W014 */
 'use strict';
 var immutable = require('immutable');
 var Cursor = require('immutable/contrib/cursor');
 var axn = require('axn');
-module.exports = createStore;
+module.exports = createCursorStore;
 
-function createStore(emptyValue, prepare) {
+function createCursorStore(emptyValue, prepare) {
   var action = axn();
   var state = (function (value) {
     function cursor(data) {
@@ -204,7 +197,72 @@ function createStore(emptyValue, prepare) {
   store.isEmpty.unlisten = emptyAction.unlisten.bind(emptyAction);
   return store;
 }
-},{"axn":10,"immutable":12,"immutable/contrib/cursor":11}],8:[function(require,module,exports){
+},{"axn":12,"immutable":14,"immutable/contrib/cursor":13}],8:[function(require,module,exports){
+/*jshint browserify: true, -W014 */
+'use strict';
+var axn = require('axn');
+module.exports = createRawStore;
+
+function createRawStore(emptyValue, prepare) {
+  emptyValue = emptyValue === undefined ? null : emptyValue;
+  var action = axn();
+  var state = emptyValue;
+  function store(value) {
+    if (value !== undefined) {
+      state = (
+        value === null
+        ? emptyValue
+        : (prepare ? prepare(value) : value)
+      );
+      action(state);
+    }
+    return state;
+  }
+  var emptyAction = axn({
+    beforeEmit: function(value)  {return value === emptyValue;}
+  });
+  action.listen(emptyAction);
+  store.listen = action.listen.bind(action);
+  store.unlisten = action.unlisten.bind(action);
+  store.isEmpty = function()  {return state === emptyValue;};
+  store.isEmpty.listen = emptyAction.listen.bind(emptyAction);
+  store.isEmpty.unlisten = emptyAction.unlisten.bind(emptyAction);
+  return store;
+}
+},{"axn":12}],9:[function(require,module,exports){
+/*jshint browserify: true, -W014 */
+'use strict';
+var axn = require('axn');
+var immutable = require('immutable');
+module.exports = createSimpleStore;
+
+function createSimpleStore(emptyValue, prepare) {
+  emptyValue = emptyValue === undefined ? null : emptyValue;
+  var action = axn();
+  var state = emptyValue;
+  function store(value) {
+    if (value !== undefined) {
+      state = (
+        value === null
+        ? emptyValue
+        : immutable.fromJS(prepare ? prepare(value) : value)
+      );
+      action(state);
+    }
+    return state;
+  }
+  var emptyAction = axn({
+    beforeEmit: function(value)  {return immutable.is(value, emptyValue);}
+  });
+  action.listen(emptyAction);
+  store.listen = action.listen.bind(action);
+  store.unlisten = action.unlisten.bind(action);
+  store.isEmpty = function()  {return immutable.is(state, emptyValue);};
+  store.isEmpty.listen = emptyAction.listen.bind(emptyAction);
+  store.isEmpty.unlisten = emptyAction.unlisten.bind(emptyAction);
+  return store;
+}
+},{"axn":12,"immutable":14}],10:[function(require,module,exports){
 /*jshint browserify: true */
 'use strict';
 module.exports = listenTo;
@@ -219,7 +277,7 @@ function listenTo(store, fn) {
     }
   };
 }
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*jshint browserify: true */
 'use strict';
 module.exports = listenToProp;
@@ -251,39 +309,49 @@ function listenToProp(prop, fn) {
     }
   };
 }
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*jshint es3: true */
-/*global module */
+/*global module, Promise */
 'use strict';
-function axn(spec) {
+function createAction(spec, base) {
   function action(data) {
-    action.emit(data);
+    return action.emit(data);
   }
   action._listeners = [];
-  var key;
-  if (spec) {
-    for (key in spec) {
-      if (!spec.hasOwnProperty(key)) continue;
-      if (action.hasOwnProperty(key)) continue;
-      action[key] = spec[key];
+  if (spec) ext(action, spec);
+  return ext(action, base);
+}
+
+function axn(spec) {
+  return createAction(spec, axn.methods);
+}
+
+function aaxn(spec) {
+  return ext(createAction(spec, aaxn.methods), axn.methods);
+}
+
+function ext(obj, src) {
+  for (var key in src) {
+    if (src.hasOwnProperty(key)) {
+      if (obj.hasOwnProperty(key)) continue;
+      obj[key] = src[key];
     }
   }
-  for (key in axn.methods) {
-    if (!axn.methods.hasOwnProperty(key)) continue;
-    if (action.hasOwnProperty(key)) continue;
-    action[key] = axn.methods[key];
-  }
-  return action;
+  return obj;
 }
 
 axn.methods = {
-  listen: function (fn, ctx) {
-    function cb(data) {
-      return fn.call(ctx, data);
-    }
+  _cb: function (fn, ctx) {
+    return function (data, result) {
+      return fn.call(ctx, data, result);
+    };
+  },
+  _listen: function (fn, ctx, once) {
+    var cb = this._cb(fn, ctx);
     this._listeners.push(cb);
     cb.ctx = ctx;
     cb.fn = fn;
+    cb.once = once;
     var self = this;
     return function () {
       var i = self._listeners.indexOf(cb);
@@ -291,6 +359,12 @@ axn.methods = {
       self._listeners.splice(i, 1);
       return true;
     };
+  },
+  listenOnce: function (fn, ctx) {
+    return this._listen(fn, ctx, true);
+  },
+  listen: function (fn, ctx) {
+    return this._listen(fn, ctx, false);
   },
   unlisten: function (fn, ctx) {
     for (var i = 0; i < this._listeners.length; i++) {
@@ -308,18 +382,64 @@ axn.methods = {
   beforeEmit: function (data) {
     return data;
   },
+  _beforeEmit: function (data) {
+    return data;
+  },
+  _afterEmit: function (result/*, data */) {
+    return result;
+  },
   emit: function (data) {
     data = this.beforeEmit(data);
-    if (!this.shouldEmit(data)) return;
+    var initial = this._beforeEmit(data);
+    var result = initial;
+    if (!this.shouldEmit(data)) return result;
     for (var i = 0; i < this._listeners.length; i++) {
-      this._listeners[i].call(undefined, data);
+      var listener = this._listeners[i];
+      result = listener(data, result, initial);
+      if (listener.once) {
+        this._listeners.splice(i, 1);
+        i -= 1;
+      }
     }
+    result = this._afterEmit(result, initial);
+    return result;
   }
 };
 
-module.exports = axn;
+aaxn.methods = {
+  _cb: function (fn, ctx) {
+    return function (data, p, p0) {
+      return p.then(function (result) {
+        if (p0._cancelled) return Promise.reject(new Error('rejected'));
+        return fn.call(ctx, data, result);
+      });
+    };
+  },
+  _beforeEmit: function (data) {
+    return ext(Promise.resolve(data), {
+      _cancelled: false
+    });
+  },
+  _afterEmit: function (p, p0) {
+    return ext(p.then(function (value) {
+      if (p0._cancelled) return Promise.reject(new Error('rejected'));
+      return value;
+    }), {
+      cancel: function () {
+        p0._cancelled = true;
+      },
+      cancelled: function () {
+        return p0._cancelled;
+      }
+    });
+  }
+};
 
-},{}],11:[function(require,module,exports){
+axn.async = aaxn;
+
+module.exports = axn;
+window.AXN = axn;
+},{}],13:[function(require,module,exports){
 /**
  *  Copyright (c) 2014, Facebook, Inc.
  *  All rights reserved.
@@ -383,16 +503,10 @@ IndexedCursorPrototype.toString = function() {
   return this.__toString('Cursor [', ']');
 }
 
-KeyedCursorPrototype.equals =
-IndexedCursorPrototype.equals = function(second) {
-  return Immutable.is(
-    this.deref(),
-    second && (typeof second.deref === 'function' ? second.deref() : second)
-  );
-}
-
 KeyedCursorPrototype.deref =
-IndexedCursorPrototype.deref = function(notSetValue) {
+KeyedCursorPrototype.valueOf =
+IndexedCursorPrototype.deref =
+IndexedCursorPrototype.valueOf = function(notSetValue) {
   return this._rootData.getIn(this._keyPath, notSetValue);
 }
 
@@ -527,19 +641,22 @@ function updateCursor(cursor, changeFn, changeKey) {
     changeFn
   );
   var keyPath = cursor._keyPath || [];
-  cursor._onChange && cursor._onChange.call(
+  var result = cursor._onChange && cursor._onChange.call(
     undefined,
     newRootData,
     cursor._rootData,
     changeKey ? keyPath.concat(changeKey) : keyPath
   );
+  if (result !== undefined) {
+    newRootData = result;
+  }
   return makeCursor(newRootData, cursor._keyPath, cursor._onChange);
 }
 
 
 exports.from = cursorFrom;
 
-},{"../../":12}],12:[function(require,module,exports){
+},{"../../":14}],14:[function(require,module,exports){
 /**
  *  Copyright (c) 2014, Facebook, Inc.
  *  All rights reserved.
@@ -583,17 +700,18 @@ $traceurRuntime.createClass = createClass;
 $traceurRuntime.superCall = superCall;
 $traceurRuntime.defaultSuperCall = defaultSuperCall;
 "use strict";
-function is(first, second) {
-  if (first === second) {
-    return first !== 0 || second !== 0 || 1 / first === 1 / second;
+function is(valueA, valueB) {
+  if (valueA === valueB || (valueA !== valueA && valueB !== valueB)) {
+    return true;
   }
-  if (first !== first) {
-    return second !== second;
+  if (!valueA || !valueB) {
+    return false;
   }
-  if (first && typeof first.equals === 'function') {
-    return first.equals(second);
+  if (typeof valueA.valueOf === 'function' && typeof valueB.valueOf === 'function') {
+    valueA = valueA.valueOf();
+    valueB = valueB.valueOf();
   }
-  return false;
+  return typeof valueA.equals === 'function' && typeof valueB.equals === 'function' ? valueA.equals(valueB) : valueA === valueB || (valueA !== valueA && valueB !== valueB);
 }
 function invariant(condition, error) {
   if (!condition)
@@ -661,8 +779,14 @@ function smi(i32) {
   return ((i32 >>> 1) & 0x40000000) | (i32 & 0xBFFFFFFF);
 }
 function hash(o) {
-  if (!o) {
+  if (o === false || o === null || o === undefined) {
     return 0;
+  }
+  if (typeof o.valueOf === 'function') {
+    o = o.valueOf();
+    if (o === false || o === null || o === undefined) {
+      return 0;
+    }
   }
   if (o === true) {
     return 1;
@@ -679,8 +803,8 @@ function hash(o) {
   if (type === 'string') {
     return o.length > STRING_HASH_CACHE_MIN_STRLEN ? cachedHashString(o) : hashString(o);
   }
-  if (o.hashCode) {
-    return hash(typeof o.hashCode === 'function' ? o.hashCode() : o.hashCode);
+  if (typeof o.hashCode === 'function') {
+    return o.hashCode();
   }
   return hashJSObj(o);
 }
@@ -852,7 +976,6 @@ var $Iterable = Iterable;
     return new ToKeyedSequence(this, true);
   },
   toMap: function() {
-    assertNotInfinite(this.size);
     return Map(this.toKeyedSeq());
   },
   toObject: function() {
@@ -864,15 +987,12 @@ var $Iterable = Iterable;
     return object;
   },
   toOrderedMap: function() {
-    assertNotInfinite(this.size);
     return OrderedMap(this.toKeyedSeq());
   },
   toOrderedSet: function() {
-    assertNotInfinite(this.size);
     return OrderedSet(isKeyed(this) ? this.valueSeq() : this);
   },
   toSet: function() {
-    assertNotInfinite(this.size);
     return Set(isKeyed(this) ? this.valueSeq() : this);
   },
   toSetSeq: function() {
@@ -882,11 +1002,9 @@ var $Iterable = Iterable;
     return isIndexed(this) ? this.toIndexedSeq() : isKeyed(this) ? this.toKeyedSeq() : this.toSetSeq();
   },
   toStack: function() {
-    assertNotInfinite(this.size);
     return Stack(isKeyed(this) ? this.valueSeq() : this);
   },
   toList: function() {
-    assertNotInfinite(this.size);
     return List(isKeyed(this) ? this.valueSeq() : this);
   },
   toString: function() {
@@ -913,6 +1031,7 @@ var $Iterable = Iterable;
     return this.__iterator(ITERATE_ENTRIES);
   },
   every: function(predicate, context) {
+    assertNotInfinite(this.size);
     var returnValue = true;
     this.__iterate((function(v, k, c) {
       if (!predicate.call(context, v, k, c)) {
@@ -936,9 +1055,11 @@ var $Iterable = Iterable;
     return foundValue;
   },
   forEach: function(sideEffect, context) {
+    assertNotInfinite(this.size);
     return this.__iterate(context ? sideEffect.bind(context) : sideEffect);
   },
   join: function(separator) {
+    assertNotInfinite(this.size);
     separator = separator !== undefined ? '' + separator : ',';
     var joined = '';
     var isFirst = true;
@@ -955,6 +1076,7 @@ var $Iterable = Iterable;
     return reify(this, mapFactory(this, mapper, context));
   },
   reduce: function(reducer, initialReduction, context) {
+    assertNotInfinite(this.size);
     var reduction;
     var useFirst;
     if (arguments.length < 2) {
@@ -1066,6 +1188,9 @@ var $Iterable = Iterable;
   },
   has: function(searchKey) {
     return this.get(searchKey, NOT_SET) !== NOT_SET;
+  },
+  hasIn: function(searchKeyPath) {
+    return this.getIn(searchKeyPath, NOT_SET) !== NOT_SET;
   },
   isSubset: function(iter) {
     iter = typeof iter.contains === 'function' ? iter : $Iterable(iter);
@@ -1360,7 +1485,7 @@ function quoteString(value) {
   return typeof value === 'string' ? JSON.stringify(value) : value;
 }
 function defaultNegComparator(a, b) {
-  return a > b ? -1 : a < b ? 1 : 0;
+  return a < b ? 1 : a > b ? -1 : 0;
 }
 function deepEqual(a, b) {
   if (a === b) {
@@ -1705,7 +1830,6 @@ function isArrayLike(value) {
   return value && typeof value.length === 'number';
 }
 function seqIterate(seq, fn, reverse, useKeys) {
-  assertNotInfinite(seq.size);
   var cache = seq._cache;
   if (cache) {
     var maxIndex = cache.length - 1;
@@ -1786,7 +1910,9 @@ Collection.Indexed = IndexedCollection;
 Collection.Set = SetCollection;
 var Map = function Map(value) {
   return value === null || value === undefined ? emptyMap() : isMap(value) ? value : emptyMap().withMutations((function(map) {
-    KeyedIterable(value).forEach((function(v, k) {
+    var iter = KeyedIterable(value);
+    assertNotInfinite(iter.size);
+    iter.forEach((function(v, k) {
       return map.set(k, v);
     }));
   }));
@@ -1802,14 +1928,14 @@ var Map = function Map(value) {
     return updateMap(this, k, v);
   },
   setIn: function(keyPath, v) {
-    return this.updateIn(keyPath, (function() {
+    return this.updateIn(keyPath, NOT_SET, (function() {
       return v;
     }));
   },
   remove: function(k) {
     return updateMap(this, k, NOT_SET);
   },
-  removeIn: function(keyPath) {
+  deleteIn: function(keyPath) {
     return this.updateIn(keyPath, (function() {
       return NOT_SET;
     }));
@@ -1924,6 +2050,7 @@ var IS_MAP_SENTINEL = '@@__IMMUTABLE_MAP__@@';
 var MapPrototype = Map.prototype;
 MapPrototype[IS_MAP_SENTINEL] = true;
 MapPrototype[DELETE] = MapPrototype.remove;
+MapPrototype.removeIn = MapPrototype.deleteIn;
 var ArrayMapNode = function ArrayMapNode(ownerID, entries) {
   this.ownerID = ownerID;
   this.entries = entries;
@@ -3082,15 +3209,19 @@ function maxFactory(iterable, comparator, mapper) {
   if (mapper) {
     var entry = iterable.toSeq().map((function(v, k) {
       return [v, mapper(v, k, iterable)];
-    })).reduce((function(max, next) {
-      return comparator(next[1], max[1]) > 0 ? next : max;
+    })).reduce((function(a, b) {
+      return _maxCompare(comparator, a[1], b[1]) ? b : a;
     }));
     return entry && entry[0];
   } else {
-    return iterable.reduce((function(max, next) {
-      return comparator(next, max) > 0 ? next : max;
+    return iterable.reduce((function(a, b) {
+      return _maxCompare(comparator, a, b) ? b : a;
     }));
   }
+}
+function _maxCompare(comparator, a, b) {
+  var comp = comparator(b, a);
+  return (comp === 0 && b !== a && (b === undefined || b === null || b !== b)) || comp > 0;
 }
 function reify(iter, seq) {
   return isSeq(iter) ? seq : iter.constructor(seq);
@@ -3130,17 +3261,18 @@ var List = function List(value) {
   if (isList(value)) {
     return value;
   }
-  value = IndexedIterable(value);
-  var size = value.size;
+  var iter = IndexedIterable(value);
+  var size = iter.size;
   if (size === 0) {
     return empty;
   }
+  assertNotInfinite(size);
   if (size > 0 && size < SIZE) {
-    return makeList(0, size, SHIFT, null, new VNode(value.toArray()));
+    return makeList(0, size, SHIFT, null, new VNode(iter.toArray()));
   }
   return empty.withMutations((function(list) {
     list.setSize(size);
-    value.forEach((function(v, i) {
+    iter.forEach((function(v, i) {
       return list.set(i, v);
     }));
   }));
@@ -3232,21 +3364,23 @@ var List = function List(value) {
     return setListBounds(this, resolveBegin(begin, size), resolveEnd(end, size));
   },
   __iterator: function(type, reverse) {
-    return new ListIterator(this, type, reverse);
+    var index = 0;
+    var values = iterateList(this, reverse);
+    return new Iterator((function() {
+      var value = values();
+      return value === DONE ? iteratorDone() : iteratorValue(type, index++, value);
+    }));
   },
   __iterate: function(fn, reverse) {
-    var $__0 = this;
-    var iterations = 0;
-    var eachFn = (function(v) {
-      return fn(v, iterations++, $__0);
-    });
-    var tailOffset = getTailOffset(this._capacity);
-    if (reverse) {
-      iterateVNode(this._tail, 0, tailOffset - this._origin, this._capacity - this._origin, eachFn, reverse) && iterateVNode(this._root, this._level, -this._origin, tailOffset - this._origin, eachFn, reverse);
-    } else {
-      iterateVNode(this._root, this._level, -this._origin, tailOffset - this._origin, eachFn, reverse) && iterateVNode(this._tail, 0, tailOffset - this._origin, this._capacity - this._origin, eachFn, reverse);
+    var index = 0;
+    var values = iterateList(this, reverse);
+    var value;
+    while ((value = values()) !== DONE) {
+      if (fn(value, index++, this) === false) {
+        break;
+      }
     }
-    return iterations;
+    return index;
   },
   __ensureOwner: function(ownerID) {
     if (ownerID === this.__ownerID) {
@@ -3270,7 +3404,7 @@ var ListPrototype = List.prototype;
 ListPrototype[IS_LIST_SENTINEL] = true;
 ListPrototype[DELETE] = ListPrototype.remove;
 ListPrototype.setIn = MapPrototype.setIn;
-ListPrototype.removeIn = MapPrototype.removeIn;
+ListPrototype.deleteIn = ListPrototype.removeIn = MapPrototype.removeIn;
 ListPrototype.update = MapPrototype.update;
 ListPrototype.updateIn = MapPrototype.updateIn;
 ListPrototype.mergeIn = MapPrototype.mergeIn;
@@ -3346,89 +3480,56 @@ var $VNode = VNode;
     return editable;
   }
 }, {});
-function iterateVNode(node, level, offset, max, fn, reverse) {
-  var ii;
-  var array = node && node.array;
-  if (level === 0) {
-    var from = offset < 0 ? -offset : 0;
-    var to = max - offset;
+var DONE = {};
+function iterateList(list, reverse) {
+  var left = list._origin;
+  var right = list._capacity;
+  var tailPos = getTailOffset(right);
+  var tail = list._tail;
+  return iterateNodeOrLeaf(list._root, list._level, 0);
+  function iterateNodeOrLeaf(node, level, offset) {
+    return level === 0 ? iterateLeaf(node, offset) : iterateNode(node, level, offset);
+  }
+  function iterateLeaf(node, offset) {
+    var array = offset === tailPos ? tail && tail.array : node && node.array;
+    var from = offset > left ? 0 : left - offset;
+    var to = right - offset;
     if (to > SIZE) {
       to = SIZE;
     }
-    for (ii = from; ii < to; ii++) {
-      if (fn(array && array[reverse ? from + to - 1 - ii : ii]) === false) {
-        return false;
+    return (function() {
+      if (from === to) {
+        return DONE;
       }
-    }
-  } else {
-    var step = 1 << level;
-    var newLevel = level - SHIFT;
-    for (ii = 0; ii <= MASK; ii++) {
-      var levelIndex = reverse ? MASK - ii : ii;
-      var newOffset = offset + (levelIndex << level);
-      if (newOffset < max && newOffset + step > 0) {
-        var nextNode = array && array[levelIndex];
-        if (!iterateVNode(nextNode, newLevel, newOffset, max, fn, reverse)) {
-          return false;
-        }
-      }
-    }
+      var idx = reverse ? --to : from++;
+      return array && array[idx];
+    });
   }
-  return true;
-}
-var ListIterator = function ListIterator(list, type, reverse) {
-  this._type = type;
-  this._reverse = !!reverse;
-  this._maxIndex = list.size - 1;
-  var tailOffset = getTailOffset(list._capacity);
-  var rootStack = listIteratorFrame(list._root && list._root.array, list._level, -list._origin, tailOffset - list._origin - 1);
-  var tailStack = listIteratorFrame(list._tail && list._tail.array, 0, tailOffset - list._origin, list._capacity - list._origin - 1);
-  this._stack = reverse ? tailStack : rootStack;
-  this._stack.__prev = reverse ? rootStack : tailStack;
-};
-($traceurRuntime.createClass)(ListIterator, {next: function() {
-    var stack = this._stack;
-    while (stack) {
-      var array = stack.array;
-      var rawIndex = stack.index++;
-      if (this._reverse) {
-        rawIndex = MASK - rawIndex;
-        if (rawIndex > stack.rawMax) {
-          rawIndex = stack.rawMax;
-          stack.index = SIZE - rawIndex;
-        }
-      }
-      if (rawIndex >= 0 && rawIndex < SIZE && rawIndex <= stack.rawMax) {
-        var value = array && array[rawIndex];
-        if (stack.level === 0) {
-          var type = this._type;
-          var index;
-          if (type !== 1) {
-            index = stack.offset + (rawIndex << stack.level);
-            if (this._reverse) {
-              index = this._maxIndex - index;
-            }
-          }
-          return iteratorValue(type, index, value);
-        } else {
-          this._stack = stack = listIteratorFrame(value && value.array, stack.level - SHIFT, stack.offset + (rawIndex << stack.level), stack.max, stack);
-        }
-        continue;
-      }
-      stack = this._stack = this._stack.__prev;
+  function iterateNode(node, level, offset) {
+    var values;
+    var array = node && node.array;
+    var from = offset > left ? 0 : (left - offset) >> level;
+    var to = ((right - offset) >> level) + 1;
+    if (to > SIZE) {
+      to = SIZE;
     }
-    return iteratorDone();
-  }}, {}, Iterator);
-function listIteratorFrame(array, level, offset, max, prevFrame) {
-  return {
-    array: array,
-    level: level,
-    offset: offset,
-    max: max,
-    rawMax: ((max - offset) >> level),
-    index: 0,
-    __prev: prevFrame
-  };
+    return (function() {
+      do {
+        if (values) {
+          var value = values();
+          if (value !== DONE) {
+            return value;
+          }
+          values = null;
+        }
+        if (from === to) {
+          return DONE;
+        }
+        var idx = reverse ? --to : from++;
+        values = iterateNodeOrLeaf(array && array[idx], level - SHIFT, offset + (idx << level));
+      } while (true);
+    });
+  }
 }
 function makeList(origin, capacity, level, root, tail, ownerID, hash) {
   var list = Object.create(ListPrototype);
@@ -3639,7 +3740,9 @@ function getTailOffset(size) {
 }
 var OrderedMap = function OrderedMap(value) {
   return value === null || value === undefined ? emptyOrderedMap() : isOrderedMap(value) ? value : emptyOrderedMap().withMutations((function(map) {
-    KeyedIterable(value).forEach((function(v, k) {
+    var iter = KeyedIterable(value);
+    assertNotInfinite(iter.size);
+    iter.forEach((function(v, k) {
       return map.set(k, v);
     }));
   }));
@@ -3808,6 +3911,7 @@ var $Stack = Stack;
     if (iter.size === 0) {
       return this;
     }
+    assertNotInfinite(iter.size);
     var newSize = this.size;
     var head = this._head;
     iter.reverse().forEach((function(value) {
@@ -3943,7 +4047,9 @@ function emptyStack() {
 }
 var Set = function Set(value) {
   return value === null || value === undefined ? emptySet() : isSet(value) ? value : emptySet().withMutations((function(set) {
-    SetIterable(value).forEach((function(v) {
+    var iter = SetIterable(value);
+    assertNotInfinite(iter.size);
+    iter.forEach((function(v) {
       return set.add(v);
     }));
   }));
@@ -4112,7 +4218,9 @@ function emptySet() {
 }
 var OrderedSet = function OrderedSet(value) {
   return value === null || value === undefined ? emptyOrderedSet() : isOrderedSet(value) ? value : emptyOrderedSet().withMutations((function(set) {
-    SetIterable(value).forEach((function(v) {
+    var iter = SetIterable(value);
+    assertNotInfinite(iter.size);
+    iter.forEach((function(v) {
       return set.add(v);
     }));
   }));
@@ -4247,6 +4355,7 @@ var Record = function Record(defaultValues, name) {
 }, {}, KeyedCollection);
 var RecordPrototype = Record.prototype;
 RecordPrototype[DELETE] = RecordPrototype.remove;
+RecordPrototype.deleteIn = RecordPrototype.removeIn = MapPrototype.removeIn;
 RecordPrototype.merge = MapPrototype.merge;
 RecordPrototype.mergeWith = MapPrototype.mergeWith;
 RecordPrototype.mergeIn = MapPrototype.mergeIn;
@@ -4454,6 +4563,7 @@ var Immutable = {
   is: is,
   fromJS: fromJS
 };
+window.Immutable = Immutable;
 
   return Immutable;
 }

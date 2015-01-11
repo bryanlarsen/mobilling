@@ -1,6 +1,6 @@
 class V3::BaseController < ActionController::Base
   include Pundit
-  include CurrentUser
+  include V3::CurrentUser
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.

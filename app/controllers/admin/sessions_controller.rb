@@ -8,7 +8,7 @@ class Admin::SessionsController < Admin::BaseController
     @interactor = Admin::CreateSession.new(session_params)
     authorize :session, :create?
     if @interactor.perform
-      sign_in(@interactor.admin_user)
+      sign_in(@interactor.user)
       redirect_to admin_root_url
     else
       render :new

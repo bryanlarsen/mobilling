@@ -1,10 +1,12 @@
 class UserPolicy < Struct.new(:current_user, :user)
   class Scope < Struct.new(:current_user, :scope)
     def resolve
-      return ::User.none if current_user.blank?
-      scope = ::User.includes(:agent)
-      scope = scope.where(admin_users: {id: current_user.id}) if current_user.agent?
-      scope
+      case current_user.role
+      when "admin" then ::User.where(role: Roles["doctor"])
+      when "agent" then ::User.where(agent_id: current_user.id)
+      when "doctor" then ::User.where(id: current_user.id)
+      else ::User.none
+      end
     end
   end
 

@@ -43,6 +43,7 @@ group :development do
 end
 
 group :test do
+  gem "phantomjs"
   gem "capybara"
   gem "database_cleaner"
   gem "factory_girl_rails"
