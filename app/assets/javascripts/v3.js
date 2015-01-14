@@ -1,4 +1,5 @@
 //= require jquery
+//= require fastclick
 //= require react
 //= require react_ujs
 //= require underscore

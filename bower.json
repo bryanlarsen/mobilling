@@ -16,6 +16,8 @@
     "tests"
   ],
   "dependencies": {
+    "fastclick": "*",
+    "font-awesome": "*",
     "moment": "*",
     "pickadate": "*",
     "react-bootstrap": "*",
