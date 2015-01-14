@@ -2,6 +2,10 @@ javascript:
   v3:
     require:
       - immutable
+      - react
   fynx:
     external:
       - immutable
+  react-router-bootstrap:
+    external:
+      - react

@@ -20,8 +20,6 @@
     "font-awesome": "*",
     "moment": "*",
     "pickadate": "*",
-    "react-bootstrap": "*",
-    "react-router": "*",
     "typeahead.js": "*",
     "underscore": "*",
     "underscore.string": "*"

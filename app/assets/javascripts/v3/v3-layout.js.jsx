@@ -7,8 +7,13 @@ var Redirect = ReactRouter.Redirect;
 
 var Navbar = ReactBootstrap.Navbar;
 var Nav = ReactBootstrap.Nav;
+var NavItem = ReactBootstrap.NavItem;
 var DropdownButton = ReactBootstrap.DropdownButton;
 var MenuItem = ReactBootstrap.MenuItem;
+
+var ReactRouterBootstrap = require('react-router-bootstrap');
+var NavItemLink = ReactRouterBootstrap.NavItemLink;
+var ButtonLink = ReactRouterBootstrap.ButtonLink;
 
 React.initializeTouchEvents(true);
 
@@ -24,7 +29,7 @@ var StandardHeader = React.createClass({
           <NavItemLink to="new_claim">
             <Icon i="plus">New</Icon>
           </NavItemLink>
-          <NavItemLink to="claims" filter="drafts">
+          <NavItemLink to="claims" params={{filter:"drafts"}}>
             <Icon i="list">List</Icon>
           </NavItemLink>
         </Nav>
@@ -49,14 +54,14 @@ var ClaimHeader = React.createClass({
     return (
       <Navbar fixedTop>
         <Nav>
-          <NavItemLink to="claims" filter="drafts">
+          <NavItemLink to="claims" params={{filter:"drafts"}}>
             <Icon i="list">List</Icon>
           </NavItemLink>
           <NavItem>
             #{this.props.store.get('number')}: ${dollars(claimTotal(this.props.store))}
             {this.props.store.get('unsaved') && <span className="text-danger"> (unsaved)</span>}
           </NavItem>
-          <NavItemLink to="claims" filter="drafts">
+          <NavItemLink to="claims" params={{filter:"drafts"}}>
             <Icon i={"cog "+(this.state.globalStore.get('busy') ? "fa-spin" : "")}>Submit</Icon>
           </NavItemLink>
         </Nav>
@@ -147,7 +152,6 @@ $(document).ready(function() {
         <Route name="claim_items" path="/claim/:id/items" handler={ItemsTab}/>
         <Route name="claim_comments" path="/claim/:id/comments" handler={CommentsTab}/>
       </Route>
-      <Redirect from="/" to="/claims/drafts"/>
     </Route>
   );
   ReactRouter.run(routes, function(Handler, state) {
@@ -280,7 +284,7 @@ var ClaimPage = React.createClass({
         <Navbar fixedBottom>
           <ul id="tab-nav" className="nav navbar-nav nav-justified" style={{position: 'relative'}}>
             { _.map(this.tabs(), function(tab) {
-               return <NavItemLink key={"claim_tab_"+tab} to={"claim_"+tab} id={this.props.params.id}>
+               return <NavItemLink key={"claim_tab_"+tab} to={"claim_"+tab} params={{id:this.props.params.id}}>
                         <Icon i={this.icon[tab]} xs>{_.string.humanize(tab)}</Icon>
                       </NavItemLink>;
             }, this) }
@@ -325,16 +329,16 @@ var ClaimsPage = React.createClass({
         </div>
         <Navbar fixedBottom>
           <ul className="nav navbar-nav nav-justified">
-            <NavItemLink to="claims" filter="drafts">
+            <NavItemLink to="claims" params={{filter:"drafts"}}>
               Drafts
             </NavItemLink>
-            <NavItemLink to="claims" filter="submitted">
+            <NavItemLink to="claims" params={{filter:"submitted"}}>
               Submitted
             </NavItemLink>
-            <NavItemLink to="claims" filter="rejected">
+            <NavItemLink to="claims" params={{filter:"rejected"}}>
               Rejected
             </NavItemLink>
-            <NavItemLink to="claims" filter="done">
+            <NavItemLink to="claims" params={{filter:"done"}}>
               Done
             </NavItemLink>
           </ul>

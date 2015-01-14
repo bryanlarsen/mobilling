@@ -1,7 +1,5 @@
 //= require jquery
 //= require fastclick
-//= require react
-//= require react_ujs
 //= require underscore
 //= require underscore.string
 //= require es6-promise
@@ -10,8 +8,8 @@
 //= require pickadate/lib/picker.time
 //= require moment
 //= require typeahead.js/dist/typeahead.bundle
-//= require react-bootstrap
-//= require react-router
+//= require ./react-requires
+//= require react_ujs
 //= require ./fynx
 //= require components
 

@@ -5,7 +5,11 @@
   },
   "dependencies": {
     "fynx": "*",
-    "immutable": "*"
+    "immutable": "*",
+    "react": "*",
+    "react-bootstrap": "*",
+    "react-router": "*",
+    "react-router-bootstrap": "*"
   },
   "engines": {
     "node": ">= 0.10"
