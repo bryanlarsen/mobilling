@@ -1,0 +1,32 @@
+# big
+
+- PIN
+- user management
+- list details
+- read-only claim view
+
+# little
+
+- add undo to edit page (probably needs enhancing)
+- update admin page to pull in last changes
+- time_in/time_out remove when necessary
+- consult time validation
+- consult premium counting
+- list sorting
+- generation preview
+
+# structural
+
+- default handleChange
+- javascript package management for non-Bower
+- 6to5
+- get rid of manually managed packages
+- components organization ?
+
+# student notes
+
+- communication
+- consistency
+- style
+- github
+- slack
