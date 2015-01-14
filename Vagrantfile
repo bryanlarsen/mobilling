@@ -44,6 +44,7 @@ rake db:seed
 EOF
 SCRIPT
 
+LXC_VERSION = `lxc-ls --version`.strip
 Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |v|
     config.vm.box = "ubuntu/trusty64"
@@ -53,7 +54,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "lxc" do |v|
     config.vm.box = "fgrehm/trusty64-lxc"
-    v.customize "aa_allow_incomplete", 1
+    if LXC_VERSION != '1.0.6'
+      lxc.customize 'aa_allow_incomplete', '1'
+    end
   end
 
   config.vm.provision "shell", inline: _script
