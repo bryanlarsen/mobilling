@@ -1,0 +1,13 @@
+{
+  "name": "mo-billing",
+  "devDependencies": {
+    "browserify": "~> 4.1"
+  },
+  "dependencies": {
+    "fynx": "*",
+    "immutable": "*"
+  },
+  "engines": {
+    "node": ">= 0.10"
+  }
+}

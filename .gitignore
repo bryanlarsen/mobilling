@@ -23,3 +23,5 @@
 /vendor/assets/components
 
 /.vagrant
+
+/node_modules
