@@ -1,7 +1,0 @@
-javascript:
-  v3:
-    require:
-      - immutable
-  fynx:
-    external:
-      - immutable
