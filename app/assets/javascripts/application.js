@@ -21,7 +21,6 @@
 //= require angular-ui/ui-utils
 //= require angular-rails-templates
 //= require underscore
-//= require angular-underscore
 //= require ./mo_billing
 
 angular.element(document).ready(function () {

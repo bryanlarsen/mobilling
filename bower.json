@@ -16,8 +16,6 @@
     "tests"
   ],
   "dependencies": {
-    "angular-underscore": "*",
-    "bootstrap": "*",
     "moment": "*",
     "pickadate": "*",
     "react-bootstrap": "*",

@@ -1,0 +1,20 @@
+// Use this file to override Twitter Bootstrap mixins or define own mixins.
+
+// http://stackoverflow.com/questions/18175040/how-do-i-center-these-twitter-bootstrap-3-navbar-links
+.navbar-nav.nav-justified > li{
+    float:none;
+}
+
+// https://github.com/twbs/bootstrap/issues/13250
+
+.nav-justified {
+    @media (min-width: @grid-float-breakpoint) {
+        > li {
+            display: table-cell;
+            width: 1%;
+            > a {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

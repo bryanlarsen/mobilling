@@ -143,6 +143,8 @@ GEM
     less-rails (2.6.0)
       actionpack (>= 3.1)
       less (~> 2.6.0)
+    less-rails-bootstrap (3.3.1.0)
+      less-rails (~> 2.6.0)
     letter_opener (1.2.0)
       launchy (~> 2.2)
     libv8 (3.16.14.7)
@@ -274,6 +276,7 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   less-rails
+  less-rails-bootstrap
   letter_opener
   mini_magick
   ngannotate-rails
