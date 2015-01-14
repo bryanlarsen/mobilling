@@ -1,7 +1,5 @@
 FROM tutum/buildstep
 
-RUN /start assets
-
 EXPOSE 80
 ENV PORT 80
 CMD ["/start", "web"]
