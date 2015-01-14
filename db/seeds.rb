@@ -1,13 +1,13 @@
 ActiveRecord::Migration.say_with_time "create_admin" do
-  Admin::User.where(name: "Admin").first_or_create(email: "admin@example.com", password: "secret", role: "admin")
+  User.where(name: "Admin").first_or_create(email: "admin@example.com", password: "secret", role: "admin")
 end
 
 ActiveRecord::Migration.say_with_time "create_agent" do
-  Admin::User.where(name: "Agent").first_or_create(email: "agent@example.com", password: "secret", role: "agent")
+  User.where(name: "Agent").first_or_create(email: "agent@example.com", password: "secret", role: "agent")
 end
 
 ActiveRecord::Migration.say_with_time "create_ministry" do
-  Admin::User.where(role: Admin::User.roles['ministry']).first_or_create(email: "ministry@example.com", role: "ministry", name: "ministry")
+  User.where(role: User.roles['ministry']).first_or_create(email: "ministry@example.com", role: "ministry", name: "ministry")
 end
 
 ActiveRecord::Migration.say_with_time "create_hospitals" do

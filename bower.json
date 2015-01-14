@@ -16,8 +16,8 @@
     "tests"
   ],
   "dependencies": {
-    "fastclick": "*",
-    "font-awesome": "*",
+    "angular-underscore": "*",
+    "bootstrap": "*",
     "moment": "*",
     "pickadate": "*",
     "react-bootstrap": "*",
