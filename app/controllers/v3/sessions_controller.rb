@@ -15,7 +15,7 @@ class V3::SessionsController < V3::BaseController
       render :new
       return
     end
-    @interactor1 = V1::CreateSession.new(session_params)
+    @interactor1 = ::CreateSession.new(session_params)
     if !@interactor1.perform
       render :new
       return
