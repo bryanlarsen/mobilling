@@ -12,6 +12,7 @@
 //= require typeahead.js/dist/typeahead.bundle
 //= require react-bootstrap
 //= require react-router
+//= require ReactRouterBootstrap
 //= require immutable
 //= require Fynx
 //= require components
