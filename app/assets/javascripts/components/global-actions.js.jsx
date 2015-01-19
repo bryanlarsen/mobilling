@@ -1,4 +1,4 @@
-var globalStore = Fynx.createStore(Immutable.fromJS({
+var globalStore = Fynx.createSimpleStore(Immutable.fromJS({
   busy: 0
 }));
 var globalActions = Fynx.createActions([
@@ -8,11 +8,11 @@ var globalActions = Fynx.createActions([
 ]);
 
 globalActions.startBusy.listen(function(data) {
-  globalStore().set('busy', globalStore().get('busy') + 1);
+  globalStore(globalStore().set('busy', globalStore().get('busy') + 1));
 });
 
 globalActions.endBusy.listen(function(data) {
-  globalStore().set('busy', globalStore().get('busy') - 1);
+  globalStore(globalStore().set('busy', globalStore().get('busy') - 1));
 });
 
 globalActions.unrecoverableError.listen(function(data) {

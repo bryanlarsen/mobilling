@@ -17,7 +17,9 @@
   ],
   "dependencies": {
     "angular-underscore": "*",
-    "bootstrap": "*",
+    "fastclick": "*",
+    "font-awesome": "*",
+    "immutable": "*",
     "moment": "*",
     "pickadate": "*",
     "react-bootstrap": "*",
