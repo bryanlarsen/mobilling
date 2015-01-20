@@ -1,2 +1,1 @@
-web: bin/rails server -e $RAILS_ENV -p 80
-
+web: bundle exec unicorn -p 80 -c ./config/unicorn.rb
