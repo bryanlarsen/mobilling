@@ -11,7 +11,8 @@
 //= require pickadate/lib/picker.time
 //= require moment
 //= require typeahead.js/dist/typeahead.bundle
-//= require fynx
+//= require immutable
+//= require Fynx
 //= require components
 
 //= require_tree ./admin

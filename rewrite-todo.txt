@@ -14,6 +14,8 @@
 - consult premium counting
 - list sorting
 - generation preview
+- claims list should use touch tabbing too
+- default sex
 
 # structural
 

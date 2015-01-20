@@ -13,17 +13,3 @@ claimListActions.add.listen(function(claim) {
   claimListStore(claimListStore().push(Immutable.fromJS(claim)));
 });
 
-globalActions.startBusy();
-$.ajax({
-  url: '/v1/claims',
-  dataType: 'json',
-  success: function(data) {
-    claimListActions.init(data);
-    globalActions.endBusy();
-  },
-  error: function(xhr, status, err) {
-    console.error('error loading claims');
-    globalActions.endBusy();
-  }
-});
-
