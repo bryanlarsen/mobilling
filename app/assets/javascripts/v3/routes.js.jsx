@@ -10,6 +10,7 @@ var App = React.createClass({
 
 var V3Routes = (
   <Route name="app" path="/" handler={App}>
+    <Redirect from="/" to="/claims/drafts" />
     <Route name="claims" path="/claims/:filter" handler={ClaimsPage}/>
     <Route name="profile" handler={Profile}/>
     <Route name="landing" handler={Landing}/>

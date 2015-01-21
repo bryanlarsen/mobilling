@@ -15,6 +15,7 @@ class Admin::ClaimsController < Admin::BaseController
     authorize :claim, :update?
     @form = ClaimForm.new(@claim)
     @user = current_user
+    render layout: "admin_react"
   end
 
   def update

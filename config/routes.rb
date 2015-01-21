@@ -1,13 +1,10 @@
 Rails.application.routes.draw do
   apipie
 
-  root to: "home#show"
-  resource :password, only: %i[new]
-
-  namespace :v3 do
+  scope module: 'v3' do
     root to: "home#show"
     resource :session, only: %i[new create destroy]
-   end
+  end
 
   namespace :v1 do
     resource :session, only: %i[create destroy]
