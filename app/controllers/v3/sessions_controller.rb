@@ -20,7 +20,7 @@ class V3::SessionsController < V3::BaseController
       render :new
       return
     end
-    redirect_to v3_root_url
+    redirect_to root_url
   end
 
   def destroy

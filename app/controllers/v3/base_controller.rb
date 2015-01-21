@@ -10,6 +10,6 @@ class V3::BaseController < ActionController::Base
   private
 
   def user_not_authorized
-    redirect_to new_v3_session_url, error: "You are not authorized to perform this action."
+    redirect_to new_session_url, error: "You are not authorized to perform this action."
   end
 end
