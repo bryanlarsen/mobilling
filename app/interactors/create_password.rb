@@ -3,7 +3,7 @@ class CreatePassword
 
   EXPIRATION_TIME = 1.day
 
-  attr_reader :created_at, :password_digest
+  attr_reader :created_at, :user_id
   attr_accessor :token
 
   validates :token, presence: true
@@ -11,7 +11,7 @@ class CreatePassword
 
   def perform
     return if invalid?
-    user.update!(password: SecureRandom.hex(12))
+    user.update!(password: SecureRandom.hex(12), authentication_token: "")
     UserMailer.new_password(user).deliver_now
     true
   end
@@ -25,22 +25,22 @@ class CreatePassword
   end
 
   def user
-    return if password_digest.blank?
-    @user ||= User.find_by(password_digest: password_digest)
+    return if user_id.blank?
+    @user ||= User.find_by(id: user_id)
   end
 
   def created_at
     message.first
   end
 
-  def password_digest
+  def user_id
     message.second
   end
 
   private
 
   def message_verifier
-    Rails.application.message_verifier("password reset salt")
+    Rails.application.message_verifier((ENV["SECRET_KEY_BASE"] || 'dev') + ":password reset salt")
   end
 
   def message

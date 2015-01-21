@@ -18,14 +18,16 @@ class CreatePasswordReset
   private
 
   def message_verifier
-    Rails.application.message_verifier("password reset salt")
+    Rails.application.message_verifier((ENV["SECRET_KEY_BASE"] || 'dev') + ":password reset salt")
   end
 
   def generate_token
-    @token = Base64.urlsafe_encode64(message_verifier.generate([Time.now.to_i, @user.password_digest]))
+    message = [Time.now.to_i, @user.id]
+    puts message.to_json
+    @token = Base64.urlsafe_encode64(message_verifier.generate(message))
   end
 
   def email_existence
-    errors.add :email, :invalid if @user.blank? or @user.password_digest.blank?
+    errors.add :email, :invalid if @user.blank?
   end
 end

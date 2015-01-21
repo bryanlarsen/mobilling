@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   scope module: 'v3' do
     root to: "home#show"
     resource :session, only: %i[new create destroy]
+    resource :request_password_reset, only: %i[new create]
+    resource :create_password, only: %i[new]
   end
 
   namespace :v1 do
