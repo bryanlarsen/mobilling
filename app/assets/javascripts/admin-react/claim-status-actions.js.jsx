@@ -30,7 +30,7 @@ var ClaimStatusActions = React.createClass({
 
     var statusOptions = {};
     _.each(statuses, function(status) {
-      if (status!=='reclaimed') statusOptions[status] = _.string.humanize(status);
+      if (status!=='reclaimed') statusOptions[status] = s.humanize(status);
     });
 
     var cur = this.props.stack.indexOf(this.props.store.get('id'));

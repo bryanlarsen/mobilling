@@ -9,7 +9,7 @@ var ConsultType = React.createClass({
 
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2">{_.string.humanize(this.props.consultType)}</label>
+        <label className="control-label col-xs-2">{s.humanize(this.props.consultType)}</label>
         <div className="col-xs-4 text-center radio">
           <label className="">
             <input name="consult_type" type="radio" id={"radio-"+this.props.consultType+"-er"} value={this.props.consultType+"_er"} checked={consult_type === this.props.consultType+"_er"} onChange={this.fieldChanged} />

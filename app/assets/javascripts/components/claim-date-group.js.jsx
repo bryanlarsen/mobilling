@@ -19,7 +19,7 @@ var ClaimDate = React.createClass({
 var ClaimDateGroup = React.createClass({
   render: function() {
     return (
-      <ClaimFormGroup label={this.props.label || _.string.humanize(this.props.name)}>
+      <ClaimFormGroup label={this.props.label || s.humanize(this.props.name)}>
         <ClaimDate {...this.props}/>
       </ClaimFormGroup>
     );

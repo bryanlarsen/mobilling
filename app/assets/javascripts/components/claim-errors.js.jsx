@@ -11,7 +11,7 @@ var ClaimErrors = React.createClass({
            var nErrors = 0;
            var r = (
         <div className="form-group" key={'err-'+this.props.name+'-'+name}>
-          <label className="control-label col-md-2">{_.string.humanize(name.replace(/\./g, ': '))}</label>
+          <label className="control-label col-md-2">{s.humanize(name.replace(/\./g, ': '))}</label>
           <div className="col-md-10">
           { _.map(errs, function(err, i) {
             nErrors++;

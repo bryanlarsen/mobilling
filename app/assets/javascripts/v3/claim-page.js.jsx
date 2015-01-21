@@ -102,7 +102,7 @@ var ClaimPage = React.createClass({
           <ul id="tab-nav" className="nav navbar-nav nav-justified" style={{position: 'relative'}}>
             { _.map(this.tabs(), function(tab) {
                return <NavItemLink key={"claim_tab_"+tab} to={"claim_"+tab} params={{id:this.props.params.id}}>
-                        <Icon i={this.icon[tab]} xs>{_.string.humanize(tab)}</Icon>
+                        <Icon i={this.icon[tab]} xs>{s.humanize(tab)}</Icon>
                       </NavItemLink>;
             }, this) }
             <div id="highlight"></div>
