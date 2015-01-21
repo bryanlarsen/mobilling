@@ -1,26 +1,22 @@
 class V3::SessionsController < V3::BaseController
   layout "v3_rails"
 
+  skip_before_filter :refresh_session, :only => [:new, :create]
+
   def new
     @interactor3 = V3::CreateSession.new
-    authorize :session, :create?
   end
 
   def create
-    authorize :session, :create?
+    admin = session[:admin]
     @interactor3 = V3::CreateSession.new(session_params)
     if @interactor3.perform
-      sign_in(@interactor3.user)
+      sign_in(@interactor3.user, @interactor3.token)
     else
       render :new
       return
     end
-    @interactor1 = ::CreateSession.new(session_params)
-    if !@interactor1.perform
-      render :new
-      return
-    end
-    redirect_to root_url
+    redirect_to admin ? admin_dashboard_url : root_url
   end
 
   def destroy

@@ -10,35 +10,30 @@ module V3::CurrentUser
     before_action :refresh_session
   end
 
-  def current_user_id
-    user_id, expires_at = cookies.permanent.encrypted[:user]
-    return nil if user_id.blank?
-    raise SessionExpired, "You have been logged out due to inactivity." if expires_at.blank? or expires_at <= Time.now
-    user_id
-  end
-
-  def current_user_id=(user_id)
-    cookies.permanent.encrypted[:user] = (user_id.present?) ? [user_id, SESSION_TIMEOUT.from_now] : nil
-  end
-
   def refresh_session
-    sign_in(current_user_id)
+    current_user
   rescue SessionExpired => exception
-    sign_out
     redirect_to new_session_path, alert: exception.message
   end
 
   def current_user
     return @current_user if defined?(@current_user)
-    @current_user = ::User.find_by(id: current_user_id)
+    return nil if session[:user_id].blank?
+    return nil if session[:token].blank?
+    user = ::User.find_by(id: session[:user_id])
+    raise SessionExpired, "You have logged in elsewhere." if session[:token] != user.authentication_token
+    raise SessionExpired, "You have been logged out due to inactivity." if user.token_at.blank? or user.token_at + SESSION_TIMEOUT <= DateTime.now
+    @current_user = user
   end
 
-  def sign_in(user)
+  def sign_in(user, token)
     user_id = user.respond_to?(:id) ? user.id : user
-    self.current_user_id = user_id
+    reset_session
+    session[:user_id] = user_id
+    session[:token] = token
   end
 
   def sign_out
-    self.current_user_id = nil
+    reset_session
   end
 end
