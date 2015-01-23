@@ -18,10 +18,10 @@
   "dependencies": {
     "angular-underscore": "*",
     "fastclick": "*",
-    "font-awesome": "*",
+    "font-awesome": "^4.3.0",
     "immutable": "*",
     "moment": "*",
-    "pickadate": "*",
+    "pickadate": "3.5.4",
     "react-bootstrap": "*",
     "react-router": "*",
     "typeahead.js": "*",

@@ -2,8 +2,8 @@ class UserPolicy < Struct.new(:current_user, :user)
   class Scope < Struct.new(:current_user, :scope)
     def resolve
       case current_user.role
-      when "admin" then ::User.where(role: Roles["doctor"])
-      when "agent" then ::User.where(agent_id: current_user.id)
+      when "admin" then ::User.all
+      when "agent" then ::User.where("agent_id = :id OR id = :id", {id: current_user.id})
       when "doctor" then ::User.where(id: current_user.id)
       else ::User.none
       end

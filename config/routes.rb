@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   end
 
   namespace :v1 do
-    resource :user, only: %i[show create update]
+    resources :users, only: %i[index show create update]
     resources :agents, only: %i[index]
     resources :claims, only: %i[index show create update destroy]
     resources :diagnoses, only: %i[index]

@@ -1,67 +1,54 @@
 class V1::UsersController < V1::BaseController
   skip_before_action :require_user, only: %i[create]
-  wrap_parameters :user, include: [:name, :email, :password, :agent_id, :pin, :specialties, :provider_number, :group_number, :office_code, :specialty_code], format: :json
+  wrap_parameters :user, include: UserForm.all_params.map(&:first), format: :json
   resource_description { resource_id "users" }
 
-  api :GET, "/v1/user", "Returns the current user"
-
-  def show
-    render json: @current_user
+  api :GET, "/v1/users", "Returns user list"
+  def index
+    render json: policy_scope(:user).all
   end
 
-  api :POST, "/v1/user", "Creates a new user"
-  param :user, Hash, required: true do
-    param :name, String, desc: "Name", required: true
-    param :email, String, desc: "Email", required: true
-    param :agent_id, String, desc: "Agent ID", required: true
-    param :specialties, Array, desc: "Specialties", required: true
-    param :password, String, desc: "Password", required: true
-    param :provider_number, Integer, desc: "OHIP Provider Number"
-    param :group_number, String, desc: "OHIP Group Code"
-    param :office_code, Integer, desc: "MOH Office Code"
-    param :specialty_code, Integer, desc: "OHIP Specialty Code"
+  api :GET, "/v1/users/:id", "Returns a user"
+  def show(user = nil, status = nil)
+    user ||= policy_scope(:user).find(params[:id])
+    render json: user.as_json(include_warnings: true), status: status || 200
   end
 
-  def create
-    @interactor = CreateUser.new(create_user_params)
-    if @interactor.perform
-      render json: @interactor.user
-    else
-      render json: @interactor, status: 422
+  def_param_group :user do
+    param :user, Hash, required: true do
+      User.all_params.each do |name, klass|
+        param name, klass
+      end
     end
   end
 
-  api :PUT, "/v1/user", "Updates a user"
-  param :user, Hash do
-    param :name, String, desc: "Name", required: true
-    param :email, String, desc: "Email", required: true
-    param :agent_id, String, desc: "Agent ID", required: true
-    param :specialties, Array, desc: "Specialties", required: true
-    param :password, String, desc: "Password"
-    param :pin, String, desc: "PIN"
-    param :provider_number, Integer, desc: "OHIP Provider Number"
-    param :group_number, String, desc: "OHIP Group Number"
-    param :office_code, Integer, desc: "MOH Office COde"
-    param :specialty_code, Integer, desc: "OHIP Specialty Code"
+  api :POST, "/v1/users", "Creates a new user"
+  param_group :user
+  def create
+    @user = User.new(user_params)
+    if @user.valid?
+      @user.save!
+      show @user, 200
+    else
+      show @user, 422
+    end
   end
 
+  api :PUT, "/v1/users/:id", "Updates a user"
+  param_group :user
   def update
-    @user = @current_user
-    @interactor = UpdateUser.new(@user, update_user_params)
-    if @interactor.perform
-      render json: @interactor.user
+    @user = policy_scope(:user).find(params[:id])
+    @user.update(user_params)
+    if @user.valid?
+      show @user, 200
     else
-      render json: @interactor, status: 422
+      show @user, 422
     end
   end
 
   private
 
-  def create_user_params
-    params.require(:user).permit(:name, :email, :password, :agent_id, :provider_number, :group_number, :office_code, :specialty_code, specialties: [])
-  end
-
-  def update_user_params
-    params.require(:user).permit(:name, :email, :password, :agent_id, :provider_number, :group_number, :office_code, :specialty_code, :pin, specialties: [])
+  def user_params
+    params.require(:user).permit(User.all_param_names)
   end
 end

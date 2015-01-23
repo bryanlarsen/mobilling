@@ -1,20 +1,13 @@
-class User < ActiveRecord::Base
-  SPECIALTIES = %w[internal_medicine family_medicine cardiology anesthesiologist surgical_assist psychotherapist]
-
-  enum role: %i[doctor agent admin ministry]
-
-  has_secure_password
-  has_many :claims, dependent: :destroy
-  has_many :photos, dependent: :destroy
-  belongs_to :agent, class_name: "User"
+class UserForm
+  include ActiveModel::Model
+  include Virtus.model
+  include ValidationScopes
 
   def self.model_params
     return [
             [:email, String],
             [:name, String],
             [:password, String],
-            [:password_confirmation, String],
-            [:current_password, String],
             [:role, String],
             [:agent_id, String],
             [:pin, String],
@@ -34,7 +27,15 @@ class User < ActiveRecord::Base
     ClaimForm.param_names(all_params)
   end
 
-  attr_accessor :current_password
+  all_params.each do |name, type|
+    if type == :bool
+      attribute name, Axiom::Types::Boolean
+    else
+      attribute name, type
+    end
+  end
+
+  attr_reader :user
 
   validates :email, presence: true, email: true
   validates :agent_id, presence: true, if: -> { doctor? }
@@ -46,32 +47,62 @@ class User < ActiveRecord::Base
   validates :specialty_code, numericality: {only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 99}, presence: true, if: -> { doctor? }
   validates :role, presence: true, inclusion: {in: ["doctor", "agent"]}
   validate :existence
-  validate :check_current_password, if: -> { password || current_password }
+
+  def initialize(user, attributes = nil)
+    if !user.is_a?(User)
+      super(user)
+    else
+      @user = user
+      attrs = user.attributes.slice(*UserForm.all_param_names.map(&:to_s))
+      attrs['role'] = user.role
+      attrs.merge!(attributes) if attributes
+      super(attrs)
+    end
+  end
 
   def doctor?
     role == "doctor"
   end
 
+  def perform
+    return false if invalid?
+    unless @user
+      @user = User.build
+    end
+    @user.update!(user_attributes)
+    true
+  end
+
   def as_json(options = nil)
-    attributes.slice(*User.all_param_names.map(&:to_s)).tap do |response|
+    attributes.slice(*UserForm.all_param_names).tap do |response|
       response.delete(:password)
-      response[:id] = id
+      response[:id] = @user.id
       response[:role] = role
-      if options && options[:include_warnings]
-        valid?
-        response[:errors] = errors.as_json
-      end
+      valid?
+      response[:errors] = errors.as_json
     end
   end
 
   private
 
-  def existence
-    errors.add :email, :taken if User.where.not(id: id).where(email: email.to_s.downcase).exists?
+  def user_attributes
+    {
+      role: role,
+      name: name,
+      email: email.to_s.downcase,
+      password: password.to_s,
+      agent_id: agent_id,
+      default_template: default_template,
+      pin: pin,
+      provider_number: provider_number,
+      group_number: group_number,
+      office_code: office_code,
+      specialty_code: specialty_code,
+    }
   end
 
-  def check_current_password
-    errors.add :current_password, "is invalid" unless authenticate(current_password)
+  def existence
+    errors.add :email, :taken if User.where.not(id: user.id).where(email: email.to_s.downcase).exists?
   end
 
 end

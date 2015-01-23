@@ -30,7 +30,10 @@ var V3Routes = (
   <Route name="app" path="/" handler={App}>
     <Redirect from="/" to="/claims/drafts" />
     <Route name="claims" path="/claims/:filter" handler={ClaimsPage}/>
-    <Route name="profile" handler={Profile}/>
+    <Route name="profile" handler={Profile}>
+      <Route name="settings" handler={ProfileSettings}/>
+      <Route name="password" handler={ChangePassword}/>
+    </Route>
     <Route name="landing" handler={Landing}/>
     <Route name="new_claim" path="/new_claim" handler={NewClaimPage}/>
     <Route name="claim" path="/claim/:id" handler={ClaimPage}>
