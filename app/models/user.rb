@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   validates :specialty_code, numericality: {only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 99}, presence: true, if: -> { doctor? }
   validates :role, presence: true, inclusion: {in: ["doctor", "agent"]}
   validate :existence
-  validate :check_current_password, if: -> { password || current_password }
+  validate :check_current_password, if: -> { password_digest_changed? }
 
   def doctor?
     role == "doctor"
@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
   end
 
   def check_current_password
-    errors.add :current_password, "is invalid" unless authenticate(current_password)
+    errors.add :current_password, "is invalid" unless User.find(id).authenticate(current_password)
   end
 
 end

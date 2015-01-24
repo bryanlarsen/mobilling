@@ -34,9 +34,9 @@ var ChangePassword = React.createClass({
 
         <div className="container with-bottom">
           <div className="form-horizontal">
-            <ClaimInputGroup store={this.state.store} name="current_password" onChange={this.handleChange} />
-            <ClaimInputGroup store={this.state.store} label="New Password" name="password" onChange={this.handleChange} />
-            <ClaimInputGroup store={this.state.store} label="New Password Confirmation" name="password_confirmation" onChange={this.handleChange} />
+            <ClaimInputGroup type="password" store={this.state.store} name="current_password" onChange={this.handleChange} />
+            <ClaimInputGroup type="password" store={this.state.store} label="New Password" name="password" onChange={this.handleChange} />
+            <ClaimInputGroup type="password" store={this.state.store} label="New Password Confirmation" name="password_confirmation" onChange={this.handleChange} />
 
             <ClaimFormGroup label="">
               <button className="btn btn-default btn-primary" onClick={this.submit}>Submit</button>
