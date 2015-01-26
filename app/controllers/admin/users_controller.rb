@@ -6,7 +6,12 @@ class Admin::UsersController < Admin::BaseController
   helper_method :agent_id_filter
 
   def new
-    @user = User.new
+    @user = ::User.new({
+                         group_number: '0000',
+                         office_code: 'F',
+                         specialty_code: 0,
+                         default_template: 'family_medicine'
+                       })
     render layout: "admin_react"
   end
 
@@ -17,19 +22,8 @@ class Admin::UsersController < Admin::BaseController
 
   def edit
     @user = policy_scope(:user).find(params[:id])
-    @interactor = UpdateUser.new(@user)
     authorize :user, :update?
-  end
-
-  def update
-    @user = policy_scope(:user).find(params[:id])
-    @interactor = UpdateUser.new(@user, update_user_params)
-    authorize :user, :update?
-    if @interactor.perform
-      redirect_to admin_users_path
-    else
-      render "edit"
-    end
+    render layout: "admin_react"
   end
 
   def destroy

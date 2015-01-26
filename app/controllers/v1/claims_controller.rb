@@ -47,7 +47,7 @@ class V1::ClaimsController < V1::BaseController
   def create
     attrs = claim_params
     attrs['status'] ||= 'saved'
-    attrs['specialty'] ||= current_user.default_specialty
+    attrs['specialty'] ||= current_user.default_template
     @form = ClaimForm.new(attrs)
     @form.user = current_user
     if @form.perform

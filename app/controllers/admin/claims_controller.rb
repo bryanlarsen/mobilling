@@ -18,30 +18,6 @@ class Admin::ClaimsController < Admin::BaseController
     render layout: "admin_react"
   end
 
-  def update
-    @claim = policy_scope(:claim).find(params[:id])
-    authorize :claim, :update?
-    @form = ClaimForm.new(@claim, update_claim_params)
-    success = @form.perform
-
-    respond_to do |format|
-      format.html do
-        if success
-          if params[:next_button] && params[:next].split(',')[0]
-            redirect_to edit_admin_claim_path(params[:next].split(',')[0], next: params[:next].split(',')[1..-1])
-          else
-            redirect_to admin_claims_path, notice: "Claim updated successfully."
-          end
-        else
-          render :edit
-        end
-      end
-      format.json do
-        render json: @form.as_json(include_warnings: true), status: success ? 200 : 422
-      end
-    end
-  end
-
   def reclaim
     @claim = policy_scope(:claim).find(params[:id])
     authorize :claim, :update?

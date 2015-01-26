@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   validates :group_number, length: {maximum: 4, minimum: 4}, presence: true, if: -> { doctor? }
   validates :office_code, length: {maximum: 1, minimum: 1}, presence: true, if: -> { doctor? }
   validates :specialty_code, numericality: {only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 99}, presence: true, if: -> { doctor? }
-  validates :role, presence: true, inclusion: {in: ["doctor", "agent"]}
+  validates :role, presence: true, inclusion: {in: ["doctor", "agent"]}, if: -> { role_changed? }
   validate :existence
   validate :check_current_password, if: -> { password_digest_changed? }
 
@@ -71,6 +71,7 @@ class User < ActiveRecord::Base
   end
 
   def check_current_password
+    return if new_record?
     errors.add :current_password, "is invalid" unless User.find(id).authenticate(current_password)
   end
 

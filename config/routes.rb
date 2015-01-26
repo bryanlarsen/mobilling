@@ -20,13 +20,13 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resource :dashboard, only: %i[show]
-    resources :claims, only: %i[index edit update] do
+    resources :claims, only: %i[index edit] do
       post :reclaim, on: :member
     end
     resources :edt_files, only: %i[index create show] do
       get 'download/:filename', action: 'download', on: :member, as: :download
     end
-    resources :users, only: %i[new index edit update destroy] do
+    resources :users, only: %i[new index edit destroy] do
       resources :submissions, only: %i[create]
     end
     root to: redirect("/admin/dashboard")

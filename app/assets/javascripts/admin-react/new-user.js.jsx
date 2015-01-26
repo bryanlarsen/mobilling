@@ -5,6 +5,14 @@ var NewUser = React.createClass({
 
   submit: function(ev) {
     ev.preventDefault();
+    var role = this.state.store.get('role');
+    userActions.saveComplete.listenOnce(function() {
+      if (role === "agent") {
+        window.location.href = "/admin";
+      } else {
+        window.location.href = "/";
+      }
+    });
     userActions.attemptSave();
   },
 
@@ -17,7 +25,16 @@ var NewUser = React.createClass({
   render: function() {
     return (
       <div className="form-horizontal">
-        <UserForm store={this.state.store} handleChange={this.handleChange}/>
+        <ProfileCommon store={this.state.store} handleChange={this.handleChange} />
+
+        <ClaimInputGroup type="password" store={this.state.store} label="Password" name="password" onChange={this.handleChange} />
+        <ClaimInputGroup type="password" store={this.state.store} label="Password Confirmation" name="password_confirmation" onChange={this.handleChange} />
+
+        { this.state.store.get('role') === 'doctor' && <DoctorProfile store={this.state.store} handleChange={this.handleChange} /> }
+
+        <ClaimFormGroup label="">
+          <button className="btn btn-default btn-primary" onClick={this.submit}>Submit</button>
+        </ClaimFormGroup>
       </div>
     );
   }

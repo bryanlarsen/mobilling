@@ -34,9 +34,12 @@
           <th class="text-center">
             <%= sortable_link_to "users.email", "Email" %>
           </th>
-          <% if current_user.admin? %>
+          <th class="text-center">
+            <%= sortable_link_to "users.role", "Role" %>
+          </th>
+           <% if current_user.admin? %>
             <th class="text-center">
-              <%= sortable_link_to "admin_users.name", "Agent" %>
+              Agent
             </th>
           <% end %>
           <th class="text-right">
@@ -51,6 +54,9 @@
             <td class="text-center">
               <%= user.email %>
             </td>
+            <td class="text-center">
+              <%= user.role %>
+            </td>
             <% if current_user.admin? %>
               <td class="text-center">
                 <%= user.agent.try(:name) || "none" %>
@@ -58,7 +64,6 @@
             <% end %>
             <td class="text-right">
               <%= link_to "Edit", edit_admin_user_path(user) %>
-              <%= link_to "Submissions", admin_user_submissions_path(user) %>
             </td>
           </tr>
         <% end %>
