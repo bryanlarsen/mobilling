@@ -1,9 +1,14 @@
 class Admin::UsersController < Admin::BaseController
   include Admin::Sortable
 
-  self.sortable_columns = %w[users.name users.email users.role admin_users.name]
+  self.sortable_columns = %w[users.name users.email users.role]
 
   helper_method :agent_id_filter
+
+  def new
+    @user = User.new
+    render layout: "admin_react"
+  end
 
   def index
     @users = policy_scope(:user).where(filters).order("#{sort_column} #{sort_direction}")

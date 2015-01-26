@@ -1,0 +1,7 @@
+<script>
+userActions.init(<%= @user.as_json.to_json.html_safe %>);
+</script>
+<div class="container">
+  <%= react_component('NewUser', {
+      }); %>
+</div>
