@@ -46,7 +46,7 @@ class Submission < EdtFile
         self.created_at = record['Batch Creation Date']
         self.batch_id = record.to_s[7..18]
       when record.kind_of?(ClaimHeaderRecord)
-        self.claims << Claim.new(user_id: user_id).from_record(record)
+        self.claims << Claim.new(user_id: user_id, specialty: user.default_template).from_record(record)
         self.claims[-1].save!
       when record.kind_of?(ClaimHeaderRMBRecord)
         self.claims[-1].process_rmb_record(record)
