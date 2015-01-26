@@ -48,6 +48,8 @@ class V1::ClaimsController < V1::BaseController
     attrs = claim_params
     attrs['status'] ||= 'saved'
     attrs['specialty'] ||= current_user.default_template
+    attrs['patient_province'] ||= 'ON'
+    attrs['patient_sex'] ||= 'F'
     @form = ClaimForm.new(attrs)
     @form.user = current_user
     if @form.perform

@@ -1,4 +1,4 @@
-var claimListStore = Fynx.createSimpleStore(Immutable.fromJS({}));
+var claimListStore = Fynx.createSimpleStore(Immutable.fromJS([]));
 var claimListActions = Fynx.createActions([
   'init',
   'add',
