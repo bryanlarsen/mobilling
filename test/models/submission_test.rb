@@ -2,7 +2,8 @@ require 'test_helper'
 
 class SubmissionTest < ActiveSupport::TestCase
   setup do
-    @user = create(:user, provider_number: 18469)
+    @agent = create(:user, role: "agent")
+    @user = create(:user, provider_number: 18469, agent: @agent)
   end
 
   test 'saving' do
@@ -56,7 +57,7 @@ EOS
   test 'with overtime' do
     s = EdtFile.new_child(filename: 'HH00740.564',
                             contents: <<EOS,
-HEBV03D201408100000000000000001846800                                          \r
+HEBV03D201408100000000000000001846900                                          \r
 HEH9876543217HO1914122599999999HCPP      1681                                  \r
 HETP018B  0168561420140810                                                     \r
 HETE401B  0126421420140810                                                     \r

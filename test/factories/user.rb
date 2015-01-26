@@ -1,17 +1,28 @@
 FactoryGirl.define do
+  factory :agent, class: User do
+    sequence(:name) { |n| "Agent #{n}" }
+    sequence(:email) { |n| "agent#{n}@example.com" }
+    password "secret"
+    role "agent"
+    authentication_token { SecureRandom.hex(32) }
+    token_at DateTime.now
+  end
+
   factory :user do
+    association :agent
     sequence(:name) { |n| "User #{n}" }
     sequence(:email) { |n| "user#{n}@example.com" }
     password "secret"
-    specialties ["internal_medicine"]
-    association :agent, factory: :admin_user, role: "agent"
-    provider_number 0
+    role "doctor"
+    default_template "internal_medicine"
+    provider_number 102
     specialty_code 0
     group_number "0000"
     office_code "D"
 
     trait :authenticated do
-      authentication_token SecureRandom.hex(32)
+      authentication_token { SecureRandom.hex(32) }
+      token_at DateTime.now
     end
   end
 end

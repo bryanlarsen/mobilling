@@ -1,6 +1,7 @@
 class UserPolicy < Struct.new(:current_user, :user)
   class Scope < Struct.new(:current_user, :scope)
     def resolve
+      return ::User.none unless current_user.present?
       case current_user.role
       when "admin" then ::User.all
       when "agent" then ::User.where("agent_id = :id OR id = :id", {id: current_user.id})
