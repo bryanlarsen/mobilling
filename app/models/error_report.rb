@@ -128,7 +128,7 @@ class ErrorReport < EdtFile
       return "Could not find records for:\n"+@unmatched_records.join("\n")
     end
 
-    comment_user = Admin::User.find_by(role: Admin::User.roles["ministry"])
+    comment_user = User.find_by(role: User.roles["ministry"])
     @claims.each do |claim|
       if @claim_header_records[claim.id]
         claim.status = 'agent_attention'

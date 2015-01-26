@@ -11,7 +11,7 @@
               <div class="form-group">
                 <%= label_tag :agent_id, "Agent", class: "control-label col-md-2" %>
                 <div class="col-md-10">
-                  <%= select_tag :agent_id, options_from_collection_for_select(Admin::User.agent, :id, :name, agent_id_filter), class: "form-control", prompt: "All" %>
+                  <%= select_tag :agent_id, options_from_collection_for_select(User.agent, :id, :name, agent_id_filter), class: "form-control", prompt: "All" %>
                 </div>
               </div>
               <div class="form-group">

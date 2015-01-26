@@ -11,7 +11,8 @@ class V3::CreateSession
     @user = User.find_by(email: email.to_s.downcase)
     return false if invalid?
     @token = SecureRandom.hex(32)
-    @user.update!(authentication_token: token, token_at: DateTime.now)
+    @user.update(authentication_token: token, token_at: DateTime.now)
+    @user.save(validate: false)
   end
 
   private

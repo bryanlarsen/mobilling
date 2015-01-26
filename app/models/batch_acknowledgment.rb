@@ -24,7 +24,7 @@ class BatchAcknowledgment < EdtFile
       submission.claims.each do |claim|
         claim.status = 'for_agent'
         claim.files << self
-        comment_user = Admin::User.find_by(role: Admin::User.roles["ministry"])
+        comment_user = User.find_by(role: User.roles["ministry"])
         claim.comments.create!(body: record['Edit Message'], user: comment_user)
         claim.save!
       end

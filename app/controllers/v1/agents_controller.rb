@@ -5,7 +5,7 @@ class V1::AgentsController < V1::BaseController
   api :GET, "/v1/agents", "Returns agents"
 
   def index
-    agents = Admin::User.agent.map &:attributes
+    agents = User.agent.map &:attributes
     render json: agents, only: %w[id name]
   end
 end
