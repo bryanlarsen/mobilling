@@ -124,6 +124,7 @@ class ClaimForm
   def daily_details
     return @daily_details unless @daily_details.is_a?(Array)
     @daily_details.map { |daily_detail| DailyDetailForm.new(daily_detail) }
+      .sort_by { |daily_detail| daily_detail.day }
   end
 
   def diagnoses
@@ -134,12 +135,14 @@ class ClaimForm
   def initialize(claim, attributes = nil)
     if !claim.is_a?(Claim)
       super(claim)
+      self.num_comments = (claim['num_comments'] || '0').to_i
     else
       @claim = claim
       attrs = claim.details.except("diagnosis")
       attrs['status'] = claim.status   # can't use claim.attributes.slice because status is an enum
       attrs['user'] = claim.user
       attrs['photo_id'] = claim.photo_id
+      attrs['num_comments'] = claim.comments.size
       attrs.merge!(attributes) if attributes
       super(attrs)
     end

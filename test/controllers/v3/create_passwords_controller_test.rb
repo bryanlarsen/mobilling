@@ -1,14 +1,16 @@
 require "test_helper"
 
-class PasswordsControllerTest < ActionController::TestCase
+class V3::CreatePasswordsControllerTest < ActionController::TestCase
   test "renders error template when no token" do
-    get :new
-    assert_template "error"
+    post :new
+    assert flash[:error]
+    assert !flash[:notice]
   end
 
   test "renders error template when invalid token" do
     get :new, token: "invalid"
-    assert_template "error"
+    assert flash[:error]
+    assert !flash[:notice]
   end
 
   test "renders success template" do
@@ -16,6 +18,7 @@ class PasswordsControllerTest < ActionController::TestCase
     interactor = CreatePasswordReset.new(email: "alice@example.com")
     interactor.perform
     get :new, token: interactor.token
-    assert_template "success"
+    assert !flash[:error]
+    assert flash[:notice]
   end
 end

@@ -57,6 +57,26 @@ class V1::UsersControllerTest < ActionController::TestCase
     assert_response :ok
   end
 
+  test "agent can not update other user" do
+    agent = create(:agent)
+    agent2 = create(:agent)
+    user = create(:user, name: "Jim", agent: agent2)
+    @controller.sign_in(agent, agent.authentication_token)
+    put :update, id: user.id, format: "json", user: {name: "Bob"}
+    assert_response :not_found
+  end
+
+  test "admin can update user" do
+    agent = create(:agent)
+    user = create(:user, name: "Jim", agent: agent)
+    admin = build(:agent, role: "admin")
+    admin.save(validate: false)
+    @controller.sign_in(admin, admin.authentication_token)
+    put :update, id: user.id, format: "json", user: {name: "Bob"}
+    assert_equal 'Bob', JSON::parse(response.body)["name"]
+    assert_response :ok
+  end
+
   test "update cannot make admin" do
     user = create(:user)
     @controller.sign_in(user, user.authentication_token)

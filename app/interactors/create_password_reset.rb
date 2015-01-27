@@ -23,7 +23,6 @@ class CreatePasswordReset
 
   def generate_token
     message = [Time.now.to_i, @user.id]
-    puts message.to_json
     @token = Base64.urlsafe_encode64(message_verifier.generate(message))
   end
 

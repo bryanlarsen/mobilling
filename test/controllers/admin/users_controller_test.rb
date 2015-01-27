@@ -62,39 +62,6 @@ class Admin::UsersControllerTest < ActionController::TestCase
     assert_template "edit"
   end
 
-  # omit "update raises exception when no user logged in" do
-  #   user = create(:user)
-  #   assert_raises(ActiveRecord::RecordNotFound) { put :update, id: user.id }
-  # end
-
-  # omit "update raises exception when unassociated user" do
-  #   agent = create(:agent)
-  #   agent2 = create(:agent)
-  #   user = create(:user, agent: agent2)
-  #   @controller.sign_in(agent, agent.authentication_token)
-  #   assert_raises(ActiveRecord::RecordNotFound) { put :update, id: user.id }
-  # end
-
-  # omit "update redirects to users when admin logged in and valid params given" do
-  #   admin = build(:agent, role: "admin")
-  #   admin.save(validate: false)
-  #   agent = create(:agent)
-  #   user = create(:user, agent: agent)
-  #   @controller.sign_in(admin, admin.authentication_token)
-  #   put :update, id: user.id, update_user: attributes_for(:user)
-  #   assert_redirected_to admin_users_path
-  # end
-
-  # omit "update renders edit when admin logged in and invalid params given" do
-  #   admin = build(:agent, role: "admin")
-  #   admin.save(validate: false)
-  #   agent = create(:agent)
-  #   user = create(:user, agent: agent)
-  #   @controller.sign_in(admin, admin.authentication_token)
-  #   put :update, id: user.id, update_user: {name: ""}
-  #   assert_template "edit"
-  # end
-
   test "destroy raises exception when no user logged in" do
     agent = create(:agent)
     user = create(:user, agent: agent)

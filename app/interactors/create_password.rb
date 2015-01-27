@@ -11,7 +11,8 @@ class CreatePassword
 
   def perform
     return if invalid?
-    user.update!(password: SecureRandom.hex(12), authentication_token: "")
+    user.update(password: SecureRandom.hex(12), authentication_token: "")
+    user.save(validation: false)
     UserMailer.new_password(user).deliver_now
     true
   end
