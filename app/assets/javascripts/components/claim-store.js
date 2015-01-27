@@ -392,7 +392,7 @@ exports.itemActionsFor = function(id, i) {
     console.log('item recalculate', data);
     var store = claimStore().getIn([id, 'daily_details', i]);
     var item = store.toJS();
-    feeGenerator.then(function(feeGenerator) {
+    feeGenerator().then(function(feeGenerator) {
       var result = feeGenerator.calculateFee(item, item.code);
       if (result) {
         var updates = [

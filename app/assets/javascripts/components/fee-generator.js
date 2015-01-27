@@ -95,28 +95,32 @@ FeeGenerator.prototype.calculateFee = function(detail, code) {
   };
 };
 
-var feeGenerator = new Promise(function(resolve, reject) {
-  setTimeout(function() {  // make sure all requests necessary to render page (like fonts) go ahead of us in the queue
-    $.ajax({
-      url: '/v1/service_codes.json',
-      dataType: 'json',
-      success: function(data) {
-        // FIXME: once we switch over, this should be done at the server
-        var array = new Array(_.size(data));
-        var hash = {};
-        _.each(data, function(sc, i) {
-          hash[sc.code] = sc;
-          array[i] = sc.name;
-        });
-        serviceCodesEngine.add(array);
-        resolve(new FeeGenerator(hash));
-      },
-      error: function(xhr, status, err) {
-        console.error('failed to load service codes');
-        reject(Error('failed to load service codes'));
-      }
-    });
-  }, 100);
-});
+
+var feeGeneratorPromise;
+var feeGenerator = function() {
+  return (feeGeneratorPromise = feeGeneratorPromise ||
+    new Promise(function(resolve, reject) {
+      $.ajax({
+        url: '/v1/service_codes.json',
+        dataType: 'json',
+        success: function(data) {
+          // FIXME: once we switch over, this should be done at the server
+          var array = new Array(_.size(data));
+          var hash = {};
+          _.each(data, function(sc, i) {
+            hash[sc.code] = sc;
+            array[i] = sc.name;
+          });
+          serviceCodesEngine.add(array);
+          resolve(new FeeGenerator(hash));
+        },
+        error: function(xhr, status, err) {
+          console.error('failed to load service codes');
+          reject(Error('failed to load service codes'));
+        }
+      });
+    })
+  );
+};
 
 

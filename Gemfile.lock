@@ -114,8 +114,6 @@ GEM
       activemodel
     equalizer (0.0.9)
     erubis (2.7.0)
-    es6-promise-rails (2.0.2.1)
-      railties (>= 3.1.0)
     execjs (2.2.2)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -276,7 +274,6 @@ DEPENDENCIES
   coffee-rails
   database_cleaner
   email_validator
-  es6-promise-rails
   factory_girl_rails
   holidays
   jbuilder

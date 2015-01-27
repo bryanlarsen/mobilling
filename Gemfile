@@ -34,7 +34,6 @@ gem "virtus"
 gem "redcarpet"
 
 
-gem "es6-promise-rails"
 gem "react-rails", github: 'reactjs/react-rails', branch: 'master'
 
 group :development do

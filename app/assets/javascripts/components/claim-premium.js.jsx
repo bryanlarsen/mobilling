@@ -10,7 +10,7 @@ var ClaimPremium = React.createClass({
   codeChanged: function(ev) {
     var that = this;
     var value = ev.target.value;
-    feeGenerator.then(function(gen) {
+    feeGenerator().then(function(gen) {
       messages = gen.validateCode(value);
       that.props.actions.updateFields([
         [['validations'], Immutable.fromJS({'code': messages})],

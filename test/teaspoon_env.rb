@@ -12,4 +12,10 @@ Teaspoon.configure do |config|
     suite.matcher = "{test/javascripts}/**/*_test.js"
     suite.helper = "test_helper"
   end
+
+  config.suite "mocha" do |suite|
+    suite.use_framework :mocha
+    suite.matcher = "{test/javascripts}/**/*_mocha.js"
+    suite.helper = "mocha_helper"
+  end
 end

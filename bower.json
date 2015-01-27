@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "angular-underscore": "*",
+    "es6-promise": "*",
     "fastclick": "*",
     "font-awesome": "^4.3.0",
     "immutable": "*",
@@ -27,5 +28,8 @@
     "typeahead.js": "*",
     "underscore": "*",
     "underscore.string": "*"
+  },
+  "devDependencies": {
+    "chai": "*"
   }
 }
