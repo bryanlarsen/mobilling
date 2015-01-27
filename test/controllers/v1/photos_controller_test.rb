@@ -2,9 +2,10 @@ require "test_helper"
 
 class V1::PhotosControllerTest < ActionController::TestCase
   test "show renders template" do
-    user = create(:user, :authenticated)
+    user = create(:user)
+    @controller.sign_in(user, user.authentication_token)
     photo = create(:photo, user: user)
-    get :show, id: photo.id, auth: user.authentication_token, format: "json"
+    get :show, id: photo.id, format: "json"
     assert_response 200
   end
 
@@ -15,9 +16,10 @@ class V1::PhotosControllerTest < ActionController::TestCase
   end
 
   test "show responds with not found" do
-    user = create(:user, :authenticated)
+    user = create(:user)
+    @controller.sign_in(user, user.authentication_token)
     photo = create(:photo)
-    get :show, id: photo.id, auth: user.authentication_token, format: "json"
+    get :show, id: photo.id, format: "json"
     assert_response :not_found
   end
 
@@ -33,8 +35,9 @@ class V1::PhotosControllerTest < ActionController::TestCase
   end
 
   test "create responds with unprocessable entity" do
-    user = create(:user, :authenticated)
-    post :create, photo: {file: nil}, auth: user.authentication_token, format: "json"
+    user = create(:user)
+    @controller.sign_in(user, user.authentication_token)
+    post :create, photo: {file: nil}, format: "json"
     assert_response :unprocessable_entity
   end
 end

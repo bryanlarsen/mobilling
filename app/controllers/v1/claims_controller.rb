@@ -10,9 +10,9 @@ class V1::ClaimsController < V1::BaseController
 
   api :GET, "/v1/claims/:id", "Returns a claim"
 
-  def show(claim = nil, status = nil)
-    claim ||= policy_scope(:claim).includes(:comments).includes(:photo).find(params[:id])
-    render json: ClaimForm.new(claim).as_json(include_comments: true, include_warnings: true, include_photo: true), status: (status ? status : 200)
+  def show(form = nil, status = nil)
+    form ||= ClaimForm.new(policy_scope(:claim).includes(:comments).includes(:photo).find(params[:id]))
+    render json: form.as_json(include_comments: true, include_warnings: true, include_photo: true), status: (status ? status : 200)
   end
 
   # yes, I tried doing this recursively, but the blocks are executed
@@ -53,9 +53,9 @@ class V1::ClaimsController < V1::BaseController
     @form = ClaimForm.new(attrs)
     @form.user = current_user
     if @form.perform
-      show @form.claim, 200
+      show @form, 200
     else
-      show @form.claim, 422
+      show @form, 422
     end
   end
 
@@ -69,18 +69,18 @@ class V1::ClaimsController < V1::BaseController
     @form = ClaimForm.new(@claim, claim_params)
     @form.user = current_user
     if @form.perform
-      show @form.claim, 200
+      show @form, 200
     else
-      show @form.claim, 422
+      show @form, 422
     end
   end
 
   api :DELETE, "/v1/claims/:id", "Deletes a claim"
 
   def destroy
-    @claim = policy_scope(:claim).find(params[:id])
+    @claim = policy_scope(:claim).where(status: "saved").find(params[:id])
     @claim.destroy
-    show @claim
+    show ClaimForm.new(@claim)
   end
 
   private

@@ -184,7 +184,6 @@ class ClaimForm
 
   def validate_patient_number
     if patient_province == 'ON' && patient_number
-      puts 'validate_patient_number', patient_province, patient_number
       if !patient_number.match(/\A\d{10}[a-zA-z]{0,2}\Z/)
         warnings.add(:patient_number, "must be 10 digits + 0-2 characters")
         return false
@@ -241,13 +240,13 @@ class ClaimForm
           end
         end
       end
-      if options && options[:include_photo]
+      if options && options[:include_photo] && @claim
         response[:photo] = {
           small_url: @claim.photo.try(:file).try(:small).try(:url),
           url: @claim.photo.try(:file).try(:url)
         }
       end
-      if options && options[:include_comments]
+      if options && options[:include_comments] && @claim
         response[:comments] = @claim.comments.map do |comment|
           {
             body: comment.body,

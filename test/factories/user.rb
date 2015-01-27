@@ -20,9 +20,7 @@ FactoryGirl.define do
     group_number "0000"
     office_code "D"
 
-    trait :authenticated do
-      authentication_token { SecureRandom.hex(32) }
-      token_at DateTime.now
-    end
+    authentication_token { SecureRandom.hex(32) }
+    token_at DateTime.now
   end
 end

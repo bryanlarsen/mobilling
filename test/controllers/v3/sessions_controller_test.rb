@@ -13,6 +13,14 @@ class V3::SessionsControllerTest < ActionController::TestCase
     assert @controller.current_user.present?
   end
 
+  test "admin redirects to dashboard" do
+    session[:admin] = true
+    create(:user, email: "alice@example.com", password: "secret")
+    post :create, v3_create_session: {email: "alice@example.com", password: "secret"}
+    assert_redirected_to admin_dashboard_path
+    assert @controller.current_user.present?
+  end
+
   test "create renders edit when invalid params given" do
     post :create, v3_create_session: {email: "invalid@email.com", password: "invalid"}
     assert_template "new"
@@ -25,10 +33,10 @@ class V3::SessionsControllerTest < ActionController::TestCase
   end
 
   test "destroy redirects to root" do
-    admin = create(:user)
-    @controller.sign_in(admin, admin.authentication_token)
+    user = create(:user)
+    @controller.sign_in(user, user.authentication_token)
     delete :destroy
-    assert_redirected_to new_session_path
+    assert_redirected_to root_path
     assert @controller.current_user.blank?
   end
 end
