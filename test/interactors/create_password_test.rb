@@ -5,15 +5,16 @@ class CreatePasswordTest < ActiveSupport::TestCase
 
   setup do
     @user = create(:user, password: "secret")
-    @interactor = CreatePassword.new(token: generate_token(Time.now.to_i, @user.password_digest))
+    @cpr_interactor = CreatePasswordReset.new(email: @user.email)
+    @interactor = CreatePassword.new(token: generate_token(Time.now))
   end
 
-  def generate_token(created_at, password_digest)
-    message_verifier = Rails.application.message_verifier("password reset salt")
-    Base64.urlsafe_encode64(message_verifier.generate([created_at, password_digest]))
+  def generate_token(time)
+    @cpr_interactor.perform(time)
+    @cpr_interactor.token
   end
 
-  test "performs properly" do
+  test "000 performs properly" do
     assert @interactor.perform
   end
 
@@ -40,13 +41,13 @@ class CreatePasswordTest < ActiveSupport::TestCase
   end
 
   test "is invalid with expired token" do
-    @interactor.token = generate_token(2.days.ago.to_i, @user.password_digest)
+    @interactor.token = generate_token(2.days.ago)
     @interactor.perform
     assert_invalid @interactor, :token
   end
 
   test "is invalid when user has changed password" do
-    @user.update!(password: "changed")
+    assert @user.update!(password: "changed", password_confirmation: "changed", current_password: "secret")
     @interactor.perform
     assert_invalid @interactor, :token
   end

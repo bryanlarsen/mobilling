@@ -7,7 +7,7 @@ class CreatePassword
   attr_accessor :token
 
   validates :token, presence: true
-  validate :token_verification, :token_expiration, :user_existence, if: :token?
+  validate :token_verification, :token_expiration, :user_existence, :user_updated, if: :token?
 
   def perform
     return if invalid?
@@ -38,14 +38,14 @@ class CreatePassword
     message.second
   end
 
-  private
-
-  def message_verifier
-    Rails.application.message_verifier((ENV["SECRET_KEY_BASE"] || 'dev') + ":password reset salt")
+  def updated_at
+    message.last
   end
 
+  private
+
   def message
-    message_verifier.verify(Base64.urlsafe_decode64(token.to_s))
+    CreatePasswordReset.message_verifier.verify(Base64.urlsafe_decode64(token.to_s))
   rescue ActiveSupport::MessageVerifier::InvalidSignature, ArgumentError
     []
   end
@@ -60,5 +60,9 @@ class CreatePassword
 
   def user_existence
     errors.add :token, :invalid if user.blank?
+  end
+
+  def user_updated
+    errors.add :token, :invalid if !user || user.updated_at != updated_at
   end
 end

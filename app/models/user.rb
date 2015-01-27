@@ -36,8 +36,13 @@ class User < ActiveRecord::Base
 
   attr_accessor :current_password
 
+  before_validation do
+    self.email = email.downcase
+  end
+
   validates :email, presence: true, email: true
   validates :agent_id, presence: true, if: -> { doctor? }
+  validates :agent, presence: true, if: -> { doctor? }
   validates :name, presence: true
   validates :pin, format: {with: /\A\d{4}?\Z/}
   validates :provider_number, numericality: {only_integer: true, greater_than_or_equal_to: 100, less_than_or_equal_to: 999999}, presence: true, if: -> { doctor? }
@@ -67,7 +72,7 @@ class User < ActiveRecord::Base
   private
 
   def existence
-    errors.add :email, :taken if User.where.not(id: id).where(email: email.to_s.downcase).exists?
+    errors.add :email, :taken if User.where.not(id: id).where(email: email).exists?
   end
 
   def check_current_password
