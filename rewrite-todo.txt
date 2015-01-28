@@ -6,6 +6,7 @@
 
 # little
 
+- delete 'saved' claims
 - doctor selection for claim edit
 - consult page crowded on iPhone
 - submit button functional

@@ -15,11 +15,16 @@ var ClaimHeader = React.createClass({
             #{this.props.store.get('number')}: ${dollars(claimTotal(this.props.store))}
             {this.props.store.get('unsaved') && <span className="hidden-xs text-danger"> (unsaved)</span>}
           </NavItem>
-          <NavItemLink to="claims" params={{filter:"drafts"}}>
-            <Icon i={"cog "+(this.state.globalStore.get('busy') ? "fa-spin" : "")}>
-              <span className={this.props.store.get('unsaved') ? "text-danger" : ""}>Submit</span>
-            </Icon>
-          </NavItemLink>
+          { this.props.submit ?
+           <NavItem onClick={this.props.submit} className={this.props.store.get('unsaved') ? "text-danger" : ""}>
+             <Icon i={"cog "+(this.state.globalStore.get('busy') ? "fa-spin" : "")}>
+               Submit
+             </Icon>
+           </NavItem> :
+           <NavItem to="claims" params={{filter: "drafts"}} className={this.props.store.get('unsaved') ? "text-danger" : ""}>
+             <Icon i={"cog "+(this.state.globalStore.get('busy') ? "fa-spin" : "")}/>
+           </NavItem>
+           }
         </Nav>
         <UserDropdown/>
       </Navbar>

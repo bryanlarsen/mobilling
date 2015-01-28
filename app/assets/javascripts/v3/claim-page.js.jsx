@@ -87,12 +87,19 @@ var ClaimPage = React.createClass({
     claimActionsFor(this.props.params.id).updateFields([[[ev.target.name], ev.target.value]]);
   },
 
+  submit: function(ev) {
+    ev.preventDefault();
+    claimActionsFor(this.props.params.id).updateFields([[['status'], 'for_agent']]);
+    claimListActions.updateField({id: this.props.params.id, field: 'status', value: 'for_agent'});
+    this.transitionTo("claims", {filter: "drafts"});
+  },
+
   render: function() {
     var store = this.state.store.get(this.props.params.id) || Immutable.fromJS({daily_details: [], diagnoses: []});
     var actions = claimActionsFor(this.props.params.id);
     return (
       <div className="body" onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd}>
-        <ClaimHeader {...this.props} store={store} actions={actions}/>
+        <ClaimHeader {...this.props} store={store} actions={actions} submit={this.state.store.getIn([this.props.params.id, 'status'])==='saved' && this.submit}/>
         <div className="container with-bottom">
           <div className="form-horizontal">
             <RouteHandler {...this.props} store={store} actions={actions} handleChange={this.handleChange} silent />
