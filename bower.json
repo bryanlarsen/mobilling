@@ -19,7 +19,7 @@
     "angular-underscore": "*",
     "es6-promise": "*",
     "fastclick": "*",
-    "font-awesome": "^4.3.0",
+    "font-awesome": "4.3.0",
     "immutable": "*",
     "moment": "*",
     "pickadate": "3.5.4",
