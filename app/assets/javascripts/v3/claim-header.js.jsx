@@ -9,14 +9,16 @@ var ClaimHeader = React.createClass({
       <Navbar fixedTop>
         <Nav>
           <NavItemLink to="claims" params={{filter:"drafts"}}>
-            <Icon i="list">List</Icon>
+            <Icon xs i="list">List</Icon>
           </NavItemLink>
           <NavItem>
             #{this.props.store.get('number')}: ${dollars(claimTotal(this.props.store))}
-            {this.props.store.get('unsaved') && <span className="text-danger"> (unsaved)</span>}
+            {this.props.store.get('unsaved') && <span className="hidden-xs text-danger"> (unsaved)</span>}
           </NavItem>
           <NavItemLink to="claims" params={{filter:"drafts"}}>
-            <Icon i={"cog "+(this.state.globalStore.get('busy') ? "fa-spin" : "")}>Submit</Icon>
+            <Icon i={"cog "+(this.state.globalStore.get('busy') ? "fa-spin" : "")}>
+              <span className={this.props.store.get('unsaved') ? "text-danger" : ""}>Submit</span>
+            </Icon>
           </NavItemLink>
         </Nav>
         <UserDropdown/>

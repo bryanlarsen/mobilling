@@ -1,12 +1,15 @@
 # big
 
 - PIN
-- user management
 - list details
 - read-only claim view
 
 # little
 
+- doctor selection for claim edit
+- consult page crowded on iPhone
+- submit button functional
+- generate temp submission for error checking
 - add undo to edit page (probably needs enhancing)
 - update admin page to pull in last changes
 - time_in/time_out remove when necessary
