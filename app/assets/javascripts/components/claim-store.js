@@ -124,7 +124,7 @@ claimActions.init.listen(function(data) {
     diagnosis.uuid = uuid();
   });
   if (!data.template) {
-    if (['family_medicine', 'internal_medicine', 'cardiology'].indexOf(this.props.store.get('specialty')) !== -1) {
+    if (['family_medicine', 'internal_medicine', 'cardiology'].indexOf(data.specialty) !== -1) {
       data.template = 'simplified';
     } else {
       data.template = 'full';

@@ -14,7 +14,7 @@ var ClaimPage = React.createClass({
   },
 
   tabs: function() {
-    if (this.state.store.getIn([this.props.params.id, 'template'])) == 'full') {
+    if (this.state.store.getIn([this.props.params.id, 'template']) === 'full') {
       return ['patient', 'claim', 'consult', 'items', 'comments'];
     } else {
       return ['patient', 'claim', 'items', 'comments'];
