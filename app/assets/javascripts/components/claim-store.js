@@ -125,9 +125,9 @@ claimActions.init.listen(function(data) {
   });
   if (!data.template) {
     if (['family_medicine', 'internal_medicine', 'cardiology'].indexOf(data.specialty) !== -1) {
-      data.template = 'simplified';
-    } else {
       data.template = 'full';
+    } else {
+      data.template = 'simplified';
     }
   }
 

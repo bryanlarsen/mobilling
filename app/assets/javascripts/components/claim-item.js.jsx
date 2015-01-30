@@ -29,12 +29,14 @@ var ClaimItemSummary = React.createClass({
           <span className="pull-right">{dollars(this.props.store.get('fee'))}</span>
           {!this.props.silent && <span className="pull-right">{this.props.store.get('units')}:&nbsp;</span>}
         </div>
+        <div key='code-message'>{this.props.store.get('message')}</div>
         { this.props.store.get('premiums').map(function(premium, i) {
           return (
             <div key={'premium-'+i}>
               <span>{premium.get('code')}</span>
               <span className="pull-right">{dollars(premium.get('fee'))}</span>
-              {!this.props.silent && <span className="pull-right">{this.props.store.get('units')}:&nbsp;</span>}
+              {!this.props.silent && <span className="pull-right">{premium.get('units')}:&nbsp;</span>}
+              <div>{premium.get('message')}</div>
             </div>
           );
         }, this).toJS()

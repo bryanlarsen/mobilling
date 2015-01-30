@@ -60,6 +60,7 @@ class Claim < ActiveRecord::Base
     details['patient_name'] = record["Patient's First Name"].titleize + ' ' + record["Patient's Last Name"].titleize
     details['patient_number'] = record['Registration Number']
     details['patient_sex'] = record["Patient's Sex"].to_i == 1 ? 'M' : 'F'
+    details['patient_province'] = record["Province Code"]
   end
 
   def process_item(record)

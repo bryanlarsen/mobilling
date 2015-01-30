@@ -11,8 +11,14 @@ var ClaimStatusActions = React.createClass({
   nextHandler: function(ev) {
     var cur = this.props.stack.indexOf(this.props.store.get('id'));
     var next = this.props.stack[cur+1];
-    this.props.actions.load(next);
-   },
+    this.props.loadClaim(next);
+  },
+
+  prevHandler: function(ev) {
+    var cur = this.props.stack.indexOf(this.props.store.get('id'));
+    var prev = this.props.stack[cur-1];
+    this.props.loadClaim(prev);
+  },
 
   render: function() {
     var statuses = {
@@ -28,17 +34,30 @@ var ClaimStatusActions = React.createClass({
       "reclaimed":      ["done", "reclaimed"],
     }[this.props.store.get('status')];
 
-    var statusOptions = {};
-    _.each(statuses, function(status) {
-      if (status!=='reclaimed') statusOptions[status] = s.humanize(status);
-    });
-
     var cur = this.props.stack.indexOf(this.props.store.get('id'));
     var next = this.props.stack[cur+1];
     var prev = this.props.stack[cur-1];
     var form = this;
 
     var disabled = this.props.store.get('unsaved') || this.props.store.get('errors').count() !== 0;
+
+    if (this.props.store.get('status') === 'ready' &&
+        ((this.props.store.get('validations') || Immutable.List()).count() !== 0 ||
+         this.props.store.get('warnings').count() !== 0)) {
+           disabled = true;
+    }
+
+    var statusOptions = {};
+    _.each(statuses, function(status) {
+      if (status==='reclaimed') return;
+      if (status==='ready' &&
+          ((this.props.store.get('validations') || Immutable.List()).count() !== 0 ||
+           this.props.store.get('warnings').count() !== 0 ||
+           this.props.store.get('errors').count() !== 0)) {
+             return;
+      }
+      statusOptions[status] = s.humanize(status);
+    });
 
     return (
         <fieldset>
@@ -61,17 +80,17 @@ var ClaimStatusActions = React.createClass({
 
           <div className="row" >
             <div className="col-md-2"/>
-            <button className='btn btn-lg btn-primary col-md-2' disabled={true || !prev || disabled}>
+            <button className='btn btn-lg btn-primary col-md-2' disabled={!prev || disabled} onClick={this.prevHandler}>
               <i className="fa fa-angle-left"/>
               &nbsp;Previous
             </button>
 
             <button className='btn btn-lg btn-primary col-md-2' onClick={this.doneHandler} disabled={disabled}>
               <i className="fa fa-check"/>
-              &nbsp;Done
+              &nbsp;OK
             </button>
 
-            <button className='btn btn-lg btn-primary col-md-2' onClick={this.nextHandler} disabled={true || !next || disabled}>
+            <button className='btn btn-lg btn-primary col-md-2' onClick={this.nextHandler} disabled={!next || disabled}>
               <i className="fa fa-angle-right"/>
               &nbsp;Next
             </button>
@@ -79,16 +98,10 @@ var ClaimStatusActions = React.createClass({
            {
            _.map(statuses, function(status) {
 
-             if (status === 'ready' &&
-                 ((this.props.store.get('validations') || Immutable.List()).count() !== 0 ||
-                  this.props.store.get('warnings').count() !== 0)) {
-                    disabled = true;
-             }
-
              if (status === 'reclaimed') {
                return (
                  <div className="row" key="action-reclaimed">
-                   <button className="btn btn-primary col-md-2 col-md-offset-4" onClick={this.load.bind(this, prev)} disabled={!prev || disabled}>
+                   <button className="btn btn-primary btn-lg col-md-2 col-md-offset-4" onClick={false && this.load.bind(this, prev)} disabled={true || !prev || disabled}>
                      <i className="fa fa-recycle"/>
                      &nbsp;Reclaim
                    </button>
