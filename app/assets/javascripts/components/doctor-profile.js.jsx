@@ -98,9 +98,9 @@ var DoctorProfile = React.createClass({
             <Select store={this.props.store} name="agent_id" options={this.state.agents} onChange={this.props.handleChange} />
           </ClaimInputWrapper>
         </ClaimFormGroup>
-        <ClaimFormGroup label="Default Template">
-          <ClaimInputWrapper store={this.props.store} name="default_template">
-            <Select store={this.props.store} name="default_template" options={specialties} onChange={this.props.handleChange} />
+        <ClaimFormGroup label="Default Specialty">
+          <ClaimInputWrapper store={this.props.store} name="default_specialty">
+            <Select store={this.props.store} name="default_specialty" options={specialties} onChange={this.props.handleChange} />
           </ClaimInputWrapper>
         </ClaimFormGroup>
         <ClaimInputGroup store={this.props.store} name="provider_number" label="OHIP Provider Number" onChange={this.props.handleChange} />

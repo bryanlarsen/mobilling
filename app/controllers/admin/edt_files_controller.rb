@@ -5,13 +5,12 @@ class Admin::EdtFilesController < Admin::BaseController
   helper_method :user_id_filter, :type_filter
 
   def index
-    @edt_files = policy_scope(:edt_file).where(filters).includes(:claims, :user)
+    @edt_files = policy_scope(EdtFile).where(filters).includes(:claims, :user)
     if sort_column == "filename"
       @edt_files = @edt_files.order("edt_files.filename_base #{sort_direction}, edt_files.sequence_number #{sort_direction}")
     else
       @edt_files = @edt_files.order("#{sort_column} #{sort_direction}")
     end
-    authorize :edt_file, :read?
   end
 
   def create
@@ -24,7 +23,7 @@ class Admin::EdtFilesController < Admin::BaseController
       flash[:error] = "Invalid File #{e.to_s}"
       redirect_to admin_edt_files_path
     end
-    puts message
+    authorize file
     unless message.blank?
       flash[:error] = message
       redirect_to admin_edt_files_path
@@ -33,12 +32,14 @@ class Admin::EdtFilesController < Admin::BaseController
   end
 
   def download
-    @file = policy_scope(:edt_file).find(params[:id])
+    @file = policy_scope(EdtFile).find(params[:id])
+    authorize @file, :show?
     send_data @file.contents, filename: @file.filename, disposition: 'attachment', type: 'text/plain'
   end
 
   def show
-    @file = policy_scope(:edt_file).find(params[:id])
+    @file = EdtFile.find(params[:id])
+    authorize @file, :show?
   end
 
   private

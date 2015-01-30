@@ -245,6 +245,14 @@ class ClaimForm
           end
         end
       end
+      if options && options[:include_submission] && @claim
+        interactor = GenerateSubmission.new
+        interactor.generate_claim(@claim)
+        interactor.errors[@claim.number].each do |err|
+          response['warnings'][err.first] = (response['warnings'][err.first] || []) + [err.second.to_s]
+        end
+        response['submission'] = interactor.contents
+      end
       if options && options[:include_photo] && @claim
         response[:photo] = {
           small_url: @claim.photo.try(:file).try(:small).try(:url),

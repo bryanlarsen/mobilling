@@ -1,6 +1,6 @@
 class V1::UsersController < V1::BaseController
   skip_before_action :require_user, only: %i[create]
-  wrap_parameters :user, include: UserForm.all_params.map(&:first), format: :json
+  wrap_parameters :user, include: User.all_params.map(&:first), format: :json
   resource_description { resource_id "users" }
 
   api :GET, "/v1/users", "Returns user list"

@@ -10,7 +10,7 @@ class Admin::UsersController < Admin::BaseController
                          group_number: '0000',
                          office_code: 'F',
                          specialty_code: 0,
-                         default_template: 'family_medicine'
+                         default_specialty: 'family_medicine'
                        })
     render layout: "admin_react"
   end

@@ -14,6 +14,10 @@ class EdtFile < ActiveRecord::Base
 
   enum status: %i[ready uploaded acknowledged rejected]
 
+  def self.policy_class
+    EdtFilePolicy
+  end
+
   def filename
     filename_base.split('/').last+'.'+('%03i' % sequence_number)
   end

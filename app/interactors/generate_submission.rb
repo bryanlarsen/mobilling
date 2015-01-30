@@ -6,7 +6,7 @@ class GenerateSubmission
     raise RuntimeError, 'accounting number required' if not claim.number
 
     name_err = lambda {
-      @errors << [claim.number, [['patient_name', 'must be of form First Last, ON 9876543217XX, 2001-12-25, M']]]
+      @errors[claim.number] += [['patient_name', 'must be of form First Last, ON 9876543217XX, 2001-12-25, M']]
     }
 
     if claim.details['patient_name'].match(/,/)
@@ -14,7 +14,8 @@ class GenerateSubmission
     else
       first_name, last_name = claim.details['patient_name'].split(' ')
     end
-    return @errors << [claim.number, [['patient_name', 'must contain first and last name']]] if !(last_name && first_name)
+    return @errors[claim.number] += [['patient_name', 'must contain first and last name']] if !(last_name && first_name)
+
     last_name.strip!
     first_name.strip!
 
@@ -25,7 +26,7 @@ class GenerateSubmission
     if referring_provider
       referring_provider = referring_provider.split(' ')[0]
       if referring_provider.length < 5 || referring_provider.length > 6
-        @errors << [claim.number, [['referring_provider', 'invalid']]]
+        @errors[claim.number] += [['referring_provider', 'invalid']]
         return
       end
     end
@@ -61,15 +62,15 @@ class GenerateSubmission
       rmb["Patient's Sex"]=sex
       rmb["Province Code"]=province
       @contents += r.to_s
-      @errors += [claim.number, r.errors] if r.errors.length > 0
+      @errors[claim.number] += r.errors if r.errors.length > 0
       @contents += rmb.to_s
-      @errors += [claim.number, rmb.errors] if rmb.errors.length > 0
+      @errors[claim.number] += rmb.errors if rmb.errors.length > 0
       @num_rmb_claims += 1
     else
       r['Health Number']=claim.details['patient_number'][0..9]
       r['Version Code']=claim.details['patient_number'][10..11].upcase
       @contents += r.to_s
-      @errors += [claim.number, r.errors] if r.errors.length > 0
+      @errors[claim.number] += r.errors if r.errors.length > 0
     end
     claim.items.each do |daily|
       generate_details(daily, claim)
@@ -85,7 +86,7 @@ class GenerateSubmission
     r['Diagnostic Code']=claim.details['diagnosis'][-3..-1] if claim.details['diagnosis']
 
     @contents += r.to_s
-    @errors += ["#{claim.number}:#{daily[:code]}", r.errors] if r.errors.length > 0
+    @errors[claim.number] += r.errors if r.errors.length > 0
     @num_records += 1
 
     daily[:premiums].each do |premium|
@@ -102,13 +103,13 @@ class GenerateSubmission
     r['Diagnostic Code']=claim.details['diagnosis'][-3..-1] if claim.details['diagnosis']
 
     @contents += r.to_s
-    @errors += ["#{claim.number}:#{daily[:code]}:#{premium[:code]}", r.errors] if r.errors.length > 0
+    @errors[claim.number] += r.errors if r.errors.length > 0
     @num_records += 1
   end
 
   def initialize
     @contents = ""
-    @errors = []
+    @errors = Hash.new { |hash, key| hash[key] = [] }
     @num_records = 0
     @num_rmb_claims = 0
   end
@@ -127,7 +128,7 @@ class GenerateSubmission
     r['MOH Office Code']=@user.office_code
     r['Specialty']=@user.specialty_code
     @contents += r.to_s
-    @errors += r.errors
+    @errors['header'] = r.errors
     @batch_id = @contents[7..18]
 
     claims.each do |claim|
@@ -140,7 +141,7 @@ class GenerateSubmission
     tr.set_field!('R Count', @num_rmb_claims)
     tr.set_field!('T Count', @num_records)
     @contents += tr.to_s
-    @errors += tr.errors
+    @errors['trailer'] = tr.errors
   end
 
   def attributes

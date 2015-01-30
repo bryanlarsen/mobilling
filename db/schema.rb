@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150123171631) do
+ActiveRecord::Schema.define(version: 20150130183016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(version: 20150123171631) do
     t.string   "office_code",          limit: 1
     t.integer  "specialty_code"
     t.integer  "role",                             default: 0,      null: false
-    t.string   "default_template",     limit: 255
+    t.string   "default_specialty",    limit: 255
     t.datetime "token_at"
   end
 

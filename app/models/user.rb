@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
             [:group_number, String],
             [:office_code, String],
             [:specialty_code, Integer],
-            [:default_template, String],
+            [:default_specialty, String],
            ]
   end
 

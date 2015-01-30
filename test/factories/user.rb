@@ -14,7 +14,7 @@ FactoryGirl.define do
     sequence(:email) { |n| "user#{n}@example.com" }
     password "secret"
     role "doctor"
-    default_template "internal_medicine"
+    default_specialty "internal_medicine"
     provider_number 102
     specialty_code 0
     group_number "0000"

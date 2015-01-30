@@ -13,7 +13,7 @@ class V1::ClaimsController < V1::BaseController
   def show(form = nil, status = nil)
     form ||= ClaimForm.new(policy_scope(Claim).includes(:comments).includes(:photo).find(params[:id]))
     authorize form.claim if form.claim
-    render json: form.as_json(include_comments: true, include_warnings: true, include_photo: true), status: (status ? status : 200)
+    render json: form.as_json(include_comments: true, include_warnings: true, include_photo: true, include_submission: true), status: (status ? status : 200)
   end
 
   # yes, I tried doing this recursively, but the blocks are executed
@@ -48,7 +48,7 @@ class V1::ClaimsController < V1::BaseController
   def create
     attrs = claim_params
     attrs['status'] ||= 'saved'
-    attrs['specialty'] = current_user.default_template if attrs['specialty'].blank?
+    attrs['specialty'] = current_user.default_specialty if attrs['specialty'].blank?
     attrs['specialty'] = 'internal_medicine' if attrs['specialty'].blank?
     attrs['patient_province'] ||= 'ON'
     attrs['patient_sex'] ||= 'F'

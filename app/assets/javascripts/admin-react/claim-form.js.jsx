@@ -52,6 +52,10 @@ var ClaimForm = React.createClass({
           <ClaimInputGroup name="comment" store={this.props.store} onChange={this.handleChange}/>
         </fieldset>
 
+        <ClaimFormGroup name="File" width="10">
+          <p className="form-control-static"><pre>{this.props.store.get('submission')}</pre></p>
+        </ClaimFormGroup>
+
         <ClaimErrors data={this.props.store.get('validations')} name="Warnings"/>
         <ClaimErrors data={this.props.store.get('warnings')} name="Warnings"/>
         <ClaimErrors data={this.props.store.get('errors')} name="Errors"/>
