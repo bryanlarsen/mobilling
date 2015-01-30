@@ -92,9 +92,13 @@ describe("fee generator", function() {
     expect(result.fee).to.equal(12040 * 0.75);
     expect(result.units).to.equal(10);
 
-    result = generator.calculateFee(detail, 'E401B');
-    expect(result.fee).to.equal(12040 * 0.75);
-    expect(result.units).to.equal(10);
+    result = generator.calculateFee(detail, 'C998B');
+    expect(result.fee).to.equal(6000);
+    expect(result.units).to.equal(1);
+
+    result = generator.calculateFee(detail, 'E676B');
+    expect(result.fee).to.equal(1204 * 6);
+    expect(result.units).to.equal(6);
 
     result = generator.calculateFee(detail, 'Z999C');
     expect(result).to.not.exist;

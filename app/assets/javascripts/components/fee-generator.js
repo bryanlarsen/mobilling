@@ -14,7 +14,8 @@ FeeGenerator.prototype.overtimeRate = function(code) {
     'E400C': 0.5,
     'E401C': 0.75,
     'E082A': 0.3,
-    'E083A': 0.3
+    'E083A': 0.3,
+    'E676A': 0.25
   }[code];
 };
 
@@ -68,7 +69,7 @@ FeeGenerator.prototype.calculateFee = function(detail, code) {
   }
 
   var minutes = 0;
-  if (detail.time_in && detail.time_out) {
+  if (code === detail.code && detail.time_in && detail.time_out) {
     minutes = FeeGenerator.inMinutes(detail.time_out) - FeeGenerator.inMinutes(detail.time_in);
     if (minutes < 0) minutes = minutes + 24*60;
   }
