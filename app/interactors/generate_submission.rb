@@ -128,7 +128,7 @@ class GenerateSubmission
     r['MOH Office Code']=@user.office_code
     r['Specialty']=@user.specialty_code
     @contents += r.to_s
-    @errors['header'] = r.errors
+    @errors['header'] = r.errors unless r.errors.empty?
     @batch_id = @contents[7..18]
 
     claims.each do |claim|
@@ -141,7 +141,7 @@ class GenerateSubmission
     tr.set_field!('R Count', @num_rmb_claims)
     tr.set_field!('T Count', @num_records)
     @contents += tr.to_s
-    @errors['trailer'] = tr.errors
+    @errors['trailer'] = tr.errors unless tr.errors.empty?
   end
 
   def attributes

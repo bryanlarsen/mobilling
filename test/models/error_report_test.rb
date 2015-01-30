@@ -22,7 +22,7 @@ class ErrorReportTest < ActiveSupport::TestCase
   def submit
     interactor = GenerateSubmission.new
     interactor.perform(@user, [build(:claim, @claim_details)])
-    assert_equal interactor.errors, []
+    assert_equal interactor.errors, {}
     @submission = ::Submission.new(interactor.attributes)
     @submission.save!
   end

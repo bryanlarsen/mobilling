@@ -52,6 +52,7 @@ class V1::ClaimsController < V1::BaseController
     attrs['specialty'] = 'internal_medicine' if attrs['specialty'].blank?
     attrs['patient_province'] ||= 'ON'
     attrs['patient_sex'] ||= 'F'
+    attrs['patient_name'] ||= ''
     @form = ClaimForm.new(attrs)
     @form.user = current_user
     authorize :claim
