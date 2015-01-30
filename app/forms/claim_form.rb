@@ -255,6 +255,8 @@ class ClaimForm
           end
           response['submission'] = interactor.contents
         rescue StandardError => e
+          puts e
+          puts e.backtrace
         end
       end
       if options && options[:include_photo] && @claim

@@ -9,23 +9,25 @@ class GenerateSubmission
       @errors[claim.number] += [['patient_name', 'must be of form First Last, ON 9876543217XX, 2001-12-25, M']]
     }
 
-    if claim.details['patient_name'].match(/,/)
-      last_name, first_name = claim.details['patient_name'].split(',')
-    else
-      first_name, last_name = claim.details['patient_name'].split(' ')
-    end
-    return @errors[claim.number] += [['patient_name', 'must contain first and last name']] if !(last_name && first_name)
+    if claim.details['patient_name']
+      if claim.details['patient_name'].match(/,/)
+        last_name, first_name = claim.details['patient_name'].split(',')
+      else
+        first_name, last_name = claim.details['patient_name'].split(' ')
+      end
+      return @errors[claim.number] += [['patient_name', 'must contain first and last name']] if !(last_name && first_name)
 
-    last_name.strip!
-    first_name.strip!
+      last_name.strip!
+      first_name.strip!
+    end
 
     province = claim.details['patient_province'].upcase
     payment_program = claim.details['payment_program'] == 'WCB' ? 'WCB' : (province == 'ON' ? 'HCP' : 'RMB')
 
     referring_provider = claim.details['referring_physician']
     if referring_provider
-      referring_provider = referring_provider.split(' ')[0]
-      if referring_provider.length < 5 || referring_provider.length > 6
+      referring_provider = referring_provider.to_s.split(' ')[0]
+      if referring_provider !='0' && (referring_provider.length < 5 || referring_provider.length > 6)
         @errors[claim.number] += [['referring_provider', 'invalid']]
         return
       end
