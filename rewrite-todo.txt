@@ -6,6 +6,8 @@
 
 # little
 
+- agent edit page -- bring up to speed
+- agent edit page - forward / back
 - delete 'saved' claims
 - doctor selection for claim edit
 - consult page crowded on iPhone
@@ -24,15 +26,4 @@
 # structural
 
 - default handleChange
-- javascript package management for non-Bower
 - 6to5
-- get rid of manually managed packages
-- components organization ?
-
-# student notes
-
-- communication
-- consistency
-- style
-- github
-- slack

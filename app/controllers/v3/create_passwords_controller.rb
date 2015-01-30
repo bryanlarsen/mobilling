@@ -4,6 +4,7 @@ class V3::CreatePasswordsController < V3::BaseController
   skip_before_filter :refresh_session, :only => [:new]
 
   def new
+    authorize :public, :read?
     @interactor = CreatePassword.new(token: params[:token])
     if @interactor.perform
       flash[:notice] = "New password email sent."

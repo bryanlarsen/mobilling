@@ -3,6 +3,7 @@ class V1::PhotosController < V1::BaseController
 
   def show(photo = nil)
     photo ||= current_user.photos.find(params[:id])
+    authorize photo
     render json: {
       id: photo.id,
       url: photo.file.url,
@@ -16,6 +17,7 @@ class V1::PhotosController < V1::BaseController
   end
 
   def create
+    authorize :photo
     @interactor = CreatePhoto.new(create_photo_params)
     @interactor.user = current_user
     if @interactor.perform

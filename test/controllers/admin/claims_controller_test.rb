@@ -27,10 +27,12 @@ class Admin::ClaimsControllerTest < ActionController::TestCase
 
   test "index filters by user_id" do
     agent = create(:agent)
+    agent2 = create(:agent)
     doctor = create(:user, agent: agent)
+    doctor2 = create(:user, agent: agent2)
     @controller.sign_in(agent, agent.authentication_token)
     associated = create(:claim, user: doctor)
-    unassociated = create(:claim)
+    unassociated = create(:claim, user: doctor2)
     get :index, user_id: associated.user_id
     assert_template "index"
     assert assigns(:claims).include?(associated)

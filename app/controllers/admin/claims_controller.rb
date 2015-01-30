@@ -6,13 +6,13 @@ class Admin::ClaimsController < Admin::BaseController
   helper_method :user_id_filter, :status_filter
 
   def index
-    @claims = policy_scope(:claim).where(filters).order("#{sort_column} #{sort_direction}")
-    authorize :claim, :read?
+    @claims = ClaimPolicy::Scope.new(current_user, ::Claim).resolve.where(filters).order("#{sort_column} #{sort_direction}")
+    authorize :claim, :create?
   end
 
   def edit
-    @claim = policy_scope(:claim).includes(:comments).includes(:photo).find(params[:id])
-    authorize :claim, :update?
+    @claim = policy_scope(Claim).includes(:comments).includes(:photo).find(params[:id])
+    authorize @claim, :update?
     @form = ClaimForm.new(@claim)
     @user = current_user
     render layout: "admin_react"
@@ -20,7 +20,7 @@ class Admin::ClaimsController < Admin::BaseController
 
   def reclaim
     @claim = policy_scope(:claim).find(params[:id])
-    authorize :claim, :update?
+    authorize @claim, :update?
     @reclaim = @claim.reclaim!
     redirect_to edit_admin_claim_path(@reclaim)
   end

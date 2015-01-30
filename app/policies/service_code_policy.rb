@@ -1,0 +1,2 @@
+class ServiceCodePolicy < PublicPolicy
+end

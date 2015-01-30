@@ -28,7 +28,8 @@ class V1::UsersControllerTest < ActionController::TestCase
   end
 
   test "update responds correctly" do
-    user = create(:user, name: "Jim")
+    agent = create(:agent)
+    user = create(:user, name: "Jim", agent: agent)
     @controller.sign_in(user, user.authentication_token)
     put :update, id: user.id, format: "json", user: {name: "Bob"}
     assert_equal 'Bob', JSON::parse(response.body)["name"]

@@ -1,0 +1,2 @@
+class DiagnosisPolicy < PublicPolicy
+end

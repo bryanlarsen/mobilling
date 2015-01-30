@@ -5,13 +5,14 @@ class V1::ClaimsController < V1::BaseController
   api :GET, "/v1/claims", "Returns claims"
 
   def index
-    render json: current_user.claims.select(:id, :number, :status).map {|claim| {id: claim.id, number: claim.number, status: claim.status} }
+    render json: policy_scope(Claim).select(:id, :number, :status).map {|claim| {id: claim.id, number: claim.number, status: claim.status} }
   end
 
   api :GET, "/v1/claims/:id", "Returns a claim"
 
   def show(form = nil, status = nil)
-    form ||= ClaimForm.new(policy_scope(:claim).includes(:comments).includes(:photo).find(params[:id]))
+    form ||= ClaimForm.new(policy_scope(Claim).includes(:comments).includes(:photo).find(params[:id]))
+    authorize form.claim if form.claim
     render json: form.as_json(include_comments: true, include_warnings: true, include_photo: true), status: (status ? status : 200)
   end
 
@@ -52,6 +53,7 @@ class V1::ClaimsController < V1::BaseController
     attrs['patient_sex'] ||= 'F'
     @form = ClaimForm.new(attrs)
     @form.user = current_user
+    authorize :claim
     if @form.perform
       show @form, 200
     else
@@ -64,8 +66,8 @@ class V1::ClaimsController < V1::BaseController
   param_group :claim
 
   def update
-    @claim = policy_scope(:claim).find(params[:id])
-    authorize :claim, :update?
+    @claim = policy_scope(Claim).find(params[:id])
+    authorize @claim, :update?
     @form = ClaimForm.new(@claim, claim_params)
     @form.user = current_user
     if @form.perform
@@ -78,7 +80,8 @@ class V1::ClaimsController < V1::BaseController
   api :DELETE, "/v1/claims/:id", "Deletes a claim"
 
   def destroy
-    @claim = policy_scope(:claim).where(status: "saved").find(params[:id])
+    @claim = policy_scope(Claim).where(status: "saved").find(params[:id])
+    authorize @claim
     @claim.destroy
     show ClaimForm.new(@claim)
   end

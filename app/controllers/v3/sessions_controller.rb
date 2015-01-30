@@ -4,10 +4,12 @@ class V3::SessionsController < V3::BaseController
   skip_before_filter :refresh_session, :only => [:new, :create]
 
   def new
+    authorize :session, :create?
     @interactor3 = V3::CreateSession.new
   end
 
   def create
+    authorize :session
     admin = session[:admin]
     @interactor3 = V3::CreateSession.new(session_params)
     if @interactor3.perform
@@ -20,7 +22,7 @@ class V3::SessionsController < V3::BaseController
   end
 
   def destroy
-    authorize :session, :destroy?
+    authorize :session
     sign_out
     redirect_to root_url
   end

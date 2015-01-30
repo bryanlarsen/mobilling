@@ -6,7 +6,7 @@ class V1::HospitalsController < V1::BaseController
 
   def index
     expires_in 7.days, public: true
-    @hospitals = Hospital.pluck(:name)
+    @hospitals = policy_scope(Hospital).pluck(:name)
     render json: @hospitals
   end
 end

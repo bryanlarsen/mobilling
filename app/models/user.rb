@@ -40,6 +40,12 @@ class User < ActiveRecord::Base
     self.email = email.downcase
   end
 
+  before_save do
+    unless doctor?
+      self.agent = self
+    end
+  end
+
   validates :email, presence: true, email: true
   validates :agent_id, presence: true, if: -> { doctor? }
   validates :agent, presence: true, if: -> { doctor? }

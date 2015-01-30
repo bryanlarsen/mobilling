@@ -42,7 +42,8 @@ class Admin::UsersControllerTest < ActionController::TestCase
   test "edit raises exception when no user logged in" do
     agent = create(:agent)
     user = create(:user, agent: agent)
-    assert_raises(ActiveRecord::RecordNotFound) { get :edit, id: user.id }
+    get :edit, id: user.id
+    assert_redirected_to new_session_path
   end
 
   test "edit raises exception when unassociated user" do
@@ -50,7 +51,8 @@ class Admin::UsersControllerTest < ActionController::TestCase
     agent2 = create(:agent)
     user = create(:user, agent: agent2)
     @controller.sign_in(agent, agent.authentication_token)
-    assert_raises(ActiveRecord::RecordNotFound) { get :edit, id: user.id }
+    get :edit, id: user.id
+    assert_redirected_to new_session_path
   end
 
   test "edit renders template when admin logged in" do
@@ -65,7 +67,8 @@ class Admin::UsersControllerTest < ActionController::TestCase
   test "destroy raises exception when no user logged in" do
     agent = create(:agent)
     user = create(:user, agent: agent)
-    assert_raises(ActiveRecord::RecordNotFound) { delete :destroy, id: user.id }
+    delete :destroy, id: user.id
+    assert_redirected_to new_session_path
   end
 
   test "destroy raises exception when agent logged in" do

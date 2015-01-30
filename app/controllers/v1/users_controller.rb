@@ -10,7 +10,8 @@ class V1::UsersController < V1::BaseController
 
   api :GET, "/v1/users/:id", "Returns a user"
   def show(user = nil, status = nil)
-    user ||= policy_scope(:user).find(params[:id])
+    user ||= User.find(params[:id])
+    authorize user
     render json: user.as_json(include_warnings: true), status: status || 200
   end
 
@@ -26,6 +27,7 @@ class V1::UsersController < V1::BaseController
   param_group :user
   def create
     @user = User.new(user_params)
+    authorize @user
     if @user.valid?
       @user.save!
       show @user, 200
@@ -37,7 +39,8 @@ class V1::UsersController < V1::BaseController
   api :PUT, "/v1/users/:id", "Updates a user"
   param_group :user
   def update
-    @user = policy_scope(:user).find(params[:id])
+    @user = User.find(params[:id])
+    authorize @user
     @user.update(user_params)
     if @user.valid?
       show @user, 200

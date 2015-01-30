@@ -16,19 +16,19 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def index
-    @users = policy_scope(:user).where(filters).order("#{sort_column} #{sort_direction}")
-    authorize :user, :read?
+    authorize :public, :logged_in?
+    @users = policy_scope(User).where(filters).order("#{sort_column} #{sort_direction}")
   end
 
   def edit
-    @user = policy_scope(:user).find(params[:id])
-    authorize :user, :update?
+    @user = User.find(params[:id])
+    authorize @user, :update?
     render layout: "admin_react"
   end
 
   def destroy
-    @user = policy_scope(:user).find(params[:id])
-    authorize :user, :destroy?
+    @user = User.find(params[:id])
+    authorize @user, :destroy?
     @user.destroy
     redirect_to admin_users_path
   end

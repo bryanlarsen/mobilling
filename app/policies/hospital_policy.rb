@@ -1,0 +1,2 @@
+class HospitalPolicy < PublicPolicy
+end
