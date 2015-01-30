@@ -24,26 +24,24 @@ var ClaimForm = React.createClass({
         <fieldset>
           <legend>Patient</legend>
 
-          <ClaimPatient {...this.props}/>
-        </fieldset>
-        <fieldset>
-          <legend>Claim</legend>
-          <ClaimHospital {...this.props} />
-          <ClaimInputGroup name="referring_physician" store={this.props.store} onChange={this.handleChange} />
-          <ClaimDiagnoses store={this.props.store} actions={this.props.actions} />
-          <ClaimFormGroup label="Manual Review" htmlFor="manual_review_indicator">
-            <ClaimYesNo {...this.props} name="manual_review_indicator" />
-          </ClaimFormGroup>
-          <ClaimFormGroup label="Service Location">
-            <ClaimInputWrapper store={this.props.store} name="service_location">
-              <Select {...this.props} name="service_location" options={serviceLocations} onChange={this.handleChange}/>
-            </ClaimInputWrapper>
-          </ClaimFormGroup>
+          <ClaimPatient {...this.props} handleChange={this.handleChange}/>
         </fieldset>
 
         <fieldset>
+          <legend>Claim</legend>
+          <ClaimTab {...this.props} handleChange={this.handleChange} />
+        </fieldset>
+
+        { this.props.store.get('template') === 'full' &&
+         <fieldset>
+          <legend>Consult</legend>
+          <ConsultTab {...this.props} handleChange={this.handleChange}/>
+         </fieldset>
+        }
+
+        <fieldset>
           <legend>Items</legend>
-          <ClaimItemList {...this.props} />
+          <ItemsTab {...this.props} handleChange={this.handleChange}/>
         </fieldset>
 
         <fieldset>

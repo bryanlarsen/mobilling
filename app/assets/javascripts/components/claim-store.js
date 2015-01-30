@@ -123,6 +123,14 @@ claimActions.init.listen(function(data) {
   _.each(data.diagnoses, function(diagnosis, i) {
     diagnosis.uuid = uuid();
   });
+  if (!data.template) {
+    if (['family_medicine', 'internal_medicine', 'cardiology'].indexOf(this.props.store.get('specialty')) !== -1) {
+      data.template = 'simplified';
+    } else {
+      data.template = 'full';
+    }
+  }
+
   claimStore(claimStore().set(data.id, Immutable.fromJS(data)));
   originalClaim[data.id] = data;
   processClaimResponse({id: data.id, warnings: data.warnings, errors: data.errors});

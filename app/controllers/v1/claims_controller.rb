@@ -48,7 +48,8 @@ class V1::ClaimsController < V1::BaseController
   def create
     attrs = claim_params
     attrs['status'] ||= 'saved'
-    attrs['specialty'] ||= current_user.default_template
+    attrs['specialty'] = current_user.default_template if attrs['specialty'].blank?
+    attrs['specialty'] = 'internal_medicine' if attrs['specialty'].blank?
     attrs['patient_province'] ||= 'ON'
     attrs['patient_sex'] ||= 'F'
     @form = ClaimForm.new(attrs)

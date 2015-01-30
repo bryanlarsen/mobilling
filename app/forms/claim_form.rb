@@ -5,8 +5,9 @@ class ClaimForm
 
   def self.model_params
     return [
-            [:photo_id, Integer],
+            [:photo_id, String],
             [:status, String],
+            [:user_id, String]
            ]
   end
 
@@ -142,6 +143,7 @@ class ClaimForm
       attrs['status'] = claim.status   # can't use claim.attributes.slice because status is an enum
       attrs['user'] = claim.user
       attrs['photo_id'] = claim.photo_id
+      attrs['user_id'] = claim.user_id
       attrs['num_comments'] = claim.comments.size
       attrs.merge!(attributes) if attributes
       super(attrs)

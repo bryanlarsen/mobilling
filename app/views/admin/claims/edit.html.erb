@@ -1,11 +1,12 @@
 <script>
-claimActionsFor("<%= @form.claim.id %>").init(<%= @form.as_json(include_comments: true, include_photo: true, include_warnings: true).to_json.html_safe %>);
+claimActionsFor("<%= @form.claim.id %>").init(<%= @form.as_json(include_comments: true, include_photo: true, include_warnings: true).merge(template: 'agent').to_json.html_safe %>);
 </script>
 <div class="container">
   <%= react_component('ClaimEdit', {
       id: @form.claim.id,
       user: @user.as_json,
       stack: params['stack'] || [],
+      doctors: @doctors,
       backURL: admin_claims_path
       }) %>
 </div>

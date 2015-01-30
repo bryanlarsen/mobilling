@@ -72,6 +72,12 @@ class User < ActiveRecord::Base
         valid?
         response[:errors] = errors.as_json
       end
+      if options && options[:include_doctors]
+        response[:doctors] = {}
+        UserPolicy::Scope.new(self, User).resolve.each do |doctor|
+          response[:doctors][doctor.id] = doctor.name
+        end
+      end
     end
   end
 
