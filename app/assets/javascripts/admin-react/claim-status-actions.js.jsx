@@ -41,12 +41,6 @@ var ClaimStatusActions = React.createClass({
 
     var disabled = this.props.store.get('unsaved') || this.props.store.get('errors').count() !== 0;
 
-    if (this.props.store.get('status') === 'ready' &&
-        ((this.props.store.get('validations') || Immutable.List()).count() !== 0 ||
-         this.props.store.get('warnings').count() !== 0)) {
-           disabled = true;
-    }
-
     var statusOptions = {};
     _.each(statuses, function(status) {
       if (status==='reclaimed') return;
@@ -57,7 +51,7 @@ var ClaimStatusActions = React.createClass({
              return;
       }
       statusOptions[status] = s.humanize(status);
-    });
+    }, this);
 
     return (
         <fieldset>

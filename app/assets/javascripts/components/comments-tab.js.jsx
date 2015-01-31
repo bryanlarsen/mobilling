@@ -13,6 +13,15 @@ var CommentsTab = React.createClass({
          }, this).toJS() }
         <ClaimInputGroup name="comment" store={this.props.store} onChange={this.handleChange}/>
 
+        { this.props.store.get('template') === 'agent' &&
+         <fieldset>
+         <legend>File</legend>
+         <div className="form-group">
+           <p className="form-control-static"><pre>{this.props.store.get('submission')}</pre></p>
+         </div>
+         </fieldset>
+        }
+
         <ClaimErrors data={this.props.store.get('validations')} name="Warnings"/>
         <ClaimErrors data={this.props.store.get('warnings')} name="Warnings"/>
         <ClaimErrors data={this.props.store.get('errors')} name="Errors"/>

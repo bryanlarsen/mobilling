@@ -1,5 +1,3 @@
-var serviceLocations = ['', 'HDS', 'HED', 'HIP', 'HOP', 'HRP', 'OTN'];
-
 var ClaimForm = React.createClass({
   handleChange: function(ev) {
     this.props.actions.updateFields([[[ev.target.name], ev.target.value]]);
@@ -45,20 +43,9 @@ var ClaimForm = React.createClass({
         </fieldset>
 
         <fieldset>
-          <legend>Comments</legend>
-          { (this.props.store.get('comments') || Immutable.fromJS([])).map(function(comment, i) {
-            return <ClaimComment {...this.props} comment={comment} key={'comment'+i} />;
-          }, this).toJS() }
-          <ClaimInputGroup name="comment" store={this.props.store} onChange={this.handleChange}/>
+          <CommentsTab {...this.props} handleChange={this.handleChange}/>
         </fieldset>
 
-        <ClaimFormGroup name="File" width="10">
-          <p className="form-control-static"><pre>{this.props.store.get('submission')}</pre></p>
-        </ClaimFormGroup>
-
-        <ClaimErrors data={this.props.store.get('validations')} name="Warnings"/>
-        <ClaimErrors data={this.props.store.get('warnings')} name="Warnings"/>
-        <ClaimErrors data={this.props.store.get('errors')} name="Errors"/>
       </div>
     );
   },
