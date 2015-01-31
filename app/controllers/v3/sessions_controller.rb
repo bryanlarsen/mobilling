@@ -2,14 +2,13 @@ class V3::SessionsController < V3::BaseController
   layout "v3_rails"
 
   skip_before_filter :refresh_session, :only => [:new, :create]
+  skip_after_filter :verify_authorized, :only => [:new, :create]
 
   def new
-    authorize :session, :create?
     @interactor3 = V3::CreateSession.new
   end
 
   def create
-    authorize :session
     admin = session[:admin]
     @interactor3 = V3::CreateSession.new(session_params)
     if @interactor3.perform

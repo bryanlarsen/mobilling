@@ -69,7 +69,7 @@ FeeGenerator.prototype.calculateFee = function(detail, code) {
   }
 
   var minutes = 0;
-  if (code === detail.code && detail.time_in && detail.time_out) {
+  if (code === this.normalizeCode(detail.code) && detail.time_in && detail.time_out) {
     minutes = FeeGenerator.inMinutes(detail.time_out) - FeeGenerator.inMinutes(detail.time_in);
     if (minutes < 0) minutes = minutes + 24*60;
   }
