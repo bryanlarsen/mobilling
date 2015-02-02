@@ -37,6 +37,10 @@ class UserPolicy < Struct.new(:current_user, :user)
     current_user.present? and current_user.admin?
   end
 
+  def new?
+    true
+  end
+
   def create?
     true
   end

@@ -12,6 +12,7 @@ class Admin::UsersController < Admin::BaseController
                          specialty_code: 0,
                          default_specialty: 'family_medicine'
                        })
+    authorize @user
     render layout: "admin_react"
   end
 
