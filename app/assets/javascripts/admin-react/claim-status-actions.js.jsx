@@ -72,6 +72,27 @@ var ClaimStatusActions = React.createClass({
             </ClaimInputWrapper>
           </ClaimFormGroup>
 
+           {
+           _.map(statuses, function(status) {
+
+             if (status === 'reclaimed') {
+               return (
+                 <div className="row" key="action-reclaimed">
+                   <form action={'/admin/claims/'+this.props.store.get('id')+'/reclaim'} method="POST">
+                     <input type="hidden" name="authenticity_token" value={$('meta[name=csrf-token]').attr('content')}/>
+                     <button className="btn btn-primary btn-lg col-md-2 col-md-offset-4" type="submit" disabled={disabled}>
+                       <i className="fa fa-recycle"/>
+                       &nbsp;Reclaim
+                     </button>
+                   </form>
+                 </div>
+               );
+             }
+
+             return undefined;
+           }, this)
+          }
+
           <div className="row" >
             <div className="col-md-2"/>
             <button className='btn btn-lg btn-primary col-md-2' disabled={!prev || disabled} onClick={this.prevHandler}>
@@ -89,24 +110,7 @@ var ClaimStatusActions = React.createClass({
               &nbsp;Next
             </button>
           </div>
-           {
-           _.map(statuses, function(status) {
-
-             if (status === 'reclaimed') {
-               return (
-                 <div className="row" key="action-reclaimed">
-                   <button className="btn btn-primary btn-lg col-md-2 col-md-offset-4" onClick={false && this.load.bind(this, prev)} disabled={true || !prev || disabled}>
-                     <i className="fa fa-recycle"/>
-                     &nbsp;Reclaim
-                   </button>
-                 </div>
-               );
-             }
-
-             return undefined;
-           }, this)
-          }
-        </fieldset>
+       </fieldset>
     );
   }
 });

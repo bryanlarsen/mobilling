@@ -19,7 +19,7 @@ class Admin::ClaimsController < Admin::BaseController
   end
 
   def reclaim
-    @claim = policy_scope(:claim).find(params[:id])
+    @claim = Claim.find(params[:id])
     authorize @claim, :update?
     @reclaim = @claim.reclaim!
     redirect_to edit_admin_claim_path(@reclaim)
