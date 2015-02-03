@@ -43,7 +43,7 @@
           <% if user_id_filter.present? %>
             <% if status_filter == [Claim.statuses["ready"].to_s] %>
               <% if @claims.length > 0 %>
-                <form action="<%= admin_user_submissions_path(user_id: user_id_filter) %>" method="post" class="form-horizontal">
+                <%= form_tag admin_user_submissions_path(user_id: user_id_filter), class: "form-horizontal" %>
                   <%= icon_submit "cogs", "Generate", class: "btn btn-primary", name: "" %>
                 </form>
               <% else %>

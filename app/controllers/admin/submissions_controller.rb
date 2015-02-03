@@ -1,6 +1,7 @@
 class Admin::SubmissionsController < Admin::BaseController
   def create
-    @user = policy_scope(:user).find(params[:user_id])
+    authorize :edt_file
+    @user = User.find(params[:user_id])
     @claims = @user.claims.ready
 
     if @claims.length === 0
@@ -18,6 +19,9 @@ class Admin::SubmissionsController < Admin::BaseController
     @submission = ::Submission.new(@interactor.attributes)
     ActiveRecord::Base.transaction do
       @submission.save!
+      @submission.claims.each do |claim|
+        claim.save!
+      end
     end
 
     # see _flash.html.erb for !!
