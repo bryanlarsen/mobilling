@@ -44,7 +44,7 @@ class GenerateSubmission
     r['Master Number']=facility
     r['In-Patient Admission Date']=Date.strptime(claim.details['admission_on']) if claim.details['admission_on']
     r['Referring Laboratory License Number']=claim.details['referring_laboratory'] if claim.details['referring_laboratory']
-    r['Manual Review Indicator']=claim.details['manual_review_indicator']
+    r['Manual Review Indicator']=claim.details['manual_review_indicator'].blank? ? '' : 'Y'
     r['Service Location Indicator']=claim.details['service_location'] if claim.details['service_location']
 
     if payment_program == 'RMB'

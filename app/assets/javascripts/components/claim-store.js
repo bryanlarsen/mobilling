@@ -70,7 +70,7 @@ claimActions.attemptSave.listen(function(id) {
     processData: false,
     type: 'PUT',
     success: function(data) {
-      claimActions.saveComplete({id: id, errors: data.errors, warnings: data.warnings});
+      claimActions.saveComplete({id: id, errors: data.errors, warnings: data.warnings, submission: data.submission});
       globalActions.endBusy();
     },
     error: function(xhr, status, err) {
@@ -91,6 +91,10 @@ claimActions.attemptSave.listen(function(id) {
 var processClaimResponse = function(data) {
   claimStore().get(data.id).withMutations(function(store) {
     _.each(data, function(value, type) {
+      if (type === 'submission') {
+        store = store.set(type, value);
+        return;
+      }
       if (type !== 'warnings' && type !== 'errors') return;
       store = store.set(type, Immutable.fromJS(value));
       for (var i=0; i < store.get('daily_details').count(); i++) {
