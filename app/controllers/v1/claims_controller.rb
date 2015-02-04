@@ -53,6 +53,13 @@ class V1::ClaimsController < V1::BaseController
     attrs['patient_province'] ||= 'ON'
     attrs['patient_sex'] ||= 'F'
     attrs['patient_name'] ||= ''
+    attrs['most_responsible_physician'] ||= false
+    attrs['first_seen_consult'] ||= false
+    attrs['last_seen_discharge'] ||= false
+    attrs['icu_transfer'] ||= false
+    attrs['consult_premium_first'] ||= false
+    attrs['consult_premium_travel'] ||= false
+    attrs['manual_review_indicator'] ||= false
     @form = ClaimForm.new(attrs)
     @form.user = current_user
     authorize :claim

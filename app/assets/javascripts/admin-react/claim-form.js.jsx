@@ -11,13 +11,8 @@ var ClaimForm = React.createClass({
     return (
       <div>
         <fieldset>
-          <ClaimFormGroup label="Number">
-            <p className="form-control-static">{this.props.store.get('number')}</p>
-          </ClaimFormGroup>
-
-          <ClaimFormGroup label="Status">
-            <p className="form-control-static">{this.props.store.get('status')}</p>
-          </ClaimFormGroup>
+          <ClaimStaticOptional {...this.props} name="number" />
+          <ClaimStaticOptional {...this.props} name="status" />
         </fieldset>
         <fieldset>
           <legend>Patient</legend>

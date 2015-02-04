@@ -15,13 +15,21 @@ var ClaimEdit = React.createClass({
   },
 
   render: function() {
-    return (
-      <div className="form-horizontal">
-        <ClaimForm {...this.props} actions={claimActionsFor(this.state.id)} store={this.state.store.get(this.state.id)} loadClaim={this.loadClaim} />
-        <ClaimStatusActions {...this.props} actions={claimActionsFor(this.state.id)} store={this.state.store.get(this.state.id)} loadClaim={this.loadClaim} />
-      </div>
-    );
+    if (["saved", "for_agent", "doctor_attention"].indexOf(this.state.store.getIn([this.state.id, 'status'])) >= 0) {
+      return (
+        <div className="form-horizontal">
+          <ClaimForm {...this.props} actions={claimActionsFor(this.state.id)} store={this.state.store.get(this.state.id)} loadClaim={this.loadClaim} />
+          <ClaimStatusActions {...this.props} actions={claimActionsFor(this.state.id)} store={this.state.store.get(this.state.id)} loadClaim={this.loadClaim} />
+        </div>
+      );
+    } else {
+      return (
+        <div className="form-horizontal">
+          <ClaimView {...this.props} store={this.state.store.get(this.state.id)} />
+          <ClaimStatusActions {...this.props} actions={claimActionsFor(this.state.id)} store={this.state.store.get(this.state.id)} loadClaim={this.loadClaim} />
+        </div>
+      );
+    }
   }
-
 });
 

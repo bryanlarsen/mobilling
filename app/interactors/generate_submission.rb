@@ -25,7 +25,7 @@ class GenerateSubmission
     payment_program = claim.details['payment_program'] == 'WCB' ? 'WCB' : (province == 'ON' ? 'HCP' : 'RMB')
 
     referring_provider = claim.details['referring_physician']
-    if referring_provider
+    unless referring_provider.blank?
       referring_provider = referring_provider.to_s.split(' ')[0]
       if referring_provider !='0' && (referring_provider.length < 5 || referring_provider.length > 6)
         @errors[claim.number] += [['referring_provider', 'invalid']]

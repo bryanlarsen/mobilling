@@ -10,14 +10,7 @@ var ClaimPatient = React.createClass({
     };
     return (
       <div>
-        <ClaimFormGroup label="Photo" width={10}>
-          <p className="form-control-static">
-            <a href={this.props.store.getIn(['photo', 'url'])}>
-              <img src={this.props.store.getIn(['photo', 'small_url'])} width="300"/>
-            </a>
-          </p>
-          <PhotoUpload {...this.props}/>
-        </ClaimFormGroup>
+        <ClaimPhoto {...this.props} />
 
         <ClaimInputGroup {...this.props} label="Name" name="patient_name" onChange={this.handleChange} />
         <ClaimInputGroup {...this.props} label="Number" name="patient_number" onChange={this.handleChange} />

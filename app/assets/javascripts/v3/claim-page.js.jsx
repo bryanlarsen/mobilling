@@ -1,9 +1,7 @@
 var SWIPE_DISTANCE=60;
 
 var ClaimPage = React.createClass({
-  mixins: [ ReactRouter.State, ReactRouter.Navigation,
-    Fynx.connect(claimStore, 'store'),
-  ],
+  mixins: [ ReactRouter.State ],
 
   icon: {
     patient: 'user',
@@ -14,27 +12,19 @@ var ClaimPage = React.createClass({
   },
 
   tabs: function() {
-    if (this.state.store.getIn([this.props.params.id, 'template']) === 'full') {
+    if (this.props.store.get('template') === 'full') {
       return ['patient', 'claim', 'consult', 'items', 'comments'];
     } else {
       return ['patient', 'claim', 'items', 'comments'];
     }
   },
 
-  checkClaim: function() {
-    if (!this.state.store.get(this.props.params.id)) {
-      claimLoad(this.props.params.id);
-    }
-  },
-
   componentDidMount: function(ev) {
     this.fixTab();
-    this.checkClaim();
   },
 
   componentDidUpdate: function(ev) {
     this.fixTab();
-    this.checkClaim();
   },
 
   getTab: function() {
@@ -84,25 +74,22 @@ var ClaimPage = React.createClass({
   },
 
   handleChange: function(ev) {
-    claimActionsFor(this.props.params.id).updateFields([[[ev.target.name], ev.target.value]]);
+    this.props.actions.updateFields([[[ev.target.name], ev.target.value]]);
   },
 
   submit: function(ev) {
     ev.preventDefault();
-    claimActionsFor(this.props.params.id).updateFields([[['status'], 'for_agent']]);
+    this.props.actions.updateFields([[['status'], 'for_agent']]);
     claimListActions.updateField({id: this.props.params.id, field: 'status', value: 'for_agent'});
-    this.transitionTo("claims", {filter: "drafts"});
   },
 
   render: function() {
-    var store = this.state.store.get(this.props.params.id) || Immutable.fromJS({daily_details: [], diagnoses: []});
-    var actions = claimActionsFor(this.props.params.id);
     return (
       <div className="body" onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd}>
-        <ClaimHeader {...this.props} store={store} actions={actions} submit={this.state.store.getIn([this.props.params.id, 'status'])==='saved' && this.submit}/>
+        <ClaimHeader {...this.props} submit={this.props.store.get('status')==='saved' && this.submit}/>
         <div className="container with-bottom">
           <div className="form-horizontal">
-            <RouteHandler {...this.props} store={store} actions={actions} handleChange={this.handleChange} silent />
+            <RouteHandler {...this.props} handleChange={this.handleChange} silent />
           </div>
         </div>
         <Navbar fixedBottom>

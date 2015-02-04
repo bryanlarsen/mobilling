@@ -36,7 +36,7 @@ var V3Routes = (
     </Route>
     <Route name="landing" handler={Landing}/>
     <Route name="new_claim" path="/new_claim" handler={NewClaimPage}/>
-    <Route name="claim" path="/claim/:id" handler={ClaimPage}>
+    <Route name="claim" path="/claim/:id" handler={ClaimPageSelect}>
       <Route name="claim_patient" path="/claim/:id/patient" handler={PatientTab}/>
       <Route name="claim_claim" path="/claim/:id/claim" handler={ClaimTab}/>
       <Route name="claim_consult" path="/claim/:id/consult" handler={ConsultTab}/>

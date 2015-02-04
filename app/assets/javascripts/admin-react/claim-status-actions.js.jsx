@@ -24,14 +24,14 @@ var ClaimStatusActions = React.createClass({
     var statuses = {
       "saved":          ["saved", "for_agent", "ready"],
       "for_agent":      ["for_agent", "ready", "doctor_attention", "done"],
-      "ready":          ["for_agent", "ready", "doctor_attention", "done", "reclaimed"],
+      "ready":          ["for_agent", "ready", "doctor_attention", "uploaded", "done", "reclaimed"],
       "file_created":   ["file_created", "uploaded", "acknowledged", "agent_attention", "done"],
       "uploaded":       ["uploaded", "acknowledged", "agent_attention", "done"],
       "acknowledged":   ["acknowledged", "agent_attention", "done"],
       "agent_attention": ["agent_attention", "done", "reclaimed"],
       "doctor_attention": ["doctor_attention", "for_agent", "ready"],
       "done":           ["done", "reclaimed"],
-      "reclaimed":      ["done", "reclaimed"],
+      "reclaimed":      [],
     }[this.props.store.get('status')];
 
     var cur = this.props.stack.indexOf(this.props.store.get('id'));
@@ -66,8 +66,8 @@ var ClaimStatusActions = React.createClass({
             </div>
           </div>
 
-          <ClaimFormGroup label="Status">
-            <ClaimInputWrapper {...this.props} name="status">
+          <ClaimFormGroup label="Status" width={10}>
+            <ClaimInputWrapper {...this.props} name="status" >
               <RadioSelect {...this.props} name="status" options={statusOptions} onChange={this.handleChange} />
             </ClaimInputWrapper>
           </ClaimFormGroup>

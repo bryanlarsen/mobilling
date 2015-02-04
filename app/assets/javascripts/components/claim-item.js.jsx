@@ -8,7 +8,7 @@ var ClaimItemCollapse = React.createClass({
   },
 
   render: function() {
-    if (!this.props.expanded) {
+    if (!this.props.expanded || this.props.readonly) {
       return (
         <ClaimItemSummary {...this.props} onClick={this.expand} />
       );
@@ -246,7 +246,7 @@ var ClaimItemList = React.createClass({
                                  {},
                                  days.map(function(day) {
         return (
-          React.createElement("div", {key: 'item-day-'+day}, [
+          <div key={'item-day-'+day}>
             <div className="col-xs-12 day-header" key={"day-header-"+day}>
               <span>{day}</span>
               <span className="pull-right">{
@@ -254,31 +254,36 @@ var ClaimItemList = React.createClass({
                   return item.get('day') === day ? memo + itemTotal(item.toJS()) : memo;
                 }, 0))
               }</span>
-            </div>,
-            React.createElement("div", {key: "day-body-"+day},
-                                items.map(function(item, i) {
-              if (item.get('day') === day) {
-                lastIndex = i;
-                return React.createElement(ClaimItemCollapse, {
-                  claimStore: this.props.store,
-                  store: this.props.store.get('daily_details').get(i),
-                  actions: itemActionsFor(this.props.store.get('id'), i),
-                  index: i,
-                  key: item.get('uuid'),
-                  silent: this.props.silent,
-                  expanded: this.state.expanded === i,
-                  expand: this.expand
-                }, item);
-              } else {
-                return <div/>;
-              }
-            }, this).toJS()),
-            <NewItemButton key={"day-button-"+day} index={lastIndex} actions={this.props.actions} expand={this.expand} store={this.props.store}/>
-          ])
-        );
+            </div>
+            <div key={"day-body-"+day}>
+             {items.map(function(item, i) {
+               if (item.get('day') === day) {
+                 lastIndex = i;
+                 return React.createElement(ClaimItemCollapse, {
+                   claimStore: this.props.store,
+                   store: this.props.store.get('daily_details').get(i),
+                   actions: itemActionsFor(this.props.store.get('id'), i),
+                   index: i,
+                   key: item.get('uuid'),
+                   silent: this.props.silent,
+                   expanded: this.state.expanded === i,
+                   expand: this.expand,
+                   readonly: this.props.readonly
+                 }, item);
+               } else {
+                 return <div/>;
+               }
+              }, this).toJS()
+            }
+            </div>
+            {this.props.readonly ? null : <NewItemButton key={"day-button-"+day} index={lastIndex} actions={this.props.actions} expand={this.expand} store={this.props.store}/>}
+          </div>
+        )
       }, this));
+    } else if (!this.props.readonly) {
+      return <NewItemButton actions={this.props.actions} expand={this.expand} store={this.props.store} />;
     } else {
-      return <NewItemButton actions={this.props.actions} expand={this.expand} store={this.props.store} />
+      return null;
     }
   }
 });
