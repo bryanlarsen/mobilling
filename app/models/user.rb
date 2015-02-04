@@ -4,9 +4,11 @@ class User < ActiveRecord::Base
   enum role: %i[doctor agent admin ministry]
 
   has_secure_password
-  has_many :claims, dependent: :destroy
-  has_many :photos, dependent: :destroy
-  belongs_to :agent, class_name: "User"
+  has_many :claims, dependent: :destroy, inverse_of: :user
+  has_many :photos, dependent: :destroy, inverse_of: :user
+  belongs_to :agent, class_name: "User", inverse_of: :doctors
+  has_many :doctors, class_name: "User", foreign_key: "agent_id", inverse_of: :agent
+  has_many :comments, class_name: "Claim::Comment", inverse_of: :user
 
   def self.model_params
     return [

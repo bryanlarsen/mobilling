@@ -17,8 +17,8 @@
     <td> <%= edt_file.type.underscore.humanize %> </td>
     <td> <%= edt_file.created_at.to_date %> </td>
     <td> <%= edt_file.claims.length %> </td>
-    <td> <%= edt_file.type=="Submission" ? ("%.2f" % (edt_file.submitted_fee/100.0)) : '' %> </td>
-    <td> <%= edt_file.type=="Submission" ? ("%.2f" % (edt_file.paid_fee/100.0)) : '' %> </td>
+    <td> <%= ("%.2f" % (edt_file.submitted_fee/100.0)) %> </td>
+    <td> <%= ("%.2f" % (edt_file.paid_fee/100.0)) %> </td>
   </tr>
   <% end %>
 </table>

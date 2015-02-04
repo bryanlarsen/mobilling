@@ -23,14 +23,6 @@ class Submission < EdtFile
     records
   end
 
-  def submitted_fee
-    claims.reduce(0) { |memo, claim| claim.submitted_fee+memo }
-  end
-
-  def paid_fee
-    claims.reduce(0) { |memo, claim| claim.paid_fee+memo }
-  end
-
   def messages
     [
      "#{claims.length} claims: $#{'%.2f' % (submitted_fee/100.0)}"

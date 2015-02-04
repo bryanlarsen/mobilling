@@ -6,7 +6,7 @@ class Admin::ClaimsController < Admin::BaseController
   helper_method :user_id_filter, :status_filter
 
   def index
-    @claims = policy_scope(Claim).where(filters).order("#{sort_column} #{sort_direction}")
+    @claims = policy_scope(Claim).includes(:files).where(filters).order("#{sort_column} #{sort_direction}")
     authorize :claim, :create?
   end
 

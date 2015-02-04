@@ -14,12 +14,12 @@ class ErrorReport < EdtFile
     @claim_rmb_records = {}
     @item_records = {}
     @premium_records = {}
-    @message_text = ""
     @balance_records = []
     @accounting_records = []
     @unmatched_records = []
     @overtime_records = []
     @message_records = {}
+    @messages = []
     current_claim = nil
     @records.each {|record|
       case
@@ -86,6 +86,10 @@ class ErrorReport < EdtFile
         errors.add_to_base "Unknown record type: #{record.class}"
       end
     }
+
+    if !@unmatched_records.empty?
+      @messages << "```\nCould not find records for:\n"+@unmatched_records.join("")+"\n```"
+    end
   end
 
   def messageFor(record, message_records)
@@ -124,9 +128,6 @@ class ErrorReport < EdtFile
 
   def process!
     memo
-    if !@unmatched_records.empty?
-      return "Could not find records for:\n"+@unmatched_records.join("\n")
-    end
 
     comment_user = User.find_by(role: User.roles["ministry"])
     @claims.each do |claim|
@@ -154,12 +155,18 @@ class ErrorReport < EdtFile
       end
     end
     save!
+
     nil
   end
 
   def unmatched_records
     memo
     @unmatched_records
+  end
+
+  def messages
+    memo
+    @messages
   end
 
   def claim_details(claim)

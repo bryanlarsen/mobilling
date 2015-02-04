@@ -22,12 +22,12 @@ class Claim < ActiveRecord::Base
 
   scope :submitted, -> { where(status: statuses.except("saved", "doctor_attention").values) }
 
-  belongs_to :user
-  belongs_to :photo
+  belongs_to :user, inverse_of: :claims
+  belongs_to :photo, inverse_of: :claim
   has_many :comments, inverse_of: :claim
 
-  has_many :files, through: :claim_files, class_name: "EdtFile", source: :edt_file
-  has_many :claim_files
+  has_many :files, through: :claim_files, class_name: "EdtFile", source: :edt_file, inverse_of: :claims
+  has_many :claim_files, inverse_of: :claim
 
   belongs_to :original, class_name: "Claim"
 
@@ -97,7 +97,7 @@ class Claim < ActiveRecord::Base
     if submission
       records = submission.claim_records(self)
     else
-      records = Record.process_batch(to_record)
+      return { 'daily_details' => [] }
     end
 
     records.each do |record|
@@ -131,7 +131,7 @@ class Claim < ActiveRecord::Base
   end
 
   def submitted_fee
-    submitted_details['daily_details'] .reduce(0) do |sum, dets|
+    submitted_details['daily_details'].reduce(0) do |sum, dets|
       sum += dets['Fee Submitted'] + dets['premiums'].reduce(0) do |sum2, prem|
         sum2 += prem['Fee Submitted']
       end
@@ -143,8 +143,9 @@ class Claim < ActiveRecord::Base
   end
 
   def remittance_details
+    return @remittance_details if @remittance_details
     return nil if remittance_advice.nil?
-    remittance_advice.claim_details(self)
+    @remittance_details = remittance_advice.claim_details(self)
   end
 
   def paid_fee

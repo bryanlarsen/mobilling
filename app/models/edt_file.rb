@@ -6,8 +6,8 @@ class EdtFile < ActiveRecord::Base
   scope :batch_acknowledgments, -> { where(type: 'BatchAcknowledgment') }
   scope :error_reports, -> { where(type: 'ErrorReport') }
 
-  has_many :claims, :through => :claim_files
-  has_many :claim_files
+  has_many :claims, :through => :claim_files, inverse_of: :files
+  has_many :claim_files, inverse_of: :edt_file
 
 # defined in children, so class_name can be more specific
 #  belongs_to :parent, class_name => "EdtFile"
@@ -55,6 +55,14 @@ class EdtFile < ActiveRecord::Base
 
   def messages
     []
+  end
+
+  def submitted_fee
+    claims.reduce(0) { |memo, claim| claim.submitted_fee+memo }
+  end
+
+  def paid_fee
+    claims.reduce(0) { |memo, claim| claim.paid_fee+memo }
   end
 
   def self.new_child(params)
