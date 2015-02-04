@@ -25,6 +25,7 @@
     "pickadate": "3.5.4",
     "react-bootstrap": "*",
     "react-router": "*",
+    "remarkable": "*",
     "typeahead.js": "*",
     "underscore": "*",
     "underscore.string": "*"

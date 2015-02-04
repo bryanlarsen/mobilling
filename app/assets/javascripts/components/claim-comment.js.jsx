@@ -1,5 +1,6 @@
 var ClaimComment = React.createClass({
   render: function() {
+    var md = new Remarkable();
     return (
       <div className="form-group">
         <div className="control-label col-md-2">
@@ -7,9 +8,7 @@ var ClaimComment = React.createClass({
           <p className="text-muted">{this.props.comment.get('user_name')}</p>
         </div>
         <div className="col-md-10">
-          <p className="form-control-static">
-            {this.props.comment.get('body')}
-          </p>
+          <p className="form-control-static" dangerouslySetInnerHTML={{"__html": md.render(this.props.comment.get('body'))}} />
         </div>
       </div>
     );
