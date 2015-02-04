@@ -5,7 +5,7 @@ claimActionsFor("<%= @form.claim.id %>").init(<%= @form.as_json(include_comments
   <%= react_component('ClaimEdit', {
       id: @form.claim.id,
       user: @user.as_json,
-      stack: params['stack'] || [],
+      stack: @stack,
       doctors: @doctors,
       backURL: admin_claims_path
       }) %>
