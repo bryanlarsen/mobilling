@@ -34,7 +34,7 @@
           </div>
         </div>
       </form>
-      <form action="<%= admin_edt_files_path %>" method="post" class="form-horizontal" enctype="multipart/form-data">
+      <%= form_tag admin_edt_files_path, class: "form-horizontal", multipart: true %>
         <div class="panel panel-default">
           <div class="panel-heading">
             <strong>Upload File</strong>

@@ -22,11 +22,14 @@ class Admin::EdtFilesController < Admin::BaseController
       puts e.to_s
       flash[:error] = "Invalid File #{e.to_s}"
       redirect_to admin_edt_files_path
+      authorize file
+      return
     end
     authorize file
     unless message.blank?
       flash[:error] = message
       redirect_to admin_edt_files_path
+      return
     end
     redirect_to admin_edt_file_path(file)
   end
