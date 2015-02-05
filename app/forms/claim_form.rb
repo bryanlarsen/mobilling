@@ -266,6 +266,8 @@ class ClaimForm
         }
       end
       if options && options[:include_comments] && @claim
+        response[:original_id] = @claim.original_id if @claim.original_id
+        response[:reclamation_id] = @claim.reclamation.id if @claim.status=="reclaimed" && @claim.reclamation
         response[:comments] = @claim.comments.map do |comment|
           {
             body: comment.body,

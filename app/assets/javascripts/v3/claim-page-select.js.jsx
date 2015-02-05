@@ -19,13 +19,17 @@ var ClaimPageSelect = React.createClass({
 
 
   render: function() {
+    var claimHref = function(id) {
+      return "/#/claim/"+id+"/patient";
+    };
+
     var store = this.state.store.get(this.props.params.id) || Immutable.fromJS({daily_details: [], diagnoses: []});
     var actions = claimActionsFor(this.props.params.id);
 
     if (['saved', 'doctor_attention'].indexOf(this.state.store.getIn([this.props.params.id, 'status'])) !== -1) {
-      return <ClaimPage {...this.props} store={store} actions={actions} />;
+      return <ClaimPage {...this.props} store={store} actions={actions} claimHref={claimHref} />;
     } else {
-      return <ClaimViewPage {...this.props} store={store} actions={actions} />;
+      return <ClaimViewPage {...this.props} store={store} actions={actions} claimHref={claimHref} />;
     }
   }
 });

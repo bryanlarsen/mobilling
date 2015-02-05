@@ -15,17 +15,21 @@ var ClaimEdit = React.createClass({
   },
 
   render: function() {
+    var claimHref = function(id) {
+      return "/admin/claims/"+id+"/edit";
+    };
+
     if (["saved", "for_agent", "doctor_attention"].indexOf(this.state.store.getIn([this.state.id, 'status'])) >= 0) {
       return (
         <div className="form-horizontal">
-          <ClaimForm {...this.props} actions={claimActionsFor(this.state.id)} store={this.state.store.get(this.state.id)} loadClaim={this.loadClaim} />
+          <ClaimForm {...this.props} actions={claimActionsFor(this.state.id)} store={this.state.store.get(this.state.id)} loadClaim={this.loadClaim} claimHref={claimHref} />
           <ClaimStatusActions {...this.props} actions={claimActionsFor(this.state.id)} store={this.state.store.get(this.state.id)} loadClaim={this.loadClaim} />
         </div>
       );
     } else {
       return (
         <div className="form-horizontal">
-          <ClaimView {...this.props} store={this.state.store.get(this.state.id)} />
+          <ClaimView {...this.props} store={this.state.store.get(this.state.id)} claimHref={claimHref} />
           <ClaimStatusActions {...this.props} actions={claimActionsFor(this.state.id)} store={this.state.store.get(this.state.id)} loadClaim={this.loadClaim} />
         </div>
       );

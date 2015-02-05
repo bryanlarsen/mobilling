@@ -29,7 +29,8 @@ class Claim < ActiveRecord::Base
   has_many :files, through: :claim_files, class_name: "EdtFile", source: :edt_file, inverse_of: :claims
   has_many :claim_files, inverse_of: :claim
 
-  belongs_to :original, class_name: "Claim"
+  belongs_to :original, class_name: "Claim", inverse_of: :reclamation
+  has_one :reclamation, class_name: "Claim", foreign_key: :original_id, inverse_of: :original
 
   def from_record(record)
     details_will_change!
@@ -171,6 +172,8 @@ class Claim < ActiveRecord::Base
     claim.status = 'for_agent'
     claim.number = Claim.all.maximum(:number).to_i.succ
     claim.original = self
+    claim.submitted_fee = 0
+    claim.paid_fee = 0
     self.status = 'reclaimed'
     self.save!
     details['daily_details'].each do |item|

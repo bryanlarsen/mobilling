@@ -44,6 +44,9 @@ var ClaimView = React.createClass({
         {this.props.store.get('files') && <ClaimStaticOptional {...this.props} name="files" value={this.props.store.get('files').map(function(href, filename) {
           return <a href={href}>{filename} </a>;
                                                          }).toJS()} /> }
+        {this.props.store.get('reclamation_id') && <ClaimStaticOptional {...this.props} name="reclamation_id" label="Reclamation" value={<a href={this.props.claimHref(this.props.store.get('reclamation_id'))}>{this.props.store.get('reclamation_id')}</a>}/>}
+
+        {this.props.store.get('original_id') && <ClaimStaticOptional {...this.props} name="original_id" label="Original Claim" value={<a href={this.props.claimHref(this.props.store.get('original_id'))}>{this.props.store.get('original_id')}</a>}/>}
 
         <br />
         <div className="row">

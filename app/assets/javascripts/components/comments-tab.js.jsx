@@ -22,6 +22,8 @@ var CommentsTab = React.createClass({
          </fieldset>
         }
 
+        {this.props.store.get('original_id') && <ClaimStaticOptional {...this.props} name="original_id" label="Original Claim" value={<a href={this.props.claimHref(this.props.store.get('original_id'))}>{this.props.store.get('original_id')}</a>}/>}
+
         <ClaimErrors data={this.props.store.get('validations')} name="Warnings"/>
         <ClaimErrors data={this.props.store.get('warnings')} name="Warnings"/>
         <ClaimErrors data={this.props.store.get('errors')} name="Errors"/>
