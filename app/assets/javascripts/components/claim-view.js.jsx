@@ -38,6 +38,14 @@ var ClaimView = React.createClass({
         <ClaimStaticOptional {...this.props} name="consult_premium_travel" label="Travel Premium" />
 
         <br />
+        <ClaimStaticOptional {...this.props} name="submitted_fee" value={this.props.store.get('submitted_fee') && dollars(this.props.store.get('submitted_fee'))} />
+        <ClaimStaticOptional {...this.props} name="paid_fee" value={this.props.store.get('paid_fee') && dollars(this.props.store.get('paid_fee'))} />
+
+        {this.props.store.get('files') && <ClaimStaticOptional {...this.props} name="files" value={this.props.store.get('files').map(function(href, filename) {
+          return <a href={href}>{filename} </a>;
+                                                         }).toJS()} /> }
+
+        <br />
         <div className="row">
           <ClaimItemList {...this.props} readonly silent={false} />
         </div>

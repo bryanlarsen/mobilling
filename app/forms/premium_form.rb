@@ -8,6 +8,7 @@ class PremiumForm
             [:uuid, String],
             [:code, String],
             [:fee, Integer],
+            [:paid, Integer],
             [:units, Integer],
             [:message, String],
            ]

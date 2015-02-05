@@ -275,6 +275,15 @@ class ClaimForm
         end
         response[:num_comments] = @claim.comments.size
       end
+      if options && options[:include_total] && @claim
+        response[:submitted_fee] = @claim.submitted_fee
+        response[:paid_fee] = @claim.paid_fee
+      end
+      if options && options[:include_files] && @claim && @claim.files.size > 0
+        response[:files] = @claim.files.reduce({}) do |hash, file|
+          hash.merge(file.filename => Rails.application.routes.url_helpers.admin_edt_file_path(file))
+        end
+      end
     end
   end
 end
