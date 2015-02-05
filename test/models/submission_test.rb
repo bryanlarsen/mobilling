@@ -20,13 +20,15 @@ class SubmissionTest < ActiveSupport::TestCase
 
     interactor.perform(@user, claims, DateTime.new(2014,8,10))
     assert interactor.errors.length == 0
+    assert_equal claims[0].submitted_fee, 16856
 
     s = Submission.new(interactor.attributes)
     s.save!
 
     c=Claim.find_by(number: 99999999)
     assert c.submission.id == s.id
-    assert s.submitted_fee == 16856
+    assert_equal c.submitted_fee, 16856
+    assert_equal s.submitted_fee, 16856
   end
 
   test 'upload submission' do
@@ -50,7 +52,8 @@ EOS
     assert s.claims[0].details['daily_details'][0]['day'] == '2014-08-11'
     assert s.claims[0].details['daily_details'][0]['fee'] == 16856
     assert s.batch_id == '201408100000'
-    assert s.submitted_fee == 16856
+    assert_equal s.claims[0].submitted_fee, 16856
+    assert_equal s.submitted_fee, 16856
     assert s.sequence_number == 564
   end
 

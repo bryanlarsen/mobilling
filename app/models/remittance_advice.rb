@@ -131,9 +131,11 @@ class RemittanceAdvice < EdtFile
       if @memo[:claim_records][claim.id]
         claim.status = @memo[:claim_attn][claim.id] ? 'agent_attention' : 'done'
         claim.files << self
+        paid = 0
         claim.details['daily_details'].each_with_index do |daily, i|
           record = @memo[:item_records][claim.id][i]
           if record
+            paid += record['Amount Paid']
             daily['paid'] = record['Amount Paid']
             if !record['Explanatory Code'].blank?
               daily['message'] = "#{record['Explanatory Code']}: #{RemittanceAdviceCode.find_by(code: record['Explanatory Code']).name}"
@@ -143,6 +145,7 @@ class RemittanceAdvice < EdtFile
           (daily['premiums'] || []).each_with_index do |premium, j|
             record = @memo[:premium_records][claim.id][i][j]
             if record
+              paid += record['Amount Paid']
               premium['paid'] = record['Amount Paid']
               if !record['Explanatory Code'].blank?
                 premium['message'] = "#{record['Explanatory Code']}: #{RemittanceAdviceCode.find_by(code: record['Explanatory Code']).name}"
@@ -150,6 +153,7 @@ class RemittanceAdvice < EdtFile
             end
           end
         end
+        claim.paid_fee = paid
         claim.save!
       end
     end

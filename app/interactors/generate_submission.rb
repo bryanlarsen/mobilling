@@ -74,8 +74,8 @@ class GenerateSubmission
       @contents += r.to_s
       @errors[claim.number] += r.errors if r.errors.length > 0
     end
-    claim.items.each do |daily|
-      generate_details(daily, claim)
+    claim.items.reduce(0) do |total, daily|
+      total + generate_details(daily, claim)
     end
   end
 
@@ -91,8 +91,8 @@ class GenerateSubmission
     @errors[claim.number] += r.errors if r.errors.length > 0
     @num_records += 1
 
-    daily[:premiums].each do |premium|
-      generate_premium(premium, daily, claim)
+    daily[:fee]*100 + daily[:premiums].reduce(0) do |total, premium|
+      total + generate_premium(premium, daily, claim)
     end
   end
 
@@ -107,6 +107,7 @@ class GenerateSubmission
     @contents += r.to_s
     @errors[claim.number] += r.errors if r.errors.length > 0
     @num_records += 1
+    premium[:fee]*100
   end
 
   def initialize
@@ -134,7 +135,7 @@ class GenerateSubmission
     @batch_id = @contents[7..18]
 
     claims.each do |claim|
-      generate_claim(claim)
+      claim.submitted_fee = generate_claim(claim)
       claim.status = 'file_created'
     end
 

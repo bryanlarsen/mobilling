@@ -71,6 +71,7 @@ class Claim < ActiveRecord::Base
       "units" => record['Number of Services'],
       "day" => record['Service Date'].strftime("%Y-%m-%d"),
     }
+    self.submitted_fee += record['Fee Submitted']
   end
 
   # assumption is that submission with lowest status is the 'right' one
@@ -130,14 +131,6 @@ class Claim < ActiveRecord::Base
     @submitted_details
   end
 
-  def submitted_fee
-    submitted_details['daily_details'].reduce(0) do |sum, dets|
-      sum += dets['Fee Submitted'] + dets['premiums'].reduce(0) do |sum2, prem|
-        sum2 += prem['Fee Submitted']
-      end
-    end
-  end
-
   def remittance_advice
     files.remittance_advices.order("created_at").last
   end
@@ -146,15 +139,6 @@ class Claim < ActiveRecord::Base
     return @remittance_details if @remittance_details
     return nil if remittance_advice.nil?
     @remittance_details = remittance_advice.claim_details(self)
-  end
-
-  def paid_fee
-    return 0 if remittance_details.nil?
-    remittance_details['items'].reduce(0) do |sum, dets|
-      sum += dets['Amount Paid'] + dets['premiums'].reduce(0) do |sum2, prem|
-        sum2 += prem['Amount Paid']
-      end
-    end
   end
 
   # daily_details, normalized, and with a better name
