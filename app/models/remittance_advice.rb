@@ -150,10 +150,6 @@ class RemittanceAdvice < EdtFile
             end
           end
         end
-        comment_user = User.find_by(role: User.roles["ministry"])
-        @memo[:messages].each do |message|
-          claim.comments.create!(body: message, user: comment_user)
-        end
         claim.save!
       end
     end
