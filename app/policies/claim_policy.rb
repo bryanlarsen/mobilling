@@ -28,7 +28,7 @@ class ClaimPolicy < Struct.new(:current_user, :claim)
   end
 
   def destroy?
-    access?
+    access? && ['saved', 'for_agent', 'ready'].include?(claim.status)
   end
 end
 

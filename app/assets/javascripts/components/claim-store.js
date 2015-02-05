@@ -16,6 +16,7 @@ var claimActions = exports.claimActions = Fynx.createActions([
   'saveComplete',
   'saveFailed',
   'load',
+  'remove',
 ]);
 
 // http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
@@ -259,7 +260,27 @@ claimActions.load.listen(function(id) {
       globalActions.unrecoverableError();
     }
   });
-})
+});
+
+claimActions.remove.listen(function(id) {
+  console.log('load',id);
+  globalActions.startBusy();
+  $.ajax({
+    url: '/v1/claims/'+id,
+    dataType: 'json',
+    type: 'DELETE',
+    success: function(data) {
+      globalActions.endBusy();
+      claimStore(claimStore().remove(id));
+      claimListActions.remove(id);
+    },
+    error: function(xhr, status, err) {
+      console.error(id+': error deleting. '+err.toString())
+      globalActions.endBusy();
+      globalActions.unrecoverableError();
+    }
+  });
+});
 
 var actionsFor = {};
 

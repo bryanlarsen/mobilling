@@ -1,15 +1,41 @@
 var ClaimList = React.createClass({
+  mixins: [ ReactRouter.Navigation ],
+
+  clickRow: function(id, ev) {
+    ev.preventDefault();
+    this.transitionTo('claim_patient', {id: id});
+  },
+
+  clickDelete: function(id, index, ev) {
+    ev.preventDefault();
+    if (confirm("Are you sure you really wish to delete claim "+this.props.store.getIn([index, 'number'])+"?")) {
+      claimActions.remove(id);
+    }
+  },
+
   render: function() {
-    var claims = this.props.store.map(function(claim) {
-      console.log('id', claim.get('id'));
+    var claims = this.props.store.map(function(claim, index) {
+      var id = claim.get('id');
+      var clicker = this.clickRow.bind(this, id);
+      var del = this.clickDelete.bind(this, id, index);
+
       return (
-        <Link key={"claim-"+claim.get('id')} to="claim_patient" params={{id: claim.get('id')}}><li className="list-group-item">Claim {claim.get('number')} {claim.get('status')}</li></Link>
+        <tr key={id}>
+          <td onClick={clicker}>{claim.get('number')}</td>
+          <td onClick={clicker}>{claim.get('status')}</td>
+          {claim.get('status') === 'saved' && <td><button className="btn btn-danger btn-sm" onClick={del}><Icon i="trash-o" /></button></td>}
+        </tr>
       );
-    }).toJS();
+    }, this).toJS();
     return (
-      <ul className="list-group with-bottom">
-        {claims}
-      </ul>
+      <table className="table table-hover table-striped with-bottom">
+        <thead>
+          <tr><th>Claim</th><th>Status</th><th /></tr>
+        </thead>
+        <tbody>
+          {claims}
+        </tbody>
+      </table>
     );
   }
 });

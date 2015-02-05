@@ -89,7 +89,7 @@ class V1::ClaimsController < V1::BaseController
   api :DELETE, "/v1/claims/:id", "Deletes a claim"
 
   def destroy
-    @claim = policy_scope(Claim).where(status: "saved").find(params[:id])
+    @claim = Claim.find(params[:id])
     authorize @claim
     @claim.destroy
     show ClaimForm.new(@claim)
