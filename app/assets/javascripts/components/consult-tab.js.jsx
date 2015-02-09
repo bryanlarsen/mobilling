@@ -109,6 +109,14 @@ var ConsultTab = React.createClass({
         return <ConsultType {...this.props} consultType={consultType} key={consultType} />
        }, this) }
 
+       <ClaimFormGroup label="Special Visit Premium">
+         <div>
+           <ClaimYesNo {...this.props} name="consult_premium_visit" onChange={this.premiumChanged} disabled={premium_disabled}/>
+           <span>{premium_label}</span>
+         </div>
+       </ClaimFormGroup>
+
+      { (premium_visit || consultTimeVisible) &&
       <div className="form-group">
         <label className="control-label col-xs-2">Time</label>
         <div className="col-xs-4">
@@ -118,16 +126,7 @@ var ConsultTab = React.createClass({
           <ClaimTime {...this.props} name="consult_time_out" onChange={this.fieldChanged} min={this.props.store.get('consult_time_in')} />
         </div>}
       </div>
-
-       <ClaimFormGroup label="Special Visit Premium">
-         { time_type ?
-          <div>
-            <ClaimYesNo {...this.props} name="consult_premium_visit" onChange={this.premiumChanged} disabled={premium_disabled}/>
-            <span>{premium_label}</span>
-          </div>
-                                                                                               : <div>Please set Claim Date and time</div>
-         }
-       </ClaimFormGroup>
+      }
 
       { premium_visit &&
        <ClaimFormGroup label="Travel Premium">
