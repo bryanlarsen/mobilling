@@ -224,7 +224,7 @@ class ClaimForm
 
   def consult_premium_visit_count
     if consult_time_type && user
-      @consult_premium_visit_count ||= user.claims.where("details ->> 'consult_premium_visit' = ?", consult_time_type).count
+      @consult_premium_visit_count ||= user.claims.where("details ->> 'first_seen_on' = ? and details ->> 'consult_premium_visit' = ?", first_seen_on, consult_time_type).count
     else
       nil
     end
@@ -232,7 +232,7 @@ class ClaimForm
 
   def consult_premium_first_count
     if consult_time_type && user
-      @consult_premium_first_count ||= user.claims.where("details ->> 'consult_premium_first' = 'true' and details ->> 'consult_premium_visit' = ?", consult_time_type).count
+      @consult_premium_first_count ||= user.claims.where("details ->> 'first_seen_on' = ? and details ->> 'consult_premium_first' = 'true' and details ->> 'consult_premium_visit' = ?", first_seen_on, consult_time_type).count
     else
       nil
     end
@@ -240,7 +240,7 @@ class ClaimForm
 
   def consult_premium_travel_count
     if consult_time_type && user
-      @consult_premium_travel_count ||= user.claims.where("details ->> 'consult_premium_travel' = 'true' and details ->> 'consult_premium_visit' = ?", consult_time_type).count
+      @consult_premium_travel_count ||= user.claims.where("details ->> 'first_seen_on' = ? and details ->> 'consult_premium_travel' = 'true' and details ->> 'consult_premium_visit' = ?", first_seen_on, consult_time_type).count
     else
       nil
     end
