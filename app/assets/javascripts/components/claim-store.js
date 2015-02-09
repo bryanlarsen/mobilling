@@ -46,14 +46,24 @@ var updateConsult = function(claim) {
 
   if (!time_type) return claim;
 
-  if (premium && !(premium === time_type || (premium === 'weekday_office_hours' && time_type === 'weekday_day'))) {
+  if (premium === 'weekday_office_hours' && time_type === 'weekday_day') time_type = premium;
+
+  if (claim.get('consult_time_type') !== time_type) claim = claim.set('consult_time_type', time_type);
+
+  if (premium && claim.get('consult_premium_first_count') === 0) claim = claim.set('consult_premium_first', true);
+
+  if (claim.get('consult_premium_first_count') > 1 && claim.get('consult_premium_first')) claim = claim.set('consult_premium_first', false);
+
+  if (!premium && claim.get('consult_premium_first')) claim = claim.set('consult_premium_first', false);
+
+  if (premium && premium !== time_type) {
     premium = time_type;
     claim = claim.set('consult_premium_visit', premium);
   }
 
   if (!premium && travel) {
     travel = false;
-    claim.set('consult_premium_travel', travel);
+    claim = claim.set('consult_premium_travel', travel);
   }
 
   return claim;
@@ -86,6 +96,8 @@ claimActions.updateFields.listen(function(data) {
   }
 });
 
+var serverCalculatedFields = ['submission', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count'];
+
 claimActions.attemptSave.listen(function(id) {
   console.log('attemptSave', id);
 
@@ -103,7 +115,9 @@ claimActions.attemptSave.listen(function(id) {
     processData: false,
     type: 'PUT',
     success: function(data) {
-      claimActions.saveComplete({id: id, errors: data.errors, warnings: data.warnings, submission: data.submission});
+      var updated = _.pick.apply(null, [data].concat(serverCalculatedFields));
+      updated.id = id;
+      claimActions.saveComplete(updated);
       globalActions.endBusy();
     },
     error: function(xhr, status, err) {
@@ -124,12 +138,10 @@ claimActions.attemptSave.listen(function(id) {
 var processClaimResponse = function(data) {
   claimStore().get(data.id).withMutations(function(store) {
     _.each(data, function(value, type) {
-      if (type === 'submission') {
-        store = store.set(type, value);
-        return;
+      if (serverCalculatedFields.indexOf(type) !== -1) {
+        store = store.set(type, Immutable.fromJS(value));
       }
       if (type !== 'warnings' && type !== 'errors') return;
-      store = store.set(type, Immutable.fromJS(value));
       for (var i=0; i < store.get('daily_details').count(); i++) {
         var premiums = store.getIn(['daily_details', i, 'premiums']);
         if (premiums) {

@@ -44,7 +44,7 @@ class ClaimForm
   end
 
   def self.scalar_params
-    return model_params + details_params + [[:comment, String], [:num_comments, Integer]]
+    return model_params + details_params + [[:comment, String], [:num_comments, Integer], [:consult_time_type, String]]
   end
 
   def self.array_params
@@ -222,6 +222,30 @@ class ClaimForm
     # FIXME
   end
 
+  def consult_premium_visit_count
+    if consult_time_type && user
+      @consult_premium_visit_count ||= user.claims.where("details ->> 'consult_premium_visit' = ?", consult_time_type).count
+    else
+      nil
+    end
+  end
+
+  def consult_premium_first_count
+    if consult_time_type && user
+      @consult_premium_first_count ||= user.claims.where("details ->> 'consult_premium_first' = 'true' and details ->> 'consult_premium_visit' = ?", consult_time_type).count
+    else
+      nil
+    end
+  end
+
+  def consult_premium_travel_count
+    if consult_time_type && user
+      @consult_premium_travel_count ||= user.claims.where("details ->> 'consult_premium_travel' = 'true' and details ->> 'consult_premium_visit' = ?", consult_time_type).count
+    else
+      nil
+    end
+  end
+
   def as_json(options = nil)
     attributes.except(:user)
       .merge(@claim ? {
@@ -285,6 +309,11 @@ class ClaimForm
         response[:files] = @claim.files.reduce({}) do |hash, file|
           hash.merge(file.filename => Rails.application.routes.url_helpers.admin_edt_file_path(file))
         end
+      end
+      if options && options[:include_consult_counts]
+        response[:consult_premium_visit_count] = consult_premium_visit_count
+        response[:consult_premium_first_count] = consult_premium_first_count
+        response[:consult_premium_travel_count] = consult_premium_travel_count
       end
     end
   end

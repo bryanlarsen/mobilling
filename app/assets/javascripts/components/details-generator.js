@@ -97,6 +97,16 @@
     }[[firstAffix(first), erAffix(consult), visitAffix(visit)].join("_")];
   }
 
+  function premiumVisitLimit(consult, visit) {
+    return {
+      office_hours: 10,
+      day:          10,
+      evening:      10,
+      holiday:      20,
+      night:        999,
+    }[visitAffix(visit)];
+  }
+
   function premiumTravelCode(consult, visit) {
     return {
       non_er_office_hours: "C961A",
@@ -110,6 +120,16 @@
       er_holiday:          "K963A",
       er_night:            "K964A"
     }[[erAffix(consult), visitAffix(visit)].join("_")];
+  }
+
+  function premiumTravelLimit(consult, visit) {
+    return {
+      office_hours: 2,
+      day:          2,
+      evening:      2,
+      holiday:      6,
+      night:        999,
+    }[visitAffix(visit)];
   }
 
   function firstFiveWeeksCode(specialty) {
@@ -243,6 +263,8 @@
   detailsGenerator.consultCode = consultCode;
   detailsGenerator.premiumVisitCode = premiumVisitCode;
   detailsGenerator.premiumTravelCode = premiumTravelCode;
+  detailsGenerator.premiumVisitLimit = premiumVisitLimit;
+  detailsGenerator.premiumTravelLimit = premiumTravelLimit;
 
   exports.detailsGenerator = detailsGenerator;
 })(window);

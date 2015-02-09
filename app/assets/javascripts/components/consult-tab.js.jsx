@@ -54,13 +54,6 @@ var ConsultTab = React.createClass({
       family_medicine:   ["general", "special", "comprehensive", "on_call_admission"]
     }[this.props.store.get('specialty')];
 
-    var consult_type = this.props.store.get('consult_type');
-    var premium_visit = this.props.store.get('consult_premium_visit');
-    var consultTimeVisible = ["comprehensive_er", "comprehensive_non_er", "special_er", "special_non_er"].indexOf(consult_type) !== -1;
-
-    var day_type = this.props.store.get('first_seen_on') && dayType(this.props.store.get('first_seen_on'));
-    var time_type = day_type && this.props.store.get('consult_time_in') && timeType(this.props.store.get('first_seen_on'), this.props.store.get('consult_time_in'));
-
     var visit_labels = {
         weekday_day:          "Weekday (07:00-17:00)",
         weekday_office_hours: "Office hours (07:00-17:00)",
@@ -71,6 +64,35 @@ var ConsultTab = React.createClass({
         holiday_day:          "Holiday (07:00-0:00)",
         holiday_night:        "Night (00:00-07:00)"
     };
+
+    var consult_type = this.props.store.get('consult_type');
+    var premium_visit = this.props.store.get('consult_premium_visit');
+    var consultTimeVisible = ["comprehensive_er", "comprehensive_non_er", "special_er", "special_non_er"].indexOf(consult_type) !== -1;
+
+    var day_type = this.props.store.get('first_seen_on') && dayType(this.props.store.get('first_seen_on'));
+    var time_type = day_type && this.props.store.get('consult_time_in') && timeType(this.props.store.get('first_seen_on'), this.props.store.get('consult_time_in'));
+
+    if (time_type) {
+      var first = premium_visit ? this.props.store.get('consult_premium_first') : this.props.store.get('consult_premium_first_count') === 0;
+      var premium_label = detailsGenerator.premiumVisitCode(first, consult_type, premium_visit || time_type) +
+        ": " + visit_labels[premium_visit || time_type];
+      var premium_disabled = false;
+      if (typeof(this.props.store.get('consult_premium_visit_count'))==="number") {
+        var n = detailsGenerator.premiumVisitLimit(consult_type, premium_visit || time_type) - this.props.store.get('consult_premium_visit_count');
+        if (n < 100) premium_label = premium_label + " ("+n+" remaining)";
+        if (n <= 0) premium_disabled = true;
+      }
+
+    }
+    if (premium_visit) {
+      var travel_label = detailsGenerator.premiumTravelCode(consult_type, premium_visit);
+      var travel_disabled = false;
+      if (typeof(this.props.store.get('consult_premium_travel_count'))==="number") {
+        var n = detailsGenerator.premiumTravelLimit(consult_type, premium_visit) - this.props.store.get('consult_premium_travel_count');
+        if (n < 100) travel_label = travel_label + " ("+n+" remaining)";
+        if (n <= 0 && !this.props.store.get('consult_premium_travel')) travel_disabled = true;
+      }
+    }
 
     return (
     <div>
@@ -100,8 +122,8 @@ var ConsultTab = React.createClass({
        <ClaimFormGroup label="Special Visit Premium">
          { time_type ?
           <div>
-            <ClaimYesNo {...this.props} name="consult_premium_visit" onChange={this.premiumChanged} />
-            <span>{detailsGenerator.premiumVisitCode(this.props.store.get('consult_premium_first'), consult_type, premium_visit || time_type)}: {visit_labels[premium_visit || time_type]}</span>
+            <ClaimYesNo {...this.props} name="consult_premium_visit" onChange={this.premiumChanged} disabled={premium_disabled}/>
+            <span>{premium_label}</span>
           </div>
                                                                                                : <div>Please set Claim Date and time</div>
          }
@@ -109,8 +131,8 @@ var ConsultTab = React.createClass({
 
       { premium_visit &&
        <ClaimFormGroup label="Travel Premium">
-         <ClaimYesNo {...this.props} name="consult_premium_travel" />
-         <span>{detailsGenerator.premiumTravelCode(consult_type, premium_visit)}</span>
+         <ClaimYesNo {...this.props} name="consult_premium_travel" disabled={travel_disabled}/>
+         <span>{travel_label}</span>
        </ClaimFormGroup>
       }
 
@@ -120,6 +142,13 @@ var ConsultTab = React.createClass({
        </ClaimFormGroup>
       }
 
+       <ClaimFormGroup label="premium count">
+         {this.props.store.get('consult_premium_visit_count')}
+       </ClaimFormGroup>
+
+       <ClaimFormGroup label="premium first count">
+         {this.props.store.get('consult_premium_first_count')}
+       </ClaimFormGroup>
     </div>
     );
   }
