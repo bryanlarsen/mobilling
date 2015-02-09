@@ -31,7 +31,7 @@ var ClaimYesNo = React.createClass({
   render: function() {
     return (
       <ClaimInputWrapper {...this.props}>
-        <YesNo name={this.props.name} on={this.props.store.get(this.props.name)} onChange={this.props.onChange || this.handleChange}/>
+        <YesNo name={this.props.name} on={this.props.store.get(this.props.name)} onChange={this.props.onChange || this.handleChange} disabled={this.props.disabled}/>
       </ClaimInputWrapper>
     );
   }
