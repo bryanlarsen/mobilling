@@ -31,9 +31,37 @@ claimStore.listen(function(store) {
 //  console.log('change', store);
 });
 
+var updateConsult = function(claim) {
+  var date = claim.get('admission_on') || claim.get('first_seen_on') || claim.get('last_seen_on');
+  if (date && !claim.get('admission_on')) claim = claim.set('admission_on', date);
+  if (date && !claim.get('first_seen_on')) claim = claim.set('first_seen_on', date);
+  if (date && !claim.get('last_seen_on')) claim = claim.set('last_seen_on', date);
+
+  if (claim.get('admission_on') === claim.get('first_seen_on') && !claim.get('first_seen_consult')) claim = claim.set('first_seen_consult', true);
+
+  var premium = claim.get('consult_premium_visit');
+  var travel = claim.get('consult_premium_travel');
+  var day_type = claim.get('first_seen_on') && dayType(claim.get('first_seen_on'));
+  var time_type = day_type && claim.get('consult_time_in') && timeType(claim.get('first_seen_on'), claim.get('consult_time_in'));
+
+  if (!time_type) return claim;
+
+  if (premium && !(premium === time_type || (premium === 'weekday_office_hours' && time_type === 'weekday_day'))) {
+    premium = time_type;
+    claim = claim.set('consult_premium_visit', premium);
+  }
+
+  if (!premium && travel) {
+    travel = false;
+    claim.set('consult_premium_travel', travel);
+  }
+
+  return claim;
+};
+
 claimActions.updateFields.listen(function(data) {
   console.log('updateFields', data);
-  var changed = false;
+  var changed = [];
   var save = {};
   var newStore = claimStore().withMutations(function(store) {
     _.each(data, function(tuple) {
@@ -43,6 +71,10 @@ claimActions.updateFields.listen(function(data) {
       if (name !== 'validations' && tuple[0][1] !== 'validations') save[tuple[0][0]] = true;
       console.log('updateField', tuple[0], tuple[1], ', was', claimStore().getIn(tuple[0]));
       store.setIn(tuple[0], tuple[1]);
+    });
+
+    _.each(save, function(t, id) {
+      store.set(id, updateConsult(store.get(id)));
     });
   });
 
@@ -296,7 +328,6 @@ exports.claimActionsFor = function(id) {
     'removeItem',
     'newPremium',
     'removePremium',
-    'recalculateConsult',
   ]);
 
   actionsFor[id].init.listen(function(data) {
@@ -340,30 +371,6 @@ exports.claimActionsFor = function(id) {
   actionsFor[id].removePremium.listen(function(data) {
     data.id = id;
     claimActions.removePremium(data);
-  });
-
-  actionsFor[id].recalculateConsult.listen(function() {
-    var changes = [];
-    var premium = claimStore().getIn([id, 'consult_premium_visit']);
-    var travel = claimStore().getIn([id, 'consult_premium_travel']);
-    var day_type = claimStore().getIn([id, 'first_seen_on']) && dayType(claimStore().getIn([id, 'first_seen_on']));
-    var time_type = day_type && claimStore().getIn([id, 'consult_time_in']) && timeType(claimStore().getIn([id, 'first_seen_on']), claimStore().getIn([id, 'consult_time_in']));
-
-    if (!time_type) return;
-
-    if (premium && !(premium === time_type || (premium === 'weekday_office_hours' && time_type === 'weekday_day'))) {
-      premium = time_type;
-      changes.push([['consult_premium_visit'], premium]);
-    }
-
-    if (!premium && travel) {
-      travel = null;
-      changes.push([['consult_premium_travel'], travel]);
-    }
-
-    if (changes.length) {
-      actionsFor[id].updateFields(changes);
-    }
   });
 
   return actionsFor[id];

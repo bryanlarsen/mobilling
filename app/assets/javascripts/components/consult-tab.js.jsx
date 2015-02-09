@@ -1,7 +1,6 @@
 var ConsultType = React.createClass({
   fieldChanged: function(ev) {
     this.props.actions.updateFields([[[ev.target.name], ev.target.value]]);
-    this.props.actions.recalculateConsult();
   },
 
   render: function() {
@@ -30,7 +29,6 @@ var ConsultType = React.createClass({
 var ConsultTab = React.createClass({
   fieldChanged: function(ev) {
     this.props.actions.updateFields([[[ev.target.name], ev.target.value]]);
-    this.props.actions.recalculateConsult();
   },
 
   premiumChanged: function(ev) {
@@ -39,7 +37,6 @@ var ConsultTab = React.createClass({
     } else {
       this.props.actions.updateFields([[['consult_premium_visit'], null]]);
     }
-    this.props.actions.recalculateConsult();
   },
 
   officeHoursChanged: function(ev) {
@@ -48,7 +45,6 @@ var ConsultTab = React.createClass({
     } else {
       this.props.actions.updateFields([[['consult_premium_visit'], "calculate"]]);
     }
-    this.props.actions.recalculateConsult();
   },
 
   render: function() {
