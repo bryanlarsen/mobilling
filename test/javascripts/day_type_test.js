@@ -65,3 +65,19 @@ describe("day type", function () {
         expect(dayType("2014-08-08")).toEqual("weekday");
     });
 });
+
+describe("time type", function () {
+  it("works", function() {
+    expect(timeType("2015-10-12", "06:59")).toEqual("holiday_night");
+    expect(timeType("2015-10-12", "07:00")).toEqual("holiday_day");
+    expect(timeType("2015-10-12", "17:00")).toEqual("holiday_day");
+    expect(timeType("2015-02-09", "06:59")).toEqual("weekday_night");
+    expect(timeType("2015-02-09", "07:00")).toEqual("weekday_day");
+    expect(timeType("2015-02-09", "16:59")).toEqual("weekday_day");
+    expect(timeType("2015-02-09", "17:00")).toEqual("weekday_evening");
+    expect(timeType("2015-02-08", "06:59")).toEqual("weekend_night");
+    expect(timeType("2015-02-08", "07:00")).toEqual("weekend_day");
+    expect(timeType("2015-02-08", "16:59")).toEqual("weekend_day");
+    expect(timeType("2015-02-08", "17:00")).toEqual("weekend_day");
+  });
+});
