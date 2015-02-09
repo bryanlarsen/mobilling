@@ -108,7 +108,7 @@ class V1::ClaimsControllerTest < ActionController::TestCase
   test "destroy responds with not found when claim is unprocessed" do
     user = create(:user)
     @controller.sign_in(user, user.authentication_token)
-    claim = create(:claim, user: user, status: "for_agent")
+    claim = create(:claim, user: user, status: "uploaded")
     delete :destroy, id: claim.id, format: "json"
     assert_response :not_found
   end
