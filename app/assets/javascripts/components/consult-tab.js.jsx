@@ -142,13 +142,6 @@ var ConsultTab = React.createClass({
        </ClaimFormGroup>
       }
 
-       <ClaimFormGroup label="premium count">
-         {this.props.store.get('consult_premium_visit_count')}
-       </ClaimFormGroup>
-
-       <ClaimFormGroup label="premium first count">
-         {this.props.store.get('consult_premium_first_count')}
-       </ClaimFormGroup>
     </div>
     );
   }
