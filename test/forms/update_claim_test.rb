@@ -59,11 +59,4 @@ class UpdateClaimTest < ActiveSupport::TestCase
     assert @form.perform
     assert_equal old_number, @form.claim.number
   end
-
-  test "orders daily details by day" do
-    @form.daily_details = [{"day" => "2014-12-31"}, {"day" => "2014-12-01"}]
-    @form.perform
-    assert_equal("2014-12-01", @form.claim.details["daily_details"].first["day"])
-    assert_equal("2014-12-31", @form.claim.details["daily_details"].last["day"])
-  end
 end
