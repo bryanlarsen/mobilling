@@ -126,7 +126,6 @@ class ClaimForm
   def daily_details
     return @daily_details unless @daily_details.is_a?(Array)
     @daily_details.map { |daily_detail| DailyDetailForm.new(daily_detail) }
-      .sort_by { |daily_detail| daily_detail.day }
   end
 
   def diagnoses
@@ -184,7 +183,7 @@ class ClaimForm
         dets[param.to_s] = self.send(param)
       end
       dets["diagnoses"] = (diagnoses || []).map(&:as_json)
-      dets["daily_details"] = (daily_details || []).map(&:as_json).sort_by { |daily_detail| daily_detail["day"] }
+      dets["daily_details"] = (daily_details || []).map(&:as_json)
     end
   end
 

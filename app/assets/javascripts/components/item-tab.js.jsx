@@ -11,12 +11,14 @@ var ItemGenerator = function(claim, props) {
 
 ItemGenerator.prototype.go = function() {
   _.each(this.toRemove, function(remove) {
-    this.props.actions.removeItem({index: remove});
+    this.props.actions.removeItem({index: remove, dontSave: true});
   }, this);
   _.each(this.toAdd, function(add) {
-    this.props.actions.newItem({template: this.next[add]});
+    this.props.actions.newItem({template: this.next[add], dontSave: true});
   }, this);
-  this.props.actions.updateFields([[['last_code_generation'], JSON.stringify(this.nextSigs)]]);
+  var updates = [[['last_code_generation'], JSON.stringify(this.nextSigs)]];
+  updates.forceSave = true;
+  this.props.actions.updateFields(updates);
 };
 
 var ItemsTab = React.createClass({

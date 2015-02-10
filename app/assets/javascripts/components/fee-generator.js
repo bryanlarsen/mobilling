@@ -97,10 +97,8 @@ FeeGenerator.prototype.calculateFee = function(detail, code) {
 };
 
 
-var feeGeneratorPromise;
-var feeGenerator = function() {
-  return (feeGeneratorPromise = feeGeneratorPromise ||
-    new Promise(function(resolve, reject) {
+var feeGenerator;
+setTimeout(function() {
       $.ajax({
         url: '/v1/service_codes.json',
         dataType: 'json',
@@ -113,15 +111,11 @@ var feeGenerator = function() {
             array[i] = sc.name;
           });
           serviceCodesEngine.add(array);
-          resolve(new FeeGenerator(hash));
+          feeGenerator = new FeeGenerator(hash);
         },
         error: function(xhr, status, err) {
           console.error('failed to load service codes');
           reject(Error('failed to load service codes'));
         }
       });
-    })
-  );
-};
-
-
+}, 2000);

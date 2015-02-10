@@ -22,9 +22,10 @@ detailsToAdd = function(currentSigs, nextSigs, oldSigs) {
 
 // returns the index in currentSig for every sig that we need to remove:
 // it's exists in old but not in new and still exists in current.
+// returns in reverse order so that removal is stable
 detailsToRemove = function(currentSigs, nextSigs, oldSigs) {
   return _.intersection(_.difference(oldSigs, nextSigs), currentSigs).map(function(sig) {
     return currentSigs.indexOf(sig);
-  });
+  }).sort().reverse();
 };
 

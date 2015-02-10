@@ -69,12 +69,37 @@ var updateConsult = function(claim) {
   return claim;
 };
 
+var updateItem = function(item) {
+  if (!feeGenerator) return item;
+
+  var result = feeGenerator.calculateFee(item.toJS(), item.get('code'));
+  if (result) {
+    item = item.set('fee', result.fee).set('units', result.units);
+
+    item.get('premiums').forEach(function(premium, i) {
+      var result = feeGenerator.calculateFee(item.toJS(), premium.get('code'));
+      if (result) {
+        item = item.setIn(['premiums', i, 'fee'], result.fee)
+          .setIn(['premiums', i, 'units'], result.units);
+      }
+    });
+  }
+  return item;
+};
+
 claimActions.updateFields.listen(function(data) {
   console.log('updateFields', data);
-  var changed = [];
+  var changed = false;
   var save = {};
+  var items = {};
   var newStore = claimStore().withMutations(function(store) {
     _.each(data, function(tuple) {
+      if (tuple[1] === '*recalculate') {
+        items[tuple[0][0]] = items[tuple[0][0]] || {};
+        // assert tuple[0][1] === 'daily_details'
+        items[tuple[0][0]][tuple[0][2]] = true;
+      }
+
       if (store.getIn(tuple[0]) === tuple[1]) return;
       changed = true;
       var name = tuple[0][tuple[0].length-1];
@@ -86,7 +111,18 @@ claimActions.updateFields.listen(function(data) {
     _.each(save, function(t, id) {
       store.set(id, updateConsult(store.get(id)));
     });
+
+    _.each(items, function(hash, id) {
+      _.each(hash, function(t, i) {
+        store.setIn([id, 'daily_details', i], updateItem(store.getIn([id, 'daily_details', i])));
+      });
+    });
   });
+
+  if (data.forceSave) {
+    changed = true;
+    save[data.forceSave] = true;
+  }
 
   if (changed) {
     claimStore(newStore);
@@ -227,25 +263,28 @@ claimActions.saveFailed.listen(function(data) {
 });
 
 claimActions.newItem.listen(function(data) {
-  console.log('newItem', data);
   data.template.uuid = data.template.uuid || uuid();
   data.template.premiums = data.template.premiums || [];
   data.index = data.index || claimStore().getIn([data.id, 'daily_details']).count() - 1;
   console.log('newItem', data);
   var newItem = Immutable.fromJS(data.template);
+  newItem = updateItem(newItem);
 
   var newList = claimStore().getIn([data.id, 'daily_details']).splice(data.index + 1, 0, newItem);
   claimStore(claimStore().setIn([data.id, 'daily_details'], newList.toList()));
 
-  itemActionsFor(data.id, data.index + 1).recalculate();
-  // claimActions.attemptSave(data.id); done by the recalculate
+  if (!data.dontSave) {
+    claimActions.attemptSave(data.id);
+  }
 });
 
 claimActions.removeItem.listen(function(data) {
   console.log('removeItem', data);
   var newList = claimStore().getIn([data.id, 'daily_details']).splice(data.index, 1);
   claimStore(claimStore().setIn([data.id, 'daily_details'], newList.toList()));
-  claimActions.attemptSave(data.id);
+  if (!data.dontSave) {
+    claimActions.attemptSave(data.id);
+  }
 });
 
 claimActions.newPremium.listen(function(data) {
@@ -352,8 +391,10 @@ exports.claimActionsFor = function(id) {
     _.forEach(data, function(tuple) {
       newData.push([[id].concat(tuple[0]), tuple[1]]);
     });
+    if (data.forceSave) {
+      newData.forceSave = id;
+    }
     claimActions.updateFields(newData);
-    console.log('details', detailsGenerator(claimStore().get(id).toJS()));
   });
 
   actionsFor[id].newDiagnosis.listen(function(data) {
@@ -402,7 +443,6 @@ exports.itemActionsFor = function(id, i) {
     'removeItem',
     'newPremium',
     'removePremium',
-    'recalculate'
   ]);
 
   itemActions[id][i].updateFields.listen(function(data) {
@@ -438,34 +478,6 @@ exports.itemActionsFor = function(id, i) {
   itemActions[id][i].removePremium.listen(function(data) {
     console.log('item removePremium', data);
     claimActions.removePremium({item: i, premium: data.premium});
-  });
-
-  itemActions[id][i].recalculate.listen(function(data) {
-    console.log('item recalculate', data);
-    var store = claimStore().getIn([id, 'daily_details', i]);
-    var item = store.toJS();
-    feeGenerator().then(function(feeGenerator) {
-      var result = feeGenerator.calculateFee(item, item.code);
-      if (result) {
-        var updates = [
-          [['fee'], result.fee],
-          [['units'], result.units],
-        ];
-        item.fee = result.fee;
-        item.units = result.units;
-
-        store.get('premiums').forEach(function(premium, i) {
-          var result = feeGenerator.calculateFee(item, premium.get('code'));
-          if (result) {
-            updates = updates.concat([
-              [['premiums', i, 'fee'], result.fee],
-              [['premiums', i, 'units'], result.units]
-            ]);
-          }
-        });
-        itemActions[id][i].updateFields(updates);
-      }
-    });
   });
 
   return itemActions[id][i];

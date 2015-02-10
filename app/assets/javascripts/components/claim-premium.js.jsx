@@ -8,18 +8,18 @@ var ClaimPremium = React.createClass({
   },
 
   codeChanged: function(ev) {
-    var that = this;
     var value = ev.target.value;
-    feeGenerator().then(function(gen) {
-      messages = gen.validateCode(value);
-      that.props.actions.updateFields([
-        [['validations'], Immutable.fromJS({'code': messages})],
-        [['code'], value]
-      ]);
-      if (!messages) {
-        that.props.actions.recalculate();
-      }
-    });
+    if (!feeGenerator) return false;
+
+    messages = feeGenerator.validateCode(value);
+    var updates = [
+      [['validations'], Immutable.fromJS({'code': messages})],
+      [['code'], value],
+    ];
+    if (!messages) {
+      updates.push([['fee'], "*recalculate"]);
+    }
+    this.props.actions.updateFields(updates);
   },
 
   render: function() {

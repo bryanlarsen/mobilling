@@ -80,8 +80,10 @@ var NewItemButton = React.createClass({
 
 var ClaimItem = React.createClass({
   fieldChanged: function(ev) {
-    this.props.actions.updateFields([[[ev.target.name], ev.target.value]]);
-    this.props.actions.recalculate();
+    this.props.actions.updateFields([
+      [[ev.target.name], ev.target.value],
+      [['fee'], "*recalculate"],
+    ]);
   },
 
   unitsChanged: function(ev) {
@@ -93,18 +95,18 @@ var ClaimItem = React.createClass({
   },
 
   codeChanged: function(ev) {
-    var that = this;
     var value = ev.target.value;
-    feeGenerator().then(function(gen) {
-      messages = gen.validateCode(value);
-      that.props.actions.updateFields([
-        [['validations'], Immutable.fromJS({'code': messages})],
-        [['code'], value]
-      ]);
-      if (!messages) {
-        that.props.actions.recalculate();
-      }
-    });
+    if (!feeGenerator) return false;
+
+    messages = feeGenerator.validateCode(value);
+    var updates = [
+      [['validations'], Immutable.fromJS({'code': messages})],
+      [['code'], value],
+    ];
+    if (!messages) {
+      updates.push([['fee'], "*recalculate"]);
+    }
+    this.props.actions.updateFields(updates);
   },
 
   actions: function(i) {
@@ -117,7 +119,6 @@ var ClaimItem = React.createClass({
     this.premiumActions[i] = Fynx.createActions([
       'updateFields',
       'removePremium',
-      'recalculate',
     ]);
 
     this.premiumActions[i].updateFields.listen(function(data) {
@@ -132,11 +133,6 @@ var ClaimItem = React.createClass({
     this.premiumActions[i].removePremium.listen(function(data) {
       console.log('premium removePremium', data);
       itemActions.removePremium({premium: i});
-    });
-
-    this.premiumActions[i].recalculate.listen(function(data) {
-      console.log('premium recalculate', data);
-      itemActions.recalculate();
     });
 
     return this.premiumActions[i];
@@ -163,18 +159,6 @@ var ClaimItem = React.createClass({
         <div className="control-label col-sm-2 hidden-xs">Date</div>
         <div className="col-sm-10 col-md-4">
           <ClaimDate {...this.props} name='day' onChange={this.fieldChanged} />
-        </div>
-      </div>
-
-      <div className="form-group row">
-        <div className="control-label col-sm-2 hidden-xs">Time</div>
-        <div className="control-label col-xs-3 visible-xs">In</div>
-        <div className="col-xs-9 col-sm-5 col-md-2">
-          <ClaimTime {...this.props} name='time_in' onChange={this.fieldChanged} max={this.props.store.get('time_out')}/>
-        </div>
-        <div className="control-label col-xs-3 visible-xs">Out</div>
-        <div className="col-xs-9 col-sm-5 col-md-2">
-          <ClaimTime {...this.props} name='time_out' onChange={this.fieldChanged} min={this.props.store.get('time_in')}/>
         </div>
       </div>
 
@@ -208,6 +192,18 @@ var ClaimItem = React.createClass({
           <button type="button" className="btn btn-block btn-success" onClick={this.newPremium}>
             <i className="fa fa-asterisk"/> Add a premium code
           </button>
+        </div>
+      </div>
+
+      <div className="form-group row">
+        <div className="control-label col-sm-2 hidden-xs">Time</div>
+        <div className="control-label col-xs-3 visible-xs">In</div>
+        <div className="col-xs-9 col-sm-5 col-md-2">
+          <ClaimTime {...this.props} name='time_in' onChange={this.fieldChanged} max={this.props.store.get('time_out')}/>
+        </div>
+        <div className="control-label col-xs-3 visible-xs">Out</div>
+        <div className="col-xs-9 col-sm-5 col-md-2">
+          <ClaimTime {...this.props} name='time_out' onChange={this.fieldChanged} min={this.props.store.get('time_in')}/>
         </div>
       </div>
 
@@ -273,7 +269,7 @@ var ClaimItemList = React.createClass({
                    readonly: this.props.readonly
                  }, item);
                } else {
-                 return <div/>;
+                 return null;
                }
               }, this).toJS()
             }
