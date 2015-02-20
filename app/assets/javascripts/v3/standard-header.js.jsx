@@ -12,6 +12,9 @@ var StandardHeader = React.createClass({
           <NavItemLink to="claims" params={{filter:"drafts"}}>
             <Icon i="list">List</Icon>
           </NavItemLink>
+          <NavItem>
+            <input type="text" placeholder="Search" />
+          </NavItem>
         </Nav>
         <UserDropdown/>
       </Navbar>
