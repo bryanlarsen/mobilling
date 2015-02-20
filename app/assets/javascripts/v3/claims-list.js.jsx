@@ -30,7 +30,17 @@ var ClaimList = React.createClass({
     return (
       <table className="table table-hover table-striped with-bottom">
         <thead>
-          <tr><th>Claim</th><th>Status</th><th /></tr>
+          <tr>
+            <th>Claim</th>
+            <th>Status</th>
+            <th>Doctor</th>
+            <th>Patient</th>
+            <th>Patient number</th>
+            <th>Service date</th>
+            <th>Fee total</th>
+            <th>Fee claimed</th>
+            <th>Fee receieved</th>
+          <th /></tr>
         </thead>
         <tbody>
           {claims}
