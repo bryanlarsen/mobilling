@@ -259,6 +259,7 @@ class ClaimForm
         response['errors'] = errors.as_json
         has_warnings?
         response['warnings'] = warnings.as_json
+        @claim.valid? if @claim
 
         daily_details.each.with_index do |item, i|
           item.all_warnings.as_json.each do |key, w|
@@ -303,6 +304,7 @@ class ClaimForm
       if options && options[:include_total] && @claim
         response[:submitted_fee] = @claim.submitted_fee
         response[:paid_fee] = @claim.paid_fee
+        response[:total_fee] = @claim.total_fee
       end
       if options && options[:include_files] && @claim && @claim.files.size > 0
         response[:files] = @claim.files.reduce({}) do |hash, file|

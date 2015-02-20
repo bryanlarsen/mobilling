@@ -31,6 +31,7 @@ class ClaimTest < ActiveSupport::TestCase
     # not round-tripped *will* be lost
     # assert_equal @claim.details["daily_details"][0]["message"], "foo"
     assert_equal @claim.details["daily_details"][0]["fee"], 10000
+    assert @claim.total_fee = 10000
   end
 
   test "reclaim" do
