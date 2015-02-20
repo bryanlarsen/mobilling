@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "angular-underscore": "*",
+    "datatables": "1.10.5",
     "es6-promise": "*",
     "fastclick": "*",
     "font-awesome": "4.3.0",
