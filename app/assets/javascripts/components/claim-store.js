@@ -142,6 +142,7 @@ claimActions.attemptSave.listen(function(id) {
 
   var claim = _.omit(claimStore().get(id).toJS(), 'warnings', 'errors', 'id', 'number', 'created_at', 'updated_at', 'url', 'unsaved', 'changed', 'photo', 'comments');
   globalActions.startBusy();
+  globalActions.startSave(id);
   $.ajax({
 //    url: claimStore().get('url'),
     url: '/v1/claims/'+id,
@@ -155,6 +156,7 @@ claimActions.attemptSave.listen(function(id) {
       updated.id = id;
       claimActions.saveComplete(updated);
       globalActions.endBusy();
+      globalActions.endSave(id);
     },
     error: function(xhr, status, err) {
       globalActions.endBusy();
