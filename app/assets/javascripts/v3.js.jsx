@@ -1,6 +1,7 @@
 //= require react-router
 //= require ReactRouterBootstrap
 //= require react-router-globals
+//= require reactable
 
 //= require_tree ./v3
 

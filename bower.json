@@ -17,7 +17,6 @@
   ],
   "dependencies": {
     "angular-underscore": "*",
-    "datatables": "1.10.5",
     "es6-promise": "*",
     "fastclick": "*",
     "font-awesome": "4.3.0",
@@ -26,6 +25,7 @@
     "pickadate": "3.5.4",
     "react-bootstrap": "*",
     "react-router": "*",
+    "reactable": "*",
     "remarkable": "*",
     "typeahead.js": "*",
     "underscore": "*",
