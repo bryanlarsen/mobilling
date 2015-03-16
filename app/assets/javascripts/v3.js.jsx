@@ -1,7 +1,6 @@
 //= require react-router
 //= require ReactRouterBootstrap
 //= require react-router-globals
-//= require reactable
 
 //= require_tree ./v3
 
@@ -29,7 +28,7 @@ var Landing = React.createClass({
 
 var V3Routes = (
   <Route name="app" path="/" handler={App}>
-    <Redirect from="/" to="/claims/drafts" />
+    <Redirect from="/" to="/claims?filter=drafts&sort=-number" />
     <Route name="claims" path="/claims" handler={ClaimsPage}/>
     <Route name="profile" handler={Profile}>
       <Route name="settings" handler={ProfileSettings}/>

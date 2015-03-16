@@ -8,22 +8,26 @@ var ClaimHeader = React.createClass({
     return (
       <Navbar fixedTop>
         <Nav>
-          <NavItemLink to="claims" params={{filter:"drafts"}}>
+          <NavItemLink to="claims" query={this.state.globalStore.get('claimsListQuery').toJS()}>
             <Icon xs i="list">List</Icon>
           </NavItemLink>
-          <NavItem>
-            #{this.props.store.get('number')}: ${dollars(claimTotal(this.props.store))}
-            {this.props.store.get('unsaved') && <span className="hidden-xs text-danger"> (unsaved)</span>}
-          </NavItem>
+          <li>
+            <p className="navbar-text">
+              #{this.props.store.get('number')}: ${dollars(claimTotal(this.props.store))}
+              {this.props.store.get('unsaved') && <span className="hidden-xs text-danger"> (unsaved)</span>}
+            </p>
+          </li>
           { this.props.submit ?
            <NavItem onClick={this.props.submit} className={this.props.store.get('unsaved') ? "text-danger" : ""}>
              <Icon i={"cog "+(this.state.globalStore.get('busy') ? "fa-spin" : "")}>
                Submit
              </Icon>
            </NavItem> :
-           <NavItem to="claims" params={{filter: "drafts"}} className={this.props.store.get('unsaved') ? "text-danger" : ""}>
-             <Icon i={"cog "+(this.state.globalStore.get('busy') ? "fa-spin" : "")}/>
-           </NavItem>
+           <li to="claims" className={this.props.store.get('unsaved') ? "text-danger" : ""}>
+             <p className="navbar-text">
+               <Icon i={"cog "+(this.state.globalStore.get('busy') ? "fa-spin" : "")}/>
+             </p>
+           </li>
            }
         </Nav>
         <UserDropdown/>

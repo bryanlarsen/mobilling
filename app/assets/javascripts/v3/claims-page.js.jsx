@@ -26,6 +26,8 @@ var ClaimsPage = React.createClass({
   },
 
   render: function() {
+    globalStore(globalStore().set('claimsListQuery', Immutable.fromJS(this.getQuery())));
+
     var claims = this.state.store.map(function(id) {
       return this.state.claimStore.get(id) || this.state.abbreviatedStore.get(id);
     }, this);
@@ -88,7 +90,7 @@ var ClaimsPage = React.createClass({
         </nav>
 
         <div className="content-body container with-bottom">
-          <PaginatedClaimsTable claims={claims} search={""}/>
+          <ClaimsTable claims={claims} search={""}/>
         </div>
 
         <nav className="navbar navbar-default navbar-fixed-bottom">

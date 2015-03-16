@@ -25,11 +25,10 @@
     "pickadate": "3.5.4",
     "react-bootstrap": "*",
     "react-router": "*",
-    "reactable": "https://github.com/bryanlarsen/reactable.git#~0.10.1"
     "remarkable": "*",
     "typeahead.js": "*",
     "underscore": "*",
-    "underscore.string": "*",
+    "underscore.string": "*"
   },
   "devDependencies": {
     "chai": "*"

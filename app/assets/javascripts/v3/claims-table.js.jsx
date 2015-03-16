@@ -1,4 +1,4 @@
-var PaginatedClaimsTable = React.createClass({
+var ClaimsTable = React.createClass({
   mixins: [ ReactRouter.Navigation, ReactRouter.State ],
 
   clickRow: function(id, ev) {
@@ -11,10 +11,6 @@ var PaginatedClaimsTable = React.createClass({
     if (confirm("Are you sure you really wish to delete claim "+this.props.claims.getIn([index, 'number'])+"?")) {
       claimActions.remove(id);
     }
-  },
-
-  shouldComponentUpdate: function(nextProps, nextState) {
-    return nextProps.claims.size !== 0;
   },
 
   render: function() {
@@ -49,12 +45,12 @@ var PaginatedClaimsTable = React.createClass({
       if (desc) sort = sort.slice(1);
       if (sort === column) {
         query.sort = desc ? column : '-'+column;
-        widget = <i className={desc ? "fa fa-sort-desc" : "fa fa-sort-asc"} />;
+        widget = desc ? "▾": "▴";
       } else {
         query.sort = '-'+column;
       }
       return <th key={column}>
-          <Link to="claims" query={query}>{name}{widget}</Link>
+          <Link to="claims" query={query}>{widget}&nbsp;{name}</Link>
       </th>;
     }, this);
 
