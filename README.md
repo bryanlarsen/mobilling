@@ -11,3 +11,19 @@
 * rails server -b 0.0.0.0
 
 point your browser at http://localhost:3000/
+
+### updating
+
+git push enneahost +v3:master
+
+(on root@sys.qchsag.ca)
+
+restart consul-template-upstart-docker-2
+
+to migrate:
+
+docker exec ff17 -it bash
+env
+su - u32809
+export DATABASE_URL=postgres://postgres@postgres.service.consul/mobilling_production
+rake db:migrate

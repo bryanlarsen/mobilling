@@ -98,6 +98,10 @@ class Claim < ActiveRecord::Base
     sub
   end
 
+  def service_date
+    details['first_seen_on'] || (details['daily_details'].first || {"day": nil})["day"]
+  end
+
   # we get information like total fee from the batch files rather than
   # calculating it because these calculations can change over time
   # so make sure a claim is never changed after it is submitted.   If

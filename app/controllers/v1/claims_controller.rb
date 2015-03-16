@@ -16,7 +16,7 @@ class V1::ClaimsController < V1::BaseController
         total_fee: claim.total_fee,
         patient_number: claim.details['patient_number'],
         patient_name: claim.details['patient_name'],
-        service_date: claim.details['first_seen_on'] || (claim.details['daily_details'].first || {"day": nil})["day"]
+        service_date: claim.service_date
       }
     }
   end

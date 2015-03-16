@@ -270,6 +270,9 @@ class ClaimForm
           end
         end
       end
+      if @claim
+        response['service_date'] = @claim.service_date
+      end
       if options && options[:include_submission] && @claim
         interactor = GenerateSubmission.new
         begin
