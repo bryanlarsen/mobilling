@@ -242,7 +242,7 @@ claimActions.newClaim.listen(function(opts) {
     type: 'POST',
     success: function(data) {
       claimActions.init(data)
-      claimListActions.add(data);
+      claimListActions.add(data.id);
       globalActions.endBusy();
       opts.callback && opts.callback(data.id);
     },

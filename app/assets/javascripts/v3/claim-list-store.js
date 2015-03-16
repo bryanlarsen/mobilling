@@ -2,31 +2,22 @@ var claimListStore = Fynx.createSimpleStore(Immutable.fromJS([]));
 var claimListActions = Fynx.createActions([
   'init',
   'add',
-  'updateField',
   'remove'
 ]);
 
 claimListActions.init.listen(function(data) {
   console.log('init', data);
-  claimListStore(Immutable.fromJS(data));
+  claimListStore(Immutable.fromJS(_.map(data, function(claim) {
+    claimAbbreviatedActions.add(claim);
+    return claim.id;
+  })));
 })
 
-claimListActions.add.listen(function(claim) {
-  claimListStore(claimListStore().push(Immutable.fromJS(claim)));
+claimListActions.add.listen(function(id) {
+  claimListStore(claimListStore().push(id));
 });
 
 claimListActions.remove.listen(function(id) {
-  var i = claimListStore().findIndex(function(claim) {
-    return claim.get('id') === id;
-  });
-
+  var i = claimListStore().indexOf(id);
   claimListStore(claimListStore().remove(i));
-});
-
-claimListActions.updateField.listen(function(data) {
-  var i = claimListStore().findIndex(function(claim) {
-    return claim.get('id') === data.id;
-  });
-
-  claimListStore(claimListStore().setIn([i, data.field], data.value));
 });

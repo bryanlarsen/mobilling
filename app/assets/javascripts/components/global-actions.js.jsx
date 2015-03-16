@@ -1,7 +1,9 @@
 var globalStore = Fynx.createSimpleStore(Immutable.fromJS({
   busy: 0,
-  unsaved: []
+  unsaved: [],
+  claimsListQuery: {filter: 'drafts', sort: '-number'}
 }));
+
 var globalActions = Fynx.createActions([
   'startBusy',
   'endBusy',

@@ -44,17 +44,22 @@ rake db:seed
 EOF
 SCRIPT
 
-LXC_VERSION = `lxc-ls --version`.strip
+begin
+  LXC_VERSION = `lxc-ls --version`.strip
+rescue
+  LXC_VERSION = '0'
+end
 Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/trusty64"
+
   config.vm.provider "virtualbox" do |v|
-    config.vm.box = "ubuntu/trusty64"
     v.memory = 1536
     v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
   end
 
-  config.vm.provider "lxc" do |v|
-    config.vm.box = "fgrehm/trusty64-lxc"
-    if LXC_VERSION != '1.0.6'
+  config.vm.provider "lxc" do |lxc, override|
+    override.vm.box = "fgrehm/trusty64-lxc"
+    if LXC_VERSION >= '1.1.0'
       lxc.customize 'aa_allow_incomplete', '1'
     end
   end

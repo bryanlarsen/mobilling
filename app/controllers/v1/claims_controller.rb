@@ -5,7 +5,20 @@ class V1::ClaimsController < V1::BaseController
   api :GET, "/v1/claims", "Returns claims"
 
   def index
-    render json: policy_scope(Claim).select(:id, :number, :status).map {|claim| {id: claim.id, number: claim.number, status: claim.status} }
+    render json: policy_scope(Claim).map {|claim|
+      {
+        id: claim.id,
+        number: claim.number,
+        status: claim.status,
+        user_id: claim.user_id,
+        submitted_fee: claim.submitted_fee,
+        paid_fee: claim.paid_fee,
+        total_fee: claim.total_fee,
+        patient_number: claim.details['patient_number'],
+        patient_name: claim.details['patient_name'],
+        service_date: claim.details['first_seen_on'] || (claim.details['daily_details'].first || {"day": nil})["day"]
+      }
+    }
   end
 
   api :GET, "/v1/claims/:id", "Returns a claim"

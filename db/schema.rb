@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150205021853) do
+ActiveRecord::Schema.define(version: 20150220000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20150205021853) do
   create_table "claim_comments", force: :cascade do |t|
     t.text     "body"
     t.uuid     "user_id"
-    t.string   "user_type",  limit: 255
+    t.string   "user_type"
     t.uuid     "claim_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -36,22 +36,21 @@ ActiveRecord::Schema.define(version: 20150205021853) do
   create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "user_id"
     t.uuid     "photo_id"
-    t.integer  "status",                        default: 0
-    t.json     "details",                       default: {}
+    t.integer  "status",        default: 0
+    t.json     "details",       default: {}
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "number"
-    t.string   "accounting_number", limit: 255
     t.uuid     "original_id"
-    t.integer  "submitted_fee",                 default: 0
-    t.integer  "paid_fee",                      default: 0
+    t.integer  "submitted_fee", default: 0
+    t.integer  "paid_fee",      default: 0
+    t.integer  "total_fee",     default: 0
   end
 
-  add_index "claims", ["accounting_number"], name: "index_claims_on_accounting_number", unique: true, using: :btree
   add_index "claims", ["number", "user_id"], name: "index_claims_on_number_and_user_id", unique: true, using: :btree
 
   create_table "diagnoses", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -59,16 +58,16 @@ ActiveRecord::Schema.define(version: 20150205021853) do
   add_index "diagnoses", ["name"], name: "index_diagnoses_on_name", unique: true, using: :btree
 
   create_table "edt_files", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.integer  "status",                      default: 0
+    t.integer  "status",          default: 0
     t.text     "contents"
-    t.string   "type",            limit: 255
+    t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "sequence_number"
-    t.string   "filename_base",   limit: 255
+    t.string   "filename_base"
     t.uuid     "user_id"
     t.uuid     "parent_id"
-    t.string   "batch_id",        limit: 255
+    t.string   "batch_id"
   end
 
   add_index "edt_files", ["filename_base"], name: "index_edt_files_on_filename_base", using: :btree
@@ -91,7 +90,7 @@ ActiveRecord::Schema.define(version: 20150205021853) do
   end
 
   create_table "hospitals", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -100,7 +99,7 @@ ActiveRecord::Schema.define(version: 20150205021853) do
 
   create_table "photos", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "user_id"
-    t.string   "file",       limit: 255
+    t.string   "file"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -116,25 +115,25 @@ ActiveRecord::Schema.define(version: 20150205021853) do
     t.text     "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "code",                limit: 255
+    t.string   "code"
     t.integer  "fee"
     t.date     "effective_date"
     t.date     "termination_date"
-    t.boolean  "requires_specialist",             default: false, null: false
+    t.boolean  "requires_specialist", default: false, null: false
   end
 
   add_index "service_codes", ["code"], name: "index_service_codes_on_code", using: :btree
   add_index "service_codes", ["name"], name: "index_service_codes_on_name", unique: true, using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "name",                 limit: 255
-    t.string   "email",                limit: 255
-    t.string   "password_digest",      limit: 255
-    t.string   "authentication_token", limit: 255
+    t.string   "name"
+    t.string   "email"
+    t.string   "password_digest"
+    t.string   "authentication_token"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.uuid     "agent_id"
-    t.string   "pin",                  limit: 255
+    t.string   "pin"
     t.string   "specialties",                      default: [],                  array: true
     t.integer  "provider_number"
     t.string   "group_number",         limit: 4,   default: "0000"

@@ -6,9 +6,6 @@ var StandardHeader = React.createClass({
           <NavItemLink className="hidden-xs" to="landing">
             Mo-Billing
           </NavItemLink>
-          <NavItemLink to="new_claim">
-            <Icon i="plus">New</Icon>
-          </NavItemLink>
           <NavItemLink to="claims" params={{filter:"drafts"}}>
             <Icon i="list">List</Icon>
           </NavItemLink>

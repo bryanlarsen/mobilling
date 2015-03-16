@@ -28,8 +28,8 @@ var Landing = React.createClass({
 
 var V3Routes = (
   <Route name="app" path="/" handler={App}>
-    <Redirect from="/" to="/claims/drafts" />
-    <Route name="claims" path="/claims/:filter" handler={ClaimsPage}/>
+    <Redirect from="/" to="/claims?filter=drafts&sort=-number" />
+    <Route name="claims" path="/claims" handler={ClaimsPage}/>
     <Route name="profile" handler={Profile}>
       <Route name="settings" handler={ProfileSettings}/>
       <Route name="password" handler={ChangePassword}/>
@@ -37,11 +37,11 @@ var V3Routes = (
     <Route name="landing" handler={Landing}/>
     <Route name="new_claim" path="/new_claim" handler={NewClaimPage}/>
     <Route name="claim" path="/claim/:id" handler={ClaimPageSelect}>
-      <Route name="claim_patient" path="/claim/:id/patient" handler={PatientTab}/>
-      <Route name="claim_claim" path="/claim/:id/claim" handler={ClaimTab}/>
-      <Route name="claim_consult" path="/claim/:id/consult" handler={ConsultTab}/>
-      <Route name="claim_items" path="/claim/:id/items" handler={ItemsTab}/>
-      <Route name="claim_comments" path="/claim/:id/comments" handler={CommentsTab}/>
+      <Route name="claim_patient" path="patient" handler={PatientTab}/>
+      <Route name="claim_claim" path="claim" handler={ClaimTab}/>
+      <Route name="claim_consult" path="consult" handler={ConsultTab}/>
+      <Route name="claim_items" path="items" handler={ItemsTab}/>
+      <Route name="claim_comments" path="comments" handler={CommentsTab}/>
     </Route>
   </Route>
 );

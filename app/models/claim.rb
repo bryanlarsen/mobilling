@@ -32,6 +32,16 @@ class Claim < ActiveRecord::Base
   belongs_to :original, class_name: "Claim", inverse_of: :reclamation
   has_one :reclamation, class_name: "Claim", foreign_key: :original_id, inverse_of: :original
 
+  before_validation do
+    if details_changed?
+      self.total_fee = details['daily_details'].reduce(0) do |sum, dets|
+        sum += (dets['fee'] || 0) + (dets['premiums'] || []).reduce(0) do |sum2, prem|
+          sum2 += (prem['fee'] || 0)
+        end
+      end
+    end
+  end
+
   def from_record(record)
     details_will_change!
     if record['Health Number'] != 0
