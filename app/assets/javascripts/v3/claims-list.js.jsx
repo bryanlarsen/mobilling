@@ -54,20 +54,29 @@ var ClaimList = React.createClass({
       return this.filters[this.props.filter].indexOf(claim.get('status')) !== -1;
     }, this);
 
+    var wide = $(document).width() >= 800;
+
     return (
-      <Reactable.Table className="table"
+      <Reactable.Table className={"table table-striped "+(wide?"table-wide":"table-narrow")}
+                       paginationRenderer={ReactableBootstrapPagination}
+                       filtererRenderer={ReactableFilterer}
                        sortable={true}
                        itemsPerPage={3}
-                       filterable={['Number', 'Status', 'Name']} >
+                        filterable={this.props.searchEnabled && ['Number', 'Status', 'Name', 'Date', 'otal', 'Submitted', 'Paid']} >
       {_.map(claims.toJS(), function(claim, index) {
         var clicker = this.clickRow.bind(this, claim.id);
-        var del = this.clickDelete.bind(this, claim.id, index);
+        var del = this.clickDelete.bind(this, claim.id, index)
         return (
           <Reactable.Tr key={claim.id}>
-          <Reactable.Td column="Number"><a onClick={clicker}>{claim.number}</a></Reactable.Td>
-            <Reactable.Td column="Status">{claim.status}</Reactable.Td>
-            <Reactable.Td column="Name">{claim.patient_name}</Reactable.Td>
-            <Reactable.Td column="Total">{dollars(claim.total_fee)}</Reactable.Td>
+          {wide ? <Reactable.Td column="Number" value={claim.number.toString()} handleClick={clicker}>{claim.number.toString()}</Reactable.Td> : undefined}
+          <Reactable.Td column="Status" value={claim.status} handleClick={clicker}>{claim.status}</Reactable.Td>
+          <Reactable.Td column="Date" value={claim.service_date || ""} handleClick={clicker}>{claim.service_date}</Reactable.Td>
+          <Reactable.Td column="Name" value={claim.patient_name || ""} handleClick={clicker}>{claim.patient_name}</Reactable.Td>
+          {wide ? <Reactable.Td column="Number" value={claim.patient_number || ""} handleClick={clicker}>{claim.patient_number}</Reactable.Td> : undefined}
+          {false ? <Reactable.Td column="Doctor" value={claim.user_id || ""} handleClick={clicker}>{claim.user_id}</Reactable.Td> : undefined}
+          <Reactable.Td column="Total" value={claim.total_fee || ""} handleClick={clicker}>{dollars(claim.total_fee)}</Reactable.Td>
+          {wide ? <Reactable.Td column="Submitted" value={claim.submitted_fee || ""} handleClick={clicker}>{dollars(claim.submitted_fee)}</Reactable.Td> : undefined}
+          {wide ? <Reactable.Td column="Paid" value={claim.paid_fee || ""} handleClick={clicker}>{dollars(claim.paid_fee)}</Reactable.Td> : undefined}
           </Reactable.Tr>
         );
       }, this)}

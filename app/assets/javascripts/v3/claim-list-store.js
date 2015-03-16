@@ -18,9 +18,6 @@ claimListActions.add.listen(function(id) {
 });
 
 claimListActions.remove.listen(function(id) {
-  var i = claimListStore().findIndex(function(claim) {
-    return claim.get('id') === id;
-  });
-
+  var i = claimListStore().indexOf(id);
   claimListStore(claimListStore().remove(i));
 });
