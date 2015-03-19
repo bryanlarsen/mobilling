@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resource :dashboard, only: %i[show]
     resources :claims, only: %i[index edit] do
+      collection do
+        get :print
+      end
       post :reclaim, on: :member
     end
     resources :edt_files, only: %i[index create show] do

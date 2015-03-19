@@ -7,13 +7,13 @@ var CommentsTab = React.createClass({
     var comments = this.props.store.get('comments') || Immutable.fromJS([]);
     return (
       <div>
-        <legend>Comments</legend>
+        {!this.props.readonly && <legend>Comments</legend>}
         { comments.map(function(comment, i) {
             return <ClaimComment {...this.props} comment={comment} key={'comment'+i} />;
          }, this).toJS() }
-        <ClaimInputGroup name="comment" store={this.props.store} onChange={this.handleChange}/>
+        {!this.props.readonly && <ClaimInputGroup name="comment" store={this.props.store} onChange={this.handleChange}/>}
 
-        { this.props.store.get('template') === 'agent' &&
+        { this.props.store.get('template') === 'agent' && !this.props.readonly &&
          <fieldset>
          <legend>File</legend>
          <div className="form-group">
@@ -24,9 +24,9 @@ var CommentsTab = React.createClass({
 
         {this.props.store.get('original_id') && <ClaimStaticOptional {...this.props} name="original_id" label="Original Claim" value={<a href={this.props.claimHref(this.props.store.get('original_id'))}>{this.props.store.get('original_id')}</a>}/>}
 
-        <ClaimErrors data={this.props.store.get('validations')} name="Warnings"/>
-        <ClaimErrors data={this.props.store.get('warnings')} name="Warnings"/>
-        <ClaimErrors data={this.props.store.get('errors')} name="Errors"/>
+        {!this.props.readonly && <ClaimErrors data={this.props.store.get('validations')} name="Warnings"/>}
+        {!this.props.readonly && <ClaimErrors data={this.props.store.get('warnings')} name="Warnings"/>}
+        {!this.props.readonly && <ClaimErrors data={this.props.store.get('errors')} name="Errors"/>}
       </div>
     );
   },

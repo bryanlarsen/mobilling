@@ -7,6 +7,11 @@ class Admin::ClaimsController < Admin::BaseController
 
   def index
     @claims = policy_scope(Claim).includes(:files).where(filters).order("#{sort_column} #{sort_direction}")
+    @single_status = false
+    if params[:status]
+      params[:status].delete("")
+      @single_status = params[:status].length == 1
+    end
     authorize :claim, :create?
   end
 
@@ -15,7 +20,27 @@ class Admin::ClaimsController < Admin::BaseController
     authorize @claim, :update?
     @form = ClaimForm.new(@claim)
     @user = current_user
-    @stack = policy_scope(Claim).where(filters).order("#{sort_column} #{sort_direction}").map(&:id)
+    @stack = policy_scope(Claim).where(filters).order("#{sort_column} #{sort_direction}").select(:id).map(&:id)
+    render layout: "admin_react"
+  end
+
+  def print
+    @claims = policy_scope(Claim).includes(:comments).includes(:photo).where(filters).order("#{sort_column} #{sort_direction}")
+    @single_status = false
+    if params[:status]
+      params[:status].delete("")
+      @single_status = params[:status].length == 1
+    end
+    if @claims.length == 0 || !@single_status
+      redirect_to admin_claims_path(params.slice(:user_id, :status, :direction, :sort))
+      authorize :claim, :create?
+      return
+    end
+    @user = current_user
+    @forms = @claims.map { |claim| ClaimForm.new(claim) }
+    @claims.each do |claim|
+      authorize claim, :update?
+    end
     render layout: "admin_react"
   end
 

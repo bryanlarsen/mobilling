@@ -23,11 +23,11 @@ var ClaimStatusActions = React.createClass({
   render: function() {
     var statuses = {
       "saved":          ["saved", "for_agent", "ready"],
-      "for_agent":      ["for_agent", "ready", "doctor_attention", "done"],
-      "ready":          ["for_agent", "ready", "doctor_attention", "uploaded", "done", "reclaimed"],
-      "file_created":   ["file_created", "uploaded", "acknowledged", "agent_attention", "done"],
+      "for_agent":      ["for_agent", "ready", "file_created", "doctor_attention", "done"],
+      "ready":          ["for_agent", "ready", "file_created", "doctor_attention", "done", "reclaimed"],
+      "file_created":   ["file_created", "uploaded", "acknowledged", "agent_attention", "done", "reclaimed"],
       "uploaded":       ["uploaded", "acknowledged", "agent_attention", "done"],
-      "acknowledged":   ["acknowledged", "agent_attention", "done"],
+      "acknowledged":   ["acknowledged", "agent_attention", "done", "reclaimed"],
       "agent_attention": ["agent_attention", "done", "reclaimed"],
       "doctor_attention": ["doctor_attention", "for_agent", "ready"],
       "done":           ["done", "reclaimed"],

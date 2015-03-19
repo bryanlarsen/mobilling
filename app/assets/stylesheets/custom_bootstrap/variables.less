@@ -1,5 +1,29 @@
 // Use this file to override Twitter Bootstrap variables or define own variables.
 
+@media print {
+    .make-grid(sm);
+
+    .visible-xs {
+        .responsive-invisibility();
+    }
+
+    .hidden-xs {
+        .responsive-visibility();
+    }
+
+    .hidden-xs.hidden-print {
+        .responsive-invisibility();
+    }
+
+    .hidden-sm {
+        .responsive-invisibility();
+    }
+
+    .visible-sm {
+        .responsive-visibility();
+    }
+}
+
 @screen-xs:                 250px;
 @screen-xs-min:             250px;
 @grid-float-breakpoint:     @screen-xs-min;

@@ -48,3 +48,49 @@
     }
     font-weight: bold;
 }
+
+.claim-card {
+    border-bottom: 2px solid black;
+    margin-bottom: 20px;
+}
+
+@media print {
+    .no-print {
+        display: none;
+    }
+
+    .claim-card {
+        page-break-after: always;
+    }
+
+    .make-grid(md);
+
+    .visible-xs {
+        .responsive-invisibility();
+    }
+
+    .hidden-xs {
+        .responsive-visibility();
+    }
+
+    .hidden-xs.hidden-print {
+        .responsive-invisibility();
+    }
+
+    .hidden-sm {
+        .responsive-visibility();
+    }
+
+    .visible-sm {
+        .responsive-invisibility();
+    }
+
+    .hidden-md {
+        .responsive-visibility();
+    }
+
+    .visible-md {
+        .responsive-invisibility();
+    }
+}
+

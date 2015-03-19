@@ -66,5 +66,11 @@
     <div class="col-md-8 col-md-pull-4">
       <%= render partial: "list", locals: {claims: @claims} %>
     </div>
+
+    <% if @single_status %>
+      <div class="col-md-8 col-md-pull-4">
+        <a href="<%= print_admin_claims_path(params.slice(:user_id, :status, :direction, :sort)) %>"><span class="fa fa-print"></span> Bulk/Print</span></a>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -3,13 +3,15 @@ var ClaimInputWrapper = React.createClass({
     var messages = Immutable.fromJS([]);
     var types = {};
 
-    ['warnings', 'errors', 'validations'].forEach(function(type) {
-      var m = this.props.store.getIn([type, this.props.name]);
-      if (m) {
-        messages = messages.concat(m);
-        types[type] = true;
-      }
-    }, this);
+    if (this.props.store) {
+      ['warnings', 'errors', 'validations'].forEach(function(type) {
+        var m = this.props.store.getIn([type, this.props.name]);
+        if (m) {
+          messages = messages.concat(m);
+          types[type] = true;
+        }
+      }, this);
+    }
 
     return (
       <div className={""+(types['warnings'] || types['validations'] ? 'has-warning ' : '')+(types['errors'] ? 'has-error' : '')}>
