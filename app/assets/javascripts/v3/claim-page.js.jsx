@@ -84,8 +84,9 @@ var ClaimPage = React.createClass({
   },
 
   render: function() {
+    // onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd}
     return (
-      <div className="body" onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd}>
+      <div className="body">
         <ClaimHeader {...this.props} submit={this.props.store.get('status')==='saved' && this.submit}/>
         <div className="container with-bottom">
           <div className="form-horizontal">

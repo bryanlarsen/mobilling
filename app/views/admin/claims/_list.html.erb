@@ -4,7 +4,7 @@
     <th class="text-center"><%= sortable_link_to "users.name", "Doctor" %></th>
     <th class="text-center"><%= sortable_link_to "claims.status", "Status" %></th>
     <th class="text-center"><%= sortable_link_to "claims.details->>'patient_name'", "Patient Name" %></th>
-    <th class="text-center">Claimed</th>
+    <th class="text-center">Total</th>
     <th class="text-center">Paid</th>
     <th class="text-right" colspan="2">Actions</th>
   </tr>
@@ -14,7 +14,7 @@
     <td class="text-center"><%= claim.user.name %></td>
     <td class="text-center"><%= claim.status.humanize %></td>
     <td class="text-center"><%= claim.details["patient_name"] %></td>
-    <td class="text-center"><%= "%.2f" % (claim.submitted_fee/100.0) %></td>
+    <td class="text-center"><%= "%.2f" % (claim.total_fee/100.0) %></td>
     <td class="text-center"><%= "%.2f" % (claim.paid_fee/100.0) %></td>
     <td class="text-right"><%= link_to "Edit", edit_admin_claim_path(claim, status: params[:status], user_id: params[:user_id], direction: params[:direction], sort: params[:sort]) %></td>
   </tr>

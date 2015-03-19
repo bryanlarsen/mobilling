@@ -25,19 +25,19 @@ var ClaimItemSummary = React.createClass({
     return (
       <div className="well col-xs-12" onClick={this.props.onClick}>
         <div key='code'>
+          {!this.props.silent && <span>{this.props.store.get('units')}x </span>}
           <span>{this.props.store.get('code')}</span>
           <span className="pull-right">{dollars(this.props.store.get('fee'))}</span>
           {this.props.store.get('paid') && <span className="pull-right">{dollars(this.props.store.get('paid'))+'/'}</span>}
-          {!this.props.silent && <span className="pull-right">{this.props.store.get('units')}:&nbsp;</span>}
         </div>
         <div key='code-message'>{this.props.store.get('message')}</div>
         { this.props.store.get('premiums').map(function(premium, i) {
           return (
             <div key={'premium-'+i}>
+              {!this.props.silent && <span>{premium.get('units')}x </span>}
               <span>{premium.get('code')}</span>
               <span className="pull-right">{dollars(premium.get('fee'))}</span>
               {premium.get('paid') && <span className="pull-right">{dollars(premium.get('paid'))+'/'}</span>}
-              {!this.props.silent && <span className="pull-right">{premium.get('units')}:&nbsp;</span>}
               <div>{premium.get('message')}</div>
             </div>
           );
