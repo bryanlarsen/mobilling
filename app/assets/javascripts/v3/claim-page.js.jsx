@@ -80,7 +80,6 @@ var ClaimPage = React.createClass({
   submit: function(ev) {
     ev.preventDefault();
     this.props.actions.updateFields([[['status'], 'for_agent']]);
-    claimListActions.updateField({id: this.props.params.id, field: 'status', value: 'for_agent'});
   },
 
   render: function() {
