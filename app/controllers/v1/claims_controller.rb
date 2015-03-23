@@ -73,6 +73,7 @@ class V1::ClaimsController < V1::BaseController
     attrs['consult_premium_first'] ||= false
     attrs['consult_premium_travel'] ||= false
     attrs['manual_review_indicator'] ||= false
+    attrs['diagnoses'] ||= [{name: ""}]
     @form = ClaimForm.new(attrs)
     @form.user = current_user
     authorize :claim

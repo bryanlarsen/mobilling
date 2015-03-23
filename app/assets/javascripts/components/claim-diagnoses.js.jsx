@@ -26,10 +26,11 @@ var ClaimDiagnoses = React.createClass({
   },
 
   render: function() {
+    var diagnoses = this.props.store.get('diagnoses').toJS();
     return (
      <div>
             {
-             _.map(this.props.store.get('diagnoses').toJS(), function(diagnosis, i) {
+             _.map(diagnoses, function(diagnosis, i) {
                return (
                  <div className="form-group" key={diagnosis.uuid}>
                  {
@@ -40,12 +41,17 @@ var ClaimDiagnoses = React.createClass({
                    <div className="col-md-4">
                      <ClaimInputWrapper name="name" store={this.props.store}>
                        <div className="input-group">
-                         <Typeahead name="name" engine={diagnosesEngine} value={diagnosis.name} onChange={this.diagnosisChanged.bind(this, i)} />
                          <span className="input-group-btn">
+                           <button className="btn btn-success" onClick={this.newDiagnosis}>
+                             <i className="fa fa-plus"/>
+                           </button>
+                         </span>
+                         <Typeahead name="name" engine={diagnosesEngine} value={diagnosis.name} onChange={this.diagnosisChanged.bind(this, i)} />
+                         {diagnoses.length > 1 && <span className="input-group-btn">
                            <button className="btn btn-danger" onClick={this.removeDiagnosis.bind(this, i)}>
                              <i className="fa fa-close"/>
                            </button>
-                         </span>
+                         </span>}
                        </div>
                      </ClaimInputWrapper>
                    </div>
@@ -53,15 +59,19 @@ var ClaimDiagnoses = React.createClass({
                );
              }, this)
             }
-      <div className="form-group">
-        <div className="col-md-4 col-md-offset-2">
-          <button className="btn btn-success" onClick={this.newDiagnosis}>
-            <i className="fa fa-plus"/>
-          </button>
-        </div>
-      </div>
      </div>
     );
   }
 });
 
+var ClaimDiagnosesList = React.createClass({
+  render: function() {
+    return (
+      <div>
+      {_.map(this.props.store.get('diagnoses').toJS(), function(diagnosis, i) {
+        return diagnosis.name && <ClaimStaticOptional {...this.props} label="Diagnosis" value={diagnosis.name} />;
+      })}
+      </div>
+    );
+  }
+});

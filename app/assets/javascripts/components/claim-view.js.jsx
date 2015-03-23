@@ -22,6 +22,7 @@ var ClaimView = React.createClass({
         <ClaimStaticOptional {...this.props} name="manual_review_indicator" />
         <ClaimStaticOptional {...this.props} name="referring_physician" />
         <ClaimStaticOptional {...this.props} name="service_location" />
+        <ClaimDiagnosesList {...this.props} />
         <ClaimStaticOptional {...this.props} name="admission_on" />
         <ClaimStaticOptional {...this.props} name="first_seen_on" />
         <ClaimStaticOptional {...this.props} name="first_seen_consult" label="Consult on first seen date" />
