@@ -14,7 +14,7 @@ var ClaimHospital = React.createClass({
   render: function() {
     return (
       <ClaimFormGroup name="hospital">
-        <ClaimInputWrapper store={this.props.store} name="hospital">
+        <ClaimInputWrapper {...this.props} name="hospital">
           <Typeahead store={this.props.store} id="input_hospital" name="hospital" engine={hospitalsEngine} value={this.props.store.get('hospital')} onChange={this.props.handleChange}/>
         </ClaimInputWrapper>
       </ClaimFormGroup>
