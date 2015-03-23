@@ -13,7 +13,7 @@ var CommentsTab = React.createClass({
          }, this).toJS() }
         {!this.props.readonly && <ClaimInputGroup name="comment" store={this.props.store} onChange={this.handleChange}/>}
 
-        { this.props.store.get('template') === 'agent' && !this.props.readonly &&
+        { this.props.agent && !this.props.readonly &&
          <fieldset>
          <legend>File</legend>
          <div className="form-group">

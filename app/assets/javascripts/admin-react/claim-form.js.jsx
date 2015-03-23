@@ -17,28 +17,28 @@ var ClaimForm = React.createClass({
         <fieldset>
           <legend>Patient</legend>
 
-          <ClaimPatient {...this.props} handleChange={this.handleChange}/>
+          <ClaimPatient {...this.props} handleChange={this.handleChange} agent />
         </fieldset>
 
         <fieldset>
           <legend>Claim</legend>
-          <ClaimTab {...this.props} handleChange={this.handleChange} />
+          <ClaimTab {...this.props} handleChange={this.handleChange} agent />
         </fieldset>
 
-        { this.props.store.get('template') === 'full' &&
+        { this.props.store.get('consult_tab_visible') &&
          <fieldset>
           <legend>Consult</legend>
-          <ConsultTab {...this.props} handleChange={this.handleChange}/>
+          <ConsultTab {...this.props} handleChange={this.handleChange} agent />
          </fieldset>
         }
 
         <fieldset>
           <legend>Items</legend>
-          <ItemsTab {...this.props} handleChange={this.handleChange}/>
+          <ItemsTab {...this.props} handleChange={this.handleChange} agent />
         </fieldset>
 
         <fieldset>
-          <CommentsTab {...this.props} handleChange={this.handleChange}/>
+          <CommentsTab {...this.props} handleChange={this.handleChange} agent />
         </fieldset>
 
       </div>

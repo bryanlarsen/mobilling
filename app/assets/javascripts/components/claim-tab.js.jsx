@@ -14,18 +14,19 @@ var ClaimTabSimplified = React.createClass({
           </ClaimInputWrapper>
         </ClaimFormGroup>
 
-        <ClaimFormGroup label="Template">
-          <ClaimInputWrapper {...this.props} name="template">
-            <Select {...this.props} name="template" options={{full: 'full', simplified: 'simplified', agent: 'agent'}} onChange={this.props.handleChange}/>
-          </ClaimInputWrapper>
-        </ClaimFormGroup>
-
         <ClaimHospital {...this.props} />
-        <ClaimFormGroup label="Manual Review Required">
-          <ClaimYesNo {...this.props} name="manual_review_indicator" />
-        </ClaimFormGroup>
 
-      </div>
+        {this.props.agent && <ClaimFormGroup label="Manual Review Required">
+          <ClaimYesNo {...this.props} name="manual_review_indicator" />
+        </ClaimFormGroup>}
+
+        {this.props.agent && <ClaimFormGroup label="Service Location">
+          <ClaimInputWrapper store={this.props.store} name="service_location">
+            <Select {...this.props} name="service_location" options={serviceLocations} onChange={this.props.handleChange}/>
+          </ClaimInputWrapper>
+        </ClaimFormGroup>}
+
+       </div>
     );
   }
 });
@@ -48,30 +49,10 @@ var ClaimTabFull = React.createClass({
   }
 });
 
-var ClaimTabAgent = React.createClass({
-  render: function() {
-    return (
-      <div>
-
-        <ClaimTabSimplified {...this.props} />
-
-        <ClaimFormGroup label="Service Location">
-          <ClaimInputWrapper store={this.props.store} name="service_location">
-            <Select {...this.props} name="service_location" options={serviceLocations} onChange={this.props.handleChange}/>
-          </ClaimInputWrapper>
-        </ClaimFormGroup>
-      </div>
-    );
-  }
-});
-
 var ClaimTab = React.createClass({
   render: function() {
-    switch (this.props.store.get('template')) {
-      case 'full': return <ClaimTabFull {...this.props} />;
-      case 'simplified': return <ClaimTabSimplified {...this.props} />;
-      case 'agent': return <ClaimTabAgent {...this.props} />;
-      default: return <div> FIXME </div>;
-    }
+    return this.props.store.get('consult_setup_visible') ?
+                   <ClaimTabFull {...this.props} /> :
+                   <ClaimTabSimplified {...this.props} />;
   }
 });

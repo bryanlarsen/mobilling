@@ -132,7 +132,7 @@ claimActions.updateFields.listen(function(data) {
   }
 });
 
-var serverCalculatedFields = ['submission', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date'];
+var serverCalculatedFields = ['submission', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'];
 
 claimActions.attemptSave.listen(function(id) {
   console.log('attemptSave', id);
@@ -210,13 +210,6 @@ claimActions.init.listen(function(data) {
   _.each(data.diagnoses, function(diagnosis, i) {
     diagnosis.uuid = uuid();
   });
-  if (!data.template) {
-    if (['family_medicine', 'internal_medicine', 'cardiology'].indexOf(data.specialty) !== -1) {
-      data.template = 'full';
-    } else {
-      data.template = 'simplified';
-    }
-  }
 
   claimStore(claimStore().set(data.id, Immutable.fromJS(data)));
   originalClaim[data.id] = data;

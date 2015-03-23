@@ -1,5 +1,5 @@
 <script>
-claimActionsFor("<%= @form.claim.id %>").init(<%= @form.as_json(include_comments: true, include_photo: true, include_warnings: true, include_submission: true, include_total: true, include_files: true, include_consult_counts: true).merge(template: 'agent').to_json.html_safe %>);
+claimActionsFor("<%= @form.claim.id %>").init(<%= @form.as_json(include_comments: true, include_photo: true, include_warnings: true, include_submission: true, include_total: true, include_files: true, include_consult_counts: true).to_json.html_safe %>);
 </script>
 <div class="container">
   <%= react_component('ClaimEdit', {

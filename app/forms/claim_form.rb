@@ -43,8 +43,16 @@ class ClaimForm
            ]
   end
 
+  def self.helper_params
+    return [
+            [:comment, String],           # new comment
+            [:num_comments, Integer],     # number of comments when editing started
+            [:consult_time_type, String], # if set, can return premium counts
+           ]
+  end
+
   def self.scalar_params
-    return model_params + details_params + [[:comment, String], [:num_comments, Integer], [:consult_time_type, String]]
+    return model_params + details_params + helper_params
   end
 
   def self.array_params
@@ -169,6 +177,18 @@ class ClaimForm
     true
   end
 
+  def service_date
+    @claim.service_date if @claim
+  end
+
+  def consult_setup_visible
+    ['family_medicine', 'internal_medicine', 'cardiology'].include? specialty
+  end
+
+  def consult_tab_visible
+    consult_setup_visible && first_seen_consult
+  end
+
   def claim_attributes
     {
       photo_id: photo_id,
@@ -270,9 +290,6 @@ class ClaimForm
           end
         end
       end
-      if @claim
-        response['service_date'] = @claim.service_date
-      end
       if options && options[:include_submission] && @claim
         interactor = GenerateSubmission.new
         begin
@@ -315,9 +332,9 @@ class ClaimForm
         end
       end
       if options && options[:include_consult_counts]
-        response[:consult_premium_visit_count] = consult_premium_visit_count
-        response[:consult_premium_first_count] = consult_premium_first_count
-        response[:consult_premium_travel_count] = consult_premium_travel_count
+        %I[service_date consult_setup_visible consult_tab_visible consult_premium_visit_count consult_premium_first_count consult_premium_travel_count].each do |param|
+          response[param] = send(param)
+        end
       end
     end
   end

@@ -12,7 +12,7 @@ var ClaimPage = React.createClass({
   },
 
   tabs: function() {
-    if (this.props.store.get('template') === 'full') {
+    if (this.props.store.get('consult_tab_visible')) {
       return ['patient', 'claim', 'consult', 'items', 'comments'];
     } else {
       return ['patient', 'claim', 'items', 'comments'];
