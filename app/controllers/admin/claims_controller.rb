@@ -20,7 +20,7 @@ class Admin::ClaimsController < Admin::BaseController
     authorize @claim, :update?
     @form = ClaimForm.new(@claim)
     @user = current_user
-    @stack = policy_scope(Claim).where(filters).order("#{sort_column} #{sort_direction}").select(:id).map(&:id)
+    @stack = policy_scope(Claim).where(filters).order("#{sort_column} #{sort_direction}").select(:id, :user_id).map(&:id)
     render layout: "admin_react"
   end
 
