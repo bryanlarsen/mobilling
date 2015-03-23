@@ -24,7 +24,7 @@
     "moment": "*",
     "pickadate": "3.5.4",
     "react-bootstrap": "*",
-    "react-router": "*",
+    "react-router": "0.12.x",
     "remarkable": "*",
     "typeahead.js": "*",
     "underscore": "*",

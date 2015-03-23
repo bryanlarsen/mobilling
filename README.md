@@ -27,3 +27,7 @@ env
 su - u32809
 export DATABASE_URL=postgres://postgres@postgres.service.consul/mobilling_production
 rake db:migrate
+exit
+exit
+restart docker-mobilling
+
