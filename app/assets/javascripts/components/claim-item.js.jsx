@@ -68,7 +68,7 @@ var NewItemButton = React.createClass({
   render: function() {
     return (
       <div className="form-group row" key="new-code-button">
-        <div className="col-xs-12 col-md-6">
+        <div className="col-xs-12 col-md-4 col-md-offset-4">
           <button type="button" className="btn btn-block btn-success" onClick={this.click}>
             <i className="fa fa-plus"/> Add a new code
           </button>
@@ -149,23 +149,23 @@ var ClaimItem = React.createClass({
         store: this.props.store.get('premiums').get(i),
         actions: this.actions(i),
         key: premium.get('uuid'),
-        silent: this.props.silent
+        silent: this.props.silent,
       }, premium));
     }, this).toJS() : null;
 
     return (
     <div>
       <div className="form-group row">
-        <div className="control-label col-sm-2 hidden-xs">Date</div>
-        <div className="col-sm-10 col-md-4">
+        <div className="control-label col-sm-4 hidden-xs">Date</div>
+        <div className="col-sm-8 col-md-4">
           <ClaimDate {...this.props} name='day' onChange={this.fieldChanged} />
         </div>
       </div>
 
 
       <div className="form-group row">
-        <div className="control-label col-sm-2 hidden-xs">Code</div>
-        <div className="col-sm-10 col-md-4">
+        <div className="control-label col-sm-4 hidden-xs">Code</div>
+        <div className="col-sm-8 col-md-4">
           <ClaimInputWrapper name='code' {...this.props} >
             <div className="input-group">
               <Typeahead name='code' engine={serviceCodesEngine} onChange={this.codeChanged} value={this.props.store.get('code')}/>
@@ -177,10 +177,10 @@ var ClaimItem = React.createClass({
             </div>
           </ClaimInputWrapper>
         </div>
-        {!this.props.silent && <div className="col-md-3">
+        {!this.props.silent && <div className="col-md-2 col-md-offset-0 col-xs-4 col-xs-offset-4">
           <ClaimInput name='units' store={this.props.store} onChange={this.unitsChanged} />
         </div>}
-        {!this.props.silent && <div className="col-md-3">
+        {!this.props.silent && <div className="col-md-2 col-xs-4">
           <ClaimInput name='fee' value={dollars(this.props.store.get('fee'))} store={this.props.store} onChange={this.feeChanged} />
         </div>}
       </div>
@@ -188,7 +188,7 @@ var ClaimItem = React.createClass({
       { premiums }
 
       <div className="form-group row">
-        <div className="col-sm-10 col-md-4 col-sm-offset-2">
+        <div className="col-sm-8 col-md-4 col-sm-offset-4">
           <button type="button" className="btn btn-block btn-success" onClick={this.newPremium}>
             <i className="fa fa-asterisk"/> Add a premium code
           </button>
@@ -196,20 +196,20 @@ var ClaimItem = React.createClass({
       </div>
 
       <div className="form-group row">
-        <div className="control-label col-sm-2 hidden-xs">Time</div>
-        <div className="control-label col-xs-3 visible-xs">In</div>
-        <div className="col-xs-9 col-sm-5 col-md-2">
+        <div className="control-label col-sm-4 hidden-xs">Time</div>
+        <div className="control-label col-xs-4 visible-xs">In</div>
+        <div className="col-xs-8 col-sm-4 col-md-2">
           <ClaimTime {...this.props} name='time_in' onChange={this.fieldChanged} max={this.props.store.get('time_out')}/>
         </div>
-        <div className="control-label col-xs-3 visible-xs">Out</div>
-        <div className="col-xs-9 col-sm-5 col-md-2">
+        <div className="control-label col-xs-4 visible-xs">Out</div>
+        <div className="col-xs-8 col-sm-4 col-md-2">
           <ClaimTime {...this.props} name='time_out' onChange={this.fieldChanged} min={this.props.store.get('time_in')}/>
         </div>
       </div>
 
       <div className="form-group row">
-        <div className="col-xs-6 col-sm-2 control-label">{dollars(itemTotal(this.props.store.toJS()))}</div>
-        <div className="col-xs-6 col-sm-10 col-md-4">
+        <div className="col-xs-4 col-sm-4 control-label">{dollars(itemTotal(this.props.store.toJS()))}</div>
+        <div className="col-xs-8 col-sm-8 col-md-4">
           <button className="btn btn-info btn-block" onClick={this.props.done}>
             <i className="fa fa-check" /> OK
           </button>

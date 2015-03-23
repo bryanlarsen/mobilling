@@ -25,8 +25,8 @@ var ClaimPremium = React.createClass({
   render: function() {
     return (
       <div className="form-group row">
-        <div className="control-label col-sm-2 hidden-xs">Premium</div>
-        <div className="col-sm-10 col-md-4">
+        <div className="control-label col-sm-4 hidden-xs">Premium</div>
+        <div className="col-sm-8 col-md-4">
           <ClaimInputWrapper name='code' {...this.props} >
             <div className="input-group">
               <Typeahead name='code' engine={serviceCodesEngine} onChange={this.codeChanged} value={this.props.store.get('code')}/>
@@ -38,34 +38,12 @@ var ClaimPremium = React.createClass({
             </div>
           </ClaimInputWrapper>
         </div>
-        {this.props.agent && <div className="col-md-3 hidden-sm hidden-xs">
+        {!this.props.silent && <div className="col-md-2 col-md-offset-0 col-xs-4 col-xs-offset-4">
           <ClaimInput name='units' store={this.props.store} onChange={this.unitsChanged} />
         </div>}
-        {this.props.agent && <div className="col-md-3 hidden-sm hidden-xs">
+        {!this.props.silent && <div className="col-md-2 col-xs-4">
           <ClaimInput name='fee' value={(this.props.store.get('fee')/100).toFixed(2)} store={this.props.store} onChange={this.feeChanged} />
         </div>}
-      </div>
-    );
-
-    return (
-      <div className="row">
-        <div className="col-md-1"/>
-        <div className="col-md-4">
-          <ClaimInputWrapper name='code' store={this.props.store}>
-            <Typeahead name='code' engine={serviceCodesEngine} onChange={this.codeChanged} value={this.props.store.get('code')}/>
-          </ClaimInputWrapper>
-        </div>
-        <div className="col-md-3">
-          <ClaimInput name='units' type="text" store={this.props.store} onChange={this.unitsChanged}/>
-        </div>
-        <div className="col-md-3">
-          <ClaimInput name='fee' type="text" value={(this.props.store.get('fee')/100).toFixed(2)} store={this.props.store} onChange={this.feeChanged}/>
-        </div>
-        <div className="col-md-1">
-          <button type="button" className="btn btn-block btn-danger" onClick={this.props.actions.removePremium}>
-            <i className="fa fa-close"/>
-          </button>
-        </div>
       </div>
     );
   }

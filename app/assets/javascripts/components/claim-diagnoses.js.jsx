@@ -35,8 +35,8 @@ var ClaimDiagnoses = React.createClass({
                  <div className="form-group" key={diagnosis.uuid}>
                  {
                    i==0 ?
-                   <label className="control-label col-md-2">Diagnoses</label> :
-                   <div className="col-md-2"></div>
+                   <label className="control-label col-md-4">Diagnoses</label> :
+                   <div className="col-md-4"></div>
                  }
                    <div className="col-md-4">
                      <ClaimInputWrapper name="name" store={this.props.store}>

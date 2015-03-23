@@ -8,14 +8,14 @@ var ConsultType = React.createClass({
 
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2">{s.humanize(this.props.consultType)}</label>
-        <div className="col-xs-4 text-center radio">
+        <label className="control-label col-xs-4 col-sm-4">{s.humanize(this.props.consultType)}</label>
+        <div className="col-xs-4 col-sm-2 text-center radio">
           <label className="">
             <input name="consult_type" type="radio" id={"radio-"+this.props.consultType+"-er"} value={this.props.consultType+"_er"} checked={consult_type === this.props.consultType+"_er"} onChange={this.fieldChanged} />
             {detailsGenerator.consultCode(this.props.store.get('specialty'), this.props.consultType+'_er')}
           </label>
         </div>
-        <div className="col-xs-4 text-center radio">
+        <div className="col-xs-4 col-sm-2 text-center radio">
           <label>
             <input name="consult_type" type="radio" id={"radio-"+this.props.consultType+"-non_er"} value={this.props.consultType+"_non_er"} checked={consult_type === this.props.consultType+"_non_er"} onChange={this.fieldChanged} />
             {detailsGenerator.consultCode(this.props.store.get('specialty'), this.props.consultType+'_non_er')}
@@ -97,10 +97,10 @@ var ConsultTab = React.createClass({
     return (
     <div>
       <div className="form-group">
-        <div className="col-xs-offset-2 col-xs-4 text-center">
+        <div className="col-xs-offset-4 col-xs-4 col-sm-offset-4 col-sm-2 text-center">
           <label className="control-label">ER</label>
         </div>
-        <div className="col-xs-4 text-center">
+        <div className="col-xs-4 col-sm-2 text-center">
           <label className="control-label">Non-ER</label>
         </div>
       </div>
@@ -118,7 +118,7 @@ var ConsultTab = React.createClass({
 
       { (premium_visit || consultTimeVisible) &&
       <div className="form-group">
-        <label className="control-label col-xs-2">Time</label>
+        <label className="control-label col-xs-4">Time</label>
         <div className="col-xs-4">
           <ClaimTime {...this.props} name="consult_time_in" onChange={this.fieldChanged} max={this.props.store.get('consult_time_out')} />
         </div>

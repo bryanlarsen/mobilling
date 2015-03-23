@@ -5,6 +5,7 @@ var CommentsTab = React.createClass({
 
   render: function() {
     var comments = this.props.store.get('comments') || Immutable.fromJS([]);
+    var warningText = !this.props.agent && 'Your agent can fix these for you.'
     return (
       <div>
         {!this.props.readonly && <legend>Comments</legend>}
@@ -24,8 +25,8 @@ var CommentsTab = React.createClass({
 
         {this.props.store.get('original_id') && <ClaimStaticOptional {...this.props} name="original_id" label="Original Claim" value={<a href={this.props.claimHref(this.props.store.get('original_id'))}>{this.props.store.get('original_id')}</a>}/>}
 
-        {!this.props.readonly && <ClaimErrors data={this.props.store.get('validations')} name="Warnings"/>}
-        {!this.props.readonly && <ClaimErrors data={this.props.store.get('warnings')} name="Warnings"/>}
+        {!this.props.readonly && <ClaimErrors data={this.props.store.get('validations')} name="Warnings" text={warningText}/>}
+        {!this.props.readonly && <ClaimErrors data={this.props.store.get('warnings')} name="Warnings" text={warningText}/>}
         {!this.props.readonly && <ClaimErrors data={this.props.store.get('errors')} name="Errors"/>}
       </div>
     );

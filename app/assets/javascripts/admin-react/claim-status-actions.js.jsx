@@ -58,7 +58,7 @@ var ClaimStatusActions = React.createClass({
           <legend>Action</legend>
 
           <div className="form-group">
-            <div className="col-md-10 col-md-offset-2">
+            <div className="col-md-8 col-md-offset-4">
               <button className="btn btn-warning" onClick={this.props.actions.undo} disabled={!this.props.store.get('changed')}>
                 <i className="fa fa-undo"/>
                 &nbsp;Undo
@@ -66,7 +66,7 @@ var ClaimStatusActions = React.createClass({
             </div>
           </div>
 
-          <ClaimFormGroup label="Status" width={10}>
+          <ClaimFormGroup label="Status" width={8}>
             <ClaimInputWrapper {...this.props} name="status" >
               <RadioSelect {...this.props} name="status" options={statusOptions} onChange={this.handleChange} />
             </ClaimInputWrapper>
@@ -80,7 +80,7 @@ var ClaimStatusActions = React.createClass({
                  <div className="row" key="action-reclaimed">
                    <form action={'/admin/claims/'+this.props.store.get('id')+'/reclaim'} method="POST">
                      <input type="hidden" name="authenticity_token" value={$('meta[name=csrf-token]').attr('content')}/>
-                     <button className="btn btn-primary btn-lg col-md-2 col-md-offset-4" type="submit" disabled={disabled}>
+                     <button className="btn btn-primary btn-lg col-md-2 col-md-offset-6" type="submit" disabled={disabled}>
                        <i className="fa fa-recycle"/>
                        &nbsp;Reclaim
                      </button>
@@ -94,7 +94,7 @@ var ClaimStatusActions = React.createClass({
           }
 
           <div className="row" >
-            <div className="col-md-2"/>
+            <div className="col-md-4"/>
             <button className='btn btn-lg btn-primary col-md-2' disabled={!prev || disabled} onClick={this.prevHandler}>
               <i className="fa fa-angle-left"/>
               &nbsp;Previous

@@ -5,14 +5,15 @@ var ClaimErrors = React.createClass({
     var response = (
       <fieldset>
         <legend>{this.props.name}</legend>
+        <span>{this.props.text}</span>
 
         {
          _.map(this.props.data.toJS(), function(errs, name) {
            var nErrors = 0;
            var r = (
         <div className="form-group" key={'err-'+this.props.name+'-'+name}>
-          <label className="control-label col-md-2">{s.humanize(name.replace(/\./g, ': '))}</label>
-          <div className="col-md-10">
+          <label className="control-label col-md-4">{s.humanize(name.replace(/\./g, ': '))}</label>
+          <div className="col-md-8">
           { _.map(errs, function(err, i) {
             nErrors++;
             numErrors++;
