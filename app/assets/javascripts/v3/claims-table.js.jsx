@@ -24,7 +24,7 @@ var ClaimsTable = React.createClass({
       return (
         <tr key={id}>
           {wide && <td onClick={clicker}>{claim.get('number')}</td>}
-          {wide && <td onClick={clicker}>{claim.get('status')}</td>}
+          {false && <td onClick={clicker}>{claim.get('status')}</td>}
           <td onClick={clicker}>{claim.get('service_date')}</td>
           <td onClick={clicker}>{claim.get('patient_name')}</td>
           <td onClick={clicker}>{dollars(claim.get('total_fee'))}</td>
@@ -34,7 +34,7 @@ var ClaimsTable = React.createClass({
       );
     }, this).toJS();
 
-    var columns = {number: "Claim", status: "Status", service_date: "Date", patient_name: "Name", total_fee: "Total", paid_fee: "Paid"};
+    var columns = {number: "Claim", service_date: "Date", patient_name: "Name", total_fee: "Total", paid_fee: "Paid"};
     if (!wide) columns = _.pick(columns, 'service_date', 'patient_name', 'total_fee');
 
     var headers = _.map(columns, function(name, column) {
