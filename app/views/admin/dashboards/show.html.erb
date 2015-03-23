@@ -3,21 +3,22 @@
     <tr>
       <th><%= sortable_link_to "users.name", "Doctor" %></th>
       <% Claim.statuses.keys.each do |state| %>
-        <th class="text-center"><%= sortable_link_to "#{state}_count" %></th>
+        <% next if ['acknowledged', 'uploaded'].include?(state) %>
+        <th class="text-center"><%= sortable_link_to "#{state}_count", state.humanize %></th>
       <% end %>
-      <th class="text-right">Actions</th>
+      <th class="text-right"></th>
     </tr>
     <% @users.each do |user| %>
       <tr>
         <td><%= user.name %></td>
         <% Claim.statuses.each do |name, value| %>
+          <% next if ['acknowledged', 'uploaded'].include?(name) %>
           <td class="text-center">
             <%= link_to_unless user["#{name}_count"] == 0, user["#{name}_count"], admin_claims_path(user_id: user.id, status: value) %>
           </td>
         <% end %>
         <td class="text-right">
-          <%= link_to "List all", admin_claims_path(user_id: user.id, state: "") %>
-          <%= link_to "Edit", edit_admin_user_path(user) %>
+          <%= link_to "all", admin_claims_path(user_id: user.id, state: "") %>
         </td>
       </tr>
     <% end %>
