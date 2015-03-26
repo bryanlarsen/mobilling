@@ -4,6 +4,7 @@
     <th> <%= sortable_link_to "filename", "Filename" %> </th>
     <th> <%= sortable_link_to "users.name", "Name" %> </th>
     <th> <%= sortable_link_to "type", "File Type" %> </th>
+    <th> <%= sortable_link_to "status", "Status" %> </th>
     <th> <%= sortable_link_to "created_at", "Date" %> </th>
     <th> Claims </th>
     <th> Claimed </th>
@@ -15,6 +16,7 @@
     <td> <%= link_to edt_file.filename, admin_edt_file_path(edt_file) %> </td>
     <td> <%= edt_file.user.name %> </td>
     <td> <%= edt_file.type.underscore.humanize %> </td>
+    <td> <%= edt_file.status.underscore.humanize %> </td>
     <td> <%= edt_file.created_at.to_date %> </td>
     <td> <%= edt_file.claims.length %> </td>
     <td> <%= ("%.2f" % (edt_file.submitted_fee/100.0)) %> </td>
