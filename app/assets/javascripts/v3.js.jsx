@@ -13,19 +13,6 @@ var App = React.createClass({
 });
 
 
-var Landing = React.createClass({
-  render: function() {
-    return (
-      <div className="body">
-        <StandardHeader/>
-        <div className="page-header">
-          <h1>Mo-Billing</h1>
-        </div>
-      </div>
-    );
-  }
-});
-
 var V3Routes = (
   <Route name="app" path="/" handler={App}>
     <Redirect from="/" to="/claims?filter=drafts&sort=-number" />
@@ -34,7 +21,6 @@ var V3Routes = (
       <Route name="settings" handler={ProfileSettings}/>
       <Route name="password" handler={ChangePassword}/>
     </Route>
-    <Route name="landing" handler={Landing}/>
     <Route name="new_claim" path="/new_claim" handler={NewClaimPage}/>
     <Route name="claim" path="/claim/:id" handler={ClaimPageSelect}>
       <Route name="claim_patient" path="patient" handler={PatientTab}/>

@@ -68,9 +68,9 @@ var ClaimsPage = React.createClass({
           <div className="container">
             <ul className="nav navbar-nav navbar-left">
               <li>
-                <NavItemLink className="hidden-xs" to="landing">
+                <NavItem href="http://mo-billing.ca" className="hidden-xs">
                   Mo-Billing
-                </NavItemLink>
+                </NavItem>
               </li>
               <li>
                 <div className="btn-group" role="group">

@@ -3,9 +3,9 @@ var StandardHeader = React.createClass({
     return (
       <Navbar fixedTop>
         <Nav>
-          <NavItemLink className="hidden-xs" to="landing">
+          <NavItem href="http://mo-billing.ca" className="hidden-xs">
             Mo-Billing
-          </NavItemLink>
+          </NavItem>
           <NavItemLink to="claims" params={{filter:"drafts"}}>
             <Icon i="list">List</Icon>
           </NavItemLink>
