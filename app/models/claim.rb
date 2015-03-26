@@ -5,19 +5,17 @@ class Claim < ActiveRecord::Base
   CONSULT_TYPES = %w[general_er general_non_er comprehensive_er comprehensive_non_er limited_er limited_non_er special_er special_non_er on_call_admission_er on_call_admission_non_er]
   CONSULT_PREMIUM_VISITS = %w[weekday_office_hours weekday_day weekday_evening weekday_night weekend_day weekend_night holiday_day holiday_night calculate]
 
-  enum status: %i[saved for_agent ready file_created uploaded acknowledged agent_attention doctor_attention done reclaimed]
-
-  NEXT_STATUSES = {
-    "saved" =>          %w[saved for_agent ready],
-    "for_agent" =>      %w[for_agent ready doctor_attention done],
-    "ready" =>          %w[for_agent ready doctor_attention done reclaimed],
-    "file_created" =>   %w[file_created uploaded acknowledged agent_attention done],
-    "uploaded" =>       %w[uploaded acknowledged agent_attention done],
-    "acknowledged" =>   %w[acknowledged agent_attention done],
-    "agent_attention" =>%w[agent_attention done reclaimed],
-    "doctor_attention"=>%w[doctor_attention for_agent ready],
-    "done" =>           %w[done reclaimed],
-    "reclaimed" =>      %w[done reclaimed],
+  enum status: {
+    saved: 0,
+    for_agent: 1,
+    ready: 2,
+    file_created: 3,
+#    uploaded: 4,
+#    acknowledged: 5,
+    agent_attention: 6,
+    doctor_attention: 7,
+    done: 8,
+    reclaimed: 9
   }
 
   scope :submitted, -> { where(status: statuses.except("saved", "doctor_attention").values) }
@@ -62,7 +60,7 @@ class Claim < ActiveRecord::Base
     details['admission_on'] = record["In-Patient Admission Date"].strftime("%Y-%m-%d") if record["In-Patient Admission Date"]
     self.number = record["Accounting Number"].to_i
     details['daily_details'] = []
-    self.status = 'uploaded'
+    self.status = 'file_created'
     self
   end
 

@@ -29,11 +29,11 @@ class BatchAcknowledgment < EdtFile
         claim.save!
       end
     else
-      submission.status = 'acknowledged'
+#      submission.status = 'acknowledged'
       submission.save!
 
       submission.claims.each do |claim|
-        claim.status = 'acknowledged'
+#        claim.status = 'acknowledged'
         claim.files << self
         claim.save!
       end

@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  SPECIALTIES = %w[internal_medicine family_medicine cardiology anesthesiologist surgical_assist psychotherapist]
+  SPECIALTIES = %w[internal_medicine family_medicine cardiology anesthesiologist surgical_assist] #psychotherapist
 
   enum role: %i[doctor agent admin ministry]
 
