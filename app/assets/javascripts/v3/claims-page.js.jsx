@@ -75,7 +75,7 @@ var ClaimsPage = React.createClass({
               <li>
                 <div className="btn-group" role="group">
                   <ButtonLink to="new_claim" className="navbar-btn">
-                    <Icon i="plus">New Claim</Icon>
+                    <Icon xs i="plus">New Claim</Icon>
                   </ButtonLink>
                 </div>
               </li>
