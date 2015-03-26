@@ -1,6 +1,6 @@
 class Admin::EdtFilesController < Admin::BaseController
   include Admin::Sortable
-  self.sortable_columns = %w[filename users.name type created_at]
+  self.sortable_columns = %w[filename users.name type created_at status]
 
   helper_method :user_id_filter, :type_filter
 
