@@ -5,3 +5,7 @@
 //= require chai
 
 var expect = chai.expect;
+
+var React = {
+  createClass: function() {}
+};
