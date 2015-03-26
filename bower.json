@@ -23,7 +23,7 @@
     "immutable": "*",
     "moment": "*",
     "pickadate": "3.5.4",
-    "react-bootstrap": "*",
+    "react-bootstrap": "0.16.x",
     "react-router": "0.12.x",
     "remarkable": "*",
     "typeahead.js": "*",
