@@ -59,8 +59,15 @@ class V1::ClaimsController < V1::BaseController
   param_group :claim
 
   def create
+    authorize :claim
+
+    last_claim = Claim.order(:updated_at).last
     attrs = claim_params
     attrs['status'] ||= 'saved'
+    if last_claim
+      attrs['specialty'] = last_claim.details['specialty'] if attrs['specialty'].blank?
+      attrs['hospital'] ||= last_claim.details['hospital']
+    end
     attrs['specialty'] = current_user.default_specialty if attrs['specialty'].blank?
     attrs['specialty'] = 'internal_medicine' if attrs['specialty'].blank?
     attrs['patient_province'] ||= 'ON'
@@ -76,7 +83,6 @@ class V1::ClaimsController < V1::BaseController
     attrs['diagnoses'] ||= [{name: ""}]
     @form = ClaimForm.new(attrs)
     @form.user = current_user
-    authorize :claim
     if @form.perform
       show @form, 200
     else
