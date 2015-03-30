@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 ActiveRecord::Migration.say_with_time "create_admin" do
   User.where(name: "Admin").first_or_create(email: "admin@example.com", password: "secret", role: "admin")
 end
@@ -212,4 +213,71 @@ ActiveRecord::Migration.say_with_time "error_report_rejection_conditions" do
   end
 
   puts "#{count} codes"
+end
+
+ActiveRecord::Migration.say_with_time "diagnostic_code_required" do
+  inside = false
+  record = false
+  count = 0
+
+  def range(l1, n1, l2, n2)
+    raise 'huh?' if l1 != l2
+  end
+
+  def decode(str)
+    str.split(', ').inject(Set.new) do |memo, code|
+      if code =~ /^([A-Z][0-9]{3}A)$/
+        memo.add($1)
+      elsif code =~ /^([A-Z])([0-9]{3})A-([A-Z])([0-9]{3})A$/
+        memo.merge((($2.to_i)..($4.to_i)).map { |n| "#{$1}#{'%03i' % n}A" })
+      elsif code =~ /^([A-Z])—A$/
+        memo.merge((0..999).map { |n| "#{$1}#{'%03i' % n}A" })
+      else
+        raise code
+      end
+    end
+  end
+
+  def process(record)
+    record = record.sub(/- /, '-')
+    record = record.sub(/ -/, '-')
+    record = record.sub(/ - /, '-')
+    record = record.sub(/ to /, '-')
+    record = record.sub(/,$/, '')
+    record = record.sub(/        +/, ';')
+    inc, exc = record.split(';')
+    codes = decode(inc)
+    codes = codes - decode(exc) if exc
+    codes.each do |code|
+      service = ServiceCode.find_by(code: code)
+      if service
+        print service.code
+        service.requires_diagnostic_code = true
+        service.save!
+      end
+    end
+  end
+
+  Rails.root.join("db/seeds/tech_specific.txt").readlines.each do |line|
+    if inside
+      line = line.sub(/^\*\*/, '   ')
+      line = line.sub(/^ \* /, '   ')
+      line = line.sub(/^  ([A-Z])/, '   \1')
+      if line =~ /^   [A-Z][0-9]/ ||
+          line =~ /^   [A-Z]—A/
+        process(record) if record
+        record = line.strip
+      elsif line =~ /^                *[A-Z][0-9]/
+        record += ' ' + line.strip
+      else
+        process(record) if record
+        record = false
+      end
+      if line =~ /^5.9/
+        inside = false
+      end
+    elsif line =~ /^5.8\s+Services Requiring Diagnostic Codes/
+      inside = true
+    end
+  end
 end
