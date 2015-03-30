@@ -22,7 +22,7 @@ restart consul-template-upstart-docker-2
 
 to migrate:
 
-docker exec ff17 -it bash
+docker exec -it ff17 bash
 env
 su - u32809
 export DATABASE_URL=postgres://postgres@postgres.service.consul/mobilling_production

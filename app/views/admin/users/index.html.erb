@@ -64,6 +64,9 @@
             <% end %>
             <td class="text-right">
               <%= link_to "Edit", edit_admin_user_path(user) %>
+              <% if policy(user).destroy? %>
+                <%= link_to "Delete", admin_user_path(user), class: "btn btn-danger btn-default", method: :delete, data: {confirm: "Are you sure?  This will delete all files and claims for the user."} %>
+              <% end %>
             </td>
           </tr>
         <% end %>

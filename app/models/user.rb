@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :photos, dependent: :destroy, inverse_of: :user
   belongs_to :agent, class_name: "User", inverse_of: :doctors
   has_many :doctors, class_name: "User", foreign_key: "agent_id", inverse_of: :agent
-  has_many :comments, class_name: "Claim::Comment", inverse_of: :user
+  has_many :comments, class_name: "Claim::Comment", inverse_of: :user, dependent: :destroy
 
   def self.model_params
     return [
