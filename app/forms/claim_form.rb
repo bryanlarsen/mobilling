@@ -114,7 +114,7 @@ class ClaimForm
     s.validates :first_seen_on, :last_seen_on, :admission_on, :patient_birthday, date: true, format: {with: /\A\d{4}-\d{2}-\d{2}\Z/}, allow_nil: true
     s.validates :consult_time_in, :consult_time_out, time: true, format: {with: /\A\d{2}:\d{2}\Z/, type: {is_a: String}}, allow_nil: true
     s.validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { not simplified? }
-    s.validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false]}, if: -> { not simplified? }
+    s.validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false, nil]}, if: -> { not simplified? }
     s.validates :daily_details, length: {minimum: 1}, associated: true
     s.validate :validate_patient_number
     s.validate :validate_seen_on, if: -> { not simplified? }
