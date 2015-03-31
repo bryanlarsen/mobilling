@@ -6,8 +6,15 @@ class V1::ServiceCodesController < V1::BaseController
 
   def index
     expires_in 7.days, public: true
-    service_codes = policy_scope(ServiceCode).map &:attributes
-    render json: service_codes, only: %w[name code fee requires_specialist]
+    service_codes = policy_scope(ServiceCode).map do |sc|
+      {
+        code: sc.code,
+        fee: sc.fee,
+        name: sc.name,
+        rdc: sc.requires_diagnostic_code
+      }
+    end
+    render json: service_codes
   end
 
 end

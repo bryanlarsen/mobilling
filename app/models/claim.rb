@@ -164,6 +164,7 @@ class Claim < ActiveRecord::Base
         fee: BigDecimal(daily['fee']) / BigDecimal(100),
         units: daily['units'],
         message: daily['message'],
+        diagnosis: daily['diagnosis'] && daily['diagnosis'].strip.split(' ').last,
         premiums: (daily['premiums'] || []).map do |premium|
           code = premium['code'][0..4].upcase
           code[4]='A' if !code[4] || !'ABC'.include?(code[4])

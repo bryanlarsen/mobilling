@@ -260,6 +260,7 @@ claimActions.saveFailed.listen(function(data) {
 claimActions.newItem.listen(function(data) {
   data.template.uuid = data.template.uuid || uuid();
   data.template.premiums = data.template.premiums || [];
+  data.template.diagnosis = data.template.diagnosis || claimStore().getIn([data.id, 'diagnoses', 0, 'name']);
   data.index = data.index || claimStore().getIn([data.id, 'daily_details']).count() - 1;
   console.log('newItem', data);
   var newItem = Immutable.fromJS(data.template);

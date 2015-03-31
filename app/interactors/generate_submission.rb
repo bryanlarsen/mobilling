@@ -85,7 +85,15 @@ class GenerateSubmission
     r['Fee Submitted']=daily[:fee]*100
     r['Number of Services']=daily[:units]
     r['Service Date']=daily[:day]
-    r['Diagnostic Code']=claim.details['diagnosis'][-3..-1] if claim.details['diagnosis']
+
+    service = ServiceCode.find_by(code: daily[:code])
+    if !service
+      @errors[claim.number] += [['service_code', 'not found']]
+    else
+      if service.requires_diagnostic_code
+        r['Diagnostic Code']=daily[:diagnosis]
+      end
+    end
 
     @contents += r.to_s
     @errors[claim.number] += r.errors if r.errors.length > 0
@@ -102,7 +110,6 @@ class GenerateSubmission
     r['Fee Submitted']=premium[:fee]*100
     r['Number of Services']=premium[:units]
     r['Service Date']=daily[:day]
-    r['Diagnostic Code']=claim.details['diagnosis'][-3..-1] if claim.details['diagnosis']
 
     @contents += r.to_s
     @errors[claim.number] += r.errors if r.errors.length > 0

@@ -22,11 +22,16 @@ var ClaimItemCollapse = React.createClass({
 
 var ClaimItemSummary = React.createClass({
   render: function() {
+    var needs_diagnosis = true;
+    if (feeGenerator) {
+      needs_diagnosis = feeGenerator.needsDiagnosis(this.props.store.get('code'));
+    }
     return (
       <div className="well col-xs-12" onClick={this.props.onClick}>
         <div key='code'>
           {!this.props.silent && <span>{this.props.store.get('units')}x </span>}
           <span>{this.props.store.get('code')}</span>
+          {needs_diagnosis && <span> ({this.props.store.get('diagnosis')})</span>}
           <span className="pull-right">{dollars(this.props.store.get('fee'))}</span>
           {this.props.store.get('paid') && <span className="pull-right">{dollars(this.props.store.get('paid'))+'/'}</span>}
         </div>
@@ -109,6 +114,10 @@ var ClaimItem = React.createClass({
     this.props.actions.updateFields(updates);
   },
 
+  diagnosisChanged: function(ev) {
+    this.props.actions.updateFields([[['diagnosis'], ev.target.value]]);
+  },
+
   actions: function(i) {
     var that = this;
     this.premiumActions = this.premiumActions || [];
@@ -153,6 +162,11 @@ var ClaimItem = React.createClass({
       }, premium));
     }, this).toJS() : null;
 
+    var needs_diagnosis = true;
+    if (feeGenerator) {
+      needs_diagnosis = feeGenerator.needsDiagnosis(this.props.store.get('code'));
+    }
+
     return (
     <div>
       <div className="form-group row">
@@ -194,6 +208,13 @@ var ClaimItem = React.createClass({
           </button>
         </div>
       </div>
+
+      {needs_diagnosis && <div className="form-group row">
+        <div className="control-label col-sm-4 hidden-xs">Diagnosis</div>
+        <div className="col-sm-8 col-md-4">
+          <Typeahead name="diagnosis" engine={diagnosesEngine} value={this.props.store.get('diagnosis')} onChange={this.fieldChanged} />
+        </div>
+      </div>}
 
       <div className="form-group row">
         <div className="control-label col-sm-4 hidden-xs">Time</div>
