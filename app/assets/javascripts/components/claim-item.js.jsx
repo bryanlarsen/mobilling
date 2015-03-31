@@ -21,8 +21,13 @@ var ClaimItemCollapse = React.createClass({
 });
 
 var ClaimItemSummary = React.createClass({
+  mixins: [
+    Fynx.connect(globalStore, 'globalStore'),
+  ],
+
   render: function() {
     var needs_diagnosis = true;
+    var feeGenerator = this.state.globalStore.get('feeGenerator');
     if (feeGenerator) {
       needs_diagnosis = feeGenerator.needsDiagnosis(this.props.store.get('code'));
     }
@@ -84,6 +89,10 @@ var NewItemButton = React.createClass({
 });
 
 var ClaimItem = React.createClass({
+  mixins: [
+    Fynx.connect(globalStore, 'globalStore'),
+  ],
+
   fieldChanged: function(ev) {
     this.props.actions.updateFields([
       [[ev.target.name], ev.target.value],
@@ -101,6 +110,7 @@ var ClaimItem = React.createClass({
 
   codeChanged: function(ev) {
     var value = ev.target.value;
+    var feeGenerator = this.state.globalStore.get('feeGenerator');
     if (!feeGenerator) return false;
 
     messages = feeGenerator.validateCode(value);
@@ -162,6 +172,7 @@ var ClaimItem = React.createClass({
       }, premium));
     }, this).toJS() : null;
 
+    var feeGenerator = this.state.globalStore.get('feeGenerator');
     var needs_diagnosis = true;
     if (feeGenerator) {
       needs_diagnosis = feeGenerator.needsDiagnosis(this.props.store.get('code'));

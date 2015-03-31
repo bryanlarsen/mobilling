@@ -103,13 +103,11 @@ FeeGenerator.prototype.calculateFee = function(detail, code) {
 };
 
 
-var feeGenerator;
 setTimeout(function() {
       $.ajax({
         url: '/v1/service_codes.json',
         dataType: 'json',
         success: function(data) {
-          // FIXME: once we switch over, this should be done at the server
           var array = new Array(_.size(data));
           var hash = {};
           _.each(data, function(sc, i) {
@@ -117,11 +115,11 @@ setTimeout(function() {
             array[i] = sc.name;
           });
           serviceCodesEngine.add(array);
-          feeGenerator = new FeeGenerator(hash);
+          globalStore(globalStore().set('feeGenerator', new FeeGenerator(hash)));
         },
         error: function(xhr, status, err) {
           console.error('failed to load service codes');
           reject(Error('failed to load service codes'));
         }
       });
-}, 2000);
+}, 500);

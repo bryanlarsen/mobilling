@@ -69,7 +69,7 @@ var ClaimDiagnosesList = React.createClass({
     return (
       <div>
       {_.map(this.props.store.get('diagnoses').toJS(), function(diagnosis, i) {
-        return diagnosis.name && <ClaimStaticOptional {...this.props} label="Diagnosis" value={diagnosis.name} />;
+        return diagnosis.name && <ClaimStaticOptional key={i} {...this.props} label="Diagnosis" value={diagnosis.name} />;
       })}
       </div>
     );

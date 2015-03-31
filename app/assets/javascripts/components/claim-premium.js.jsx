@@ -1,4 +1,8 @@
 var ClaimPremium = React.createClass({
+  mixins: [
+    Fynx.connect(globalStore, 'globalStore'),
+  ],
+
   unitsChanged: function(ev) {
     this.props.actions.updateFields([[[ev.target.name], parseInt(ev.target.value)]]);
   },
@@ -9,6 +13,7 @@ var ClaimPremium = React.createClass({
 
   codeChanged: function(ev) {
     var value = ev.target.value;
+    var feeGenerator = this.state.globalStore.get('feeGenerator');
     if (!feeGenerator) return false;
 
     messages = feeGenerator.validateCode(value);

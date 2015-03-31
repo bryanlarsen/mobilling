@@ -70,6 +70,7 @@ var updateConsult = function(claim) {
 };
 
 var updateItem = function(item) {
+  var feeGenerator = globalStore().get('feeGenerator');
   if (!feeGenerator) return item;
 
   var result = feeGenerator.calculateFee(item.toJS(), item.get('code'));
