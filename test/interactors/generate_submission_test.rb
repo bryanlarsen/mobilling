@@ -4,9 +4,14 @@ class GenerateSubmission::SubmissionTest < ActiveSupport::TestCase
   setup do
     @interactor = GenerateSubmission.new
     @user = create(:user, provider_number: 18469, group_number: '2468', office_code: 'Q', specialty_code: 99)
+    @pil = create(:user, provider_number: 23575, group_number: '0000', office_code: 'D', specialty_code: 0)
     create(:service_code, code: 'P018B', fee: 7224, requires_diagnostic_code: false)
     create(:service_code, code: 'E401B', fee: 903, requires_diagnostic_code: false)
     create(:service_code, code: 'C999B', fee: 10000, requires_diagnostic_code: false)
+    create(:service_code, code: 'A933A', fee: 7990, requires_diagnostic_code: true)
+    create(:service_code, code: 'E082A', fee: 1, requires_diagnostic_code: false)
+    create(:service_code, code: 'C994A', fee: 6000, requires_diagnostic_code: false)
+    create(:service_code, code: 'C962A', fee: 3640, requires_diagnostic_code: false)
 
     @claim_details = {
       user: @user,
@@ -22,7 +27,8 @@ class GenerateSubmission::SubmissionTest < ActiveSupport::TestCase
   end
 
   def check(claims, contents)
-    @interactor.perform(@user, claims, DateTime.new(2014,8,10))
+    user = claims[0] ? claims[0].user : @user
+    @interactor.perform(user, claims, DateTime.new(2014,8,10))
     assert @interactor.errors.length == 0, @interactor.errors.to_yaml
     assert @interactor.contents == contents, 'is: '+@interactor.contents.split("\n").to_yaml+'should be: '+contents.split("\n").to_yaml
     claims.each do |claim|
@@ -79,4 +85,30 @@ HEE0001000100001                                                               \
 EOS
   end
 
+  test 'pil' do
+    dets = @claim_details.clone
+    dets[:user] = @pil
+    dets[:patient_number] = "9876543217"
+    dets[:hospital] = "1801"
+    dets[:patient_birthday] = "1957-04-25"
+    dets[:number] = 22853601
+    dets[:admission_on] = "2015-01-27"
+    dets[:daily_details][0] = {day: '2015-01-27',
+      code: 'A933A',
+      diagnosis: '799',
+      fee: 7990,
+      units: 1,
+      premiums: [{code: 'E082A', fee: 2397, units: 1},
+                 {code: 'C994A', fee: 6000, units: 1},
+                 {code: 'C962A', fee: 3640, units: 1}]}
+    check [build(:claim, dets)], <<EOS
+HEBV03D201408100000000000000002357500                                          \r
+HEH9876543217  1957042522853601HCPP      180120150127                          \r
+HETA933A  0079900120150127799                                                  \r
+HETE082A  0023970120150127                                                     \r
+HETC994A  0060000120150127                                                     \r
+HETC962A  0036400120150127                                                     \r
+HEE0001000000004                                                               \r
+EOS
+  end
 end
