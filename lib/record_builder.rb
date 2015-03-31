@@ -322,7 +322,8 @@ class ItemRecord < Record
     'Fee Submitted' ,                N.new(11, 6, true, true),
     'Number of Services' ,           N.new(17, 2, true, true),
     'Service Date' ,                 D.new(19, 8, true, true),
-    'Diagnostic Code' ,              N.new(27, 4, false, true),
+    'Diagnostic Code A' ,              N.new(27, 3, false, true),
+    'Diagnostic Code B' ,              N.new(30, 1, false, true),
     'Reserved for OOC' ,             S.new(31, 10, false, false),
     'Reserved for MOH Use B' ,         S.new(41, 1, false, false),
     'Service Code 2' ,                 X.new(42, 5, false, true),
@@ -330,7 +331,8 @@ class ItemRecord < Record
     'Fee Submitted 2' ,                N.new(49, 6, false, true),
     'Number of Services 2' ,           N.new(55, 2, false, true),
     'Service Date 2' ,                 D.new(57, 8, false, true),
-    'Diagnostic Code 2' ,              N.new(65, 4, false, true),
+    'Diagnostic Code 2A' ,              N.new(65, 3, false, true),
+    'Diagnostic Code 2B' ,              N.new(68, 1, false, true),
     'Reserved for OOC 2' ,             S.new(69, 10, false, false),
     'Reserved for MOH Use B2' ,        S.new(79, 1, false, false)
   ]

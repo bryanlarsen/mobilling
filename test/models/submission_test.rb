@@ -2,6 +2,10 @@ require 'test_helper'
 
 class SubmissionTest < ActiveSupport::TestCase
   setup do
+    create(:service_code, code: 'P018B', fee: 7224, requires_diagnostic_code: false)
+    create(:service_code, code: 'E401B', fee: 903, requires_diagnostic_code: false)
+    create(:service_code, code: 'E676B', fee: 7224, requires_diagnostic_code: false)
+    create(:service_code, code: 'C999B', fee: 10000, requires_diagnostic_code: false)
     @agent = create(:user, role: "agent")
     @user = create(:user, provider_number: 18469, agent: @agent)
   end

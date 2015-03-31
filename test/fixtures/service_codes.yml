@@ -1,29 +1,29 @@
-service_code_1:
-  name: Service Code 1
+R441A:
+  code: 'R441A'
+  name: 'Total Hip'
+  fee: 61990
+  requires_diagnostic_code: true
 
-service_code_2:
-  name: Service Code 2
+R442A:
+  code: 'R442A'
+  name: 'Hip Liner'
+  fee: 35325
+  requires_diagnostic_code: true
 
-service_code_3:
-  name: Service Code 3
+R441B:
+  code: 'R441B'
+  name: 'Hip'
+  fee: 9632
+  requires_diagnostic_code: false
 
-service_code_4:
-  name: Service Code 4
+E401B:
+  code: 'E401B'
+  name: 'night premium'
+  fee: 903
+  requires_diagnostic_code: false
 
-service_code_5:
-  name: Service Code 5
-
-service_code_6:
-  name: Service Code 6
-
-service_code_7:
-  name: Service Code 7
-
-service_code_8:
-  name: Service Code 8
-
-service_code_9:
-  name: Service Code 9
-
-service_code_10:
-  name: Service Code 10
+C999B:
+  code: 'C999B'
+  name: 'night call-in'
+  fee: 10000
+  requires_diagnostic_code: false

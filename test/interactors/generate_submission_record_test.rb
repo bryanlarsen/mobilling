@@ -2,6 +2,7 @@ require "test_helper"
 
 class GenerateSubmission::RecordTest < ActiveSupport::TestCase
   setup do
+    create(:service_code, code: 'R441A', fee: 61990, requires_diagnostic_code: true)
     @interactor = GenerateSubmission.new
   end
 
@@ -34,12 +35,12 @@ EOS
 
   test '1 claim' do
     claim = build(:claim, number: 0, patient_number: "9876543217xx", daily_details: [
-    	{code: 'R441A double hip', day:'2014-8-8', fee: 61990, units: 1}])
+    	{code: 'R441A double hip', day:'2014-8-8', fee: 61990, units: 1, diagnosis: '110'}])
     @interactor.generate_claim(claim)
     assert @interactor.errors.length == 0, @interactor.errors
     assert @interactor.contents == "\
 HEH9876543217XX2011091900000000HCPP      1681                                  \r\n\
-HETR441A  0619900120140808                                                     \r\n", @interactor.contents.split("\n")
+HETR441A  0619900120140808110                                                  \r\n", @interactor.contents.split("\n")
   end
 
 end

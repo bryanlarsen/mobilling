@@ -3,35 +3,42 @@ require "test_helper"
 class GenerateSubmission::DetailsTest < ActiveSupport::TestCase
   setup do
     @interactor = GenerateSubmission.new
+    create(:service_code, code: 'R441A', fee: 61990, requires_diagnostic_code: true)
+    create(:service_code, code: 'R441B', fee: 9632, requires_diagnostic_code: false)
+    create(:service_code, code: 'R442A', fee: 35325, requires_diagnostic_code: true)
+    create(:service_code, code: 'E401B', fee: 903, requires_diagnostic_code: false)
+    create(:service_code, code: 'C999B', fee: 10000, requires_diagnostic_code: false)
   end
 
   test 'details: simple' do
     daily = {'code' => 'R441A double hip', 'day' =>'2014-8-8', 'fee' => 61990, 'units' => 1}
     claim = build(:claim, daily_details: [daily])
     @interactor.generate_details(claim.items[0], claim)
-    assert @interactor.errors.length == 0, @interactor.errors
-    assert @interactor.contents == "HETR441A  0619900120140808                                                     \r\n", @interactor.contents.to_yaml
+    assert @interactor.errors.length == 1  # diagnosis required
   end
 
-  test 'details: two claims' do
-    daily1 = {'code' => 'R441A double hip', 'day' =>'2014-8-8', 'fee' => 61990, 'units' => 1}
-    daily2 = {'code' => 'R442A', 'day' =>'2014-8-7', 'fee' => 61991, 'units' => 1}
-    claim = build(:claim, daily_details: [daily1, daily2])
+  test 'details: simple, blank diagnosis' do
+    daily = {'code' => 'R441A double hip', 'day' =>'2014-8-8', 'fee' => 61990, 'units' => 1, 'diagnosis' => ''}
+    claim = build(:claim, daily_details: [daily])
     @interactor.generate_details(claim.items[0], claim)
-    @interactor.generate_details(claim.items[1], claim)
-    assert @interactor.errors.length == 0, @interactor.errors
-    assert @interactor.contents ==
-     "HETR441A  0619900120140808                                                     \r\n" +
-     "HETR442A  0619910120140807                                                     \r\n",
-      @interactor.contents.to_yaml
+    assert @interactor.errors.length == 1  # diagnosis required
   end
 
   test 'details with diagnosis' do
-    daily = {'code' => 'R441A double hip', 'day' =>'2014-8-8', 'fee' => 61990, 'units' => 1}
-    claim = build(:claim, daily_details: [daily], diagnosis: 'ringworm 110')
+    daily = {'code' => 'R441A double hip', 'day' =>'2014-8-8', 'fee' => 61990, 'units' => 1, 'diagnosis' => 'ringworm 11'}
+    claim = build(:claim, daily_details: [daily])
     @interactor.generate_details(claim.items[0], claim)
     assert @interactor.errors.length == 0, @interactor.errors
-    assert @interactor.contents == "HETR441A  0619900120140808110                                                  \r\n", @interactor.contents.to_yaml
+    assert_equal @interactor.contents, "HETR441A  0619900120140808011                                                  \r\n"
+    assert @interactor.errors.length == 0
+  end
+
+  test 'details with 4 digit diagnosis' do
+    daily = {'code' => 'R441A double hip', 'day' =>'2014-8-8', 'fee' => 61990, 'units' => 1, 'diagnosis' => 'ringworm 1109'}
+    claim = build(:claim, daily_details: [daily])
+    @interactor.generate_details(claim.items[0], claim)
+    assert @interactor.errors.length == 0, @interactor.errors
+    assert_equal @interactor.contents, "HETR441A  06199001201408081109                                                 \r\n"
     assert @interactor.errors.length == 0
   end
 

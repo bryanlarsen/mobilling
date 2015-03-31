@@ -4,6 +4,9 @@ class GenerateSubmission::SubmissionTest < ActiveSupport::TestCase
   setup do
     @interactor = GenerateSubmission.new
     @user = create(:user, provider_number: 18469, group_number: '2468', office_code: 'Q', specialty_code: 99)
+    create(:service_code, code: 'P018B', fee: 7224, requires_diagnostic_code: false)
+    create(:service_code, code: 'E401B', fee: 903, requires_diagnostic_code: false)
+    create(:service_code, code: 'C999B', fee: 10000, requires_diagnostic_code: false)
 
     @claim_details = {
       user: @user,

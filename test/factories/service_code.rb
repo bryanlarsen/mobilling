@@ -6,5 +6,6 @@ FactoryGirl.define do
     effective_date Date.new(2010,1,1)
     termination_date nil
     requires_specialist false
+    requires_diagnostic_code false
   end
 end

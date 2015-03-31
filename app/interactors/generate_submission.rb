@@ -91,7 +91,12 @@ class GenerateSubmission
       @errors[claim.number] += [['service_code', 'not found']]
     else
       if service.requires_diagnostic_code
-        r['Diagnostic Code']=daily[:diagnosis]
+        if daily[:diagnosis]
+          r['Diagnostic Code A']=daily[:diagnosis][0..2]
+          r['Diagnostic Code B']=daily[:diagnosis][3]
+        else
+          @errors[claim.number] += [['Diagnostic Code', 'required']]
+        end
       end
     end
 
