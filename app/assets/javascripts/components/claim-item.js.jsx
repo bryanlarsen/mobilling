@@ -61,7 +61,7 @@ var ClaimItemSummary = React.createClass({
 var NewItemButton = React.createClass({
   click: function() {
     var template = {
-      day: new Date().toISOString().slice(0,10),
+      day: normalizeDate(''),
       premiums: [],
       uuid: uuid()
     };
