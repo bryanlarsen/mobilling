@@ -193,6 +193,7 @@ class ClaimForm
     {
       photo_id: photo_id,
       status: status,
+      user_id: user_id,
       details: claim_attribute_details
     }
   end
