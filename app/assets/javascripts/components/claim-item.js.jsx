@@ -36,7 +36,6 @@ var ClaimItemSummary = React.createClass({
         <div key='code'>
           {!this.props.silent && <span>{this.props.store.get('units')}x </span>}
           <span>{this.props.store.get('code')}</span>
-          {needs_diagnosis && <span> ({this.props.store.get('diagnosis')})</span>}
           <span className="pull-right">{dollars(this.props.store.get('fee'))}</span>
           {this.props.store.get('paid') && <span className="pull-right">{dollars(this.props.store.get('paid'))+'/'}</span>}
         </div>
@@ -53,6 +52,10 @@ var ClaimItemSummary = React.createClass({
           );
         }, this).toJS()
         }
+        <div>
+          <span>{this.props.store.get('time_in')}-{this.props.store.get('time_out')}</span>
+          {needs_diagnosis && <span> {this.props.store.get('diagnosis')}</span>}
+        </div>
       </div>
     );
   }

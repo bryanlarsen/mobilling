@@ -4,6 +4,7 @@ class RemittanceAdviceTest < ActiveSupport::TestCase
   setup do
     create(:service_code, code: 'P018B', fee: 7224, requires_diagnostic_code: false)
     create(:service_code, code: 'E401B', fee: 903, requires_diagnostic_code: false)
+    create(:service_code, code: 'E676B', fee: 7224, requires_diagnostic_code: false)
     create(:service_code, code: 'C999B', fee: 10000, requires_diagnostic_code: false)
     @user = create(:user, provider_number: 18468)
     @claim_details = {

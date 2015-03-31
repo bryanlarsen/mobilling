@@ -42,6 +42,15 @@ class GenerateSubmission::DetailsTest < ActiveSupport::TestCase
     assert @interactor.errors.length == 0
   end
 
+  test 'premium diagnosis' do
+    daily = {'code' => 'R441A double hip', 'day' =>'2014-8-8', 'fee' => 61990, 'units' => 1, 'diagnosis' => 'ringworm 11', 'premiums' => [ { 'code' => 'R442A', 'fee' => 35325, 'units' => 1 } ] }
+    claim = build(:claim, daily_details: [daily])
+    @interactor.generate_details(claim.items[0], claim)
+    assert @interactor.errors.length == 0, @interactor.errors
+    assert_equal @interactor.contents, "HETR441A  0619900120140808011                                                  \r\nHETR442A  0353250120140808011                                                  \r\n"
+    assert @interactor.errors.length == 0
+  end
+
   test 'details assisting' do
     daily = {'code' => 'R441B double hip', 'day' =>'2014-8-8', 'time_in' => '9:00', 'time_out' => '11:30', 'fee' => 28896, 'units' => 24}
     claim = build(:claim, daily_details: [daily])
