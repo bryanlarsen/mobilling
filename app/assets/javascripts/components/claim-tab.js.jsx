@@ -26,6 +26,8 @@ var ClaimTabSimplified = React.createClass({
           </ClaimInputWrapper>
         </ClaimFormGroup>}
 
+        {this.props.agent && <ClaimPaymentProgram {...this.props} />}
+
        </div>
     );
   }

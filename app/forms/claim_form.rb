@@ -109,6 +109,8 @@ class ClaimForm
     s.validates :hospital, :patient_number, :patient_province, :patient_birthday, presence: true
     s.validates :patient_province, inclusion: {in: %w[ON AB BC MB NL NB NT NS PE SK NU YT]}
     s.validates :patient_sex, inclusion: {in: %w[M F]}, if: -> { patient_province != "ON" }
+    s.validates :payment_program, inclusion: {in: ['HCP', 'WCB', nil]}, if: -> { patient_province == "ON" }
+    s.validates :payment_program, inclusion: {in: ['RMB', 'WCB', nil]}, if: -> { patient_province != "ON" }
     s.validates :patient_name, presence: true, if: -> { patient_province != "ON" }
     s.validates :hospital, format: {with: /\A\d{4}/}
     s.validates :first_seen_on, :last_seen_on, :admission_on, :patient_birthday, date: true, format: {with: /\A\d{4}-\d{2}-\d{2}\Z/}, allow_nil: true
