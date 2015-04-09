@@ -35,6 +35,8 @@ var V3Routes = (
 React.initializeTouchEvents(true);
 
 $(document).ready(function() {
+  FastClick.attach(document.body);
+
   ReactRouter.run(V3Routes, function(Handler, state) {
         React.render(React.createElement(Handler, {params: state.params}), document.body);
   });

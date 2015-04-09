@@ -19,10 +19,13 @@ var Typeahead = React.createClass({
     $(this.getDOMNode()).typeahead('destroy');
   },
 
-  render: function() {
+  componentDidUpdate: function() {
     if (this.isMounted()) {
       $(this.getDOMNode()).typeahead('val', this.props.value);
     }
+  },
+
+  render: function() {
     return (
       <input type="search" className="form-control typeahead" name={this.props.name} defaultValue={this.props.value} onBlur={this.props.onChange}/>
     );

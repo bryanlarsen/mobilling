@@ -1,3 +1,4 @@
+//= require fastclick
 //= require react
 //= require react_ujs
 //= require pickadate/lib/picker
@@ -11,3 +12,6 @@
 //= require Fynx
 
 //= require components
+
+
+// see https://github.com/twitter/typeahead.js/issues/792
