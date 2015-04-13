@@ -22,7 +22,13 @@ var ClaimTime = React.createClass({
         if (tin !== undefined) {
           var hours = (tout-tin) / 60;
           if (hours < 0) hours = hours+24;
-          return  "HH:i <sm!all cl!ass='text-muted'>" + hours + "!h</sm!all>";
+          var minutes = parseInt((hours - parseInt(hours))*60);
+          var hours = parseInt(hours);
+          if (minutes) {
+            return "HH:i <sm!all cl!ass='text-muted'>" + hours + "!h" + minutes + "m</sm!all>";
+          } else {
+            return "HH:i <sm!all cl!ass='text-muted'>" + hours + "!h</sm!all>";
+          }
         } else {
           return "HH:i";
         }
