@@ -35,4 +35,8 @@ Rails.application.routes.draw do
     resources :submissions, only: %i[update]
     root to: redirect("/admin/dashboard")
   end
+
+  scope module: 'v3' do
+    get '*unmatched', to: "home#show"   # probably a react route
+  end
 end

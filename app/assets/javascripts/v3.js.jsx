@@ -29,6 +29,7 @@ var V3Routes = (
       <Route name="claim_items" path="items" handler={ItemsTab}/>
       <Route name="claim_comments" path="comments" handler={CommentsTab}/>
     </Route>
+    <NotFoundRoute handler={NotFound}/>
   </Route>
 );
 
