@@ -7,8 +7,8 @@ class Admin::DashboardsController < Admin::BaseController
     authorize :dashboard, :read?
     counts = ::Claim.statuses.map { |name, value| "(SELECT COUNT(*) FROM claims WHERE claims.user_id = users.id AND claims.status = #{value}) AS #{name}_count" }
     @users = case current_user.role
-             when "admin" then @users = ::User.all
-             when "agent" then @users = ::User.where(agent_id: current_user.id)
+             when "admin" then @users = ::User.where(role: "doctor")
+             when "agent" then @users = ::User.where(agent_id: current_user.id, role: "doctor")
              when "doctor" then @users = ::User.where(id: current_user.id)
              else ::User.none
     end
