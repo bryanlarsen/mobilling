@@ -1,16 +1,18 @@
 <table class="table table-striped">
   <tr>
     <th><%= sortable_link_to "claims.number", "Number" %></th>
+    <th class="text-center"><%= sortable_link_to "claims.service_date", "Date" %></th>
     <th class="text-center"><%= sortable_link_to "users.name", "Doctor" %></th>
     <th class="text-center"><%= sortable_link_to "claims.status", "Status" %></th>
-    <th class="text-center"><%= sortable_link_to "claims.details->>'patient_name'", "Patient Name" %></th>
-    <th class="text-center">Total</th>
-    <th class="text-center">Paid</th>
+    <th class="text-center"><%= sortable_link_to "claims.patient_name", "Patient Name" %></th>
+    <th class="text-center"><%= sortable_link_to "claims.total_fee", "Total" %></th>
+    <th class="text-center"><%= sortable_link_to "claims.paid_fee", "Paid" %></th>
     <th class="text-right" colspan="2">Actions</th>
   </tr>
   <% claims.each.with_index do |claim, index| %>
   <tr>
     <td><%= claim.number %></td>
+    <td class="text-center"><%= claim.service_date %></td>
     <td class="text-center"><%= claim.user.name %></td>
     <td class="text-center"><%= claim.status.humanize %></td>
     <td class="text-center"><%= claim.details["patient_name"] %></td>

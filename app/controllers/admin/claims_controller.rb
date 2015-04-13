@@ -1,7 +1,15 @@
 class Admin::ClaimsController < Admin::BaseController
   include Admin::Sortable
 
-  self.sortable_columns = %w[claims.number users.name claims.status claims.details->>'patient_name']
+  self.sortable_columns = {
+    "claims.number" => "claims.number",
+    "users.name" => "users.name",
+    "claims.status" => "claims.status",
+    "claims.patient_name" => "claims.details->>'patient_name'",
+    "claims.total_fee" => "claims.total_fee",
+    "claims.paid_fee" => "claims.paid_fee",
+    "claims.service_date" => "claims.details->'daily_details'->0->>'day'"
+  }
 
   helper_method :user_id_filter, :status_filter
 
