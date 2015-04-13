@@ -9,7 +9,6 @@ class V3::SessionsController < V3::BaseController
   end
 
   def create
-    admin = session[:admin]
     @interactor3 = V3::CreateSession.new(session_params)
     if @interactor3.perform
       sign_in(@interactor3.user, @interactor3.token)
@@ -17,7 +16,7 @@ class V3::SessionsController < V3::BaseController
       render :new
       return
     end
-    redirect_to admin ? admin_dashboard_url : root_url
+    redirect_to @interactor3.user.doctor? ? root_url : admin_dashboard_url
   end
 
   def destroy

@@ -14,7 +14,6 @@ class V3::BaseController < ActionController::Base
   private
 
   def session_expired(ex)
-    session[:admin] = true
     flash[:error] = ex.to_s
     redirect_to new_session_url, error: ex.to_s
   end

@@ -13,13 +13,11 @@ class Admin::BaseController < ActionController::Base
   private
 
   def session_expired(ex)
-    session[:admin] = true
     flash[:error] = ex.to_s
     redirect_to new_session_url, error: ex.to_s
   end
 
   def user_not_authorized
-    session[:admin] = true
     redirect_to new_session_url, error: "You are not authorized to perform this action."
   end
 end
