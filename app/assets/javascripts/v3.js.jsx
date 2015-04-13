@@ -37,7 +37,7 @@ React.initializeTouchEvents(true);
 $(document).ready(function() {
   FastClick.attach(document.body);
 
-  ReactRouter.run(V3Routes, function(Handler, state) {
+  ReactRouter.run(V3Routes, ReactRouter.HistoryLocation, function(Handler, state) {
         React.render(React.createElement(Handler, {params: state.params}), document.body);
   });
 
