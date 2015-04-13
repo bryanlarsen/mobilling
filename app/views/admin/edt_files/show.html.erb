@@ -7,6 +7,15 @@
         <%= @file.filename %>
       </h2>
       <div><%= @file.created_at.to_date %></div>
+      <% if @file.is_a? Submission %>
+        <%= form_tag admin_submission_path(@file), method: :put %>
+        <div>Status: <div class="btn-group">
+          <% EdtFile.statuses.keys.each do |status| %>
+            <button name="status" value="<%= status %>" class="btn btn-default <%= status == @file.status ? 'btn-primary' : '' %>"><%= status %></button>
+          <% end %>
+        </div></div>
+        </form>
+      <% end %>
       <br/>
     </div>
   </div>

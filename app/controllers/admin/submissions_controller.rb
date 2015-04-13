@@ -26,6 +26,14 @@ class Admin::SubmissionsController < Admin::BaseController
 
     # see _flash.html.erb for !!
     flash[:notice] = "!!" + download_admin_edt_file_path(id: @submission, filename: @submission.filename)
-    redirect_to :back
+    redirect_to admin_edt_file_path(@submission)
+  end
+
+  def update
+    @submission = Submission.find(params[:id])
+    authorize @submission, :update?
+    @submission.status = params[:status]
+    @submission.save!
+    redirect_to admin_edt_file_path(@submission)
   end
 end

@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     resources :users, only: %i[new index edit destroy] do
       resources :submissions, only: %i[create]
     end
+    resources :submissions, only: %i[update]
     root to: redirect("/admin/dashboard")
   end
 end

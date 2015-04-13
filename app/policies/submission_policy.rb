@@ -1,4 +1,4 @@
-class SubmissionPolicy < Struct.new(:current_user, :user)
+class SubmissionPolicy < Struct.new(:current_user, :submission)
   class Scope < Struct.new(:current_user, :scope)
     def resolve
       return ::Submission.none if current_user.blank?
@@ -8,11 +8,15 @@ class SubmissionPolicy < Struct.new(:current_user, :user)
     end
   end
 
+  def access?
+    UserPolicy.new(current_user, submission.user).access?
+  end
+
   def read?
-    current_user.present?
+    access?
   end
 
   def update?
-    current_user.present?
+    access?
   end
 end
