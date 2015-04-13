@@ -73,7 +73,13 @@ class V1::ClaimsController < V1::BaseController
     attrs['patient_province'] ||= 'ON'
     attrs['patient_sex'] ||= 'F'
     attrs['patient_name'] ||= ''
-    attrs['most_responsible_physician'] ||= false
+
+    if %w[anesthesiologist surgical_assist].include?(attrs['specialty'])
+      attrs['most_responsible_physician'] ||= false
+    else
+      attrs['most_responsible_physician'] ||= true
+    end
+
     attrs['first_seen_consult'] ||= false
     attrs['last_seen_discharge'] ||= false
     attrs['icu_transfer'] ||= false
