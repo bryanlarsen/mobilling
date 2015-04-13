@@ -40,7 +40,7 @@ class GenerateSubmission
     r['Accounting Number']=claim.number
     r['Payment Program']=payment_program
     r['Payee']=claim.details['payee'] || 'P'
-    r['Referring Health Care Provider Number']=referring_provider if referring_provider
+    r['Referring Health Care Provider Number']=referring_provider unless referring_provider.blank?
     r['Master Number']=facility
     r['In-Patient Admission Date']=Date.strptime(claim.details['admission_on']) if claim.details['admission_on']
     r['Referring Laboratory License Number']=claim.details['referring_laboratory'] if claim.details['referring_laboratory']
