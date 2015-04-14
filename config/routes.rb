@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   namespace :v1 do
     resources :users, only: %i[index show create update]
     resources :agents, only: %i[index]
-    resources :claims, only: %i[index show create update destroy]
+    resources :claims, only: %i[index show create update destroy] do
+      get :read_comments
+    end
     resources :diagnoses, only: %i[index]
     resources :hospitals, only: %i[index]
     resources :photos, only: %i[show create]

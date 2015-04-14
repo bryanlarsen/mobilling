@@ -48,6 +48,7 @@ class ClaimForm
             [:comment, String],           # new comment
             [:num_comments, Integer],     # number of comments when editing started
             [:consult_time_type, String], # if set, can return premium counts
+            [:unread_comments, Integer],  # number of unread comments for this user.   Set to 0 to set read flags
            ]
   end
 
@@ -158,6 +159,7 @@ class ClaimForm
       attrs.merge!(attributes) if attributes
       super(attrs)
     end
+    @current_user = attributes[:current_user] if attributes
   end
 
   def perform
@@ -174,6 +176,14 @@ class ClaimForm
         cmt.save!
       else
         @claim.comments.create!(user: user, body: comment)
+      end
+    end
+    if @clear_unread_comments && @current_user
+      @claim.comments.each do |comment|
+        if comment.user_id == @current_user.id && !comment.read
+          comment.read = true
+          comment.save!
+        end
       end
     end
     true
@@ -268,6 +278,10 @@ class ClaimForm
     end
   end
 
+  def unread_comments=(val)
+    @clear_unread_comments = true
+  end
+
   def as_json(options = nil)
     attributes.except(:user)
       .merge(@claim ? {
@@ -319,10 +333,17 @@ class ClaimForm
           {
             body: comment.body,
             user_name: comment.user.try(:name),
+            user_id: comment.user.try(:id),
             created_at: comment.created_at,
           }
         end
         response[:num_comments] = @claim.comments.size
+
+        if @current_user
+          response[:unread_comments] = @claim.comments.reduce(0) do |count, comment|
+            comment.read || comment.user_id == @current_user.id ? count : count + 1
+          end
+        end
       end
       if options && options[:include_total] && @claim
         response[:submitted_fee] = @claim.submitted_fee

@@ -5,7 +5,7 @@ class V1::ClaimsController < V1::BaseController
   api :GET, "/v1/claims", "Returns claims"
 
   def index
-    render json: policy_scope(Claim).map {|claim|
+    render json: policy_scope(Claim).includes(:comments).map {|claim|
       {
         id: claim.id,
         number: claim.number,
@@ -16,7 +16,10 @@ class V1::ClaimsController < V1::BaseController
         total_fee: claim.total_fee,
         patient_number: claim.details['patient_number'],
         patient_name: claim.details['patient_name'],
-        service_date: claim.service_date
+        service_date: claim.service_date,
+        unread_comments: claim.comments.reduce(0) do |count, comment|
+          comment.read || comment.user_id == current_user.id ? count : count + 1
+        end
       }
     }
   end
@@ -24,7 +27,7 @@ class V1::ClaimsController < V1::BaseController
   api :GET, "/v1/claims/:id", "Returns a claim"
 
   def show(form = nil, status = nil)
-    form ||= ClaimForm.new(policy_scope(Claim).includes(:comments).includes(:photo).find(params[:id]))
+    form ||= ClaimForm.new(policy_scope(Claim).includes(:comments).includes(:photo).find(params[:id]), current_user: current_user)
     authorize form.claim if form.claim
     render json: form.as_json(include_comments: true, include_warnings: true, include_photo: true, include_submission: true, include_total: true, include_files: true, include_consult_counts: true), status: (status ? status : 200)
   end
@@ -87,7 +90,7 @@ class V1::ClaimsController < V1::BaseController
     attrs['consult_premium_travel'] ||= false
     attrs['manual_review_indicator'] ||= false
     attrs['diagnoses'] ||= [{name: ""}]
-    @form = ClaimForm.new(attrs)
+    @form = ClaimForm.new(attrs, current_user: current_user)
     @form.user = current_user
     if @form.perform
       show @form, 200
@@ -103,7 +106,7 @@ class V1::ClaimsController < V1::BaseController
   def update
     @claim = policy_scope(Claim).find(params[:id])
     authorize @claim, :update?
-    @form = ClaimForm.new(@claim, claim_params)
+    @form = ClaimForm.new(@claim, claim_params.merge(current_user: current_user))
     @form.user = current_user
     if @form.perform
       show @form, 200
@@ -118,7 +121,7 @@ class V1::ClaimsController < V1::BaseController
     @claim = Claim.find(params[:id])
     authorize @claim
     @claim.destroy
-    show ClaimForm.new(@claim)
+    show ClaimForm.new(@claim, current_user: current_user)
   end
 
   private

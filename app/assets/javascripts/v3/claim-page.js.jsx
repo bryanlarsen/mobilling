@@ -84,6 +84,8 @@ var ClaimPage = React.createClass({
 
   render: function() {
     // onTouchStart={this.touchStart} onTouchMove={this.touchMove} onTouchEnd={this.touchEnd}
+    var unread_comments = this.props.store.get('unread_comments');
+
     return (
       <div className="body">
         <ClaimHeader {...this.props} submit={this.props.store.get('status')==='saved' && this.submit}/>
@@ -96,7 +98,8 @@ var ClaimPage = React.createClass({
           <ul id="tab-nav" className="nav navbar-nav nav-justified" style={{position: 'relative'}}>
             { _.map(this.tabs(), function(tab) {
                return <NavItemLink key={"claim_tab_"+tab} to={"claim_"+tab} params={{id:this.props.params.id}}>
-                        <Icon i={this.icon[tab]} xs>{s.humanize(tab)}</Icon>
+                        <Icon i={this.icon[tab]} xs>{s.humanize(tab)} </Icon>
+                        {tab === 'comments' && unread_comments > 0 && <span className="badge">{unread_comments}</span>}
                       </NavItemLink>;
             }, this) }
             <div id="highlight"></div>

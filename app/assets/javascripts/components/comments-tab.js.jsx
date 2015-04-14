@@ -3,6 +3,12 @@ var CommentsTab = React.createClass({
     this.props.actions.updateFields([[[ev.target.name], ev.target.value]]);
   },
 
+  componentDidMount: function() {
+    if (this.props.store.get('unread_comments') > 0) {
+      this.props.actions.updateFields([[['unread_comments'], 0]]);
+    }
+  },
+
   render: function() {
     var comments = this.props.store.get('comments') || Immutable.fromJS([]);
     var warningText = !this.props.agent && 'Your agent can fix these for you.'
