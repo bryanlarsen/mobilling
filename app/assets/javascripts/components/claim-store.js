@@ -324,18 +324,21 @@ claimActions.removeDiagnosis.listen(function(data) {
 });
 
 
-claimActions.load.listen(function(id) {
-  console.log('load',id);
+claimActions.load.listen(function(opts) {
+  console.log('load',opts.id);
   globalActions.startBusy();
   $.ajax({
-    url: '/v1/claims/'+id,
+    url: '/v1/claims/'+opts.id,
     dataType: 'json',
     success: function(data) {
       claimActions.init(data);
       globalActions.endBusy();
+      if(opts.success) {
+        opts.success();
+      }
     },
     error: function(xhr, status, err) {
-      console.error(id+': error loading. '+err.toString())
+      console.error(opts.id+': error loading. '+err.toString())
       globalActions.endBusy();
       globalActions.unrecoverableError();
     }
