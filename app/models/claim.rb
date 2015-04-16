@@ -157,19 +157,27 @@ class Claim < ActiveRecord::Base
   # daily_details, normalized, and with a better name
   def items
     details['daily_details'].map do |daily|
-      code = daily['code'][0..4].upcase
-      code[4]='A' if !code[4] || !'ABC'.include?(code[4])
+      if daily['code']
+        code = daily['code'][0..4].upcase
+        code[4]='A' if !code[4] || !'ABC'.include?(code[4])
+      else
+        code = 'Z999A'
+      end
       { code: code,
         day: Date.strptime(daily['day']),
-        fee: BigDecimal(daily['fee']) / BigDecimal(100),
+        fee: BigDecimal(daily['fee'] || 0) / BigDecimal(100),
         units: daily['units'],
         message: daily['message'],
         diagnosis: daily['diagnosis'] && daily['diagnosis'].strip.split(' ').last,
         premiums: (daily['premiums'] || []).map do |premium|
-          code = premium['code'][0..4].upcase
-          code[4]='A' if !code[4] || !'ABC'.include?(code[4])
+          if premium['code']
+            code = premium['code'][0..4].upcase
+            code[4]='A' if !code[4] || !'ABC'.include?(code[4])
+          else
+            code = 'Z999A'
+          end
           { code: code,
-            fee: BigDecimal(premium['fee']) / BigDecimal(100),
+            fee: BigDecimal(premium['fee'] || 0) / BigDecimal(100),
             units: premium['units'],
             message: premium['message'],
           }
