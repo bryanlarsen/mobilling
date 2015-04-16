@@ -6,6 +6,7 @@ var claimActions = exports.claimActions = Fynx.createActions([
   'undo',
   'newClaim',
   'updateFields',
+  'deleteFields',
   'newItem',
   'removeItem',
   'newPremium',
@@ -131,6 +132,15 @@ claimActions.updateFields.listen(function(data) {
       claimActions.attemptSave(id);
     });
   }
+});
+
+// right now this is only used for validations, so there is no server
+  // sync code
+claimActions.deleteFields.listen(function(data) {
+  console.log('deleteFields', data);
+  _.each(data, function(path) {
+    claimStore(claimStore().deleteIn(path));
+  });
 });
 
 var serverCalculatedFields = ['submission', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'];
@@ -373,6 +383,7 @@ exports.claimActionsFor = function(id) {
   actionsFor[id] = Fynx.createActions([
     'init',
     'updateFields',
+    'deleteFields',
     'newDiagnosis',
     'removeDiagnosis',
     'newItem',
@@ -387,14 +398,21 @@ exports.claimActionsFor = function(id) {
 
   actionsFor[id].updateFields.listen(function(data) {
     console.log('claim updateFields', data);
-    var newData = [];
-    _.forEach(data, function(tuple) {
-      newData.push([[id].concat(tuple[0]), tuple[1]]);
+    var newData = _.map(data, function(tuple) {
+      return [[id].concat(tuple[0]), tuple[1]];
     });
     if (data.forceSave) {
       newData.forceSave = id;
     }
     claimActions.updateFields(newData);
+  });
+
+  actionsFor[id].deleteFields.listen(function(data) {
+    console.log('claim deleteFields', data);
+    var newData = _.map(data, function(path) {
+      return [id].concat(path);
+    });
+    claimActions.deleteFields(newData);
   });
 
   actionsFor[id].newDiagnosis.listen(function(data) {
@@ -448,16 +466,28 @@ exports.itemActionsFor = function(id, i) {
   itemActions[id][i].updateFields.listen(function(data) {
     console.log('item updateFields', data);
     var newData = [];
+    var toDelete = []
     _.forEach(data, function(tuple) {
       newData.push([['daily_details', i].concat(tuple[0]), tuple[1]]);
       if (tuple[0][0]==='validations') {
-        newData.push([['validations', 'daily_details.'+i+'.code'], tuple[1].get('code')]);
+        var path = ['validations', 'daily_details.'+i+'.code']
+        if (tuple[1].get('code')) {
+          newData.push([path, tuple[1].get('code')]);
+        } else {
+          toDelete.push(path);
+        }
       }
       if (tuple[0][2]==='validations') {
-        newData.push([['validations', 'daily_details.'+i+'.premiums.'+tuple[0][1]+'.code'], tuple[1].get('code')]);
+        var path = ['validations', 'daily_details.'+i+'.premiums.'+tuple[0][1]+'.code'];
+        if (tuple[1].get('code')) {
+          newData.push([path, tuple[1].get('code')]);
+        } else {
+          toDelete.push(path);
+        }
       }
     });
     claimActions.updateFields(newData);
+    claimActions.deleteFields(toDelete);
   });
 
   itemActions[id][i].newItem.listen(function(data) {

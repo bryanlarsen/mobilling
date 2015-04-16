@@ -118,7 +118,7 @@ var ClaimItem = React.createClass({
 
     messages = feeGenerator.validateCode(value);
     var updates = [
-      [['validations'], Immutable.fromJS({'code': messages})],
+      [['validations'], messages ? Immutable.fromJS({'code': messages}) : Immutable.fromJS({})],
       [['code'], value],
     ];
     if (!messages) {
