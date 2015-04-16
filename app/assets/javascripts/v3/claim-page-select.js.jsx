@@ -5,7 +5,7 @@ var ClaimPageSelect = React.createClass({
 
   checkClaim: function() {
     if (!this.state.store.get(this.props.params.id)) {
-      claimLoad(this.props.params.id);
+      claimLoad({id:this.props.params.id});
     }
   },
 
