@@ -33,10 +33,10 @@ class GenerateSubmission
       end
     end
 
-    facility = claim.details['hospital'].split(' ')[0]
+    facility = claim.details['hospital'] && claim.details['hospital'].split(' ')[0]
 
     r=ClaimHeaderRecord.new
-    r["Patient's Birthdate"]=Date.strptime(claim.details['patient_birthday'])
+    r["Patient's Birthdate"]=Date.strptime(claim.details['patient_birthday']) unless claim.details['patient_birthday'].blank?
     r['Accounting Number']=claim.number
     r['Payment Program']=payment_program
     r['Payee']=claim.details['payee'] || 'P'
@@ -69,8 +69,10 @@ class GenerateSubmission
       @errors[claim.number] += rmb.errors if rmb.errors.length > 0
       @num_rmb_claims += 1
     else
-      r['Health Number']=claim.details['patient_number'][0..9]
-      r['Version Code']=claim.details['patient_number'][10..11].upcase
+      if claim.details['patient_number']
+        r['Health Number']=claim.details['patient_number'][0..9]
+        r['Version Code']=claim.details['patient_number'][10..11].try(:upcase)
+      end
       @contents += r.to_s
       @errors[claim.number] += r.errors if r.errors.length > 0
     end

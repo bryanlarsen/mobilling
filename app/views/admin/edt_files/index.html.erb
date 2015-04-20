@@ -9,7 +9,7 @@
           <div class="panel-body">
             <div class="form-group">
               <div class="col-md-12">
-                <%= select_tag :user_id, options_from_collection_for_select(policy_scope(User), "id", "name", user_id_filter), class: "form-control", prompt: "All" %>
+                <%= select_tag :user_id, options_from_collection_for_select(policy_scope(User).where(role: 'doctor'), "id", "name", user_id_filter), class: "form-control", prompt: "All" %>
               </div>
             </div>
             <div class="form-group">

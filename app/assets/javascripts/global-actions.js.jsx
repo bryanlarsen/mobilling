@@ -55,6 +55,8 @@ globalActions.unrecoverableError.listen(function(data) {
   // is probably session expired, so go back to login screen
   // if not, this may fix it
   // FIXME: flash message
+  console.log('unrecoverableError', data);
+  Rollbar.error("unrecoverableError", data);
   location.reload();
 });
 

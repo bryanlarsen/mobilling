@@ -10,14 +10,14 @@ var ConsultType = React.createClass({
       <div className="form-group">
         <label className="control-label col-xs-4 col-sm-4">{s.humanize(this.props.consultType)}</label>
         <div className="col-xs-4 col-sm-2 text-center radio">
-          <label className="">
-            <input name="consult_type" type="radio" id={"radio-"+this.props.consultType+"-er"} value={this.props.consultType+"_er"} checked={consult_type === this.props.consultType+"_er"} onChange={this.fieldChanged} />
+          <label className="needsclick">
+            <input name="consult_type" type="radio" className="needsclick" id={"radio-"+this.props.consultType+"-er"} value={this.props.consultType+"_er"} checked={consult_type === this.props.consultType+"_er"} onChange={this.fieldChanged} />
             {detailsGenerator.consultCode(this.props.store.get('specialty'), this.props.consultType+'_er')}
           </label>
         </div>
         <div className="col-xs-4 col-sm-2 text-center radio">
-          <label>
-            <input name="consult_type" type="radio" id={"radio-"+this.props.consultType+"-non_er"} value={this.props.consultType+"_non_er"} checked={consult_type === this.props.consultType+"_non_er"} onChange={this.fieldChanged} />
+          <label className="needsclick">
+            <input name="consult_type" type="radio" className="needsclick" id={"radio-"+this.props.consultType+"-non_er"} value={this.props.consultType+"_non_er"} checked={consult_type === this.props.consultType+"_non_er"} onChange={this.fieldChanged} />
             {detailsGenerator.consultCode(this.props.store.get('specialty'), this.props.consultType+'_non_er')}
           </label>
         </div>

@@ -7,7 +7,7 @@ var ProfileHeader = React.createClass({
     return (
       <Navbar fixedTop>
         <Nav>
-          <NavItemLink to="claims" params={{filter:"drafts"}}>
+          <NavItemLink to="claims" query={this.state.globalStore.get('claimsListQuery').toJS()}>
             <Icon i="list">List</Icon>
           </NavItemLink>
           <NavItemLink to="profile">

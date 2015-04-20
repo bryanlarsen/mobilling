@@ -10,8 +10,10 @@ var ClaimEdit = React.createClass({
   ],
 
   loadClaim: function(id) {
-    claimActions.load(id);
-    this.setState({id: id});
+    var that = this;
+    claimActions.load({id: id, success: function() {
+      that.setState({id: id});
+    }});
   },
 
   render: function() {

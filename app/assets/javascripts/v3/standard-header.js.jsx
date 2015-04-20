@@ -1,4 +1,8 @@
 var StandardHeader = React.createClass({
+  mixins: [
+    Fynx.connect(globalStore, 'globalStore'),
+  ],
+
   render: function() {
     return (
       <Navbar fixedTop>
@@ -6,7 +10,7 @@ var StandardHeader = React.createClass({
           <NavItem href="http://mo-billing.ca" className="hidden-xs">
             Mo-Billing
           </NavItem>
-          <NavItemLink to="claims" params={{filter:"drafts"}}>
+          <NavItemLink to="claims" query={this.state.globalStore.get('claimsListQuery').toJS()}>
             <Icon i="list">List</Icon>
           </NavItemLink>
         </Nav>

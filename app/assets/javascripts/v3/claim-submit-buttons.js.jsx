@@ -1,4 +1,8 @@
 var ClaimSubmitButtons = React.createClass({
+  mixins: [
+    Fynx.connect(globalStore, 'globalStore'),
+  ],
+
   handleChange: function(ev) {
     this.props.actions.updateFields([[[ev.target.name], ev.target.value]]);
   },
@@ -41,7 +45,7 @@ var ClaimSubmitButtons = React.createClass({
           <ButtonLink className="btn-lg" to="new_claim">
             <Icon i="plus">New Claim</Icon>
           </ButtonLink>
-          <ButtonLink to="claims" className="btn-lg" params={{filter:"drafts"}}>
+          <ButtonLink to="claims" className="btn-lg" query={this.state.globalStore.get('claimsListQuery').toJS()}>
             <Icon xs i="list">List</Icon>
           </ButtonLink>
           { this.props.store.get('status') === 'ready' &&

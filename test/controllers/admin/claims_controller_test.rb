@@ -4,7 +4,6 @@ class Admin::ClaimsControllerTest < ActionController::TestCase
   test "index redirects to sign in when no user logged in" do
     get :index
     assert_redirected_to new_session_path
-    assert session[:admin]
   end
 
   test "index renders template when admin logged in" do
