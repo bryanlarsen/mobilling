@@ -31,7 +31,7 @@ var ClaimEdit = React.createClass({
     } else {
       return (
         <div className="form-horizontal">
-          <ClaimView {...this.props} store={this.state.store.get(this.state.id)} claimHref={claimHref} />
+          <ClaimView {...this.props} actions={claimActionsFor(this.state.id)} store={this.state.store.get(this.state.id)} claimHref={claimHref} />
           <ClaimStatusActions {...this.props} actions={claimActionsFor(this.state.id)} store={this.state.store.get(this.state.id)} loadClaim={this.loadClaim} />
         </div>
       );
