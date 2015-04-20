@@ -21,6 +21,16 @@ var ClaimsPage = React.createClass({
     this.transitionTo('claims', {}, query);
   },
 
+  componentWillMount: function() {
+    var statusMap = {};
+    _.each(this.filters, function(statuses, tab) {
+      _.each(statuses, function(status) {
+        statusMap[status] = tab;
+      });
+    });
+    this.statusMap = statusMap;
+  },
+
   shouldComponentUpdate: function(nextProps, nextState) {
     return nextState.store.size !== 0;
   },
@@ -32,12 +42,6 @@ var ClaimsPage = React.createClass({
       return this.state.claimStore.get(id) || this.state.abbreviatedStore.get(id);
     }, this);
 
-    var filter = this.filters[this.getQuery().filter];
-    if (filter) {
-      claims = claims.filter(function(claim) {
-        return filter.indexOf(claim.get('status')) !== -1;
-      }, this);
-    }
 
     var search = this.getQuery().search;
     if (search) {
@@ -48,6 +52,20 @@ var ClaimsPage = React.createClass({
                 re.test(claim.get('service_date')) ||
                 re.test(claim.get('patient_name')) );
       });
+    }
+
+    var counts = {};
+    claims.forEach(function(claim) {
+      if (claim.get('unread_comments')) {
+        counts[this.statusMap[claim.get('status')]] = (counts[this.statusMap[claim.get('status')]] || 0) + 1;
+      }
+    }, this);
+
+    var filter = this.filters[this.getQuery().filter];
+    if (filter) {
+      claims = claims.filter(function(claim) {
+        return filter.indexOf(claim.get('status')) !== -1;
+      }, this);
     }
 
     var sort = this.getQuery().sort || "";
@@ -96,16 +114,15 @@ var ClaimsPage = React.createClass({
         <nav className="navbar navbar-default navbar-fixed-bottom">
           <div className="container">
             <ul className="nav navbar-nav nav-justified">
-              {_.map(['Drafts', 'Submitted', 'Rejected', 'Done'], function(filter) {
+              {_.map(_.keys(this.filters), function(filter) {
               var query = _.omit(this.getQuery(), 'page');
-              var f = filter.toLowerCase();
-              if (query.filter === f) {
+              if (query.filter === filter) {
                 delete query.filter;
               } else {
-                query.filter = f;
+                query.filter = filter;
               }
               return <NavItemLink key={filter} to="claims" query={query}>
-                {filter}
+                <span className="small">{s.humanize(filter)}{counts[filter] && <span className="badge">{counts[filter]}</span>}</span>
               </NavItemLink>
             }, this)}
             </ul>

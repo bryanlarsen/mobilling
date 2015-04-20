@@ -180,7 +180,7 @@ class ClaimForm
     end
     if @clear_unread_comments && @current_user
       @claim.comments.each do |comment|
-        if comment.user_id == @current_user.id && !comment.read
+        if comment.user_id != @current_user.id && !comment.read
           comment.read = true
           comment.save!
         end
