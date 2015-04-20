@@ -143,7 +143,7 @@ claimActions.deleteFields.listen(function(data) {
   });
 });
 
-var serverCalculatedFields = ['submission', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'];
+var serverCalculatedFields = ['submission', 'total_fee', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'];
 
 claimActions.attemptSave.listen(function(id) {
   console.log('attemptSave', id);
