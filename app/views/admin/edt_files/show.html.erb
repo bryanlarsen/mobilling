@@ -67,18 +67,18 @@
         <div class="panel-title">
           <a class="collapse-chevron collapsed" data-toggle="collapse" href="#claims" data-parent="#accordion" aria-expanded="false" aria-controls="claims-head">
             <i class="fa toggle-chevron"></i>
-            Claims (<%= @file.claims.length %>)
+            Claims (<%= @claims.length %>)
           </a>
         </div>
       </div>
       <div id="claims" class="panel-collapse collapse" role="tabpanel" aria-labelledby="claims-head">
         <div class="panel-body">
-          <%= render partial: "admin/claims/list", locals: {claims: @file.claims} %>
+          <%= render partial: "admin/claims/list", locals: {claims: @claims} %>
         </div>
       </div>
     </div>
 
-<% related_files = @file.claims.map(&:files).flatten.uniq %>
+<% related_files = @claims.map(&:files).flatten.uniq %>
 
     <div class="panel panel-default">
       <div class="panel-heading" role="tab" id="files-head">

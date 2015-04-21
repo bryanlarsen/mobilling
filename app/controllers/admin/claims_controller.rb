@@ -8,13 +8,14 @@ class Admin::ClaimsController < Admin::BaseController
     "claims.patient_name" => "claims.details->>'patient_name'",
     "claims.total_fee" => "claims.total_fee",
     "claims.paid_fee" => "claims.paid_fee",
-    "claims.service_date" => "claims.details->'daily_details'->0->>'day'"
+    "claims.service_date" => "claims.details->'daily_details'->0->>'day'",
+    "submission_status" => "submission_status"
   }
 
   helper_method :user_id_filter, :status_filter
 
   def index
-    @claims = policy_scope(Claim).includes(:files).where(filters).order("#{sort_column} #{sort_direction}")
+    @claims = policy_scope(Claim.select("claims.*").include_comment_counts(current_user.try(:id)).include_submission_status.include_user_name).where(filters).order("#{sort_column} #{sort_direction}")
     @single_status = false
     if params[:status]
       params[:status].delete("")

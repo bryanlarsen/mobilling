@@ -5,7 +5,7 @@ class V1::ClaimsController < V1::BaseController
   api :GET, "/v1/claims", "Returns claims"
 
   def index
-    render json: policy_scope(Claim).includes(:comments).map {|claim|
+    render json: policy_scope(Claim.select("claims.*").include_comment_counts(current_user.id)).map {|claim|
       {
         id: claim.id,
         number: claim.number,
@@ -17,9 +17,7 @@ class V1::ClaimsController < V1::BaseController
         patient_number: claim.details['patient_number'],
         patient_name: claim.details['patient_name'],
         service_date: claim.service_date,
-        unread_comments: claim.comments.reduce(0) do |count, comment|
-          comment.read || comment.user_id == current_user.id ? count : count + 1
-        end
+        unread_comments: claim.unread_comments
       }
     }
   end

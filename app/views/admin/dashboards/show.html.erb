@@ -12,7 +12,16 @@
         <td><%= user.name %></td>
         <% Claim.statuses.each do |name, value| %>
           <td class="text-center">
-            <%= link_to_unless user["#{name}_count"] == 0, user["#{name}_count"], admin_claims_path(user_id: user.id, status: value) %>
+            <% if user["#{name}_count"] > 0 %>
+              <a href="<%= admin_claims_path(user_id: user.id, status: value) %>">
+                <%= user["#{name}_count"] %>
+                <% if user["#{name}_unread_comments"] > 0 %>
+                  <span class="badge"><%= user["#{name}_unread_comments"] %></span>
+                <% end %>
+              </a>
+            <% else %>
+              0
+            <% end %>
           </td>
         <% end %>
         <td class="text-right">

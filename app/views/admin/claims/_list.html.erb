@@ -4,23 +4,26 @@
     <th class="text-center"><%= sortable_link_to "claims.service_date", "Date" %></th>
     <th class="text-center"><%= sortable_link_to "users.name", "Doctor" %></th>
     <th class="text-center"><%= sortable_link_to "claims.status", "Status" %></th>
-    <th class="text-center">Submission</th>
+    <th class="text-center"><%= sortable_link_to "submission_status", "Submission" %></th>
     <th class="text-center"><%= sortable_link_to "claims.patient_name", "Patient Name" %></th>
     <th class="text-center"><%= sortable_link_to "claims.total_fee", "Total" %></th>
     <th class="text-center"><%= sortable_link_to "claims.paid_fee", "Paid" %></th>
-    <th class="text-right" colspan="2">Actions</th>
   </tr>
   <% claims.each.with_index do |claim, index| %>
   <tr>
-    <td><%= claim.number %></td>
+    <td><a href="<%= edit_admin_claim_path(claim, status: params[:status], user_id: params[:user_id], direction: params[:direction], sort: params[:sort]) %>">
+        <%= claim.number %>
+        <% if claim.unread_comments > 0 %>
+          <span class="badge"><%= claim.unread_comments %></span>
+        <% end %>
+    </a></td>
     <td class="text-center"><%= claim.service_date %></td>
-    <td class="text-center"><%= claim.user.name %></td>
+    <td class="text-center"><%= claim.user_name %></td>
     <td class="text-center"><%= claim.status.humanize %></td>
-    <td class="text-center"><%= claim.submission && link_to(claim.submission.status.humanize, admin_edt_file_path(claim.submission)) %></td>
+    <td class="text-center"><% if claim.try(:submission_status) %><%= link_to Submission.statuses.keys[claim.submission_status].humanize, admin_edt_file_path(claim.submission_id) %><% end %></td>
     <td class="text-center"><%= claim.details["patient_name"] %></td>
     <td class="text-center"><%= "%.2f" % (claim.total_fee/100.0) %></td>
     <td class="text-center"><%= "%.2f" % (claim.paid_fee/100.0) %></td>
-    <td class="text-right"><%= link_to "Edit", edit_admin_claim_path(claim, status: params[:status], user_id: params[:user_id], direction: params[:direction], sort: params[:sort]) %></td>
   </tr>
   <% end %>
 </table>

@@ -42,6 +42,7 @@ class Admin::EdtFilesController < Admin::BaseController
 
   def show
     @file = EdtFile.find(params[:id])
+    @claims = @file.claims.select("claims.*").include_comment_counts(current_user.id).include_user_name
     authorize @file, :show?
   end
 

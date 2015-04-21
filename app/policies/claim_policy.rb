@@ -3,9 +3,9 @@ class ClaimPolicy < Struct.new(:current_user, :claim)
     def resolve
       return scope.none unless current_user.present?
       case current_user.role
-      when "admin" then scope.includes(:user).all
-      when "agent" then scope.includes(:user).where(users: {agent_id: current_user.id})
-      when "doctor" then scope.includes(:user).where(users: {id: current_user.id})
+      when "admin" then scope.all
+      when "agent" then scope.joins(:user).where(users: {agent_id: current_user.id})
+      when "doctor" then scope.where(user_id: current_user.id)
       else scope.none
       end
     end

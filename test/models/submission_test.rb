@@ -33,6 +33,9 @@ class SubmissionTest < ActiveSupport::TestCase
     assert c.submission.id == s.id
     assert_equal c.submitted_fee, 16856
     assert_equal s.submitted_fee, 16856
+
+    cf = ClaimFile.where(edt_file_id: s.id, claim_id: c.id).first
+    assert_equal cf.type, s.type
   end
 
   test 'upload submission' do
@@ -45,6 +48,7 @@ HEE0001000000001                                                               \
 EOS
                            )
     s.process!
+
     assert_equal s.user_id, @user.id
     assert_equal s.claims[0].details['patient_number'], '9876543217HO'
     assert_equal s.claims[0].details['payee'], 'P'
@@ -59,6 +63,9 @@ EOS
     assert_equal s.claims[0].submitted_fee, 16856
     assert_equal s.submitted_fee, 16856
     assert s.sequence_number == 564
+
+    cf = ClaimFile.where(edt_file_id: s.id, claim_id: s.claims.first).first
+    assert_equal cf.type, s.type
   end
 
   test 'with overtime' do
