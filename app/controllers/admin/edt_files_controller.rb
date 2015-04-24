@@ -5,7 +5,7 @@ class Admin::EdtFilesController < Admin::BaseController
   helper_method :user_id_filter, :type_filter
 
   def index
-    @edt_files = policy_scope(EdtFile).where(filters).includes(:claims, :user)
+    @edt_files = policy_scope(EdtFile).includes(:claims, :user).where(filters)
     if sort_column == "filename"
       @edt_files = @edt_files.order("edt_files.filename_base #{sort_direction}, edt_files.sequence_number #{sort_direction}")
     else

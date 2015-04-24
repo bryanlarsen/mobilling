@@ -22,7 +22,7 @@ class Claim < ActiveRecord::Base
 
   scope :include_comment_counts, ->(user_id) { select("(SELECT COUNT(DISTINCT claim_comments.id) FROM claim_comments WHERE claim_comments.read = 'f' AND claim_comments.claim_id = claims.id AND claim_comments.user_id != '#{user_id}') AS unread_comments") }
 
-  scope :include_submission_status, -> {joins("LEFT OUTER JOIN claim_files ON claims.id = claim_files.claim_id AND claim_files.type = 'Submission'").joins("LEFT OUTER JOIN edt_files ON edt_files.type = 'Submission' AND claim_files.edt_file_id = edt_files.id AND claim_files.claim_id = claims.id").select("edt_files.id as submission_id, edt_files.status as submission_status")}
+  scope :include_submission_status, -> {joins("LEFT OUTER JOIN claim_files ON claims.id = claim_files.claim_id AND claim_files.edt_file_type = 'Submission'").joins("LEFT OUTER JOIN edt_files ON edt_files.type = 'Submission' AND claim_files.edt_file_id = edt_files.id AND claim_files.claim_id = claims.id").select("edt_files.id as submission_id, edt_files.status as submission_status")}
 
   scope :include_user_name, -> {joins(:user).select("users.name as user_name")}
 

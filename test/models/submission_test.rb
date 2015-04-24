@@ -35,7 +35,7 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal s.submitted_fee, 16856
 
     cf = ClaimFile.where(edt_file_id: s.id, claim_id: c.id).first
-    assert_equal cf.type, s.type
+    assert_equal cf.edt_file_type, s.type
   end
 
   test 'upload submission' do
@@ -65,7 +65,7 @@ EOS
     assert s.sequence_number == 564
 
     cf = ClaimFile.where(edt_file_id: s.id, claim_id: s.claims.first).first
-    assert_equal cf.type, s.type
+    assert_equal cf.edt_file_type, s.type
   end
 
   test 'with overtime' do

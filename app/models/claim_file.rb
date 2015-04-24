@@ -5,6 +5,6 @@ class ClaimFile < ActiveRecord::Base
   before_save :set_type
 
   def set_type
-    self.type = edt_file.type
+    self.edt_file_type = edt_file.type
   end
 end
