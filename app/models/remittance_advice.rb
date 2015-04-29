@@ -41,6 +41,7 @@ class RemittanceAdvice < EdtFile
       case
       when record.kind_of?(ReconciliationFileHeader)
         self.user = User.find_by(provider_number: record['Health Care Provider'])
+        errors.add_to_base "Could not find doctor #{record['Health Care Provider']}" if self.user.nil?
         self.created_at = record['Payment Date']
         if self.user
           @memo[:header] = record
