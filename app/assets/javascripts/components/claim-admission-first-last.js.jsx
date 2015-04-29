@@ -28,8 +28,8 @@ var ClaimAdmissionFirstLast = React.createClass({
   render: function() {
     return (
       <div>
-        <ClaimDateGroup {...this.props} name="admission_on" onChange={this.dateChanged} />
-        <ClaimDateGroup {...this.props} name="first_seen_on" onChange={this.dateChanged} />
+        <ClaimDateGroup {...this.props} name="admission_on" max={this.props.store.get('last_seen_on')} onChange={this.dateChanged} />
+        <ClaimDateGroup {...this.props} name="first_seen_on" min={this.props.store.get('admission_on')} max={this.props.store.get('last_seen_on')} onChange={this.dateChanged} />
         <ClaimFormGroup label="Consult on first seen date">
           <ClaimYesNo {...this.props} name="first_seen_consult" disabled={!this.isFirstSeenConsultEnabled()} />
         </ClaimFormGroup>
@@ -38,7 +38,7 @@ var ClaimAdmissionFirstLast = React.createClass({
             <ClaimYesNo {...this.props} name="icu_transfer"/>
           </ClaimFormGroup>
         }
-        <ClaimDateGroup {...this.props} name="last_seen_on" onChange={this.dateChanged} />
+        <ClaimDateGroup {...this.props} name="last_seen_on" min={this.props.store.get('admission_on')} onChange={this.dateChanged} />
         <ClaimFormGroup label="Last Seen Date is Discharge">
           <ClaimYesNo {...this.props} name="last_seen_discharge" />
         </ClaimFormGroup>

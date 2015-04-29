@@ -22,9 +22,8 @@ var ClaimDate = React.createClass({
     var picker = element.pickadate({
       format: "yyyy-mm-dd",
       //container: ".app-body",
-      //min: attributes.min === undefined ? false : attributes.min,
-      //max: attributes.max === undefined ? false : attributes.max,
-      max: new Date(),
+      min: this.props.min,
+      max: this.props.max || new Date(),
       //editable: this.props.birthday,
       selectYears: this.props.birthday ? 150 : false,
       selectMonths: this.props.birthday
