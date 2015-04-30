@@ -7,13 +7,13 @@ class V1::PatientsController < V1::BaseController
     if params[:number]
       scope = scope.where(["details->>'patient_number' ILIKE ?", "%#{params[:number]}%"])
     end
-    patients = scope.limit(10).map do |claim|
+    patients = scope.select("DISTINCT ON (details->>'patient_number', details->>'patient_name') (details->>'patient_number') AS health_number, (details->>'patient_name') AS name, (details->>'patient_province') AS province, (details->>'patient_birthday') AS birthday, (details->>'patient_sex') AS sex").limit(10).map do |claim|
       {
-        name: claim.details['patient_name'],
-        number: claim.details['patient_number'],
-        province: claim.details['patient_province'],
-        birthday: claim.details['patient_birthday'],
-        sex: claim.details['patient_sex']
+        name: claim.name,
+        number: claim.health_number,
+        province: claim.province,
+        birthday: claim.birthday,
+        sex: claim.sex
       }
     end
 
