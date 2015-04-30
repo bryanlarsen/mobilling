@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :hospitals, only: %i[index]
     resources :photos, only: %i[show create]
     resources :service_codes, only: %i[index show]
+    resources :patients, only: %i[index]
   end
 
   namespace :admin do
