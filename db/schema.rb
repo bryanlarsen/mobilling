@@ -30,9 +30,9 @@ ActiveRecord::Schema.define(version: 20150421031510) do
   create_table "claim_files", force: :cascade do |t|
     t.uuid     "claim_id"
     t.uuid     "edt_file_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "type"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "edt_file_type"
   end
 
   create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|

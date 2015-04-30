@@ -158,6 +158,26 @@ class RemittanceAdvice < EdtFile
         claim.save!
       end
     end
+
+    submissions = Submission.where(id: ClaimFile.where(claim_id: @memo[:claims].map(&:id), edt_file_type: "Submission").pluck("DISTINCT edt_file_id"))
+    submissions.each do |submission|
+      all_done = true
+      all_not_done = true
+      submission.claims.each do |claim|
+        if claim.status == 'done'
+          all_not_done = false
+        else
+          all_done = false
+        end
+      end
+      if all_done && !all_not_done
+        submission.status = 'done'
+      elsif !all_done
+        submission.status = 'partial'
+      end
+      submission.save!
+    end
+
     save!
     nil
   end

@@ -44,6 +44,8 @@ class RemittanceAdviceTest < ActiveSupport::TestCase
     assert @submission.claims[0].paid_fee == 16856
     assert @submission.claims[0].details['daily_details'][0]['paid'] = 16856
     assert @submission.claims[0].details['daily_details'][0]['message'].blank?
+    @submission.reload
+    assert_equal @submission.status, 'done'
     assert_equal ra.messages[0], "$14719.92 paid on July 15, 2014."
     assert_equal ra.messages[-2], "This is a message from OHIP.\nThis is the second line of a message from OHIP\n"
     assert_equal ra.messages[-1], "This is another message from OHIP\n"
@@ -62,6 +64,8 @@ class RemittanceAdviceTest < ActiveSupport::TestCase
     assert @submission.claims[0].paid_fee == 0
     assert @submission.claims[0].details['daily_details'][0]['paid'] == 0
     assert @submission.claims[0].details['daily_details'][0]['message'].starts_with?("D8: Allowed with")
+    @submission.reload
+    assert_equal @submission.status, 'partial'
   end
 
   test 'ra premium' do
@@ -80,6 +84,8 @@ class RemittanceAdviceTest < ActiveSupport::TestCase
     assert @submission.claims[0].details['daily_details'][0]['message'].blank?
     assert @submission.claims[0].details['daily_details'][0]['premiums'][0]['paid'] == 1
     assert @submission.claims[0].details['daily_details'][0]['premiums'][0]['message'].starts_with?("D8: Allowed with")
+    @submission.reload
+    assert_equal @submission.status, 'partial'
   end
 
 end

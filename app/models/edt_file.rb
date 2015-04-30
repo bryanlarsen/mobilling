@@ -12,7 +12,7 @@ class EdtFile < ActiveRecord::Base
 # defined in children, so class_name can be more specific
 #  belongs_to :parent, class_name => "EdtFile"
 
-  enum status: %i[ready uploaded acknowledged rejected]
+  enum status: %i[ready uploaded acknowledged rejected partial done]
 
   def self.policy_class
     EdtFilePolicy

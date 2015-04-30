@@ -39,7 +39,6 @@ gem "react-rails", github: 'reactjs/react-rails', branch: 'master'
 group :development do
   gem "letter_opener"
   gem "spring"
-  gem "byebug"
   gem "web-console", "~> 2.0.0.beta2"
 end
 
@@ -52,6 +51,7 @@ group :test do
 end
 
 group :development, :test do
+  gem "byebug"
   gem "teaspoon"
 end
 
