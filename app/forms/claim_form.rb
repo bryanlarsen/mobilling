@@ -250,8 +250,27 @@ class ClaimForm
     end
   end
 
+  def self.in_minutes(s)
+    split = s.split(':')
+    split[0].to_i * 60 + split[1].to_i
+  end
+
+  def consult_time
+    delta = ClaimForm.in_minutes(consult_time_out) - ClaimForm.in_minutes(consult_time_in)
+    delta = delta + 24*60 if delta < 0
+    delta
+  end
+
   def validate_consult_time
-    # FIXME
+    limit = {
+      'comprehensive_er' => 75,
+      'comprehensive_non_er' => 75,
+      'special_er' => 50,
+      'special_no_er' => 50
+    }[consult_type]
+    if limit && consult_time < limit
+      warnings.add(:consult_time_out, "must be at least #{limit} minutes")
+    end
   end
 
   def consult_premium_visit_count

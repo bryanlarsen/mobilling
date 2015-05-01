@@ -1,22 +1,42 @@
 var ClaimTime = React.createClass({
+  toTimeArray: function(minutes) {
+    return [parseInt(minutes / 60), minutes % 60];
+  },
+
   onClick: function(event) {
     event.stopPropagation();
     var element = $(this.refs.pickerInput.getDOMNode());
     var component = this;
+    var disable;
+    var tin, tout;
+
+    if (this.props.min) {
+      tin = FeeGenerator.inMinutes(this.props.min);
+      tout = tin + (this.props.disableRange||0);
+    }
+
+    if (this.props.max) {
+      tout = FeeGenerator.inMinutes(this.props.max);
+      tin = tout - (this.props.disableRange||0);
+    }
+
+    // pickatime rounds up, we want to round down
+    if (this.props.disableRange && tin && tout) {
+      var din = (Math.floor(tin/15) + 1)*15;
+      var dout = (Math.ceil(tout/15) - 1)*15;
+      disable = [{ from: this.toTimeArray(din), to: this.toTimeArray(dout) }];
+    }
     var picker = element.pickatime({
       interval: 15,
       format: "HH:i",
+      disable: disable,
       formatLabel: function (time) {
-        var tin, tout;
-
         if (component.props.min) {
-          tin = FeeGenerator.inMinutes(component.props.min);
           tout = time.pick;
         }
 
         if (component.props.max) {
           tin = time.pick;
-          tout = FeeGenerator.inMinutes(component.props.max);
         }
 
         if (tin !== undefined) {

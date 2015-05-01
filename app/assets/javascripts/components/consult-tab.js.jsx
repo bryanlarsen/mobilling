@@ -67,7 +67,12 @@ var ConsultTab = React.createClass({
 
     var consult_type = this.props.store.get('consult_type');
     var premium_visit = this.props.store.get('consult_premium_visit');
-    var consultTimeVisible = ["comprehensive_er", "comprehensive_non_er", "special_er", "special_non_er"].indexOf(consult_type) !== -1;
+    var consultTimeRequired = {
+      comprehensive_er: 75,
+      comprehensive_non_er: 75,
+      special_er: 50,
+      special_non_er: 50
+    }[consult_type];
 
     var day_type = this.props.store.get('first_seen_on') && dayType(this.props.store.get('first_seen_on'));
     var time_type = day_type && this.props.store.get('consult_time_in') && timeType(this.props.store.get('first_seen_on'), this.props.store.get('consult_time_in'));
@@ -116,14 +121,14 @@ var ConsultTab = React.createClass({
          </div>
        </ClaimFormGroup>
 
-      { (premium_visit || consultTimeVisible) &&
+      { (premium_visit || consultTimeRequired) &&
       <div className="form-group">
         <label className="control-label col-xs-4">Time</label>
         <div className="col-xs-4">
-          <ClaimTime {...this.props} name="consult_time_in" onChange={this.fieldChanged} max={this.props.store.get('consult_time_out')} />
+          <ClaimTime {...this.props} name="consult_time_in" onChange={this.fieldChanged} max={this.props.store.get('consult_time_out')} disableRange={consultTimeRequired} />
         </div>
-        { consultTimeVisible && <div className="col-xs-4">
-          <ClaimTime {...this.props} name="consult_time_out" onChange={this.fieldChanged} min={this.props.store.get('consult_time_in')} />
+        { consultTimeRequired && <div className="col-xs-4">
+          <ClaimTime {...this.props} name="consult_time_out" onChange={this.fieldChanged} min={this.props.store.get('consult_time_in')} disableRange={consultTimeRequired} />
         </div>}
       </div>
       }
