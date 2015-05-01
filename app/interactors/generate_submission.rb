@@ -21,7 +21,7 @@ class GenerateSubmission
       first_name.strip!
     end
 
-    province = claim.details['patient_province'].upcase
+    province = (claim.details['patient_province'] || 'ON').upcase
     payment_program = claim.details['payment_program'] == 'WCB' ? 'WCB' : (province == 'ON' ? 'HCP' : 'RMB')
 
     referring_provider = claim.details['referring_physician']
