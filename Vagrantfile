@@ -4,14 +4,16 @@
 _script = <<SCRIPT
 set -o errexit
 #set -o pipefail
-set -o nounset 
+set -o nounset
 shopt -s failglob
 set -o xtrace
 
 export DEBIAN_FRONTEND=noninteractive
 
+echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 apt-get update
-apt-get install -y python-software-properties make curl git postgresql-9.3 postgresql-contrib-9.3 libpq-dev imagemagick nodejs npm nodejs-legacy
+apt-get install -y python-software-properties make curl git postgresql-9.4 postgresql-contrib-9.4 libpq-dev imagemagick nodejs npm nodejs-legacy
 apt-get -y dist-upgrade
 
 npm install -g bower
