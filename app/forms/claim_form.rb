@@ -256,6 +256,7 @@ class ClaimForm
   end
 
   def consult_time
+    return 0 if consult_time_out.nil? || consult_time_in.nil?
     delta = ClaimForm.in_minutes(consult_time_out) - ClaimForm.in_minutes(consult_time_in)
     delta = delta + 24*60 if delta < 0
     delta
