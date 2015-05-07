@@ -103,7 +103,7 @@ class Claim < ActiveRecord::Base
   end
 
   def service_date
-    details['first_seen_on'] || (details['daily_details'].first || {"day": nil})["day"]
+    (details['daily_details'].first || {"day": nil})["day"] || details["first_seen_on"]
   end
 
   # we get information like total fee from the batch files rather than
