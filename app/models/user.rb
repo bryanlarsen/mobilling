@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
   validates :agent, presence: true, if: -> { doctor? }
   validates :name, presence: true
   validates :pin, format: {with: /\A\d{4}?\Z/}
-  validates :provider_number, numericality: {only_integer: true, greater_than_or_equal_to: 100, less_than_or_equal_to: 999999}, presence: true, if: -> { doctor? }
+  validates :provider_number, numericality: {only_integer: true, greater_than_or_equal_to: 100, less_than_or_equal_to: 999999}, presence: true, uniqueness: true, if: -> { doctor? }
   validates :group_number, length: {maximum: 4, minimum: 4}, presence: true, if: -> { doctor? }
   validates :office_code, length: {maximum: 1, minimum: 1}, presence: true, if: -> { doctor? }
   validates :specialty_code, numericality: {only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 99}, presence: true, if: -> { doctor? }
