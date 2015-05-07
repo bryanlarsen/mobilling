@@ -88,6 +88,7 @@ class V1::ClaimsController < V1::BaseController
     attrs['consult_premium_travel'] ||= false
     attrs['manual_review_indicator'] ||= false
     attrs['diagnoses'] ||= [{name: ""}]
+    attrs['last_seen_on'] ||= Date.today.to_s
     @form = ClaimForm.new(attrs, current_user: current_user)
     @form.user = current_user
     if @form.perform

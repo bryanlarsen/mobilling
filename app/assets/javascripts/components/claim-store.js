@@ -33,10 +33,9 @@ claimStore.listen(function(store) {
 });
 
 var updateConsult = function(claim) {
-  var date = claim.get('admission_on') || claim.get('first_seen_on') || claim.get('last_seen_on');
+  var date = claim.get('admission_on') || claim.get('first_seen_on');
   if (date && !claim.get('admission_on')) claim = claim.set('admission_on', date);
   if (date && !claim.get('first_seen_on')) claim = claim.set('first_seen_on', date);
-  if (date && !claim.get('last_seen_on')) claim = claim.set('last_seen_on', date);
 
   if (claim.get('admission_on') === claim.get('first_seen_on') && !claim.get('first_seen_consult')) claim = claim.set('first_seen_consult', true);
 
