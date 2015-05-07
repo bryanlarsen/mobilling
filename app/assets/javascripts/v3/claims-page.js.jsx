@@ -29,14 +29,20 @@ var ClaimsPage = React.createClass({
       });
     });
     this.statusMap = statusMap;
+
+    globalStore(globalStore().set('claimsListQuery', Immutable.fromJS(this.getQuery())));
   },
+
+  componentWillReceiveProps: function(nextProps) {
+    globalStore(globalStore().set('claimsListQuery', Immutable.fromJS(this.getQuery())));
+  },
+
 
   shouldComponentUpdate: function(nextProps, nextState) {
     return nextState.store.size !== 0;
   },
 
   render: function() {
-    globalStore(globalStore().set('claimsListQuery', Immutable.fromJS(this.getQuery())));
 
     var claims = this.state.store.map(function(id) {
       return this.state.claimStore.get(id) || this.state.abbreviatedStore.get(id);
