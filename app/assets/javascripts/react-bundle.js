@@ -9,7 +9,7 @@
 //= require react-bootstrap
 //= require ./react-bootstrap-globals
 //= require immutable
-//= require Fynx
+//= require fynx
 
 //= require components
 

@@ -1,5 +1,5 @@
 //= require react-router
-//= require ReactRouterBootstrap
+//= require react-router-bootstrap
 //= require react-router-globals
 
 //= require_tree ./v3

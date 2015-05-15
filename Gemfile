@@ -1,6 +1,8 @@
 source "https://rubygems.org"
 
-ruby "2.2.0"
+ruby "2.2.2"
+
+gem 'bundler', '>= 1.8.4'
 
 gem "rails", "4.2.1"
 
@@ -19,6 +21,8 @@ gem "oj"
 gem "oj_mimic_json"
 gem "pg"
 gem "pundit", github: "elabs/pundit"
+gem "react-rails", github: 'reactjs/react-rails', branch: 'master'
+gem "redcarpet"
 gem "responders"
 gem "rollbar"
 gem "sass-rails"
@@ -31,10 +35,6 @@ gem "uuid_validator"
 gem "unicorn"
 gem "validation_scopes", github: "ivalkeen/validation_scopes"
 gem "virtus"
-gem "redcarpet"
-
-
-gem "react-rails", github: 'reactjs/react-rails', branch: 'master'
 
 group :development do
   gem "letter_opener"
@@ -52,7 +52,7 @@ end
 
 group :development, :test do
   gem "byebug"
-  gem "teaspoon"
+  gem "teaspoon", "~> 0.9"
 end
 
 group :staging, :production do
