@@ -19,6 +19,7 @@
     "es6-promise": "*",
     "fastclick": "*",
     "font-awesome": "4.3.x",
+    "fynx": "1.6.x",
     "immutable": "*",
     "moment": "*",
     "pickadate": "3.5.4",
