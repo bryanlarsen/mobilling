@@ -19,11 +19,11 @@ var LoginPage = React.createClass({
       dataType: 'json',
       type: 'POST',
       success: function(data) {
-        console.log("success!", data);
         if (data.errors) {
           page.setState({errors: data.errors});
         } else {
           globalActions.init();
+          userActions.init(data);
           page.transitionTo('claims');
         }
       },

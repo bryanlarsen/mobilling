@@ -41,14 +41,14 @@ var ClaimSubmitButtons = React.createClass({
           <RadioSelect {...this.props} name="status" options={statusOptions} onChange={this.handleChange} />
         </div>
         <div className="form-group">
-          <a href={"/admin/claims/"+this.props.store.get('id')+"/edit"} className="btn btn-lg btn-default">Edit as Agent</a>
+          { !window.ENV.CORDOVA && <a href={"/admin/claims/"+this.props.store.get('id')+"/edit"} className="btn btn-lg btn-default">Edit as Agent</a> }
           <ButtonLink className="btn-lg" to="new_claim">
             <Icon i="plus">New Claim</Icon>
           </ButtonLink>
           <ButtonLink to="claims" className="btn-lg" query={this.state.globalStore.get('claimsListQuery').toJS()}>
             <Icon xs i="list">List</Icon>
           </ButtonLink>
-          { this.props.store.get('status') === 'ready' &&
+          { this.props.store.get('status') === 'ready' && !window.ENV.CORDOVA &&
            <a href={"/admin/claims?status%5B%5D=2&user_id="+userStore().get('id')} className="btn btn-lg btn-default"><Icon i="gears">Generate Submission</Icon></a>
           }
         </div>

@@ -31,7 +31,7 @@ userActions.updateFields.listen(function(data) {
 });
 
 userActions.init.listen(function(data) {
-  userStore(Immutable.fromJS(data));
+  if (data) userStore(Immutable.fromJS(data));
 });
 
 userActions.attemptSave.listen(function() {

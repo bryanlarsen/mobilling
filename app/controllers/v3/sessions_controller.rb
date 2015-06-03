@@ -14,7 +14,7 @@ class V3::SessionsController < V3::BaseController
       sign_in(@interactor3.user, @interactor3.token)
       respond_to do |format|
         format.html { redirect_to @interactor3.user.doctor? ? root_url : admin_dashboard_url }
-        format.json { render json: {} }
+        format.json { render json: current_user.as_json(include_doctors: true) }
       end
     else
       respond_to do |format|

@@ -1,5 +1,6 @@
 class V1::RequestPasswordResetsController < V3::BaseController
   skip_before_filter :refresh_session, :only => [:create]
+  skip_before_filter :verify_authenticity_token, :only => [:create]
 
   def create
     authorize :home, :login?

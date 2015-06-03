@@ -11,7 +11,9 @@ var UserDropdown = React.createClass({
                 <Icon i="sign-out">Sign Out</Icon>
               </a>
             </li>
-            <li><a href="/admin"><Icon i="briefcase">Agent Dashboard</Icon></a></li>
+            {!window.ENV.CORDOVA &&
+              <li><a href="/admin"><Icon i="briefcase">Agent Dashboard</Icon></a></li>
+             }
           </DropdownButton>
         </li>
       </ul>

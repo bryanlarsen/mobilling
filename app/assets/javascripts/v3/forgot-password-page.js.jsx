@@ -28,7 +28,7 @@ var ForgotPasswordPage = React.createClass({
           <form ref="form" className="form-horizontal" onSubmit={this.submit}>
 
             <legend>Request Password Reset</legend>
-            <ClaimInputGroup store={this.state.store} name="email" />
+            <ClaimInputGroup store={this.state.store} type="email" name="email" />
 
             <ClaimFormGroup label="">
               <button type="submit" className="btn btn-default btn-primary">Submit</button>
