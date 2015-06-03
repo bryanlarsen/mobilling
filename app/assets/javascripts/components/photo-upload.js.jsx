@@ -6,7 +6,7 @@ var PhotoUpload = React.createClass({
       formData.append('photo[file]',  file, file.name);
       globalActions.startBusy();
       $.ajax({
-        url: '/v1/photos',
+        url: window.ENV.API_ROOT+'v1/photos',
         data: formData,
         cache: false,
         processData: false,

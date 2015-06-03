@@ -6,6 +6,7 @@ var ClaimHeader = React.createClass({
   render: function() {
     var userIcon=(<Icon i="user"></Icon>);
     return (
+    <div>
       <Navbar fixedTop>
         <Nav>
           <NavItemLink to="claims" query={this.state.globalStore.get('claimsListQuery').toJS()}>
@@ -32,6 +33,8 @@ var ClaimHeader = React.createClass({
         </Nav>
         <UserDropdown/>
       </Navbar>
+      <Notice/>
+    </div>
     );
   }
 });

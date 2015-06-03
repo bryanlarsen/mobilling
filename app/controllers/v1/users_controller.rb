@@ -9,10 +9,12 @@ class V1::UsersController < V1::BaseController
   end
 
   api :GET, "/v1/users/:id", "Returns a user"
-  def show(user = nil, status = nil)
+  def show(user = nil, status = nil, notice = nil)
     user ||= User.find(params[:id])
     authorize user
-    render json: user.as_json(include_warnings: true), status: status || 200
+    response = user.as_json(include_warnings: true)
+    response[:notice] = notice unless notice.nil?
+    render json: response, status: status || 200
   end
 
   def_param_group :user do
@@ -30,7 +32,7 @@ class V1::UsersController < V1::BaseController
     authorize @user
     if @user.valid?
       @user.save!
-      show @user, 200
+      show @user, 200, 'Accounted created.  Please log in.'
     else
       show @user, 422
     end

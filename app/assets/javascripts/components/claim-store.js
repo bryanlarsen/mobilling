@@ -155,7 +155,7 @@ claimActions.attemptSave.listen(function(id) {
   globalActions.startSave(id);
   $.ajax({
 //    url: claimStore().get('url'),
-    url: '/v1/claims/'+id,
+    url: window.ENV.API_ROOT+'v1/claims/'+id,
     data: JSON.stringify({claim: claim}),
     contentType: 'application/json',
     dataType: 'json',
@@ -237,7 +237,7 @@ claimActions.newClaim.listen(function(opts) {
   console.log('newClaim');
   globalActions.startBusy();
   $.ajax({
-    url: '/v1/claims',
+    url: window.ENV.API_ROOT+'v1/claims',
     data: JSON.stringify({claim: {status: 'saved'}}),
     contentType: 'application/json',
     dataType: 'json',
@@ -337,7 +337,7 @@ claimActions.load.listen(function(opts) {
   console.log('load',opts.id);
   globalActions.startBusy();
   $.ajax({
-    url: '/v1/claims/'+opts.id,
+    url: window.ENV.API_ROOT+'v1/claims/'+opts.id,
     dataType: 'json',
     success: function(data) {
       claimActions.init(data);
@@ -358,7 +358,7 @@ claimActions.remove.listen(function(id) {
   console.log('load',id);
   globalActions.startBusy();
   $.ajax({
-    url: '/v1/claims/'+id,
+    url: window.ENV.API_ROOT+'v1/claims/'+id,
     dataType: 'json',
     type: 'DELETE',
     success: function(data) {

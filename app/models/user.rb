@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
   attr_accessor :current_password
 
   before_validation do
-    self.email = email.downcase
+    self.email = email.try(:downcase)
   end
 
   before_save do
@@ -58,6 +58,7 @@ class User < ActiveRecord::Base
   validates :office_code, length: {maximum: 1, minimum: 1}, presence: true, if: -> { doctor? }
   validates :specialty_code, numericality: {only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 99}, presence: true, if: -> { doctor? }
   validates :role, presence: true, inclusion: {in: ["doctor", "agent"]}, if: -> { role_changed? }
+  validates :default_specialty, inclusion: {in: User::SPECIALTIES}, if: -> { doctor? }
   validate :existence
   validate :check_current_password, if: -> { password_digest_changed? }
 

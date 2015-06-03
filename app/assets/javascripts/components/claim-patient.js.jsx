@@ -4,7 +4,7 @@ var patientNameEngine = new Bloodhound({
   limit: 10,
   local: [],
   remote: {
-    url: '/v1/patients?name=%QUERY',
+    url: window.ENV.API_ROOT+'v1/patients?name=%QUERY',
     wildcard: '%QUERY'
   }
 });
@@ -16,7 +16,7 @@ var patientNumberEngine = new Bloodhound({
   limit: 10,
   local: [],
   remote: {
-    url: '/v1/patients?number=%QUERY',
+    url: window.ENV.API_ROOT+'v1/patients?number=%QUERY',
     wildcard: '%QUERY'
   }
 });

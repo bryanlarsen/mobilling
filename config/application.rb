@@ -15,6 +15,13 @@ module MoBilling
 #    config.react.jsx_transform_options = {
 #      harmony: true,
 #      strip_types: true, # for removing Flow type annotations
-#    }
+    #    }
+
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :options, :put]
+      end
+    end
   end
 end

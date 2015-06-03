@@ -3,7 +3,7 @@ var hospitalsEngine = new Bloodhound({
   queryTokenizer: Bloodhound.tokenizers.nonword,
   limit: 10,
   prefetch: {
-    url: "/v1/hospitals.json",
+    url: window.ENV.API_ROOT+'v1/hospitals.json',
   }
 });
 setTimeout(function() {

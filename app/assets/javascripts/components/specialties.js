@@ -1,4 +1,5 @@
 var specialties = {
+ "": "Select a Specialty",
  "family_medicine": "Family Medicine",
  "anesthesiologist": "Anesthesiology",
  "surgical_assist": "Surgical Assist",

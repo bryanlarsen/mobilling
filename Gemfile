@@ -21,6 +21,7 @@ gem "oj"
 gem "oj_mimic_json"
 gem "pg"
 gem "pundit", github: "elabs/pundit"
+gem "rack-cors", :require => 'rack/cors'
 gem "react-rails", github: 'reactjs/react-rails', branch: 'master'
 gem "redcarpet"
 gem "responders"

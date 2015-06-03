@@ -8,7 +8,7 @@ var DoctorProfile = React.createClass({
   componentWillMount: function(ev) {
     var that = this;
     $.ajax({
-      url: '/v1/agents',
+      url: window.ENV.API_ROOT+'v1/agents',
       contentType: 'application/json',
       success: function(data) {
         var agents = that.state.agents;
@@ -22,6 +22,7 @@ var DoctorProfile = React.createClass({
 
   render: function() {
     var office_codes = {
+      "": "Select an Office Code",
       "G": "Hamilton (G)",
       "J": "Kingston (J)",
       "P": "London (P)",

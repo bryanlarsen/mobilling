@@ -2,7 +2,9 @@ var globalStore = Fynx.createSimpleStore(Immutable.fromJS({
   busy: 0,
   unsaved: [],
   claimsListQuery: {filter: 'drafts', sort: '-number'},
-  feeGenerator: null
+  feeGenerator: null,
+  router: null,
+  notice: null,
 }));
 
 var globalActions = Fynx.createActions([
@@ -11,8 +13,32 @@ var globalActions = Fynx.createActions([
   'unrecoverableError',
   'signout',
   'startSave',
-  'endSave'
+  'endSave',
+  'init',
+  'setRouter',
+  'setNotice',
+  'clearNotice'
 ]);
+
+globalActions.init.listen(function() {
+  globalActions.startBusy();
+  $.ajax({
+    url: window.ENV.API_ROOT+'v1/claims',
+    dataType: 'json',
+    success: function(data) {
+      claimListActions.init(data);
+      globalActions.endBusy();
+    },
+    error: function(xhr, status, err) {
+      globalStore().get('router').transitionTo('/login');
+      globalActions.endBusy();
+    }
+  });
+});
+
+globalActions.setRouter.listen(function(router) {
+  globalStore(globalStore().set('router', router));
+});
 
 globalActions.startBusy.listen(function(data) {
   globalStore(globalStore().set('busy', globalStore().get('busy') + 1));
@@ -58,6 +84,18 @@ globalActions.unrecoverableError.listen(function(data) {
   console.log('unrecoverableError', data);
   Rollbar.error("unrecoverableError", data);
   location.reload();
+});
+
+globalActions.setNotice.listen(function(data) {
+  console.log('setNotice', data);
+  globalStore(globalStore().set('notice', data));
+});
+
+globalActions.clearNotice.listen(function(data) {
+  console.log('clearNotice', data);
+  if (data === globalStore().get('notice')) {
+    globalStore(globalStore().set('notice', null));
+  }
 });
 
 window.onbeforeunload = function(ev) {

@@ -5,6 +5,7 @@ var StandardHeader = React.createClass({
 
   render: function() {
     return (
+    <div>
       <Navbar fixedTop>
         <Nav>
           <NavItem href="http://mo-billing.ca" className="hidden-xs">
@@ -16,6 +17,8 @@ var StandardHeader = React.createClass({
         </Nav>
         <UserDropdown/>
       </Navbar>
+      <Notice />
+    </div>
     );
   }
 });

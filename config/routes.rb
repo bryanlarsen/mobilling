@@ -3,8 +3,10 @@ Rails.application.routes.draw do
 
   scope module: 'v3' do
     root to: "home#show"
+    get "/login", to: "home#login"
+    get "/create_account", to: "home#login"
+    get "/forgot_password", to: "home#login"
     resource :session, only: %i[new create destroy]
-    resource :request_password_reset, only: %i[new create]
     resource :create_password, only: %i[new]
   end
 
@@ -19,6 +21,7 @@ Rails.application.routes.draw do
     resources :photos, only: %i[show create]
     resources :service_codes, only: %i[index show]
     resources :patients, only: %i[index]
+    resource :request_password_reset, only: %i[create]
   end
 
   namespace :admin do

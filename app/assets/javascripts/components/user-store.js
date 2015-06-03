@@ -1,5 +1,8 @@
 
-var userStore = Fynx.createSimpleStore(Immutable.fromJS({}));
+var userStore = Fynx.createSimpleStore(Immutable.fromJS({
+  role: "doctor",
+  specialty_code: 0,
+}));
 
 var userCheckpoint = null;
 
@@ -7,6 +10,7 @@ var userActions = Fynx.createActions([
   'init',
   'updateFields',
   'attemptSave',
+  'forgotPassword',
   'saveComplete',
   'saveFailed',
   'checkpoint',
@@ -33,7 +37,7 @@ userActions.init.listen(function(data) {
 userActions.attemptSave.listen(function() {
   console.log('user attemptSave');
   var id = userStore().get('id');
-  var url = id ? '/v1/users/'+id : '/v1/users';
+  var url = window.ENV.API_ROOT+'v1/users' + (id ? '/'+id : '');
   var method = id ? 'PUT' : 'POST';
 
   var user = _.omit(userStore().toJS(), 'warnings', 'errors', 'id', 'created_at', 'updated_at', 'unsaved', 'changed');
@@ -46,6 +50,7 @@ userActions.attemptSave.listen(function() {
     processData: false,
     type: method,
     success: function(data) {
+      if (data.notice) globalActions.setNotice(data.notice);
       userActions.saveComplete({id: id, errors: data.errors, warnings: data.warnings});
       globalActions.endBusy();
     },
@@ -54,6 +59,38 @@ userActions.attemptSave.listen(function() {
 
       if (xhr.responseJSON) {
         var data = {id: id};
+        data.warnings = xhr.responseJSON.warnings;
+        data.errors = xhr.responseJSON.errors;
+        userActions.saveFailed(data);
+      } else {
+        globalActions.unrecoverableError();
+      }
+    }
+  });
+});
+
+userActions.forgotPassword.listen(function() {
+  console.log('user forgotPassword');
+  var url = window.ENV.API_ROOT+'v1/request_password_reset';
+
+  globalActions.startBusy();
+  $.ajax({
+    url: url,
+    data: JSON.stringify({create_password_reset: {email: userStore().get('email')}}),
+    contentType: 'application/json',
+    dataType: 'json',
+    processData: false,
+    type: 'POST',
+    success: function(data) {
+      if (data.notice) globalActions.setNotice(data.notice);
+      userActions.saveComplete({errors: data.errors, warnings: data.warnings});
+      globalActions.endBusy();
+    },
+    error: function(xhr, status, err) {
+      globalActions.endBusy();
+
+      if (xhr.responseJSON) {
+        var data = {};
         data.warnings = xhr.responseJSON.warnings;
         data.errors = xhr.responseJSON.errors;
         userActions.saveFailed(data);

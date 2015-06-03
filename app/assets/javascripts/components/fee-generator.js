@@ -105,7 +105,7 @@ FeeGenerator.prototype.calculateFee = function(detail, code) {
 
 setTimeout(function() {
       $.ajax({
-        url: '/v1/service_codes.json',
+        url: window.ENV.API_ROOT+'v1/service_codes.json',
         dataType: 'json',
         success: function(data) {
           var array = new Array(_.size(data));

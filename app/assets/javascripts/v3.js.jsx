@@ -29,6 +29,9 @@ var V3Routes = (
       <Route name="claim_items" path="items" handler={ItemsTab}/>
       <Route name="claim_comments" path="comments" handler={CommentsTab}/>
     </Route>
+    <Route name="login" path="/login" handler={LoginPage} />
+    <Route name="forgot_password" path="/forgot_password" handler={ForgotPasswordPage} />
+    <Route name="create_account" path="/create_account" handler={NewUserPage} />
     <NotFoundRoute handler={NotFound}/>
   </Route>
 );
@@ -38,23 +41,13 @@ React.initializeTouchEvents(true);
 $(document).ready(function() {
   FastClick.attach(document.body);
 
-  ReactRouter.run(V3Routes, ReactRouter.HistoryLocation, function(Handler, state) {
+  globalActions.setRouter(ReactRouter.run(V3Routes, ReactRouter.HistoryLocation, function(Handler, state) {
         React.render(React.createElement(Handler, {params: state.params}), document.body);
-  });
+  }));
 
-  globalActions.startBusy();
-  $.ajax({
-    url: '/v1/claims',
-    dataType: 'json',
-    success: function(data) {
-      claimListActions.init(data);
-      globalActions.endBusy();
-    },
-    error: function(xhr, status, err) {
-      console.error('error loading claims');
-      globalActions.endBusy();
-    }
-  });
+  if (["/login", "/forgot_password", "/create_account"].indexOf(globalStore().get('router').getCurrentPath()) === -1) {
+    globalActions.init();
+  }
 
 });
 

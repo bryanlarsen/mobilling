@@ -3,7 +3,7 @@ var diagnosesEngine = new Bloodhound({
   queryTokenizer: Bloodhound.tokenizers.nonword,
   limit: 10,
   prefetch: {
-    url: "/v1/diagnoses.json",
+    url: window.ENV.API_ROOT+'v1/diagnoses.json',
   }
 });
 setTimeout(function() {
