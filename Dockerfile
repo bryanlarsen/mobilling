@@ -19,6 +19,7 @@ ADD Gemfile Gemfile.lock /app/
 RUN bundle install --deployment
 
 ADD bower.json /app/
+ADD .bowerrc /app/
 RUN bower install --allow-root
 
 EXPOSE 80
