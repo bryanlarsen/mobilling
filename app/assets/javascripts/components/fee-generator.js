@@ -102,24 +102,30 @@ FeeGenerator.prototype.calculateFee = function(detail, code) {
   };
 };
 
+var serviceCodesLoaded = false;
+
+var loadServiceCodes = function(data) {
+  var array = new Array(_.size(data));
+  var hash = {};
+  _.each(data, function(sc, i) {
+    hash[sc.code] = sc;
+    array[i] = sc.name;
+  });
+  serviceCodesEngine.add(array);
+  serviceCodesLoaded = true;
+  globalStore(globalStore().set('feeGenerator', new FeeGenerator(hash)));
+}
 
 setTimeout(function() {
+  if (!serviceCodesLoaded) {
       $.ajax({
         url: window.ENV.API_ROOT+'v1/service_codes.json',
         dataType: 'json',
-        success: function(data) {
-          var array = new Array(_.size(data));
-          var hash = {};
-          _.each(data, function(sc, i) {
-            hash[sc.code] = sc;
-            array[i] = sc.name;
-          });
-          serviceCodesEngine.add(array);
-          globalStore(globalStore().set('feeGenerator', new FeeGenerator(hash)));
-        },
+        success: loadServiceCodes,
         error: function(xhr, status, err) {
           console.error('failed to load service codes');
           reject(Error('failed to load service codes'));
         }
       });
-}, 500);
+  }
+}, 1500);

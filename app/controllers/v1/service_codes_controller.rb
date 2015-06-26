@@ -14,7 +14,11 @@ class V1::ServiceCodesController < V1::BaseController
         rdc: sc.requires_diagnostic_code
       }
     end
-    render json: service_codes
+    respond_to do |format|
+      format.json { render json: service_codes }
+      format.html { render json: service_codes }
+      format.js { render text: "loadServiceCodes(#{JSON.pretty_generate(service_codes)});\nserviceCodesLoaded = true;" }
+    end
   end
 
 end

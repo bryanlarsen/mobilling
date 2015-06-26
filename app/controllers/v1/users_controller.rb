@@ -5,7 +5,7 @@ class V1::UsersController < V1::BaseController
 
   api :GET, "/v1/users", "Returns user list"
   def index
-    render json: policy_scope(:user).all
+    render json: policy_scope(User).all
   end
 
   api :GET, "/v1/users/:id", "Returns a user"

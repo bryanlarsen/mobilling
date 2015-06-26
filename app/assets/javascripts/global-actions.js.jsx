@@ -34,6 +34,17 @@ globalActions.init.listen(function() {
       globalActions.endBusy();
     }
   });
+  $.ajax({
+    url: window.ENV.API_ROOT+'session.json',
+    dataType: 'json',
+    success: function(data) {
+      userActions.init(data);
+    },
+    error: function(xhr, status, err) {
+      globalStore().get('router').transitionTo('/login');
+      globalActions.endBusy();
+    }
+  });
 });
 
 globalActions.setRouter.listen(function(router) {

@@ -24,6 +24,14 @@ class V3::SessionsController < V3::BaseController
     end
   end
 
+  def show
+    authorize :session
+    respond_to do |format|
+      format.html { redirect_to current_user.doctor? ? root_url : admin_dashboard_url }
+      format.json { render json: current_user.as_json(include_doctors: true) }
+    end
+  end
+
   def destroy
     authorize :session
     sign_out

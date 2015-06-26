@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     get "/login", to: "home#login"
     get "/create_account", to: "home#login"
     get "/forgot_password", to: "home#login"
-    resource :session, only: %i[new create destroy]
+    resource :session, only: %i[new create destroy show]
     resource :create_password, only: %i[new]
   end
 

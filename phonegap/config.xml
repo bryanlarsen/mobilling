@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="ca.mo-billing.MedicalBilling" version="1.3.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Mo-Billing</name>
+    <description>
+        Mo-Billing Mobile app.
+    </description>
+    <author email="info@mo-billing.ca" href="http://www.mo-billing.ca">
+       Figure of Eight
+    </author>
+    <content src="index.html" />
+
+    <icon src="www/img/logo.png" />
+
+    <feature name="StatusBar">
+      <param name="ios-package" value="CDVStatusBar" onload="true" />
+    </feature>
+
+    <feature name="Keyboard">
+      <param name="ios-package" value="IonicKeyboard" onload="true" />
+    </feature>
+
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#F7F7F7" />
+    <preference name="StatusBarStyle" value="blacktranscluent" />
+    <preference name="BackgroundColor" value="0xFFFFFFFF" />
+
+    <access origin="*" />
+
+    <allow-navigation href="192.168.1.99:3000" />
+    <allow-navigation href="192.168.1.99" />
+    <allow-navigation href="v3.mo-billing.ca" />
+    <allow-navigation href="netdna.bootstrapcdn.com" />
+</widget>

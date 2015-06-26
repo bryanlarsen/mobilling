@@ -1,0 +1,26 @@
+.gradle
+
+# precompiled files
+www/js/react-bundle.js
+www/js/service_codes.js
+www/js/static.js
+www/js/v3.js
+www/css/v3.css
+
+# Node
+node_modules/
+
+# Bower
+www/lib/
+
+# Cordova
+platforms/
+plugins/
+
+# Testing
+npm-debug.log
+phantomjsdriver.log
+test/npm-debug.log
+
+# signing
+keystore

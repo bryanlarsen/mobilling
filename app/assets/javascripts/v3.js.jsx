@@ -16,6 +16,7 @@ var App = React.createClass({
 var V3Routes = (
   <Route name="app" path="/" handler={App}>
     <Redirect from="/" to="/claims?filter=drafts&sort=-number" />
+    <Redirect from="/android_asset/www/index.html" to="/claims?filter=drafts&sort=-number" />
     <Route name="claims" path="/claims" handler={ClaimsPage}/>
     <Route name="profile" handler={Profile}>
       <Route name="settings" handler={ProfileSettings}/>
