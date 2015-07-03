@@ -62,7 +62,7 @@ class V1::ClaimsController < V1::BaseController
   def create
     authorize :claim
 
-    last_claim = Claim.order(:updated_at).last
+    last_claim = policy_scope(Claim).order(:updated_at).last
     attrs = claim_params
     attrs['status'] ||= 'saved'
     if last_claim
