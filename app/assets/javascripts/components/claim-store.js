@@ -147,15 +147,21 @@ var serverCalculatedFields = ['submission', 'total_fee', 'submitted_fee', 'paid_
 claimActions.attemptSave.listen(function(id) {
   console.log('attemptSave', id);
 
-  // assume that we get here because we've changed something.   bigger assumption is that everything tha makes a change attempts to save it.
-  claimStore(claimStore().setIn([id, 'changed'], true).setIn([id, 'unsaved'], true));
+  if(claimStore().get([id, 'unsaved'])) {
+    claimStore(claimStore().setIn([id, 'needs_save'], true));
+    console.log('save busy, postponing');
+    return;
+  }
 
-  var claim = _.omit(claimStore().get(id).toJS(), 'warnings', 'errors', 'id', 'number', 'created_at', 'updated_at', 'url', 'unsaved', 'changed', 'photo', 'comments');
+  // assume that we get here because we've changed something.   bigger assumption is that everything tha makes a change attempts to save it.
+  claimStore(claimStore().setIn([id, 'changed'], true).setIn([id, 'unsaved'], true).setIn([id, 'needs_save'], false));
+
+  var claim = _.omit(claimStore().get(id).toJS(), 'warnings', 'errors', 'id', 'number', 'created_at', 'updated_at', 'url', 'unsaved', 'changed', 'photo', 'comments', 'needs_save');
   globalActions.startBusy();
   globalActions.startSave(id);
   $.ajax({
 //    url: claimStore().get('url'),
-    url: window.ENV.API_ROOT+'v1/claims/'+id,
+    url: window.ENV.API_ROOT+'v1/claims/'+id+'.json',
     data: JSON.stringify({claim: claim}),
     contentType: 'application/json',
     dataType: 'json',
@@ -171,7 +177,9 @@ claimActions.attemptSave.listen(function(id) {
     error: function(xhr, status, err) {
       globalActions.endBusy();
 
-      if (xhr.responseJSON) {
+      if (xhr.status === 403) {
+        globalActions.signin();
+      } else if (xhr.responseJSON) {
         var data = {id: id};
         data.warnings = xhr.responseJSON.warnings;
         data.errors = xhr.responseJSON.errors;
@@ -237,7 +245,7 @@ claimActions.newClaim.listen(function(opts) {
   console.log('newClaim');
   globalActions.startBusy();
   $.ajax({
-    url: window.ENV.API_ROOT+'v1/claims',
+    url: window.ENV.API_ROOT+'v1/claims.json',
     data: JSON.stringify({claim: {status: 'saved'}}),
     contentType: 'application/json',
     dataType: 'json',
@@ -251,7 +259,8 @@ claimActions.newClaim.listen(function(opts) {
     },
     error: function(xhr, status, err) {
       globalActions.endBusy();
-      globalActions.unrecoverableError();
+      if (xhr.status === 403) globalActions.signin();
+      else globalActions.unrecoverableError();
     }
   });
 });
@@ -260,6 +269,10 @@ claimActions.saveComplete.listen(function(data) {
   console.log('saveComplete', data);
   claimStore(claimStore().setIn([data.id, 'unsaved'], false));
   processClaimResponse(data);
+  if(claimStore().get([data.id, 'needs_save'])) {
+    console.log('needs_save: saving');
+    claimActions.attemptSave(data.id);
+  };
 });
 
 claimActions.saveFailed.listen(function(data) {
@@ -337,7 +350,7 @@ claimActions.load.listen(function(opts) {
   console.log('load',opts.id);
   globalActions.startBusy();
   $.ajax({
-    url: window.ENV.API_ROOT+'v1/claims/'+opts.id,
+    url: window.ENV.API_ROOT+'v1/claims/'+opts.id+'.json',
     dataType: 'json',
     success: function(data) {
       claimActions.init(data);
@@ -349,7 +362,8 @@ claimActions.load.listen(function(opts) {
     error: function(xhr, status, err) {
       console.error(opts.id+': error loading. '+err.toString())
       globalActions.endBusy();
-      globalActions.unrecoverableError();
+      if (xhr.status === 403) globalActions.signin();
+      else globalActions.unrecoverableError();
     }
   });
 });
@@ -358,7 +372,7 @@ claimActions.remove.listen(function(id) {
   console.log('load',id);
   globalActions.startBusy();
   $.ajax({
-    url: window.ENV.API_ROOT+'v1/claims/'+id,
+    url: window.ENV.API_ROOT+'v1/claims/'+id+'.json',
     dataType: 'json',
     type: 'DELETE',
     success: function(data) {
@@ -369,7 +383,8 @@ claimActions.remove.listen(function(id) {
     error: function(xhr, status, err) {
       console.error(id+': error deleting. '+err.toString())
       globalActions.endBusy();
-      globalActions.unrecoverableError();
+      if (xhr.status === 403) globalActions.signin();
+      else globalActions.unrecoverableError();
     }
   });
 });

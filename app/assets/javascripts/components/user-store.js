@@ -37,7 +37,7 @@ userActions.init.listen(function(data) {
 userActions.attemptSave.listen(function() {
   console.log('user attemptSave');
   var id = userStore().get('id');
-  var url = window.ENV.API_ROOT+'v1/users' + (id ? '/'+id : '');
+  var url = window.ENV.API_ROOT+'v1/users' + (id ? '/'+id : '') + '.json';
   var method = id ? 'PUT' : 'POST';
 
   var user = _.omit(userStore().toJS(), 'warnings', 'errors', 'id', 'created_at', 'updated_at', 'unsaved', 'changed');
@@ -57,7 +57,9 @@ userActions.attemptSave.listen(function() {
     error: function(xhr, status, err) {
       globalActions.endBusy();
 
-      if (xhr.responseJSON) {
+      if (xhr.status === 403) {
+        globalActions.signin();
+      } else if (xhr.responseJSON) {
         var data = {id: id};
         data.warnings = xhr.responseJSON.warnings;
         data.errors = xhr.responseJSON.errors;
@@ -71,7 +73,7 @@ userActions.attemptSave.listen(function() {
 
 userActions.forgotPassword.listen(function() {
   console.log('user forgotPassword');
-  var url = window.ENV.API_ROOT+'v1/request_password_reset';
+  var url = window.ENV.API_ROOT+'v1/request_password_reset.json';
 
   globalActions.startBusy();
   $.ajax({
@@ -89,7 +91,9 @@ userActions.forgotPassword.listen(function() {
     error: function(xhr, status, err) {
       globalActions.endBusy();
 
-      if (xhr.responseJSON) {
+      if (xhr.status === 403) {
+        globalActions.signin();
+      } else if (xhr.responseJSON) {
         var data = {};
         data.warnings = xhr.responseJSON.warnings;
         data.errors = xhr.responseJSON.errors;

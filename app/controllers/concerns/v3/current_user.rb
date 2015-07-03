@@ -13,7 +13,10 @@ module V3::CurrentUser
   def refresh_session
     current_user
   rescue SessionExpired => exception
-    redirect_to new_session_path, alert: exception.message
+    respond_to do |format|
+      format.json { render json: {status: 403, error: "session expired"}, status: 403 }
+      format.html { redirect_to new_session_path, alert: exception.message }
+    end
   end
 
   def current_user

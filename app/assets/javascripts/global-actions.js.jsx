@@ -11,6 +11,7 @@ var globalActions = Fynx.createActions([
   'startBusy',
   'endBusy',
   'unrecoverableError',
+  'signin',
   'signout',
   'startSave',
   'endSave',
@@ -23,14 +24,14 @@ var globalActions = Fynx.createActions([
 globalActions.init.listen(function() {
   globalActions.startBusy();
   $.ajax({
-    url: window.ENV.API_ROOT+'v1/claims',
+    url: window.ENV.API_ROOT+'v1/claims.json',
     dataType: 'json',
     success: function(data) {
       claimListActions.init(data);
       globalActions.endBusy();
     },
     error: function(xhr, status, err) {
-      globalStore().get('router').transitionTo('/login');
+      globalActions.signin();
       globalActions.endBusy();
     }
   });
@@ -41,7 +42,7 @@ globalActions.init.listen(function() {
       userActions.init(data);
     },
     error: function(xhr, status, err) {
-      globalStore().get('router').transitionTo('/login');
+      globalActions.signin();
       globalActions.endBusy();
     }
   });
@@ -74,9 +75,14 @@ globalActions.endSave.listen(function(id) {
   }
 });
 
+globalActions.signin.listen(function(data) {
+  globalStore().get('router').transitionTo('/login');
+});
+
+
 globalActions.signout.listen(function(data) {
   $.ajax({
-    url: '/session',
+    url: '/session.json',
     type: 'DELETE',
     success: function() {
       console.log('signed out');
@@ -93,7 +99,7 @@ globalActions.unrecoverableError.listen(function(data) {
   // if not, this may fix it
   // FIXME: flash message
   console.log('unrecoverableError', data);
-  Rollbar.error("unrecoverableError", data);
+  if (typeof Rollbar !== 'undefined') Rollbar.error("unrecoverableError", data);
   location.reload();
 });
 
