@@ -15,7 +15,7 @@ FactoryGirl.define do
     password "secret"
     role "doctor"
     default_specialty "internal_medicine"
-    provider_number 102
+    sequence(:provider_number, 100)
     specialty_code 0
     group_number "0000"
     office_code "D"

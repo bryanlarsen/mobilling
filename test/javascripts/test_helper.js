@@ -1,3 +1,4 @@
 //= require jquery
 //= require underscore
-//= require Fynx
+//= require immutable
+//= require fynx

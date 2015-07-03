@@ -1,7 +1,8 @@
 //= require jquery
 //= require es6-promise
 //= require underscore
-//= require Fynx
+//= require immutable
+//= require fynx
 //= require chai
 
 var expect = chai.expect;
