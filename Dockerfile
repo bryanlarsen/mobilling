@@ -12,6 +12,9 @@ RUN apt-get install -y libxml2-dev libxslt1-dev
 RUN apt-get install -y nodejs npm nodejs-legacy
 RUN npm install -g bower
 
+RUN echo "America/Toronto" > /etc/timezone
+RUN dpkg-reconfigure --frontend noninteractive tzdata
+
 RUN mkdir /app
 WORKDIR /app
 
