@@ -33,7 +33,8 @@ var V3Routes = (
     <Route name="login" path="/login" handler={LoginPage} />
     <Route name="forgot_password" path="/forgot_password" handler={ForgotPasswordPage} />
     <Route name="create_account" path="/create_account" handler={NewUserPage} />
-    <NotFoundRoute handler={NotFound}/>
+    <NotFoundRoute handler={LoginPage}/>
+//    <DefaultRoute hander={LoginPage}/>
   </Route>
 );
 
