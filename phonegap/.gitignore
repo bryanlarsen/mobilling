@@ -24,3 +24,7 @@ test/npm-debug.log
 
 # signing
 keystore
+
+# generated icons
+res/ios
+res/android
