@@ -1,6 +1,7 @@
 var LoginPage = React.createClass({
   mixins: [
     ReactRouter.Navigation,
+    Fynx.connect(globalStore, 'globalStore')
   ],
 
   getInitialState: function() {
@@ -24,7 +25,7 @@ var LoginPage = React.createClass({
         } else {
           globalActions.init();
           userActions.init(data);
-          page.transitionTo('claims');
+          page.transitionTo('claims', {}, page.state.globalStore.get('claimsListQuery').toJS());
         }
       },
       error: function(xhr, status, err) {
