@@ -202,7 +202,7 @@
           }
         }
 
-        if (admission === first && mrp) {
+        if ((admission === first && mrp) || consult == 'on_call_admission_er' || consult == 'on_call_admission_non_er') {
           // admission premium
           detail.premiums.push({ code: "E082A" });
         }
