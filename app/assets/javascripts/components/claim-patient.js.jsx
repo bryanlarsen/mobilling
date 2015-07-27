@@ -49,8 +49,8 @@ var ClaimPatient = React.createClass({
 
   render: function() {
     var sexes = {
-      F: <span className="needsclick"><i className="needsclick fa fa-venus" /><span className="needsclick">Female</span></span>,
-      M: <span className="needsclick"><i className="needsclick fa fa-mars" /><span className="needsclick">Male</span></span>,
+      F: <span><i className="fa fa-venus" />Female</span>,
+      M: <span><i className="fa fa-mars" />Male</span>,
     };
     return (
       <div>
