@@ -88,7 +88,7 @@ var ClaimPage = React.createClass({
 
     return (
       <div className="body">
-        <ClaimHeader {...this.props} submit={this.props.store.get('status')==='saved' && this.submit}/>
+        <ClaimHeader {...this.props} submit={(this.props.store.get('status')==='saved' || this.props.store.get('status')==='doctor_attention') && this.submit}/>
         <div className="container with-bottom">
           <div className="form-horizontal">
             <RouteHandler {...this.props} handleChange={this.handleChange} silent />
