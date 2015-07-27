@@ -122,6 +122,7 @@ class ClaimForm
     s.validate :validate_patient_number
     s.validate :validate_seen_on, if: -> { not simplified? }
     s.validate :validate_consult_time, if: -> { not simplified? }   #FIXME
+    s.validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, if: -> { not simplified? }
     #s.validate :validate_premium_visit, if: -> { not simplified? }   #FIXME
   end
 
