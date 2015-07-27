@@ -160,7 +160,7 @@
     return {
       internal_medicine: "C138A",
       cardiology:        "C608A",
-      family_medicine:   "C138A" // not defined in client's spec
+      family_medicine:   "C008A"
     }[specialty];
   }
 
