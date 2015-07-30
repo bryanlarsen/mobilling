@@ -8,7 +8,7 @@ var EmptyHeader = React.createClass({
       <div>
         <Navbar fixedTop>
           <Nav>
-            <NavItem href={window.ENV.CORDOVA ? '#' : "http://mo-billing.ca"}>Mo-Billing</NavItem>
+            {!window.ENV.CORDOVA && <NavItem href="http://mo-billing.ca" className="hidden-xs">Mo-Billing</NavItem>}
           </Nav>
         </Navbar>
         <Notice/>
