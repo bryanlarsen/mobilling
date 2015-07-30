@@ -18,7 +18,7 @@
   "dependencies": {
     "es6-promise": "*",
     "fastclick": "*",
-    "font-awesome": "4.3.x",
+    "font-awesome": "4.4.0",
     "fynx": "1.6.x",
     "immutable": "*",
     "moment": "*",

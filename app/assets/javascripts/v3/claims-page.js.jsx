@@ -92,9 +92,7 @@ var ClaimsPage = React.createClass({
           <div className="container">
             <ul className="nav navbar-nav navbar-left">
               <li>
-                <NavItem href="http://mo-billing.ca" className="hidden-xs">
-                  Mo-Billing
-                </NavItem>
+                {!window.ENV.CORDOVA && <NavItem href="http://mo-billing.ca" className="hidden-xs">Mo-Billing</NavItem>}
               </li>
               <li>
                 <div className="btn-group" role="group">

@@ -5,7 +5,7 @@ www/js/react-bundle.js
 www/js/service_codes.js
 www/js/static.js
 www/js/v3.js
-www/css/v3.css
+www/css/cordova.css
 
 # Node
 node_modules/
