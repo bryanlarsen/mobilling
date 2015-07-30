@@ -14,13 +14,8 @@ point your browser at http://localhost:3000/
 
 ### updating
 
-git push enneahost +v3:master
-
-(on root@sys.qchsag.ca)
-
-restart consul-template-upstart-docker-2
-docker ps
-docker cp becbb:/app/public /var/mo-billing/
+./build.sh
+./run.sh
 
 to migrate:
 
