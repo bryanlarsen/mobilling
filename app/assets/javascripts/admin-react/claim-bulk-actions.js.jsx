@@ -6,10 +6,12 @@ var ClaimBulkActions = React.createClass({
   },
 
   handleChange: function(ev) {
+    var target = ev.target;
+    while(target.value === undefined) target = target.parentElement;
     _.each(this.props.ids, function(id) {
-      claimActionsFor(id).updateFields([[[ev.target.name], ev.target.value]]);
+      claimActionsFor(id).updateFields([[[target.name], target.value]]);
     });
-    this.setState({status: ev.target.value});
+    this.setState({status: target.value});
   },
 
   render: function() {

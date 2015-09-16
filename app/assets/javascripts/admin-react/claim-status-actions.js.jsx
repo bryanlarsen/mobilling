@@ -1,6 +1,8 @@
 var ClaimStatusActions = React.createClass({
   handleChange: function(ev) {
-    this.props.actions.updateFields([[[ev.target.name], ev.target.value]]);
+    var target = ev.target;
+    while(target.value === undefined) target = target.parentElement;
+    this.props.actions.updateFields([[[target.name], target.value]]);
   },
 
   doneHandler: function(ev) {
