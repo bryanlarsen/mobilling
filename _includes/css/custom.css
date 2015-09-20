@@ -1,0 +1,6 @@
+.container .full.column {
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+    display: block;
+}
