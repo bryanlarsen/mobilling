@@ -1,0 +1,122 @@
+.engineloading,.loading {
+	background: #E6E0CE url('images/ajax-loader.gif') no-repeat center 100px;
+}
+
+.loading h3 {
+	font-size: 2.5em;
+}
+
+.plugin {
+	float:left;
+	margin:10px 0;
+}
+
+.btn {
+	white-space: normal;
+	display: inline-block;
+	padding: 12px 20px;
+	color: #F2EFE6;
+	font-family: "bryant-web-1", "bryant-web-2", "Helvetica Neue", "Helvetica", sans-serif;
+	font-size: 16px;
+	line-height: 1;
+	text-decoration: none;
+	text-shadow: none;
+	text-transform: uppercase;
+	text-shadow: 0 1px 0 #343B0B;
+	border: 1px solid #636B2A;
+	border-top: 1px solid #B9BD9A;
+	border-bottom: 1px solid #343B0B;
+	border-radius: 4px;
+	background-color: #737B35;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#899144), to(#5D6526));
+	background-image: -webkit-linear-gradient(top, #899144, #5D6526);
+	background-image: -moz-linear-gradient(top, #899144, #5D6526);
+	background-image: -ms-linear-gradient(top, #899144, #5D6526);
+	background-image: -o-linear-gradient(top, #899144, #5D6526);
+	background-image: linear-gradient(top, #899144, #5D6526);
+}
+
+.note {
+	color: #73716D;
+	font-size: 80%;
+}
+
+#sidebar {
+	float:right;
+	background:#fff;
+	width:200px;
+	text-align:left;
+	margin: 0 10% 0 0;
+}
+
+#loader {
+	color:#fff;
+	margin: 10px 0;
+	float:left;
+	width:100%;
+	text-align:center;	
+}
+
+#sidebar,.checkzone {
+	margin-top: 20px;
+}
+
+.checkzone {
+	min-height: 500px;
+	width: 60%;
+	background: #E6E0CE ;
+	float:left;
+	padding: 10px 5px 10px 20px;
+	border: 1px solid #737B35;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;	
+}
+
+.temp-message {
+	text-align: center;
+	line-height: 35px;
+	color:#5D6526 ;
+	margin:10px 0 0 0;
+	font-size:2.5em;
+}
+
+img.alert_icon {
+	width:16px;
+	height:16px;
+	margin:3px 5px 0 0;
+}
+
+.refreshit {
+	float:right;
+}
+
+.refreshit:hover {
+	cursor:pointer;
+}
+
+.refreshit img {
+	height:16px;
+	width:16px;
+}
+
+.checkzone p {
+	font-size:12px; 
+}
+
+#wpe_results_list {
+	margin:0;
+	padding-bottom: 3em;
+	list-style-type: none;
+/*	font-size:.5em; */
+	font-weight:normal;
+}
+
+#wpe_results_list li {
+	margin-top:12px;
+}
+
+#wpe_results_list li.wpe_result_list_detail {
+	margin:0;
+	text-indent: 24px;
+}
