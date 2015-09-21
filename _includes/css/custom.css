@@ -4,3 +4,7 @@
     float: none;
     display: block;
 }
+
+.flexslider a {
+    line-height: initial;
+}
