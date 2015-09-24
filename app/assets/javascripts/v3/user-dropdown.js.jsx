@@ -7,7 +7,7 @@ var UserDropdown = React.createClass({
           <DropdownButton title={userIcon} navItem={true} className="navbar-btn">
             <li><Link to="settings"><Icon i="user">Profile</Icon></Link></li>
             <li>
-              <a rel="nofollow" data-method="delete" href={window.ENV.API_ROOT+"/session"}>
+              <a rel="nofollow" data-method="delete" href={window.ENV.API_ROOT+"session"}>
                 <Icon i="sign-out">Sign Out</Icon>
               </a>
             </li>
