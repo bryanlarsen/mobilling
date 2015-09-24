@@ -1,5 +1,5 @@
 Apipie.configure do |config|
-  config.app_name                = "Mo-Billing"
+  config.app_name                = "BillOHIP"
   config.app_info                = ""
   config.api_base_url            = ""
   config.doc_base_url            = "/docs"

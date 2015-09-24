@@ -42,7 +42,7 @@ var LoginPage = React.createClass({
         <div className="content-body container">
           <div className="row">
             <form ref="form" onSubmit={this.onSubmit}>
-              <legend>Mo-Billing</legend>
+              <legend>BillOHIP</legend>
               <div className="form-group">
                 <label className="control-label col-sm-2" htmlFor="email">Email</label>
                 <div className="col-sm-10">

@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ca.mo-billing.MedicalBilling" version="2.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Mo-Billing</name>
+    <name>BillOHIP</name>
     <description>
-        Mo-Billing Mobile app.
+        BillOHIP mobile medical billing
     </description>
     <author email="info@mo-billing.ca" href="http://www.mo-billing.ca">
        Figure of Eight
@@ -80,5 +80,6 @@
     <allow-navigation href="192.168.1.99:3000" />
     <allow-navigation href="192.168.1.99" />
     <allow-navigation href="v3.mo-billing.ca" />
+    <allow-navigation href="billohip.ca" />
     <allow-navigation href="netdna.bootstrapcdn.com" />
 </widget>
