@@ -15,9 +15,11 @@
 <%= javascript_include_tag "static" %>
 <%= javascript_include_tag "react-bundle" %>
 <%= javascript_include_tag "v3" %>
+<% if controller.action_name != 'login' %>
 <script>
   userActions.init(<%= current_user.as_json(include_doctors: true).to_json.html_safe %>);
 </script>
+<% end %>
 </head>
 <body>
   <div id="replaceme">
