@@ -2,6 +2,10 @@ class V1::RequestPasswordResetsController < V3::BaseController
   skip_before_filter :refresh_session, :only => [:create]
   skip_before_filter :verify_authenticity_token, :only => [:create]
 
+  def pundit_user
+    nil
+  end
+
   def create
     authorize :home, :login?
     @interactor = CreatePasswordReset.new(create_password_reset_params)
