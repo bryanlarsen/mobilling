@@ -8,7 +8,7 @@ cp ../public/assets/v3.js www/js
 cp ../public/assets/static.js www/js
 cp ../public/assets/cordova.css www/css
 cp ../public/assets/react-bundle.js www/js
-curl http://localhost:3000/v1/service_codes.js > www/js/service_codes.js
-cordova emulate ios
+#curl http://localhost:3000/v1/service_codes.js > www/js/service_codes.js
+cordova build ios
 #cd ..
 #rake assets:clobber

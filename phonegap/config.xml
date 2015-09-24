@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ca.mo-billing.MedicalBilling" version="2.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="ca.mo-billing.MedicalBilling" version="2.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Mo-Billing</name>
     <description>
         Mo-Billing Mobile app.
@@ -73,7 +73,7 @@
     <preference name="StatusBarBackgroundColor" value="#F7F7F7" />
     <preference name="StatusBarStyle" value="blacktranscluent" />
     <preference name="BackgroundColor" value="0xFFFFFFFF" />
-    <preference name="Orientation" value="default" />
+    <preference name="Orientation" value="all" />
 
     <access origin="*" />
 
