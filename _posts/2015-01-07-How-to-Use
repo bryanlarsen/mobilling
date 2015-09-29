@@ -1,1 +1,13 @@
-
+---
+title: "How to use"
+bg: turquoise  #defined in _config.yml, can use html color like '#0fbfcf'
+color: white   #text color
+fa-icon: plug
+---
+<h2>How to use</h2>
+<div class="row">
+  <div class="full big column">
+    <p>Option one: Standalone</p>
+    <p>Use BillOhip.ca to collect data, securely store and then directly submit to OHIP yourself. Then you can reconcile when the remittance advice comes. All in one convenient package!</p>
+  </div>
+</div>
