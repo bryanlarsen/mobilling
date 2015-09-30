@@ -2,140 +2,26 @@ class GenerateSubmission
   attr_reader :contents, :errors, :timestamp, :provider, :batch_id
 
   def generate_claim(claim)
-
-    raise RuntimeError, 'accounting number required' if not claim.number
-
-    name_err = lambda {
-      @errors[claim.number] += [['patient_name', 'must be of form First Last, ON 9876543217XX, 2001-12-25, M']]
-    }
-
-    if claim.details['patient_name']
-      if claim.details['patient_name'].match(/,/)
-        last_name, first_name = claim.details['patient_name'].split(',')
-      else
-        first_name, last_name = claim.details['patient_name'].split(' ')
-      end
-      return @errors[claim.number] += [['patient_name', 'must contain first and last name']] if !(last_name && first_name)
-
-      last_name.strip!
-      first_name.strip!
-    end
-
-    province = (claim.details['patient_province'] || 'ON').upcase
-    payment_program = claim.details['payment_program'] == 'WCB' ? 'WCB' : (province == 'ON' ? 'HCP' : 'RMB')
-
-    referring_provider = claim.details['referring_physician']
-    unless referring_provider.blank?
-      referring_provider = referring_provider.to_s.split(' ')[0]
-      if referring_provider !='0' && (referring_provider.length < 5 || referring_provider.length > 6)
-        @errors[claim.number] += [['referring_provider', 'invalid']]
-        return
-      end
-    end
-
-    facility = claim.details['hospital'] && claim.details['hospital'].split(' ')[0]
-
-    r=ClaimHeaderRecord.new
-    r["Patient's Birthdate"]=Date.strptime(claim.details['patient_birthday']) unless claim.details['patient_birthday'].blank?
-    r['Accounting Number']=claim.number
-    r['Payment Program']=payment_program
-    r['Payee']=claim.details['payee'] || 'P'
-    r['Referring Health Care Provider Number']=referring_provider unless referring_provider.blank?
-    r['Master Number']=facility
-    r['In-Patient Admission Date']=Date.strptime(claim.details['admission_on']) if claim.details['admission_on']
-    r['Referring Laboratory License Number']=claim.details['referring_laboratory'] if claim.details['referring_laboratory']
-    r['Manual Review Indicator']=claim.details['manual_review_indicator'].blank? ? '' : 'Y'
-    r['Service Location Indicator']=claim.details['service_location'] if claim.details['service_location']
-
+    province = (claim.patient_province || 'ON').upcase
+    payment_program = claim.payment_program == 'WCB' ? 'WCB' : (province == 'ON' ? 'HCP' : 'RMB')
+    r = claim.to_header_record
+    @contents += r.to_s
+    @errors[claim.number] += r.errors if r.errors.length > 0
     if payment_program == 'RMB'
-      sex = claim.details['patient_sex'].strip[0].upcase
-      if sex == 'M'
-        sex = 1
-      elsif sex == 'F'
-        sex = 2
-      else
-        raise RuntimeError, error if sex.strip.length != 1
-      end
-
-      rmb=ClaimHeaderRMBRecord.new
-      rmb['Registration Number']=claim.details['patient_number']
-      rmb["Patient's Last Name"]=last_name
-      rmb["Patient's First Name"]=first_name
-      rmb["Patient's Sex"]=sex
-      rmb["Province Code"]=province
-      @contents += r.to_s
-      @errors[claim.number] += r.errors if r.errors.length > 0
+      rmb=claim.to_rmb_record
       @contents += rmb.to_s
       @errors[claim.number] += rmb.errors if rmb.errors.length > 0
       @num_rmb_claims += 1
-    else
-      if claim.details['patient_number']
-        r['Health Number']=claim.details['patient_number'][0..9]
-        r['Version Code']=claim.details['patient_number'][10..11].try(:upcase)
-      end
-      @contents += r.to_s
-      @errors[claim.number] += r.errors if r.errors.length > 0
     end
-    claim.items.reduce(0) do |total, daily|
-      total + generate_details(daily, claim)
-    end
-  end
-
-  def generate_details(daily, claim)
-    r = ItemRecord.new
-    r['Service Code']=daily[:code]
-    r['Fee Submitted']=daily[:fee]*100
-    r['Number of Services']=daily[:units]
-    r['Service Date']=daily[:day]
-
-    service = ServiceCode.find_by(code: daily[:code])
-    if !service
-      @errors[claim.number] += [['service_code', 'not found']]
-    else
-      if service.requires_diagnostic_code
-        if daily[:diagnosis]
-          r['Diagnostic Code A']=daily[:diagnosis][0..2]
-          r['Diagnostic Code B']=daily[:diagnosis][3]
-        else
-          @errors[claim.number] += [['Diagnostic Code', 'required']]
-        end
+    claim.items.reduce(0) do |total, item|
+      item.rows.reduce(total,) do |total, row|
+        r = row.to_record
+        @errors[claim.number] += r.errors if r.errors.length > 0
+        @contents += r.to_s
+        @num_records += 1
+        total + row.fee
       end
     end
-
-    @contents += r.to_s
-    @errors[claim.number] += r.errors if r.errors.length > 0
-    @num_records += 1
-
-    daily[:fee]*100 + daily[:premiums].reduce(0) do |total, premium|
-      total + generate_premium(premium, daily, claim)
-    end
-  end
-
-  def generate_premium(premium, daily, claim)
-    r = ItemRecord.new
-    r['Service Code']=premium[:code]
-    r['Fee Submitted']=premium[:fee]*100
-    r['Number of Services']=premium[:units]
-    r['Service Date']=daily[:day]
-
-    service = ServiceCode.find_by(code: premium[:code])
-    if !service
-      @errors[claim.number] += [['service_code', 'not found']]
-    else
-      if service.requires_diagnostic_code
-        if daily[:diagnosis]
-          r['Diagnostic Code A']=daily[:diagnosis][0..2]
-          r['Diagnostic Code B']=daily[:diagnosis][3]
-        else
-          @errors[claim.number] += [['Diagnostic Code', 'required']]
-        end
-      end
-    end
-
-    @contents += r.to_s
-    @errors[claim.number] += r.errors if r.errors.length > 0
-    @num_records += 1
-    premium[:fee]*100
   end
 
   def initialize

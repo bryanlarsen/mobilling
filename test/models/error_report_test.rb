@@ -7,7 +7,7 @@ class ErrorReportTest < ActiveSupport::TestCase
     create(:service_code, code: 'E676B', fee: 7224, requires_diagnostic_code: false)
     create(:service_code, code: 'C999B', fee: 10000, requires_diagnostic_code: false)
     @user = create(:user, provider_number: 18468)
-    @claim_details = {
+    @claim = build(:claim,
       user: @user,
       status: :for_agent,
       number: 99999999,
@@ -16,16 +16,16 @@ class ErrorReportTest < ActiveSupport::TestCase
       patient_birthday: "1914-12-25",
       patient_sex: "F",
       number: 99999999,
-      daily_details:
-        [{code: 'P018B c-section', day: '2014-08-11', time_in: '09:00', time_out: '10:30', fee: 16856, units: 14},]
-    }
+      items:
+        [build(:item, day: '2014-08-11', time_in: '09:00', time_out: '10:30',
+               rows: [build(:row, code: 'P018B c-section', fee: 16856, units: 14)])])
     create(:error_report_rejection_condition, code: "V09", name: "Foo")
     create(:error_report_explanatory_code, code: "10", name: "Bar")
   end
 
   def submit
     interactor = GenerateSubmission.new
-    interactor.perform(@user, [build(:claim, @claim_details)])
+    interactor.perform(@user, [@claim])
     assert_equal interactor.errors, {}
     @submission = ::Submission.new(interactor.attributes)
     @submission.save!
@@ -42,7 +42,7 @@ class ErrorReportTest < ActiveSupport::TestCase
     assert_equal ra.created_at, DateTime.new(2009,5,19)
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'agent_attention'
-    assert_not @submission.claims[0].details['daily_details'][0]['message'].blank?
+    assert_not @submission.claims[0].items[0].rows[0].message.blank?
 
   end
 
@@ -56,7 +56,7 @@ class ErrorReportTest < ActiveSupport::TestCase
     assert_equal ra.user_id, @user.id
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'agent_attention'
-    assert_not @submission.claims[0].details['daily_details'][0]['message'].blank?
+    assert_not @submission.claims[0].items[0].rows[0].message.blank?
 
   end
 
@@ -70,7 +70,7 @@ class ErrorReportTest < ActiveSupport::TestCase
     assert_equal ra.user_id, @user.id
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'agent_attention'
-    assert @submission.claims[0].details['daily_details'][0]['message'].split("\n").length == 2
+    assert @submission.claims[0].items[0].rows[0].message.split("\n").length == 2
   end
 
 
@@ -84,12 +84,12 @@ class ErrorReportTest < ActiveSupport::TestCase
     assert_equal ra.user_id, @user.id
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'agent_attention'
-    assert @submission.claims[0].details['daily_details'][0]['message'].blank?
+    assert @submission.claims[0].items[0].rows[0].message.blank?
     assert_equal @submission.claims[0].comments.last.body, "- V09: Foo"
   end
 
   test 'er premium' do
-    @claim_details[:daily_details][0]['premiums'] = [ { code: 'E676B', fee: 14448, units: 12 } ]
+    @claim.items[0].rows.push(build(:row, code: 'E676B', fee: 14448, units: 12))
     submit
 
     ra = EdtFile.new_child(filename: 'EE018468.637',
@@ -99,8 +99,8 @@ class ErrorReportTest < ActiveSupport::TestCase
     assert_equal ra.user_id, @user.id
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'agent_attention'
-    assert_not @submission.claims[0].details['daily_details'][0]['message'].blank?
-    assert_not @submission.claims[0].details['daily_details'][0]['premiums'][0]['message'].blank?
+    assert_not @submission.claims[0].items[0].rows[0].message.blank?
+    assert_not @submission.claims[0].items[0].rows[1].message.blank?
 
   end
 end

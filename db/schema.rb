@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150515133313) do
+ActiveRecord::Schema.define(version: 20150929054013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,18 +34,66 @@ ActiveRecord::Schema.define(version: 20150515133313) do
     t.string   "edt_file_type"
   end
 
+  create_table "claim_items", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "claim_id",                null: false
+    t.date     "day",                     null: false
+    t.string   "diagnosis",  default: "", null: false
+    t.string   "time_in"
+    t.string   "time_out"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "claim_rows", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "item_id",                 null: false
+    t.string   "code",       default: "", null: false
+    t.integer  "fee"
+    t.integer  "paid"
+    t.integer  "units"
+    t.string   "message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "user_id"
     t.uuid     "photo_id"
-    t.integer  "status",        default: 0
-    t.json     "details",       default: {}
+    t.integer  "status",                     default: 0
+    t.json     "details",                    default: {}
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "number"
     t.uuid     "original_id"
-    t.integer  "submitted_fee", default: 0
-    t.integer  "paid_fee",      default: 0
-    t.integer  "total_fee",     default: 0
+    t.integer  "submitted_fee",              default: 0
+    t.integer  "paid_fee",                   default: 0
+    t.string   "specialty",                  default: "family_medicine", null: false
+    t.string   "patient_name",               default: "",                null: false
+    t.string   "patient_number",             default: "",                null: false
+    t.string   "patient_province",           default: "ON",              null: false
+    t.date     "patient_birthday"
+    t.string   "patient_sex",                default: "F",               null: false
+    t.string   "hospital"
+    t.string   "referring_physician"
+    t.boolean  "most_responsible_physician", default: false,             null: false
+    t.date     "admission_on"
+    t.date     "first_seen_on"
+    t.boolean  "first_seen_consult",         default: false,             null: false
+    t.date     "last_seen_on"
+    t.boolean  "last_seen_discharge",        default: false,             null: false
+    t.boolean  "icu_transfer",               default: false,             null: false
+    t.string   "consult_type"
+    t.string   "consult_time_in"
+    t.string   "consult_time_out"
+    t.string   "consult_premium_visit"
+    t.boolean  "consult_premium_first",      default: false,             null: false
+    t.boolean  "consult_premium_travel",     default: false,             null: false
+    t.string   "referring_laboratory"
+    t.string   "payment_program"
+    t.string   "payee"
+    t.boolean  "manual_review_indicator",    default: false,             null: false
+    t.string   "service_location"
+    t.string   "last_code_generation"
+    t.jsonb    "diagnoses",                  default: [],                null: false
   end
 
   add_index "claims", ["number", "user_id"], name: "index_claims_on_number_and_user_id", unique: true, using: :btree

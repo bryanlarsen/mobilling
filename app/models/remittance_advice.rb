@@ -61,8 +61,7 @@ class RemittanceAdvice < EdtFile
         else
           @memo[:claims] << current_claim
           @memo[:claim_records][current_claim.id] = record
-          @memo[:item_records][current_claim.id] ||= []
-          @memo[:premium_records][current_claim.id] ||= []
+          @memo[:item_records][current_claim.id] ||= {}
         end
       when record.kind_of?(ReconciliationClaimItemHeader)
         #puts 'claim item', record.fields
@@ -71,23 +70,14 @@ class RemittanceAdvice < EdtFile
           daily_index = nil
           premium_index = nil
           found = nil
-          current_claim.submitted_details['daily_details'].each_with_index do |daily, i|
+          current_claim.submitted_details['items'].each do |daily|
             if daily['Service Date'] == record['Service Date']
               if daily['Service Code'] == record['Service Code']
-                @memo[:item_records][current_claim.id][i] = record
+                @memo[:item_records][current_claim.id][daily[:row_id]] = record
                 if !record['Explanatory Code'].blank?
                   @memo[:claim_attn][current_claim.id] = true
                 end
                 found = true
-              else
-                daily['premiums'].each_with_index do |premium, j|
-                  @memo[:premium_records][current_claim.id][i] ||= []
-                  @memo[:premium_records][current_claim.id][i][j] = record
-                  if !record['Explanatory Code'].blank?
-                    @memo[:claim_attn][current_claim.id] = true
-                  end
-                  found = true
-                end
               end
             end
           end
@@ -133,24 +123,16 @@ class RemittanceAdvice < EdtFile
         claim.status = @memo[:claim_attn][claim.id] ? 'agent_attention' : 'done'
         claim.files << self
         paid = 0
-        claim.details['daily_details'].each_with_index do |daily, i|
-          record = @memo[:item_records][claim.id][i]
-          if record
-            paid += record['Amount Paid']
-            daily['paid'] = record['Amount Paid']
-            if !record['Explanatory Code'].blank?
-              daily['message'] = "#{record['Explanatory Code']}: #{RemittanceAdviceCode.find_by(code: record['Explanatory Code']).name}"
-            end
-          end
-
-          (daily['premiums'] || []).each_with_index do |premium, j|
-            record = @memo[:premium_records][claim.id][i][j]
+        claim.items.each do |item|
+          item.rows.each do |row|
+            record = @memo[:item_records][claim.id][row.id]
             if record
               paid += record['Amount Paid']
-              premium['paid'] = record['Amount Paid']
+              row['paid'] = record['Amount Paid']
               if !record['Explanatory Code'].blank?
-                premium['message'] = "#{record['Explanatory Code']}: #{RemittanceAdviceCode.find_by(code: record['Explanatory Code']).name}"
+                row['message'] = "#{record['Explanatory Code']}: #{RemittanceAdviceCode.find_by(code: record['Explanatory Code']).name}"
               end
+              row.save!
             end
           end
         end

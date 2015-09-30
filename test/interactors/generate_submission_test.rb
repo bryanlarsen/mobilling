@@ -21,9 +21,10 @@ class GenerateSubmission::SubmissionTest < ActiveSupport::TestCase
       patient_number: "9876543217HO",
       patient_birthday: "1914-12-25",
       patient_sex: "F",
-      daily_details:
-        [{code: 'P018B c-section', day: '2014-8-11', time_in: '09:00', time_out: '10:30', fee: 16856, units: 14},]
     }
+
+    @item_details = {}
+    @row_details = {}
   end
 
   def check(claims, contents)
@@ -45,7 +46,9 @@ EOS
   end
 
   test 'c-section assist' do
-    check [build(:claim, @claim_details)], <<EOS
+    dets = @claim_details.clone
+    dets['items'] = [build(:item, day: '2014-8-11', time_in: '09:00', time_out: '10:30', rows: [build(:row, code: 'P018B c-section', fee: 16856, units: 14)])]
+    check [build(:claim, dets)], <<EOS
 HEBV03Q201408100000000000246801846999                                          \r
 HEH9876543217HO1914122599999999HCPP      1681                                  \r
 HETP018B  0168561420140811                                                     \r
@@ -55,12 +58,7 @@ EOS
 
   test 'with overtime' do
     dets = @claim_details.clone
-    dets[:daily_details][0][:day] = '2014-8-10'
-    dets[:daily_details][0][:time_in] = '03:00'
-    dets[:daily_details][0][:time_out] = '04:30'
-    dets[:daily_details][0][:premiums] = [ { code: 'E401B', fee: 12642, units: 14 } ,
-                                           { code: 'C999B late call-in', fee: 10000, units: 1 } ]
-
+    dets['items'] = [build(:item, day: '2014-8-10', time_in: '03:00', time_out: '04:30', rows: [build(:row, code: 'P018B c-section', fee: 16856, units: 14), build(:row, code: 'E401B', fee: 12642, units: 14), build(:row, code: 'C999B late call-in', fee: 10000, units: 1)])]
     check [build(:claim, dets)], <<EOS
 HEBV03Q201408100000000000246801846999                                          \r
 HEH9876543217HO1914122599999999HCPP      1681                                  \r
@@ -76,6 +74,7 @@ EOS
     dets = @claim_details.clone
     dets[:patient_province] = 'NS'
     dets[:patient_number] = '1234567890'
+    dets['items'] = [build(:item, day: '2014-8-11', time_in: '09:00', time_out: '10:30', rows: [build(:row, code: 'P018B c-section', fee: 16856, units: 14)])]
     check [build(:claim, dets)], <<EOS
 HEBV03Q201408100000000000246801846999                                          \r
 HEH            1914122599999999RMBP      1681                                  \r
@@ -93,14 +92,7 @@ EOS
     dets[:patient_birthday] = "1957-04-25"
     dets[:number] = 22853601
     dets[:admission_on] = "2015-01-27"
-    dets[:daily_details][0] = {day: '2015-01-27',
-      code: 'A933A',
-      diagnosis: '799',
-      fee: 7990,
-      units: 1,
-      premiums: [{code: 'E082A', fee: 2397, units: 1},
-                 {code: 'C994A', fee: 6000, units: 1},
-                 {code: 'C962A', fee: 3640, units: 1}]}
+    dets['items'] = [build(:item, day: '2015-01-27', diagnosis: '799', rows: [build(:row, code: 'A933A', fee: 7990, units: 1), build(:row, code: 'E082A', fee: 2397, units: 1), build(:row, code: 'C994A', fee: 6000, units: 1), build(:row, code: 'C962A', fee: 3640, units: 1)])]
     check [build(:claim, dets)], <<EOS
 HEBV03D201408100000000000000002357500                                          \r
 HEH9876543217  1957042522853601HCPP      180120150127                          \r

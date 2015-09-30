@@ -18,9 +18,10 @@ class SubmissionTest < ActiveSupport::TestCase
       status: :ready,
       number: 99999999,
       patient_name: 'Santina Claus, ON 9876543217HO, 1914-12-25, F',
-      daily_details:
-        [{code: 'P018B c-section', day: '2014-8-11', time_in: '09:00', time_out: '10:30', fee: 16856, units: 14},]
-    ) ]
+      items: [
+        build(:item, day: '2014-8-11', time_in: '09:00', time_out: '10:30', rows: [
+          build(:row, code: 'P018B c-section', fee: 16856, units: 14)
+    ])])]
 
     interactor.perform(@user, claims, DateTime.new(2014,8,10))
     assert interactor.errors.length == 0
@@ -50,15 +51,15 @@ EOS
     s.process!
 
     assert_equal s.user_id, @user.id
-    assert_equal s.claims[0].details['patient_number'], '9876543217HO'
-    assert_equal s.claims[0].details['payee'], 'P'
-    assert_equal s.claims[0].details['payment_program'], 'HCP'
-    assert_equal s.claims[0].details['hospital'], '1681'
-    assert_equal s.claims[0].details['service_location'], ''
-    assert_equal s.claims[0].details['manual_review_indicator'], ''
-    assert s.claims[0].details['daily_details'][0]['code'] == 'P018B'
-    assert s.claims[0].details['daily_details'][0]['day'] == '2014-08-11'
-    assert s.claims[0].details['daily_details'][0]['fee'] == 16856
+    assert_equal s.claims[0].patient_number, '9876543217HO'
+    assert_equal s.claims[0].payee, 'P'
+    assert_equal s.claims[0].payment_program, 'HCP'
+    assert_equal s.claims[0].hospital, '1681'
+    assert_equal s.claims[0].service_location, ''
+    assert_equal s.claims[0].manual_review_indicator, false
+    assert_equal s.claims[0].items[0].rows[0].code, 'P018B'
+    assert_equal s.claims[0].items[0].day, Date.new(2014,8,11)
+    assert_equal s.claims[0].items[0].rows[0].fee, 16856
     assert s.batch_id == '201408100000'
     assert_equal s.claims[0].submitted_fee, 16856
     assert_equal s.submitted_fee, 16856
@@ -80,7 +81,7 @@ HEE0001000000003                                                               \
 EOS
                             user_id: @user.id)
     s.process!
-    assert s.claims[0].details['daily_details'].length == 3
+    assert s.claims[0].items.length == 3
     assert s.submitted_fee == 39498
   end
 
@@ -103,8 +104,7 @@ EOS
 
   test 'filename' do
     interactor = GenerateSubmission.new
-    interactor.perform(@user, [build(:claim, daily_details: [{code: 'P018A', day: '2014-8-11', fee: 500, units: 1},]
- )], DateTime.new(2014,8,10))
+    interactor.perform(@user, [build(:claim, items: [build(:item, day: Date.new(2014,8,10), rows: [build(:row, fee: 500, units: 1, code: 'P018B')])])], DateTime.new(2014,8,10))
     s = Submission.new(interactor.attributes)
     assert s.filename == 'HH018469.001', s.filename
     assert s.batch_id == '201408100000'

@@ -29,6 +29,8 @@ class Claim < ActiveRecord::Base
   belongs_to :user, inverse_of: :claims
   belongs_to :photo, inverse_of: :claim
   has_many :comments, inverse_of: :claim
+  has_many :items, inverse_of: :claim
+  has_many :rows, through: :items
 
   has_many :files, through: :claim_files, class_name: "EdtFile", source: :edt_file, inverse_of: :claims
   has_many :claim_files, inverse_of: :claim
@@ -36,56 +38,139 @@ class Claim < ActiveRecord::Base
   belongs_to :original, class_name: "Claim", inverse_of: :reclamation
   has_one :reclamation, class_name: "Claim", foreign_key: :original_id, inverse_of: :original
 
+  validation_scope :warnings do |s|
+    s.validate :validate_record
+    s.validates :hospital, :patient_number, :patient_province, :patient_birthday, presence: true
+    s.validates :patient_province, inclusion: {in: %w[ON AB BC MB NL NB NT NS PE SK NU YT]}
+    s.validates :patient_sex, inclusion: {in: %w[M F]}, if: -> { patient_province != "ON" }
+    s.validates :payment_program, inclusion: {in: ['HCP', 'WCB', nil]}, if: -> { patient_province == "ON" }
+    s.validates :payment_program, inclusion: {in: ['RMB', 'WCB', nil]}, if: -> { patient_province != "ON" }
+    s.validates :patient_name, presence: true, if: -> { patient_province != "ON" }
+    s.validates :hospital, format: {with: /\A\d{4}/}
+    s.validates :consult_time_in, :consult_time_out, time: true, format: {with: /\A\d{2}:\d{2}\Z/, type: {is_a: String}}, allow_nil: true
+    s.validates :items, length: {minimum: 1}, associated: true
+    s.validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { not simplified? }
+    s.validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false, nil]}, if: -> { not simplified? }
+    s.validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, if: -> { not simplified? }
+    s.validate :validate_patient_number
+    s.validate :validate_seen_on, if: -> { not simplified? }
+  end
+  validates_associated :items
+  validates :photo_id, uuid: true, allow_nil: true
+  validates :user, presence: true
+  validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, allow_nil: true
+  validates :consult_premium_visit, inclusion: {in: Claim::CONSULT_PREMIUM_VISITS}, allow_nil: true
+  validates :specialty, inclusion: {in: User::SPECIALTIES}
+
+  # FIXME
+  # before_validation do
+  #   if details_changed?
+  #     self.total_fee = details['daily_details'].reduce(0) do |sum, dets|
+  #       sum += (dets['fee'] || 0) + (dets['premiums'] || []).reduce(0) do |sum2, prem|
+  #         sum2 += (prem['fee'] || 0)
+  #       end
+  #     end
+  #   end
+  # end
+
   before_validation do
-    if details_changed?
-      self.total_fee = details['daily_details'].reduce(0) do |sum, dets|
-        sum += (dets['fee'] || 0) + (dets['premiums'] || []).reduce(0) do |sum2, prem|
-          sum2 += (prem['fee'] || 0)
-        end
+    if number.nil?
+      self.number = user.claims.maximum(:number).to_i.succ
+    end
+  end
+
+  def validate_patient_number
+    if patient_province == 'ON' && patient_number
+      if !patient_number.match(/\A\d{10}[a-zA-z]{0,2}\Z/)
+        warnings.add(:patient_number, "must be 10 digits + 0-2 characters")
+        return false
       end
+      patient_int = patient_number[0..9].to_i
+      checksum=(1..9).inject(0) {|sum, i|
+        d = (patient_int%(10**(i+1))) / 10**i
+        if i%2==1
+          (d >= 5 ? sum + 1 + d*2%10 : sum + d*2)
+        else
+          sum + d
+        end
+      }
+      warnings.add(:patient_number, "checksum error") if (checksum+patient_int)%10 != 0
+    end
+  end
+
+  def validate_seen_on
+    if first_seen_on && admission_on && first_seen_on < admission_on
+      warnings.add(:first_seen_on, "must be after admission date")
+      warnings.add(:admission_on, "must be before first seen date")
+    end
+    if last_seen_on && first_seen_on && last_seen_on < first_seen_on
+      warnings.add(:first_seen_on, "must be before last seen date")
+      warnings.add(:last_seen_on, "must be after first seen date")
+    end
+  end
+
+  def simplified?
+    %w[anesthesiologist surgical_assist psychotherapist].include?(specialty)
+  end
+
+  def self.in_minutes(s)
+    split = s.split(':')
+    split[0].to_i * 60 + split[1].to_i
+  end
+
+  def consult_time
+    return 0 if consult_time_out.nil? || consult_time_in.nil?
+    delta = self.class.in_minutes(consult_time_out) - self.class.in_minutes(consult_time_in)
+    delta = delta + 24*60 if delta < 0
+    delta
+  end
+
+  def validate_consult_time
+    limit = {
+      'comprehensive_er' => 75,
+      'comprehensive_non_er' => 75,
+      'special_er' => 50,
+      'special_no_er' => 50
+    }[consult_type]
+    if limit && consult_time < limit
+      warnings.add(:consult_time_out, "must be at least #{limit} minutes")
     end
   end
 
   def from_record(record)
-    details_will_change!
     if record['Health Number'] != 0
-      details['patient_number'] = record['Health Number'].to_s+record['Version Code']
-      details['patient_birthday'] = record["Patient's Birthdate"]
-      details['patient_province'] = "ON"
+      self.patient_number = record['Health Number'].to_s+record['Version Code']
+      self.patient_birthday = record["Patient's Birthdate"]
+      self.patient_province = "ON"
     else
-      details['patient_birthday'] = record["Patient's Birthdate"]
+      self.patient_birthday = record["Patient's Birthdate"]
       # the rest will be on the RMB record
     end
-    details['hospital'] = record['Master Number']
-    details['payment_program'] = record['Payment Program']
-    details['payee'] = record['Payee']
-    details['referring_physician'] = record['Referring Health Care Provider Number']
-    details['service_location'] = record['Service Location Indicator']
-    details['manual_review_indicator'] = record['Manual Review Indicator']
-    details['referring_laboratory'] = record['Referring Laboratory License Number']
-    details['admission_on'] = record["In-Patient Admission Date"].strftime("%Y-%m-%d") if record["In-Patient Admission Date"]
+    self.hospital = record['Master Number']
+    self.payment_program = record['Payment Program']
+    self.payee = record['Payee']
+    self.referring_physician = record['Referring Health Care Provider Number']
+    self.service_location = record['Service Location Indicator']
+    self.manual_review_indicator = record['Manual Review Indicator'] == 'Y'
+    self.referring_laboratory = record['Referring Laboratory License Number']
+    self.admission_on = record["In-Patient Admission Date"].strftime("%Y-%m-%d") if record["In-Patient Admission Date"]
     self.number = record["Accounting Number"].to_i
-    details['daily_details'] = []
     self.status = 'file_created'
     self
   end
 
   def process_rmb_record(record)
-    details_will_change!
-    details['patient_name'] = record["Patient's First Name"].titleize + ' ' + record["Patient's Last Name"].titleize
-    details['patient_number'] = record['Registration Number']
-    details['patient_sex'] = record["Patient's Sex"].to_i == 1 ? 'M' : 'F'
-    details['patient_province'] = record["Province Code"]
+    self.patient_name = record["Patient's First Name"].titleize + ' ' + record["Patient's Last Name"].titleize
+    self.patient_number = record['Registration Number']
+    self.patient_sex = record["Patient's Sex"].to_i == 1 ? 'M' : 'F'
+    self.patient_province = record["Province Code"]
   end
 
   def process_item(record)
-    details_will_change!
-    details['daily_details'] << {
-      "code" => record['Service Code'],
-      "fee" => record['Fee Submitted'],
-      "units" => record['Number of Services'],
-      "day" => record['Service Date'].strftime("%Y-%m-%d"),
-    }
+    item = items.create("day" => record['Service Date'].strftime("%Y-%m-%d"))
+    item.rows.create("code" => record['Service Code'],
+                     "fee" => record['Fee Submitted'],
+                     "units" => record['Number of Services'])
     self.submitted_fee += record['Fee Submitted']
   end
 
@@ -103,7 +188,7 @@ class Claim < ActiveRecord::Base
   end
 
   def service_date
-    (details['daily_details'].first || {"day": nil})["day"] || details["first_seen_on"]
+    (items.first && items.first.day) || first_seen_on
   end
 
   # we get information like total fee from the batch files rather than
@@ -113,11 +198,11 @@ class Claim < ActiveRecord::Base
   def submitted_details
     return @submitted_details if @submitted_details
 
-    @submitted_details = { 'daily_details' => [] }
+    @submitted_details = { 'items' => [] }
     if submission
       records = submission.claim_records(self)
     else
-      return { 'daily_details' => [] }
+      return { 'items' => [] }
     end
 
     records.each do |record|
@@ -126,17 +211,11 @@ class Claim < ActiveRecord::Base
       elsif record.kind_of?(ItemRecord)
         found = false
         items.each_with_index do |item, i|
-          if item[:day] == record['Service Date']
-            if item[:code] == record['Service Code']
-              @submitted_details['daily_details'][i] = record.fields
-              @submitted_details['daily_details'][i]['premiums'] = []
-              found = true
-            else
-              item[:premiums].each_with_index do |premium, j|
-                if premium[:code] == record['Service Code']
-                  @submitted_details['daily_details'][i]['premiums'][j] = record.fields
-                  found = true
-                end
+          if item.day == record['Service Date']
+            item.rows.each_with_index do |row, j|
+              if row.code_normalized == record['Service Code']
+                @submitted_details['items'].push(record.fields.merge(item_id: item.id, row_id: row.id))
+                found = true
               end
             end
           end
@@ -161,36 +240,36 @@ class Claim < ActiveRecord::Base
   end
 
   # daily_details, normalized, and with a better name
-  def items
-    details['daily_details'].map do |daily|
-      if daily['code']
-        code = daily['code'][0..4].upcase
-        code[4]='A' if !code[4] || !'ABC'.include?(code[4])
-      else
-        code = 'Z999A'
-      end
-      { code: code,
-        day: Date.strptime(daily['day']),
-        fee: BigDecimal(daily['fee'] || 0) / BigDecimal(100),
-        units: daily['units'],
-        message: daily['message'],
-        diagnosis: daily['diagnosis'] && daily['diagnosis'].strip.split(' ').last,
-        premiums: (daily['premiums'] || []).map do |premium|
-          if premium['code']
-            code = premium['code'][0..4].upcase
-            code[4]='A' if !code[4] || !'ABC'.include?(code[4])
-          else
-            code = 'Z999A'
-          end
-          { code: code,
-            fee: BigDecimal(premium['fee'] || 0) / BigDecimal(100),
-            units: premium['units'],
-            message: premium['message'],
-          }
-        end
-      }
-    end
-  end
+  # def items
+  #   details['daily_details'].map do |daily|
+  #     if daily['code']
+  #       code = daily['code'][0..4].upcase
+  #       code[4]='A' if !code[4] || !'ABC'.include?(code[4])
+  #     else
+  #       code = 'Z999A'
+  #     end
+  #     { code: code,
+  #       day: Date.strptime(daily['day']),
+  #       fee: BigDecimal(daily['fee'] || 0) / BigDecimal(100),
+  #       units: daily['units'],
+  #       message: daily['message'],
+  #       diagnosis: daily['diagnosis'] && daily['diagnosis'].strip.split(' ').last,
+  #       premiums: (daily['premiums'] || []).map do |premium|
+  #         if premium['code']
+  #           code = premium['code'][0..4].upcase
+  #           code[4]='A' if !code[4] || !'ABC'.include?(code[4])
+  #         else
+  #           code = 'Z999A'
+  #         end
+  #         { code: code,
+  #           fee: BigDecimal(premium['fee'] || 0) / BigDecimal(100),
+  #           units: premium['units'],
+  #           message: premium['message'],
+  #         }
+  #       end
+  #     }
+  #   end
+  # end
 
   def reclaim!
     claim = dup
@@ -203,15 +282,90 @@ class Claim < ActiveRecord::Base
     claim.paid_fee = 0
     self.status = 'reclaimed'
     self.save!
-    details['daily_details'].each do |item|
-      item.delete('paid')
-      item.delete('message')
-      (item['premiums'] || []).each do |premium|
-        premium.delete('paid')
-        premium.delete('message')
+    items.each do |item|
+      new_item = item.dup
+      claim.items << new_item
+      item.rows.each do |row|
+        new_row = row.dup
+        new_row.paid = 0
+        new_row.message = nil
+        new_item.rows << new_row
       end
     end
     claim.save!
     claim
+  end
+
+  def names
+    return [] unless patient_name
+    if patient_name.match(/,/)
+      patient_name.split(',', 2).map(&:strip).reverse
+    else
+      patient_name.split(' ', 2).map(&:strip)
+    end
+  end
+
+  def to_header_record
+    province = (patient_province || 'ON').upcase
+
+    r = ClaimHeaderRecord.new
+
+    referring_provider = referring_physician
+    unless referring_provider.blank?
+      referring_provider = referring_provider.to_s.split(' ')[0]
+      if referring_provider !='0' && (referring_provider.length < 5 || referring_provider.length > 6)
+        r.errors << [:referring_physician, 'invalid']
+      end
+    end
+
+    pp = payment_program == 'WCB' ? 'WCB' : (province == 'ON' ? 'HCP' : 'RMB')
+
+    if (pp != 'RMB')
+      r.insert('Health Number', :patient_number, patient_number[0..9])
+      r.insert('Version Code', :patient_number, patient_number[10..11].try(:upcase))
+    end
+    r.insert("Patient's Birthdate", :patient_birthday, patient_birthday)
+    r.insert('Accounting Number', :number, number)
+    r.insert('Payment Program', :payment_program, pp)
+    r.insert('Payee', :payee, payee || 'P')
+    r.insert('Referring Health Care Provider Number', :referring_physician, referring_provider) unless referring_provider.blank?
+    r.insert('Master Number', :hospital, hospital.split(' ')[0])
+    r.insert('In-Patient Admission Date', :admission_on, admission_on) if admission_on
+    r.insert('Referring Laboratory License Number', :referring_laboratory, referring_laboratory) if referring_laboratory
+    r.insert('Manual Review Indicator', :manual_review_indicator, manual_review_indicator ? 'Y' : '')
+    r.insert('Service Location Indicator', :service_location, service_location) if service_location
+    r
+  end
+
+  def to_rmb_record
+    r=ClaimHeaderRMBRecord.new
+    r.insert("Registration Number", :patient_number, patient_number)
+    province = (patient_province || 'ON').upcase
+    if names.length < 2
+      r.errors << [:patient_name, 'must contain first and last name']
+    else
+      r.insert("Patient's First Name", :patient_name, names[0])
+      r.insert("Patient's Last Name", :patient_name, names[1])
+    end
+    r.insert("Patient's Sex", :patient_sex, patient_sex == 'F' ? 2 : 1)
+    r.insert("Province Code",:patient_province, (patient_province || 'ON').upcase)
+    r
+  end
+
+  def validate_record
+    to_header_record.errors.each do |attr, err|
+      warnings.add(attr, err.to_s)
+    end
+    to_rmb_record.errors.each do |attr, err|
+      warnings.add(attr, err.to_s)
+    end
+  end
+
+  def any_warnings?
+    has_warnings? || items.map(&:any_warnings?).any?
+  end
+
+  def total_fee
+    rows.sum(:fee)
   end
 end
