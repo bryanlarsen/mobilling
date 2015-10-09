@@ -1,9 +1,5 @@
-var Notice = React.createClass({
-  mixins: [
-    Fynx.connect(globalStore, 'globalStore'),
-  ],
-
-  getInitialState: function() {
+export default React.createClass({
+/*  getInitialState: function() {
     notice: undefined
   },
 
@@ -14,8 +10,10 @@ var Notice = React.createClass({
   componentWillUnmount: function() {
     if (this.state.notice) globalActions.clearNotice(this.state.notice);
   },
-
+*/
   render: function() {
+    console.log('Notice', this.props);
+    return false;
     if (this.state.notice) {
       return (
         <div className="container">

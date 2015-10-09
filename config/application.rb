@@ -11,7 +11,7 @@ module MoBilling
     config.active_record.raise_in_transactional_callbacks = true # surpress carrierwave deprecation warnings
     config.active_support.test_order = :sorted
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
-    config.react.addons = true
+#    config.react.addons = true
 #    config.react.jsx_transform_options = {
 #      harmony: true,
 #      strip_types: true, # for removing Flow type annotations

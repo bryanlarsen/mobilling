@@ -2,27 +2,24 @@
 <html>
 <head>
 
-<title>BillOHIP</title>
-<%= stylesheet_link_tag "v3", media: "all" %>
-<%= csrf_meta_tags %>
-<meta name="viewport" content="width=device-width, user-scalable=0" />
-<script>
-  window.ENV = {
-    API_ROOT: "/",
-    CORDOVA: false
-  };
-</script>
-<%= javascript_include_tag "static" %>
-<%= javascript_include_tag "react-bundle" %>
-<%= javascript_include_tag "v3" %>
-<% if controller.action_name != 'login' %>
-<script>
-  userActions.init(<%= current_user.as_json(include_doctors: true).to_json.html_safe %>);
-</script>
-<% end %>
+  <title>BillOHIP</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, user-scalable=0" />
+  <script>
+    window.ENV = {
+      API_ROOT: "/",
+      CORDOVA: false
+    };
+  </script>
+  <%= javascript_include_tag 'v3' %>
+  <!-- % if controller.action_name != 'login' %>
+  <script>
+    userActions.init(<%= current_user.as_json(include_doctors: true).to_json.html_safe %>);
+  </script>
+  < % end % -->
 </head>
 <body>
-  <div id="replaceme">
-</div>
+  <%= react_component('App', {}, {generator_function: true, prerender: false}) %>
 </body>
 </html>

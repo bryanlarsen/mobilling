@@ -1,7 +1,11 @@
-var LoginPage = React.createClass({
+import React from 'react';
+import ReactRouter, { Link } from 'react-router';
+
+import EmptyHeader from './EmptyHeader';
+
+export default React.createClass({
   mixins: [
     ReactRouter.Navigation,
-    Fynx.connect(globalStore, 'globalStore')
   ],
 
   getInitialState: function() {
@@ -36,6 +40,7 @@ var LoginPage = React.createClass({
   },
 
   render: function() {
+    console.log('LoginPage', this.props);
     return (
       <div className="body">
         <EmptyHeader/>
