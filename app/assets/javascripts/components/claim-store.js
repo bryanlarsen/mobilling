@@ -93,6 +93,7 @@ var updateItem = function(item) {
 // TODO: updateItem
 // TODO: check *all* attemptSave
 
+/*
 claimActions.updateFields.listen(function(data) {
   console.log('updateFields', data);
   var changed = false;
@@ -138,6 +139,7 @@ claimActions.updateFields.listen(function(data) {
     });
   }
 });
+*/
 
 // right now this is only used for validations, so there is no server
   // sync code
@@ -247,6 +249,11 @@ var processClaimResponse = function(data) {
   });
 };
 
+var processItemResponse = function(data) {
+  claimStore().setIn([data.id, data.index, 'warnings'], Immutable.fromJS(data.response.warnings));
+  claimStore().setIn([data.id, data.index, 'errors'], Immutable.fromJS(data.response.errors));
+};
+
 claimActions.init.listen(function(data) {
   console.log('init', data);
   _.each(data.diagnoses, function(diagnosis, i) {
@@ -314,6 +321,7 @@ claimActions.newItem.listen(function(data) {
   var newList = claimStore().getIn([data.id, 'items']).splice(data.index + 1, 0, newItem);
   claimStore(claimStore().setIn([data.id, 'items'], newList.toList()));
 
+  globalActions.startBusy();
   if (!data.dontSave) {
     $.ajax({
       url: window.ENV.API_ROOT+'v1/claims/'+data.id+'/items',
@@ -322,11 +330,14 @@ claimActions.newItem.listen(function(data) {
       dataType: 'json',
       processData: false,
       type: 'POST',
-      success: function(data) {
-        throw new Error('FIXME');
+      success: function(response) {
+        processItemResponse({id: data.id, index: data.index + 1, response: response});
+        globalActions.endBusy();
       },
       error: function(xhr, status, err) {
-        throw new Error('FIXME');
+        globalActions.endBusy();
+        if (xhr.status === 403) globalActions.signin();
+        else globalActions.unrecoverableError();
       }
     });
   }
@@ -431,7 +442,7 @@ exports.claimActionsFor = function(id) {
 
   actionsFor[id] = Fynx.createActions([
     'init',
-    'updateFields',
+    'patch',
     'deleteFields',
     'newDiagnosis',
     'removeDiagnosis',
@@ -445,8 +456,8 @@ exports.claimActionsFor = function(id) {
     claimActions.init(data);
   });
 
-  actionsFor[id].updateFields.listen(function(data) {
-    console.log('claim updateFields', data);
+  actionsFor[id].patch.listen(function(data) {
+    console.log('claim patch', data);
     var newData = _.map(data, function(tuple) {
       return [[id].concat(tuple[0]), tuple[1]];
     });
@@ -514,6 +525,7 @@ exports.itemActionsFor = function(id, i) {
 
   itemActions[id][i].updateFields.listen(function(data) {
     console.log('item updateFields', data);
+    throw new Error('foo');
     var newData = [];
     var toDelete = []
     _.forEach(data, function(tuple) {

@@ -28,10 +28,6 @@ class V1::ClaimsController < V1::BaseController
     claim ||= policy_scope(Claim).includes(:comments).includes(:photo).includes(:rows).find(params[:id])
     authorize claim
     render json: claim.as_json, status: status
-    return
-    form ||= ClaimForm.new(policy_scope(Claim).includes(:comments).includes(:photo).find(params[:id]), current_user: current_user)
-    authorize form.claim if form.claim
-    render json: form.as_json(include_comments: true, include_warnings: true, include_photo: true, include_submission: true, include_total: true, include_files: true, include_consult_counts: true), status: (status ? status : 200)
   end
 
   # yes, I tried doing this recursively, but the blocks are executed
@@ -64,7 +60,7 @@ class V1::ClaimsController < V1::BaseController
   param_group :claim
 
   def create
-    authorize :claim
+    authorize :claim, :create?
 
     last_claim = policy_scope(Claim).order(:updated_at).last
     attrs = claim_params
@@ -95,7 +91,8 @@ class V1::ClaimsController < V1::BaseController
     attrs['admission_on'] ||= Date.today.to_s
     attrs['first_seen_on'] ||= Date.today.to_s
     attrs['last_seen_on'] ||= Date.today.to_s
-    Claim.new(attrs)
+    attrs['user'] = current_user
+    @claim = Claim.new(attrs)
     if @claim.save
       show @claim, 200
     else
@@ -121,7 +118,7 @@ class V1::ClaimsController < V1::BaseController
 
   def destroy
     @claim = Claim.find(params[:id])
-    authorize @claim
+    authorize @claim, :destroy?
     @claim.destroy
     show @claim
   end

@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 20150929054013) do
     t.datetime "updated_at"
   end
 
+  add_index "claim_items", ["claim_id"], name: "index_claim_items_on_claim_id", using: :btree
+
   create_table "claim_rows", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "item_id",                 null: false
     t.string   "code",       default: "", null: false
@@ -54,6 +56,9 @@ ActiveRecord::Schema.define(version: 20150929054013) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "claim_rows", ["item_id", "fee"], name: "index_claim_rows_on_item_id_and_fee", using: :btree
+  add_index "claim_rows", ["item_id"], name: "index_claim_rows_on_item_id", using: :btree
 
   create_table "claims", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "user_id"

@@ -7,3 +7,5 @@ add comment API
 consult_premium_visit_count, consult_premium_first_count, consult_premium_travel_count helpers
 
 processClaimResponse neutered
+
+either double check or remove all forceSave && dontSave
