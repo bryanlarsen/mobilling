@@ -20,4 +20,15 @@ class Claim::Item < ActiveRecord::Base
       end
     end
   end
+
+  def as_json
+    attributes.tap do |response|
+      response['rows'] = rows.map(&:as_json)
+
+      valid?
+      response['errors'] = errors.as_json
+      has_warnings?
+      response['warnings'] = warnings.as_json
+    end
+  end
 end

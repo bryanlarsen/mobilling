@@ -1,4 +1,4 @@
-var ClaimPremium = React.createClass({
+var ClaimRow = React.createClass({
   mixins: [
     Fynx.connect(globalStore, 'globalStore'),
   ],
@@ -30,7 +30,7 @@ var ClaimPremium = React.createClass({
   render: function() {
     return (
       <div className="form-group row">
-        <div className="control-label col-sm-4 hidden-xs">Premium</div>
+        <div className="control-label col-sm-4 hidden-xs">Code</div>
         <div className="col-sm-8 col-md-4">
           <ClaimInputWrapper name='code' {...this.props} >
             <div className="input-group">

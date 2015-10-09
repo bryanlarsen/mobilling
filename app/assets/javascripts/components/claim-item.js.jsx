@@ -29,25 +29,19 @@ var ClaimItemSummary = React.createClass({
     var needs_diagnosis = true;
     var feeGenerator = this.state.globalStore.get('feeGenerator');
     if (feeGenerator) {
-      needs_diagnosis = feeGenerator.needsDiagnosis(this.props.store.get('code'));
+      needs_diagnosis = feeGenerator.needsDiagnosis(this.props.store.getIn(['rows', 0, 'code']));
     }
     return (
       <div className="well col-xs-12" onClick={this.props.onClick}>
-        <div key='code'>
-          {!this.props.silent && <span>{this.props.store.get('units')}x </span>}
-          <span>{this.props.store.get('code')}</span>
-          <span className="pull-right">{dollars(this.props.store.get('fee'))}</span>
-          {this.props.store.get('paid') && <span className="pull-right">{dollars(this.props.store.get('paid'))+'/'}</span>}
-        </div>
         <div key='code-message'>{this.props.store.get('message')}</div>
-        { this.props.store.get('premiums').map(function(premium, i) {
+        { this.props.store.get('rows').map(function(row, i) {
           return (
-            <div key={'premium-'+i}>
-              {!this.props.silent && <span>{premium.get('units')}x </span>}
-              <span>{premium.get('code')}</span>
-              <span className="pull-right">{dollars(premium.get('fee'))}</span>
-              {premium.get('paid') && <span className="pull-right">{dollars(premium.get('paid'))+'/'}</span>}
-              <div>{premium.get('message')}</div>
+            <div key={'row-'+i}>
+              {!this.props.silent && <span>{row.get('units')}x </span>}
+              <span>{row.get('code')}</span>
+              <span className="pull-right">{dollars(row.get('fee'))}</span>
+              {row.get('paid') && <span className="pull-right">{dollars(row.get('paid'))+'/'}</span>}
+              <div>{row.get('message')}</div>
             </div>
           );
         }, this).toJS()
@@ -69,7 +63,7 @@ var NewItemButton = React.createClass({
       uuid: uuid()
     };
     if (this.props.index !== undefined) {
-      var item = this.props.store.getIn(['daily_details', this.props.index]);
+      var item = this.props.store.getIn(['items', this.props.index]);
       template.day = item.get('day');
       template.time_in = item.get('time_in');
       template.time_out = item.get('time_out');
@@ -166,19 +160,19 @@ var ClaimItem = React.createClass({
   },
 
   render: function() {
-    var premiums = this.props.store.get('premiums') ? this.props.store.get('premiums').map(function(premium, i) {
-      return React.createElement(ClaimPremium, _.extend({
-        store: this.props.store.get('premiums').get(i),
+    var rows = this.props.store.get('rows') ? this.props.store.get('rows').map(function(item, i) {
+      return React.createElement(ClaimRow, _.extend({
+        store: this.props.store.get('rows').get(i),
         actions: this.actions(i),
-        key: premium.get('uuid'),
+        key: item.get('uuid'),
         silent: this.props.silent,
-      }, premium));
+      }, item));
     }, this).toJS() : null;
 
     var feeGenerator = this.state.globalStore.get('feeGenerator');
     var needs_diagnosis = true;
     if (feeGenerator) {
-      needs_diagnosis = feeGenerator.needsDiagnosis(this.props.store.get('code'));
+      needs_diagnosis = feeGenerator.needsDiagnosis(this.props.store.getIn(['rows', 0, 'code']));
     }
 
     return (
@@ -191,34 +185,12 @@ var ClaimItem = React.createClass({
       </div>
 
 
-      <div className="form-group row">
-        <div className="control-label col-sm-4 hidden-xs">Code</div>
-        <div className="col-sm-8 col-md-4">
-          <ClaimInputWrapper name='code' {...this.props} >
-            <div className="input-group">
-              <Typeahead name='code' engine={serviceCodesEngine} onChange={this.codeChanged} value={this.props.store.get('code')}/>
-              <span className="input-group-btn">
-                <button type="button" className="btn btn-danger" onClick={this.props.actions.removeItem}>
-                  <i className="fa fa-close"/>
-                </button>
-              </span>
-            </div>
-          </ClaimInputWrapper>
-        </div>
-        {!this.props.silent && <div className="col-md-2 col-md-offset-0 col-xs-4 col-xs-offset-4">
-          <ClaimInput name='units' store={this.props.store} onChange={this.unitsChanged} />
-        </div>}
-        {!this.props.silent && <div className="col-md-2 col-xs-4">
-          <ClaimInput name='fee' value={dollars(this.props.store.get('fee'))} store={this.props.store} onChange={this.feeChanged} />
-        </div>}
-      </div>
-
-      { premiums }
+      { rows }
 
       <div className="form-group row">
         <div className="col-sm-8 col-md-4 col-sm-offset-4">
           <button type="button" className="btn btn-block btn-success" onClick={this.newPremium}>
-            <i className="fa fa-asterisk"/> Add a premium code
+            <i className="fa fa-asterisk"/> Add a code
           </button>
         </div>
       </div>
@@ -269,7 +241,7 @@ var ClaimItemList = React.createClass({
   },
 
   render: function() {
-    var items = this.props.store.get('daily_details');
+    var items = this.props.store.get('items');
     var lastIndex;
     if (items.count()) {
       var days = _.uniq(items.map(function(item) {
@@ -294,7 +266,7 @@ var ClaimItemList = React.createClass({
                  lastIndex = i;
                  return React.createElement(ClaimItemCollapse, {
                    claimStore: this.props.store,
-                   store: this.props.store.get('daily_details').get(i),
+                   store: this.props.store.get('items').get(i),
                    actions: itemActionsFor(this.props.store.get('id'), i),
                    index: i,
                    key: item.get('uuid'),

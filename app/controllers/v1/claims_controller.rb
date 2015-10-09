@@ -5,7 +5,7 @@ class V1::ClaimsController < V1::BaseController
   api :GET, "/v1/claims", "Returns claims"
 
   def index
-    render json: policy_scope(Claim.select("claims.*").include_comment_counts(current_user.id)).map {|claim|
+    render json: policy_scope(Claim.select(:id, :number, :status, :user_id, :submitted_fee, :paid_fee, :patient_number, :patient_name).include_comment_counts(current_user.id)).joins("LEFT OUTER JOIN claim_items on claim_items.claim_id = claims.id LEFT OUTER JOIN claim_rows on claim_rows.item_id = claim_items.id").group("claims.id").select("SUM(claim_rows.fee)").select("MIN(claim_items.day)").map {|claim|
       {
         id: claim.id,
         number: claim.number,
@@ -13,10 +13,10 @@ class V1::ClaimsController < V1::BaseController
         user_id: claim.user_id,
         submitted_fee: claim.submitted_fee,
         paid_fee: claim.paid_fee,
-        total_fee: claim.total_fee,
-        patient_number: claim.details['patient_number'],
-        patient_name: claim.details['patient_name'],
-        service_date: claim.service_date,
+        total_fee: claim.sum || 0,
+        patient_number: claim.patient_number,
+        patient_name: claim.patient_name,
+        service_date: claim.min,
         unread_comments: claim.unread_comments
       }
     }
@@ -24,7 +24,11 @@ class V1::ClaimsController < V1::BaseController
 
   api :GET, "/v1/claims/:id", "Returns a claim"
 
-  def show(form = nil, status = nil)
+  def show(claim = nil, status = 200)
+    claim ||= policy_scope(Claim).includes(:comments).includes(:photo).includes(:rows).find(params[:id])
+    authorize claim
+    render json: claim.as_json, status: status
+    return
     form ||= ClaimForm.new(policy_scope(Claim).includes(:comments).includes(:photo).find(params[:id]), current_user: current_user)
     authorize form.claim if form.claim
     render json: form.as_json(include_comments: true, include_warnings: true, include_photo: true, include_submission: true, include_total: true, include_files: true, include_consult_counts: true), status: (status ? status : 200)

@@ -18,6 +18,7 @@ var claimActions = exports.claimActions = Fynx.createActions([
   'saveFailed',
   'load',
   'remove',
+  'patch',
 ]);
 
 // http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
@@ -88,10 +89,14 @@ var updateItem = function(item) {
   return item;
 };
 
+// TODO: checkout forceSave
+// TODO: updateItem
+// TODO: check *all* attemptSave
+
 claimActions.updateFields.listen(function(data) {
   console.log('updateFields', data);
   var changed = false;
-  var save = {};
+  var save = new Immutable.Map();
   var items = {};
   var newStore = claimStore().withMutations(function(store) {
     _.each(data, function(tuple) {
@@ -104,31 +109,32 @@ claimActions.updateFields.listen(function(data) {
       if (store.getIn(tuple[0]) === tuple[1]) return;
       changed = true;
       var name = tuple[0][tuple[0].length-1];
-      if (name !== 'validations' && tuple[0][1] !== 'validations') save[tuple[0][0]] = true;
+      if (name !== 'validations' && tuple[0][1] !== 'validations') save = save.setIn(tuple[0], tuple[1]);
       console.log('updateField', tuple[0], tuple[1], ', was', claimStore().getIn(tuple[0]));
       store.setIn(tuple[0], tuple[1]);
     });
-
+/*
     _.each(save, function(t, id) {
       store.set(id, updateConsult(store.get(id)));
     });
-
+*/
     _.each(items, function(hash, id) {
       _.each(hash, function(t, i) {
         store.setIn([id, 'daily_details', i], updateItem(store.getIn([id, 'daily_details', i])));
+        save = save.setIn([id, 'daily_details', i], updateItem(store.getIn([id, 'daily_details', i])));
       });
     });
   });
 
   if (data.forceSave) {
-    changed = true;
-    save[data.forceSave] = true;
-  }
-
-  if (changed) {
     claimStore(newStore);
-    _.each(save, function(t, id) {
+    save.forEach(function(v, id) {
       claimActions.attemptSave(id);
+    });
+  } else if (changed) {
+    claimStore(newStore);
+    save.forEach(function(v, id) {
+      claimActions.patch({id: id, claim: v.toJS()});
     });
   }
 });
@@ -191,7 +197,45 @@ claimActions.attemptSave.listen(function(id) {
   });
 });
 
+claimActions.patch.listen(function(data) {
+  console.log('patch', data);
+  var id = data.id;
+
+  var claim = _.omit(claimStore().get(id).toJS(), 'warnings', 'errors', 'id', 'number', 'created_at', 'updated_at', 'url', 'unsaved', 'changed', 'photo', 'comments', 'needs_save');
+  globalActions.startBusy();
+  $.ajax({
+//    url: claimStore().get('url'),
+    url: window.ENV.API_ROOT+'v1/claims/'+id+'.json',
+    data: JSON.stringify({claim: data.claim}),
+    contentType: 'application/json',
+    dataType: 'json',
+    processData: false,
+    type: 'PATCH',
+    success: function(data) {
+      var updated = _.pick.apply(null, [data].concat(serverCalculatedFields));
+      updated.id = id;
+      claimActions.saveComplete(updated);
+      globalActions.endBusy();
+    },
+    error: function(xhr, status, err) {
+      globalActions.endBusy();
+
+      if (xhr.status === 403) {
+        globalActions.signin();
+      } else if (xhr.responseJSON) {
+        var data = {id: id};
+        data.warnings = xhr.responseJSON.warnings;
+        data.errors = xhr.responseJSON.errors;
+        claimActions.saveFailed(data);
+      } else {
+        globalActions.unrecoverableError();
+      }
+    }
+  });
+});
+
 var processClaimResponse = function(data) {
+return;
   claimStore().get(data.id).withMutations(function(store) {
     _.each(data, function(value, type) {
       if (serverCalculatedFields.indexOf(type) !== -1) {

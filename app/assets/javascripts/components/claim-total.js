@@ -3,7 +3,7 @@ var dollars = function(i) {
 };
 
 var claimTotal = function(store) {
-  return _.reduce(store.get('daily_details').toJS(), function(memo, item) {
+  return _.reduce(store.get('items').toJS(), function(memo, item) {
     return memo + itemTotal(item);
   }, 0);
 };

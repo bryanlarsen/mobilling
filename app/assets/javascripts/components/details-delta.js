@@ -1,5 +1,5 @@
 
-detailSignature = function(detail) {
+var detailSignature = function(detail) {
   return [
     detail.day,
     (detail.code || "").slice(0,5).toUpperCase(),
@@ -14,7 +14,7 @@ detailSignature = function(detail) {
 
 // returns the index in nextSig for every sig that we need to add:
 // the generator thinks we need it and we don't have it
-detailsToAdd = function(currentSigs, nextSigs, oldSigs) {
+var detailsToAdd = function(currentSigs, nextSigs, oldSigs) {
   return _.difference(nextSigs, currentSigs).map(function(nextSig) {
     return nextSigs.indexOf(nextSig);
   });
@@ -23,7 +23,7 @@ detailsToAdd = function(currentSigs, nextSigs, oldSigs) {
 // returns the index in currentSig for every sig that we need to remove:
 // it's exists in old but not in new and still exists in current.
 // returns in reverse order so that removal is stable
-detailsToRemove = function(currentSigs, nextSigs, oldSigs) {
+var detailsToRemove = function(currentSigs, nextSigs, oldSigs) {
   return _.intersection(_.difference(oldSigs, nextSigs), currentSigs).map(function(sig) {
     return currentSigs.indexOf(sig);
   }).sort().reverse();

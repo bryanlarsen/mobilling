@@ -24,6 +24,8 @@ class Claim < ActiveRecord::Base
 
   scope :include_submission_status, -> {joins("LEFT OUTER JOIN claim_files ON claims.id = claim_files.claim_id AND claim_files.edt_file_type = 'Submission'").joins("LEFT OUTER JOIN edt_files ON edt_files.type = 'Submission' AND claim_files.edt_file_id = edt_files.id AND claim_files.claim_id = claims.id").select("edt_files.id as submission_id, edt_files.status as submission_status")}
 
+  scope :include_service_date_sql, -> { select("(SELECT day FROM claim_items WHERE claim_items.claim_id = claims.id ORDER BY created_at ASC LIMIT 1) AS service_date_sql") }
+
   scope :include_user_name, -> {joins(:user).select("users.name as user_name")}
 
   belongs_to :user, inverse_of: :claims
@@ -329,7 +331,7 @@ class Claim < ActiveRecord::Base
     r.insert('Payment Program', :payment_program, pp)
     r.insert('Payee', :payee, payee || 'P')
     r.insert('Referring Health Care Provider Number', :referring_physician, referring_provider) unless referring_provider.blank?
-    r.insert('Master Number', :hospital, hospital.split(' ')[0])
+    r.insert('Master Number', :hospital, (hospital || '').split(' ')[0])
     r.insert('In-Patient Admission Date', :admission_on, admission_on) if admission_on
     r.insert('Referring Laboratory License Number', :referring_laboratory, referring_laboratory) if referring_laboratory
     r.insert('Manual Review Indicator', :manual_review_indicator, manual_review_indicator ? 'Y' : '')
@@ -367,5 +369,89 @@ class Claim < ActiveRecord::Base
 
   def total_fee
     rows.sum(:fee)
+  end
+
+  def consult_setup_visible
+    ['family_medicine', 'internal_medicine', 'cardiology'].include? specialty
+  end
+
+  def consult_tab_visible
+    consult_setup_visible && first_seen_consult
+  end
+
+  # def consult_premium_visit_count
+  #   if consult_time_type && user
+  #     @consult_premium_visit_count ||= user.claims.where("details ->> 'first_seen_on' = ? and details ->> 'consult_premium_visit' = ?", first_seen_on, consult_time_type).count
+  #   else
+  #     nil
+  #   end
+  # end
+
+  # def consult_premium_first_count
+  #   if consult_time_type && user
+  #     @consult_premium_first_count ||= user.claims.where("details ->> 'first_seen_on' = ? and details ->> 'consult_premium_first' = 'true' and details ->> 'consult_premium_visit' = ?", first_seen_on, consult_time_type).count
+  #   else
+  #     nil
+  #   end
+  # end
+
+  # def consult_premium_travel_count
+  #   if consult_time_type && user
+  #     @consult_premium_travel_count ||= user.claims.where("details ->> 'first_seen_on' = ? and details ->> 'consult_premium_travel' = 'true' and details ->> 'consult_premium_visit' = ?", first_seen_on, consult_time_type).count
+  #   else
+  #     nil
+  #   end
+  # end
+
+  def as_json(options = nil)
+    attributes.tap do |response|
+      response[:items] = items.map(&:as_json)
+
+      valid?
+      response[:errors] = errors.as_json
+      has_warnings?
+      response[:warnings] = warnings.as_json
+
+      interactor = GenerateSubmission.new
+      begin
+        interactor.generate_claim(self)
+        interactor.errors[number].each do |err|
+          response[:warnings][err.first] = (response[:warnings][err.first] || []) + [err.second.to_s]
+        end
+        response[:submission] = interactor.contents
+      rescue StandardError => e
+        response[:warnings][:submission] = e.to_s
+      end
+
+      response[:photo] = {
+        small_url: photo.try(:file).try(:small).try(:url),
+        url: photo.try(:file).try(:url)
+      }
+
+      response[:reclamation_id] = reclamation.id if status=="reclaimed" && reclamation
+      response[:comments] = comments.map do |comment|
+        {
+          body: comment.body,
+          user_name: comment.user.try(:name),
+          user_id: comment.user.try(:id),
+          created_at: comment.created_at,
+        }
+      end
+      response[:num_comments] = comments.size
+
+      response[:files] = files.reduce({}) do |hash, file|
+        hash.merge(file.filename => Rails.application.routes.url_helpers.admin_edt_file_path(file))
+      end
+
+      %I[service_date consult_setup_visible consult_tab_visible].each do |param|
+        response[param] = send(param)
+      end
+
+      response.delete(:details)
+      response.delete('details')
+
+      response.delete('status')
+      response[:status] = status
+    end
   end
 end
