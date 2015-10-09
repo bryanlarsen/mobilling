@@ -95,12 +95,11 @@ class V1::ClaimsController < V1::BaseController
     attrs['admission_on'] ||= Date.today.to_s
     attrs['first_seen_on'] ||= Date.today.to_s
     attrs['last_seen_on'] ||= Date.today.to_s
-    @form = ClaimForm.new(attrs, current_user: current_user)
-    @form.user = current_user
-    if @form.perform
-      show @form, 200
+    Claim.new(attrs)
+    if @claim.save
+      show @claim, 200
     else
-      show @form, 422
+      show @claim, 422
     end
   end
 
@@ -111,12 +110,10 @@ class V1::ClaimsController < V1::BaseController
   def update
     @claim = policy_scope(Claim).find(params[:id])
     authorize @claim, :update?
-    @form = ClaimForm.new(@claim, claim_params.merge(current_user: current_user))
-    @form.user = current_user
-    if @form.perform
-      show @form, 200
+    if @claim.update_attributes(claim_params)
+      show @claim, 200
     else
-      show @form, 422
+      show @claim, 422
     end
   end
 
@@ -126,7 +123,7 @@ class V1::ClaimsController < V1::BaseController
     @claim = Claim.find(params[:id])
     authorize @claim
     @claim.destroy
-    show ClaimForm.new(@claim, current_user: current_user)
+    show @claim
   end
 
   private

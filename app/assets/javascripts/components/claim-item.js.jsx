@@ -59,8 +59,6 @@ var NewItemButton = React.createClass({
   click: function() {
     var template = {
       day: normalizeDate(''),
-      premiums: [],
-      uuid: uuid()
     };
     if (this.props.index !== undefined) {
       var item = this.props.store.getIn(['items', this.props.index]);

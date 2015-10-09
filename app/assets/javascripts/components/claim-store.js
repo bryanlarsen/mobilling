@@ -148,9 +148,11 @@ claimActions.deleteFields.listen(function(data) {
   });
 });
 
-var serverCalculatedFields = ['submission', 'total_fee', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'];
+var serverCalculatedFields = ['errors', 'warnings', 'submission', 'total_fee', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'];
 
 claimActions.attemptSave.listen(function(id) {
+  throw new Error('attemptSave: no');
+
   console.log('attemptSave', id);
 
   if(claimStore().get([id, 'unsaved'])) {
@@ -235,33 +237,11 @@ claimActions.patch.listen(function(data) {
 });
 
 var processClaimResponse = function(data) {
-return;
   claimStore().get(data.id).withMutations(function(store) {
     _.each(data, function(value, type) {
       if (serverCalculatedFields.indexOf(type) !== -1) {
         store = store.set(type, Immutable.fromJS(value));
       }
-      if (type !== 'warnings' && type !== 'errors') return;
-      for (var i=0; i < store.get('daily_details').count(); i++) {
-        var premiums = store.getIn(['daily_details', i, 'premiums']);
-        if (premiums) {
-          for (var j=0; j < premiums.count(); j++) {
-            var before = store.getIn(['daily_details', i, 'premiums', j, type]);
-            if (before && before.count() > 0) {
-              store = store.setIn(['daily_details', i, 'premiums', j, type], Immutable.Map());
-            }
-          }
-        }
-        var before = store.getIn(['daily_details', i, type]);
-        if (before && before.count() > 0) {
-          store = store.setIn(['daily_details', i, type], Immutable.Map());
-        }
-      };
-      _.each(value, function(messages, key) {
-        var path = key.split('.');
-        path.splice(-1, 0, type);
-        store = store.setIn(path, Immutable.fromJS(messages));
-      });
     });
     claimStore(claimStore().set(data.id, store));
   });
@@ -325,19 +305,30 @@ claimActions.saveFailed.listen(function(data) {
 });
 
 claimActions.newItem.listen(function(data) {
-  data.template.uuid = data.template.uuid || uuid();
-  data.template.premiums = data.template.premiums || [];
   data.template.diagnosis = data.template.diagnosis || claimStore().getIn([data.id, 'diagnoses', 0, 'name']);
-  data.index = data.index || claimStore().getIn([data.id, 'daily_details']).count() - 1;
+  data.index = data.index || claimStore().getIn([data.id, 'items']).count() - 1;
   console.log('newItem', data);
   var newItem = Immutable.fromJS(data.template);
   newItem = updateItem(newItem);
 
-  var newList = claimStore().getIn([data.id, 'daily_details']).splice(data.index + 1, 0, newItem);
-  claimStore(claimStore().setIn([data.id, 'daily_details'], newList.toList()));
+  var newList = claimStore().getIn([data.id, 'items']).splice(data.index + 1, 0, newItem);
+  claimStore(claimStore().setIn([data.id, 'items'], newList.toList()));
 
   if (!data.dontSave) {
-    claimActions.attemptSave(data.id);
+    $.ajax({
+      url: window.ENV.API_ROOT+'v1/claims/'+data.id+'/items',
+      data: JSON.stringify({item: newItem.toJS()}),
+      contentType: 'application/json',
+      dataType: 'json',
+      processData: false,
+      type: 'POST',
+      success: function(data) {
+        throw new Error('FIXME');
+      },
+      error: function(xhr, status, err) {
+        throw new Error('FIXME');
+      }
+    });
   }
 });
 
