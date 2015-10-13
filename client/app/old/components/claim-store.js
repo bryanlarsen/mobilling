@@ -33,43 +33,6 @@ claimStore.listen(function(store) {
 //  console.log('change', store);
 });
 
-var updateConsult = function(claim) {
-  var date = claim.get('admission_on') || claim.get('first_seen_on');
-  if (date && !claim.get('admission_on')) claim = claim.set('admission_on', date);
-  if (date && !claim.get('first_seen_on')) claim = claim.set('first_seen_on', date);
-
-  if (claim.get('admission_on') === claim.get('first_seen_on') && !claim.get('first_seen_consult')) claim = claim.set('first_seen_consult', true);
-
-  var premium = claim.get('consult_premium_visit');
-  var travel = claim.get('consult_premium_travel');
-  var day_type = claim.get('first_seen_on') && dayType(claim.get('first_seen_on'));
-  var time_type = day_type && claim.get('consult_time_in') && timeType(claim.get('first_seen_on'), claim.get('consult_time_in'));
-
-  if (!time_type) return claim;
-
-  if (premium === 'weekday_office_hours' && time_type === 'weekday_day') time_type = premium;
-
-  if (claim.get('consult_time_type') !== time_type) claim = claim.set('consult_time_type', time_type);
-
-  if (premium && claim.get('consult_premium_first_count') === 0) claim = claim.set('consult_premium_first', true);
-
-  if (claim.get('consult_premium_first_count') > 1 && claim.get('consult_premium_first')) claim = claim.set('consult_premium_first', false);
-
-  if (!premium && claim.get('consult_premium_first')) claim = claim.set('consult_premium_first', false);
-
-  if (premium && premium !== time_type) {
-    premium = time_type;
-    claim = claim.set('consult_premium_visit', premium);
-  }
-
-  if (!premium && travel) {
-    travel = false;
-    claim = claim.set('consult_premium_travel', travel);
-  }
-
-  return claim;
-};
-
 var updateItem = function(item) {
   var feeGenerator = globalStore().get('feeGenerator');
   if (!feeGenerator) return item;

@@ -1,5 +1,4 @@
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-
 import { Notice } from './index';
 
 export default (props) => {
@@ -10,7 +9,7 @@ export default (props) => {
           {!window.ENV.CORDOVA && <NavItem href="http://billohip.ca" className="hidden-xs">BillOHIP</NavItem>}
         </Nav>
       </Navbar>
-      <Notice/>
+      <Notice {...props} />
     </div>
   );
 };

@@ -2,7 +2,7 @@
 
 export const initialState = "FOO_NOTICE";
 
-export default function claimsReducer(state = initialState, action) {
+export default function noticeReducer(state = initialState, action) {
   const { type, message } = action;
 
   switch(type) {

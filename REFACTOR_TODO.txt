@@ -9,3 +9,11 @@ consult_premium_visit_count, consult_premium_first_count, consult_premium_travel
 processClaimResponse neutered
 
 either double check or remove all forceSave && dontSave
+
+ClaimsTable -> remove action
+
+ProfilePage includes ProfileSettings instead of this.props.children
+
+Claim Loading page
+
+userStore.unsaved

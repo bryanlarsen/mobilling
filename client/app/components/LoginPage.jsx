@@ -1,49 +1,51 @@
 import React from 'react';
 import ReactRouter, { Link } from 'react-router';
+import { pushState } from 'redux-router';
+import { connect } from 'react-redux';
 
+import { startBusy, endBusy, newSession } from '../actions';
 import EmptyHeader from './EmptyHeader';
 
-export default React.createClass({
-  mixins: [
-    ReactRouter.Navigation,
-  ],
-
-  getInitialState: function() {
-    return {
+@connect((state) => state)
+class LoginPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       errors: {}
     };
-  },
+  }
 
-  onSubmit: function(ev) {
+  onSubmit = (ev) => {
     var page = this;
     ev.preventDefault();
-    console.log(this.refs.form);
+    this.props.dispatch(startBusy());
     $.ajax({
       url: window.ENV.API_ROOT+'session.json',
-      data: $(this.refs.form.getDOMNode()).serialize(),
+      data: $(this.refs.form).serialize(),
       dataType: 'json',
       type: 'POST',
       success: function(data) {
+        page.props.dispatch(endBusy());
         if (data.errors) {
           page.setState({errors: data.errors});
         } else {
-          globalActions.init();
-          userActions.init(data);
-          page.transitionTo('claims', {}, page.state.globalStore.get('claimsListQuery').toJS());
+          page.props.dispatch(newSession(data));
+          page.props.dispatch(pushState(null, '/claims', page.props.globalStore.claimsListQuery));
         }
       },
       error: function(xhr, status, err) {
+        page.props.dispatch(endBusy());
         page.setState({errors: {password: ["Server Error"]}});
         console.log("error!", xhr);
       }
     });
-  },
+  }
 
-  render: function() {
-    console.log('LoginPage', this.props);
+  render() {
+
     return (
       <div className="body">
-        <EmptyHeader/>
+        <EmptyHeader {...this.props} />
         <div className="content-body container">
           <div className="row">
             <form ref="form" onSubmit={this.onSubmit}>
@@ -77,5 +79,6 @@ export default React.createClass({
       </div>
     );
   }
-});
+};
 
+export default LoginPage;

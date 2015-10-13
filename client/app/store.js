@@ -8,12 +8,8 @@ import routes from './routes';
 import reducers, { initialStates } from './reducers';
 
 export default (props) => {
-  console.log('initial store props FIXME', props);
-
   const reducer = combineReducers(reducers);
-  const logger = createLogger({
-    transformer: state => ({ ...state, claimsStore: state.claimsStore.toJS() })
-  });
+  const logger = createLogger();
   const composedStore = compose(
     applyMiddleware(thunkMiddleware, logger),
     reduxReactRouter({
@@ -22,8 +18,7 @@ export default (props) => {
     })
   );
   const storeCreator = composedStore(createStore);
-  console.log('initialStates', initialStates);
-  const store = storeCreator(reducer, initialStates);
+  const store = storeCreator(reducer, {...initialStates, ...props});
 
   return store;
 };

@@ -40,6 +40,12 @@ class Claim < ActiveRecord::Base
   belongs_to :original, class_name: "Claim", inverse_of: :reclamation
   has_one :reclamation, class_name: "Claim", foreign_key: :original_id, inverse_of: :original
 
+  # calculated client side
+  attr_accessor :consult_time_type
+  attr_reader :consult_premium_visit_count,
+              :consult_premium_first_count,
+              :consult_premium_travel_count
+
   validation_scope :warnings do |s|
     s.validate :validate_record
     s.validates :hospital, :patient_number, :patient_province, :patient_birthday, presence: true
@@ -241,38 +247,6 @@ class Claim < ActiveRecord::Base
     @remittance_details = remittance_advice.claim_details(self)
   end
 
-  # daily_details, normalized, and with a better name
-  # def items
-  #   details['daily_details'].map do |daily|
-  #     if daily['code']
-  #       code = daily['code'][0..4].upcase
-  #       code[4]='A' if !code[4] || !'ABC'.include?(code[4])
-  #     else
-  #       code = 'Z999A'
-  #     end
-  #     { code: code,
-  #       day: Date.strptime(daily['day']),
-  #       fee: BigDecimal(daily['fee'] || 0) / BigDecimal(100),
-  #       units: daily['units'],
-  #       message: daily['message'],
-  #       diagnosis: daily['diagnosis'] && daily['diagnosis'].strip.split(' ').last,
-  #       premiums: (daily['premiums'] || []).map do |premium|
-  #         if premium['code']
-  #           code = premium['code'][0..4].upcase
-  #           code[4]='A' if !code[4] || !'ABC'.include?(code[4])
-  #         else
-  #           code = 'Z999A'
-  #         end
-  #         { code: code,
-  #           fee: BigDecimal(premium['fee'] || 0) / BigDecimal(100),
-  #           units: premium['units'],
-  #           message: premium['message'],
-  #         }
-  #       end
-  #     }
-  #   end
-  # end
-
   def reclaim!
     claim = dup
     claim.user = user
@@ -379,29 +353,29 @@ class Claim < ActiveRecord::Base
     consult_setup_visible && first_seen_consult
   end
 
-  # def consult_premium_visit_count
-  #   if consult_time_type && user
-  #     @consult_premium_visit_count ||= user.claims.where("details ->> 'first_seen_on' = ? and details ->> 'consult_premium_visit' = ?", first_seen_on, consult_time_type).count
-  #   else
-  #     nil
-  #   end
-  # end
+  def consult_premium_visit_count
+    if @consult_time_type && user
+      @consult_premium_visit_count ||= user.claims.where("first_seen_on = ? and consult_premium_visit = ?", first_seen_on, consult_time_type).count
+    else
+      nil
+    end
+  end
 
-  # def consult_premium_first_count
-  #   if consult_time_type && user
-  #     @consult_premium_first_count ||= user.claims.where("details ->> 'first_seen_on' = ? and details ->> 'consult_premium_first' = 'true' and details ->> 'consult_premium_visit' = ?", first_seen_on, consult_time_type).count
-  #   else
-  #     nil
-  #   end
-  # end
+  def consult_premium_first_count
+    if @consult_time_type && user
+      @consult_premium_first_count ||= user.claims.where("first_seen_on = ? and consult_premium_first = true and consult_premium_visit = ?", first_seen_on, consult_time_type).count
+    else
+      nil
+    end
+  end
 
-  # def consult_premium_travel_count
-  #   if consult_time_type && user
-  #     @consult_premium_travel_count ||= user.claims.where("details ->> 'first_seen_on' = ? and details ->> 'consult_premium_travel' = 'true' and details ->> 'consult_premium_visit' = ?", first_seen_on, consult_time_type).count
-  #   else
-  #     nil
-  #   end
-  # end
+  def consult_premium_travel_count
+    if @consult_time_type && user
+      @consult_premium_travel_count ||= user.claims.where("first_seen_on = ? and consult_premium_travel = true and consult_premium_visit = ?", first_seen_on, consult_time_type).count
+    else
+      nil
+    end
+  end
 
   def as_json(options = nil)
     attributes.tap do |response|
@@ -443,7 +417,7 @@ class Claim < ActiveRecord::Base
         hash.merge(file.filename => Rails.application.routes.url_helpers.admin_edt_file_path(file))
       end
 
-      %I[service_date consult_setup_visible consult_tab_visible].each do |param|
+      %I[service_date consult_setup_visible consult_tab_visible consult_premium_visit_count consult_premium_first_count consult_premium_travel_count].each do |param|
         response[param] = send(param)
       end
 
