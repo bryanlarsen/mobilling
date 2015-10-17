@@ -1,8 +1,7 @@
 import _ from 'underscore';
-import { startBusy, endBusy } from "./globalActions";
 
-export function updateObject(dispatch, url, updates, updateAction, responseAction) {
-  dispatch(startBusy());
+export function updateObject(dispatch, url, action_prefix, updates, updateAction, responseAction) {
+  dispatch({type: action_prefix + '.START', payload: updates});
   fetch(url, {
     method: 'PATCH',
     credentials: 'include',
@@ -13,7 +12,7 @@ export function updateObject(dispatch, url, updates, updateAction, responseActio
     body: JSON.stringify(updates)
   }).then((response) => response.json()).then((json) => {
     dispatch(responseAction(json));
-    dispatch(endBusy());
+    dispatch({type: action_prefix + '.FINISH', payload: json});
   }).catch((error) => {
     updates.errors = updates.errors || {};
     _.each(updates, (value, key) => {

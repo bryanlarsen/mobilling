@@ -2,13 +2,13 @@ import _ from 'underscore';
 import { startBusy, endBusy } from "./globalActions";
 import { updateObject } from "./actionHelpers";
 
-function updateUserAttributes(updates) {
-  return { type: 'UPDATE_USER', updates };
+function updateUserAttributes(payload) {
+  return { type: 'USER.UPDATE', payload };
 };
 
 const userActions = {
-  newSession(session) {
-    return { type: 'NEW_SESSION', session };
+  newSession(payload) {
+    return { type: 'USER.INIT', payload };
   },
 
   updateUser(updates) {
@@ -26,8 +26,8 @@ const userActions = {
   },
 
   userResponse(response) {
-    return { type: 'UPDATE_USER',
-             updates: _.pick(response, 'errors', 'warnings', 'doctors') };
+    return { type: 'USER.UPDATE',
+             payload: _.pick(response, 'errors', 'warnings', 'doctors') };
   },
 
   userChangeHandler(dispatch, ev) {

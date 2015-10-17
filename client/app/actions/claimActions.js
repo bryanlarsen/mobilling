@@ -6,16 +6,16 @@ import { startBusy, endBusy } from "./globalActions";
 import { updateObject } from "./actionHelpers";
 import { dayType, timeType } from "../data/dayType";
 
-function claimList(claims) {
-  return { type: 'CLAIM_LIST', claims };
+function claimListInit(claims) {
+  return { type: 'CLAIM_LIST.INIT', claims };
 }
 
-function claimLoad(id, claim) {
-  return { type: 'CLAIM_LOAD', id, claim };
+function claimLoadInit(id, claim) {
+  return { type: 'CLAIM.INIT', id, claim };
 }
 
 function claimUpdate(id, updates) {
-  return { type: 'CLAIM_UPDATE', id, updates };
+  return { type: 'CLAIM.UPDATE', id, updates };
 }
 
 function updateConsult(claim) {

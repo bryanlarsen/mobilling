@@ -9,30 +9,30 @@ export const initialState = {
 };
 
 export default function claimsReducer(state = initialState, action) {
-  const { type, claims, id, claim, updates } = action;
+  const { type, payload } = action;
 
   switch(type) {
-  case 'CLAIM_LIST': {
+  case 'CLAIM_LIST.INIT': {
     return {
       ...state,
-      claimList: [for (claim of claims) claim.id],
-      claims: _.object([for (claim of claims) [claim.id, claim]]),
+      claimList: [for (claim of payload) claim.id],
+      claims: _.object([for (claim of payload) [claim.id, claim]]),
       claimListLoadedOn: new Date(),
     };
   }
 
-  case 'CLAIM_LOAD': {
+  case 'CLAIM.INIT': {
     let newClaims = {};
-    newClaims[id] = claim;
+    newClaims[payload.id] = payload;
     return {
       ...state,
       claims: { ...state.claims, ...newClaims },
     };
   }
 
-  case 'CLAIM_UPDATE': {
+  case 'CLAIM.UPDATE': {
     let newClaims = {};
-    newClaims[id] = { ...state.claims[id], ...updates};
+    newClaims[payload.id] = { ...state.claims[payload.id], ...payload};
     return {
         ...state,
       claims: { ...state.claims, ...newClaims }

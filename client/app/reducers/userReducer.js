@@ -6,15 +6,15 @@ export const initialState = {
 };
 
 export default function globalReducer(state = initialState, action) {
-  const { type, session, updates } = action;
+  const { type, payload } = action;
 
   switch(type) {
-  case 'NEW_SESSION': {
-    return session;
+  case 'USER.INIT': {
+    return payload;
   }
 
-  case 'UPDATE_USER': {
-    return {...state, ...updates};
+  case 'USER.UPDATE': {
+    return {...state, ...payload};
   }
 
   default: {
