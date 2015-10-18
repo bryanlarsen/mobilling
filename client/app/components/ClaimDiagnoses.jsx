@@ -1,39 +1,27 @@
 import _ from 'underscore';
-import Bloodhound from 'typeahead.js/dist/bloodhound.js';
 
 import { ClaimInputWrapper, Typeahead } from '../components';
 import { updateClaim } from '../actions';
 import uuid from '../data/uuid';
-
-var diagnosesEngine = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.nonword,
-  queryTokenizer: Bloodhound.tokenizers.nonword,
-  limit: 10,
-  prefetch: {
-    url: window.ENV.API_ROOT+'v1/diagnoses.json',
-  }
-});
-setTimeout(function() {
-  diagnosesEngine.initialize();
-}, 500);
+import diagnosesEngine from '../data/diagnosesEngine';
 
 export default React.createClass({
   diagnosisChanged: function(i, ev) {
     let diagnoses = this.props.claim.diagnoses.slice();
     diagnoses[i].name = ev.target.value;
-    this.props.dispatch(updateClaim(this.props.claim, {diagnoses}));
+    this.props.dispatch(updateClaim(this.props.claim.id, {diagnoses}));
   },
 
   removeDiagnosis: function(i) {
     let diagnoses = this.props.claim.diagnoses.slice();
     diagnoses.splice(i, 1);
-    this.props.dispatch(updateClaim(this.props.claim, {diagnoses}));
+    this.props.dispatch(updateClaim(this.props.claim.id, {diagnoses}));
   },
 
   newDiagnosis: function() {
     let diagnoses = this.props.claim.diagnoses.slice();
     diagnoses.push({name: ""});
-    this.props.dispatch(updateClaim(this.props.claim, {diagnoses}));
+    this.props.dispatch(updateClaim(this.props.claim.id, {diagnoses}));
   },
 
   render: function() {

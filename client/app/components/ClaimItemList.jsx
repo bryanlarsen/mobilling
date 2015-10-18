@@ -2,6 +2,8 @@ import _ from 'underscore';
 import { ClaimItem, ClaimItemSummary } from '../components';
 import dollars from '../data/dollars';
 import claimTotal, { itemTotal } from '../data/claimTotal';
+import normalizeDate from '../data/normalizeDate';
+import { newItem } from '../actions';
 
 var ClaimItemCollapse = React.createClass({
   expand: function() {
@@ -26,7 +28,8 @@ var ClaimItemCollapse = React.createClass({
 });
 
 var NewItemButton = React.createClass({
-  click: function() {
+  click: function(ev) {
+    ev.preventDefault();
     var template = {
       day: normalizeDate(''),
     };
@@ -36,7 +39,7 @@ var NewItemButton = React.createClass({
       template.time_in = item.time_in;
       template.time_out = item.time_out;
     }
-    this.props.actions.newItem({template: template, index: this.props.index});
+    this.props.dispatch(newItem(this.props.claim.id, template));
     this.props.expand((this.props.index === undefined ? -1 : this.props.index) + 1);
   },
 
@@ -87,28 +90,28 @@ export default React.createClass({
                if (item.day === day) {
                  lastIndex = i;
                  return React.createElement(ClaimItemCollapse, {
-                   claimStore: this.props.claim,
+                   claim: this.props.claim,
                    store: this.props.claim.items[i],
-//                   actions: itemActionsFor(this.props.claim.id, i),
+                   item: this.props.claim.items[i],
                    index: i,
-                   key: item.uuid,
+                   key: item.id,
                    silent: this.props.silent,
                    expanded: this.state.expanded === i,
                    expand: this.expand,
                    readonly: this.props.readonly
-                 }, item);
+                 });
                } else {
                  return null;
                }
               }, this)
             }
             </div>
-            {this.props.readonly ? null : <NewItemButton key={"day-button-"+day} index={lastIndex} actions={this.props.actions} expand={this.expand} store={this.props.claim}/>}
+            {this.props.readonly ? null : <NewItemButton key={"day-button-"+day} index={lastIndex} actions={this.props.actions} expand={this.expand} claim={this.props.claim} dispatch={this.props.dispatch} />}
           </div>
         )
       }, this));
     } else if (!this.props.readonly) {
-      return <NewItemButton actions={this.props.actions} expand={this.expand} store={this.props.claim} />;
+      return <NewItemButton actions={this.props.actions} expand={this.expand} claim={this.props.claim} dispatch={this.props.dispatch} />;
     } else {
       return null;
     }

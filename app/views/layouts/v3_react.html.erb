@@ -15,6 +15,9 @@
   <%= javascript_include_tag 'v3' %>
 </head>
 <body>
-  <%= react_component('App', {userStore: @current_user.as_json(include_doctors: true, include_warnings: true)}, {generator_function: true, prerender: false}) %>
+  <% props = {}
+     props[:userStore] = @current_user.as_json(include_doctors: true, include_warnings: true) if @current_user
+  %>
+  <%= react_component('App', props, {generator_function: true, prerender: false}) %>
 </body>
 </html>

@@ -1,6 +1,7 @@
 import _ from 'underscore';
 import { startBusy, endBusy } from "./globalActions";
-import { updateObject } from "./actionHelpers";
+import { writeHelper } from "./actionHelpers";
+import { pushState } from "redux-router";
 
 function updateUserAttributes(payload) {
   return { type: 'USER.UPDATE', payload };
@@ -11,23 +12,53 @@ const userActions = {
     return { type: 'USER.INIT', payload };
   },
 
+  loggedIn(payload) {
+    return (dispatch, getState) => {
+      dispatch(userActions.newSession(payload));
+      if (getState().userStore.id) {
+        if (getState().userStore.role === 'agent') {
+          window.location.href = '/admin';
+        } else {
+          dispatch(pushState(null, '/login'));
+        }
+      }
+    }
+  },
+
+  newUser() {
+    return (dispatch, getState) => {
+      const user = getState().userStore;
+      writeHelper({dispatch,
+                   method: 'POST',
+                   url: `${window.ENV.API_ROOT}v1/users.json`,
+                   action_prefix: 'USER.CREATE',
+                   payload: user,
+                   updateAction: userActions.newSession,
+                   responseAction: userActions.loggedIn,
+                  });
+    };
+  },
+
   updateUser(updates) {
     return (dispatch, getState) => {
       dispatch(updateUserAttributes(updates));
       const user = getState().userStore;
       if (user.id) {
-        updateObject(dispatch,
-                     `${window.ENV.API_ROOT}v1/users/${user.id}.json`,
-                     updates,
-                     updateUserAttributes,
-                     userActions.userResponse)
+        writeHelper({dispatch,
+                       method: 'PATCH',
+                       url: `${window.ENV.API_ROOT}v1/users/${user.id}.json`,
+                       action_prefix: 'USER.PATCH',
+                       payload: updates,
+                       updateAction: updateUserAttributes,
+                       responseAction: userActions.userResponse
+                      });
       }
     };
   },
 
   userResponse(response) {
     return { type: 'USER.UPDATE',
-             payload: _.pick(response, 'errors', 'warnings', 'doctors') };
+             payload: _.pick(response, 'errors', 'warnings', 'doctors', 'notice') };
   },
 
   userChangeHandler(dispatch, ev) {

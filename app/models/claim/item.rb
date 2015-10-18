@@ -1,6 +1,8 @@
 class Claim::Item < ActiveRecord::Base
   belongs_to :claim, inverse_of: :items
-  has_many :rows, inverse_of: :item
+  has_many :rows, inverse_of: :item, class_name: 'Claim::Row'
+  accepts_nested_attributes_for :rows
+
   default_scope { order(created_at: :asc) }
 
   validation_scope :warnings do |s|

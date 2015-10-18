@@ -12,11 +12,11 @@ export default React.createClass({
   },
 */
   render: function() {
-    if (this.props.noticeStore) {
+    if (this.props.userStore.notice) {
       return (
         <div className="container">
           <div className="alert alert-info fade in">
-            { this.props.noticeStore }
+            { this.props.userStore.notice }
           </div>
         </div>
       );

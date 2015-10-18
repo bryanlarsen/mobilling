@@ -10,11 +10,11 @@ export default React.createClass({
         updates[field] = ev.target.value;
       }
     }
-    this.props.dispatch(updateClaim(this.props.claim, updates));
+    this.props.dispatch(updateClaim(this.props.claim.id, updates));
 
     if (this.props.claim.admission_on === this.props.claim.first_seen_on &&
       !this.props.claim.first_seen_consult) {
-        this.props.dispatch(updateClaim(this.props.claim, {first_seen_consult: true}));
+        this.props.dispatch(updateClaim(this.props.claim.id, {first_seen_consult: true}));
     }
   },
 

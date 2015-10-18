@@ -2,21 +2,9 @@
 
 import _ from 'underscore';
 import moment from 'moment';
-import { startBusy, endBusy } from "./globalActions";
-import { updateObject } from "./actionHelpers";
+import { writeHelper } from "./actionHelpers";
+import { unrecoverableError } from "./globalActions";
 import { dayType, timeType } from "../data/dayType";
-
-function claimListInit(claims) {
-  return { type: 'CLAIM_LIST.INIT', claims };
-}
-
-function claimLoadInit(id, claim) {
-  return { type: 'CLAIM.INIT', id, claim };
-}
-
-function claimUpdate(id, updates) {
-  return { type: 'CLAIM.UPDATE', id, updates };
-}
 
 function updateConsult(claim) {
   let updates = {consult_time_type: claim.consult_time_type};
@@ -58,46 +46,92 @@ function updateConsult(claim) {
   return updates;
 };
 
+function claimListInit(claims) {
+  return { type: 'CLAIM_LIST.INIT', payload: claims };
+}
+
+function claimInit(claim) {
+  return { type: 'CLAIM.INIT', payload: claim };
+}
+
+function claimUpdate(payload) {
+  return { type: 'CLAIM.UPDATE', payload };
+}
+
+function claimResponse(payload) {
+  return { type: 'CLAIM.UPDATE',
+           payload: _.pick(payload, 'id', 'errors', 'warnings', 'submission', 'total_fee', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'),
+         };
+}
+
+function itemInit(payload) {
+  return { type: 'ITEM.INIT', payload };
+}
+
 const claimActions = {
-  refreshClaimList(state) {
-    return (dispatch) => {
-      if (moment().subtract(1, 'days').isAfter(state.claimListLoadedOn)) {
-        dispatch(startBusy());
+  refreshClaimList() {
+    return (dispatch, getState) => {
+      if (moment().subtract(1, 'days').isAfter(getState().claimStore.claimListLoadedOn)) {
+        dispatch({type: 'CLAIM_LIST.GET.START'});
         fetch(`${window.ENV.API_ROOT}v1/claims.json`, {
           credentials: 'include',
         }).then((response) => response.json()).then((json) => {
-          dispatch(claimList(json));
-          dispatch(endBusy());
+          dispatch(claimListInit(json));
+          dispatch({type: 'CLAIM_LIST.GET.FINISH'});
         }).catch((error) => {
-          dispatch(endBusy());
-          console.error(error);
+          dispatch({type: 'CLAIM_LIST.GET.FAILURE'});
+          console.log(error);
         });
       }
     };
   },
 
-  refreshClaim(state, id) {
-    return (dispatch) => {
-      if (!state.claims[id].patient_sex) {
-        dispatch(startBusy());
+  newClaim(callback) {
+    const done = (response) => (dispatch, getState) => {
+      dispatch(claimInit(response));
+      callback(response.id);
+    };
+    return (dispatch, getState) => {
+      writeHelper({dispatch,
+                   method: 'POST',
+                   url: `${window.ENV.API_ROOT}v1/claims.json`,
+                   action_prefix: 'CLAIM.CREATE',
+                   payload: {status: 'saved'},
+                   updateAction: unrecoverableError,
+                   responseAction: done
+                  });
+    }
+  },
+
+  newItem(claimId, item) {
+    return (dispatch, getState) => {
+      writeHelper({dispatch,
+                   method: 'POST',
+                   url: `${window.ENV.API_ROOT}v1/claims/${claimId}/items.json`,
+                   action_prefix: 'ITEM.CREATE',
+                   payload: item,
+                   updateAction: unrecoverableError,
+                   responseAction: itemInit
+                  });
+    }
+  },
+
+  refreshClaim(id) {
+    return (dispatch, getState) => {
+      const claim = getState().claimStore.claims[id];
+      if (!claim || !claim.patient_sex) {
+        dispatch({type: 'CLAIM.GET.START'});
         fetch(`${window.ENV.API_ROOT}v1/claims/${id}.json`, {
           credentials: 'include',
         }).then((response) => response.json()).then((json) => {
-          dispatch(claimLoad(id, json));
-          dispatch(endBusy());
+          dispatch(claimInit(json));
+          dispatch({type: 'CLAIM.GET.FINISH'});
         }).catch((error) => {
-          dispatch(endBusy());
+          dispatch({type: 'CLAIM.GET.FAILED'});
           console.error(error);
         });
       }
     };
-  },
-
-  claimResponse(response) {
-    return { type: 'CLAIM_UPDATE',
-             id: response.id,
-             updates: _.pick(response, 'errors', 'warnings', 'submission', 'total_fee', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'),
-           };
   },
 
   updateClaim(id, changes) {
@@ -105,13 +139,16 @@ const claimActions = {
       const claim = getState().claimStore.claims[id];
       let newClaim = {...claim, ...changes};
       let calculated = updateConsult(newClaim)
-      let updates = {...changes, ...calculated};
-      dispatch(claimUpdate(id, updates));
-      return updateObject(dispatch,
-                          `${window.ENV.API_ROOT}v1/claims/${id}.json`,
-                          updates,
-                          claimUpdate.bind(null, id),
-                          claimActions.claimResponse);
+      let updates = {id, ...changes, ...calculated};
+      dispatch(claimUpdate(updates));
+      return writeHelper({dispatch,
+                          method: 'PATCH',
+                          url: `${window.ENV.API_ROOT}v1/claims/${id}.json`,
+                          action_prefix: 'CLAIM.PATCH',
+                          payload: updates,
+                          updateAction: claimUpdate,
+                          responseAction: claimResponse,
+                         });
     };
   },
 

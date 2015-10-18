@@ -1,7 +1,7 @@
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { Icon, UserDropdown } from '../components';
+import { Icon, UserDropdown, Notice } from '../components';
 
 export default (props) => {
   return (
@@ -17,7 +17,8 @@ export default (props) => {
           </NavItem>
         </LinkContainer>
       </Nav>
-      <UserDropdown />
+      <UserDropdown {...props} />
+      <Notice {...props} />
     </Navbar>
   );
 }

@@ -29,7 +29,7 @@ var patientNumberEngine = new Bloodhound({
 export default React.createClass({
   patientChanged: function(ev, suggestion) {
     if (suggestion.name) {
-      this.props.dispatch(updateClaim(this.props.claim, {
+      this.props.dispatch(updateClaim(this.props.claim.id, {
         patient_name: suggestion.name,
         patient_number: suggestion.number,
         patient_province: suggestion.province,
@@ -56,7 +56,7 @@ export default React.createClass({
     return (
       <div>
         <ClaimPhoto {...this.props} />
-        <ClaimFormGroup {...this.props} label="Name">
+        <ClaimFormGroup {...this.props} store={this.props.claim} label="Name">
           <ClaimInputWrapper {...this.props} name="patient_name">
             <Typeahead name="patient_name" engine={patientNameEngine} value={this.props.claim.patient_name} onChange={this.patientChanged} templates={this.typeaheadTemplates} display={function(suggestion) { return suggestion.name; }}/>
           </ClaimInputWrapper>

@@ -1,4 +1,4 @@
-import { startBusy, endBusy, updateClaim } from "../actions";
+import { updateClaim } from "../actions";
 
 export default React.createClass({
     handleFile: function(e) {
@@ -6,7 +6,7 @@ export default React.createClass({
       var formData = new FormData();
       var actions = this.props.actions;
       formData.append('photo[file]',  file, file.name);
-      this.props.dispatch(startBusy());
+      this.props.dispatch({type: 'PHOTO.CREATE.START', payload: formData});
       $.ajax({
         url: window.ENV.API_ROOT+'v1/photos',
         data: formData,
@@ -16,11 +16,11 @@ export default React.createClass({
         type: 'POST',
         success: (data) => {
           console.log('success', data);
-          this.props.dispatch(endBusy());
-          this.props.dispatch(updateClaim(this.props.claim, {photo_id: data.id}));
+          this.props.dispatch(updateClaim(this.props.claim.id, {photo_id: data.id}));
+          this.props.dispatch({type: 'PHOTO.CREATE.FINISH', payload: data});
         },
         error: () => {
-          this.props.dispatch(endBusy());
+          this.props.dispatch({type: 'PHOTO.CREATE.FAILED'});
           console.error('error uploading file');
         },
       });
@@ -35,12 +35,14 @@ export default React.createClass({
         options.mimeType = 'image/jpeg';
         options.chunkedMode = true;
         var ft = new FileTransfer();
+        this.props.dispatch({type: 'PHOTO.CREATE.START', payload: formData});
         ft.upload(imageUri, window.ENV.API_ROOT+'v1/photos', (response) => {
           console.log('picture success', response);
-          this.props.dispatch(endBusy());
           var data = JSON.parse(response.response);
-          this.props.dispatch(updateClaim(this.props.claim, {photo_id: data.id}));
+          this.props.dispatch(updateClaim(this.props.claim.id, {photo_id: data.id}));
+          this.props.dispatch({type: 'PHOTO.CREATE.FINISH', payload: data});
         }, function(err) {
+          this.props.dispatch({type: 'PHOTO.CREATE.FAILED', payload: err});
           console.log('picture fail', err);
         }, options);
       }, function(message) {

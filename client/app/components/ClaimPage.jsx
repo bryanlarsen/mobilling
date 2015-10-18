@@ -52,7 +52,7 @@ export default React.createClass({
 
   submit: function(ev) {
     ev.preventDefault();
-    this.props.dispatch(updateClaim(this.props.claim, {status: 'for_agent'}));
+    this.props.dispatch(updateClaim(id, {status: 'for_agent'}));
   },
 
   render: function() {

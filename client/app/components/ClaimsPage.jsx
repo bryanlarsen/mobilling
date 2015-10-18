@@ -32,7 +32,7 @@ class ClaimsPage extends React.Component {
     this.statusMap = statusMap;
 
     this.props.dispatch(actions.setDefaultQuery(this.props.location.query));
-    this.props.dispatch(actions.refreshClaimList(this.props.claimStore));
+    this.props.dispatch(actions.refreshClaimList());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -90,7 +90,7 @@ class ClaimsPage extends React.Component {
               {!window.ENV.CORDOVA && <NavItem href="http://billohip.ca" className="hidden-xs">BillOHIP</NavItem>}
               <li>
                 <div className="btn-group" role="group">
-                  <LinkContainer to="new_claim">
+                  <LinkContainer to="/claim/new">
                     <Button className="navbar-btn">
                       <Icon xs i="plus">New Claim</Icon>
                     </Button>

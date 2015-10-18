@@ -15,6 +15,7 @@ class V1::ItemsController < V1::BaseController
     authorize @claim, :new_item?
     attrs = item_params
     attrs['day'] ||= Date.today
+    attrs['rows_attributes'] ||= attrs['rows'] || [{}]
     @item = @claim.items.build(attrs)
     if @item.save
       show @item, 200
@@ -25,6 +26,6 @@ class V1::ItemsController < V1::BaseController
 
   private
   def item_params
-    params.require(:item).permit(:day, :time_in, :time_out, :diagnosis, :fee, :paid, :units, :message)
+    params.require(:item).permit(:day, :time_in, :time_out, :diagnosis, :fee, :paid, :units, :message, :rows)
   end
 end

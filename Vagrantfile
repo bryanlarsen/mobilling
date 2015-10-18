@@ -54,7 +54,7 @@ sudo /home/vagrant/android-sdk-linux/platform-tools/adb devices
 exec sudo -i -u vagrant /bin/bash -- << EOF
 
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
-source ~/.rvm/scripts/nvm
+source ~/.nvm/scripts/nvm
 nvm install 4.1.2
 
 cd /vagrant
@@ -72,7 +72,10 @@ shopt -s failglob
 set -o xtrace
 
 bundle install
-bower install
+
+cd client
+nvm use 4.1.2
+npm install
 
 cp config/database.yml.vagrant config/database.yml
 

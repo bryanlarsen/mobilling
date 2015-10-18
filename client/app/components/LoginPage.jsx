@@ -72,8 +72,8 @@ class LoginPage extends React.Component {
             </form>
           </div>
           <div className="row">
-            <Link to="forgot_password" className="btn btn-lg btn-block">Forgot your password?</Link>
-            <Link to="create_account" className="btn btn-lg btn-block">Create Account</Link>
+            <Link to="/forgot_password" className="btn btn-lg btn-block">Forgot your password?</Link>
+            <Link to="/create_account" className="btn btn-lg btn-block">Create Account</Link>
           </div>
         </div>
       </div>
