@@ -1,6 +1,9 @@
-var ClaimStaticOptional = React.createClass({
+import s from 'underscore.string';
+import {ClaimInputWrapper} from '../components';
+
+export default React.createClass({
   render: function() {
-    var value = this.props.value || (this.props.store && this.props.store.get(this.props.name));
+    var value = this.props.value || (this.props.store && this.props.store[this.props.name]);
 
     if (!value) return null;
     if (value === true) value="✓";

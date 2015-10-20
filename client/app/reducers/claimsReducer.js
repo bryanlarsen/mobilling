@@ -43,6 +43,12 @@ export default function claimsReducer(state = initialState, action) {
     return {...state, claims};
   }
 
+  case 'COMMENT.INIT': {
+    let claims = {...state.claims};
+    claims[payload.claim_id].comments = (claims[payload.claim_id].comments || []).concat(payload);
+    return {...state, claims};
+  }
+
   case 'ITEM.UPDATE': {
     let claims = {...state.claims};
     const claim = claims[payload.claim_id];
@@ -50,6 +56,16 @@ export default function claimsReducer(state = initialState, action) {
     const index = items.findIndex((i) => i.id === payload.id);
     items.splice(index, 1, { ...items[index], ...payload });
     claims[payload.claim_id] = { ...claim, items };
+    return {...state, claims };
+  }
+
+  case 'COMMENT.UPDATE': {
+    let claims = {...state.claims};
+    const claim = claims[payload.claim_id];
+    let comments = claim.comments.slice();
+    const index = comments.findIndex((i) => i.id === payload.id);
+    comments.splice(index, 1, { ...comments[index], ...payload });
+    claims[payload.claim_id] = { ...claim, comments };
     return {...state, claims };
   }
 
