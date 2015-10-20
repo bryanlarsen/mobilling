@@ -14,7 +14,10 @@ Rails.application.routes.draw do
     resources :users, only: %i[index show create update]
     resources :agents, only: %i[index]
     resources :claims, only: %i[index show create update destroy] do
-      resources :items, only: %i[create update]
+      resources :items, only: %i[create update destroy] do
+        resources :rows, only: %i[create]
+      end
+      resources :rows, only: %i[update destroy]
       get :read_comments
     end
     resources :diagnoses, only: %i[index]

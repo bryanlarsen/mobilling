@@ -1,14 +1,15 @@
 import FeeGenerator from '../data/FeeGenerator';
 import serviceCodesEngine from '../data/serviceCodesEngine';
 import {ClaimInputWrapper, ClaimInput, Typeahead} from '../components';
+import {deleteRow, deleteItem} from '../actions';
 
 export default React.createClass({
   unitsChanged: function(ev) {
-    this.props.actions.updateFields([[[ev.target.name], parseInt(ev.target.value)]]);
+    this.props.onChange({target: {name: ev.target.name, value: parseInt(ev.target.value)}});
   },
 
   feeChanged: function(ev) {
-    this.props.actions.updateFields([[[ev.target.name], Math.round(Number(ev.target.value)*100)]]);
+    this.props.onChange({target: {name: ev.target.name, value: Math.round(Number(ev.target.value)*100)}});
   },
 
   codeChanged: function(ev) {
@@ -28,6 +29,11 @@ export default React.createClass({
   },
 
   removePremium: function(ev) {
+    if (this.props.item.rows.length <= 1) {
+      this.props.dispatch(deleteItem(this.props.claim.id, this.props.item.id));
+    } else {
+      this.props.dispatch(deleteRow(this.props.claim.id, this.props.item.id, this.props.store.id));
+    }
   },
 
   render: function() {
@@ -37,7 +43,7 @@ export default React.createClass({
         <div className="col-sm-8 col-md-4">
           <ClaimInputWrapper name='code' {...this.props} >
             <div className="input-group">
-              <Typeahead name='code' engine={serviceCodesEngine} onChange={this.codeChanged} value={this.props.store.code}/>
+              <Typeahead name='code' engine={serviceCodesEngine} onChange={this.props.onChange} value={this.props.store.code}/>
               <span className="input-group-btn">
                 <button type="button" className="btn btn-danger" onClick={this.removePremium}>
                   <i className="fa fa-close"/>
@@ -46,10 +52,10 @@ export default React.createClass({
             </div>
           </ClaimInputWrapper>
         </div>
-        {!this.props.silent && <div className="col-md-2 col-md-offset-0 col-xs-4 col-xs-offset-4">
+        {this.props.full && <div className="col-md-2 col-md-offset-0 col-xs-4 col-xs-offset-4">
           <ClaimInput name='units' store={this.props.store} onChange={this.unitsChanged} />
         </div>}
-        {!this.props.silent && <div className="col-md-2 col-xs-4">
+        {this.props.full && <div className="col-md-2 col-xs-4">
           <ClaimInput name='fee' value={(this.props.store.fee/100).toFixed(2)} store={this.props.store} onChange={this.feeChanged} />
         </div>}
       </div>

@@ -50,7 +50,7 @@ FeeGenerator.prototype.needsDiagnosis = function(code) {
  * taken from detail, but code is passed in.   That way the same code
  * is used to calculate for both main lines and premiums
  */
-FeeGenerator.prototype.calculateFee = function(detail, code) {
+FeeGenerator.prototype.calculateFee = function(detail, row0, code) {
   code = this.normalizeCode(code);
   var service_code = this.service_codes[code];
   if (!service_code) return null;
@@ -58,8 +58,8 @@ FeeGenerator.prototype.calculateFee = function(detail, code) {
   var overtime = this.overtimeRate(code);
   if (overtime) {
     return {
-      fee: Math.round(detail.fee * overtime),
-      units: detail.units
+      fee: Math.round(row0.fee * overtime),
+      units: row0.units
     }
   }
 
@@ -78,7 +78,7 @@ FeeGenerator.prototype.calculateFee = function(detail, code) {
   }
 
   var minutes = 0;
-  if (code === this.normalizeCode(detail.code) && detail.time_in && detail.time_out) {
+  if (code === this.normalizeCode(row0.code) && detail.time_in && detail.time_out) {
     minutes = FeeGenerator.inMinutes(detail.time_out) - FeeGenerator.inMinutes(detail.time_in);
     if (minutes < 0) minutes = minutes + 24*60;
   }
@@ -105,7 +105,10 @@ FeeGenerator.prototype.calculateFee = function(detail, code) {
   };
 };
 
-var feeGenerator = null;
+var exports = {
+  feeGenerator: null,
+  inMinutes: FeeGenerator.inMinutes,
+};
 
 var loadServiceCodes = function(data) {
   var array = new Array(_.size(data));
@@ -115,11 +118,11 @@ var loadServiceCodes = function(data) {
     array[i] = sc.name;
   });
   serviceCodesEngine.add(array);
-  feeGenerator = new FeeGenerator(hash);
+  exports.feeGenerator = new FeeGenerator(hash);
 }
 
 setTimeout(function() {
-  if (!feeGenerator) {
+  if (!exports.feeGenerator) {
       $.ajax({
         url: window.ENV.API_ROOT+'v1/service_codes.json',
         dataType: 'json',
@@ -132,7 +135,4 @@ setTimeout(function() {
   }
 }, 1500);
 
-export default {
-  feeGenerator,
-  inMinutes: FeeGenerator.inMinutes,
-}
+export default exports;

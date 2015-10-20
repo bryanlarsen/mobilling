@@ -46,6 +46,7 @@ class Claim::Row < ActiveRecord::Base
 
   def as_json
     attributes.tap do |response|
+      response['claim_id'] = item.claim_id
       valid?
       response['errors'] = errors.as_json
       has_warnings?

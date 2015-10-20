@@ -25,6 +25,7 @@ export {default as ClaimTime} from './ClaimTime';
 export {default as ClaimYesNo} from './ClaimYesNo';
 export {default as ClaimsPage} from './ClaimsPage';
 export {default as ClaimsTable} from './ClaimsTable';
+export {default as CommentsTab} from './CommentsTab';
 export {default as ConsultTab} from './ConsultTab';
 export {default as DoctorProfile} from './DoctorProfile';
 export {default as EmptyHeader} from './EmptyHeader';

@@ -1,6 +1,6 @@
 import { Route } from 'react-router';
 
-import { Root, LoginPage, ClaimsPage, ProfilePage, ProfileSettings, ClaimPageSelect, ClaimPatient, ClaimTab, ConsultTab, ItemsTab, NewClaimPage, NewUserPage } from "./components";
+import { Root, LoginPage, ClaimsPage, ProfilePage, ProfileSettings, ClaimPageSelect, ClaimPatient, ClaimTab, ConsultTab, ItemsTab, NewClaimPage, NewUserPage, CommentsTab } from "./components";
 
 const routes = (
   <Route path="/" component={Root}>
@@ -15,6 +15,7 @@ const routes = (
       <Route path="claim" component={ClaimTab} />
       <Route path="consult" component={ConsultTab} />
       <Route path="items" component={ItemsTab} />
+      <Route path="comments" component={CommentsTab} />
     </Route>
     <Route path="/create_account" component={NewUserPage} />
   </Route>

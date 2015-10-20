@@ -3,7 +3,7 @@ import { ClaimItem, ClaimItemSummary } from '../components';
 import dollars from '../data/dollars';
 import claimTotal, { itemTotal } from '../data/claimTotal';
 import normalizeDate from '../data/normalizeDate';
-import { newItem } from '../actions';
+import { newItem, itemChangeHandler } from '../actions';
 
 var ClaimItemCollapse = React.createClass({
   expand: function() {
@@ -71,7 +71,7 @@ export default React.createClass({
     var items = this.props.claim.items;
     var lastIndex;
     if (items.length) {
-      var days = _.uniq(items.map((item) => item.day));
+      var days = _.uniq(items.map((item) => item.day)).sort();
       return React.createElement("div",
                                  {},
                                  days.map(function(day) {
@@ -95,10 +95,13 @@ export default React.createClass({
                    item: this.props.claim.items[i],
                    index: i,
                    key: item.id,
+                   full: this.props.full,
                    silent: this.props.silent,
                    expanded: this.state.expanded === i,
                    expand: this.expand,
-                   readonly: this.props.readonly
+                   readonly: this.props.readonly,
+                   dispatch: this.props.dispatch,
+                   onChange: itemChangeHandler.bind(null, this.props.dispatch, this.props.claim.id, item.id),
                  });
                } else {
                  return null;

@@ -2,9 +2,10 @@
 
 import _ from 'underscore';
 import moment from 'moment';
-import { writeHelper } from "./actionHelpers";
-import { unrecoverableError } from "./globalActions";
-import { dayType, timeType } from "../data/dayType";
+import { writeHelper } from './actionHelpers';
+import { unrecoverableError } from './globalActions';
+import { dayType, timeType } from '../data/dayType';
+import FeeGenerator from '../data/FeeGenerator';
 
 function updateConsult(claim) {
   let updates = {consult_time_type: claim.consult_time_type};
@@ -46,6 +47,21 @@ function updateConsult(claim) {
   return updates;
 };
 
+function updateFee(claim, item) {
+  let updates = [];
+  const gen = FeeGenerator.feeGenerator;
+  if (!gen) return updates;
+
+  for (let row of item.rows) {
+    let result = gen.calculateFee(item, item.rows[0], row.code);
+    if (result && (true || result.fee !== row.fee || result.units !== row.units)) {
+      updates.push({id: row.id, fee: result.fee, units: result.units});
+    }
+  }
+
+  return updates;
+};
+
 function claimListInit(claims) {
   return { type: 'CLAIM_LIST.INIT', payload: claims };
 }
@@ -66,6 +82,38 @@ function claimResponse(payload) {
 
 function itemInit(payload) {
   return { type: 'ITEM.INIT', payload };
+}
+
+function itemUpdate(payload) {
+  return { type: 'ITEM.UPDATE', payload };
+}
+
+function itemResponse(payload) {
+  return { type: 'ITEM.UPDATE',
+           payload: _.pick(payload, 'claim_id', 'id', 'errors', 'warnings'),
+         };
+}
+
+function itemDelete(payload) {
+  return { type: 'ITEM.DELETE', payload };
+}
+
+function rowInit(payload) {
+  return { type: 'ROW.INIT', payload };
+}
+
+function rowUpdate(payload) {
+  return { type: 'ROW.UPDATE', payload };
+}
+
+function rowResponse(payload) {
+  return { type: 'ROW.UPDATE',
+           payload: _.pick(payload, 'claim_id', 'item_id', 'id', 'errors', 'warnings'),
+         };
+}
+
+function rowDelete(payload) {
+  return { type: 'ROW.DELETE', payload };
 }
 
 const claimActions = {
@@ -104,6 +152,11 @@ const claimActions = {
   },
 
   newItem(claimId, item) {
+    const done = (item) => (dispatch, getState) => {
+      dispatch(itemInit(item));
+      // update fee & units on new item if necessary
+      dispatch(claimActions.updateItem(claimId, item.id, {}));
+    };
     return (dispatch, getState) => {
       writeHelper({dispatch,
                    method: 'POST',
@@ -111,7 +164,7 @@ const claimActions = {
                    action_prefix: 'ITEM.CREATE',
                    payload: item,
                    updateAction: unrecoverableError,
-                   responseAction: itemInit
+                   responseAction: done,
                   });
     }
   },
@@ -138,28 +191,142 @@ const claimActions = {
     return (dispatch, getState) => {
       const claim = getState().claimStore.claims[id];
       let newClaim = {...claim, ...changes};
-      let calculated = updateConsult(newClaim)
+      let calculated = updateConsult(newClaim);
       let updates = {id, ...changes, ...calculated};
       dispatch(claimUpdate(updates));
-      return writeHelper({dispatch,
-                          method: 'PATCH',
-                          url: `${window.ENV.API_ROOT}v1/claims/${id}.json`,
-                          action_prefix: 'CLAIM.PATCH',
-                          payload: updates,
-                          updateAction: claimUpdate,
-                          responseAction: claimResponse,
-                         });
+      writeHelper({dispatch,
+                   method: 'PATCH',
+                   url: `${window.ENV.API_ROOT}v1/claims/${id}.json`,
+                   action_prefix: 'CLAIM.PATCH',
+                   payload: updates,
+                   updateAction: claimUpdate,
+                   responseAction: claimResponse,
+                  });
     };
   },
 
-  claimChangeHandler(dispatch, claim, ev) {
+  updateItem(claim_id, id, changes) {
+    return (dispatch, getState) => {
+      const claim = getState().claimStore.claims[claim_id];
+      const item = claim.items.find((i) => i.id === id);
+      let newItem = {...item, ...changes};
+      let updates = {id, claim_id, ...changes};
+      dispatch(itemUpdate(updates));
+
+      const gen = FeeGenerator.feeGenerator;
+      if (gen) {
+        for (const row of newItem.rows) {
+          const result = gen.calculateFee(item, item.rows[0], row.code);
+          if (result && (result.fee !== row.fee || result.units !== row.units)) {
+            dispatch(claimActions.updateRow(claim_id, id, row.id, {id: row.id, fee: result.fee, units: result.units}));
+          }
+        }
+      }
+
+      if (_.size(updates) === 2) return;
+      writeHelper({dispatch,
+                   method: 'PATCH',
+                   url: `${window.ENV.API_ROOT}v1/claims/${claim_id}/items/${id}.json`,
+                   action_prefix: 'ITEM.PATCH',
+                   payload: updates,
+                   updateAction: itemUpdate,
+                   responseAction: itemResponse,
+                  });
+    };
+  },
+
+  updateRow(claim_id, item_id, id, changes) {
+    return (dispatch, getState) => {
+      const claim = getState().claimStore.claims[claim_id];
+      const item = claim.items.find((i) => i.id === item_id);
+      const row = item.rows.find((r) => r.id === id);
+      const gen = FeeGenerator.feeGenerator;
+      let updates = {id, claim_id, item_id, ...changes};
+      if (gen) {
+        const result = gen.calculateFee(item, item.rows[0], row.code);
+        if (result && (result.fee !== row.fee || result.units !== row.units)) {
+          updates = {...updates, fee: result.fee, units: result.units};
+        }
+      }
+      dispatch(rowUpdate(updates));
+      writeHelper({dispatch,
+                   method: 'PATCH',
+                   url: `${window.ENV.API_ROOT}v1/claims/${claim_id}/rows/${id}.json`,
+                   action_prefix: 'ROW.PATCH',
+                   payload: updates,
+                   updateAction: rowUpdate,
+                   responseAction: rowResponse,
+                  });
+    };
+  },
+
+  deleteItem(claim_id, id) {
+    const payload = {claim_id, id};
+    return (dispatch, getState) => {
+      writeHelper({dispatch,
+                   method: 'DELETE',
+                   url: `${window.ENV.API_ROOT}v1/claims/${claim_id}/items/${id}.json`,
+                   action_prefix: 'ITEM.DELETE',
+                   payload: {},
+                   updateAction: unrecoverableError,
+                   responseAction: (json) => itemDelete(payload),
+                  });
+    }
+  },
+
+  deleteRow(claim_id, item_id, id) {
+    const payload = {claim_id, item_id, id};
+    return (dispatch, getState) => {
+      writeHelper({dispatch,
+                   method: 'DELETE',
+                   url: `${window.ENV.API_ROOT}v1/claims/${claim_id}/rows/${id}.json`,
+                   action_prefix: 'ROW.DELETE',
+                   payload: {},
+                   updateAction: unrecoverableError,
+                   responseAction: (json) => rowDelete(payload),
+                  });
+    }
+  },
+
+  createRow(claim_id, item_id, row) {
+    return (dispatch, getState) => {
+      writeHelper({dispatch,
+                   method: 'POST',
+                   url: `${window.ENV.API_ROOT}v1/claims/${claim_id}/items/${item_id}/rows.json`,
+                   action_prefix: 'ROW.CREATE',
+                   payload: {},
+                   updateAction: unrecoverableError,
+                   responseAction: rowInit,
+                  });
+    };
+  },
+
+  claimChangeHandler(dispatch, id, ev) {
     if (!ev.target) return;
     var target = ev.target;
     while(target.value === undefined) target = target.parentElement;
     let updates = {};
     updates[target.name] = target.value;
-    dispatch(claimActions.updateClaim(claim, updates));
-  }
+    dispatch(claimActions.updateClaim(id, updates));
+  },
+
+  itemChangeHandler(dispatch, claim_id, id, ev) {
+    if (!ev.target) return;
+    var target = ev.target;
+    while(target.value === undefined) target = target.parentElement;
+    let updates = {};
+    updates[target.name] = target.value;
+    dispatch(claimActions.updateItem(claim_id, id, updates));
+  },
+
+  rowChangeHandler(dispatch, claim_id, item_id, id, ev) {
+    if (!ev.target) return;
+    var target = ev.target;
+    while(target.value === undefined) target = target.parentElement;
+    let updates = {};
+    updates[target.name] = target.value;
+    dispatch(claimActions.updateRow(claim_id, item_id, id, updates));
+  },
 }
 
 export default claimActions;
