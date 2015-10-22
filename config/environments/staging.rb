@@ -20,20 +20,17 @@ Rails.application.configure do
   config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = true
+  config.serve_static_files = false
 
   # Compress JavaScripts and CSS.
-  # config.assets.js_compressor = :uglifier
-  # config.assets.css_compressor = :sass
+#  config.assets.js_compressor = :uglifier
+  config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
-  config.assets.compress = false
 
   # Generate digests for assets URLs.
   config.assets.digest = true
-
-  # `config.assets.precompile` has moved to config/initializers/assets.rb
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
@@ -43,19 +40,20 @@ Rails.application.configure do
   # config.force_ssl = true
 
   # Set to :debug to see everything in the log.
-  config.log_level = :info
+  config.log_level = :debug
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
 
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+  config.logger = Logger.new(STDOUT)
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.action_controller.asset_host = "http://assets.example.com"
+  # config.asset_host = "https://jsapp.mo-billing.ca"
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
@@ -80,18 +78,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  config.action_mailer.default_url_options = {host: "newapp.mo-billing.ca"}
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default content_type: "text/plain"
-  config.action_mailer.smtp_settings = {
-    address:              "email-smtp.us-east-1.amazonaws.com",
-    port:                 "587",
-    authentication:       :login,
-    user_name:            Rails.application.secrets.smtp_user_name,
-    password:             Rails.application.secrets.smtp_password,
-    enable_starttls_auto: true
-  }
-
-  config.asset_host = "http://newapp.mo-billing.ca"
 end
