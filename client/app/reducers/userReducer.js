@@ -17,6 +17,10 @@ export default function globalReducer(state = initialState, action) {
     return {...state, ...payload};
   }
 
+  case 'SET_NOTICE': {
+    return {...state, notice: payload};
+  }
+
   default: {
     return state;
   }

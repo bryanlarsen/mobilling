@@ -32,6 +32,7 @@ export {default as CommentsTab} from './CommentsTab';
 export {default as ConsultTab} from './ConsultTab';
 export {default as DoctorProfile} from './DoctorProfile';
 export {default as EmptyHeader} from './EmptyHeader';
+export {default as ForgotPasswordPage} from './ForgotPasswordPage';
 export {default as Icon} from './Icon';
 export {default as ItemsTab} from './ItemsTab';
 export {default as LoginPage} from './LoginPage';
