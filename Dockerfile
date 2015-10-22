@@ -33,11 +33,16 @@ ENV NODE_ENV production
 RUN echo "America/Toronto" > /etc/timezone
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
+RUN npm install -g bower
+
 RUN mkdir /app
 WORKDIR /app
 
 ADD Gemfile Gemfile.lock /app/
 RUN bundle install --deployment
+
+ADD .bowerrc bower.json /app/
+RUN bower install
 
 ADD client/package.json /app/client/package.json
 RUN cd /app/client && npm install
