@@ -1,6 +1,6 @@
 import { Route } from 'react-router';
 
-import { Root, LoginPage, ClaimsPage, ProfilePage, ProfileSettings, ClaimPageSelect, ClaimPatient, ClaimTab, ConsultTab, ItemsTab, NewClaimPage, NewUserPage, CommentsTab } from "./components";
+import { Root, LoginPage, ClaimsPage, ProfilePage, ProfileSettings, ClaimPageSelect, ClaimPatient, ClaimTab, ConsultTab, ItemsTab, NewClaimPage, NewUserPage, CommentsTab, ForgotPasswordPage } from "./components";
 
 const routes = (
   <Route path="/" component={Root}>
@@ -18,6 +18,7 @@ const routes = (
       <Route path="comments" component={CommentsTab} />
     </Route>
     <Route path="/create_account" component={NewUserPage} />
+    <Route path="/forgot_password" component={ForgotPasswordPage} />
   </Route>
 );
 

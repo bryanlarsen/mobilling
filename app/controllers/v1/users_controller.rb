@@ -1,5 +1,6 @@
 class V1::UsersController < V1::BaseController
   skip_before_action :require_user, only: %i[create]
+  skip_before_filter :refresh_session, :only => [:create]
   wrap_parameters :user, include: User.all_params.map(&:first), format: :json
   resource_description { resource_id "users" }
 
@@ -23,6 +24,11 @@ class V1::UsersController < V1::BaseController
         param name, klass
       end
     end
+  end
+
+  def pundit_user
+    return nil if action_name == 'create'
+    current_user
   end
 
   api :POST, "/v1/users", "Creates a new user"

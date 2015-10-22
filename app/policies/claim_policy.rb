@@ -23,6 +23,10 @@ class ClaimPolicy < Struct.new(:current_user, :claim)
     access?
   end
 
+  def new_comment?
+    access?
+  end
+
   def show?
     access?
   end

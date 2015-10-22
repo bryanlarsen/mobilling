@@ -394,7 +394,7 @@ class Claim < ActiveRecord::Base
         end
         response[:submission] = interactor.contents
       rescue StandardError => e
-        response[:warnings][:submission] = e.to_s
+        response[:warnings][:submission] = [e.to_s]
       end
 
       response[:photo] = {
@@ -403,14 +403,7 @@ class Claim < ActiveRecord::Base
       }
 
       response[:reclamation_id] = reclamation.id if status=="reclaimed" && reclamation
-      response[:comments] = comments.map do |comment|
-        {
-          body: comment.body,
-          user_name: comment.user.try(:name),
-          user_id: comment.user.try(:id),
-          created_at: comment.created_at,
-        }
-      end
+      response[:comments] = comments.map(&:as_json)
       response[:num_comments] = comments.size
 
       response[:files] = files.reduce({}) do |hash, file|

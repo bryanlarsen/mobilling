@@ -29,7 +29,7 @@ export default React.createClass({
     var feeGenerator = FeeGenerator.feeGenerator;
     var needs_diagnosis = true;
     if (feeGenerator) {
-      needs_diagnosis = feeGenerator.needsDiagnosis(this.props.item.rows && this.props.item.rows[0].code);
+      needs_diagnosis = feeGenerator.needsDiagnosis(this.props.item.rows.length && this.props.item.rows[0].code);
     }
 
     return (
