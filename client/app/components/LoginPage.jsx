@@ -53,7 +53,7 @@ class LoginPage extends React.Component {
               <div className="form-group">
                 <label className="control-label col-sm-2" htmlFor="email">Email</label>
                 <div className="col-sm-10">
-                  <input className="form-control input-lg" type="email" name="v3_create_session[email]" />
+                  <input className="form-control input-lg" defaultValue={this.props.userStore.email} type="email" name="v3_create_session[email]" />
                   <span className="help-block">{(this.state.errors.email || []).join(',')}</span>
                 </div>
               </div>

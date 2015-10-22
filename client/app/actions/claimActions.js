@@ -166,7 +166,23 @@ const claimActions = {
                    updateAction: unrecoverableError,
                    responseAction: done,
                   });
-    }
+    };
+  },
+
+  setComment(claimId, commentId, body) {
+    const done = (payload) => {
+      return {type: commentId ? 'COMMENT.UPDATE' : 'COMMENT.INIT', payload: {...payload, live: true}};
+    };
+    return (dispatch, getState) => {
+      writeHelper({dispatch,
+                   method: commentId ? 'PATCH' : 'POST',
+                   url: `${window.ENV.API_ROOT}v1/claims/${claimId}/comments${commentId ? '/'+commentId : ''}.json`,
+                   action_prefix: commentId ? 'COMMENT.PATCH' : 'COMMENT.CREATE',
+                   payload: {body},
+                   updateAction: unrecoverableError,
+                   responseAction: done
+                  });
+    };
   },
 
   refreshClaim(id) {

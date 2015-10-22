@@ -3,10 +3,6 @@ import { startBusy, endBusy } from "./globalActions";
 import { writeHelper } from "./actionHelpers";
 import { pushState } from "redux-router";
 
-function updateUserAttributes(payload) {
-  return { type: 'USER.UPDATE', payload };
-};
-
 const userActions = {
   newSession(payload) {
     return { type: 'USER.INIT', payload };
@@ -41,7 +37,7 @@ const userActions = {
 
   updateUser(updates) {
     return (dispatch, getState) => {
-      dispatch(updateUserAttributes(updates));
+      dispatch(userActions.updateUserAttributes(updates));
       const user = getState().userStore;
       if (user.id) {
         writeHelper({dispatch,
@@ -49,7 +45,7 @@ const userActions = {
                        url: `${window.ENV.API_ROOT}v1/users/${user.id}.json`,
                        action_prefix: 'USER.PATCH',
                        payload: updates,
-                       updateAction: updateUserAttributes,
+                       updateAction: userActions.updateUserAttributes,
                        responseAction: userActions.userResponse
                       });
       }
@@ -59,6 +55,14 @@ const userActions = {
   userResponse(response) {
     return { type: 'USER.UPDATE',
              payload: _.pick(response, 'errors', 'warnings', 'doctors', 'notice') };
+  },
+
+  updateUserAttributes(payload) {
+    return { type: 'USER.UPDATE', payload };
+  },
+
+  setNotice(payload) {
+    return { type: 'SET_NOTICE', payload };
   },
 
   userChangeHandler(dispatch, ev) {
