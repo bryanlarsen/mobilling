@@ -1,4 +1,4 @@
-import { ClaimPage, LoadingPage } from '../components';
+import { ClaimPage, ClaimViewPage, LoadingPage } from '../components';
 import { refreshClaim, claimChangeHandler } from '../actions';
 import { connect } from 'react-redux';
 

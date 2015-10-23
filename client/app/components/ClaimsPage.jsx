@@ -42,6 +42,7 @@ class ClaimsPage extends React.Component {
   }
 
   render() {
+    console.log('claimspage', this.props.location.query);
     let claims = [for (id of this.props.claimStore.claimList)
                       this.props.claimStore.claims[id]];
 
@@ -121,7 +122,7 @@ class ClaimsPage extends React.Component {
               } else {
                 query.filter = filter;
               }
-              return <LinkContainer key={filter} to="claims" query={query}>
+              return <LinkContainer key={filter} to="/claims" query={query}>
                 <NavItem>
                 <span className="small">{s.humanize(filter)}{counts[filter] && <span className="badge">{counts[filter]}</span>}</span>
                 </NavItem>

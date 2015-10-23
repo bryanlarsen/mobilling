@@ -25,6 +25,8 @@ export {default as ClaimRow} from './ClaimRow';
 export {default as ClaimStaticOptional} from './ClaimStaticOptional';
 export {default as ClaimTab} from './ClaimTab';
 export {default as ClaimTime} from './ClaimTime';
+export {default as ClaimView} from './ClaimView';
+export {default as ClaimViewPage} from './ClaimViewPage';
 export {default as ClaimYesNo} from './ClaimYesNo';
 export {default as ClaimsPage} from './ClaimsPage';
 export {default as ClaimsTable} from './ClaimsTable';
