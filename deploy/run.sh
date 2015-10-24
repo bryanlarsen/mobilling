@@ -16,7 +16,7 @@ sudo docker cp ${CONTAINER}:/app/public ${OUTDIR}/
 IP=$(sudo docker inspect ${CONTAINER} | jq -r ".[0].NetworkSettings.IPAddress")
 echo IP ${IP}
 sed -e 's/%IP%/'"${IP}"'/g' -e 's/%HOSTS%/'"${HOSTS}"'/g' -e 's/%ENV%/'"${ENV}"'/g' ${DIR}/nginx-${ENV}.conf > /tmp/nginx.conf
-sudo cp /tmp/nginx.conf /etc/nginx/sites-available/${APP}-${CONTAINER}-${ENV}.conf
+sudo mv /tmp/nginx.conf /etc/nginx/sites-available/${APP}-${CONTAINER}-${ENV}.conf
 sudo ln -sf /etc/nginx/sites-available/${APP}-${CONTAINER}-${ENV}.conf /etc/nginx/sites-enabled/${APP}-${ENV}.conf
 
 sleep 5
