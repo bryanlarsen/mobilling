@@ -5,3 +5,8 @@
 //= require fastclick
 
 var Promise = typeof Promise === "undefined" ? ES6Promise.Promise : Promise;
+
+$(function() {
+  FastClick.attach(document.body);
+});
+
