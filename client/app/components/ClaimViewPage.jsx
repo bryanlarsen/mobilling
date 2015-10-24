@@ -1,4 +1,6 @@
-var ClaimViewPage=React.createClass({
+import { ClaimSubmitButtons, ClaimView, ClaimHeader } from '../components';
+
+export default React.createClass({
   render: function() {
     return (
       <div className="body">
@@ -10,6 +12,6 @@ var ClaimViewPage=React.createClass({
           </div>
         </div>
       </div>
-    )
+    );
   }
 });
