@@ -23,6 +23,7 @@ export {default as ClaimPatient} from './ClaimPatient';
 export {default as ClaimPhoto} from './ClaimPhoto';
 export {default as ClaimRow} from './ClaimRow';
 export {default as ClaimStaticOptional} from './ClaimStaticOptional';
+export {default as ClaimSubmitButtons} from './ClaimSubmitButtons';
 export {default as ClaimTab} from './ClaimTab';
 export {default as ClaimTime} from './ClaimTime';
 export {default as ClaimView} from './ClaimView';

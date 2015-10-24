@@ -7,11 +7,11 @@ export default React.createClass({
         <div className="container with-bottom">
           <div className="form-horizontal">
             <ClaimHeader {...this.props} />
+            <ClaimSubmitButtons {...this.props} />
             <ClaimView {...this.props} />
           </div>
         </div>
       </div>
     );
-      <ClaimSubmitButtons {...this.props} />
   }
 });
