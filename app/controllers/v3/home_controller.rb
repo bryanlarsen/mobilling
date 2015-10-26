@@ -20,7 +20,7 @@ class V3::HomeController < V3::BaseController
     authorize :home, :login?
     @user = current_user rescue nil
     if current_user
-      redirect_to '/claims'
+      redirect_to current_user.doctor? ? '/claims' : '/admin'
     else
       render :file => File.join(Rails.root, 'public', 'home.html'),
              :layout => false
