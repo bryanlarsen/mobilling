@@ -1,9 +1,10 @@
 <div class="container">
   <% props = {}
      props[:userStore] = current_user.as_json(include_doctors: true, include_warnings: true)
-     props[:params] = { id: @claim.id }
+     props[:params] = { id: @claim.id, backURL: admin_claims_path }
      props[:claimStore] = {
        claims: { @claim.id => @claim.as_json },
+       claimList: [ @claim.id ],
        stack: @stack,
      } %>
   <%= react_component('ClaimEdit', props, {generator_function: true, prerender: false}) %>

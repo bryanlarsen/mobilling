@@ -5,7 +5,7 @@ import { ClaimFormGroup, ClaimInputWrapper, RadioSelect} from '../components';
 export default React.createClass({
   doneHandler: function(ev) {
     var disabled = this.props.store.unsaved || _.size(this.props.store.errors) !== 0;
-    if (!disabled) window.location.href = this.props.backURL;
+    if (!disabled) window.location.href = this.props.params.backURL;
   },
 
   nextHandler: function(ev) {

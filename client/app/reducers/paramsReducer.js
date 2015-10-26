@@ -14,6 +14,10 @@ export default function globalReducer(state = initialState, action) {
     return { ...payload };
   }
 
+  case 'PARAMS.UPDATE': {
+    return { ...state, ...payload };
+  }
+
   default: {
     return state;
   }

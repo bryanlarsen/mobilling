@@ -1,5 +1,5 @@
 import { AdminClaimForm, AdminClaimStatusActions, ClaimView } from '../components';
-import { refreshClaim, claimChangeHandler } from '../actions';
+import { refreshClaim, claimChangeHandler, updateParams } from '../actions';
 import { connect } from 'react-redux';
 
 @connect((state) => state)
@@ -14,8 +14,14 @@ class AdminClaimEdit extends React.Component {
     }
   }
 
+  loadClaim(id) {
+    this.props.dispatch(refreshClaim(id));
+    this.props.dispatch(updateParams({id}));
+  }
+
   render() {
     const claim = this.props.claimStore.claims[this.props.params.id];
+    if (!claim) return false;
     const handler = claimChangeHandler.bind(null, this.props.dispatch, claim.id);
     var claimHref = function(id) {
       return "/admin/claims/"+id+"/edit";
@@ -25,14 +31,14 @@ class AdminClaimEdit extends React.Component {
       return (
         <div className="form-horizontal">
           <AdminClaimForm {...this.props} store={claim} claim={claim} onChange={handler} claimHref={claimHref} />
-          <AdminClaimStatusActions {...this.props} store={claim} claim={claim} onChange={handler} claimHref={claimHref} stack={this.props.claimStore.stack} />
+          <AdminClaimStatusActions {...this.props} store={claim} claim={claim} onChange={handler} claimHref={claimHref} stack={this.props.claimStore.stack} loadClaim={this.loadClaim.bind(this)}/>
         </div>
       );
     } else {
       return (
         <div className="form-horizontal">
           <ClaimView {...this.props} store={claim} claim={claim} onChange={handler} claimHref={claimHref} />
-          <AdminClaimStatusActions {...this.props} store={claim} claim={claim} onChange={handler} claimHref={claimHref} stack={this.props.claimStore.stack} />
+          <AdminClaimStatusActions {...this.props} store={claim} claim={claim} onChange={handler} claimHref={claimHref} stack={this.props.claimStore.stack} loadClaim={this.loadClaim.bind(this)}/>
         </div>
       );
     }
