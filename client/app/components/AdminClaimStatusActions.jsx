@@ -1,23 +1,21 @@
-var ClaimStatusActions = React.createClass({
-  handleChange: function(ev) {
-    var target = ev.target;
-    while(target.value === undefined) target = target.parentElement;
-    this.props.actions.updateFields([[[target.name], target.value]]);
-  },
+import _ from 'underscore';
+import s from 'underscore.string';
+import { ClaimFormGroup, ClaimInputWrapper, RadioSelect} from '../components';
 
+export default React.createClass({
   doneHandler: function(ev) {
-    var disabled = this.props.store.get('unsaved') || this.props.store.get('errors').count() !== 0;
+    var disabled = this.props.store.unsaved || _.size(this.props.store.errors) !== 0;
     if (!disabled) window.location.href = this.props.backURL;
   },
 
   nextHandler: function(ev) {
-    var cur = this.props.stack.indexOf(this.props.store.get('id'));
+    var cur = this.props.stack.indexOf(this.props.store.id);
     var next = this.props.stack[cur+1];
     this.props.loadClaim(next);
   },
 
   prevHandler: function(ev) {
-    var cur = this.props.stack.indexOf(this.props.store.get('id'));
+    var cur = this.props.stack.indexOf(this.props.store.id);
     var prev = this.props.stack[cur-1];
     this.props.loadClaim(prev);
   },
@@ -34,43 +32,34 @@ var ClaimStatusActions = React.createClass({
       "doctor_attention": ["doctor_attention", "for_agent", "ready"],
       "done":           ["done", "reclaimed"],
       "reclaimed":      [],
-    }[this.props.store.get('status')];
+    }[this.props.store.status];
 
-    var cur = this.props.stack.indexOf(this.props.store.get('id'));
+    var cur = this.props.stack.indexOf(this.props.store.id);
     var next = this.props.stack[cur+1];
     var prev = this.props.stack[cur-1];
     var form = this;
 
-    var disabled = this.props.store.get('unsaved') || this.props.store.get('errors').count() !== 0;
+    var disabled = this.props.store.unsaved || _.size(this.props.store.errors) !== 0;
 
+    console.log(this.props.store.unsaved, this.props.store.errors, disabled, statuses);
     var statusOptions = {};
     _.each(statuses, function(status) {
       if (status==='reclaimed') return;
       if (status==='ready' &&
-          ((this.props.store.get('validations') || Immutable.List()).count() !== 0 ||
-           this.props.store.get('warnings').count() !== 0 ||
-           this.props.store.get('errors').count() !== 0)) {
+           _.size(this.props.store.warnings) !== 0 ||
+           _.size(this.props.store.errors) !== 0) {
              return;
       }
       statusOptions[status] = s.humanize(status);
     }, this);
+    console.log(statusOptions);
 
     return (
         <fieldset>
           <legend>Action</legend>
-
-          <div className="form-group">
-            <div className="col-md-8 col-md-offset-4">
-              <button className="btn btn-warning" onClick={this.props.actions.undo} disabled={!this.props.store.get('changed')}>
-                <i className="fa fa-undo"/>
-                &nbsp;Undo
-              </button>
-            </div>
-          </div>
-
           <ClaimFormGroup label="Status" width={8}>
             <ClaimInputWrapper {...this.props} name="status" >
-              <RadioSelect {...this.props} name="status" options={statusOptions} onChange={this.handleChange} />
+              <RadioSelect {...this.props} name="status" options={statusOptions} />
             </ClaimInputWrapper>
           </ClaimFormGroup>
 
@@ -80,7 +69,7 @@ var ClaimStatusActions = React.createClass({
              if (status === 'reclaimed') {
                return (
                  <div className="row" key="action-reclaimed">
-                   <form action={'/admin/claims/'+this.props.store.get('id')+'/reclaim'} method="POST">
+                   <form action={'/admin/claims/'+this.props.store.id+'/reclaim'} method="POST">
                      <input type="hidden" name="authenticity_token" value={$('meta[name=csrf-token]').attr('content')}/>
                      <button className="btn btn-primary btn-lg col-md-2 col-md-offset-6" type="submit" disabled={disabled}>
                        <i className="fa fa-recycle"/>
@@ -114,6 +103,16 @@ var ClaimStatusActions = React.createClass({
           </div>
        </fieldset>
     );
+
+          <div className="form-group">
+            <div className="col-md-8 col-md-offset-4">
+              <button className="btn btn-warning" onClick={this.props.actions.undo} disabled={!this.props.store.changed}>
+                <i className="fa fa-undo"/>
+                &nbsp;Undo
+              </button>
+            </div>
+          </div>
+
   }
 });
 

@@ -95,7 +95,7 @@ export default React.createClass({
                    item: this.props.claim.items[i],
                    index: i,
                    key: item.id,
-                   full: this.props.full,
+                   full: this.props.full || this.props.agent,
                    silent: this.props.silent,
                    expanded: this.state.expanded === i,
                    expand: this.expand,

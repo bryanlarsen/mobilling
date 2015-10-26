@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   apipie
 
   scope module: 'v3' do
-    root to: "home#show"
+    root to: "home#root"
     get "/login", to: "home#login"
     get "/create_account", to: "home#login"
     get "/forgot_password", to: "home#login"

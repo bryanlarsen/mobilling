@@ -1,4 +1,4 @@
-var serviceLocations = {
+export default {
   '': 'None',
   'HDS': 'HDS: Day Surgery',
   'HED': 'HED: Emergency Department',

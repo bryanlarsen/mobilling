@@ -47,21 +47,6 @@ function updateConsult(claim) {
   return updates;
 };
 
-function updateFee(claim, item) {
-  let updates = [];
-  const gen = FeeGenerator.feeGenerator;
-  if (!gen) return updates;
-
-  for (let row of item.rows) {
-    let result = gen.calculateFee(item, item.rows[0], row.code);
-    if (result && (true || result.fee !== row.fee || result.units !== row.units)) {
-      updates.push({id: row.id, fee: result.fee, units: result.units});
-    }
-  }
-
-  return updates;
-};
-
 function claimListInit(claims) {
   return { type: 'CLAIM_LIST.INIT', payload: claims };
 }
@@ -232,7 +217,7 @@ const claimActions = {
       const gen = FeeGenerator.feeGenerator;
       if (gen) {
         for (const row of newItem.rows) {
-          const result = gen.calculateFee(item, item.rows[0], row.code);
+          const result = gen.calculateFee(newItem, newItem.rows[0], row.code);
           if (result && (result.fee !== row.fee || result.units !== row.units)) {
             dispatch(claimActions.updateRow(claim_id, id, row.id, {id: row.id, fee: result.fee, units: result.units}));
           }
