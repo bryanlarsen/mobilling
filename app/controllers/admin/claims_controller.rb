@@ -25,9 +25,8 @@ class Admin::ClaimsController < Admin::BaseController
   end
 
   def edit
-    @claim = policy_scope(Claim).includes(:comments).includes(:photo).find(params[:id])
+    @claim = policy_scope(Claim).includes(:comments).includes(:photo).includes(:rows).find(params[:id])
     authorize @claim, :update?
-    @form = ClaimForm.new(@claim, current_user: current_user)
     @user = current_user
     @stack = policy_scope(Claim).where(filters).order("#{sort_column} #{sort_direction}").select(:id, :user_id).map(&:id)
     render layout: "admin_react"

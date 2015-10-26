@@ -34,7 +34,7 @@ export default React.createClass({
           <fieldset>
             <legend>File</legend>
             <div className="form-group">
-              <p className="form-control-static"><pre>{this.props.store.submission}</pre></p>
+              <pre className="form-control-static">{this.props.store.submission}</pre>
             </div>
           </fieldset>
         }

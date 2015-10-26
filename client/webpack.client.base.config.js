@@ -11,7 +11,6 @@ module.exports = {
       'jquery',
       'jquery-ujs',
     ],
-    app: [],
   },
   resolve: {
     extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx', '.scss', '.css', 'config.js'],

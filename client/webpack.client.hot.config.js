@@ -8,7 +8,7 @@ const config = require('./webpack.client.base.config');
 // We're using the bootstrap-sass loader.
 // See: https://github.com/shakacode/bootstrap-sass-loader
 config.entry.vendor.push('bootstrap-sass!./bootstrap-sass.config.js');
-config.entry.app.push(
+config.entry.app = [
 
   // Webpack dev server
   'webpack-dev-server/client?http://localhost:3000',
@@ -20,7 +20,7 @@ config.entry.app.push(
 
   // App entry point
   './app/startup/clientGlobals'
-);
+];
 
 config.output = {
 

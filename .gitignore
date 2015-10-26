@@ -30,3 +30,10 @@
 /bower_components
 .env
 
+/app/assets/javascripts/generated
+/client/node_modules
+/public/combo.css
+/public/img
+/public/home.html
+/public/js
+/public/vendor

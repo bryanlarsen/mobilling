@@ -1,5 +1,6 @@
-import { ClaimInputGroup, ClaimInputWrapper, ClaimFormGroup, Select, ClaimDateGroup, ClaimYesNo, ClaimHospital, ClaimDiagnoses, ClaimAdmissionFirstLast } from '../components';
+import { ClaimInputGroup, ClaimInputWrapper, ClaimFormGroup, Select, ClaimDateGroup, ClaimYesNo, ClaimHospital, ClaimDiagnoses, ClaimAdmissionFirstLast, ClaimPaymentProgram } from '../components';
 import SPECIALTIES from '../data/specialties';
+import serviceLocations from '../data/serviceLocations';
 
 const ClaimTabSimplified = (props) => {
   return (
