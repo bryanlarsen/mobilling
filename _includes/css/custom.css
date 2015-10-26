@@ -8,3 +8,8 @@
 .flexslider a {
     line-height: initial;
 }
+
+.agent_photo_size {
+    height: 300px;
+    with: auto;
+}
