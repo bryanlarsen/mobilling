@@ -5,34 +5,25 @@ color: black
 style: center
 ---
 
-<form class="form-horizontal" id="new_v3_create_session" action="/session" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
-    <fieldset>
-      <legend>Sign In to BillOHIP</legend>
+  <form class="login" action="/session" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+    <div>
+      <label>
+        Email
+        <input type="email" name="v3_create_session[email]" id="v3_create_session_email" />
+      </label>
+      <label for="v3_create_session_password">
+        Password
+        <input type="password" name="v3_create_session[password]" id="v3_create_session_password" />
+      </label>
+      <input type="submit" name="commit" value="Sign In" />
+    </div>
+    <div class="links">
+      <a href="/forgot_password" class="btn btn-lg btn-block">Forgot your password?</a>
+      <a href="/create_account" class="btn btn-lg btn-block">Create account now</a>
+    </div>
+  </form>
 
-      <div class="form-group">
-        <label class="control-label col-md-2" for="v3_create_session_email">Email</label>
-        <div class="col-md-10">
-          <input class="form-control input-lg" type="email" name="v3_create_session[email]" id="v3_create_session_email" />
-          <span class="help-block"></span>
-        </div>
-</div>
-      <div class="form-group">
-        <label class="control-label col-md-2" for="v3_create_session_password">Password</label>
-        <div class="col-md-10">
-          <input class="form-control input-lg" type="password" name="v3_create_session[password]" id="v3_create_session_password" />
-          <span class="help-block"></span>
-        </div>
-</div>
-      <div class="form-group">
-        <div class="col-md-10 col-md-offset-2">
-          <input type="submit" name="commit" value="Sign In" class="btn btn-block btn-lg btn-primary" />
-        </div>
-      </div>
-    </fieldset>
-  <a href="/forgot_password" class="btn btn-lg btn-block">Forgot your password?</a>
-  <a href="/create_account" class="btn btn-lg btn-block">Create account now</a>
-</form>
- <div style="position:relative;">
+<div style="position:relative;">
   <div style="position:absolute;top:85px;left:20%;z-index:100;">
     <a href="https://itunes.apple.com/us/app/mo-billing/id756862131?ls=1&amp;mt=8#"><img src="img/btn-appstore.png"></a>
     <a href="https://play.google.com/store/apps/details?id=ca.quickjack.medicalbilling&amp;hl=en"><img src="img/btn-googleplay.png" ></a>
