@@ -1,7 +1,5 @@
-<script>
-userActions.init(<%= @user.as_json.to_json.html_safe %>);
-</script>
 <div class="container">
-  <%= react_component('EditUser', {
-      }); %>
+  <% props = {userStore: @user.as_json}
+  %>
+  <%= react_component('UserEdit', props, {generator_function: true, prerender: false}) %>
 </div>

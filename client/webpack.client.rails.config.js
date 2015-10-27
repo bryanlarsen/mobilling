@@ -20,7 +20,6 @@ config.entry.vendor.unshift(
   'es5-shim/es5-sham'
 );
 config.entry.app = ['./app/startup/clientGlobals'];
-config.entry.admin = ['./app/startup/adminGlobals'];
 
 // See webpack.common.config for adding modules common to both the webpack dev server and rails
 

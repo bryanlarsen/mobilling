@@ -1,5 +1,8 @@
 export {default as AdminClaimEdit} from './AdminClaimEdit';
 export {default as AdminClaimForm} from './AdminClaimForm';
+export {default as AdminClaimsBulk} from './AdminClaimsBulk';
+export {default as AdminClaimBulkActions} from './AdminClaimBulkActions';
+export {default as AdminUserEdit} from './AdminUserEdit';
 export {default as AdminClaimStatusActions} from './AdminClaimStatusActions';
 export {default as BlurInput} from './BlurInput';
 export {default as ClaimAdmissionFirstLast} from './ClaimAdmissionFirstLast';

@@ -13,14 +13,10 @@ class Admin::ClaimsController < Admin::BaseController
   }
 
   helper_method :user_id_filter, :status_filter
-
+  
   def index
     @claims = policy_scope(Claim.select("claims.*").include_comment_counts(current_user.try(:id)).include_submission_status.include_user_name).where(filters).order("#{sort_column} #{sort_direction}")
-    @single_status = false
-    if params[:status]
-      params[:status].delete("")
-      @single_status = params[:status].length == 1
-    end
+    @single_status = status_filter.length == 1
     authorize :claim, :create?
   end
 

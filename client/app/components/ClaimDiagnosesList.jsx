@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import { ClaimStaticOptional } from '../components';
 export default React.createClass({
   render: function() {

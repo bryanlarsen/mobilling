@@ -1,4 +1,9 @@
-var ClaimBulkActions = React.createClass({
+import _ from 'underscore';
+import s from 'underscore.string';
+import { RadioSelect } from '../components';
+import { updateClaim } from '../actions';
+
+export default React.createClass({
   getInitialState: function() {
     return {
       status: this.props.initialStatus
@@ -8,10 +13,9 @@ var ClaimBulkActions = React.createClass({
   handleChange: function(ev) {
     var target = ev.target;
     while(target.value === undefined) target = target.parentElement;
-    _.each(this.props.ids, function(id) {
-      claimActionsFor(id).updateFields([[[target.name], target.value]]);
-    });
-    this.setState({status: target.value});
+    for (const id of this.props.claimStore.claimList) {
+      this.props.dispatch(updateClaim(id, {status: target.value}));
+    }
   },
 
   render: function() {
