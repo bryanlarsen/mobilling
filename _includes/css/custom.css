@@ -13,3 +13,15 @@
     height: 200px;
     with: auto;
 }
+
+form.login label {
+  display: inline;
+}
+
+form.login input {
+  display: inline;
+}
+
+form.login {
+  text-align: right;
+}
