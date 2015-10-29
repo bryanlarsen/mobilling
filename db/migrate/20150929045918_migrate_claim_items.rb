@@ -8,7 +8,7 @@ class MigrateClaimItems < ActiveRecord::Migration
           ci.day = item['day']
           ci.time_in = item['time_in']
           ci.time_out = item['time_out']
-          ci.diagnosis = item['diagnosis']
+          ci.diagnosis = item['diagnosis'] || ""
         end
         ci.save!
         cir0 = Claim::Row.new do |cir|
