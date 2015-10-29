@@ -20,7 +20,7 @@ class MigrateClaimItems < ActiveRecord::Migration
           cir.message = item['message']
         end
         cir0.save!
-        item['premiums'].each do |prem|
+        (item['premiums'] || []).each do |prem|
           Claim::Row.new do |cir|
             cir.item_id = ci.id
             cir.id = prem['uuid']
