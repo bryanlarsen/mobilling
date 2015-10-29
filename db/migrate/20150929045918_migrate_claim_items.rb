@@ -1,7 +1,7 @@
 class MigrateClaimItems < ActiveRecord::Migration
   def up
     Claim.find_each do |claim|
-      claim.details['daily_details'].each.with_index do |item, i|
+      (claim.details['daily_details'] || []).each.with_index do |item, i|
         ci = Claim::Item.new do |ci|
           ci.claim_id = claim.id
           ci.id = item['uuid']
