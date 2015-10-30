@@ -52,6 +52,26 @@ const userActions = {
     };
   },
 
+  changePassword(updates, callback) {
+    const done = (response) => (dispatch, getState) => {
+      dispatch(userActions.userResponse(response));
+      callback();
+    };
+    return (dispatch, getState) => {
+      const user = getState().userStore;
+      if (user.id) {
+        writeHelper({dispatch,
+                     method: 'PATCH',
+                     url: `${window.ENV.API_ROOT}v1/users/${user.id}.json`,
+                     action_prefix: 'USER.PATCH',
+                     payload: updates,
+                     updateAction: userActions.updateUserAttributes,
+                     responseAction: done
+                    });
+      }
+    };
+  },
+
   userResponse(response) {
     return { type: 'USER.UPDATE',
              payload: _.pick(response, 'errors', 'warnings', 'doctors', 'notice') };
