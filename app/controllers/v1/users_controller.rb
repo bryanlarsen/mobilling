@@ -49,8 +49,7 @@ class V1::UsersController < V1::BaseController
   def update
     @user = User.find(params[:id])
     authorize @user
-    @user.update(user_params)
-    if @user.valid?
+    if @user.update_attributes(user_params)
       show @user, 200
     else
       show @user, 422

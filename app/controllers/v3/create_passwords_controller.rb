@@ -11,6 +11,6 @@ class V3::CreatePasswordsController < V3::BaseController
     else
       flash[:error] = "Problem sending email."
     end
-    redirect_to root_url
+    redirect_to new_session_url
   end
 end

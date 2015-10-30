@@ -12,7 +12,7 @@ class ProfilePage extends React.Component {
         <ProfileHeader {..._.pick(this.props, 'dispatch', 'globalStore', 'userStore')} />
 
         <div className="container with-bottom">
-          <ProfileSettings {..._.pick(this.props, 'dispatch', 'userStore')} onChange={userChangeHandler.bind(null, this.props.dispatch)} />
+          {React.cloneElement(this.props.children, {..._.pick(this.props, 'dispatch', 'userStore'), onChange: userChangeHandler.bind(null, this.props.dispatch)})}
         </div>
       </div>
     );

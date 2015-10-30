@@ -2,15 +2,17 @@ import { Link } from 'react-router';
 
 import { ProfileCommon, DoctorProfile } from '../components';
 
-export default (props) => {
+export default React.createClass({
+  render(props) {
     return (
       <div className="form-horizontal">
-        <ProfileCommon {...props} />
+        <ProfileCommon {...this.props} />
 
-        <Link to="password" className="btn btn-lg btn-block">Change your Password</Link>
+        <Link to="/profile/password" className="btn btn-lg btn-block">Change your Password</Link>
 
-        { props.userStore.role === 'doctor' && <DoctorProfile {...props} /> }
+        { this.props.userStore.role === 'doctor' && <DoctorProfile {...this.props} /> }
 
       </div>
     );
-};
+  }
+});
