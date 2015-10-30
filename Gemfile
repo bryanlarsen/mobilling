@@ -24,6 +24,7 @@ gem "mini_magick"
 gem "oj"
 gem "oj_mimic_json"
 gem "pg"
+gem "postmark-rails"
 gem "pundit", github: "elabs/pundit"
 gem "rack-cors", :require => 'rack/cors'
 gem "react_on_rails"
