@@ -4,8 +4,7 @@ class MigrateClaimItems < ActiveRecord::Migration
       (claim.details['daily_details'] || []).each.with_index do |item, i|
         ci = Claim::Item.new do |ci|
           ci.claim_id = claim.id
-          ci.id = item['uuid']
-          ci.day = item['day']
+          ci.day = item['day'] || Date.new(2015,1,1)
           ci.time_in = item['time_in']
           ci.time_out = item['time_out']
           ci.diagnosis = item['diagnosis'] || ""
@@ -13,7 +12,7 @@ class MigrateClaimItems < ActiveRecord::Migration
         ci.save!
         cir0 = Claim::Row.new do |cir|
           cir.item_id = ci.id
-          cir.code = item['code']
+          cir.code = item['code'] || ""
           cir.fee = item['fee']
           cir.paid = item['paid']
           cir.units = item['units']
@@ -23,8 +22,7 @@ class MigrateClaimItems < ActiveRecord::Migration
         (item['premiums'] || []).each do |prem|
           Claim::Row.new do |cir|
             cir.item_id = ci.id
-            cir.id = prem['uuid']
-            cir.code = prem['code']
+            cir.code = prem['code'] || ""
             cir.fee = prem['fee']
             cir.paid = prem['paid']
             cir.units = prem['units']
