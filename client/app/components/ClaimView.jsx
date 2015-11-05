@@ -2,6 +2,7 @@ import _ from 'underscore';
 import { ClaimStaticOptional, ClaimItemList, CommentsTab, ClaimDiagnosesList } from '../components';
 import { claimStatusNames, claimStatusNamesCurrent } from '../data/claimStatusNames';
 import specialties from '../data/specialties';
+import dollars from '../data/dollars';
 
 export default React.createClass({
   render: function() {
