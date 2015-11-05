@@ -32,10 +32,13 @@ Rails.application.routes.draw do
   namespace :admin do
     resource :dashboard, only: %i[show]
     resources :claims, only: %i[index edit] do
+      member do
+        post :reclaim
+        get :patient
+      end
       collection do
         get :print
       end
-      post :reclaim, on: :member
     end
     resources :edt_files, only: %i[index create show] do
       get 'download/:filename', action: 'download', on: :member, as: :download

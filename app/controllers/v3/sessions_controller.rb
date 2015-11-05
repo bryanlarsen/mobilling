@@ -1,6 +1,7 @@
 class V3::SessionsController < V3::BaseController
   layout "v3_rails"
 
+  wrap_parameters :v3_create_session, include: [:email, :password], format: :json
   skip_before_filter :refresh_session, :only => [:new, :create]
   skip_after_filter :verify_authorized, :only => [:new, :create]
   skip_before_filter :verify_authenticity_token, :only => [:create, :destroy]
@@ -19,7 +20,7 @@ class V3::SessionsController < V3::BaseController
     else
       respond_to do |format|
         format.html { render :new }
-        format.json { render json: {errors: @interactor3.errors} }
+        format.json { render json: {email: @interactor3.email, errors: @interactor3.errors} }
       end
     end
   end

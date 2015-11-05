@@ -47,6 +47,7 @@ export {default as Icon} from './Icon';
 export {default as ItemsTab} from './ItemsTab';
 export {default as LoginPage} from './LoginPage';
 export {default as LoadingPage} from './LoadingPage';
+export {default as NativePatient} from './NativePatient';
 export {default as NewClaimPage} from './NewClaimPage';
 export {default as NewUserPage} from './NewUserPage';
 export {default as Notice} from './Notice';

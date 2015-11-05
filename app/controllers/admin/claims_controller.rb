@@ -28,6 +28,14 @@ class Admin::ClaimsController < Admin::BaseController
     render layout: "admin_react"
   end
 
+  def patient
+    @claim = policy_scope(Claim).includes(:comments).includes(:photo).includes(:rows).find(params[:id])
+    authorize @claim, :update?
+    @user = current_user
+    @stack = policy_scope(Claim).where(filters).order("#{sort_column} #{sort_direction}").select(:id, :user_id).map(&:id)
+    render layout: "native_page"
+  end
+
   def print
     @claims = policy_scope(Claim).includes(:comments).includes(:photo).where(filters).order("#{sort_column} #{sort_direction}")
     @single_status = false

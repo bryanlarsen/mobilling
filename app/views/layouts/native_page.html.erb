@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>BillOHIP Admin</title>
+<%= stylesheet_link_tag "admin", media: "all", "data-turbolinks-track" => false %>
+<%= csrf_meta_tags %>
+<script>
+  window.ENV = {
+    API_ROOT: "/",
+    CORDOVA: false
+  };
+</script>
+<%= javascript_include_tag "v3", "data-turbolinks-track" => false %>
+</head>
+<body>
+
+<%= render "layouts/menu" %>
+<%= render "layouts/flash" %>
+
+<%= yield %>
+
+</body>
+</html>
