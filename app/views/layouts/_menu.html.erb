@@ -31,7 +31,7 @@
       <ul class="nav navbar-nav navbar-right">
         <% if policy(:session).destroy? %>
           <li>
-            <%= icon_link_to "user-md", "Doctor Site", "/" %>
+            <%= icon_link_to "user-md", "Doctor Site", "/claims" %>
           </li>
           <li>
             <%= icon_link_to "sign-out", "Sign Out", session_path, method: "delete" %>
