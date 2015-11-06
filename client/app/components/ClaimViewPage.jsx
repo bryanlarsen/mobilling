@@ -1,6 +1,8 @@
-import { ClaimSubmitButtons, ClaimView, ClaimHeader } from '../components';
+const ClaimSubmitButtons = require('./ClaimSubmitButtons');
+const ClaimView = require('./ClaimView');
+const ClaimHeader = require('./ClaimHeader');
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     return (
       <div className="body">

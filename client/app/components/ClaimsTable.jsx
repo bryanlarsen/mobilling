@@ -1,12 +1,12 @@
-import _ from 'underscore';
-import { Link } from 'react-router';
-import { pushState } from 'redux-router';
+const _ = require('underscore');
+const { Link } = require('react-router');
+const { pushState } = require('redux-router');
 
-import { Icon } from '../components';
-import dollars from '../data/dollars';
-import claimTotal from '../data/claimTotal';
+const Icon = require('./Icon');
+const dollars = require('../data/dollars');
+const { claimTotal } = require('../data/claimTotal');
 
-export default React.createClass({
+module.exports = React.createClass({
   clickRow: function(id, ev) {
     ev.preventDefault();
     this.props.dispatch(pushState(null, `/claim/${id}/patient`));

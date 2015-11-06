@@ -1,12 +1,13 @@
-import _ from 'underscore';
-import s from 'underscore.string';
-import { Navbar, NavItem } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+const _ = require('underscore');
+const s = require('underscore.string');
+const { Navbar, NavItem } = require('react-bootstrap');
+const { LinkContainer } = require('react-router-bootstrap');
 
-import { Icon, ClaimHeader } from '../components';
-import { updateClaim } from '../actions';
+const Icon = require('./Icon');
+const ClaimHeader = require('./ClaimHeader');
+const { updateClaim } = require('../actions');
 
-export default React.createClass({
+module.exports = React.createClass({
   icon: {
     patient: 'user',
     claim: 'medkit',

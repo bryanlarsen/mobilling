@@ -1,9 +1,9 @@
-import { LoadingPage } from '../components';
-import { connect } from 'react-redux';
-import { newClaim } from '../actions';
-import { pushState } from 'redux-router';
+const LoadingPage = require('./LoadingPage');
+const { connect } = require('react-redux');
+const { newClaim } = require('../actions');
+const { pushState } = require('redux-router');
 
-export default @connect((state) => state)
+module.exports = @connect((state) => state)
 class NewClaimPage extends React.Component {
   componentWillMount() {
     this.props.dispatch(newClaim((id) => {

@@ -1,7 +1,8 @@
-import s from 'underscore.string';
-import { ClaimFormGroup, ClaimDate } from '../components';
+const s = require('underscore.string');
+const ClaimFormGroup = require('./ClaimFormGroup');
+const ClaimDate = require('./ClaimDate');
 
-export default (props) => {
+module.exports = (props) => {
   return (
     <ClaimFormGroup label={props.label || s.humanize(props.name)}>
       <ClaimDate {...props}/>

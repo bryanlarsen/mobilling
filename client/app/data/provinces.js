@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   ON: 'Ontario',
   AB: 'Alberta',
   BC: 'British Columbia',

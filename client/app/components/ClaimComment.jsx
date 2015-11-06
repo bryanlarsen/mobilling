@@ -1,7 +1,7 @@
-import Remarkable from 'remarkable';
-import moment from 'moment';
+const Remarkable = require('remarkable');
+const moment = require('moment');
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     var md = new Remarkable();
     return (

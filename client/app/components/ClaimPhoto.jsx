@@ -1,6 +1,7 @@
-import { ClaimFormGroup, PhotoUpload } from '../components';
+const ClaimFormGroup = require('./ClaimFormGroup');
+const PhotoUpload = require('./PhotoUpload');
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     return (
     <ClaimFormGroup label="Photo" width={8}>

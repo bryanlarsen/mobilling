@@ -1,6 +1,7 @@
-import _ from 'underscore';
+const _ = require('underscore');
 
-export function writeHelper({dispatch, method, url, action_prefix, payload, updateAction, responseAction}) {
+module.exports = {};
+module.exports.writeHelper = function({dispatch, method, url, action_prefix, payload, updateAction, responseAction}) {
   dispatch({type: action_prefix + '.START', payload: payload});
   fetch(url, {
     method: method,

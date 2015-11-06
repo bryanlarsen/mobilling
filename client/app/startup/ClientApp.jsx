@@ -1,9 +1,9 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { ReduxRouter } from 'redux-router';
+const React = require('react');
+const { Provider } = require('react-redux');
+const { ReduxRouter } = require('redux-router');
 
-import createStore from '../store';
-import routes from '../routes';
+const createStore = require('../store');
+const routes = require('../routes');
 
 const App = props => {
   const store = createStore(props);
@@ -18,4 +18,4 @@ const App = props => {
 };
 
 // Export is needed for the hot reload server
-export default App;
+module.exports = App;

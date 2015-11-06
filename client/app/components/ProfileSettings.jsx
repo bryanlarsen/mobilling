@@ -1,8 +1,9 @@
-import { Link } from 'react-router';
+const { Link } = require('react-router');
 
-import { ProfileCommon, DoctorProfile } from '../components';
+const ProfileCommon = require('./ProfileCommon');
+const DoctorProfile = require('./DoctorProfile');
 
-export default (props) => {
+module.exports = (props) => {
     return (
       <div className="form-horizontal">
         <ProfileCommon {...props} />

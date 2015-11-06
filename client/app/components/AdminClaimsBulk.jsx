@@ -1,8 +1,9 @@
-import _ from 'underscore';
-import { ClaimView, AdminClaimBulkActions } from '../components';
-import { Button, ButtonGroup } from 'react-bootstrap';
-import { userChangeHandler } from '../actions';
-import { connect } from 'react-redux';
+const _ = require('underscore');
+const ClaimView = require('./ClaimView');
+const AdminClaimBulkActions = require('./AdminClaimBulkActions');
+const { Button, ButtonGroup } = require('react-bootstrap');
+const { userChangeHandler } = require('../actions');
+const { connect } = require('react-redux');
 
 @connect((state) => state)
 class AdminClaimsBulk extends React.Component {
@@ -67,4 +68,4 @@ class AdminClaimsBulk extends React.Component {
   }
 };
 
-export default AdminClaimsBulk;
+module.exports = AdminClaimsBulk;

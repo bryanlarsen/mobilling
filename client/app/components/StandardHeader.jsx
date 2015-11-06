@@ -1,9 +1,11 @@
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+const { Navbar, Nav, NavItem } = require('react-bootstrap');
+const { LinkContainer } = require('react-router-bootstrap');
 
-import { Icon, UserDropdown, Notice } from '../components';
+const Icon = require('./Icon');
+const UserDropdown = require('./UserDropdown');
+const Notice = require('./Notice');
 
-export default (props) => {
+module.exports = (props) => {
   return (
     <div>
       <Navbar fixedTop>

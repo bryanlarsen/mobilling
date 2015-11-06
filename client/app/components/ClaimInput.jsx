@@ -1,6 +1,7 @@
-import {ClaimInputWrapper, ClaimInputInner} from '../components';
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const ClaimInputInner = require('./ClaimInputInner');
 
-export default (props) => {
+module.exports = (props) => {
   return (
     <ClaimInputWrapper {...props}>
       <ClaimInputInner {...props} />

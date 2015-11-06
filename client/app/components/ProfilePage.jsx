@@ -1,8 +1,8 @@
-import _ from 'underscore';
-import ProfileHeader from './ProfileHeader';
-import ProfileSettings from './ProfileSettings';
-import { connect } from 'react-redux';
-import { userChangeHandler } from '../actions';
+const _ = require('underscore');
+const ProfileHeader = require('./ProfileHeader');
+const ProfileSettings = require('./ProfileSettings');
+const { connect } = require('react-redux');
+const { userChangeHandler } = require('../actions');
 
 @connect((state) => state)
 class ProfilePage extends React.Component {
@@ -19,4 +19,4 @@ class ProfilePage extends React.Component {
   }
 };
 
-export default ProfilePage;
+module.exports = ProfilePage;

@@ -1,7 +1,10 @@
-import { ClaimComment, ClaimInputGroup, ClaimStaticOptional, ClaimErrors } from '../components';
-import { setComment } from '../actions';
+const ClaimComment = require('./ClaimComment');
+const ClaimInputGroup = require('./ClaimInputGroup');
+const ClaimStaticOptional = require('./ClaimStaticOptional');
+const ClaimErrors = require('./ClaimErrors');
+const { setComment } = require('../actions');
 
-export default React.createClass({
+module.exports = React.createClass({
   handleChange: function(ev) {
     this.props.actions.updateFields([[[ev.target.name], ev.target.value]]);
   },

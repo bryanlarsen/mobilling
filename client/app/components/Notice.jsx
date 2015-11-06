@@ -1,4 +1,4 @@
-export default React.createClass({
+module.exports = React.createClass({
 /*  getInitialState: function() {
     notice: undefined
   },

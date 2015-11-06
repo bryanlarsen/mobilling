@@ -1,10 +1,10 @@
-import { Nav, NavDropdown, MenuItem } from 'react-bootstrap';
-import { Link } from 'react-router';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Icon } from '../components';
+const { Nav, NavDropdown, MenuItem } = require('react-bootstrap');
+const { Link } = require('react-router');
+const { LinkContainer } = require('react-router-bootstrap');
+const Icon = require('./Icon');
 
 
-export default (props) => {
+module.exports = (props) => {
   const userIcon = <Icon i="user"/>;
   return (
     <Nav right>

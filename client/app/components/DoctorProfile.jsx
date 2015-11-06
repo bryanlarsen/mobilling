@@ -1,9 +1,14 @@
-import _ from 'underscore';
+const _ = require('underscore');
 
-import { Icon, ClaimInputGroup, ClaimInputWrapper, ClaimFormGroup, Select, ClaimInput } from '../components';
-import SPECIALTIES from '../data/specialties';
+const Icon = require('./Icon');
+const ClaimInputGroup = require('./ClaimInputGroup');
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const ClaimFormGroup = require('./ClaimFormGroup');
+const Select = require('./Select');
+const ClaimInput = require('./ClaimInput');
+const SPECIALTIES = require('../data/specialties');
 
-export default React.createClass({
+module.exports = React.createClass({
   getInitialState: function() {
     return {
       agents: {"": "Select an Agent"}

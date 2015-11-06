@@ -120,7 +120,7 @@
     return date.getUTCDay() === 0 || date.getUTCDay() === 6;
   }
 
-  export function dayType(string) {
+  function dayType(string) {
     if (goodFriday(string) ||
         boxingDay(string) ||
         canadaDay(string) ||
@@ -139,9 +139,11 @@
   }
 
 
-  export function timeType(day, time) {
+  function timeType(day, time) {
     var day_type = dayType(day);
     if (time < "07:00") return day_type+"_night";
     if (time >= "17:00" && day_type==="weekday") return "weekday_evening";
     return day_type+"_day";
   };
+
+module.exports = { dayType, timeType };

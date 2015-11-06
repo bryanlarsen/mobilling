@@ -1,4 +1,4 @@
-export default function(s, today) {
+module.exports = function(s, today) {
   var re = /^([0-9]{0,4}?)[.,:\/-]?([0-9]{0,2}?)[.,:\/-]?([0-9]{0,2})$/;
   var match = s.match(re);
   if (!today) today = new Date();

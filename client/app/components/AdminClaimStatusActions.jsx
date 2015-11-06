@@ -1,8 +1,10 @@
-import _ from 'underscore';
-import s from 'underscore.string';
-import { ClaimFormGroup, ClaimInputWrapper, RadioSelect} from '../components';
+const _ = require('underscore');
+const s = require('underscore.string');
+const ClaimFormGroup = require('./ClaimFormGroup');
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const RadioSelect = require('./RadioSelect');
 
-export default React.createClass({
+module.exports = React.createClass({
   doneHandler: function(ev) {
     var disabled = this.props.store.unsaved || _.size(this.props.store.errors) !== 0;
     if (!disabled) window.location.href = this.props.params.backURL;

@@ -1,6 +1,10 @@
-import {EmptyHeader, ProfileCommon, ClaimInputGroup, ClaimFormGroup, DoctorProfile } from '../components';
-import { connect } from 'react-redux';
-import { userChangeHandler, newUser } from '../actions';
+const EmptyHeader = require('./EmptyHeader');
+const ProfileCommon = require('./ProfileCommon');
+const ClaimInputGroup = require('./ClaimInputGroup');
+const ClaimFormGroup = require('./ClaimFormGroup');
+const DoctorProfile = require('./DoctorProfile');
+const { connect } = require('react-redux');
+const { userChangeHandler, newUser } = require('../actions');
 
 @connect((state) => state)
 class NewUserPage extends React.Component {
@@ -38,4 +42,4 @@ class NewUserPage extends React.Component {
   }
 };
 
-export default NewUserPage;
+module.exports = NewUserPage;

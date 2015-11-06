@@ -1,6 +1,6 @@
-import _ from 'underscore';
+const _ = require('underscore');
 
-export default (props) => {
+module.exports = (props) => {
   var value = props.value || props.store[props.name];
   return (
     <select className="form-control" value={value} name={props.name} onChange={props.onChange}>

@@ -1,7 +1,7 @@
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { Notice } from './index';
+const { Navbar, Nav, NavItem } = require('react-bootstrap');
+const { Notice } = require('./index');
 
-export default (props) => {
+module.exports = (props) => {
   return (
     <div>
       <Navbar fixedTop>

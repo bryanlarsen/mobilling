@@ -1,7 +1,7 @@
-import s from 'underscore.string';
-import {ClaimInputWrapper} from '../components';
+const s = require('underscore.string');
+const ClaimInputWrapper = require('./ClaimInputWrapper');
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     var value = this.props.value || (this.props.store && this.props.store[this.props.name]);
 

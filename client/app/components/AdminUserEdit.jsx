@@ -1,6 +1,8 @@
-import { ProfileCommon, DoctorProfile, ClaimFormGroup } from '../components';
-import { userChangeHandler } from '../actions';
-import { connect } from 'react-redux';
+const ProfileCommon = require('./ProfileCommon');
+const DoctorProfile = require('./DoctorProfile');
+const ClaimFormGroup = require('./ClaimFormGroup');
+const { userChangeHandler } = require('../actions');
+const { connect } = require('react-redux');
 
 @connect((state) => state)
 class AdminUserEdit extends React.Component {
@@ -30,4 +32,4 @@ class AdminUserEdit extends React.Component {
   }
 };
 
-export default AdminUserEdit;
+module.exports = AdminUserEdit;

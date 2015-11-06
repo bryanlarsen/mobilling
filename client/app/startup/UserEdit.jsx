@@ -1,8 +1,8 @@
-import React from 'react';
-import { Provider, connect } from 'react-redux';
-import { AdminUserEdit } from '../components';
+const React = require('react');
+const { Provider, connect } = require('react-redux');
+const { AdminUserEdit } = require('../components');
 
-import createStore from '../admin-store';
+const createStore = require('../admin-store');
 
 const UserEdit = props => {
   console.log('UserEdit');
@@ -15,4 +15,4 @@ const UserEdit = props => {
   return reactComponent;
 };
 
-export default UserEdit;
+module.exports = UserEdit;

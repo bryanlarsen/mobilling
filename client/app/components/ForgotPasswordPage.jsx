@@ -1,7 +1,9 @@
-import { EmptyHeader, ClaimInputGroup, ClaimFormGroup } from '../components';
-import { setNotice, updateUserAttributes, userResponse } from '../actions';
-import { connect } from 'react-redux';
-import { pushState } from 'redux-router';
+const EmptyHeader = require('./EmptyHeader');
+const ClaimInputGroup = require('./ClaimInputGroup');
+const ClaimFormGroup = require('./ClaimFormGroup');
+const { setNotice, updateUserAttributes, userResponse } = require('../actions');
+const { connect } = require('react-redux');
+const { pushState } = require('redux-router');
 
 @connect((state) => state)
 class ForgotPasswordPage extends React.Component {
@@ -52,4 +54,4 @@ class ForgotPasswordPage extends React.Component {
   }
 };
 
-export default ForgotPasswordPage;
+module.exports = ForgotPasswordPage;

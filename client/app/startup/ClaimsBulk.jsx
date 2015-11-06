@@ -1,8 +1,8 @@
-import React from 'react';
-import { Provider, connect } from 'react-redux';
-import { AdminClaimsBulk } from '../components';
+const React = require('react');
+const { Provider, connect } = require('react-redux');
+const { AdminClaimsBulk } = require('../components');
 
-import createStore from '../admin-store';
+const createStore = require('../admin-store');
 
 const ClaimsBulk = props => {
   const store = createStore(props);
@@ -14,4 +14,4 @@ const ClaimsBulk = props => {
   return reactComponent;
 };
 
-export default ClaimsBulk;
+module.exports = ClaimsBulk;

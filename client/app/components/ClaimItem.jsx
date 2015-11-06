@@ -1,12 +1,15 @@
-import _ from 'underscore';
-import FeeGenerator from '../data/FeeGenerator';
-import dollars from '../data/dollars';
-import claimTotal, { itemTotal } from '../data/claimTotal';
-import {ClaimDate, ClaimTime, Typeahead, ClaimRow} from '../components';
-import diagnosesEngine from '../data/diagnosesEngine';
-import {rowChangeHandler, createRow} from '../actions';
+const _ = require('underscore');
+const FeeGenerator = require('../data/FeeGenerator');
+const dollars = require('../data/dollars');
+const { claimTotal, itemTotal } = require('../data/claimTotal');
+const ClaimDate = require('./ClaimDate');
+const ClaimTime = require('./ClaimTime');
+const Typeahead = require('./Typeahead');
+const ClaimRow = require('./ClaimRow');
+const diagnosesEngine = require('../data/diagnosesEngine');
+const {rowChangeHandler, createRow} = require('../actions');
 
-export default React.createClass({
+module.exports = React.createClass({
   newPremium: function(ev) {
     this.props.dispatch(createRow(this.props.claim.id, this.props.item.id, {}));
   },

@@ -1,6 +1,6 @@
-import { ClaimFormGroupUnwrapped } from '../components';
+const ClaimFormGroupUnwrapped = require('./ClaimFormGroupUnwrapped');
 
-export default (props) => {
+module.exports = (props) => {
   return (
     <ClaimFormGroupUnwrapped {...props}>
       <div className={"col-md-"+(props.width || 4)}>

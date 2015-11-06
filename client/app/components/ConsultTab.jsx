@@ -1,9 +1,12 @@
-import _ from 'underscore';
-import s from 'underscore.string';
-import { ClaimFormGroup, ClaimYesNo, ClaimTime, YesNo } from '../components';
-import detailsGenerator from '../data/detailsGenerator';
-import { dayType, timeType } from '../data/dayType';
-import { updateClaim } from '../actions';
+const _ = require('underscore');
+const s = require('underscore.string');
+const ClaimFormGroup = require('./ClaimFormGroup');
+const ClaimYesNo = require('./ClaimYesNo');
+const ClaimTime = require('./ClaimTime');
+const YesNo = require('./YesNo');
+const detailsGenerator = require('../data/detailsGenerator');
+const { dayType, timeType } = require('../data/dayType');
+const { updateClaim } = require('../actions');
 
 const ConsultType = React.createClass({
   render: function() {
@@ -27,7 +30,7 @@ const ConsultType = React.createClass({
   }
 });
 
-export default React.createClass({
+module.exports = React.createClass({
   premiumChanged: function(ev) {
     this.props.dispatch(updateClaim(this.props.claim.id, {
       consult_premium_visit: ev.target.value ? 'calculate' : null

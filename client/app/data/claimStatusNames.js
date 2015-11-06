@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   claimStatusNames: {
     saved: "Edit",
     for_agent: "Submit to Agent",

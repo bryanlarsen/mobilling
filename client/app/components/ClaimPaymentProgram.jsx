@@ -1,6 +1,8 @@
-import { ClaimFormGroup, ClaimInputWrapper, RadioSelect } from '../components';
+const ClaimFormGroup = require('./ClaimFormGroup');
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const RadioSelect = require('./RadioSelect');
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     var options = {};
     var value = this.props.store.payment_program;

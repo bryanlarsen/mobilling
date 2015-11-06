@@ -1,6 +1,6 @@
 import { updateClaim } from "../actions";
 
-export default React.createClass({
+module.exports = React.createClass({
     handleFile: function(e) {
       var file = e.target.files[0];
       var formData = new FormData();

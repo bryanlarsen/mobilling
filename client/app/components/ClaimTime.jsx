@@ -1,7 +1,8 @@
-import { ClaimInputWrapper, ClaimInputInner } from '../components';
-import { inMinutes } from '../data/FeeGenerator';
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const ClaimInputInner = require('./ClaimInputInner');
+const { inMinutes } = require('../data/FeeGenerator');
 
-export default React.createClass({
+module.exports = React.createClass({
   toTimeArray: function(minutes) {
     return [parseInt(minutes / 60), minutes % 60];
   },

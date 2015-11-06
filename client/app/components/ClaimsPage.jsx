@@ -1,11 +1,13 @@
-import _ from 'underscore';
-import s from 'underscore.string';
-import { NavItem, Button } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import { connect } from 'react-redux';
+const _ = require('underscore');
+const s = require('underscore.string');
+const { NavItem, Button } = require('react-bootstrap');
+const { LinkContainer } = require('react-router-bootstrap');
+const { connect } = require('react-redux');
 
-import { ClaimsTable, Icon, UserDropdown } from '../components';
-import actions from '../actions';
+const ClaimsTable = require('./ClaimsTable');
+const Icon = require('./Icon');
+const UserDropdown = require('./UserDropdown');
+const actions = require('../actions');
 
 @connect((state) => state)
 class ClaimsPage extends React.Component {
@@ -136,4 +138,4 @@ class ClaimsPage extends React.Component {
   }
 }
 
-export default ClaimsPage;
+module.exports = ClaimsPage;

@@ -1,18 +1,33 @@
-//import claimsReducer, { initialState as claimsState } from './claimsReducer';
-import globalReducer, { initialState as globalState } from './globalReducer';
-import userReducer, { initialState as userState } from './userReducer';
-import paramsReducer, { initialState as paramsState } from './paramsReducer';
+//const claimsReducer, { initialState as claimsState } = require('./claimsReducer');
 
-export default {
-//  claimStore: claimsReducer,
-  globalStore: globalReducer,
-  userStore: userReducer,
-  params: paramsReducer,
-};
+const claims = require('./claimsReducer');
+const claimsReducer = claims.reducer;
+const claimsState = claims.initialState;
 
-export const initialStates = {
+const globalR = require('./globalReducer');
+const globalReducer = globalR.reducer;
+const globalState = globalR.initialState;
+
+const user = require('./userReducer');
+const userReducer = user.reducer;
+const userState = user.initialState;
+
+const params = require('./paramsReducer');
+const paramsReducer = params.reducer;
+const paramsState = params.initialState;
+
+module.exports = {
+  reducers: {
+ //  claimStore: claimsReducer,
+    globalStore: globalReducer,
+    userStore: userReducer,
+    params: paramsReducer,
+  },
+
+  initialState: {
 //  claimStore: claimsState,
-  globalStore: globalState,
-  userStore: userState,
-  params: paramsState,
+    globalStore: globalState,
+    userStore: userState,
+    params: paramsState,
+  }
 };

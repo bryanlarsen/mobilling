@@ -1,8 +1,8 @@
-import _ from 'underscore';
-import { ClaimItemList } from '../components';
-import detailsGenerator from '../data/detailsGenerator';
-import {detailSignature, detailsToAdd, detailsToRemove} from '../data/detailsDelta';
-import {newItem, updateItem, deleteItem, updateClaim} from '../actions';
+const _ = require('underscore');
+const ClaimItemList = require('./ClaimItemList');
+const detailsGenerator = require('../data/detailsGenerator');
+const {detailSignature, detailsToAdd, detailsToRemove} = require('../data/detailsDelta');
+const {newItem, updateItem, deleteItem, updateClaim} = require('../actions');
 
 var ItemGenerator = function(claim, props) {
   this.claim = claim;
@@ -26,7 +26,7 @@ ItemGenerator.prototype.go = function() {
   this.props.dispatch(updateClaim(this.props.claim.id, {last_code_generation: JSON.stringify(this.nextSigs)}));
 };
 
-export default React.createClass({
+module.exports = React.createClass({
   generate: function() {
     var gen = new ItemGenerator(this.props.claim, this.props);
     gen.go();

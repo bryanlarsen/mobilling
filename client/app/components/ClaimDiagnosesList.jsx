@@ -1,6 +1,6 @@
-import _ from 'underscore';
-import { ClaimStaticOptional } from '../components';
-export default React.createClass({
+const _ = require('underscore');
+const ClaimStaticOptional = require('./ClaimStaticOptional');
+module.exports = React.createClass({
   render: function() {
     return (
       <div>

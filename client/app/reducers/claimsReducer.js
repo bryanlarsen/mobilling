@@ -1,22 +1,24 @@
 "use strict";
 
-import _ from 'underscore';
+const _ = require('underscore');
 
-export const initialState = {
+module.exports = {
+
+ initialState: {
   claimList: [],
   claimListLoadedOn: new Date(0),
   claims: {},
-};
+ },
 
-export default function claimsReducer(state = initialState, action) {
+ reducer: function claimsReducer(state = module.exports.initialState, action) {
   const { type, payload } = action;
 
   switch(type) {
   case 'CLAIM_LIST.INIT': {
     return {
       ...state,
-      claimList: [for (claim of payload) claim.id],
-      claims: _.object([for (claim of payload) [claim.id, claim]]),
+      claimList: _.map(payload, (claim) => claim.id),
+      claims: _.object(_.map(payload, (claim) => [claim.id, claim])),
       claimListLoadedOn: new Date(),
     };
   }
@@ -119,4 +121,5 @@ export default function claimsReducer(state = initialState, action) {
     return state;
   }
   }
-}
+ }
+};

@@ -1,11 +1,27 @@
-import _ from 'underscore';
-import { startBusy, endBusy } from "./globalActions";
-import { writeHelper } from "./actionHelpers";
-import { pushState } from "redux-router";
+const _ = require('underscore');
+const { startBusy, endBusy } = require('./globalActions');
+const { writeHelper } = require('./actionHelpers');
+//const { pushState } = require('redux-router');
 
 const userActions = {
   newSession(payload) {
     return { type: 'USER.INIT', payload };
+  },
+
+  logIn() {
+    return (dispatch, getState) => {
+      const user = getState().userStore;
+      writeHelper({dispatch,
+                   method: 'POST',
+                   url: `${window.ENV.API_ROOT}session.json`,
+                   action_prefix: 'LOGIN',
+                   payload: {email: user.email,
+                             password: user.password
+                            },
+                   updateAction: userActions.updateUserAttributes,
+                   responseAction: userActions.newSession
+                  });
+    };
   },
 
   loggedIn(payload) {
@@ -76,4 +92,4 @@ const userActions = {
 
 };
 
-export default userActions;
+module.exports = userActions;

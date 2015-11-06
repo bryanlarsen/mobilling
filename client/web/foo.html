@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>BillOHIP Admin</title>
+    <link rel="stylesheet"  media="all" href="admin.css" />
+    <script>
+     window.ENV = {
+       API_ROOT: "http://192.168.1.99:4000/",
+       CORDOVA: false
+     };
+    </script>
+    <script src="js/vendor-bundle.js"></script>
+    <script src="js/app-bundle.js"></script>
+    <script>
+function WebViewBridgeReady(cb) {
+  //checks whether WebViewBirdge exists in global scope.
+  if (window.WebViewBridge) {
+    cb(window.WebViewBridge);
+    return;
+  }
+
+  function handler() {
+    //remove the handler from listener since we don't need it anymore
+    document.removeEventListener('WebViewBridge', handler, false);
+    //pass the WebViewBridge object to the callback
+    cb(window.WebViewBridge);
+  }
+
+  //if WebViewBridge doesn't exist in global scope attach itself to document
+  //event system. Once the code is being injected by extension, the handler will
+  //be called.
+  document.addEventListener('WebViewBridge', handler, false);
+}
+document.addEventListener("DOMContentLoaded", function(ev) {
+  WebViewBridgeReady(function(bridge) {
+    var ref = document.getElementById('react');
+    bridge.onMessage = function(msg) {
+      var props = JSON.parse(atob(msg));
+      props.dispatch = function(action) {
+        if (action) bridge.send(btoa(JSON.stringify(action)));
+      }
+      React.render(React.createElement(window[props.component], props), ref);
+    }
+    ref.innerHTML='ready';
+    bridge.send(btoa('{"type":"ready"}'));
+  });
+});
+  </script>
+    <!-- script src="/assets/bootstrap.js"></script -->
+  </head>
+  <body>
+    <div class="container">
+      <div id="react" />
+    </div>
+  </body>
+</html>

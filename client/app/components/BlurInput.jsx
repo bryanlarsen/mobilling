@@ -12,7 +12,7 @@
  * Enough melodrama. Its an input that only sends changes
  * to its parent on blur.
  */
-export default React.createClass({
+module.exports = React.createClass({
 /*    propTypes: {
         value: React.PropTypes.oneOfType([
           React.PropTypes.string,

@@ -12,4 +12,4 @@ const globalActions = {
   },
 }
 
-export default globalActions;
+module.exports = globalActions;

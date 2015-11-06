@@ -1,4 +1,4 @@
-export default React.createClass({
+module.exports = React.createClass({
   componentDidMount: function() {
     var component = this;
     var $el = $(ReactDOM.findDOMNode(this));

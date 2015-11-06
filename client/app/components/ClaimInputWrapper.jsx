@@ -1,6 +1,6 @@
-import _ from 'underscore';
+const _ = require('underscore');
 
-export default (props) => {
+module.exports = (props) => {
   let messages = [];
   let types = {};
 

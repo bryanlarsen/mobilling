@@ -1,9 +1,9 @@
-import globalActions from './globalActions';
-import userActions from './userActions';
-import claimActions from './claimActions';
-import paramsActions from './paramsActions';
+const globalActions = require('./globalActions');
+const userActions = require('./userActions');
+const claimActions = require('./claimActions');
+const paramsActions = require('./paramsActions');
 
-export default {
+module.exports = {
     ...globalActions,
     ...userActions,
     ...claimActions,

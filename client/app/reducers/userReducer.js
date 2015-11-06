@@ -1,11 +1,12 @@
 "use strict";
 
-export const initialState = {
+module.exports = {
+ initialState: {
   role: 'doctor',
   specialty_code: 0,
-};
+ },
 
-export default function globalReducer(state = initialState, action) {
+ reducer: function globalReducer(state = module.exports.initialState, action) {
   const { type, payload } = action;
 
   switch(type) {
@@ -25,4 +26,5 @@ export default function globalReducer(state = initialState, action) {
     return state;
   }
   }
-}
+ }
+};

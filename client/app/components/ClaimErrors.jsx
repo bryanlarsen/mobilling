@@ -1,7 +1,7 @@
-import _ from 'underscore';
-import s from 'underscore.string';
+const _ = require('underscore');
+const s = require('underscore.string');
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     var data = {...(this.props.store[this.props.type] || {})};
     for (let i=0; i<this.props.store.items.length; i++) {

@@ -1,10 +1,11 @@
-import React from 'react';
-import ReactRouter, { Link } from 'react-router';
-import { pushState } from 'redux-router';
-import { connect } from 'react-redux';
+const React = require('react');
+const ReactRouter = require('react-router');
+const Link = ReactRouter.Link;
+const { pushState } = require('redux-router');
+const { connect } = require('react-redux');
 
-import { startBusy, endBusy, newSession } from '../actions';
-import EmptyHeader from './EmptyHeader';
+const { startBusy, endBusy, newSession } = require('../actions');
+const EmptyHeader = require('./EmptyHeader');
 
 @connect((state) => state)
 class LoginPage extends React.Component {
@@ -81,4 +82,4 @@ class LoginPage extends React.Component {
   }
 };
 
-export default LoginPage;
+module.exports = LoginPage;

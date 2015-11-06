@@ -1,6 +1,8 @@
-import { AdminClaimForm, AdminClaimStatusActions, ClaimView } from '../components';
-import { refreshClaim, claimChangeHandler, updateParams } from '../actions';
-import { connect } from 'react-redux';
+const AdminClaimForm = require('./AdminClaimForm');
+const AdminClaimStatusActions = require('./AdminClaimStatusActions');
+const ClaimView = require('./ClaimView');
+const { refreshClaim, claimChangeHandler, updateParams } = require('../actions');
+const { connect } = require('react-redux');
 
 @connect((state) => state)
 class AdminClaimEdit extends React.Component {
@@ -45,4 +47,4 @@ class AdminClaimEdit extends React.Component {
   }
 };
 
-export default AdminClaimEdit;
+module.exports = AdminClaimEdit;

@@ -3,10 +3,11 @@
 // holds params for the pages that aren't using redux-router (aka the
 // admin pages)
 
-export const initialState = {
-};
+module.exports = {
+  initialState: {
+  },
 
-export default function globalReducer(state = initialState, action) {
+  reducer: function globalReducer(state = module.exports.initialState, action) {
   const { type, payload } = action;
 
   switch(type) {
@@ -22,4 +23,5 @@ export default function globalReducer(state = initialState, action) {
     return state;
   }
   }
-}
+  }
+};

@@ -268,4 +268,4 @@
   detailsGenerator.premiumVisitLimit = premiumVisitLimit;
   detailsGenerator.premiumTravelLimit = premiumTravelLimit;
 
-export default detailsGenerator;
+module.exports = detailsGenerator;

@@ -1,8 +1,17 @@
-import { Icon, ClaimInputGroup, ClaimInputWrapper, ClaimFormGroup, RadioSelect, ClaimInput, Select, ClaimDateGroup, Typeahead, ClaimPhoto } from '../components';
-import { updateClaim } from '../actions';
-import Bloodhound from 'typeahead.js/dist/bloodhound.js';
+const Icon = require('./Icon');
+const ClaimInputGroup = require('./ClaimInputGroup');
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const ClaimFormGroup = require('./ClaimFormGroup');
+const RadioSelect = require('./RadioSelect');
+const ClaimInput = require('./ClaimInput');
+const Select = require('./Select');
+const ClaimDateGroup = require('./ClaimDateGroup');
+const Typeahead = require('./Typeahead');
+const ClaimPhoto = require('./ClaimPhoto');
+const { updateClaim } = require('../actions');
+const Bloodhound = require('typeahead.js/dist/bloodhound.js');
 
-import provinces from '../data/provinces';
+const provinces = require('../data/provinces');
 
 const patientNameEngine = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.nonword,
@@ -26,7 +35,7 @@ var patientNumberEngine = new Bloodhound({
   }
 });
 
-export default React.createClass({
+module.exports = React.createClass({
   patientChanged: function(ev, suggestion) {
     if (suggestion.name) {
       this.props.dispatch(updateClaim(this.props.claim.id, {

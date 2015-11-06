@@ -1,11 +1,13 @@
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+const { Nav, Navbar, NavItem } = require('react-bootstrap');
+const { LinkContainer } = require('react-router-bootstrap');
 
-import { Icon, UserDropdown, Notice } from '../components';
-import dollars from '../data/dollars';
-import claimTotal from '../data/claimTotal';
+const Icon = require('./Icon');
+const UserDropdown = require('./UserDropdown');
+const Notice = require('./Notice');
+const dollars = require('../data/dollars');
+const { claimTotal } = require('../data/claimTotal');
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     var userIcon=(<Icon i="user"></Icon>);
     return (

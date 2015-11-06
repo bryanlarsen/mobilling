@@ -1,10 +1,11 @@
-import _ from 'underscore';
-import { RadioSelect, Icon } from '../components';
-import { Button } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import { claimStatusNames } from '../data/claimStatusNames';
+const _ = require('underscore');
+const RadioSelect = require('./RadioSelect');
+const Icon = require('./Icon');
+const { Button } = require('react-bootstrap');
+const { LinkContainer } = require('react-router-bootstrap');
+const { claimStatusNames } = require('../data/claimStatusNames');
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     var form = this;
     var statuses = {

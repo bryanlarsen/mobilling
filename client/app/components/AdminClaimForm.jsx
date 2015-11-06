@@ -1,6 +1,11 @@
-import { ClaimStaticOptional, ClaimPatient, ClaimTab, ConsultTab, ItemsTab, CommentsTab } from '../components';
+const ClaimStaticOptional = require('./ClaimStaticOptional');
+const ClaimPatient = require('./ClaimPatient');
+const ClaimTab = require('./ClaimTab');
+const ConsultTab = require('./ConsultTab');
+const ItemsTab = require('./ItemsTab');
+const CommentsTab = require('./CommentsTab');
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     return (
       <div>

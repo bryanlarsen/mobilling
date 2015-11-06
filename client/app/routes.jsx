@@ -1,4 +1,4 @@
-import { Route } from 'react-router';
+const { Route } = require('react-router');
 
 import { Root, LoginPage, ClaimsPage, ProfilePage, ProfileSettings, ClaimPageSelect, ClaimPatient, ClaimTab, ConsultTab, ItemsTab, NewClaimPage, NewUserPage, CommentsTab, ForgotPasswordPage } from "./components";
 
@@ -22,4 +22,4 @@ const routes = (
   </Route>
 );
 
-export default routes;
+module.exports = routes;

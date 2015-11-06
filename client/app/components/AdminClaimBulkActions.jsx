@@ -1,9 +1,9 @@
-import _ from 'underscore';
-import s from 'underscore.string';
-import { RadioSelect } from '../components';
-import { updateClaim } from '../actions';
+const _ = require('underscore');
+const s = require('underscore.string');
+const RadioSelect = require('./RadioSelect');
+const { updateClaim } = require('../actions');
 
-export default React.createClass({
+module.exports = React.createClass({
   getInitialState: function() {
     return {
       status: this.props.initialStatus

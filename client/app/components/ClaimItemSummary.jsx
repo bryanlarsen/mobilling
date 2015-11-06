@@ -1,7 +1,7 @@
-import FeeGenerator from '../data/FeeGenerator';
-import dollars from '../data/dollars';
+const FeeGenerator = require('../data/FeeGenerator');
+const dollars = require('../data/dollars');
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     var needs_diagnosis = true;
     var feeGenerator = FeeGenerator.feeGenerator;

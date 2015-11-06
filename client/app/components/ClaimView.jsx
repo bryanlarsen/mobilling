@@ -1,9 +1,12 @@
-import _ from 'underscore';
-import { ClaimStaticOptional, ClaimItemList, CommentsTab, ClaimDiagnosesList } from '../components';
-import { claimStatusNames, claimStatusNamesCurrent } from '../data/claimStatusNames';
-import specialties from '../data/specialties';
+const _ = require('underscore');
+const ClaimStaticOptional = require('./ClaimStaticOptional');
+const ClaimItemList = require('./ClaimItemList');
+const CommentsTab = require('./CommentsTab');
+const ClaimDiagnosesList = require('./ClaimDiagnosesList');
+const { claimStatusNames, claimStatusNamesCurrent } = require('../data/claimStatusNames');
+const specialties = require('../data/specialties');
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     return (
       <div>

@@ -1,9 +1,9 @@
-import claimsReducer, { initialState as claimsState } from './claimsReducer';
-import globalReducer, { initialState as globalState } from './globalReducer';
-import userReducer, { initialState as userState } from './userReducer';
-import paramsReducer, { initialState as paramsState } from './paramsReducer';
+const claimsReducer, { initialState as claimsState } = require('./claimsReducer');
+const globalReducer, { initialState as globalState } = require('./globalReducer');
+const userReducer, { initialState as userState } = require('./userReducer');
+const paramsReducer, { initialState as paramsState } = require('./paramsReducer');
 
-export default {
+module.exports = {
   claimStore: claimsReducer,
   globalStore: globalReducer,
   userStore: userReducer,

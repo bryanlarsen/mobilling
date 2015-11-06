@@ -1,9 +1,10 @@
-import _ from 'underscore';
-import { ClaimItem, ClaimItemSummary } from '../components';
-import dollars from '../data/dollars';
-import claimTotal, { itemTotal } from '../data/claimTotal';
-import normalizeDate from '../data/normalizeDate';
-import { newItem, itemChangeHandler } from '../actions';
+const _ = require('underscore');
+const ClaimItem = require('./ClaimItem');
+const ClaimItemSummary = require('./ClaimItemSummary');
+const dollars = require('../data/dollars');
+const { claimTotal, itemTotal } = require('../data/claimTotal');
+const normalizeDate = require('../data/normalizeDate');
+const { newItem, itemChangeHandler } = require('../actions');
 
 var ClaimItemCollapse = React.createClass({
   expand: function() {
@@ -56,7 +57,7 @@ var NewItemButton = React.createClass({
   }
 });
 
-export default React.createClass({
+module.exports = React.createClass({
   getInitialState: function() {
     return {
       expanded: -1

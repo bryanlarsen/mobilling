@@ -1,6 +1,11 @@
-import { Icon, ClaimInputGroup, ClaimInputWrapper, ClaimFormGroup, RadioSelect, ClaimInput } from '../components';
+const Icon = require('./Icon');
+const ClaimInputGroup = require('./ClaimInputGroup');
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const ClaimFormGroup = require('./ClaimFormGroup');
+const RadioSelect = require('./RadioSelect');
+const ClaimInput = require('./ClaimInput');
 
-export default (props) => {
+module.exports = (props) => {
   var roles = {
     doctor: <Icon i="user-md">Doctor</Icon>,
     agent: <Icon i="briefcase">Agent</Icon>

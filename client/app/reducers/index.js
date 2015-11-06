@@ -1,10 +1,10 @@
-import { routerStateReducer } from 'redux-router';
+const { routerStateReducer } = require('redux-router');
 
-import claimsReducer, { initialState as claimsState } from './claimsReducer';
-import globalReducer, { initialState as globalState } from './globalReducer';
-import userReducer, { initialState as userState } from './userReducer';
+const claimsReducer, { initialState as claimsState } = require('./claimsReducer');
+const globalReducer, { initialState as globalState } = require('./globalReducer');
+const userReducer, { initialState as userState } = require('./userReducer');
 
-export default {
+module.exports = {
   claimStore: claimsReducer,
   globalStore: globalReducer,
   userStore: userReducer,

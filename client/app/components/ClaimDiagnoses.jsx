@@ -1,11 +1,12 @@
-import _ from 'underscore';
+const _ = require('underscore');
 
-import { ClaimInputWrapper, Typeahead } from '../components';
-import { updateClaim } from '../actions';
-import uuid from '../data/uuid';
-import diagnosesEngine from '../data/diagnosesEngine';
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const Typeahead = require('./Typeahead');
+const { updateClaim } = require('../actions');
+const uuid = require('../data/uuid');
+const diagnosesEngine = require('../data/diagnosesEngine');
 
-export default React.createClass({
+module.exports = React.createClass({
   diagnosisChanged: function(i, ev) {
     let diagnoses = this.props.claim.diagnoses.slice();
     diagnoses[i].name = ev.target.value;

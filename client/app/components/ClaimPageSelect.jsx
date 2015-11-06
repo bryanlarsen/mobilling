@@ -1,6 +1,8 @@
-import { ClaimPage, ClaimViewPage, LoadingPage } from '../components';
-import { refreshClaim, claimChangeHandler } from '../actions';
-import { connect } from 'react-redux';
+const ClaimPage = require('./ClaimPage');
+const ClaimViewPage = require('./ClaimViewPage');
+const LoadingPage = require('./LoadingPage');
+const { refreshClaim, claimChangeHandler } = require('../actions');
+const { connect } = require('react-redux');
 
 @connect((state) => state)
 class ClaimPageSelect extends React.Component {
@@ -33,4 +35,4 @@ class ClaimPageSelect extends React.Component {
   }
 };
 
-export default ClaimPageSelect;
+module.exports = ClaimPageSelect;

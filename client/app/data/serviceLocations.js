@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   '': 'None',
   'HDS': 'HDS: Day Surgery',
   'HED': 'HED: Emergency Department',

@@ -4,4 +4,4 @@ const paramsActions = {
   },
 }
 
-export default paramsActions;
+module.exports = paramsActions;

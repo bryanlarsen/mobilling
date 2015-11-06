@@ -1,13 +1,13 @@
-import React from 'react';
-import { NativePatient } from '../components';
+const ClaimPatient = require('../components/ClaimPatient');
+const { claimChangeHandler } = require('../actions');
 
-const dispatch = function(action) {
-  console.log('dispatch', action);
-}
-const NativePatientPage = props => {
-  return <NativePatient {...props}
-           dispatch={dispatch}
-         />;
+class NativePatientPage extends React.Component {
+  render() {
+    const handler = claimChangeHandler.bind(null, this.props.dispatch, this.props.claim.id);
+    return <div className="form-horizontal">
+      <ClaimPatient {...this.props} store={this.props.claim} onChange={handler}/>
+    </div>;
+  }
 };
 
-export default NativePatientPage;
+module.exports = NativePatientPage;

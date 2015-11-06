@@ -1,6 +1,15 @@
-import { ClaimInputGroup, ClaimInputWrapper, ClaimFormGroup, Select, ClaimDateGroup, ClaimYesNo, ClaimHospital, ClaimDiagnoses, ClaimAdmissionFirstLast, ClaimPaymentProgram } from '../components';
-import SPECIALTIES from '../data/specialties';
-import serviceLocations from '../data/serviceLocations';
+const ClaimInputGroup = require('./ClaimInputGroup');
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const ClaimFormGroup = require('./ClaimFormGroup');
+const Select = require('./Select');
+const ClaimDateGroup = require('./ClaimDateGroup');
+const ClaimYesNo = require('./ClaimYesNo');
+const ClaimHospital = require('./ClaimHospital');
+const ClaimDiagnoses = require('./ClaimDiagnoses');
+const ClaimAdmissionFirstLast = require('./ClaimAdmissionFirstLast');
+const ClaimPaymentProgram = require('./ClaimPaymentProgram');
+const SPECIALTIES = require('../data/specialties');
+const serviceLocations = require('../data/serviceLocations');
 
 const ClaimTabSimplified = (props) => {
   return (
@@ -50,7 +59,7 @@ const ClaimTabFull = (props) => {
     );
 };
 
-export default (props) => {
+module.exports = (props) => {
   return props.claim.consult_setup_visible ?
                    <ClaimTabFull {...props} /> :
                    <ClaimTabSimplified {...props} />;

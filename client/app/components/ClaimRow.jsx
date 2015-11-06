@@ -1,9 +1,11 @@
-import FeeGenerator from '../data/FeeGenerator';
-import serviceCodesEngine from '../data/serviceCodesEngine';
-import {ClaimInputWrapper, ClaimInput, Typeahead} from '../components';
-import {deleteRow, deleteItem} from '../actions';
+const FeeGenerator = require('../data/FeeGenerator');
+const serviceCodesEngine = require('../data/serviceCodesEngine');
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const ClaimInput = require('./ClaimInput');
+const Typeahead = require('./Typeahead');
+const {deleteRow, deleteItem} = require('../actions');
 
-export default React.createClass({
+module.exports = React.createClass({
   unitsChanged: function(ev) {
     this.props.onChange({target: {name: ev.target.name, value: parseInt(ev.target.value)}});
   },

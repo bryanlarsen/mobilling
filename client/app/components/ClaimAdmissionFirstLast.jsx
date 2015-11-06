@@ -1,7 +1,9 @@
-import { ClaimFormGroup, ClaimDateGroup, ClaimYesNo } from '../components';
-import { updateClaim } from '../actions';
+const ClaimFormGroup = require('./ClaimFormGroup');
+const ClaimDateGroup = require('./ClaimDateGroup');
+const ClaimYesNo = require('./ClaimYesNo');
+const { updateClaim } = require('../actions');
 
-export default React.createClass({
+module.exports = React.createClass({
   dateChanged: function(ev) {
     var updates = {}
     updates[ev.target.name] = ev.target.value;

@@ -8,4 +8,4 @@ const SPECIALTIES = {
  "cardiology": "Cardiology"
 };
 
-export default SPECIALTIES;
+module.exports = SPECIALTIES;

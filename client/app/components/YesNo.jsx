@@ -1,4 +1,4 @@
-export default React.createClass({
+module.exports = React.createClass({
   _onClick: function(val) {
     return (ev) => {
       this.props.onChange({target: {name: this.props.name, value: val}});

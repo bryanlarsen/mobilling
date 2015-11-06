@@ -1,5 +1,7 @@
-import { ClaimInputWrapper, ClaimFormGroup, Typeahead } from '../components';
-import Bloodhound from 'typeahead.js/dist/bloodhound.js';
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const ClaimFormGroup = require('./ClaimFormGroup');
+const Typeahead = require('./Typeahead');
+const Bloodhound = require('typeahead.js/dist/bloodhound.js');
 
 var hospitalsEngine = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.nonword,
@@ -14,7 +16,7 @@ setTimeout(function() {
   hospitalsEngine.initialize();
 }, 500);
 
-export default React.createClass({
+module.exports = React.createClass({
   render: function() {
     return (
       <ClaimFormGroup name="hospital">

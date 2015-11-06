@@ -1,6 +1,6 @@
-import _ from 'underscore';
+const _ = require('underscore');
 
-export default {
+module.exports = {
   detailSignature(detail) {
     return [
       detail.day,

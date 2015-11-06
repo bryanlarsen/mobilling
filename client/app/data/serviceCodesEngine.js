@@ -1,4 +1,4 @@
-import Bloodhound from 'typeahead.js/dist/bloodhound.js';
+const Bloodhound = require('typeahead.js/dist/bloodhound.js');
 var serviceCodesEngine = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.nonword,
   queryTokenizer: Bloodhound.tokenizers.nonword,
@@ -7,6 +7,6 @@ var serviceCodesEngine = new Bloodhound({
 });
 serviceCodesEngine.initialize();
 
-export default serviceCodesEngine;
+module.exports = serviceCodesEngine;
 
 // actual codes initialized in fee-generator.js

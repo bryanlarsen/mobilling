@@ -1,4 +1,4 @@
-import Bloodhound from 'typeahead.js/dist/bloodhound.js';
+const Bloodhound = require('typeahead.js/dist/bloodhound.js');
 
 const diagnosesEngine = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.nonword,
@@ -12,4 +12,4 @@ setTimeout(function() {
   diagnosesEngine.initialize();
 }, 500);
 
-export default diagnosesEngine;
+module.exports = diagnosesEngine;

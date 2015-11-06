@@ -1,6 +1,6 @@
-import { StandardHeader } from '../components';
+const StandardHeader = require('./StandardHeader');
 
-export default (props) => {
+module.exports = (props) => {
   return (
     <div className="body">
       <StandardHeader {...props} />

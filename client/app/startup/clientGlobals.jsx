@@ -1,8 +1,8 @@
-import ClaimEdit from './ClaimEdit';
-import UserEdit from './UserEdit';
-import ClaimsBulk from './ClaimsBulk';
-import App from './ClientApp';
-import NativePatientPage from './NativePatientPage';
+const ClaimEdit = require('./ClaimEdit');
+const UserEdit = require('./UserEdit');
+const ClaimsBulk = require('./ClaimsBulk');
+const App = require('./ClientApp');
+const NativePatientPage = require('./NativePatientPage');
 
 require('pickadate/lib/picker.date');
 require('pickadate/lib/picker.time');

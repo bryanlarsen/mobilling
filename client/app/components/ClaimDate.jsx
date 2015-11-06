@@ -1,8 +1,9 @@
-import { ClaimInputWrapper, ClaimInputInner } from '../components';
+const ClaimInputWrapper = require('./ClaimInputWrapper');
+const ClaimInputInner = require('./ClaimInputInner');
 
-import normalizeDate from '../data/normalizeDate';
+const normalizeDate = require('../data/normalizeDate');
 
-export default React.createClass({
+module.exports = React.createClass({
   onClick: function() {
     event.stopPropagation();
     var element = $(this.refs.pickerInput);

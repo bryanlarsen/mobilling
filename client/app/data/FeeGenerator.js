@@ -1,5 +1,5 @@
-import _ from 'underscore';
-import serviceCodesEngine from '../data/serviceCodesEngine';
+const _ = require('underscore');
+const serviceCodesEngine = require('../data/serviceCodesEngine');
 
 var FeeGenerator = function(codes) {
   this.service_codes = codes;
@@ -135,4 +135,4 @@ setTimeout(function() {
   }
 }, 1500);
 
-export default exports;
+module.exports = exports;

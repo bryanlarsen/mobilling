@@ -1,11 +1,11 @@
 "use strict";
 
-import _ from 'underscore';
-import moment from 'moment';
-import { writeHelper } from './actionHelpers';
-import { unrecoverableError } from './globalActions';
-import { dayType, timeType } from '../data/dayType';
-import FeeGenerator from '../data/FeeGenerator';
+const _ = require('underscore');
+const moment = require('moment');
+const { writeHelper } = require('./actionHelpers');
+const { unrecoverableError } = require('./globalActions');
+const { dayType, timeType } = require('../data/dayType');
+//const FeeGenerator = require('../data/FeeGenerator');
 
 function updateConsult(claim) {
   let updates = {consult_time_type: claim.consult_time_type};
@@ -308,7 +308,8 @@ const claimActions = {
     while(target.value === undefined) target = target.parentElement;
     let updates = {};
     updates[target.name] = target.value;
-    dispatch(claimActions.updateClaim(id, updates));
+    //dispatch(claimActions.updateClaim(id, updates));
+    dispatch(claimUpdate({id, ...updates}));
   },
 
   itemChangeHandler(dispatch, claim_id, id, ev) {
@@ -330,4 +331,4 @@ const claimActions = {
   },
 }
 
-export default claimActions;
+module.exports = claimActions;
