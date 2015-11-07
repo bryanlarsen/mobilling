@@ -22,6 +22,9 @@ module.exports = {
       filename: 'vendor-bundle.js',
       minChunks: Infinity,
     }),
+    new webpack.ProvidePlugin({
+      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+    })
   ],
   module: {
     loaders: [
