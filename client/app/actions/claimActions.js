@@ -5,7 +5,7 @@ const moment = require('moment');
 const { writeHelper } = require('./actionHelpers');
 const { unrecoverableError } = require('./globalActions');
 const { dayType, timeType } = require('../data/dayType');
-//const FeeGenerator = require('../data/FeeGenerator');
+const FeeGenerator = require('../data/FeeGenerator');
 
 function updateConsult(claim) {
   let updates = {consult_time_type: claim.consult_time_type};

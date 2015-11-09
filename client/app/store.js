@@ -6,7 +6,7 @@ const createLogger = require('redux-logger');
 const busyMiddleware = require('./middleware/busyMiddleware');
 
 const routes = require('./routes');
-const {reducers, initialState} = require('./reducers/native');
+const {reducers, initialState} = require('./reducers/index.js');
 
 const beforeunload = function(ev) {
   ev.returnValue = "Changes not saved.";

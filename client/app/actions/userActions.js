@@ -1,7 +1,6 @@
 const _ = require('underscore');
 const { startBusy, endBusy } = require('./globalActions');
 const { writeHelper } = require('./actionHelpers');
-//const { pushState } = require('redux-router');
 
 const userActions = {
   newSession(payload) {
@@ -24,20 +23,11 @@ const userActions = {
     };
   },
 
-  loggedIn(payload) {
-    return (dispatch, getState) => {
-      dispatch(userActions.newSession(payload));
-      if (getState().userStore.id) {
-        if (getState().userStore.role === 'agent') {
-          window.location.href = '/admin';
-        } else {
-          dispatch(pushState(null, '/login'));
-        }
-      }
-    }
-  },
-
-  newUser() {
+  newUser(callback) {
+    const done = (response) => (dispatch, getState) => {
+      dispatch(userActions.newSession(response));
+      callback(response);
+    };
     return (dispatch, getState) => {
       const user = getState().userStore;
       writeHelper({dispatch,
@@ -46,7 +36,7 @@ const userActions = {
                    action_prefix: 'USER.CREATE',
                    payload: user,
                    updateAction: userActions.newSession,
-                   responseAction: userActions.loggedIn,
+                   responseAction: done
                   });
     };
   },

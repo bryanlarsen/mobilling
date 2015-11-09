@@ -1,5 +1,5 @@
 const { Navbar, Nav, NavItem } = require('react-bootstrap');
-const { Notice } = require('./index');
+const Notice = require('./Notice');
 
 module.exports = (props) => {
   return (

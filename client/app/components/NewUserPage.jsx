@@ -5,12 +5,19 @@ const ClaimFormGroup = require('./ClaimFormGroup');
 const DoctorProfile = require('./DoctorProfile');
 const { connect } = require('react-redux');
 const { userChangeHandler, newUser } = require('../actions');
+const { pushState } = require('redux-router');
 
 @connect((state) => state)
 class NewUserPage extends React.Component {
   submit(ev) {
     ev.preventDefault();
-    this.props.dispatch(newUser());
+    this.props.dispatch(newUser((user) => {
+      if (user.role === 'agent') {
+        window.location.href = '/admin';
+      } else {
+        this.props.dispatch(pushState(null, '/login'));
+      }
+    }));
   }
 
   render() {
