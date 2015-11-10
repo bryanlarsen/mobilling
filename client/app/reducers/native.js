@@ -1,5 +1,3 @@
-//const claimsReducer, { initialState as claimsState } = require('./claimsReducer');
-
 const claims = require('./claimsReducer');
 const claimsReducer = claims.reducer;
 const claimsState = claims.initialState;
@@ -16,18 +14,24 @@ const params = require('./paramsReducer');
 const paramsReducer = params.reducer;
 const paramsState = params.initialState;
 
+const nativeRouter = require('./nativeRouterReducer');
+const nativeRouterReducer = nativeRouter.reducer;
+const nativeRouterState = nativeRouter.initialState;
+
 module.exports = {
   reducers: {
- //  claimStore: claimsReducer,
+    claimStore: claimsReducer,
     globalStore: globalReducer,
     userStore: userReducer,
     params: paramsReducer,
+    nativeRouter: nativeRouterReducer
   },
 
   initialState: {
-//  claimStore: claimsState,
+    claimStore: claimsState,
     globalStore: globalState,
     userStore: userState,
     params: paramsState,
+    nativeRouter: nativeRouterState
   }
 };

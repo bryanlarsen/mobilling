@@ -32,18 +32,20 @@ function WebViewBridgeReady(cb) {
   //be called.
   document.addEventListener('WebViewBridge', handler, false);
 }
+
+window.BlankPage = function(props) { return false; };
+
 document.addEventListener("DOMContentLoaded", function(ev) {
   WebViewBridgeReady(function(bridge) {
     var ref = document.getElementById('react');
-    bridge.onMessage = function(msg) {
-      var props = JSON.parse(atob(msg));
+    bridge.onMessage = function(props) {
       props.dispatch = function(action) {
-        if (action) bridge.send(btoa(JSON.stringify(action)));
+        if (action) bridge.send(JSON.stringify(action));
       }
       React.render(React.createElement(window[props.component], props), ref);
     }
     ref.innerHTML='ready';
-    bridge.send(btoa('{"type":"ready"}'));
+    bridge.send('{"type":"ready"}');
   });
 });
   </script>

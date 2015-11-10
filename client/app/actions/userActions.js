@@ -7,19 +7,18 @@ const userActions = {
     return { type: 'USER.INIT', payload };
   },
 
-  logIn() {
-    return (dispatch, getState) => {
-      const user = getState().userStore;
-      writeHelper({dispatch,
-                   method: 'POST',
-                   url: `${window.ENV.API_ROOT}session.json`,
-                   action_prefix: 'LOGIN',
-                   payload: {email: user.email,
-                             password: user.password
-                            },
-                   updateAction: userActions.updateUserAttributes,
-                   responseAction: userActions.newSession
-                  });
+  logIn(user, after) {
+    return {
+      type: 'API_WRITE',
+      method: 'POST',
+      url: `${window.ENV.API_ROOT}session.json`,
+      payload: {
+        email: user.email,
+        password: user.password
+      },
+      successType: 'USER.INIT',
+      successAfter: after,
+      errorType: 'USER.UPDATE'
     };
   },
 

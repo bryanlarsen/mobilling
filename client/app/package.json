@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "moment": "^2.10.6",
-    "react-native": "^0.13.2",
+    "react-native": "^0.14.2",
     "react-native-webview-bridge": "git://github.com/rick-li/react-native-webview-bridge.git",
     "react-redux": "^3.1.0",
     "redux": "^3.0.4",

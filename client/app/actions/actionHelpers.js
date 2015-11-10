@@ -11,7 +11,11 @@ module.exports.writeHelper = function({dispatch, method, url, action_prefix, pay
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(payload)
-  }).then((response) => response.json()).then((json) => {
+  }).then((response) => {
+    console.log('response', response);
+    return response.json();
+  }).then((json) => {
+    
     dispatch(responseAction(json));
     dispatch({type: action_prefix + '.FINISH', payload: json});
   }).catch((error) => {
@@ -21,6 +25,5 @@ module.exports.writeHelper = function({dispatch, method, url, action_prefix, pay
     });
     dispatch(updateAction(payload));
     dispatch({type: action_prefix + '.FAILED', payload});
-    console.error(error);
   });
 };

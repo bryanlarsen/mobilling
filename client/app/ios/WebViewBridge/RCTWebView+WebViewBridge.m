@@ -61,7 +61,7 @@ RCTEventDispatcher *_eventDispatcher;
 
 - (void)send:(NSString*)message {
   UIWebView* _webView = [self valueForKey:@"_webView"];
-  NSString *command = [NSString stringWithFormat: @"WebViewBridge.onMessage('%@');", message];
+  NSString *command = [NSString stringWithFormat: @"WebViewBridge.onMessage(%@);", message];
   [_webView stringByEvaluatingJavaScriptFromString:command];
 }
 

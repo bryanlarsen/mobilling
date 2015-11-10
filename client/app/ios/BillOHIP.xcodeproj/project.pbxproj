@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
 		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
@@ -23,10 +22,10 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		93299C291BEC007B00FA09B0 /* web in Resources */ = {isa = PBXBuildFile; fileRef = 93299C281BEC007B00FA09B0 /* web */; };
-		93BE404F1BEC160D00149923 /* RCTWebView+WebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BE404B1BEC160D00149923 /* RCTWebView+WebViewBridge.m */; };
-		93BE40501BEC160D00149923 /* RCTWebViewManager+WebViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BE404D1BEC160D00149923 /* RCTWebViewManager+WebViewManager.m */; };
-		93BE40511BEC160D00149923 /* webview-bridge-script.js in Resources */ = {isa = PBXBuildFile; fileRef = 93BE404E1BEC160D00149923 /* webview-bridge-script.js */; };
+		93FC5D5D1BF2319A00F44055 /* RCTWebView+WebViewBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FC5D591BF2319A00F44055 /* RCTWebView+WebViewBridge.m */; };
+		93FC5D5E1BF2319A00F44055 /* RCTWebViewManager+WebViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FC5D5B1BF2319A00F44055 /* RCTWebViewManager+WebViewManager.m */; };
+		93FC5D5F1BF2319A00F44055 /* webview-bridge-script.js in Resources */ = {isa = PBXBuildFile; fileRef = 93FC5D5C1BF2319A00F44055 /* webview-bridge-script.js */; };
+		93FC5D6B1BF231DC00F44055 /* web in Resources */ = {isa = PBXBuildFile; fileRef = 93FC5D6A1BF231DC00F44055 /* web */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,12 +130,12 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		93299C281BEC007B00FA09B0 /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; name = web; path = ../../web; sourceTree = "<group>"; };
-		93BE404A1BEC160D00149923 /* RCTWebView+WebViewBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTWebView+WebViewBridge.h"; sourceTree = "<group>"; };
-		93BE404B1BEC160D00149923 /* RCTWebView+WebViewBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTWebView+WebViewBridge.m"; sourceTree = "<group>"; };
-		93BE404C1BEC160D00149923 /* RCTWebViewManager+WebViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTWebViewManager+WebViewManager.h"; sourceTree = "<group>"; };
-		93BE404D1BEC160D00149923 /* RCTWebViewManager+WebViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTWebViewManager+WebViewManager.m"; sourceTree = "<group>"; };
-		93BE404E1BEC160D00149923 /* webview-bridge-script.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "webview-bridge-script.js"; sourceTree = "<group>"; };
+		93FC5D581BF2319A00F44055 /* RCTWebView+WebViewBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTWebView+WebViewBridge.h"; sourceTree = "<group>"; };
+		93FC5D591BF2319A00F44055 /* RCTWebView+WebViewBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTWebView+WebViewBridge.m"; sourceTree = "<group>"; };
+		93FC5D5A1BF2319A00F44055 /* RCTWebViewManager+WebViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTWebViewManager+WebViewManager.h"; sourceTree = "<group>"; };
+		93FC5D5B1BF2319A00F44055 /* RCTWebViewManager+WebViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTWebViewManager+WebViewManager.m"; sourceTree = "<group>"; };
+		93FC5D5C1BF2319A00F44055 /* webview-bridge-script.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "webview-bridge-script.js"; sourceTree = "<group>"; };
+		93FC5D6A1BF231DC00F44055 /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; name = web; path = ../../web; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,7 +242,7 @@
 		13B07FAE1A68108700A75B9A /* BillOHIP */ = {
 			isa = PBXGroup;
 			children = (
-				93299C281BEC007B00FA09B0 /* web */,
+				93FC5D6A1BF231DC00F44055 /* web */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -274,7 +273,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				93BE40491BEC160D00149923 /* WebViewBridge */,
+				93FC5D571BF2319A00F44055 /* WebViewBridge */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -318,14 +317,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		93BE40491BEC160D00149923 /* WebViewBridge */ = {
+		93FC5D571BF2319A00F44055 /* WebViewBridge */ = {
 			isa = PBXGroup;
 			children = (
-				93BE404A1BEC160D00149923 /* RCTWebView+WebViewBridge.h */,
-				93BE404B1BEC160D00149923 /* RCTWebView+WebViewBridge.m */,
-				93BE404C1BEC160D00149923 /* RCTWebViewManager+WebViewManager.h */,
-				93BE404D1BEC160D00149923 /* RCTWebViewManager+WebViewManager.m */,
-				93BE404E1BEC160D00149923 /* webview-bridge-script.js */,
+				93FC5D581BF2319A00F44055 /* RCTWebView+WebViewBridge.h */,
+				93FC5D591BF2319A00F44055 /* RCTWebView+WebViewBridge.m */,
+				93FC5D5A1BF2319A00F44055 /* RCTWebViewManager+WebViewManager.h */,
+				93FC5D5B1BF2319A00F44055 /* RCTWebViewManager+WebViewManager.m */,
+				93FC5D5C1BF2319A00F44055 /* webview-bridge-script.js */,
 			);
 			path = WebViewBridge;
 			sourceTree = "<group>";
@@ -358,6 +357,7 @@
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 			);
 			buildRules = (
 			);
@@ -529,15 +529,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
-				93299C291BEC007B00FA09B0 /* web in Resources */,
-				93BE40511BEC160D00149923 /* webview-bridge-script.js in Resources */,
+				93FC5D5F1BF2319A00F44055 /* webview-bridge-script.js in Resources */,
+				93FC5D6B1BF231DC00F44055 /* web in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "../node_modules/react-native/packager/react-native-xcode.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		00E356EA1AD99517003FC87E /* Sources */ = {
@@ -553,9 +569,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				93BE40501BEC160D00149923 /* RCTWebViewManager+WebViewManager.m in Sources */,
+				93FC5D5E1BF2319A00F44055 /* RCTWebViewManager+WebViewManager.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				93BE404F1BEC160D00149923 /* RCTWebView+WebViewBridge.m in Sources */,
+				93FC5D5D1BF2319A00F44055 /* RCTWebView+WebViewBridge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
