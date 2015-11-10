@@ -5,7 +5,7 @@ const { LinkContainer } = require('react-router-bootstrap');
 
 const Icon = require('./Icon');
 const ClaimHeader = require('./ClaimHeader');
-const { updateClaim } = require('../actions');
+const { changeClaim } = require('../actions');
 
 module.exports = React.createClass({
   icon: {
@@ -53,7 +53,7 @@ module.exports = React.createClass({
 
   submit: function(ev) {
     ev.preventDefault();
-    this.props.dispatch(updateClaim(this.props.claim.id, {status: 'for_agent'}));
+    this.props.dispatch(changeClaim(this.props.claim, {status: 'for_agent'}));
   },
 
   render: function() {

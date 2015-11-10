@@ -25,7 +25,7 @@ class ClaimPageSelect extends React.Component {
     if (!claim || !claim.patient_sex) {
       return <LoadingPage {...this.props} />;
     }
-    const handler = claimChangeHandler.bind(null, this.props.dispatch, claim.id);
+    const handler = claimChangeHandler.bind(null, this.props.dispatch, claim);
 
     if (['saved', 'doctor_attention'].indexOf(claim.status) !== -1) {
       return <ClaimPage {...this.props} store={claim} claim={claim} onChange={handler} claimHref={claimHref} />;

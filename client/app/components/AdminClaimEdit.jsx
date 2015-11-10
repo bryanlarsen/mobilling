@@ -24,7 +24,7 @@ class AdminClaimEdit extends React.Component {
   render() {
     const claim = this.props.claimStore.claims[this.props.params.id];
     if (!claim) return false;
-    const handler = claimChangeHandler.bind(null, this.props.dispatch, claim.id);
+    const handler = claimChangeHandler.bind(null, this.props.dispatch, claim);
     var claimHref = function(id) {
       return "/admin/claims/"+id+"/edit";
     };

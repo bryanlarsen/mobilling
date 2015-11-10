@@ -1,4 +1,6 @@
 const Bloodhound = require('typeahead.js/dist/bloodhound.js');
+const _ = require('underscore');
+
 var serviceCodesEngine = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.nonword,
   queryTokenizer: Bloodhound.tokenizers.nonword,

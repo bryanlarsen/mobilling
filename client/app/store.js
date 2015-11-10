@@ -4,6 +4,7 @@ const { reduxReactRouter } = require('redux-router');
 const createHistory = require('history/lib/createBrowserHistory');
 const createLogger = require('redux-logger');
 const busyMiddleware = require('./middleware/busyMiddleware');
+const apiMiddleware = require('./middleware/apiMiddleware');
 
 const routes = require('./routes');
 const {reducers, initialState} = require('./reducers/index.js');
@@ -17,7 +18,7 @@ module.exports = (props) => {
   const reducer = combineReducers(reducers);
   const logger = createLogger();
   const composedStore = compose(
-    applyMiddleware(thunkMiddleware, busyMiddleware, logger),
+    applyMiddleware(thunkMiddleware, apiMiddleware, busyMiddleware, logger),
     reduxReactRouter({
       routes,
       createHistory

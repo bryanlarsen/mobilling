@@ -2,7 +2,7 @@ const _ = require('underscore');
 const ClaimItemList = require('./ClaimItemList');
 const detailsGenerator = require('../data/detailsGenerator');
 const {detailSignature, detailsToAdd, detailsToRemove} = require('../data/detailsDelta');
-const {newItem, updateItem, deleteItem, updateClaim} = require('../actions');
+const {newItem, updateItem, deleteItem, changeClaim} = require('../actions');
 
 var ItemGenerator = function(claim, props) {
   this.claim = claim;
@@ -23,7 +23,7 @@ ItemGenerator.prototype.go = function() {
     let item = this.next[add];
     this.props.dispatch(newItem(this.props.claim.id, item));
   }, this);
-  this.props.dispatch(updateClaim(this.props.claim.id, {last_code_generation: JSON.stringify(this.nextSigs)}));
+  this.props.dispatch(changeClaim(this.props.claim, {last_code_generation: JSON.stringify(this.nextSigs)}));
 };
 
 module.exports = React.createClass({

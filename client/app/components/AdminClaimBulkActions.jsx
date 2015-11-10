@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const s = require('underscore.string');
 const RadioSelect = require('./RadioSelect');
-const { updateClaim } = require('../actions');
+const { changeClaim } = require('../actions');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -14,7 +14,7 @@ module.exports = React.createClass({
     var target = ev.target;
     while(target.value === undefined) target = target.parentElement;
     for (const id of this.props.claimStore.claimList) {
-      this.props.dispatch(updateClaim(id, {status: target.value}));
+      this.props.dispatch(changeClaim(this.props.claimStore.claims[id], {status: target.value}));
     }
   },
 

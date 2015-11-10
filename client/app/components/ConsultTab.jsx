@@ -6,7 +6,7 @@ const ClaimTime = require('./ClaimTime');
 const YesNo = require('./YesNo');
 const detailsGenerator = require('../data/detailsGenerator');
 const { dayType, timeType } = require('../data/dayType');
-const { updateClaim } = require('../actions');
+const { changeClaim } = require('../actions');
 
 const ConsultType = React.createClass({
   render: function() {
@@ -32,13 +32,13 @@ const ConsultType = React.createClass({
 
 module.exports = React.createClass({
   premiumChanged: function(ev) {
-    this.props.dispatch(updateClaim(this.props.claim.id, {
+    this.props.dispatch(changeClaim(this.props.claim, {
       consult_premium_visit: ev.target.value ? 'calculate' : null
     }));
   },
 
   officeHoursChanged: function(ev) {
-    this.props.dispatch(updateClaim(this.props.claim.id, {
+    this.props.dispatch(changeClaim(this.props.claim, {
       consult_premium_visit: ev.target.value ? 'weekday_office_hours' : 'calculate'
     }));
   },

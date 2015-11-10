@@ -8,7 +8,7 @@ const Select = require('./Select');
 const ClaimDateGroup = require('./ClaimDateGroup');
 const Typeahead = require('./Typeahead');
 const ClaimPhoto = require('./ClaimPhoto');
-const { updateClaim } = require('../actions');
+const { changeClaim } = require('../actions');
 const Bloodhound = require('typeahead.js/dist/bloodhound.js');
 
 const provinces = require('../data/provinces');
@@ -38,7 +38,7 @@ var patientNumberEngine = new Bloodhound({
 module.exports = React.createClass({
   patientChanged: function(ev, suggestion) {
     if (suggestion.name) {
-      this.props.dispatch(updateClaim(this.props.claim.id, {
+      this.props.dispatch(changeClaim(this.props.claim, {
         patient_name: suggestion.name,
         patient_number: suggestion.number,
         patient_province: suggestion.province,

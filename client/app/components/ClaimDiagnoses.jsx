@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const ClaimInputWrapper = require('./ClaimInputWrapper');
 const Typeahead = require('./Typeahead');
-const { updateClaim } = require('../actions');
+const { changeClaim } = require('../actions');
 const uuid = require('../data/uuid');
 const diagnosesEngine = require('../data/diagnosesEngine');
 
@@ -10,19 +10,19 @@ module.exports = React.createClass({
   diagnosisChanged: function(i, ev) {
     let diagnoses = this.props.claim.diagnoses.slice();
     diagnoses[i].name = ev.target.value;
-    this.props.dispatch(updateClaim(this.props.claim.id, {diagnoses}));
+    this.props.dispatch(changeClaim(this.props.claim, {diagnoses}));
   },
 
   removeDiagnosis: function(i) {
     let diagnoses = this.props.claim.diagnoses.slice();
     diagnoses.splice(i, 1);
-    this.props.dispatch(updateClaim(this.props.claim.id, {diagnoses}));
+    this.props.dispatch(changeClaim(this.props.claim, {diagnoses}));
   },
 
   newDiagnosis: function() {
     let diagnoses = this.props.claim.diagnoses.slice();
     diagnoses.push({name: ""});
-    this.props.dispatch(updateClaim(this.props.claim.id, {diagnoses}));
+    this.props.dispatch(changeClaim(this.props.claim, {diagnoses}));
   },
 
   render: function() {

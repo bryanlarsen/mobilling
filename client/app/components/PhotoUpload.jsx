@@ -1,4 +1,4 @@
-import { updateClaim } from "../actions";
+import { changeClaim } from "../actions";
 
 module.exports = React.createClass({
     handleFile: function(e) {
@@ -16,7 +16,7 @@ module.exports = React.createClass({
         type: 'POST',
         success: (data) => {
           console.log('success', data);
-          this.props.dispatch(updateClaim(this.props.claim.id, {photo_id: data.id}));
+          this.props.dispatch(changeClaim(this.props.claim, {photo_id: data.id}));
           this.props.dispatch({type: 'PHOTO.CREATE.FINISH', payload: data});
         },
         error: () => {
@@ -39,7 +39,7 @@ module.exports = React.createClass({
         ft.upload(imageUri, window.ENV.API_ROOT+'v1/photos', (response) => {
           console.log('picture success', response);
           var data = JSON.parse(response.response);
-          this.props.dispatch(updateClaim(this.props.claim.id, {photo_id: data.id}));
+          this.props.dispatch(changeClaim(this.props.claim, {photo_id: data.id}));
           this.props.dispatch({type: 'PHOTO.CREATE.FINISH', payload: data});
         }, function(err) {
           this.props.dispatch({type: 'PHOTO.CREATE.FAILED', payload: err});

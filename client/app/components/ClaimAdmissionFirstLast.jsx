@@ -1,7 +1,7 @@
 const ClaimFormGroup = require('./ClaimFormGroup');
 const ClaimDateGroup = require('./ClaimDateGroup');
 const ClaimYesNo = require('./ClaimYesNo');
-const { updateClaim } = require('../actions');
+const { changeClaim } = require('../actions');
 
 module.exports = React.createClass({
   dateChanged: function(ev) {
@@ -12,11 +12,11 @@ module.exports = React.createClass({
         updates[field] = ev.target.value;
       }
     }
-    this.props.dispatch(updateClaim(this.props.claim.id, updates));
+    this.props.dispatch(changeClaim(this.props.claim, updates));
 
     if (this.props.claim.admission_on === this.props.claim.first_seen_on &&
       !this.props.claim.first_seen_consult) {
-        this.props.dispatch(updateClaim(this.props.claim.id, {first_seen_consult: true}));
+        this.props.dispatch(changeClaim(this.props.claim, {first_seen_consult: true}));
     }
   },
 

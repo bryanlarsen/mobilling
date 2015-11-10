@@ -188,21 +188,19 @@ const claimActions = {
     };
   },
 
-  updateClaim(id, changes) {
-    return (dispatch, getState) => {
-      const claim = getState().claimStore.claims[id];
-      let newClaim = {...claim, ...changes};
-      let calculated = updateConsult(newClaim);
-      let updates = {id, ...changes, ...calculated};
-      dispatch(claimUpdate(updates));
-      writeHelper({dispatch,
-                   method: 'PATCH',
-                   url: `${window.ENV.API_ROOT}v1/claims/${id}.json`,
-                   action_prefix: 'CLAIM.PATCH',
-                   payload: updates,
-                   updateAction: claimUpdate,
-                   responseAction: claimResponse,
-                  });
+  changeClaim(claim, changes) {
+    let newClaim = {...claim, ...changes};
+    let calculated = updateConsult(newClaim);
+    let updates = {id: claim.id, ...changes, ...calculated};
+    //dispatch(claimUpdate(updates));
+    return {
+      type: 'API_WRITE',
+      method: 'PATCH',
+      url: `${window.ENV.API_ROOT}v1/claims/${claim.id}.json`,
+      payload: updates,
+      successType: 'CLAIM.UPDATE',
+      successWhitelist: ['id', 'errors', 'warnings', 'submission', 'total_fee', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'],
+      errorType: 'CLAIM.UPDATE'
     };
   },
 
@@ -302,14 +300,13 @@ const claimActions = {
     };
   },
 
-  claimChangeHandler(dispatch, id, ev) {
+  claimChangeHandler(dispatch, claim, ev) {
     if (!ev.target) return;
     var target = ev.target;
     while(target.value === undefined) target = target.parentElement;
     let updates = {};
     updates[target.name] = target.value;
-    //dispatch(claimActions.updateClaim(id, updates));
-    dispatch(claimUpdate({id, ...updates}));
+    dispatch(claimActions.changeClaim(claim, updates));
   },
 
   itemChangeHandler(dispatch, claim_id, id, ev) {
