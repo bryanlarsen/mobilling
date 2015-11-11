@@ -1,6 +1,6 @@
 import LoadingPage from '../components/LoadingPage';
 import { connect } from 'react-redux';
-import { newClaim } from '../actions';
+import { newClaim } from '../actions/claimActions';
 import { pushState } from 'redux-router';
 
 export default connect((state) => state)(

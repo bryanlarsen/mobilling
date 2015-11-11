@@ -1,7 +1,7 @@
 import _ from 'underscore';
 import s from 'underscore.string';
 import RadioSelect from '../components/RadioSelect';
-import { updateClaim } from '../actions';
+import { updateClaim } from '../actions/claimActions';
 
 export default React.createClass({
   getInitialState: function() {

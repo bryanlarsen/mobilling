@@ -6,7 +6,7 @@ import ClaimTime from '../components/ClaimTime';
 import YesNo from '../components/YesNo';
 import detailsGenerator from '../data/detailsGenerator';
 import { dayType, timeType } from '../data/dayType';
-import { updateClaim } from '../actions';
+import { updateClaim } from '../actions/claimActions';
 
 const ConsultType = React.createClass({
   render: function() {

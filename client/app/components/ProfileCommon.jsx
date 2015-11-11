@@ -15,7 +15,7 @@ export default (props) => {
     <div>
       <ClaimFormGroup label="">
         <ClaimInputWrapper store={props.userStore} name="role">
-          <RadioSelect store={props.userStore} name="role" options={roles} />
+          <RadioSelect store={props.userStore} name="role" options={roles} onChange={props.onChange} />
         </ClaimInputWrapper>
       </ClaimFormGroup>
       <ClaimInputGroup {...props} store={props.userStore} name="name" />

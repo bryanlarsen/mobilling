@@ -4,7 +4,7 @@ import ClaimInputGroup from '../components/ClaimInputGroup';
 import ClaimFormGroup from '../components/ClaimFormGroup';
 import { Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { changePassword } from '../actions';
+import { changePassword } from '../actions/userActions';
 import { pushState } from 'redux-router';
 
 class ChangePassword extends React.Component {

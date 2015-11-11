@@ -1,7 +1,7 @@
 import EmptyHeader from '../components/EmptyHeader';
 import ClaimInputGroup from '../components/ClaimInputGroup';
 import ClaimFormGroup from '../components/ClaimFormGroup';
-import { setNotice, updateUserAttributes, userResponse } from '../actions';
+import { setNotice, updateUserAttributes, userResponse } from '../actions/userActions';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 
@@ -37,7 +37,7 @@ class ForgotPasswordPage extends React.Component {
     return (
       <div className="body">
         <EmptyHeader {...this.props}/>
-
+j
         <div className="container with-bottom">
           <form ref="form" className="form-horizontal" onSubmit={this.submit.bind(this)}>
 

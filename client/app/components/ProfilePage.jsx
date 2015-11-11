@@ -2,7 +2,7 @@ import _ from 'underscore';
 import ProfileHeader from './ProfileHeader';
 import ProfileSettings from './ProfileSettings';
 import { connect } from 'react-redux';
-import { userChangeHandler } from '../actions';
+import { userChangeHandler } from '../actions/userActions';
 
 export default connect((state) => state)(
 class ProfilePage extends React.Component {

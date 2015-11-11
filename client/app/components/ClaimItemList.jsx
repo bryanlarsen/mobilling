@@ -4,7 +4,7 @@ import ClaimItemSummary from '../components/ClaimItemSummary';
 import dollars from '../data/dollars';
 import claimTotal, { itemTotal } from '../data/claimTotal';
 import normalizeDate from '../data/normalizeDate';
-import { newItem, itemChangeHandler } from '../actions';
+import { newItem, itemChangeHandler } from '../actions/claimActions';
 
 var ClaimItemCollapse = React.createClass({
   expand: function() {

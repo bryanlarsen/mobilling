@@ -101,8 +101,7 @@ function rowDelete(payload) {
   return { type: 'ROW.DELETE', payload };
 }
 
-const claimActions = {
-  refreshClaimList() {
+export function refreshClaimList() {
     return (dispatch, getState) => {
       if (moment().subtract(1, 'days').isAfter(getState().claimStore.claimListLoadedOn)) {
         dispatch({type: 'CLAIM_LIST.GET.START'});
@@ -112,14 +111,14 @@ const claimActions = {
           dispatch(claimListInit(json));
           dispatch({type: 'CLAIM_LIST.GET.FINISH'});
         }).catch((error) => {
-          dispatch({type: 'CLAIM_LIST.GET.FAILURE'});
+          dispatch({type: 'CLAIM_LIST.GET.FAILED'});
           console.log(error);
         });
       }
     };
-  },
+  }
 
-  newClaim(callback) {
+export function newClaim(callback) {
     const done = (response) => (dispatch, getState) => {
       dispatch(claimInit(response));
       callback(response.id);
@@ -134,13 +133,13 @@ const claimActions = {
                    responseAction: done
                   });
     }
-  },
+  }
 
-  newItem(claimId, item) {
+export function  newItem(claimId, item) {
     const done = (item) => (dispatch, getState) => {
       dispatch(itemInit(item));
       // update fee & units on new item if necessary
-      dispatch(claimActions.updateItem(claimId, item.id, {}));
+      dispatch(updateItem(claimId, item.id, {}));
     };
     return (dispatch, getState) => {
       writeHelper({dispatch,
@@ -152,9 +151,9 @@ const claimActions = {
                    responseAction: done,
                   });
     };
-  },
+  }
 
-  setComment(claimId, commentId, body) {
+export function setComment(claimId, commentId, body) {
     const done = (payload) => {
       return {type: commentId ? 'COMMENT.UPDATE' : 'COMMENT.INIT', payload: {...payload, live: true}};
     };
@@ -168,9 +167,9 @@ const claimActions = {
                    responseAction: done
                   });
     };
-  },
+  }
 
-  refreshClaim(id) {
+export function  refreshClaim(id) {
     return (dispatch, getState) => {
       const claim = getState().claimStore.claims[id];
       if (!claim || !claim.patient_sex) {
@@ -186,9 +185,9 @@ const claimActions = {
         });
       }
     };
-  },
+  }
 
-  updateClaim(id, changes) {
+export function  updateClaim(id, changes) {
     return (dispatch, getState) => {
       const claim = getState().claimStore.claims[id];
       let newClaim = {...claim, ...changes};
@@ -204,9 +203,9 @@ const claimActions = {
                    responseAction: claimResponse,
                   });
     };
-  },
+  }
 
-  updateItem(claim_id, id, changes) {
+export function  updateItem(claim_id, id, changes) {
     return (dispatch, getState) => {
       const claim = getState().claimStore.claims[claim_id];
       const item = claim.items.find((i) => i.id === id);
@@ -219,7 +218,7 @@ const claimActions = {
         for (const row of newItem.rows) {
           const result = gen.calculateFee(newItem, newItem.rows[0], row.code);
           if (result && (result.fee !== row.fee || result.units !== row.units)) {
-            dispatch(claimActions.updateRow(claim_id, id, row.id, {id: row.id, fee: result.fee, units: result.units}));
+            dispatch(updateRow(claim_id, id, row.id, {id: row.id, fee: result.fee, units: result.units}));
           }
         }
       }
@@ -234,9 +233,9 @@ const claimActions = {
                    responseAction: itemResponse,
                   });
     };
-  },
+  }
 
-  updateRow(claim_id, item_id, id, changes) {
+export function  updateRow(claim_id, item_id, id, changes) {
     return (dispatch, getState) => {
       const claim = getState().claimStore.claims[claim_id];
       const item = claim.items.find((i) => i.id === item_id);
@@ -259,9 +258,9 @@ const claimActions = {
                    responseAction: rowResponse,
                   });
     };
-  },
+  }
 
-  deleteItem(claim_id, id) {
+export function  deleteItem(claim_id, id) {
     const payload = {claim_id, id};
     return (dispatch, getState) => {
       writeHelper({dispatch,
@@ -273,9 +272,9 @@ const claimActions = {
                    responseAction: (json) => itemDelete(payload),
                   });
     }
-  },
+  }
 
-  deleteRow(claim_id, item_id, id) {
+export function  deleteRow(claim_id, item_id, id) {
     const payload = {claim_id, item_id, id};
     return (dispatch, getState) => {
       writeHelper({dispatch,
@@ -287,9 +286,9 @@ const claimActions = {
                    responseAction: (json) => rowDelete(payload),
                   });
     }
-  },
+  }
 
-  createRow(claim_id, item_id, row) {
+export function  createRow(claim_id, item_id, row) {
     return (dispatch, getState) => {
       writeHelper({dispatch,
                    method: 'POST',
@@ -300,34 +299,31 @@ const claimActions = {
                    responseAction: rowInit,
                   });
     };
-  },
+  }
 
-  claimChangeHandler(dispatch, id, ev) {
+export function  claimChangeHandler(dispatch, id, ev) {
     if (!ev.target) return;
     var target = ev.target;
     while(target.value === undefined) target = target.parentElement;
     let updates = {};
     updates[target.name] = target.value;
-    dispatch(claimActions.updateClaim(id, updates));
-  },
+    dispatch(updateClaim(id, updates));
+  }
 
-  itemChangeHandler(dispatch, claim_id, id, ev) {
+export function  itemChangeHandler(dispatch, claim_id, id, ev) {
     if (!ev.target) return;
     var target = ev.target;
     while(target.value === undefined) target = target.parentElement;
     let updates = {};
     updates[target.name] = target.value;
-    dispatch(claimActions.updateItem(claim_id, id, updates));
-  },
+    dispatch(updateItem(claim_id, id, updates));
+  }
 
-  rowChangeHandler(dispatch, claim_id, item_id, id, ev) {
+export function  rowChangeHandler(dispatch, claim_id, item_id, id, ev) {
     if (!ev.target) return;
     var target = ev.target;
     while(target.value === undefined) target = target.parentElement;
     let updates = {};
     updates[target.name] = target.value;
-    dispatch(claimActions.updateRow(claim_id, item_id, id, updates));
-  },
-}
-
-export default claimActions;
+    dispatch(updateRow(claim_id, item_id, id, updates));
+  }

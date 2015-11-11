@@ -3,7 +3,7 @@ import serviceCodesEngine from '../data/serviceCodesEngine';
 import ClaimInputWrapper from '../components/ClaimInputWrapper';
 import ClaimInput from '../components/ClaimInput';
 import Typeahead from '../components/Typeahead';
-import {deleteRow, deleteItem} from '../actions';
+import {deleteRow, deleteItem} from '../actions/claimActions';
 
 export default React.createClass({
   unitsChanged: function(ev) {

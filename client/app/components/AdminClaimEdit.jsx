@@ -1,7 +1,8 @@
 import AdminClaimForm from '../components/AdminClaimForm';
 import AdminClaimStatusActions from '../components/AdminClaimStatusActions';
 import ClaimView from '../components/ClaimView';
-import { refreshClaim, claimChangeHandler, updateParams } from '../actions';
+import { refreshClaim, claimChangeHandler } from '../actions/claimActions';
+import { updateParams } from '../actions/paramsActions';
 import { connect } from 'react-redux';
 
 export default connect((state) => state)(

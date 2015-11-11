@@ -1,7 +1,7 @@
 import ProfileCommon from '../components/ProfileCommon';
 import DoctorProfile from '../components/DoctorProfile';
 import ClaimFormGroup from '../components/ClaimFormGroup';
-import { userChangeHandler } from '../actions';
+import { userChangeHandler } from '../actions/userActions';
 import { connect } from 'react-redux';
 
 export default connect((state) => state)(

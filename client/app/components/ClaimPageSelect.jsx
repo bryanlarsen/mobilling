@@ -1,7 +1,7 @@
 import ClaimPage from '../components/ClaimPage';
 import ClaimViewPage from '../components/ClaimViewPage';
 import LoadingPage from '../components/LoadingPage';
-import { refreshClaim, claimChangeHandler } from '../actions';
+import { refreshClaim, claimChangeHandler } from '../actions/claimActions';
 import { connect } from 'react-redux';
 
 export default connect((state) => state)(

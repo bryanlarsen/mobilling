@@ -1,4 +1,4 @@
-import { updateClaim } from "../actions";
+import { updateClaim } from "../actions/claimActions";
 
 export default React.createClass({
     handleFile: function(e) {

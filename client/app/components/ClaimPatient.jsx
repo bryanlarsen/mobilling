@@ -8,7 +8,7 @@ import Select from '../components/Select';
 import ClaimDateGroup from '../components/ClaimDateGroup';
 import Typeahead from '../components/Typeahead';
 import ClaimPhoto from '../components/ClaimPhoto';
-import { updateClaim } from '../actions';
+import { updateClaim } from '../actions/claimActions';
 import Bloodhound from 'typeahead.js/dist/bloodhound.js';
 
 import provinces from '../data/provinces';

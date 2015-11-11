@@ -2,7 +2,7 @@ import _ from 'underscore';
 import ClaimItemList from '../components/ClaimItemList';
 import detailsGenerator from '../data/detailsGenerator';
 import {detailSignature, detailsToAdd, detailsToRemove} from '../data/detailsDelta';
-import {newItem, updateItem, deleteItem, updateClaim} from '../actions';
+import {newItem, updateItem, deleteItem, updateClaim} from '../actions/claimActions';
 
 var ItemGenerator = function(claim, props) {
   this.claim = claim;
@@ -34,7 +34,6 @@ export default React.createClass({
 
   render: function() {
     var gen = new ItemGenerator(this.props.claim, this.props);
-
     return (
       <div>
       { (gen.toAdd.length > 0 || gen.toRemove.length > 0 ) &&

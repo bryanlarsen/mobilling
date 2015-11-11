@@ -2,7 +2,7 @@ import ClaimComment from '../components/ClaimComment';
 import ClaimInputGroup from '../components/ClaimInputGroup';
 import ClaimStaticOptional from '../components/ClaimStaticOptional';
 import ClaimErrors from '../components/ClaimErrors';
-import { setComment } from '../actions';
+import { setComment } from '../actions/claimActions';
 
 export default React.createClass({
   handleChange: function(ev) {

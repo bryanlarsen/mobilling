@@ -2,7 +2,7 @@ import _ from 'underscore';
 import ClaimView from '../components/ClaimView';
 import AdminClaimBulkActions from '../components/AdminClaimBulkActions';
 import { Button, ButtonGroup } from 'react-bootstrap';
-import { userChangeHandler } from '../actions';
+import { userChangeHandler } from '../actions/claimActions';
 import { connect } from 'react-redux';
 
 export default connect((state) => state)(

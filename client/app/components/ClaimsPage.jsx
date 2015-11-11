@@ -7,15 +7,20 @@ import { connect } from 'react-redux';
 import ClaimsTable from '../components/ClaimsTable';
 import Icon from '../components/Icon';
 import UserDropdown from '../components/UserDropdown';
-import actions from '../actions';
+import { setDefaultQuery } from '../actions/globalActions';
+import { refreshClaimList } from '../actions/claimActions';
 
-export default connect((state) => state)(
-class ClaimsPage extends React.Component {
-  filters = {
-    drafts: ["saved"],
-    submitted: ["for_agent", "ready", "file_created", "uploaded", "acknowledged", "agent_attention"],
-    rejected: ["doctor_attention"],
-    done: ["done"]
+export default connect(
+  (state) => state
+)(class ClaimsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.filters = {
+      drafts: ["saved"],
+      submitted: ["for_agent", "ready", "file_created", "uploaded", "acknowledged", "agent_attention"],
+      rejected: ["doctor_attention"],
+      done: ["done"]
+    }
   }
 
   search(ev) {
@@ -33,13 +38,13 @@ class ClaimsPage extends React.Component {
     });
     this.statusMap = statusMap;
 
-    this.props.dispatch(actions.setDefaultQuery(this.props.location.query));
-    this.props.dispatch(actions.refreshClaimList());
+    this.props.dispatch(setDefaultQuery(this.props.location.query));
+    this.props.dispatch(refreshClaimList());
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.location.query !== this.props.globalStore.claimsListQuery) {
-      this.props.dispatch(actions.setDefaultQuery(this.props.location.query));
+      this.props.dispatch(setDefaultQuery(this.props.location.query));
     }
   }
 

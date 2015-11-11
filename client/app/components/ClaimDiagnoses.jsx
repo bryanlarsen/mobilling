@@ -2,7 +2,7 @@ import _ from 'underscore';
 
 import ClaimInputWrapper from '../components/ClaimInputWrapper';
 import Typeahead from '../components/Typeahead';
-import { updateClaim } from '../actions';
+import { updateClaim } from '../actions/claimActions';
 import uuid from '../data/uuid';
 import diagnosesEngine from '../data/diagnosesEngine';
 

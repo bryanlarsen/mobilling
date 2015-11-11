@@ -1,7 +1,7 @@
 import ClaimFormGroup from '../components/ClaimFormGroup';
 import ClaimDateGroup from '../components/ClaimDateGroup';
 import ClaimYesNo from '../components/ClaimYesNo';
-import { updateClaim } from '../actions';
+import { updateClaim } from '../actions/claimActions';
 
 export default React.createClass({
   dateChanged: function(ev) {

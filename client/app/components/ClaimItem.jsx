@@ -7,7 +7,7 @@ import ClaimTime from '../components/ClaimTime';
 import Typeahead from '../components/Typeahead';
 import ClaimRow from '../components/ClaimRow';
 import diagnosesEngine from '../data/diagnosesEngine';
-import {rowChangeHandler, createRow} from '../actions';
+import {rowChangeHandler, createRow} from '../actions/claimActions';
 
 export default React.createClass({
   newPremium: function(ev) {

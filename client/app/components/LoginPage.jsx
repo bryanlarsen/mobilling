@@ -3,7 +3,7 @@ import { pushState } from 'redux-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import actions from '../actions';
+import { logIn, userChangeHandler } from '../actions/userActions';
 import EmptyHeader from './EmptyHeader';
 import ClaimInputGroup from './ClaimInputGroup';
 
@@ -18,13 +18,13 @@ class LoginPage extends React.Component {
 
   onSubmit = (ev) => {
     ev.preventDefault();
-    this.props.dispatch(actions.logIn(() => {
+    this.props.dispatch(logIn(() => {
       this.props.dispatch(pushState(null, '/claims', this.props.globalStore.claimsListQuery));
     }));
   }
 
   render() {
-    const handler = actions.userChangeHandler.bind(null, this.props.dispatch);
+    const handler = userChangeHandler.bind(null, this.props.dispatch);
     return (
       <div className="body">
         <EmptyHeader {...this.props} />

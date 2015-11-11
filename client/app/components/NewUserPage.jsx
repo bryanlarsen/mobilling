@@ -4,31 +4,27 @@ import ClaimInputGroup from './ClaimInputGroup';
 import ClaimFormGroup from './ClaimFormGroup';
 import DoctorProfile from './DoctorProfile';
 import { connect } from 'react-redux';
-import actions from '../actions';
+import { newUser, userChangeHandler } from '../actions/userActions';
 import { pushState } from 'redux-router';
 import { bindActionCreators } from 'redux';
 
 export default connect(
   (state) => state,
-  (dispatch) => ({
-    actions: bindActionCreators(actions, dispatch),
-    dispatch
-  })
 )(class NewUserPage extends React.Component {
   submit(ev) {
     ev.preventDefault();
-    this.props.actions.newUser((user) => {
+    this.props.dispatch(newUser((user) => {
       if (user.role === 'agent') {
         window.location.href = '/admin';
       } else {
-        this.props.actions.pushState(null, '/login');
+        this.props.dispatch(pushState(null, '/login'));
       }
-    });
+    }));
   }
 
   render() {
     const user = this.props.userStore;
-    const onChange = this.props.actions.userChangeHandler;
+    const onChange = userChangeHandler.bind(null, this.props.dispatch);
     return (
       <div className="body">
         <EmptyHeader {...this.props} />

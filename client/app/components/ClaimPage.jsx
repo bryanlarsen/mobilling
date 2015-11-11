@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import Icon from '../components/Icon';
 import ClaimHeader from '../components/ClaimHeader';
-import { updateClaim } from '../actions';
+import { updateClaim } from '../actions/claimActions';
 
 export default React.createClass({
   icon: {

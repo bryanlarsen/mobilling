@@ -11,14 +11,20 @@ export function writeHelper({dispatch, method, url, action_prefix, payload, upda
     },
     body: JSON.stringify(payload)
   }).then((response) => response.json()).then((json) => {
+    if (!_.isEmpty(json.errors)) {
+      var update = {...payload, errors: json.errors};
+      dispatch(updateAction(update));
+      dispatch({type: action_prefix + '.FAILED', payload});
+      return;
+    }
     dispatch(responseAction(json));
     dispatch({type: action_prefix + '.FINISH', payload: json});
   }).catch((error) => {
-    payload.errors = payload.errors || {};
+    var update = {errors: {}, ...payload};
     _.each(payload, (value, key) => {
-      payload.errors[key] = ['server error'];
+      update.errors[key] = ['server error'];
     });
-    dispatch(updateAction(payload));
+    dispatch(updateAction(update));
     dispatch({type: action_prefix + '.FAILED', payload});
     console.error(error);
   });
