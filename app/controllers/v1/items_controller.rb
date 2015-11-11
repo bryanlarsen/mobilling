@@ -15,7 +15,7 @@ class V1::ItemsController < V1::BaseController
     authorize @claim, :new_item?
     attrs = item_params
     attrs['day'] ||= Date.today
-    attrs['diagnosis'] ||= (@claim.diagnoses.first || {name: ''})['name']
+    attrs['diagnosis'] ||= (@claim.diagnoses.first || {name: ''})['name'] || ""
     attrs['rows_attributes'] ||= attrs['rows'] || [{}]
     attrs.delete('rows')
     @item = @claim.items.build(attrs)
