@@ -1,7 +1,6 @@
 import _ from 'underscore';
 import { startBusy, endBusy } from "./globalActions";
 import { writeHelper } from "./actionHelpers";
-import { pushState } from "redux-router";
 
 export function  newSession(payload) {
     return { type: 'USER.INIT', payload };

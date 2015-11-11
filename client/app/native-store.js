@@ -1,19 +1,19 @@
-const { compose, createStore, applyMiddleware, combineReducers } = require('redux');
-const createLogger = require('redux-logger');
-const thunkMiddleware = require('redux-thunk');
-const apiMiddleware = require('./middleware/apiMiddleware');
+import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
+import thunkMiddleware from 'redux-thunk';
+import createLogger from 'redux-logger';
+import busyMiddleware from './middleware/busyMiddleware';
 
-const {reducers, initialState} = require('./reducers/native');
 
-module.exports = (props) => {
-  console.log('unused props', props);
+import reducers, { initialStates } from './reducers/native';
+
+export default () => {
   const reducer = combineReducers(reducers);
   const logger = createLogger();
   const composedStore = compose(
-    applyMiddleware(thunkMiddleware, apiMiddleware, logger),
+    applyMiddleware(thunkMiddleware, busyMiddleware, logger),
   );
   const storeCreator = composedStore(createStore);
-  const store = storeCreator(reducer, initialState);
+  const store = storeCreator(reducer, initialStates);
 
   return store;
 };

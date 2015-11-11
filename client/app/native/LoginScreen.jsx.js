@@ -1,10 +1,14 @@
-const React = require('react-native');
-const {Text, TextInput, ScrollView} = React;
-const {pushState} = require('../../actions/nativeRouter');
+import React, {Component, Text, TextInput, ScrollView} from 'react-native';
 
-const styles = require('./styles');
+import styles from './styles';
 
-module.exports = React.createClass({
+export default class LoginScreen extends Component {
+  handleSubmit() {
+    this.props.actions.logIn(() => {
+      this.props.navigator.push({screen: 'Claims'});
+    });
+  }
+
   render() {
     return <ScrollView style={styles.full} contentContainerStyle={styles.form}>
       <Text style={styles.label}>Login</Text>
@@ -25,10 +29,10 @@ module.exports = React.createClass({
         value={this.props.userStore.password}
         secureTextEntry={true}
         returnKeyType="go"
-        onSubmitEditing={() => {this.props.actions.logIn(this.props.userStore, pushState(null, '/claims'));}}
+        onSubmitEditing={this.handleSubmit.bind(this)}
       />
       <Text style={styles.error}>{this.props.userStore.errors && this.props.userStore.errors.password}</Text>
    </ScrollView>;
   }
-});
+};
 
