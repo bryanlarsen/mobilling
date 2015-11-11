@@ -15,6 +15,10 @@ angular.module("moBilling.controllers")
 
         $scope.isConsultTimeVisible = function (detail) {
             var code = detail.code || "";
+            code = code.slice(0, 5).toUpperCase();
+            if ("ABC".indexOf(code[4]) === -1) {
+                code = code.slice(0, 4) + 'A';
+            }
 
             return ["A130A", "C130A", "A600A", "C600A", "A911A", "C911A", "A912A", "C912A"].indexOf(code) !== -1;
         };
