@@ -1,5 +1,4 @@
-export default {
-  claimStatusNames: {
+export const claimStatusNames = {
     saved: "Edit",
     for_agent: "Submit to Agent",
     ready: "Mark as Ready for Submission",
@@ -9,9 +8,9 @@ export default {
     agent_attention: "Mark as Rejected by Ministry",
     done: "Mark as Payment Received or Claim Abandoned",
     doctor_attention: "Request Edit by Doctor"
-  },
+  };
 
-  claimStatusNamesCurrent: {
+export const claimStatusNamesCurrent = {
     saved: "Editable",
     for_agent: "Submitted to Agent",
     ready: "Ready for Submission",
@@ -22,6 +21,5 @@ export default {
     doctor_attention: "Agent requests clarification",
     done: "Payment Received or Claim Abandoned",
     reclaimed: "New claim created for resubmission"
-  }
 };
 
