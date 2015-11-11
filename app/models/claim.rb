@@ -55,7 +55,7 @@ class Claim < ActiveRecord::Base
     s.validates :patient_name, presence: true, if: -> { patient_province != "ON" }
     s.validates :hospital, format: {with: /\A\d{4}/}
     s.validates :consult_time_in, :consult_time_out, time: true, format: {with: /\A\d{2}:\d{2}\Z/, type: {is_a: String}}, allow_nil: true
-    s.validates :items, length: {minimum: 1}, associated: true
+    s.validates :items, associated: true
     s.validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { not simplified? }
     s.validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false, nil]}, if: -> { not simplified? }
     s.validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, if: -> { consult_tab_visible }
