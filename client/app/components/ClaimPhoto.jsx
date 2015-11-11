@@ -1,4 +1,5 @@
-import { ClaimFormGroup, PhotoUpload } from '../components';
+import ClaimFormGroup from '../components/ClaimFormGroup';
+import PhotoUpload from '../components/PhotoUpload';
 
 export default React.createClass({
   render: function() {

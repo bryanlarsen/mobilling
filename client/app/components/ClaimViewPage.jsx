@@ -1,4 +1,6 @@
-import { ClaimSubmitButtons, ClaimView, ClaimHeader } from '../components';
+import ClaimSubmitButtons from '../components/ClaimSubmitButtons';
+import ClaimView from '../components/ClaimView';
+import ClaimHeader from '../components/ClaimHeader';
 
 export default React.createClass({
   render: function() {

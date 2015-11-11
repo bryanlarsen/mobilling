@@ -4,10 +4,12 @@ import { NavItem, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
 
-import { ClaimsTable, Icon, UserDropdown } from '../components';
+import ClaimsTable from '../components/ClaimsTable';
+import Icon from '../components/Icon';
+import UserDropdown from '../components/UserDropdown';
 import actions from '../actions';
 
-@connect((state) => state)
+export default connect((state) => state)(
 class ClaimsPage extends React.Component {
   filters = {
     drafts: ["saved"],
@@ -43,8 +45,8 @@ class ClaimsPage extends React.Component {
 
   render() {
     console.log('claimspage', this.props.location.query);
-    let claims = [for (id of this.props.claimStore.claimList)
-                      this.props.claimStore.claims[id]];
+    let claims = this.props.claimStore.claimList.map(
+      (id) => this.props.claimStore.claims[id]);
 
     var search = this.props.location.query.search;
     if (search) {
@@ -134,6 +136,4 @@ class ClaimsPage extends React.Component {
       </div>
     );
   }
-}
-
-export default ClaimsPage;
+});

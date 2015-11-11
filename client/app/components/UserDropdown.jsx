@@ -1,7 +1,7 @@
 import { Nav, NavDropdown, MenuItem } from 'react-bootstrap';
 import { Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Icon } from '../components';
+import Icon from '../components/Icon';
 
 
 export default (props) => {

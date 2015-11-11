@@ -1,9 +1,11 @@
-import { EmptyHeader, ClaimInputGroup, ClaimFormGroup } from '../components';
+import EmptyHeader from '../components/EmptyHeader';
+import ClaimInputGroup from '../components/ClaimInputGroup';
+import ClaimFormGroup from '../components/ClaimFormGroup';
 import { setNotice, updateUserAttributes, userResponse } from '../actions';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 
-@connect((state) => state)
+export default connect((state) => state)(
 class ForgotPasswordPage extends React.Component {
   submit(ev) {
     ev.preventDefault();
@@ -50,6 +52,4 @@ class ForgotPasswordPage extends React.Component {
       </div>
     );
   }
-};
-
-export default ForgotPasswordPage;
+});

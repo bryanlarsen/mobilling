@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider, connect } from 'react-redux';
-import { AdminUserEdit } from '../components';
+import AdminUserEdit from '../components/AdminUserEdit';
 
 import createStore from '../admin-store';
 

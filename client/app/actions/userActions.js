@@ -8,20 +8,32 @@ const userActions = {
     return { type: 'USER.INIT', payload };
   },
 
-  loggedIn(payload) {
+  logIn(callback) {
+    const done = (response) => (dispatch, getState) => {
+      dispatch(userActions.newSession(response));
+      callback(response);
+    };
     return (dispatch, getState) => {
-      dispatch(userActions.newSession(payload));
-      if (getState().userStore.id) {
-        if (getState().userStore.role === 'agent') {
-          window.location.href = '/admin';
-        } else {
-          dispatch(pushState(null, '/login'));
-        }
-      }
-    }
+      const user = getState().userStore;
+      writeHelper({dispatch,
+                   method: 'POST',
+                   url: `${window.ENV.API_ROOT}session.json`,
+                   action_prefix: 'SESSION.CREATE',
+                   payload: {
+                     email: user.email,
+                     password: user.password
+                   },
+                   updateAction: userActions.newSession,
+                   responseAction: done
+                  });
+    };
   },
 
-  newUser() {
+  newUser(callback) {
+    const done = (response) => (dispatch, getState) => {
+      dispatch(userActions.newSession(response));
+      callback(response);
+    };
     return (dispatch, getState) => {
       const user = getState().userStore;
       writeHelper({dispatch,
@@ -30,7 +42,7 @@ const userActions = {
                    action_prefix: 'USER.CREATE',
                    payload: user,
                    updateAction: userActions.newSession,
-                   responseAction: userActions.loggedIn,
+                   responseAction: done
                   });
     };
   },
@@ -85,13 +97,13 @@ const userActions = {
     return { type: 'SET_NOTICE', payload };
   },
 
-  userChangeHandler(dispatch, ev) {
+  userChangeHandler(ev) {
     if (!ev.target) return;
     var target = ev.target;
     while(target.value === undefined) target = target.parentElement;
     let updates = {};
     updates[target.name] = target.value;
-    dispatch(userActions.updateUser(updates));
+    return userActions.updateUser(updates);
   }
 
 };

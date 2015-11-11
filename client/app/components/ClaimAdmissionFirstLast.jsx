@@ -1,4 +1,6 @@
-import { ClaimFormGroup, ClaimDateGroup, ClaimYesNo } from '../components';
+import ClaimFormGroup from '../components/ClaimFormGroup';
+import ClaimDateGroup from '../components/ClaimDateGroup';
+import ClaimYesNo from '../components/ClaimYesNo';
 import { updateClaim } from '../actions';
 
 export default React.createClass({

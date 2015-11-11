@@ -1,5 +1,5 @@
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { Notice } from './index';
+import Notice from './Notice';
 
 export default (props) => {
   return (

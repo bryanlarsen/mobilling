@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import s from 'underscore.string';
-import { RadioSelect } from '../components';
+import RadioSelect from '../components/RadioSelect';
 import { updateClaim } from '../actions';
 
 export default React.createClass({

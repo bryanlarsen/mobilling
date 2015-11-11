@@ -1,4 +1,9 @@
-import { Icon, ClaimInputGroup, ClaimInputWrapper, ClaimFormGroup, RadioSelect, ClaimInput } from '../components';
+import Icon from '../components/Icon';
+import ClaimInputGroup from '../components/ClaimInputGroup';
+import ClaimInputWrapper from '../components/ClaimInputWrapper';
+import ClaimFormGroup from '../components/ClaimFormGroup';
+import RadioSelect from '../components/RadioSelect';
+import ClaimInput from '../components/ClaimInput';
 
 export default (props) => {
   var roles = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider, connect } from 'react-redux';
-import { AdminClaimsBulk } from '../components';
+import AdminClaimsBulk from '../components/AdminClaimsBulk';
 
 import createStore from '../admin-store';
 

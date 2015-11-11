@@ -1,4 +1,13 @@
-import { Icon, ClaimInputGroup, ClaimInputWrapper, ClaimFormGroup, RadioSelect, ClaimInput, Select, ClaimDateGroup, Typeahead, ClaimPhoto } from '../components';
+import Icon from '../components/Icon';
+import ClaimInputGroup from '../components/ClaimInputGroup';
+import ClaimInputWrapper from '../components/ClaimInputWrapper';
+import ClaimFormGroup from '../components/ClaimFormGroup';
+import RadioSelect from '../components/RadioSelect';
+import ClaimInput from '../components/ClaimInput';
+import Select from '../components/Select';
+import ClaimDateGroup from '../components/ClaimDateGroup';
+import Typeahead from '../components/Typeahead';
+import ClaimPhoto from '../components/ClaimPhoto';
 import { updateClaim } from '../actions';
 import Bloodhound from 'typeahead.js/dist/bloodhound.js';
 

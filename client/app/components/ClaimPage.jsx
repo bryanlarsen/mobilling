@@ -3,7 +3,8 @@ import s from 'underscore.string';
 import { Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { Icon, ClaimHeader } from '../components';
+import Icon from '../components/Icon';
+import ClaimHeader from '../components/ClaimHeader';
 import { updateClaim } from '../actions';
 
 export default React.createClass({

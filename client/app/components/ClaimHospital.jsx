@@ -1,4 +1,6 @@
-import { ClaimInputWrapper, ClaimFormGroup, Typeahead } from '../components';
+import ClaimInputWrapper from '../components/ClaimInputWrapper';
+import ClaimFormGroup from '../components/ClaimFormGroup';
+import Typeahead from '../components/Typeahead';
 import Bloodhound from 'typeahead.js/dist/bloodhound.js';
 
 var hospitalsEngine = new Bloodhound({

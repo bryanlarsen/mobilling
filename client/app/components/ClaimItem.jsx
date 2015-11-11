@@ -2,7 +2,10 @@ import _ from 'underscore';
 import FeeGenerator from '../data/FeeGenerator';
 import dollars from '../data/dollars';
 import claimTotal, { itemTotal } from '../data/claimTotal';
-import {ClaimDate, ClaimTime, Typeahead, ClaimRow} from '../components';
+import ClaimDate from '../components/ClaimDate';
+import ClaimTime from '../components/ClaimTime';
+import Typeahead from '../components/Typeahead';
+import ClaimRow from '../components/ClaimRow';
 import diagnosesEngine from '../data/diagnosesEngine';
 import {rowChangeHandler, createRow} from '../actions';
 

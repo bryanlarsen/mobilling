@@ -1,5 +1,5 @@
 import s from 'underscore.string';
-import {ClaimInputWrapper} from '../components';
+import ClaimInputWrapper from '../components/ClaimInputWrapper';
 
 export default React.createClass({
   render: function() {

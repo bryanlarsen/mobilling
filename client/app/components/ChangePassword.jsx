@@ -1,5 +1,7 @@
 import _ from 'underscore';
-import { ProfileHeader, ClaimInputGroup, ClaimFormGroup } from '../components';
+import ProfileHeader from '../components/ProfileHeader';
+import ClaimInputGroup from '../components/ClaimInputGroup';
+import ClaimFormGroup from '../components/ClaimFormGroup';
 import { Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { changePassword } from '../actions';

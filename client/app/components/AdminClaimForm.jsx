@@ -1,4 +1,9 @@
-import { ClaimStaticOptional, ClaimPatient, ClaimTab, ConsultTab, ItemsTab, CommentsTab } from '../components';
+import ClaimStaticOptional from '../components/ClaimStaticOptional';
+import ClaimPatient from '../components/ClaimPatient';
+import ClaimTab from '../components/ClaimTab';
+import ConsultTab from '../components/ConsultTab';
+import ItemsTab from '../components/ItemsTab';
+import CommentsTab from '../components/CommentsTab';
 
 export default React.createClass({
   render: function() {

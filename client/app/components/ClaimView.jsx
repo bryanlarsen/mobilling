@@ -1,5 +1,8 @@
 import _ from 'underscore';
-import { ClaimStaticOptional, ClaimItemList, CommentsTab, ClaimDiagnosesList } from '../components';
+import ClaimStaticOptional from '../components/ClaimStaticOptional';
+import ClaimItemList from '../components/ClaimItemList';
+import CommentsTab from '../components/CommentsTab';
+import ClaimDiagnosesList from '../components/ClaimDiagnosesList';
 import { claimStatusNames, claimStatusNamesCurrent } from '../data/claimStatusNames';
 import specialties from '../data/specialties';
 import dollars from '../data/dollars';

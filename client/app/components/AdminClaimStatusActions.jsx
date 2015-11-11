@@ -1,6 +1,8 @@
 import _ from 'underscore';
 import s from 'underscore.string';
-import { ClaimFormGroup, ClaimInputWrapper, RadioSelect} from '../components';
+import ClaimFormGroup from '../components/ClaimFormGroup';
+import ClaimInputWrapper from '../components/ClaimInputWrapper';
+import RadioSelect from '../components/RadioSelect';
 
 export default React.createClass({
   doneHandler: function(ev) {

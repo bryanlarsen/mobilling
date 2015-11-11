@@ -1,17 +1,34 @@
-import {EmptyHeader, ProfileCommon, ClaimInputGroup, ClaimFormGroup, DoctorProfile } from '../components';
+import EmptyHeader from './EmptyHeader';
+import ProfileCommon from './ProfileCommon';
+import ClaimInputGroup from './ClaimInputGroup';
+import ClaimFormGroup from './ClaimFormGroup';
+import DoctorProfile from './DoctorProfile';
 import { connect } from 'react-redux';
-import { userChangeHandler, newUser } from '../actions';
+import actions from '../actions';
+import { pushState } from 'redux-router';
+import { bindActionCreators } from 'redux';
 
-@connect((state) => state)
-class NewUserPage extends React.Component {
+export default connect(
+  (state) => state,
+  (dispatch) => ({
+    actions: bindActionCreators(actions, dispatch),
+    dispatch
+  })
+)(class NewUserPage extends React.Component {
   submit(ev) {
     ev.preventDefault();
-    this.props.dispatch(newUser());
+    this.props.actions.newUser((user) => {
+      if (user.role === 'agent') {
+        window.location.href = '/admin';
+      } else {
+        this.props.actions.pushState(null, '/login');
+      }
+    });
   }
 
   render() {
     const user = this.props.userStore;
-    const onChange = userChangeHandler.bind(null, this.props.dispatch);
+    const onChange = this.props.actions.userChangeHandler;
     return (
       <div className="body">
         <EmptyHeader {...this.props} />
@@ -36,6 +53,4 @@ class NewUserPage extends React.Component {
       </div>
     );
   }
-};
-
-export default NewUserPage;
+});

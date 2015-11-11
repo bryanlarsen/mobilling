@@ -1,8 +1,10 @@
-import { AdminClaimForm, AdminClaimStatusActions, ClaimView } from '../components';
+import AdminClaimForm from '../components/AdminClaimForm';
+import AdminClaimStatusActions from '../components/AdminClaimStatusActions';
+import ClaimView from '../components/ClaimView';
 import { refreshClaim, claimChangeHandler, updateParams } from '../actions';
 import { connect } from 'react-redux';
 
-@connect((state) => state)
+export default connect((state) => state)(
 class AdminClaimEdit extends React.Component {
   componentDidMount() {
     this.props.dispatch && this.props.dispatch(refreshClaim(this.props.params.id));
@@ -43,6 +45,4 @@ class AdminClaimEdit extends React.Component {
       );
     }
   }
-};
-
-export default AdminClaimEdit;
+});

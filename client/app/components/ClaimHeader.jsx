@@ -1,7 +1,9 @@
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { Icon, UserDropdown, Notice } from '../components';
+import Icon from '../components/Icon';
+import UserDropdown from '../components/UserDropdown';
+import Notice from '../components/Notice';
 import dollars from '../data/dollars';
 import claimTotal from '../data/claimTotal';
 

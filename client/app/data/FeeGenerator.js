@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import serviceCodesEngine from '../data/serviceCodesEngine';
+import loadServiceCodes from './loadServiceCodes';
 
 var FeeGenerator = function(codes) {
   this.service_codes = codes;
@@ -110,29 +110,12 @@ var exports = {
   inMinutes: FeeGenerator.inMinutes,
 };
 
-var loadServiceCodes = function(data) {
-  var array = new Array(_.size(data));
+loadServiceCodes(function(data) {
   var hash = {};
   _.each(data, function(sc, i) {
     hash[sc.code] = sc;
-    array[i] = sc.name;
   });
-  serviceCodesEngine.add(array);
   exports.feeGenerator = new FeeGenerator(hash);
-}
+});
 
-setTimeout(function() {
-  if (!exports.feeGenerator) {
-      $.ajax({
-        url: window.ENV.API_ROOT+'v1/service_codes.json',
-        dataType: 'json',
-        success: loadServiceCodes,
-        error: function(xhr, status, err) {
-          console.error('failed to load service codes');
-          reject(Error('failed to load service codes'));
-        }
-      });
-  }
-}, 1500);
-
-export default exports;
+module.exports = exports;

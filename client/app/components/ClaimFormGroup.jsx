@@ -1,4 +1,4 @@
-import { ClaimFormGroupUnwrapped } from '../components';
+import ClaimFormGroupUnwrapped from '../components/ClaimFormGroupUnwrapped';
 
 export default (props) => {
   return (

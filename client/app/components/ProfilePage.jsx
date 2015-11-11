@@ -4,7 +4,7 @@ import ProfileSettings from './ProfileSettings';
 import { connect } from 'react-redux';
 import { userChangeHandler } from '../actions';
 
-@connect((state) => state)
+export default connect((state) => state)(
 class ProfilePage extends React.Component {
   render() {
     return (
@@ -17,6 +17,4 @@ class ProfilePage extends React.Component {
       </div>
     );
   }
-};
-
-export default ProfilePage;
+});

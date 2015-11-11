@@ -1,4 +1,13 @@
-import { ClaimInputGroup, ClaimInputWrapper, ClaimFormGroup, Select, ClaimDateGroup, ClaimYesNo, ClaimHospital, ClaimDiagnoses, ClaimAdmissionFirstLast, ClaimPaymentProgram } from '../components';
+import ClaimInputGroup from '../components/ClaimInputGroup';
+import ClaimInputWrapper from '../components/ClaimInputWrapper';
+import ClaimFormGroup from '../components/ClaimFormGroup';
+import Select from '../components/Select';
+import ClaimDateGroup from '../components/ClaimDateGroup';
+import ClaimYesNo from '../components/ClaimYesNo';
+import ClaimHospital from '../components/ClaimHospital';
+import ClaimDiagnoses from '../components/ClaimDiagnoses';
+import ClaimAdmissionFirstLast from '../components/ClaimAdmissionFirstLast';
+import ClaimPaymentProgram from '../components/ClaimPaymentProgram';
 import SPECIALTIES from '../data/specialties';
 import serviceLocations from '../data/serviceLocations';
 

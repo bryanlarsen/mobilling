@@ -1,10 +1,11 @@
 import _ from 'underscore';
-import { ClaimView, AdminClaimBulkActions } from '../components';
+import ClaimView from '../components/ClaimView';
+import AdminClaimBulkActions from '../components/AdminClaimBulkActions';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { userChangeHandler } from '../actions';
 import { connect } from 'react-redux';
 
-@connect((state) => state)
+export default connect((state) => state)(
 class AdminClaimsBulk extends React.Component {
   constructor(props) {
     super(props);
@@ -65,6 +66,4 @@ class AdminClaimsBulk extends React.Component {
       </div>
     );
   }
-};
-
-export default AdminClaimsBulk;
+});

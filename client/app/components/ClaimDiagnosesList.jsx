@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { ClaimStaticOptional } from '../components';
+import ClaimStaticOptional from '../components/ClaimStaticOptional';
 export default React.createClass({
   render: function() {
     return (

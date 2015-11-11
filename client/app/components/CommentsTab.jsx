@@ -1,4 +1,7 @@
-import { ClaimComment, ClaimInputGroup, ClaimStaticOptional, ClaimErrors } from '../components';
+import ClaimComment from '../components/ClaimComment';
+import ClaimInputGroup from '../components/ClaimInputGroup';
+import ClaimStaticOptional from '../components/ClaimStaticOptional';
+import ClaimErrors from '../components/ClaimErrors';
 import { setComment } from '../actions';
 
 export default React.createClass({

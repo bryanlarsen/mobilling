@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { ClaimItemList } from '../components';
+import ClaimItemList from '../components/ClaimItemList';
 import detailsGenerator from '../data/detailsGenerator';
 import {detailSignature, detailsToAdd, detailsToRemove} from '../data/detailsDelta';
 import {newItem, updateItem, deleteItem, updateClaim} from '../actions';

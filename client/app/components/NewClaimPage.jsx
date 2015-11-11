@@ -1,9 +1,9 @@
-import { LoadingPage } from '../components';
+import LoadingPage from '../components/LoadingPage';
 import { connect } from 'react-redux';
 import { newClaim } from '../actions';
 import { pushState } from 'redux-router';
 
-export default @connect((state) => state)
+export default connect((state) => state)(
 class NewClaimPage extends React.Component {
   componentWillMount() {
     this.props.dispatch(newClaim((id) => {
@@ -14,4 +14,4 @@ class NewClaimPage extends React.Component {
   render() {
     return <LoadingPage {...this.props}/>;
   }
-};
+});

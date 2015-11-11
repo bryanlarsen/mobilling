@@ -1,5 +1,6 @@
 import _ from 'underscore';
-import { ClaimItem, ClaimItemSummary } from '../components';
+import ClaimItem from '../components/ClaimItem';
+import ClaimItemSummary from '../components/ClaimItemSummary';
 import dollars from '../data/dollars';
 import claimTotal, { itemTotal } from '../data/claimTotal';
 import normalizeDate from '../data/normalizeDate';

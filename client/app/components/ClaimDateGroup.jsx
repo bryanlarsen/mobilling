@@ -1,5 +1,6 @@
 import s from 'underscore.string';
-import { ClaimFormGroup, ClaimDate } from '../components';
+import ClaimFormGroup from '../components/ClaimFormGroup';
+import ClaimDate from '../components/ClaimDate';
 
 export default (props) => {
   return (

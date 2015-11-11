@@ -1,8 +1,10 @@
-import { ProfileCommon, DoctorProfile, ClaimFormGroup } from '../components';
+import ProfileCommon from '../components/ProfileCommon';
+import DoctorProfile from '../components/DoctorProfile';
+import ClaimFormGroup from '../components/ClaimFormGroup';
 import { userChangeHandler } from '../actions';
 import { connect } from 'react-redux';
 
-@connect((state) => state)
+export default connect((state) => state)(
 class AdminUserEdit extends React.Component {
   back(ev) {
     ev.preventDefault();
@@ -28,6 +30,4 @@ class AdminUserEdit extends React.Component {
       </div>
     );
   }
-};
-
-export default AdminUserEdit;
+});

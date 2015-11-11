@@ -1,4 +1,5 @@
-import { ClaimFormGroup, ClaimInput } from '../components';
+import ClaimFormGroup from '../components/ClaimFormGroup';
+import ClaimInput from '../components/ClaimInput';
 import s from 'underscore.string';
 
 export default (props) => {

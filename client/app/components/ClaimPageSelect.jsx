@@ -1,8 +1,10 @@
-import { ClaimPage, ClaimViewPage, LoadingPage } from '../components';
+import ClaimPage from '../components/ClaimPage';
+import ClaimViewPage from '../components/ClaimViewPage';
+import LoadingPage from '../components/LoadingPage';
 import { refreshClaim, claimChangeHandler } from '../actions';
 import { connect } from 'react-redux';
 
-@connect((state) => state)
+export default connect((state) => state)(
 class ClaimPageSelect extends React.Component {
   componentDidMount() {
     this.props.dispatch && this.props.dispatch(refreshClaim(this.props.params.id));
@@ -31,6 +33,4 @@ class ClaimPageSelect extends React.Component {
       return <ClaimViewPage {...this.props} store={claim} claim={claim} onChange={handler} claimHref={claimHref} />;
     }
   }
-};
-
-export default ClaimPageSelect;
+});

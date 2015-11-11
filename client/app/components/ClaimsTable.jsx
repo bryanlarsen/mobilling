@@ -2,7 +2,7 @@ import _ from 'underscore';
 import { Link } from 'react-router';
 import { pushState } from 'redux-router';
 
-import { Icon } from '../components';
+import Icon from '../components/Icon';
 import dollars from '../data/dollars';
 import claimTotal from '../data/claimTotal';
 

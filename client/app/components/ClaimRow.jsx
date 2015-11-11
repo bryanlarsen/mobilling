@@ -1,6 +1,8 @@
 import FeeGenerator from '../data/FeeGenerator';
 import serviceCodesEngine from '../data/serviceCodesEngine';
-import {ClaimInputWrapper, ClaimInput, Typeahead} from '../components';
+import ClaimInputWrapper from '../components/ClaimInputWrapper';
+import ClaimInput from '../components/ClaimInput';
+import Typeahead from '../components/Typeahead';
 import {deleteRow, deleteItem} from '../actions';
 
 export default React.createClass({

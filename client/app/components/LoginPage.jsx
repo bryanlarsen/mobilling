@@ -1,12 +1,13 @@
-import React from 'react';
-import ReactRouter, { Link } from 'react-router';
+import { Link } from 'react-router';
 import { pushState } from 'redux-router';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { startBusy, endBusy, newSession } from '../actions';
+import actions from '../actions';
 import EmptyHeader from './EmptyHeader';
+import ClaimInputGroup from './ClaimInputGroup';
 
-@connect((state) => state)
+export default connect((state) => state)(
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
@@ -16,54 +17,23 @@ class LoginPage extends React.Component {
   }
 
   onSubmit = (ev) => {
-    var page = this;
     ev.preventDefault();
-    this.props.dispatch(startBusy());
-    $.ajax({
-      url: window.ENV.API_ROOT+'session.json',
-      data: $(this.refs.form).serialize(),
-      dataType: 'json',
-      type: 'POST',
-      success: function(data) {
-        page.props.dispatch(endBusy());
-        if (data.errors) {
-          page.setState({errors: data.errors});
-        } else {
-          page.props.dispatch(newSession(data));
-          page.props.dispatch(pushState(null, '/claims', page.props.globalStore.claimsListQuery));
-        }
-      },
-      error: function(xhr, status, err) {
-        page.props.dispatch(endBusy());
-        page.setState({errors: {password: ["Server Error"]}});
-        console.log("error!", xhr);
-      }
-    });
+    this.props.dispatch(actions.logIn(() => {
+      this.props.dispatch(pushState(null, '/claims', this.props.globalStore.claimsListQuery));
+    }));
   }
 
   render() {
-
+    const handler = actions.userChangeHandler.bind(null, this.props.dispatch);
     return (
       <div className="body">
         <EmptyHeader {...this.props} />
         <div className="content-body container">
           <div className="row">
-            <form ref="form" onSubmit={this.onSubmit}>
+            <form ref="form" className="form-horizontal" onSubmit={this.onSubmit}>
               <legend>BillOHIP</legend>
-              <div className="form-group">
-                <label className="control-label col-sm-2" htmlFor="email">Email</label>
-                <div className="col-sm-10">
-                  <input className="form-control input-lg" defaultValue={this.props.userStore.email} type="email" name="v3_create_session[email]" />
-                  <span className="help-block">{(this.state.errors.email || []).join(',')}</span>
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="control-label col-sm-2" htmlFor="password">Password</label>
-                <div className="col-sm-10">
-                  <input className="form-control input-lg" type="password" name="v3_create_session[password]" />
-                  <span className="help-block">{(this.state.errors.password || []).join(',')}</span>
-                </div>
-              </div>
+              <ClaimInputGroup {...this.props} store={this.props.userStore} name="email" onChange={handler}/>
+              <ClaimInputGroup {...this.props} store={this.props.userStore} name="password" type="password" onChange={handler}/>
               <div className="form-group">
                 <div className="col-sm-10 col-sm-offset-2">
                   <input className="btn btn-lg btn-block btn-primary" type="submit" name="submit" value="Sign In" />
@@ -79,6 +49,4 @@ class LoginPage extends React.Component {
       </div>
     );
   }
-};
-
-export default LoginPage;
+});

@@ -1,6 +1,7 @@
 import _ from 'underscore';
 
-import { ClaimInputWrapper, Typeahead } from '../components';
+import ClaimInputWrapper from '../components/ClaimInputWrapper';
+import Typeahead from '../components/Typeahead';
 import { updateClaim } from '../actions';
 import uuid from '../data/uuid';
 import diagnosesEngine from '../data/diagnosesEngine';

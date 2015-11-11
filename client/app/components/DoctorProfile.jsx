@@ -1,6 +1,11 @@
 import _ from 'underscore';
 
-import { Icon, ClaimInputGroup, ClaimInputWrapper, ClaimFormGroup, Select, ClaimInput } from '../components';
+import Icon from '../components/Icon';
+import ClaimInputGroup from '../components/ClaimInputGroup';
+import ClaimInputWrapper from '../components/ClaimInputWrapper';
+import ClaimFormGroup from '../components/ClaimFormGroup';
+import Select from '../components/Select';
+import ClaimInput from '../components/ClaimInput';
 import SPECIALTIES from '../data/specialties';
 
 export default React.createClass({

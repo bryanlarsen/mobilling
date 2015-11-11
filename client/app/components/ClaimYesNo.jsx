@@ -1,4 +1,5 @@
-import { ClaimInputWrapper, YesNo } from '../components';
+import ClaimInputWrapper from '../components/ClaimInputWrapper';
+import YesNo from '../components/YesNo';
 
 export default (props) => {
   return (

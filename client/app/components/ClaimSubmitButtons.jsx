@@ -1,5 +1,6 @@
 import _ from 'underscore';
-import { RadioSelect, Icon } from '../components';
+import RadioSelect from '../components/RadioSelect';
+import Icon from '../components/Icon';
 import { Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { claimStatusNames } from '../data/claimStatusNames';

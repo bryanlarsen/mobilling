@@ -1,4 +1,4 @@
-import { StandardHeader } from '../components';
+import StandardHeader from '../components/StandardHeader';
 
 export default (props) => {
   return (

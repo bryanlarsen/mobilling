@@ -16,8 +16,9 @@ config.output = {
 
 // You can add entry points specific to rails here
 config.entry.vendor.unshift(
-  'es5-shim/es5-shim',
-  'es5-shim/es5-sham'
+  'babel-polyfill'
+//  'es5-shim/es5-shim',
+//  'es5-shim/es5-sham'
 );
 config.entry.app = ['./app/startup/clientGlobals'];
 

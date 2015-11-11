@@ -47,6 +47,9 @@ cd client
 npm install
 cd ..
 
+npm install -g bower
+bower install
+
 cp config/database.yml.vagrant config/database.yml
 
 rake db:create

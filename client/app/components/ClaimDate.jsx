@@ -1,4 +1,5 @@
-import { ClaimInputWrapper, ClaimInputInner } from '../components';
+import ClaimInputWrapper from '../components/ClaimInputWrapper';
+import ClaimInputInner from '../components/ClaimInputInner';
 
 import normalizeDate from '../data/normalizeDate';
 

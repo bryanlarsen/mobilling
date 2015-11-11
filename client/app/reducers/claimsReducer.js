@@ -15,8 +15,8 @@ export default function claimsReducer(state = initialState, action) {
   case 'CLAIM_LIST.INIT': {
     return {
       ...state,
-      claimList: [for (claim of payload) claim.id],
-      claims: _.object([for (claim of payload) [claim.id, claim]]),
+      claimList: payload.map((claim) => claim.id),
+      claims: _.object(payload.map((claim) => [claim.id, claim])),
       claimListLoadedOn: new Date(),
     };
   }
