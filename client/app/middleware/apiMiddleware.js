@@ -1,9 +1,10 @@
 const _ = require('underscore');
 
 module.exports = (store) => (next) => (action) => {
-  var {type, method, url, action_prefix, payload, successType, successAfter, successWhitelist, errorType, errorAfter, errorWhitelist} = action;
+  var {type, method, url, action_prefix, payload, successType, successAfter, successWhitelist, errorType, errorAfter, errorWhitelist, preType} = action;
   if (type === 'API_WRITE') {
     store.dispatch({type: 'START_BUSY'});
+    if (preType) store.dispatch({type: preType, payload});
     console.log('fetch', url, payload);
     fetch(url, {
       method,

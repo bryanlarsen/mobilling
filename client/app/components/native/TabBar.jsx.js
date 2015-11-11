@@ -1,33 +1,31 @@
 'use strict';
 
 var React = require('react-native');
+var _ = require('underscore');
 var {Text, View, Component, TouchableOpacity} = React;
 const styles = require('./styles');
 
-class Toolbar extends Component{
-
-  handlePress(dest) {
-    this.props.actions.pushState(null, this.props.left.route.path, this.props.left.route.params);
+class TabBar extends Component{
+  componentWillMount() {
+    this.props.actions.refreshClaim(this.props.claimId);
   }
 
-  handlePressRight() {
-    this.props.actions.pushState(null, this.props.right.route.path, this.props.right.route.params);
+  handlePress(action) {
+    var paths = this.props.nativeRouter.route.path.split('/');
+    paths[3] = action;
+    this.props.actions.pushState(null, paths.join('/'));
   }
 
   render() {
     return <View style={styles.tabbar}>
-      <TouchableOpacity onPress={this.handlePressLeft.bind(this)}>
-        <Text style={styles.toolbarButton}>{this.props.left.text}</Text>
-      </TouchableOpacity>
-      }
-      <Text style={styles.toolbarTitle}>{this.props.title}</Text>
-      {this.props.right &&
-       <TouchableOpacity onPress={this.handlePressRight.bind(this)}>
-         <Text style={styles.toolbarButton}>{}this.props.right.text}</Text>
-       </TouchableOpacity>
-      }
+      {_.map(['patient', 'claim', 'consult', 'items', 'comment'], (action) => {
+        return <TouchableOpacity key={action} style={styles.tabButton} onPress={this.handlePress.bind(this, action)}>
+          <Text style={this.props.active === action ? styles.activeItem : styles.inactiveItem}>{action}</Text>
+        </TouchableOpacity>
+        
+      })}
     </View>;
   }
 }
 
-module.exports = Toolbar;
+module.exports = TabBar;

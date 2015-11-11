@@ -5,10 +5,6 @@ const ClaimErrors = require('./ClaimErrors');
 const { setComment } = require('../actions');
 
 module.exports = React.createClass({
-  handleChange: function(ev) {
-    this.props.actions.updateFields([[[ev.target.name], ev.target.value]]);
-  },
-
   componentDidMount: function() {
     if (this.props.store.unread_comments > 0) {
       this.props.actions.updateFields([[['unread_comments'], 0]]);
