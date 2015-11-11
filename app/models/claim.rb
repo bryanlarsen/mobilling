@@ -58,7 +58,7 @@ class Claim < ActiveRecord::Base
     s.validates :items, length: {minimum: 1}, associated: true
     s.validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { not simplified? }
     s.validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false, nil]}, if: -> { not simplified? }
-    s.validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, if: -> { not simplified? }
+    s.validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, if: -> { consult_tab_visible }
     s.validate :validate_patient_number
     s.validate :validate_seen_on, if: -> { not simplified? }
     s.validate :validate_record
