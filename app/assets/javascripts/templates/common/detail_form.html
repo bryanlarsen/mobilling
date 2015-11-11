@@ -18,7 +18,7 @@
   <div class="form-group row" ng-class="{'has-error': (detailForm.consult_time_in.$dirty || detailForm.consult_time_out.$dirty || submitted) && detailForm.consult_time.$invalid}" ng-if="isConsultTimeVisible(detail) && !isSimplifiedTemplate()">
     <label for="claim-details-consult-time-in" class="control-label col-xs-4">Consult time in</label>
     <div class="col-xs-8">
-      <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-details-consult-time-in" placeholder="Select time" max="{{claim.consult_time_in}}" required></mb-time>
+      <mb-time name="consult_time_in" ng-model="claim.consult_time_in" class="form-control input-lg" id="claim-details-consult-time-in" placeholder="Select time" max="{{claim.consult_time_out}}" required></mb-time>
     </div>
 
     <div class="col-xs-12">&nbsp;</div>

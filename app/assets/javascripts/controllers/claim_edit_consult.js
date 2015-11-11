@@ -91,6 +91,9 @@ angular.module("moBilling.controllers")
                 minutesOut = timeToMinutes(claim.consult_time_out);
 
                 claim.consult_time = minutesOut - minutesIn;
+                if (claim.consult_time < 0) {
+                    claim.consult_time = claim.consult_time + 24*60;
+                }
             }
         });
 
