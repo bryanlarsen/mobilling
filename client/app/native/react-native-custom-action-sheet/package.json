@@ -1,0 +1,79 @@
+{
+  "_args": [
+    [
+      "react-native-custom-action-sheet@0.0.5",
+      "/Users/Bryan/work/mobilling/client/app"
+    ]
+  ],
+  "_from": "react-native-custom-action-sheet@0.0.5",
+  "_id": "react-native-custom-action-sheet@0.0.5",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/react-native-custom-action-sheet",
+  "_nodeVersion": "2.4.0",
+  "_npmUser": {
+    "email": "Eyal.Eizenberg@samanage.com",
+    "name": "eyaleizenberg"
+  },
+  "_npmVersion": "2.13.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "react-native-custom-action-sheet",
+    "raw": "react-native-custom-action-sheet@0.0.5",
+    "rawSpec": "0.0.5",
+    "scope": null,
+    "spec": "0.0.5",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-custom-action-sheet/-/react-native-custom-action-sheet-0.0.5.tgz",
+  "_shasum": "b333cbd3756649baeb2420539daa54dde663243e",
+  "_shrinkwrap": null,
+  "_spec": "react-native-custom-action-sheet@0.0.5",
+  "_where": "/Users/Bryan/work/mobilling/client/app",
+  "author": {
+    "email": "eyal.eizenberg@samanage.com",
+    "name": "Eyal Eizenberg",
+    "url": "https://github.com/eyaleizenberg"
+  },
+  "bugs": {
+    "url": "https://github.com/eyaleizenberg/react-native-custom-action-sheet/issues"
+  },
+  "dependencies": {},
+  "description": "iOS custom sheet with fade in/out overlay",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "b333cbd3756649baeb2420539daa54dde663243e",
+    "tarball": "http://registry.npmjs.org/react-native-custom-action-sheet/-/react-native-custom-action-sheet-0.0.5.tgz"
+  },
+  "gitHead": "5a78b262b5ebd932403a395e0f2f37ba6429a70b",
+  "homepage": "https://github.com/eyaleizenberg/react-native-custom-action-sheet",
+  "keywords": [
+    "action sheet",
+    "ios",
+    "react-component",
+    "react-native"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "eyaleizenberg",
+      "email": "Eyal.Eizenberg@samanage.com"
+    }
+  ],
+  "name": "react-native-custom-action-sheet",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/eyaleizenberg/react-native-custom-action-sheet.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.0.5"
+}

@@ -23,15 +23,9 @@ class AppUnConnected extends React.Component{
       case 'Login':
         return <LoginScreen {...this.props} navigator={navigator} />;
       case 'Claims':
-        return <View style={styles.container}>
-          <Toolbar title="Claims"/>
-          <ClaimsScreen {...this.props} navigator={navigator} />
-        </View>;
+        return <ClaimsScreen {...this.props} navigator={navigator} />
       case 'Claim':
-        return <View style={styles.container}>
-          <Toolbar title={route.id} />
-        <ClaimScreen {...this.props} id={route.id} navigator={navigator} />
-        </View>;
+        return <ClaimScreen {...this.props} id={route.id} navigator={navigator} />
     }
   }
 
@@ -42,18 +36,6 @@ class AppUnConnected extends React.Component{
       initialRoute={{ screen: 'Login' }}
       renderScene={this.renderScene.bind(this)}
     />;
-    return <View style={styles.container}>
-      <Toolbar
-        title="Hello"
-      />
-      </View>;
-    return <View>
-      <WebViewBridge style={this.props.nativeRouter.component ? styles.hidden : styles.full} ref="webview" url="web/foo.html" />
-      {this.props.nativeRouter.component && React.createElement(this.props.nativeRouter.component, {...this.props, style: styles.full})}
-      {this.props.nativeRouter.tabbar && React.createElement(this.props.nativeRouter.tabbar, {...this.props, ...this.props.nativeRouter.tabbarProps})}
-    </View>;
-
-    // never gets here
   }
 };
 

@@ -5,9 +5,9 @@ module.exports = StyleSheet.create({
   full: {flex: 1000},
   hidden: {flex: 1},
   container: {flex: 1, backgroundColor: '#F5FCFF'},
-  form: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-  claimList: {flex: 1, justifyContent: 'center', alignItems: 'stretch'},
-  claimListRow: {borderWidth: 1 / PixelRatio.get(), flexDirection: 'row', flexWrap: 'wrap', flex: 1},
+  form: {flex: 1},
+  claimList: {flex: 1, alignItems: 'stretch'},
+  claimListRow: {borderBottomWidth: 1 / PixelRatio.get(), flexDirection: 'row', flexWrap: 'wrap', flex: 1},
   claimListField: {flex: 1},
   tabbar: {backgroundColor:'#81c04d', paddingTop:10, paddingBottom:10, flexDirection:'row'},
   inactiveItem: {color:'#fff', textAlign: 'center'},
@@ -18,6 +18,6 @@ module.exports = StyleSheet.create({
   toolbarTitle: {color:'#fff', textAlign:'center', fontWeight:'bold', flex:1},
   input: {height:40, borderColor: 'gray', borderWidth: 1},
   label: {},
-  error: {color: 'orange'}
+  error: {color: 'orange', paddingLeft: 15, paddingRight: 15, paddingBottom: 5}
 });
 

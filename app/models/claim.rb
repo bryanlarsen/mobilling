@@ -103,6 +103,10 @@ class Claim < ActiveRecord::Base
         end
       }
       warnings.add(:patient_number, "checksum error") if (checksum+patient_int)%10 != 0
+    elsif !patient_number
+      warnings.add(:patient_number, "required")
+    elsif !patient_number.match(/\d{6,12}/)
+        warnings.add(:patient_number, "must be a number")
     end
   end
 
