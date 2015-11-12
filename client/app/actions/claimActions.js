@@ -59,6 +59,10 @@ function claimUpdate(payload) {
   return { type: 'CLAIM.UPDATE', payload };
 }
 
+function claimRemove(payload) {
+  return { type: 'CLAIM.DELETE', payload };
+}
+
 function claimResponse(payload) {
   return { type: 'CLAIM.UPDATE',
            payload: _.pick(payload, 'id', 'errors', 'warnings', 'submission', 'total_fee', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'),
@@ -134,6 +138,22 @@ export function newClaim(callback) {
                   });
     }
   }
+
+export function removeClaim(id, callback) {
+  const done = (response) => (dispatch, getState) => {
+    dispatch(claimRemove({id}));
+  };
+  return (dispatch, getState) => {
+    writeHelper({dispatch,
+                 method: 'DELETE',
+                 url: `${window.ENV.API_ROOT}v1/claims/${id}.json`,
+                 action_prefix: 'CLAIM.DELETE',
+                 payload: {},
+                 updateAction: unrecoverableError,
+                 responseAction: done
+                });
+  }
+}
 
 export function  newItem(claimId, item) {
     const done = (item) => (dispatch, getState) => {
