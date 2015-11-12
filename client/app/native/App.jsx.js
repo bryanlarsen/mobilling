@@ -9,19 +9,13 @@ import * as userActions from '../actions/userActions';
 const styles = require('./styles');
 const LoginScreen = require('./LoginScreen.jsx');
 const ClaimsScreen = require('./ClaimsScreen.jsx');
+const ClaimScreen = require('./ClaimScreen.jsx');
 const Toolbar = require('./Toolbar.jsx');
 
 class AppUnConnected extends React.Component{
   constructor(props) {
     super(props);
   }
-
-/*
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.nativeRouter.route !== this.props.nativeRouter.route) {
-      this.refs.nav.push(nextProps.nativeRouter.route);
-    }
-    } */
 
   renderScene(route, navigator) {
     console.log('renderScene', route);
@@ -36,6 +30,7 @@ class AppUnConnected extends React.Component{
       case 'Claim':
         return <View style={styles.container}>
           <Toolbar title={route.id} />
+        <ClaimScreen {...this.props} id={route.id} navigator={navigator} />
         </View>;
     }
   }

@@ -8,6 +8,7 @@
   "dependencies": {
     "moment": "^2.10.6",
     "react-native": "^0.14.2",
+    "react-native-icons": "^0.6.2",
     "react-redux": "^3.1.0",
     "redux": "^3.0.4",
     "redux-logger": "^2.0.4",
@@ -15,6 +16,5 @@
     "underscore": "^1.8.3",
     "underscore.string": "^3.2.2"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
