@@ -2,6 +2,7 @@ import _ from 'underscore';
 import { Link } from 'react-router';
 import { pushState } from 'redux-router';
 
+import { removeClaim } from '../actions/claimActions';
 import Icon from '../components/Icon';
 import dollars from '../data/dollars';
 import claimTotal from '../data/claimTotal';
@@ -15,7 +16,7 @@ export default React.createClass({
   clickDelete: function(id, index, ev) {
     ev.preventDefault();
     if (confirm(`Are you sure you really wish to delete claim ${this.props.claims[index].number}?`)) {
-      claimActions.remove(id);
+      this.props.dispatch(removeClaim(id));
     }
   },
 
