@@ -34,6 +34,7 @@ RUN echo "America/Toronto" > /etc/timezone
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 RUN npm install -g bower
+RUN npm install -g npm && npm cache clear
 
 RUN mkdir /app
 WORKDIR /app
@@ -47,7 +48,7 @@ ADD .bowerrc bower.json /app/
 RUN bower install --allow-root
 
 ADD client/package.json /app/client/package.json
-RUN cd /app/client && npm install
+RUN cd /app/client && npm install && npm cache clear
 
 EXPOSE 80
 ENV PORT 80
