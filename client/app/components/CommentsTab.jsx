@@ -28,7 +28,7 @@ export default React.createClass({
             return <ClaimComment {...this.props} comment={comment} key={'comment'+i} />;
          }, this) }
         {!this.props.readonly && liveComment && <ClaimInputGroup store={liveComment} name="body" onChange={(ev) => this.props.dispatch(setComment(this.props.claim.id, liveComment.id, ev.target.value))} />}
-        {!this.props.readonly && !liveComment && <ClaimInputGroup store={{}} name="body" onChange={(ev) => this.props.dispatch(setComment(this.props.claim.id, null, ev.target.value))} />}
+        {!this.props.readonly && !liveComment && <ClaimInputGroup store={{}} name="body" label="Comment"  onChange={(ev) => this.props.dispatch(setComment(this.props.claim.id, null, ev.target.value))} />}
 
         { this.props.agent && !this.props.readonly &&
           <fieldset>

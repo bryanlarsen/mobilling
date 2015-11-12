@@ -47,8 +47,7 @@ class Claim < ActiveRecord::Base
               :consult_premium_travel_count
 
   validation_scope :warnings do |s|
-    s.validate :validate_record
-    s.validates :hospital, :patient_number, :patient_province, :patient_birthday, presence: true
+    s.validates :hospital, :patient_province, :patient_birthday, presence: true
     s.validates :patient_province, inclusion: {in: %w[ON AB BC MB NL NB NT NS PE SK NU YT]}
     s.validates :patient_sex, inclusion: {in: %w[M F]}, if: -> { patient_province != "ON" }
     s.validates :payment_program, inclusion: {in: ['HCP', 'WCB', nil]}, if: -> { patient_province == "ON" }
@@ -56,12 +55,13 @@ class Claim < ActiveRecord::Base
     s.validates :patient_name, presence: true, if: -> { patient_province != "ON" }
     s.validates :hospital, format: {with: /\A\d{4}/}
     s.validates :consult_time_in, :consult_time_out, time: true, format: {with: /\A\d{2}:\d{2}\Z/, type: {is_a: String}}, allow_nil: true
-    s.validates :items, length: {minimum: 1}, associated: true
+    s.validates :items, associated: true
     s.validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { not simplified? }
     s.validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false, nil]}, if: -> { not simplified? }
-    s.validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, if: -> { not simplified? }
+    s.validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, if: -> { consult_tab_visible }
     s.validate :validate_patient_number
     s.validate :validate_seen_on, if: -> { not simplified? }
+    s.validate :validate_record
   end
   validates_associated :items
   validates :photo_id, uuid: true, allow_nil: true
@@ -330,10 +330,10 @@ class Claim < ActiveRecord::Base
 
   def validate_record
     to_header_record.errors.each do |attr, err|
-      warnings.add(attr, err.to_s)
+      warnings.add(attr, err.to_s) unless warnings.include?(attr)
     end
     to_rmb_record.errors.each do |attr, err|
-      warnings.add(attr, err.to_s)
+      warnings.add(attr, err.to_s) unless warnings.include?(attr)
     end
   end
 
@@ -390,7 +390,7 @@ class Claim < ActiveRecord::Base
       begin
         interactor.generate_claim(self)
         interactor.errors[number].each do |err|
-          response[:warnings][err.first] = (response[:warnings][err.first] || []) + [err.second.to_s]
+          response[:warnings][err.first] ||= [err.second.to_s]
         end
         response[:submission] = interactor.contents
       rescue StandardError => e
