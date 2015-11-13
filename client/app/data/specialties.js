@@ -5,7 +5,8 @@ const SPECIALTIES = {
  "surgical_assist": "Surgical Assist",
 // "psychotherapist": "Psychotherapy",
  "internal_medicine": "Internal Medicine",
- "cardiology": "Cardiology"
+  "cardiology": "Cardiology",
+  "other": "Other"
 };
 
 export default SPECIALTIES;
