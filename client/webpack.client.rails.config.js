@@ -25,7 +25,7 @@ config.entry.app = ['./app/startup/clientGlobals'];
 // See webpack.common.config for adding modules common to both the webpack dev server and rails
 
 config.module.loaders.push(
-  {test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/}
+  {test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/, query: {presets: ['es2015','react','stage-0']}}
 );
 
 module.exports = config;

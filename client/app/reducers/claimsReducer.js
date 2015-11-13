@@ -37,6 +37,15 @@ export default function claimsReducer(state = initialState, action) {
     return {...state, claims };
   }
 
+  case 'CLAIM.DELETE': {
+    let claims = {...state.claims};
+    delete claims[payload.id];
+    let claimList = state.claimList.slice();
+    const index = claimList.findIndex((i) => i === payload.id);
+    claimList.splice(index, 1);
+    return {...state, claims, claimList };
+  }
+
   case 'ITEM.INIT': {
     let claims = {...state.claims};
     claims[payload.claim_id].items = (claims[payload.claim_id].items || []).concat(payload);

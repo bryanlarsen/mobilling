@@ -130,11 +130,12 @@ end
 # all caps alphabetic
 class A < FieldDefinition
   def validate(val)
-    val =~ /^[A-Za-z]*$/ and super(val)
+    I18n.transliterate(val) =~ /^[- 'A-Za-z]*$/ and super(val)
   end
 
   def format(value)
-    value.upcase[0...length] + ' '*[0,length-value.length].max
+    v = I18n.transliterate(value.gsub(/[- ']/, "")).upcase
+    v[0...length] + ' '*[0,length-v.length].max
   end
 
   def parse(record)
