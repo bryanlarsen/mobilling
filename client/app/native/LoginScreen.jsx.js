@@ -30,7 +30,7 @@ export default class LoginScreen extends React.Component {
       <View style={styles.inputs}>
         <View style={styles.inputContainer}>
           <Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
-          <TextInput 
+          <TextInput
             style={[styles.input, styles.whiteFont]}
             placeholder="Email"
             placeholderTextColor="#FFF"
