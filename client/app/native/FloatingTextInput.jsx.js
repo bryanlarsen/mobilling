@@ -65,6 +65,9 @@ var FloatLabelTextField = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     this.setState({ text: nextProps.value });
   },
+  focus: function() {
+    this.refs.input.focus();
+  },
   render: function() {
     return(
       <View style={styles.container}>
@@ -76,6 +79,7 @@ var FloatLabelTextField = React.createClass({
             </FloatingLabel>
             <TextFieldHolder withValue={this.state.text}>
               <TextInput
+                ref="input"
                 placeholder={this.props.placeHolder}
                 style={[styles.valueText]}
                 value={this.state.text}
@@ -83,6 +87,8 @@ var FloatLabelTextField = React.createClass({
                 onBlur={this.unsetFocus}
                 onChangeText={this.setText}
                 secureTextEntry={this.props.secureTextEntry}
+                returnKeyType={this.props.returnKeyType}
+                onSubmitEditing={this.props.onSubmitEditing}
               />
             </TextFieldHolder>
           </View>
@@ -105,7 +111,6 @@ var FloatLabelTextField = React.createClass({
   },
 
   labelStyle: function() {
-    console.log('labelStyle', this.props.placeHolder, this.state.focussed);
     if (this.state.focussed) {
       return styles.focussed;
     }
