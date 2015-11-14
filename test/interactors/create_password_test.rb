@@ -4,7 +4,7 @@ class CreatePasswordTest < ActiveSupport::TestCase
   include ActionMailer::TestHelper
 
   setup do
-    @user = create(:user, password: "secret")
+    @user = create(:user, password: "password")
     @cpr_interactor = CreatePasswordReset.new(email: @user.email)
     @interactor = CreatePassword.new(token: generate_token(Time.now))
   end
@@ -47,7 +47,7 @@ class CreatePasswordTest < ActiveSupport::TestCase
   end
 
   test "is invalid when user has changed password" do
-    assert @user.update!(password: "changed", password_confirmation: "changed", current_password: "secret")
+    assert @user.update!(password: "newpassword", password_confirmation: "newpassword", current_password: "password")
     @interactor.perform
     assert_invalid @interactor, :token
   end

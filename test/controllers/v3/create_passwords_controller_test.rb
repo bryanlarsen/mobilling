@@ -14,7 +14,7 @@ class V3::CreatePasswordsControllerTest < ActionController::TestCase
   end
 
   test "renders success template" do
-    create(:user, email: "alice@example.com", password: "secret")
+    create(:user, email: "alice@example.com", password: "password")
     interactor = CreatePasswordReset.new(email: "alice@example.com")
     interactor.perform
     get :new, token: interactor.token

@@ -47,7 +47,7 @@ cd client
 npm install
 cd ..
 
-npm install -g bower
+npm install -g bower karma phantomjs
 bower install
 
 cp config/database.yml.vagrant config/database.yml

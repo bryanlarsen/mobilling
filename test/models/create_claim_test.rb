@@ -174,9 +174,9 @@ class CreateClaimTest < ActiveSupport::TestCase
   #   assert_warn @claim, "daily_details.0.fee"
   # end
 
-  test "is invalid with empty daily_details when submitted" do
-    @claim.items = []
-    assert_warn @claim, :items
-  end
+  # test "is invalid with empty daily_details when submitted" do
+  #   @claim.items = []
+  #   assert_warn @claim, :items
+  # end
 
 end
