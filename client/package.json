@@ -7,7 +7,7 @@
     "url": "https://github.com/bryanlarsen/mobilling.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "karma start karma.conf.js && karma start karma.conf.mocha.js",
     "start": "node server.js",
     "build:client": "NODE_ENV=production webpack --config webpack.client.rails.config.js",
     "build:server": "NODE_ENV=production webpack --config webpack.server.rails.config.js",
@@ -21,11 +21,14 @@
     "jasmine": "^2.3.2",
     "jasmine-core": "^2.3.4",
     "karma": "^0.13.15",
+    "karma-chai-plugins": "^0.6.1",
     "karma-chrome-launcher": "^0.2.1",
     "karma-jasmine": "^0.3.6",
+    "karma-mocha": "^0.2.1",
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-sourcemap-loader": "^0.3.6",
     "karma-webpack": "^1.7.0",
+    "mocha": "^2.3.3",
     "phantomjs": "^1.9.18"
   },
   "dependencies": {

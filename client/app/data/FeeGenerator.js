@@ -108,6 +108,7 @@ FeeGenerator.prototype.calculateFee = function(detail, row0, code) {
 var exports = {
   feeGenerator: null,
   inMinutes: FeeGenerator.inMinutes,
+  FeeGenerator
 };
 
 loadServiceCodes(function(data) {

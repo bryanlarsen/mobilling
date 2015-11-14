@@ -2,6 +2,9 @@
 //= require components/service-codes-engine.js
 //= require components/fee-generator.js
 
+import {FeeGenerator} from '../app/data/feeGenerator';
+var expect = chai.expect;
+
 describe("fee generator", function() {
   this.timeout(10000);
   var generator;
@@ -67,40 +70,41 @@ describe("fee generator", function() {
                     ['R441C', '10:00', '14:59', 58,  87058]];
 
     data.forEach(function(d) {
-      var result = generator.calculateFee({
+      var detail = {
         day: '2014-09-18',
-        code: d[0],
+        rows: [{code: d[0]}],
         time_in: d[1],
         time_out: d[2],
-      }, d[0]);
+      };
+      var result = generator.calculateFee(detail, detail.rows[0], d[0]);
       expect(result.units).to.equal(d[3]);
       expect(result.fee).to.equal(d[4]);
     });
   });
 
   it("calculates overtime correctly", function() {
-    var detail = { day: '2009-09-19', code: 'R441B', time_in: '03:00', time_out: '03:30', premiums: [ { code: 'E401B' } ] };
+    var detail = { day: '2009-09-19', rows: [{code: 'R441B'}, { code: 'E401B' } ], time_in: '03:00', time_out: '03:30' };
 
-    var result = generator.calculateFee(detail, 'R441B');
+    var result = generator.calculateFee(detail, detail.rows[0], 'R441B');
     expect(result.fee).to.equal(12040);
     expect(result.units).to.equal(10);
 
-    detail.fee = result.fee;
-    detail.units = result.units;
+    detail.rows[0].fee = result.fee;
+    detail.rows[0].units = result.units;
 
-    result = generator.calculateFee(detail, 'E401B');
+    result = generator.calculateFee(detail, detail.rows[0], 'E401B');
     expect(result.fee).to.equal(12040 * 0.75);
     expect(result.units).to.equal(10);
 
-    result = generator.calculateFee(detail, 'C998B');
+    result = generator.calculateFee(detail, detail.rows[0], 'C998B');
     expect(result.fee).to.equal(6000);
     expect(result.units).to.equal(1);
 
-    result = generator.calculateFee(detail, 'E676B');
+    result = generator.calculateFee(detail, detail.rows[0], 'E676B');
     expect(result.fee).to.equal(1204 * 6);
     expect(result.units).to.equal(6);
 
-    result = generator.calculateFee(detail, 'Z999C');
+    result = generator.calculateFee(detail, detail.rows[0], 'Z999C');
     expect(result).to.not.exist;
   });
 

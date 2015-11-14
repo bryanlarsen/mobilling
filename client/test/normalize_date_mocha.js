@@ -1,5 +1,6 @@
 //= require components/claim-date-group.js
-
+import normalizeDate from '../app/data/normalizeDate';
+var expect = chai.expect;
 describe("normalizeDate", function() {
   var today = new Date(2015, 2, 23);
 
