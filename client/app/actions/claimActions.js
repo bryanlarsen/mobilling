@@ -65,7 +65,7 @@ function claimRemove(payload) {
 
 function claimResponse(payload) {
   return { type: 'CLAIM.UPDATE',
-           payload: _.pick(payload, 'id', 'errors', 'warnings', 'submission', 'total_fee', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'),
+           payload: _.pick(payload, 'id', 'errors', 'warnings', 'submission', 'total_fee', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible', 'diagnoses_visible', 'mrp_visible'),
          };
 }
 
