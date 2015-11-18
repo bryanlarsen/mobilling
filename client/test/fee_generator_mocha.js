@@ -2,7 +2,7 @@
 //= require components/service-codes-engine.js
 //= require components/fee-generator.js
 
-import {FeeGenerator} from '../app/data/feeGenerator';
+import {FeeGenerator} from '../app/data/FeeGenerator';
 var expect = chai.expect;
 
 describe("fee generator", function() {
