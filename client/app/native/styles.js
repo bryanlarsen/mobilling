@@ -2,6 +2,14 @@ const React = require('react-native');
 const {StyleSheet, PixelRatio} = React;
 
 module.exports = StyleSheet.create({
+  autocomplete: {
+    alignSelf: 'stretch',
+    backgroundColor: '#FFF',
+    borderColor: 'grey',
+    borderBottomWidth: 0.5,
+    marginLeft: 15,
+    marginRight: 15
+  },
   activeItem: {color:'#81c04d', backgroundColor: '#fff', textAlign: 'center'},
   claimList: {flex: 1, alignItems: 'stretch'},
   claimListField: {flex: 1},

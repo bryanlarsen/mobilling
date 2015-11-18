@@ -12,15 +12,15 @@ export default React.createClass({
     patient: 'user',
     claim: 'medkit',
     consult: 'user-md',
-    items: 'list-alt',
+    codes: 'list-alt',
     comments: 'comment-o'
   },
 
   tabs: function() {
     if (this.props.claim.consult_tab_visible) {
-      return ['patient', 'claim', 'consult', 'items', 'comments'];
+      return ['patient', 'claim', 'consult', 'codes', 'comments'];
     } else {
-      return ['patient', 'claim', 'items', 'comments'];
+      return ['patient', 'claim', 'codes', 'comments'];
     }
   },
 

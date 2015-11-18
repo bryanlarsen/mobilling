@@ -8,6 +8,7 @@
   "dependencies": {
     "moment": "^2.10.6",
     "react-native": "^0.14.2",
+    "react-native-autocomplete": "^0.1.2",
     "react-native-icons": "^0.6.2",
     "react-redux": "^3.1.0",
     "redux": "^3.0.4",

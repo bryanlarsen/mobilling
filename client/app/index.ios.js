@@ -8,7 +8,7 @@ const createStore = require('./native-store');
 const App = require('./native/App.jsx');
 
 window.ENV = {
-  API_ROOT: 'http://192.168.1.99:4000/',
+  API_ROOT: 'https://billohip.ca/',
   CORDOVA: false
 };
 

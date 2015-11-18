@@ -7,12 +7,13 @@ import styles from './styles';
 import Toolbar from './Toolbar.jsx';
 import PatientTab from './PatientTab.jsx';
 import ClaimTab from './ClaimTab.jsx';
+import CodesTab from './CodesTab.jsx';
 
 export default class ClaimScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: 'patient'
+      tab: 'Patient'
     }
   }
   componentWillMount() {
@@ -29,6 +30,13 @@ export default class ClaimScreen extends React.Component {
         flex: 1
       }} size="large" />;
     }
+    var tabs = [
+      { name: 'Patient', icon: 'fontawesome|user', screen: PatientTab },
+      { name: 'Claim', icon: 'fontawesome|medkit', screen: ClaimTab },
+      { name: 'Consult', icon: 'fontawesome|user-md', screen: PatientTab },
+      { name: 'Codes', icon: 'fontawesome|list-alt', screen: CodesTab },
+      { name: 'Comments', icon: 'fontawesome|comment-o', screen: PatientTab }
+    ]
     return <View style={styles.container}>
       <Toolbar
         title={`#${claim.number}: $${dollars(claimTotal(claim))}`}
@@ -36,12 +44,11 @@ export default class ClaimScreen extends React.Component {
         onPressLeft={() => this.props.navigator.pop()}
       />
       <TabBarIOS tintColor="white" barTintColor="darkslateblue">
-        <TabBarIOS.Item title="Patient" iconName={"fontawesome|user"} selected={this.state.tab==="patient"} onPress={() => this.setState({tab: 'patient'})}>
-          <PatientTab {...this.props} store={claim} claim={claim} onUpdate={handleUpdate} />
+      {tabs.map((tab) => {
+        return <TabBarIOS.Item title={tab.name} iconName={tab.icon} selected={this.state.tab===tab.name} onPress={() => this.setState({tab: tab.name})}>
+          {React.createElement(tab.screen, {...this.props, store: claim, claim, onUpdate: handleUpdate})}
         </TabBarIOS.Item>
-        <TabBarIOS.Item title="Claim" iconName="fontawesome|medkit" selected={this.state.tab==="claim"} onPress={() => this.setState({tab: 'claim'})}>
-          <ClaimTab {...this.props} store={claim} claim={claim} onUpdate={handleUpdate} />
-        </TabBarIOS.Item>
+      })}
       </TabBarIOS>
     </View>;
   }

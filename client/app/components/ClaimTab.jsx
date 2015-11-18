@@ -38,8 +38,7 @@ const ClaimTabSimplified = (props) => {
         {props.agent && <ClaimFormGroup label="Manual Review Required">
           <ClaimYesNo store={props.claim} name="manual_review_indicator" onChange={props.onChange}/>
         </ClaimFormGroup>}
-
-       </div>
+      </div>
   );
 };
 

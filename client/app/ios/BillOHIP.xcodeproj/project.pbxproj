@@ -25,6 +25,7 @@
 		931BF9AE1BF43429000B4E7F /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 931BF9AD1BF43409000B4E7F /* libReactNativeIcons.a */; };
 		931BF9B11BF43482000B4E7F /* fontawesome.json in Resources */ = {isa = PBXBuildFile; fileRef = 931BF9AF1BF43482000B4E7F /* fontawesome.json */; };
 		931BF9B21BF43482000B4E7F /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 931BF9B01BF43482000B4E7F /* FontAwesome.otf */; };
+		93F998591BF62F1B0086D7F8 /* libRCTAutoComplete.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F9984E1BF62F0B0086D7F8 /* libRCTAutoComplete.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,13 @@
 			remoteGlobalIDString = 2F5A3EB81ACDBF8000439386;
 			remoteInfo = ReactNativeIcons;
 		};
+		93F9984D1BF62F0B0086D7F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93F998481BF62F0A0086D7F8 /* RCTAutoComplete.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTAutoComplete;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -139,6 +147,7 @@
 		931BF99E1BF43408000B4E7F /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
 		931BF9AF1BF43482000B4E7F /* fontawesome.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = fontawesome.json; path = "../node_modules/react-native-icons/fonts/fontawesome.json"; sourceTree = "<group>"; };
 		931BF9B01BF43482000B4E7F /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.otf; path = "../node_modules/react-native-icons/fonts/FontAwesome.otf"; sourceTree = "<group>"; };
+		93F998481BF62F0A0086D7F8 /* RCTAutoComplete.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAutoComplete.xcodeproj; path = "../node_modules/react-native-autocomplete/RCTAutoComplete.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93F998591BF62F1B0086D7F8 /* libRCTAutoComplete.a in Frameworks */,
 				931BF9AE1BF43429000B4E7F /* libReactNativeIcons.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -276,6 +286,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				93F998481BF62F0A0086D7F8 /* RCTAutoComplete.xcodeproj */,
 				931BF99E1BF43408000B4E7F /* ReactNativeIcons.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -326,6 +337,14 @@
 			isa = PBXGroup;
 			children = (
 				931BF9AD1BF43409000B4E7F /* libReactNativeIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		93F998491BF62F0A0086D7F8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				93F9984E1BF62F0B0086D7F8 /* libRCTAutoComplete.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -402,6 +421,10 @@
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
+				},
+				{
+					ProductGroup = 93F998491BF62F0A0086D7F8 /* Products */;
+					ProjectRef = 93F998481BF62F0A0086D7F8 /* RCTAutoComplete.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -528,6 +551,13 @@
 			fileType = archive.ar;
 			path = libReactNativeIcons.a;
 			remoteRef = 931BF9AC1BF43409000B4E7F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		93F9984E1BF62F0B0086D7F8 /* libRCTAutoComplete.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAutoComplete.a;
+			remoteRef = 93F9984D1BF62F0B0086D7F8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
