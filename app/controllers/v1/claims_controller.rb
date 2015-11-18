@@ -66,8 +66,8 @@ class V1::ClaimsController < V1::BaseController
     attrs = claim_params
     attrs['status'] ||= 'saved'
     if last_claim
-      attrs['specialty'] = last_claim.details['specialty'] if attrs['specialty'].blank?
-      attrs['hospital'] ||= last_claim.details['hospital']
+      attrs['specialty'] = last_claim.specialty if attrs['specialty'].blank?
+      attrs['hospital'] ||= last_claim.hospital
     end
     attrs['specialty'] = current_user.default_specialty if attrs['specialty'].blank?
     attrs['specialty'] = 'internal_medicine' if attrs['specialty'].blank?

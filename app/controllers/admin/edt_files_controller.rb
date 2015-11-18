@@ -16,10 +16,12 @@ class Admin::EdtFilesController < Admin::BaseController
   def create
     begin
       file = EdtFile.new_child(filename: params['contents'].original_filename,
-                               contents: params['contents'].read)
+                               contents: params['contents'].read,
+                               user: current_user)
       message = file.process!
     rescue StandardError => e
-      puts e.to_s
+      logger.error e.message + "\n " + e.backtrace.join("\n ")
+      Rollbar.log('error', e)
       flash[:error] = "Invalid File #{e.to_s}"
       redirect_to admin_edt_files_path
       authorize file

@@ -56,11 +56,11 @@ class Claim < ActiveRecord::Base
     s.validates :hospital, format: {with: /\A\d{4}/}
     s.validates :consult_time_in, :consult_time_out, time: true, format: {with: /\A\d{2}:\d{2}\Z/, type: {is_a: String}}, allow_nil: true
     s.validates :items, associated: true
-    s.validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { not simplified? }
-    s.validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false, nil]}, if: -> { not simplified? }
-    s.validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, if: -> { consult_tab_visible }
+    s.validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { consult_setup_visible }
+    s.validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false, nil]}, if: -> { consult_setup_visible }
+    s.validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, if: -> { consult_setup_visible }
     s.validate :validate_patient_number
-    s.validate :validate_seen_on, if: -> { not simplified? }
+    s.validate :validate_seen_on, if: -> { consult_setup_visible }
     s.validate :validate_record
   end
   validates_associated :items
@@ -119,10 +119,6 @@ class Claim < ActiveRecord::Base
       warnings.add(:first_seen_on, "must be before last seen date")
       warnings.add(:last_seen_on, "must be after first seen date")
     end
-  end
-
-  def simplified?
-    %w[anesthesiologist surgical_assist other psychotherapist].include?(specialty)
   end
 
   def self.in_minutes(s)
@@ -353,6 +349,14 @@ class Claim < ActiveRecord::Base
     ['family_medicine', 'internal_medicine', 'cardiology'].include? specialty
   end
 
+  def diagnoses_visible
+    !['surgical_assist', 'anesthesiologist'].include?(specialty)
+  end
+
+  def mrp_visible
+    !['surgical_assist', 'anesthesiologist'].include?(specialty)
+  end
+
   def consult_tab_visible
     consult_setup_visible && first_seen_consult
   end
@@ -414,7 +418,7 @@ class Claim < ActiveRecord::Base
         hash.merge(file.filename => Rails.application.routes.url_helpers.admin_edt_file_path(file))
       end
 
-      %I[service_date consult_setup_visible consult_tab_visible consult_premium_visit_count consult_premium_first_count consult_premium_travel_count].each do |param|
+      %I[service_date consult_setup_visible consult_tab_visible consult_premium_visit_count consult_premium_first_count consult_premium_travel_count diagnoses_visible mrp_visible].each do |param|
         response[param] = send(param)
       end
 

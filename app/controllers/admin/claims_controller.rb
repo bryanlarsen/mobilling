@@ -41,7 +41,6 @@ class Admin::ClaimsController < Admin::BaseController
       return
     end
     @user = current_user
-    @forms = @claims.map { |claim| ClaimForm.new(claim, current_user: current_user) }
     @claims.each do |claim|
       authorize claim, :update?
     end

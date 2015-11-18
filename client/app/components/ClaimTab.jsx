@@ -43,24 +43,23 @@ const ClaimTabSimplified = (props) => {
   );
 };
 
-const ClaimTabFull = (props) => {
+const ClaimReferringPhysician = (props) => {
     return (
       <div>
 
-        <ClaimTabSimplified {...props} />
-
-        <ClaimDiagnoses {...props} />
         <ClaimFormGroup label="Most Responsible Physician">
           <ClaimYesNo store={props.claim} name="most_responsible_physician" onChange={props.onChange}/>
         </ClaimFormGroup>
         <ClaimInputGroup name="referring_physician" type='text' store={props.claim} onChange={props.onChange} />
-        <ClaimAdmissionFirstLast {...props} />
       </div>
     );
 };
 
 export default (props) => {
-  return props.claim.consult_setup_visible ?
-                   <ClaimTabFull {...props} /> :
-                   <ClaimTabSimplified {...props} />;
+  return <div>
+        <ClaimTabSimplified {...props} />
+        {props.claim.diagnoses_visible && <ClaimDiagnoses {...props} /> }
+        {props.claim.mrp_visible && <ClaimReferringPhysician {...props} /> }
+        {props.claim.consult_setup_visible && <ClaimAdmissionFirstLast {...props} /> }
+  </div>;
 };

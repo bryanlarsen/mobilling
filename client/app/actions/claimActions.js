@@ -65,7 +65,7 @@ function claimRemove(payload) {
 
 function claimResponse(payload) {
   return { type: 'CLAIM.UPDATE',
-           payload: _.pick(payload, 'id', 'errors', 'warnings', 'submission', 'total_fee', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible'),
+           payload: _.pick(payload, 'id', 'errors', 'warnings', 'submission', 'total_fee', 'submitted_fee', 'paid_fee', 'original_id', 'reclamation_id', 'photo', 'errors', 'warnings', 'files', 'consult_premium_visit_count', 'consult_premium_first_count', 'consult_premium_travel_count', 'service_date', 'consult_setup_visible', 'consult_tab_visible', 'diagnoses_visible', 'mrp_visible'),
          };
 }
 
@@ -227,8 +227,8 @@ export function  updateClaim(id, changes) {
 
 export function  updateItem(claim_id, id, changes) {
     return (dispatch, getState) => {
-      const claim = getState().claimStore.claims[claim_id];
-      const item = claim.items.find((i) => i.id === id);
+      var claim = getState().claimStore.claims[claim_id];
+      var item = claim.items.find((i) => i.id === id);
       let newItem = {...item, ...changes};
       let updates = {id, claim_id, ...changes};
       dispatch(itemUpdate(updates));
@@ -236,9 +236,11 @@ export function  updateItem(claim_id, id, changes) {
       const gen = FeeGenerator.feeGenerator;
       if (gen) {
         for (const row of newItem.rows) {
-          const result = gen.calculateFee(newItem, newItem.rows[0], row.code);
+          const result = gen.calculateFee(newItem, item.rows[0], row.code);
           if (result && (result.fee !== row.fee || result.units !== row.units)) {
             dispatch(updateRow(claim_id, id, row.id, {id: row.id, fee: result.fee, units: result.units}));
+            claim = getState().claimStore.claims[claim_id];
+            item = claim.items.find((i) => i.id === id);
           }
         }
       }
