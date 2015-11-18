@@ -130,7 +130,12 @@ class RemittanceAdvice < EdtFile
               paid += record['Amount Paid']
               row['paid'] = record['Amount Paid']
               if !record['Explanatory Code'].blank?
-                row['message'] = "#{record['Explanatory Code']}: #{RemittanceAdviceCode.find_by(code: record['Explanatory Code']).name}"
+                code = RemittanceAdviceCode.find_by(code: record['Explanatory Code'])
+                if code
+                  row['message'] = "#{record['Explanatory Code']}: #{code.name}"
+                else
+                  row['message'] = "#{record['Explanatory Code']}: unknown code"
+                end
               end
               row.save!
             end
