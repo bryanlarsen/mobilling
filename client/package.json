@@ -17,7 +17,17 @@
     "eslint": "eslint --ext .js,.jsx .",
     "jscs": "jscs --verbose ."
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jasmine": "^2.3.2",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.15",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-sourcemap-loader": "^0.3.6",
+    "karma-webpack": "^1.7.0",
+    "phantomjs": "^1.9.18"
+  },
   "dependencies": {
     "babel-core": "^6.0.0",
     "babel-loader": "^6.0.0",

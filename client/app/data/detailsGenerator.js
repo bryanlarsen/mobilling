@@ -171,7 +171,7 @@
     first = claim.first_seen_on,
     last = claim.last_seen_on,
     mrp = claim.most_responsible_physician,
-    consult = claim.consult_type,
+    consult = claim.first_seen_consult && claim.consult_type,
     visit = claim.consult_premium_visit,
     premiumFirst = claim.consult_premium_first,
     travel = claim.consult_premium_travel,

@@ -1,4 +1,7 @@
 export default React.createClass({
+  getInitialState: function() {
+    return { focused: false };
+  },
   componentDidMount: function() {
     var component = this;
     var $el = $(ReactDOM.findDOMNode(this));
@@ -22,14 +25,23 @@ export default React.createClass({
   },
 
   componentDidUpdate: function() {
-    if (this.isMounted()) {
+    if (this.isMounted() && !this.state.focused) {
       $(ReactDOM.findDOMNode(this)).typeahead('val', this.props.value);
     }
   },
 
+  handleFocus: function(ev) {
+    this.setState({focused: true});
+  },
+
+  handleBlur: function(ev) {
+    this.setState({focused: false});
+    this.props.onChange(ev);
+  },
+
   render: function() {
     return (
-      <input type="search" className="form-control typeahead" name={this.props.name} defaultValue={this.props.value} onBlur={this.props.onChange}/>
+      <input type="search" className="form-control typeahead" name={this.props.name} defaultValue={this.props.value} onBlur={this.handleBlur} onFocus={this.handleFocus} />
     );
   }
 });

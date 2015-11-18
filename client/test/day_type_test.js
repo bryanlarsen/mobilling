@@ -1,4 +1,4 @@
-//= require components/day-type.js
+import {dayType, timeType} from '../app/data/dayType.js';
 
 describe("day type", function () {
     it("returns 'holiday' for Good Friday 2015", function () {

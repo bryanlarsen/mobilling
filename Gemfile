@@ -52,15 +52,8 @@ group :test do
   gem "pry"
   gem "pry-rails"
   gem "pry-byebug"
-  gem "phantomjs"
-  gem "capybara"
   gem "database_cleaner"
   gem "factory_girl_rails"
-  gem "poltergeist"
-end
-
-group :development, :test do
-  gem "teaspoon", "~> 0.9"
 end
 
 group :staging, :production do

@@ -37,7 +37,7 @@ var patientNumberEngine = new Bloodhound({
 
 export default React.createClass({
   patientChanged: function(ev, suggestion) {
-    if (suggestion.name) {
+    if (suggestion && suggestion.name) {
       this.props.dispatch(updateClaim(this.props.claim.id, {
         patient_name: suggestion.name,
         patient_number: suggestion.number,

@@ -21,27 +21,35 @@ export default React.createClass({
         onChange: React.PropTypes.func.isRequired
     }, */
     getInitialState: function() {
-        return { value: this.props.value };
+        return { value: this.props.value, focused: false };
     },
     render: function() {
       if (this.props.type && this.props.type !== 'text') {
         return <input {...this.props} />;
       } else {
         return <input
-            type="text"
-            {...this.props}
-            value={this.state.value}
-            onChange={this.handleChange}
-            onBlur={this.handleBlur} />;
+                 type="text"
+                 {...this.props}
+                 value={this.state.value}
+                 onChange={this.handleChange}
+                 onBlur={this.handleBlur}
+                 onFocus={this.handleFocus}
+               />;
       }
     },
     componentWillReceiveProps: function(nextProps) {
-        this.setState({ value: nextProps.value });
+        if (!this.state.focused) {
+            this.setState({ value: nextProps.value });
+        }
     },
     handleChange: function(e) {
         this.setState({ value: e.target.value });
     },
     handleBlur: function(e) {
+        this.setState({ focused: false });
         this.props.onChange(e);
+    },
+    handleFocus: function(e) {
+        this.setState({ focused: true });
     }
 });

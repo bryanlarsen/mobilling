@@ -122,7 +122,7 @@ class Claim < ActiveRecord::Base
   end
 
   def simplified?
-    %w[anesthesiologist surgical_assist psychotherapist].include?(specialty)
+    %w[anesthesiologist surgical_assist other psychotherapist].include?(specialty)
   end
 
   def self.in_minutes(s)

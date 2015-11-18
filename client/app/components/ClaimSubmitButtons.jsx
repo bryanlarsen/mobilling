@@ -21,10 +21,10 @@ export default React.createClass({
       "reclaimed":      ["reclaimed"],
     }[this.props.store.status];
 
-    var disabled = this.props.store.unsaved || (this.props.store.errors || []).length !== 0;
+    var disabled = this.props.store.unsaved || _.size(this.props.store.errors) !== 0;
     var notReady = disabled ||
-      (this.props.store.validations || []).count() !== 0 ||
-      (this.props.store.warnings || []).count() !== 0;
+      _.size(this.props.store.validations) !== 0 ||
+      _.size(this.props.store.warnings) !== 0;
 
     var statusOptions = {};
     _.each(statuses, function(status) {
@@ -41,7 +41,7 @@ export default React.createClass({
         </div>
         <div className="form-group">
           { !window.ENV.CORDOVA && <a href={"/admin/claims/"+this.props.store.id+"/edit"} className="btn btn-lg btn-default">Edit as Agent</a> }
-          <LinkContainer to="/new_claim">
+          <LinkContainer to="/claim/new">
             <Button className="btn-lg">
               <Icon i="plus">New Claim</Icon>
             </Button>
