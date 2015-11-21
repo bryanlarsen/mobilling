@@ -28,7 +28,7 @@ const routes = (
       <Route path="patient" component={ClaimPatient} />
       <Route path="claim" component={ClaimTab} />
       <Route path="consult" component={ConsultTab} />
-      <Route path="items" component={ItemsTab} />
+      <Route path="codes" component={ItemsTab} />
       <Route path="comments" component={CommentsTab} />
     </Route>
     <Route path="login" component={LoginPage} />
