@@ -8,9 +8,9 @@
 * vagrant up
 * vagrant ssh
 * cd /vagrant
-* rails server -b 0.0.0.0
+* foreman start -f Procfile.dev
 
-point your browser at http://localhost:3000/
+point your browser at http://localhost:4000/
 
 ### updating
 
@@ -27,4 +27,3 @@ rake db:migrate
 exit
 exit
 restart docker-mobilling
-

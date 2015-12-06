@@ -21,7 +21,7 @@
     <td class="text-center"><%= claim.user_name %></td>
     <td class="text-center"><%= claim.status.humanize %></td>
     <td class="text-center"><% if claim.try(:submission_status) %><%= link_to Submission.statuses.keys[claim.submission_status].humanize, admin_edt_file_path(claim.submission_id) %><% end %></td>
-    <td class="text-center"><%= claim.details["patient_name"] %></td>
+    <td class="text-center"><%= claim.patient_name %></td>
     <td class="text-center"><%= "%.2f" % (claim.total_fee/100.0) %></td>
     <td class="text-center"><%= "%.2f" % (claim.paid_fee/100.0) %></td>
   </tr>

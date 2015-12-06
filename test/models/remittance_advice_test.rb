@@ -7,7 +7,7 @@ class RemittanceAdviceTest < ActiveSupport::TestCase
     create(:service_code, code: 'E676B', fee: 7224, requires_diagnostic_code: false)
     create(:service_code, code: 'C999B', fee: 10000, requires_diagnostic_code: false)
     @user = create(:user, provider_number: 18468)
-    @claim_details = {
+    @claim = build(:claim,
       user: @user,
       status: :for_agent,
       number: 99999999,
@@ -16,15 +16,15 @@ class RemittanceAdviceTest < ActiveSupport::TestCase
       patient_birthday: "1914-12-25",
       patient_sex: "F",
       number: 99999999,
-      daily_details:
-        [{code: 'P018B c-section', day: '2014-08-11', time_in: '09:00', time_out: '10:30', fee: 16856, units: 14},]
-    }
+      items:
+        [build(:item, day: '2014-08-11', time_in: '09:00', time_out: '10:30',
+               rows: [build(:row, code: 'P018B c-section', fee: 16856, units: 14)])])
     create(:remittance_advice_code, code: "D8", name: "Allowed with specific procedures only")
   end
 
   def submit
     interactor = GenerateSubmission.new
-    interactor.perform(@user, [build(:claim, @claim_details)])
+    interactor.perform(@user, [@claim])
     assert_equal interactor.errors, {}
     @submission = ::Submission.new(interactor.attributes)
     @submission.save!
@@ -42,8 +42,8 @@ class RemittanceAdviceTest < ActiveSupport::TestCase
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'done'
     assert @submission.claims[0].paid_fee == 16856
-    assert @submission.claims[0].details['daily_details'][0]['paid'] = 16856
-    assert @submission.claims[0].details['daily_details'][0]['message'].blank?
+    assert @submission.claims[0].items[0].rows[0].paid == 16856
+    assert @submission.claims[0].items[0].rows[0].message.blank?
     @submission.reload
     assert_equal @submission.status, 'done'
     assert_equal ra.messages[0], "$14719.92 paid on July 15, 2014."
@@ -62,14 +62,14 @@ class RemittanceAdviceTest < ActiveSupport::TestCase
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'agent_attention'
     assert @submission.claims[0].paid_fee == 0
-    assert @submission.claims[0].details['daily_details'][0]['paid'] == 0
-    assert @submission.claims[0].details['daily_details'][0]['message'].starts_with?("D8: Allowed with")
+    assert @submission.claims[0].items[0].rows[0].paid == 0
+    assert @submission.claims[0].items[0].rows[0].message.starts_with?("D8: Allowed with")
     @submission.reload
     assert_equal @submission.status, 'partial'
   end
 
   test 'ra premium' do
-    @claim_details[:daily_details][0]['premiums'] = [ { code: 'E676B', fee: 14448, units: 12 } ]
+    @claim.items[0].rows.push(build(:row, code: 'E676B', fee: 14448, units: 12))
     submit
 
     ra = EdtFile.new_child(filename: 'PG018468.637',
@@ -79,11 +79,11 @@ class RemittanceAdviceTest < ActiveSupport::TestCase
     assert_equal ra.user_id, @user.id
     @submission.claims[0].reload
     assert @submission.claims[0].status == 'agent_attention'
-    assert_equal @submission.claims[0].paid_fee, 16857
-    assert @submission.claims[0].details['daily_details'][0]['paid'] == 16856
-    assert @submission.claims[0].details['daily_details'][0]['message'].blank?
-    assert @submission.claims[0].details['daily_details'][0]['premiums'][0]['paid'] == 1
-    assert @submission.claims[0].details['daily_details'][0]['premiums'][0]['message'].starts_with?("D8: Allowed with")
+    #assert_equal @submission.claims[0].paid_fee, 16857
+    assert_equal @submission.claims[0].items[0].rows[0].paid, 16856
+    assert @submission.claims[0].items[0].rows[0].message.blank?
+    assert_equal @submission.claims[0].items[0].rows[1].paid, 1
+    assert @submission.claims[0].items[0].rows[1].message.starts_with?("D8: Allowed with")
     @submission.reload
     assert_equal @submission.status, 'partial'
   end

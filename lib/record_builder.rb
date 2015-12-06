@@ -130,11 +130,12 @@ end
 # all caps alphabetic
 class A < FieldDefinition
   def validate(val)
-    val =~ /^[A-Za-z]*$/ and super(val)
+    I18n.transliterate(val) =~ /^[- 'A-Za-z]*$/ and super(val)
   end
 
   def format(value)
-    value.upcase[0...length] + ' '*[0,length-value.length].max
+    v = I18n.transliterate(value.gsub(/[- ']/, "")).upcase
+    v[0...length] + ' '*[0,length-v.length].max
   end
 
   def parse(record)
@@ -174,7 +175,8 @@ class S < FieldDefinition
 end
 
 class Record
-  attr_reader :fields, :errors
+  attr_reader :fields
+  attr_accessor :errors
 
   def [](key)
     raise IndexError, key if not self.class.field_definitions.has_key?(key)
@@ -186,12 +188,18 @@ class Record
     @fields.[]=(key, value)
   end
 
+  def insert(key, name, value)
+    raise IndexError, key if not self.class.field_definitions.has_key?(key)
+    @fields.[]=(key, value)
+    self.class.field_definitions[key].insert('!'*79+"\r\n", value) do |err|
+      @errors << [name, err]
+    end
+  end
+
   def to_s
     record = '!'*79+"\r\n"
-    @errors = []
     self.class.field_definitions.each do |k, field|
       record = field.insert(record, @fields[k]) do |err|
-        puts "to_s err #{k} #{err}"
         @errors << [k, err]
       end
     end

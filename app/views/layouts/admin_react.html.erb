@@ -5,19 +5,13 @@
 <title>BillOHIP Admin</title>
 <%= stylesheet_link_tag "admin", media: "all", "data-turbolinks-track" => true %>
 <%= csrf_meta_tags %>
-<meta name="viewport" content="width=device-width, user-scalable=0">
 <script>
   window.ENV = {
     API_ROOT: "/",
     CORDOVA: false
   };
 </script>
-<%= javascript_include_tag "static", "data-turbolinks-track" => true %>
-<%= javascript_include_tag "react-bundle", "data-turbolinks-track" => true %>
-<%= javascript_include_tag "admin-react", "data-turbolinks-track" => true %>
-<script>
-  userActions.init(<%= current_user.as_json(include_doctors: true).to_json.html_safe %>);
-</script>
+<%= javascript_include_tag "v3", "data-turbolinks-track" => true %>
 </head>
 <body>
 

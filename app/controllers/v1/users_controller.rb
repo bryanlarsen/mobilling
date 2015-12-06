@@ -1,5 +1,6 @@
 class V1::UsersController < V1::BaseController
   skip_before_action :require_user, only: %i[create]
+  skip_before_filter :refresh_session, :only => [:create]
   wrap_parameters :user, include: User.all_params.map(&:first), format: :json
   resource_description { resource_id "users" }
 
@@ -25,6 +26,11 @@ class V1::UsersController < V1::BaseController
     end
   end
 
+  def pundit_user
+    return nil if action_name == 'create'
+    current_user
+  end
+
   api :POST, "/v1/users", "Creates a new user"
   param_group :user
   def create
@@ -43,8 +49,7 @@ class V1::UsersController < V1::BaseController
   def update
     @user = User.find(params[:id])
     authorize @user
-    @user.update(user_params)
-    if @user.valid?
+    if @user.update_attributes(user_params)
       show @user, 200
     else
       show @user, 422

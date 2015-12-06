@@ -67,16 +67,16 @@ class UserTest < ActiveSupport::TestCase
     end
 
     test "can update password" do
-      assert @user.update!(password: "newsecret", password_confirmation: "newsecret", current_password: "secret")
+      assert @user.update!(password: "newpassword", password_confirmation: "newpassword", current_password: "password")
     end
 
     test "requires current password" do
-      @user.assign_attributes(password: "newsecret2")
+      @user.assign_attributes(password: "newpassword2")
       assert_invalid @user, :current_password
     end
 
     test "requires password confirmation" do
-      @user.assign_attributes(password: "newsecret3", password_confirmation: "newsecret7", current_password: "secret")
+      @user.assign_attributes(password: "newpassword3", password_confirmation: "newpassword7", current_password: "password")
       assert_invalid @user, :password_confirmation
     end
   end

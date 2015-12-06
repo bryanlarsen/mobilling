@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  SPECIALTIES = %w[internal_medicine family_medicine cardiology anesthesiologist surgical_assist] #psychotherapist
+  SPECIALTIES = %w[internal_medicine family_medicine cardiology anesthesiologist surgical_assist other] #psychotherapist
 
   enum role: %i[doctor agent admin ministry]
 
@@ -61,6 +61,7 @@ class User < ActiveRecord::Base
   validates :default_specialty, inclusion: {in: User::SPECIALTIES}, if: -> { doctor? }
   validate :existence
   validate :check_current_password, if: -> { password_digest_changed? }
+  validates :password, length: { minimum: 8 }, allow_nil: true
 
   def doctor?
     role == "doctor"

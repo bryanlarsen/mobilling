@@ -1,0 +1,22 @@
+rename item_rows -> rows
+total_fee update commented out
+add comment API
+    assert_equal 1, @claim.claim.comments.count
+    assert_equal "A comment", @claim.claim.comments.first.body
+
+consult_premium_visit_count, consult_premium_first_count, consult_premium_travel_count helpers
+
+processClaimResponse neutered
+
+either double check or remove all forceSave && dontSave
+
+ClaimsTable -> remove action
+
+ProfilePage includes ProfileSettings instead of this.props.children
+
+Claim Loading page
+
+userStore.unsaved
+
+
+https://github.com/rt2zz/redux-owl

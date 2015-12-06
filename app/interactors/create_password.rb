@@ -11,10 +11,20 @@ class CreatePassword
 
   def perform
     return if invalid?
-    user.update(password: SecureRandom.hex(12), authentication_token: "")
-    user.save(validation: false)
-    UserMailer.new_password(user).deliver_now
-    true
+    user.update_attribute('password', SecureRandom.hex(12))
+    if user.save(validation: false)
+      begin
+        UserMailer.new_password(user).deliver_now
+        true
+      rescue StandardError => e
+        Rails.logger.warn e
+        false
+      end
+    else
+      Rails.logger.warn "user save failed"
+      Rails.logger.warn user.errors.to_yaml
+      false
+    end
   end
 
   def token?

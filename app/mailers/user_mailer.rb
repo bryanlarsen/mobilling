@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "info@mo-billing.ca"
+  default from: "info@billohip.ca"
 
   def password_reset(user, token)
     @user = user

@@ -11,7 +11,10 @@ module MoBilling
     config.active_record.raise_in_transactional_callbacks = true # surpress carrierwave deprecation warnings
     config.active_support.test_order = :sorted
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
-    config.react.addons = true
+
+    config.action_mailer.delivery_method = :postmark
+    config.action_mailer.postmark_settings = { api_token: "d1c57c80-955a-4d96-9180-ad5535e58a0a" }
+#    config.react.addons = true
 #    config.react.jsx_transform_options = {
 #      harmony: true,
 #      strip_types: true, # for removing Flow type annotations

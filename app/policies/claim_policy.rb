@@ -19,6 +19,14 @@ class ClaimPolicy < Struct.new(:current_user, :claim)
     current_user.present?
   end
 
+  def new_item?
+    access?
+  end
+
+  def new_comment?
+    access?
+  end
+
   def show?
     access?
   end

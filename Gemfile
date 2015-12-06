@@ -8,9 +8,13 @@ gem "rails", "4.2.1"
 
 gem "apipie-rails"
 gem "bcrypt"
+gem "bootstrap-sass"
 gem "carrierwave"
 gem "coffee-rails"
 gem "email_validator"
+gem "es5-shim-rails"
+gem "fastclick-rails"
+gem "foreman"
 gem "holidays"
 gem "jbuilder"
 gem "jquery-rails"
@@ -20,9 +24,10 @@ gem "mini_magick"
 gem "oj"
 gem "oj_mimic_json"
 gem "pg"
+gem "postmark-rails"
 gem "pundit", github: "elabs/pundit"
 gem "rack-cors", :require => 'rack/cors'
-gem "react-rails", github: 'reactjs/react-rails', branch: 'master'
+gem "react_on_rails"
 gem "redcarpet"
 gem "responders"
 gem "rollbar"
@@ -44,16 +49,11 @@ group :development do
 end
 
 group :test do
-  gem "phantomjs"
-  gem "capybara"
+  gem "pry"
+  gem "pry-rails"
+  gem "pry-byebug"
   gem "database_cleaner"
   gem "factory_girl_rails"
-  gem "poltergeist"
-end
-
-group :development, :test do
-  gem "byebug"
-  gem "teaspoon", "~> 0.9"
 end
 
 group :staging, :production do

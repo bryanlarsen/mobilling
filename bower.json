@@ -16,22 +16,9 @@
     "tests"
   ],
   "dependencies": {
-    "es6-promise": "*",
-    "fastclick": "*",
     "font-awesome": "4.4.0",
-    "fynx": "1.6.x",
-    "immutable": "*",
-    "moment": "*",
-    "pickadate": "3.5.4",
-    "react-bootstrap": "0.24.x",
-    "react-router": "0.13.x",
-    "react-router-bootstrap": "0.x",
-    "remarkable": "*",
-    "typeahead.js": "0.10.1",
-    "underscore": "*",
-    "underscore.string": "*"
+    "pickadate": "3.5.x"
   },
   "devDependencies": {
-    "chai": "*"
   }
 }

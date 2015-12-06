@@ -1,0 +1,2 @@
+web: rails s -b 0.0.0.0 -p 4000
+client: sh -c 'rm app/assets/javascripts/generated/* || true && cd client && npm run build:dev:client'

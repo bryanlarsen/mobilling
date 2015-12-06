@@ -1,13 +1,12 @@
-<script>
-claimActionsFor("<%= @form.claim.id %>").init(<%= @form.as_json(include_comments: true, include_photo: true, include_warnings: true, include_submission: true, include_total: true, include_files: true, include_consult_counts: true).to_json.html_safe %>);
-</script>
 <div class="container">
-  <%= react_component('ClaimEdit', {
-      id: @form.claim.id,
-      user: @user.as_json,
-      stack: @stack,
-      doctors: @doctors,
-      backURL: admin_claims_path
-      }) %>
+  <% props = {}
+     props[:userStore] = current_user.as_json(include_doctors: true, include_warnings: true)
+     props[:params] = { id: @claim.id, backURL: admin_claims_path }
+     props[:claimStore] = {
+       claims: { @claim.id => @claim.as_json },
+       claimList: [ @claim.id ],
+       stack: @stack,
+     } %>
+  <%= react_component('ClaimEdit', props, {generator_function: true, prerender: false}) %>
 </div>
 

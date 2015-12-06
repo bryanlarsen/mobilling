@@ -7,10 +7,10 @@ class V3::CreatePasswordsController < V3::BaseController
     authorize :public, :read?
     @interactor = CreatePassword.new(token: params[:token])
     if @interactor.perform
-      flash[:notice] = "New password email sent."
+      flash[:notice] = "A new password has been created and mailed to you.   Please check your email again."
     else
       flash[:error] = "Problem sending email."
     end
-    redirect_to root_url
+    redirect_to new_session_url
   end
 end

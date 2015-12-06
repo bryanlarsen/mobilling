@@ -38,7 +38,7 @@ class ErrorReport < EdtFile
         else
           @claims << current_claim
           @claim_header_records[current_claim.id] = record
-          @item_records[current_claim.id] ||= []
+          @item_records[current_claim.id] ||= {}
           @premium_records[current_claim.id] ||= []
           @message_records[current_claim.id] ||= []
         end
@@ -51,20 +51,12 @@ class ErrorReport < EdtFile
       when record.kind_of?(ErrorReportItem)
         claim_item = nil
         if not current_claim.nil?
-          daily_index = nil
-          premium_index = nil
           found = nil
-          current_claim.submitted_details['daily_details'].each_with_index do |daily, i|
+          current_claim.submitted_details['items'].each do |daily|
             if daily['Service Date'] == record['Service Date']
               if daily['Service Code'] == record['Service Code']
-                @item_records[current_claim.id][i] = record
+                @item_records[current_claim.id][daily[:row_id]] = record
                 found = true
-              else
-                daily['premiums'].each_with_index do |premium, j|
-                  @premium_records[current_claim.id][i] ||= []
-                  @premium_records[current_claim.id][i][j] = record
-                  found = true
-                end
               end
             end
           end
@@ -138,16 +130,12 @@ class ErrorReport < EdtFile
         unless messageFor(@claim_header_records[claim.id], []).blank?
           claim.comments.create!(body: messageFor(@claim_header_records[claim.id], []), user: comment_user)
         end
-        claim.details['daily_details'].each_with_index do |daily, i|
-          record = @item_records[claim.id][i]
-          if record
-            daily['message'] = messageFor(record, @message_records[claim.id])
-          end
-
-          (daily['premiums'] || []).each_with_index do |premium, j|
-            record = @premium_records[claim.id][i][j]
+        claim.items.each_with_index do |item|
+          item.rows.each do |row|
+            record = @item_records[claim.id][row.id]
             if record
-              premium['message'] = messageFor(record, @message_records[claim.id])
+              row.message = messageFor(record, @message_records[claim.id])
+              row.save!
             end
           end
         end

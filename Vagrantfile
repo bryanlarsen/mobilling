@@ -16,47 +16,20 @@ sudo dpkg-reconfigure --frontend noninteractive tzdata
 echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 apt-get update
-apt-get install -y python-software-properties make curl git postgresql-9.4 postgresql-contrib-9.4 libpq-dev imagemagick nodejs npm nodejs-legacy
+apt-get install -y python-software-properties make curl git postgresql-9.4 postgresql-contrib-9.4 libpq-dev imagemagick libgmp-dev build-essential
 apt-get -y dist-upgrade
-
-npm install -g bower
 
 sudo -i -u postgres createuser -a vagrant || true
 
-ANDROID_SDK_FILENAME=android-sdk_r22.6-linux.tgz
-ANDROID_SDK=http://dl.google.com/android/$ANDROID_SDK_FILENAME
-
-#sudo apt-get install python-software-properties
-#sudo add-apt-repository ppa:webupd8team/java
-apt-get install -y nodejs nodejs-legacy npm git openjdk-7-jdk ant expect lib32z1 lib32ncurses5 lib32bz2-1.0 lib32stdc++6 xauth
-
-curl -O $ANDROID_SDK
-tar -xzvf $ANDROID_SDK_FILENAME
-sudo chown -R vagrant android-sdk-linux/
-
-echo "ANDROID_HOME=~/android-sdk-linux" >> /home/vagrant/.bashrc
-echo "PATH=\$PATH:~/android-sdk-linux/tools:~/android-sdk-linux/platform-tools" >> /home/vagrant/.bashrc
-
-#cp ~/android-sdk-linux/build-tools/19.1.0/zipalign ~/android-sdk-linux/platform-tools
-
-npm install -g cordova
-expect -c '
-set timeout -1   ;
-spawn /home/vagrant/android-sdk-linux/tools/android update sdk -u --all --filter platform-tool,android-19,build-tools-19.1.0
-expect {
-    "Do you accept the license" { exp_send "y\r" ; exp_continue }
-    eof
-}
-'
-
-sudo /home/vagrant/android-sdk-linux/platform-tools/adb kill-server
-sudo /home/vagrant/android-sdk-linux/platform-tools/adb start-server
-sudo /home/vagrant/android-sdk-linux/platform-tools/adb devices
-
 exec sudo -i -u vagrant /bin/bash -- << EOF
+
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
+source ~/.nvm/nvm.sh
+nvm install 4.2.0
+
 cd /vagrant
 
-gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+command curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 curl -sSL https://get.rvm.io | bash -s stable
 source /home/vagrant/.rvm/scripts/rvm
 rvm use --install 2.2.2
@@ -69,6 +42,12 @@ shopt -s failglob
 set -o xtrace
 
 bundle install
+
+cd client
+npm install
+cd ..
+
+npm install -g bower karma phantomjs
 bower install
 
 cp config/database.yml.vagrant config/database.yml
@@ -76,20 +55,6 @@ cp config/database.yml.vagrant config/database.yml
 rake db:create
 rake db:migrate
 rake db:seed
-
-cd /vagrant/phonegap
-cordova platform add android
-cordova plugin add com.ionic.keyboard
-cordova plugin add cordova-plugin-camera
-cordova plugin add cordova-plugin-console
-cordova plugin add cordova-plugin-device
-cordova plugin add cordova-plugin-dialogs
-cordova plugin add cordova-plugin-file
-cordova plugin add cordova-plugin-file-transfer
-cordova plugin add cordova-plugin-inappbrowser
-cordova plugin add cordova-plugin-network-information
-cordova plugin add cordova-plugin-statusbar
-cordova plugin add cordova-plugin-whitelist
 
 EOF
 SCRIPT
@@ -103,7 +68,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/trusty64"
 
   config.vm.provider "virtualbox" do |v|
-    v.memory = 1536
+    v.memory = 2048
     v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
   end
 
@@ -118,4 +83,5 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", inline: _script
   config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network "forwarded_port", guest: 4000, host: 4000
 end
