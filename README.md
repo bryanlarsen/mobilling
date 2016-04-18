@@ -12,6 +12,13 @@
 
 point your browser at http://localhost:4000/
 
+### Running the Javascript tests
+
+* vagrant up
+* vagrant ssh
+* cd /vagrant/client
+* npm test
+
 ### updating
 
 ./build.sh
