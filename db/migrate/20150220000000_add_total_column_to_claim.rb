@@ -1,4 +1,7 @@
 class AddTotalColumnToClaim < ActiveRecord::Migration
+  class Claim < ActiveRecord::Base
+  end
+
   def up
     add_column :claims, :total_fee, :integer, default: 0
 

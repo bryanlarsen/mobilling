@@ -29,8 +29,7 @@ class MigrateClaims < ActiveRecord::Migration
       claim.service_location = claim.details['service_location']
       claim.last_code_generation = claim.details['last_code_generation']
       claim.diagnoses = claim.details['diagnoses'] || [{name: ""}]
-      logger.debug "Claim_ID:"+claim.id
-      logger.debug "user_ID:"+claim.user_id
+      puts claim.inspect
       claim.save!
     end
   end

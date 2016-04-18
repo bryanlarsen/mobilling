@@ -68,7 +68,7 @@ class Claim < ActiveRecord::Base
   validates :user, presence: true
   validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, allow_nil: true
   validates :consult_premium_visit, inclusion: {in: Claim::CONSULT_PREMIUM_VISITS}, allow_nil: true
-  validates :specialty, inclusion: {in: User::SPECIALTIES}
+  validates :specialty, inclusion: {in: User::SPECIALTIES + ["psychotherapist"]}
 
   # FIXME
   # before_validation do
