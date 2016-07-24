@@ -44,6 +44,6 @@ class V1::RowsController < V1::BaseController
 
   private
   def row_params
-    params.require(:row).permit(:code, :fee, :paid, :units, :message)
+    params.require(:row).permit(:code, :fee, :paid, :units, :message, :override_fee, :override_units)
   end
 end

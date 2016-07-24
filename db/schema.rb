@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150929054013) do
+ActiveRecord::Schema.define(version: 20160722210522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,14 +47,16 @@ ActiveRecord::Schema.define(version: 20150929054013) do
   add_index "claim_items", ["claim_id"], name: "index_claim_items_on_claim_id", using: :btree
 
   create_table "claim_rows", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.uuid     "item_id",                 null: false
-    t.string   "code",       default: "", null: false
+    t.uuid     "item_id",                        null: false
+    t.string   "code",           default: "",    null: false
     t.integer  "fee"
     t.integer  "paid"
     t.integer  "units"
     t.string   "message"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "override_fee",   default: false, null: false
+    t.boolean  "override_units", default: false, null: false
   end
 
   add_index "claim_rows", ["item_id", "fee"], name: "index_claim_rows_on_item_id_and_fee", using: :btree

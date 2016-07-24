@@ -23,6 +23,8 @@ export default React.createClass({
     var updates = [
       [['validations'], messages ? Immutable.fromJS({'code': messages}) : Immutable.fromJS({})],
       [['code'], value],
+      [['override_fee'], false],
+      [['override_units'], false]
     ];
     if (!messages) {
       updates.push([['fee'], "*recalculate"]);
@@ -55,10 +57,20 @@ export default React.createClass({
           </ClaimInputWrapper>
         </div>
         {this.props.full && <div className="col-md-2 col-md-offset-0 col-xs-4 col-xs-offset-4">
-          <ClaimInput name='units' store={this.props.store} onChange={this.unitsChanged} />
+          <div className="input-group">
+            <span className="input-group-addon">
+              <input type="checkbox" checked={this.props.store.override_units} name="override_units" onChange={this.props.onChange} />
+            </span>
+            <ClaimInput name='units' store={this.props.store} onChange={this.unitsChanged} disabled={!this.props.store.override_units}/>
+          </div>
         </div>}
         {this.props.full && <div className="col-md-2 col-xs-4">
-          <ClaimInput name='fee' value={(this.props.store.fee/100).toFixed(2)} store={this.props.store} onChange={this.feeChanged} />
+          <div className="input-group">
+            <span className="input-group-addon">
+              <input type="checkbox" checked={this.props.store.override_fee} name="override_fee" onChange={this.props.onChange} />
+            </span>
+            <ClaimInput name='fee' value={(this.props.store.fee/100).toFixed(2)} store={this.props.store} onChange={this.feeChanged} disabled={!this.props.store.override_fee}/>
+          </div>
         </div>}
       </div>
     );

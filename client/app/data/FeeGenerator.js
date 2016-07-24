@@ -46,6 +46,13 @@ FeeGenerator.prototype.needsDiagnosis = function(code) {
   return sc.rdc;
 }
 
+FeeGenerator.prototype.baseFee = function(code) {
+  code = this.normalizeCode(code);
+  var service_code = this.service_codes[code];
+  if (!service_code) return 0;
+  return service_code.fee;
+}
+
 /* calculate the fee for a single line.  Date, time_in, time_out are
  * taken from detail, but code is passed in.   That way the same code
  * is used to calculate for both main lines and premiums

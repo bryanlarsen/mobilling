@@ -236,11 +236,13 @@ export function  updateItem(claim_id, id, changes) {
       const gen = FeeGenerator.feeGenerator;
       if (gen) {
         for (const row of newItem.rows) {
-          const result = gen.calculateFee(newItem, item.rows[0], row.code);
-          if (result && (result.fee !== row.fee || result.units !== row.units)) {
-            dispatch(updateRow(claim_id, id, row.id, {id: row.id, fee: result.fee, units: result.units}));
-            claim = getState().claimStore.claims[claim_id];
-            item = claim.items.find((i) => i.id === id);
+          if (!row.override_fee && !row.override_units) {
+            const result = gen.calculateFee(newItem, item.rows[0], row.code);
+            if (result && (result.fee !== row.fee || result.units !== row.units)) {
+              dispatch(updateRow(claim_id, id, row.id, {id: row.id, fee: result.fee, units: result.units}));
+              claim = getState().claimStore.claims[claim_id];
+              item = claim.items.find((i) => i.id === id);
+            }
           }
         }
       }
@@ -263,11 +265,21 @@ export function  updateRow(claim_id, item_id, id, changes) {
       const item = claim.items.find((i) => i.id === item_id);
       const row = item.rows.find((r) => r.id === id);
       const gen = FeeGenerator.feeGenerator;
+      const newRow = {...row, ...changes};
       let updates = {id, claim_id, item_id, ...changes};
       if (gen) {
-        const result = gen.calculateFee(item, item.rows[0], row.code);
-        if (result && (result.fee !== row.fee || result.units !== row.units)) {
-          updates = {...updates, fee: result.fee, units: result.units};
+        if (newRow.override_fee) {
+          // nop
+        } else if (newRow.override_units) {
+          const result = gen.baseFee(newRow.code) * newRow.units;
+          if (result !== newRow.fee) {
+            updates = {...updates, fee: result};
+          }
+        } else {
+          const result = gen.calculateFee(item, item.rows[0], newRow.code);
+          if (result && (result.fee !== newRow.fee || result.units !== newRow.units)) {
+            updates = {...updates, fee: result.fee, units: result.units};
+          }
         }
       }
       dispatch(rowUpdate(updates));
@@ -328,7 +340,7 @@ export function  claimChangeHandler(dispatch, id, ev) {
     var target = ev.target;
     while(target.value === undefined) target = target.parentElement;
     let updates = {};
-    updates[target.name] = target.value;
+    updates[target.name] = target.type === 'checkbox' ? target.checked : target.value;
     dispatch(updateClaim(id, updates));
   }
 
@@ -337,7 +349,7 @@ export function  itemChangeHandler(dispatch, claim_id, id, ev) {
     var target = ev.target;
     while(target.value === undefined) target = target.parentElement;
     let updates = {};
-    updates[target.name] = target.value;
+    updates[target.name] = target.type === 'checkbox' ? target.checked : target.value;
     dispatch(updateItem(claim_id, id, updates));
   }
 
@@ -346,6 +358,6 @@ export function  rowChangeHandler(dispatch, claim_id, item_id, id, ev) {
     var target = ev.target;
     while(target.value === undefined) target = target.parentElement;
     let updates = {};
-    updates[target.name] = target.value;
+    updates[target.name] = target.type === 'checkbox' ? target.checked : target.value;
     dispatch(updateRow(claim_id, item_id, id, updates));
   }
