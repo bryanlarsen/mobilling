@@ -53,6 +53,73 @@ FeeGenerator.prototype.baseFee = function(code) {
   return service_code.fee;
 }
 
+var simpleAlgo = function(service_code, minutes) {
+  return {
+    units: 1,
+    fee: service_code.fee
+  };
+}
+
+var assistantAlgo = function(service_code, minutes) {
+  var units;
+  var unit_fee = 1204;
+  var border1 = 60;
+  var border2 = 150;
+
+  if (service_code.fee % unit_fee !== 0) return simpleAlgo(service_code, minutes);
+
+  units = Math.ceil(Math.min(minutes, border1) / 15);
+  if (minutes > border1) {
+    units = units + Math.ceil(Math.min(minutes - border1, border2 - border1) / 15.0) * 2;
+  }
+  if (minutes > border2) {
+    units = units + Math.ceil((minutes - border2) / 15.0) * 3;
+  }
+  units += service_code.fee / unit_fee;
+  return {
+    units: units,
+    fee: units * unit_fee
+  };
+}
+
+var anaesthetistAlgo = function(service_code, minutes) {
+  var units;
+  var unit_fee = 1501;
+  var border1 = 60;
+  var border2 = 90;
+
+  if (service_code.fee % unit_fee !== 0) return simpleAlgo(service_code, minutes);
+
+  units = Math.ceil(Math.min(minutes, border1) / 15);
+  if (minutes > border1) {
+    units = units + Math.ceil(Math.min(minutes - border1, border2 - border1) / 15.0) * 2;
+  }
+  if (minutes > border2) {
+    units = units + Math.ceil((minutes - border2) / 15.0) * 3;
+  }
+  units += service_code.fee / unit_fee;
+  return {
+    units: units,
+    fee: units * unit_fee
+  };
+}
+
+var gp37algo = function(service_code, minutes) {
+  var units = Math.floor((minutes + 14) / 30);
+  return {
+    units: units,
+    fee: service_code.fee * units
+  };
+}
+
+var k121algo = function(service_code, minutes) {
+  var units = Math.min(Math.floor((minutes + 4) / 10), 8);
+  return {
+    units: units,
+    fee: service_code.fee * units
+  };
+}
+
 /* calculate the fee for a single line.  Date, time_in, time_out are
  * taken from detail, but code is passed in.   That way the same code
  * is used to calculate for both main lines and premiums
@@ -60,6 +127,7 @@ FeeGenerator.prototype.baseFee = function(code) {
 FeeGenerator.prototype.calculateFee = function(detail, row0, code) {
   code = this.normalizeCode(code);
   var service_code = this.service_codes[code];
+
   if (!service_code) return null;
 
   var overtime = this.overtimeRate(code);
@@ -67,21 +135,7 @@ FeeGenerator.prototype.calculateFee = function(detail, row0, code) {
     return {
       fee: Math.round(row0.fee * overtime),
       units: row0.units
-    }
-  }
-
-  var unit_fee = service_code.fee, border1 = 0, border2 = 0;
-  var units, fee;
-
-  // valid as of September 1, 2011.   Adjust based on detail.day when it changes
-  if (code[4] === 'B') {
-    unit_fee = 1204;
-    border1 = 60;
-    border2 = 150;
-  } else if (code[4] === 'C') {
-    unit_fee = 1501;
-    border1 = 60;
-    border2 = 90;
+    };
   }
 
   var minutes = 0;
@@ -90,26 +144,11 @@ FeeGenerator.prototype.calculateFee = function(detail, row0, code) {
     if (minutes < 0) minutes = minutes + 24*60;
   }
 
-  if (code[4] !== 'A' && service_code.fee % unit_fee === 0) {
-    units = Math.ceil(Math.min(minutes, border1) / 15);
-    if (minutes > border1) {
-      units = units + Math.ceil(Math.min(minutes - border1, border2 - border1) / 15.0) * 2;
-    }
-    if (minutes > border2) {
-      units = units + Math.ceil((minutes - border2) / 15.0) * 3;
-    }
-
-    units += service_code.fee / unit_fee;
-    fee = units * unit_fee;
-  } else {
-    fee = service_code.fee;
-    units = 1;
-  }
-
-  return {
-    fee: fee,
-    units: units
-  };
+  if (code[4] === 'B') return assistantAlgo(service_code, minutes);
+  if (code[4] === 'C') return anaesthetistAlgo(service_code, minutes);
+  if (['K002A', 'K003A', 'K008A'].indexOf(code) !== -1) return gp37algo(service_code, minutes);
+  if (['K121A', 'K706A', 'K124A', 'K707A', 'K703A', 'K702A', 'K704A'].indexOf(code) !== -1) return k121algo(service_code, minutes);
+  return simpleAlgo(service_code, minutes);
 };
 
 var exports = {

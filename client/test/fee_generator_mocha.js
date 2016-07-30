@@ -2,28 +2,22 @@
 //= require components/service-codes-engine.js
 //= require components/fee-generator.js
 
+import _ from 'underscore';
+import service_codes from './service_codes.json';
 import {FeeGenerator} from '../app/data/FeeGenerator';
 var expect = chai.expect;
+
 
 describe("fee generator", function() {
   this.timeout(10000);
   var generator;
 
   before(function() {
-    var codes = {};
-    var data = [ ['R441B',  9632],
-                 ['R441A', 61990],
-                 ['R441C', 12008],
-                 ['E676B',  7224],
-                 ['C998B',  6000],
-                 ['E401B',   604],
-                 ['P018A', 57980],
-                 ['P018B',  7224],
-               ];
-    data.forEach(function(a) {
-        codes[a[0]] = { code: a[0], name: a[0], fee: a[1] };
+    var hash = {};
+    _.each(service_codes, function(sc, i) {
+      hash[sc.code] = sc;
     });
-    generator = new FeeGenerator(codes);
+    generator = new FeeGenerator(hash);
   });
 
   it("normalizes codes", function() {
@@ -67,7 +61,19 @@ describe("fee generator", function() {
                     ['R441C', '10:00', '11:01', 14,  21014],
                     ['R441C', '10:00', '11:30', 16,  24016],
                     ['R441C', '10:00', '11:31', 19,  28519],
-                    ['R441C', '10:00', '14:59', 58,  87058]];
+                    ['R441C', '10:00', '14:59', 58,  87058],
+                    ['K002A', '10:00', '10:20',  1,   6275],
+                    ['K003A', '10:00', '10:45',  1,   6275],
+                    ['K008A', '10:00', '10:46',  2,  12550],
+                    ['K002A', '10:00', '12:15',  4,  25100],
+                    ['K003A', '10:00', '12:16',  5,  31375],
+                    ['K121A', '10:00', '10:10',  1,   3135],
+                    ['K706A', '10:00', '10:15',  1,   3135],
+                    ['K124A', '10:00', '10:16',  2,   6270],
+                    ['K707A', '10:00', '11:05',  6,  18810],
+                    ['K704A', '10:00', '11:06',  7,  21945],
+                    ['K121A', '10:00', '19:00',  8,  25080],
+                   ];
 
     data.forEach(function(d) {
       var detail = {
@@ -77,6 +83,7 @@ describe("fee generator", function() {
         time_out: d[2],
       };
       var result = generator.calculateFee(detail, detail.rows[0], d[0]);
+      console.log('from', d, 'calculated', result);
       expect(result.units).to.equal(d[3]);
       expect(result.fee).to.equal(d[4]);
     });
