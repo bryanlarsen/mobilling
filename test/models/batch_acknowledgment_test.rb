@@ -22,7 +22,7 @@ EOS
     assert_equal ack.user_id, @user.id
     assert ack.parent_id == @submission.id
     assert_equal ack.created_at, DateTime.new(2014,6,25)
-    assert_equal ack.filename_base, "2015/BF00740"
+    assert_equal ack.filename_base, "#{Date.today.year}/BF00740"
     assert_equal ack.sequence_number, 564
 
     @submission.reload
