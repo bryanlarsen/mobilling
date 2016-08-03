@@ -22,6 +22,21 @@ FeeGenerator.prototype.overtimeRate = function(code) {
   }[code];
 };
 
+var gp37codes = [
+'K002A', 'K003A', 'K005A', 'K006A', 'K007A', 'K008A',
+'K013A', 'K014A', 'K015A', 'K016A',
+'K022A', 'K023A', 'K028A', 'K029A',
+'K033A', 'K037A',
+'K040A', 'K041A', 'K044A',
+'K122A', 'K123A',
+'K190A', 'K191A', 'K192A', 'K193A', 'K194A', 'K195A', 'K196A', 'K197A', 'K198A', 'K199A',
+'K200A', 'K201A', 'K202A', 'K203A', 'K204A', 'K205A', 'K206A', 'K207A', 'K208A', 'K209A',
+'K210A', 'K211A',
+'K222A',
+'K620A', 'K680A',
+'K887A', 'K888A', 'K889A',
+];
+
 FeeGenerator.prototype.normalizeCode = function(value) {
   if (typeof value !== 'string') {
     return null;
@@ -146,7 +161,7 @@ FeeGenerator.prototype.calculateFee = function(detail, row0, code) {
 
   if (code[4] === 'B') return assistantAlgo(service_code, minutes);
   if (code[4] === 'C') return anaesthetistAlgo(service_code, minutes);
-  if (['K002A', 'K003A', 'K008A'].indexOf(code) !== -1) return gp37algo(service_code, minutes);
+  if (gp37codes.indexOf(code) !== -1) return gp37algo(service_code, minutes);
   if (['K121A', 'K706A', 'K124A', 'K707A', 'K703A', 'K702A', 'K704A'].indexOf(code) !== -1) return k121algo(service_code, minutes);
   return simpleAlgo(service_code, minutes);
 };
