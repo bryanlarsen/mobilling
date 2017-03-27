@@ -39,7 +39,7 @@ gem "turbolinks"
 gem "uglifier"
 gem "uuid_validator"
 gem "unicorn"
-gem "validation_scopes", github: "ivalkeen/validation_scopes"
+gem "validation_scopes"
 gem "virtus"
 
 group :development do
