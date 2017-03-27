@@ -5,6 +5,14 @@ GIT
     pundit (1.0.0)
       activesupport (>= 3.0.0)
 
+GIT
+  remote: git://github.com/gtd/validation_scopes.git
+  revision: b809f232b385b3b774bb8486f27408c26c49c5fd
+  tag: b809f232b385b3b774bb8486f27408c26c49c5fd
+  specs:
+    validation_scopes (0.6.0)
+      activerecord (>= 3, < 5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -242,8 +250,6 @@ GEM
       raindrops (~> 0.7)
     uuid_validator (0.0.4)
       activemodel (>= 3.0.0)
-    validation_scopes (0.6.1)
-      activerecord (>= 3, < 6)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -302,7 +308,7 @@ DEPENDENCIES
   uglifier
   unicorn
   uuid_validator
-  validation_scopes
+  validation_scopes!
   virtus
   web-console (~> 2.0.0.beta2)
 

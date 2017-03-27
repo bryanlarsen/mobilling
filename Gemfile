@@ -39,7 +39,7 @@ gem "turbolinks"
 gem "uglifier"
 gem "uuid_validator"
 gem "unicorn"
-gem "validation_scopes"
+gem "validation_scopes", github: "gtd/validation_scopes", tag: "b809f232b385b3b774bb8486f27408c26c49c5fd"
 gem "virtus"
 
 group :development do
