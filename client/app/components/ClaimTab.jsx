@@ -34,7 +34,7 @@ const ClaimTabSimplified = (props) => {
           </ClaimInputWrapper>
         </ClaimFormGroup>}
 
-        {props.agent && <ClaimPaymentProgram store={props.claim} />}
+        {props.agent && <ClaimPaymentProgram store={props.claim} onChange={props.onChange} />}
         {props.agent && <ClaimFormGroup label="Manual Review Required">
           <ClaimYesNo store={props.claim} name="manual_review_indicator" onChange={props.onChange}/>
         </ClaimFormGroup>}
