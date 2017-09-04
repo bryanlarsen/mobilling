@@ -6,8 +6,9 @@ GIT
       activesupport (>= 3.0.0)
 
 GIT
-  remote: git://github.com/ivalkeen/validation_scopes.git
+  remote: git://github.com/gtd/validation_scopes.git
   revision: b809f232b385b3b774bb8486f27408c26c49c5fd
+  tag: b809f232b385b3b774bb8486f27408c26c49c5fd
   specs:
     validation_scopes (0.6.0)
       activerecord (>= 3, < 5)
