@@ -2,23 +2,34 @@
 title: "BillOHIP"
 bg: white
 color: black
-style: center
+fa-icon: cogs
 ---
 
-  <form class="login" action="/session" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
-    <div>
-      <label>
-        Email
-        <input type="email" name="v3_create_session[email]" id="v3_create_session_email" />
-      </label>
-      <label for="v3_create_session_password">
-        Password
-        <input type="password" name="v3_create_session[password]" id="v3_create_session_password" />
-      </label>
-      <input type="submit" name="commit" value="Sign In" />
+<div class="row">
+  <div class="half column" >
+
+    <h2>Now Open Source!</h2>
+
+    <p>Please contribute to billohip.ca development via <a href="https://patreon.com/bryanlarsen" >Patreon</a> or <a href="https://github.com/bryanlarsen/mobilling">GitHub</a>!</p>
     </div>
-    <div class="links">
-      <a href="/create_account" class="btn btn-lg btn-block">Create account now</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-      <a href="/forgot_password" class="btn btn-lg btn-block">Forgot your password?</a>
+    <div class="half column" >
+      <form class="login" action="/session" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+        <div>
+          <div><label>
+            Email
+            <input type="email" name="v3_create_session[email]" id="v3_create_session_email" />
+          </label></div>
+          <div><label for="v3_create_session_password">
+            Password
+            <input type="password" name="v3_create_session[password]" id="v3_create_session_password" />
+          </label></div>
+          <div><input type="submit" name="commit" value="Sign In" /></div>
+        </div>
+        <div class="links">
+          <a href="/create_account" class="btn btn-lg btn-block">Create account now</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+          <a href="/forgot_password" class="btn btn-lg btn-block">Forgot your password?</a>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
+</div>
