@@ -1,0 +1,33 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: billohip-backup-cronjob
+  labels:
+    chart: billohip
+spec:
+  schedule: "11 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: billohip-backup
+            image: postgres:9.6.2
+            command:
+            - "/bin/bash"
+            - "-c"
+            - "mkdir -p /srv/backups/current && pg_dump postgresql://postgres:${POSTGRES_PASSWORD}@billohip-postgresql/mobilling_production | gzip -9 > /srv/backups/current/mobilling.sql.gz"
+            env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: billohip-postgresql
+                  key: postgres-password
+            volumeMounts:
+              - mountPath: /srv/backups
+                name: backups
+          volumes:
+          - name: backups
+            hostPath:
+              path: /srv/backups
