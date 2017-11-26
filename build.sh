@@ -2,6 +2,6 @@
 
 set -e
 set -x
-sudo docker run -it -v $(pwd):/jekyll jekyll jekyll build
+docker run -it -v $(pwd):/srv/jekyll jekyll/jekyll:3.6.2 jekyll build
 cp -r _site/* ../public/
 mv ../public/index.html ../public/home.html
