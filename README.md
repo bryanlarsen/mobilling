@@ -14,6 +14,8 @@ Support me via [Patreon](https://patreon.com/bryanlarsen)!
 
 point your browser at http://localhost:4000/
 
+Log in with admin@example.com, password "secret"
+
 ## Updating the front page
 
 Edit the files in https://github.com/bryanlarsen/mobilling/tree/gh-pages/_posts

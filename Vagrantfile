@@ -73,6 +73,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provider "lxc" do |lxc, override|
+    lxc.backingstore = "dir"
     override.vm.box = "fgrehm/trusty64-lxc"
     if LXC_VERSION >= '1.1.0'
       lxc.customize 'aa_allow_incomplete', '1'
