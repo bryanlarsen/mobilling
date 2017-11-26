@@ -2,7 +2,6 @@
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
 timeout 60
 preload_app true
-listen "0.0.0.0:80"
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
@@ -22,3 +21,6 @@ after_fork do |server, worker|
   defined?(ActiveRecord::Base) and
     ActiveRecord::Base.establish_connection
 end
+
+listen "/tmp/unicorn.sock", :backlog => 64
+

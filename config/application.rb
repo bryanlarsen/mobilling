@@ -13,7 +13,7 @@ module MoBilling
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
 
     config.action_mailer.delivery_method = :postmark
-    config.action_mailer.postmark_settings = { api_token: "d1c57c80-955a-4d96-9180-ad5535e58a0a" }
+    config.action_mailer.postmark_settings = { api_token: ENV['POSTMARK_TOKEN'] }
 #    config.react.addons = true
 #    config.react.jsx_transform_options = {
 #      harmony: true,

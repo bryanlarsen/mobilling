@@ -1,0 +1,13 @@
+# Default values for chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+tag: test1
+hostname: new.billohip.ca
+postgresql:
+  postgresPassword: setme
+  persistence:
+    enabled: true
+    storageClass: local-storage
+    accessMode: ReadWriteOnce
+    size: 4Gi

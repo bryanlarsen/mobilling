@@ -1,0 +1,32 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: billohip-ingress
+  labels:
+    chart: billohip
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/tls-acme: 'true'
+spec:
+  tls:
+  - secretName: {{ .Values.hostname }}
+    hosts:
+      - {{ .Values.hostname }}
+      - www.{{ .Values.hostname }}
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend: &billohip
+          serviceName: billohip
+          servicePort: 80
+    host: {{ .Values.hostname }}  
+  - http:
+      paths:
+      - path: /
+        backend: &billohip
+          serviceName: billohip
+          servicePort: 80
+    host: www.{{ .Values.hostname }}

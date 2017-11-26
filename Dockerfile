@@ -72,7 +72,7 @@ RUN npm install -g bower
 RUN mkdir /app
 WORKDIR /app
 
-ENV RAILS_ENV staging
+ENV RAILS_ENV production
 
 ADD Gemfile Gemfile.lock /app/
 RUN bundle config git.allow_insecure true && bundle install --deployment --without="development test"
@@ -83,18 +83,14 @@ RUN bower install --allow-root
 ADD client/package.json /app/client/package.json
 RUN cd /app/client && npm install && npm cache clear --force
 
-EXPOSE 80
-ENV PORT 80
+EXPOSE 3000
+ENV PORT 3000
 # CMD ["/start", "web"]
-
-ADD . /app
-
-ENV DATABASE_URL postgres://postgres@postgres.service.consul/mobilling_staging
-
-RUN rake assets:precompile
-RUN rake custom:create_non_digest_assets
 
 CMD ["bundle", "exec", "unicorn", "-c", "config/unicorn.rb"]
 
-VOLUME /app/public
-VOLUME /app/public/uploads
+#ENV DATABASE_URL postgres://postgres@postgres.service.consul/mobilling_staging
+
+ADD . /app
+
+RUN rake assets:precompile && rake custom:create_non_digest_assets
