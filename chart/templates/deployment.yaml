@@ -43,13 +43,15 @@ spec:
           name: web-assets
         - mountPath: /tmp
           name: web-sock
+        - mountPath: /uploads
+          name: uploads
         lifecycle:
           postStart:
             exec:
               command:
               - "/bin/bash"
               - "-c"
-              - "bundle exec rake db:migrate && cp -a /app/public/. /assets"
+              - "bundle exec rake db:migrate && cp -a /app/public/. /assets && ln -sf /uploads /app/public/uploads"
       - name: nginx
         image: billohip-nginx:{{ .Values.tag }}
         ports:
@@ -60,7 +62,8 @@ spec:
         volumeMounts:
         - mountPath: /my_project/public
           name: web-assets
-          readOnly: true
+        - mountPath: /my_project/public/uploads
+          name: uploads
         - mountPath: /tmp
           name: web-sock
       volumes:
@@ -68,3 +71,6 @@ spec:
         emptyDir: {}
       - name: web-sock
         emptyDir: {}
+      - name: uploads
+        persistentVolumeClaim:
+          claimName: billohip-uploads

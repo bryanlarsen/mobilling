@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: billohip
+    chart: billohip
+  name: billohip-uploads
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 49Gi
+  storageClassName: local-storage
