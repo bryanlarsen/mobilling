@@ -7,8 +7,8 @@ metadata:
   name: billohip-uploads
 spec:
   accessModes:
-  - ReadWriteMany
+  - ReadWriteOnce
   resources:
     requests:
       storage: 49Gi
-  storageClassName: local-storage
+  storageClassName: standard

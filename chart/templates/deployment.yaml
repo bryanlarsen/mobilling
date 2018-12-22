@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: billohip
-        image: billohip:{{ .Values.tag }}
+        image: {{ .Values.image }}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
@@ -53,7 +53,7 @@ spec:
               - "-c"
               - "bundle exec rake db:migrate && cp -a /app/public/. /assets && ln -sf /uploads /app/public/uploads"
       - name: nginx
-        image: billohip-nginx:{{ .Values.tag }}
+        image: {{ .Values.nginx.image }}
         ports:
         - name: http-server
           containerPort: 80

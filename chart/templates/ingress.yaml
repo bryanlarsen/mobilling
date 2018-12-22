@@ -6,9 +6,9 @@ metadata:
   labels:
     chart: billohip
   annotations:
-    kubernetes.io/ingress.class: "nginx"
-    ingress.kubernetes.io/ssl-redirect: "false"
-    kubernetes.io/tls-acme: 'true'
+    kubernetes.io/ingress.global-static-ip-name: billohip
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-http01-edit-in-place: "true"
 spec:
   tls:
   - secretName: {{ .Values.hostname }}
@@ -18,15 +18,13 @@ spec:
   rules:
   - http:
       paths:
-      - path: /
-        backend: &billohip
+      - backend:
           serviceName: billohip
           servicePort: 80
     host: {{ .Values.hostname }}  
   - http:
       paths:
-      - path: /
-        backend: &billohip
+      - backend:
           serviceName: billohip
           servicePort: 80
     host: www.{{ .Values.hostname }}
