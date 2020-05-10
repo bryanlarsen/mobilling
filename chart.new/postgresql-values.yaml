@@ -1,0 +1,4 @@
+persistence:
+  accessMode: ReadWriteOnce
+  enabled: true
+  size: 10Gi

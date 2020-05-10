@@ -1,0 +1,149 @@
+
+---
+# Source: billohip/templates/uploads-pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: billohip
+    chart: billohip
+  name: billohip-uploads
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 49Gi
+---
+# Source: billohip/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: billohip
+  labels:
+    chart: billohip
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: billohip
+---
+# Source: billohip/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billohip
+  labels:
+    chart: billohip
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: billohip
+  template:
+    metadata:
+      labels:
+        app: billohip
+    spec:
+      containers:
+      - name: billohip
+        image: gcr.io/qchsag/billohip:2018-12-21-3
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+        env:
+        - name: RAILS_ENV
+          value: production
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: billohip-postgresql
+              key: postgresql-password
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            secretKeyRef:
+              name: billohip-secrets
+              key: secret_key_base
+        - name: POSTMARK_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: billohip-secrets
+              key: postmark_token
+        - name: RAILS_LOG_TO_STDOUT
+          value: "true"
+        volumeMounts:
+        - mountPath: /assets
+          name: web-assets
+        - mountPath: /tmp
+          name: web-sock
+        - mountPath: /uploads
+          name: uploads
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "bundle exec rake db:migrate && cp -a /app/public/. /assets && ln -sf /uploads /app/public/uploads"
+      - name: nginx
+        image: gcr.io/qchsag/billohip-nginx:2018-12-21
+        ports:
+        - name: http-server
+          containerPort: 80
+        - name: https-server
+          containerPort: 443
+        volumeMounts:
+        - mountPath: /my_project/public
+          name: web-assets
+        - mountPath: /my_project/public/uploads
+          name: uploads
+        - mountPath: /tmp
+          name: web-sock
+      volumes:
+      - name: web-assets
+        emptyDir: {}
+      - name: web-sock
+        emptyDir: {}
+      - name: uploads
+        persistentVolumeClaim:
+          claimName: billohip-uploads
+---
+# Source: billohip/templates/ingress.yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: billohip-ingress
+  labels:
+    chart: billohip
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - secretName: billohip.ca
+    hosts:
+      - billohip.ca
+      - www.billohip.ca
+      - new.billohip.ca
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: billohip
+          servicePort: 80
+    host: billohip.ca
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: billohip
+          servicePort: 80
+    host: www.billohip.ca
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: billohip
+          servicePort: 80
+    host: new.billohip.ca
