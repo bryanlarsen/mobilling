@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "~> 2.2.2"
+ruby "2.2.8"
 
 gem 'bundler', '>= 1.8.4'
 
@@ -34,6 +34,7 @@ gem "rollbar"
 gem "sass-rails"
 gem "sprockets-redirect"
 gem "sprockets", "~> 2.12"
+gem "sqlite3", "~> 1.3.0"
 gem "therubyracer"
 gem "turbolinks"
 gem "uglifier"

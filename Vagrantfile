@@ -29,11 +29,12 @@ nvm install 4.2.0
 
 cd /vagrant
 
-command curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+# command curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 curl -sSL https://get.rvm.io | bash -s stable
 source /home/vagrant/.rvm/scripts/rvm
-rvm use --install 2.2.2
-gem install bundler
+rvm use --install 2.2.8
+gem install -v 1.8.9 bundler
 
 set -o errexit
 set -o pipefail
