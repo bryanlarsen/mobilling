@@ -1,6 +1,6 @@
 Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'billohip.ca' }
-  config.force_ssl = true
+  config.force_ssl = false
 
   # Settings specified here will take precedence over those in config/application.rb.
 

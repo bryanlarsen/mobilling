@@ -1,0 +1,76 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: billohip
+  labels:
+    chart: billohip
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: billohip
+    spec:
+      containers:
+      - name: billohip
+        image: {{ .Values.image }}
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+        env:
+        - name: RAILS_ENV
+          value: production
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: billohip-postgresql
+              key: postgres-password
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            secretKeyRef:
+              name: billohip-secrets
+              key: secret_key_base
+        - name: POSTMARK_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: billohip-secrets
+              key: postmark_token
+        - name: RAILS_LOG_TO_STDOUT
+          value: "true"
+        volumeMounts:
+        - mountPath: /assets
+          name: web-assets
+        - mountPath: /tmp
+          name: web-sock
+        - mountPath: /uploads
+          name: uploads
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - "/bin/bash"
+              - "-c"
+              - "bundle exec rake db:migrate && cp -a /app/public/. /assets && ln -sf /uploads /app/public/uploads"
+      - name: nginx
+        image: {{ .Values.nginx.image }}
+        ports:
+        - name: http-server
+          containerPort: 80
+        - name: https-server
+          containerPort: 443
+        volumeMounts:
+        - mountPath: /my_project/public
+          name: web-assets
+        - mountPath: /my_project/public/uploads
+          name: uploads
+        - mountPath: /tmp
+          name: web-sock
+      volumes:
+      - name: web-assets
+        emptyDir: {}
+      - name: web-sock
+        emptyDir: {}
+      - name: uploads
+        persistentVolumeClaim:
+          claimName: billohip-uploads

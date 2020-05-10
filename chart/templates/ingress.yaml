@@ -1,0 +1,30 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: billohip-ingress
+  labels:
+    chart: billohip
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: billohip
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-http01-edit-in-place: "true"
+spec:
+  tls:
+  - secretName: {{ .Values.hostname }}
+    hosts:
+      - {{ .Values.hostname }}
+      - www.{{ .Values.hostname }}
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: billohip
+          servicePort: 80
+    host: {{ .Values.hostname }}  
+  - http:
+      paths:
+      - backend:
+          serviceName: billohip
+          servicePort: 80
+    host: www.{{ .Values.hostname }}
