@@ -16,7 +16,9 @@ export default React.createClass({
         <fieldset>
           <legend>Patient</legend>
 
-          <ClaimPatient {...this.props} agent />
+          {this.props.claim.patient_required && (
+            <ClaimPatient {...this.props} agent />
+          )}
         </fieldset>
 
         <fieldset>
@@ -24,12 +26,12 @@ export default React.createClass({
           <ClaimTab {...this.props} agent />
         </fieldset>
 
-        { this.props.claim.consult_tab_visible &&
-         <fieldset>
-          <legend>Consult</legend>
-          <ConsultTab {...this.props} agent />
-         </fieldset>
-        }
+        {this.props.claim.consult_tab_visible && (
+          <fieldset>
+            <legend>Consult</legend>
+            <ConsultTab {...this.props} agent />
+          </fieldset>
+        )}
 
         <fieldset>
           <legend>Items</legend>
@@ -39,9 +41,7 @@ export default React.createClass({
         <fieldset>
           <CommentsTab {...this.props} agent />
         </fieldset>
-
       </div>
     );
   },
-
 });

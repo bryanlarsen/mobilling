@@ -47,19 +47,20 @@ class Claim < ActiveRecord::Base
               :consult_premium_travel_count
 
   validation_scope :warnings do |s|
-    s.validates :hospital, :patient_province, :patient_birthday, presence: true
-    s.validates :patient_province, inclusion: {in: %w[ON AB BC MB NL NB NT NS PE SK NU YT]}
-    s.validates :patient_sex, inclusion: {in: %w[M F]}, if: -> { patient_province != "ON" }
+    s.validates :hospital, presence: true
+    s.validates :patient_province, :patient_birthday, presence: true, if: -> {patient_required}
+    s.validates :patient_province, inclusion: {in: %w[ON AB BC MB NL NB NT NS PE SK NU YT]}, if: -> {patient_required}
+    s.validates :patient_sex, inclusion: {in: %w[M F]}, if: -> { patient_province != "ON" && patient_required}
     s.validates :payment_program, inclusion: {in: ['HCP', 'WCB', nil]}, if: -> { patient_province == "ON" }
     s.validates :payment_program, inclusion: {in: ['RMB', 'WCB', nil]}, if: -> { patient_province != "ON" }
-    s.validates :patient_name, presence: true, if: -> { patient_province != "ON" }
+    s.validates :patient_name, presence: true, if: -> { patient_province != "ON" && patient_required}
     s.validates :hospital, format: {with: /\A\d{4}/}
     s.validates :consult_time_in, :consult_time_out, time: true, format: {with: /\A\d{2}:\d{2}\Z/, type: {is_a: String}}, allow_nil: true
     s.validates :items, associated: true
     s.validates :admission_on, :first_seen_on, :last_seen_on, presence: true, if: -> { consult_setup_visible }
     s.validates :most_responsible_physician, :last_seen_discharge, inclusion: {in: [true, false, nil]}, if: -> { consult_setup_visible }
     s.validates :consult_type, inclusion: {in: Claim::CONSULT_TYPES}, if: -> { consult_setup_visible }
-    s.validate :validate_patient_number
+    s.validate :validate_patient_number, if: -> {patient_required}
     s.validate :validate_seen_on, if: -> { consult_setup_visible }
     s.validate :validate_record
   end
@@ -329,11 +330,13 @@ class Claim < ActiveRecord::Base
   end
 
   def validate_record
-    to_header_record.errors.each do |attr, err|
-      warnings.add(attr, err.to_s) unless warnings.include?(attr)
-    end
-    to_rmb_record.errors.each do |attr, err|
-      warnings.add(attr, err.to_s) unless warnings.include?(attr)
+    if patient_required
+      to_header_record.errors.each do |attr, err|
+        warnings.add(attr, err.to_s) unless warnings.include?(attr)
+      end
+      to_rmb_record.errors.each do |attr, err|
+        warnings.add(attr, err.to_s) unless warnings.include?(attr)
+      end
     end
   end
 
@@ -359,6 +362,11 @@ class Claim < ActiveRecord::Base
 
   def consult_tab_visible
     consult_setup_visible && first_seen_consult
+  end
+
+  def patient_required
+    codes=rows.map(&:code_normalized)
+    !codes.include?("H409A") && !codes.include?("H410A")
   end
 
   def consult_premium_visit_count
@@ -418,7 +426,7 @@ class Claim < ActiveRecord::Base
         hash.merge(file.filename => Rails.application.routes.url_helpers.admin_edt_file_path(file))
       end
 
-      %I[service_date consult_setup_visible consult_tab_visible consult_premium_visit_count consult_premium_first_count consult_premium_travel_count diagnoses_visible mrp_visible].each do |param|
+      %I[service_date consult_setup_visible consult_tab_visible consult_premium_visit_count consult_premium_first_count consult_premium_travel_count diagnoses_visible mrp_visible patient_required].each do |param|
         response[param] = send(param)
       end
 

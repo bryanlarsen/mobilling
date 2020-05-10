@@ -13,14 +13,16 @@ export default React.createClass({
     claim: 'medkit',
     consult: 'user-md',
     codes: 'list-alt',
-    comments: 'comment-o'
+    comments: 'comment-o',
   },
 
   tabs: function() {
     if (this.props.claim.consult_tab_visible) {
       return ['patient', 'claim', 'consult', 'codes', 'comments'];
-    } else {
+    } else if (this.props.claim.patient_required) {
       return ['patient', 'claim', 'codes', 'comments'];
+    } else {
+      return ['claim', 'codes', 'comments'];
     }
   },
 
@@ -33,27 +35,37 @@ export default React.createClass({
   },
 
   getTab: function() {
-    return this.tabs().indexOf(_.find(this.tabs(), function(tab) {
-      return this.props.routes[2] && this.props.routes[2].path === tab;
-    }, this));
+    return this.tabs().indexOf(
+      _.find(
+        this.tabs(),
+        function(tab) {
+          return this.props.routes[2] && this.props.routes[2].path === tab;
+        },
+        this
+      )
+    );
   },
 
   fixTab: function() {
     this.$ = $(ReactDOM.findDOMNode(this));
     this.$highlight = this.$.find('#highlight');
 
-    var $el = this.$.find('#tab-nav > li:nth-child('+(this.getTab()+1)+')');
+    var $el = this.$.find(
+      '#tab-nav > li:nth-child(' + (this.getTab() + 1) + ')'
+    );
     if ($el.length) {
       this.$highlight.css({
         width: $el.css('width'),
-        left: $el.position('left').left+'px'
+        left: $el.position('left').left + 'px',
       });
     }
   },
 
   submit: function(ev) {
     ev.preventDefault();
-    this.props.dispatch(updateClaim(this.props.claim.id, {status: 'for_agent'}));
+    this.props.dispatch(
+      updateClaim(this.props.claim.id, { status: 'for_agent' })
+    );
   },
 
   render: function() {
@@ -61,31 +73,54 @@ export default React.createClass({
 
     return (
       <div className="body">
-        <ClaimHeader {...this.props} submit={(this.props.claim.status==='saved' || this.props.claim.status==='doctor_attention') && this.submit}/>
+        <ClaimHeader
+          {...this.props}
+          submit={
+            (this.props.claim.status === 'saved' ||
+              this.props.claim.status === 'doctor_attention') &&
+            this.submit
+          }
+        />
 
         <div className="container with-bottom">
           <div className="form-horizontal">
-            {this.props.children && React.cloneElement(this.props.children, this.props)}
+            {this.props.children &&
+              React.cloneElement(this.props.children, this.props)}
           </div>
         </div>
 
         <Navbar fixedBottom>
-          <ul id="tab-nav" className="nav navbar-nav nav-justified" style={{position: 'relative'}}>
-            { _.map(this.tabs(), function(tab) {
-              return (
-                <LinkContainer key={"claim_tab_"+tab} to={`/claim/${this.props.params.id}/${tab}`}>
-                  <NavItem>
-                    <Icon i={this.icon[tab]} xs>{s.humanize(tab)} </Icon>
-                    {tab === 'comments' && unread_comments > 0 && <span className="badge">{unread_comments}</span>}
-                  </NavItem>
-                </LinkContainer>
-              );
-            }, this) }
-            <div id="highlight"></div>
+          <ul
+            id="tab-nav"
+            className="nav navbar-nav nav-justified"
+            style={{ position: 'relative' }}
+          >
+            {_.map(
+              this.tabs(),
+              function(tab) {
+                return (
+                  <LinkContainer
+                    key={'claim_tab_' + tab}
+                    to={`/claim/${this.props.params.id}/${tab}`}
+                  >
+                    <NavItem>
+                      <Icon i={this.icon[tab]} xs>
+                        {s.humanize(tab)}{' '}
+                      </Icon>
+                      {tab === 'comments' &&
+                        unread_comments > 0 && (
+                          <span className="badge">{unread_comments}</span>
+                        )}
+                    </NavItem>
+                  </LinkContainer>
+                );
+              },
+              this
+            )}
+            <div id="highlight" />
           </ul>
         </Navbar>
       </div>
     );
-  }
+  },
 });
-

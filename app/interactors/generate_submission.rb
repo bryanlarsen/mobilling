@@ -4,9 +4,11 @@ class GenerateSubmission
   def generate_claim(claim)
     province = (claim.patient_province || 'ON').upcase
     payment_program = claim.payment_program == 'WCB' ? 'WCB' : (province == 'ON' ? 'HCP' : 'RMB')
-    r = claim.to_header_record
-    @contents += r.to_s
-    @errors[claim.number] += r.errors if r.errors.length > 0
+    if claim.patient_required
+      r = claim.to_header_record
+      @contents += r.to_s
+      @errors[claim.number] += r.errors if r.errors.length > 0
+    end
     if payment_program == 'RMB'
       rmb=claim.to_rmb_record
       @contents += rmb.to_s
