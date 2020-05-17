@@ -179,7 +179,7 @@ var k121algo = function(service_code, minutes) {
 };
 
 var h409algo = function(service_code, minutes) {
-  var units = Math.floor(minutes / 60);
+  var units = Math.floor((minutes + 55) / 60);
   return {
     units: units,
     fee: service_code.fee * units,
