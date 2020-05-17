@@ -8,6 +8,7 @@ class GenerateSubmission
       r = claim.to_header_record
       @contents += r.to_s
       @errors[claim.number] += r.errors if r.errors.length > 0
+      @num_claim_headers += 1
     end
     if payment_program == 'RMB'
       rmb=claim.to_rmb_record
@@ -31,6 +32,7 @@ class GenerateSubmission
     @errors = Hash.new { |hash, key| hash[key] = [] }
     @num_records = 0
     @num_rmb_claims = 0
+    @num_claim_headers = 0
   end
 
   def perform(user, claims, timestamp=nil)
@@ -56,7 +58,7 @@ class GenerateSubmission
     end
 
     tr = BatchTrailerRecord.new
-    tr.set_field!('H Count', claims.length)
+    tr.set_field!('H Count', @num_claim_headers)
     tr.set_field!('R Count', @num_rmb_claims)
     tr.set_field!('T Count', @num_records)
     @contents += tr.to_s
