@@ -114,11 +114,14 @@ var simpleAlgo = function(service_code, minutes) {
 
 var assistantAlgo = function(service_code, minutes) {
   var units;
-  var unit_fee = 1204;
+  var unit_fee = 1225;
+  var old_unit_fee = 1204;
   var border1 = 60;
   var border2 = 150;
 
-  if (service_code.fee % unit_fee !== 0)
+  // in database, "fee" is saved as old_unit_fee * units
+
+  if (service_code.fee % old_unit_fee !== 0)
     return simpleAlgo(service_code, minutes);
 
   units = Math.ceil(Math.min(minutes, border1) / 15);
@@ -130,7 +133,7 @@ var assistantAlgo = function(service_code, minutes) {
   if (minutes > border2) {
     units = units + Math.ceil((minutes - border2) / 15.0) * 3;
   }
-  units += service_code.fee / unit_fee;
+  units += service_code.fee / old_unit_fee;
   return {
     units: units,
     fee: units * unit_fee,

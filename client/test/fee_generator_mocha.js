@@ -34,23 +34,24 @@ describe('fee generator', function() {
   });
 
   it('generates codes correctly', function() {
+    var assistant_unit = 1225;
     var data = [
-      ['R441B', '10:00', '10:00', 8, 9632],
-      ['E676B', '10:00', '10:00', 6, 7224],
+      ['R441B', '10:00', '10:00', 8, assistant_unit * 8],
+      ['E676B', '10:00', '10:00', 6, assistant_unit * 6],
       ['R441A', '10:00', '10:00', 1, 61990],
       ['R441A', '10:00', '13:00', 1, 61990],
       ['R441A', null, null, 1, 61990],
       ['R441C', '10:00', '10:00', 8, 12008],
-      ['R441B', '10:00', '10:01', 9, 10836],
-      ['R441B', '10:00', '10:15', 9, 10836],
-      ['R441B', '10:00', '10:16', 10, 12040],
-      ['R441B', '09:00', '10:00', 12, 14448],
-      ['R441B', '10:00', '11:00', 12, 14448],
-      ['R441B', '10:00', '11:01', 14, 16856],
-      ['R441B', '10:00', '12:30', 24, 28896],
-      ['R441B', '10:00', '12:31', 27, 32508],
-      ['R441B', '22:00', '00:31', 27, 32508],
-      ['R441B', '10:00', '14:59', 54, 65016],
+      ['R441B', '10:00', '10:01', 9, assistant_unit * 9],
+      ['R441B', '10:00', '10:15', 9, assistant_unit * 9],
+      ['R441B', '10:00', '10:16', 10, assistant_unit * 10],
+      ['R441B', '09:00', '10:00', 12, assistant_unit * 12],
+      ['R441B', '10:00', '11:00', 12, assistant_unit * 12],
+      ['R441B', '10:00', '11:01', 14, assistant_unit * 14],
+      ['R441B', '10:00', '12:30', 24, assistant_unit * 24],
+      ['R441B', '10:00', '12:31', 27, assistant_unit * 27],
+      ['R441B', '22:00', '00:31', 27, assistant_unit * 27],
+      ['R441B', '10:00', '14:59', 54, assistant_unit * 54],
       ['C998B', '10:00', '10:00', 1, 6000],
       ['C998B', '10:00', '13:00', 1, 6000],
       ['C998B', null, null, 1, 6000],
@@ -101,15 +102,16 @@ describe('fee generator', function() {
       time_out: '03:30',
     };
 
+    var assistant_unit = 1225;
     var result = generator.calculateFee(detail, detail.rows[0], 'R441B');
-    expect(result.fee).to.equal(12040);
+    expect(result.fee).to.equal(assistant_unit * 10);
     expect(result.units).to.equal(10);
 
     detail.rows[0].fee = result.fee;
     detail.rows[0].units = result.units;
 
     result = generator.calculateFee(detail, detail.rows[0], 'E401B');
-    expect(result.fee).to.equal(12040 * 0.75);
+    expect(result.fee).to.equal(Math.round(assistant_unit * 10 * 0.75));
     expect(result.units).to.equal(10);
 
     result = generator.calculateFee(detail, detail.rows[0], 'C998B');
@@ -117,7 +119,7 @@ describe('fee generator', function() {
     expect(result.units).to.equal(1);
 
     result = generator.calculateFee(detail, detail.rows[0], 'E676B');
-    expect(result.fee).to.equal(1204 * 6);
+    expect(result.fee).to.equal(assistant_unit * 6);
     expect(result.units).to.equal(6);
 
     result = generator.calculateFee(detail, detail.rows[0], 'Z999C');
