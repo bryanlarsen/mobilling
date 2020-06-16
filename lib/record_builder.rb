@@ -32,7 +32,7 @@ class FieldDefinition
   end
 
   def insert(record, value, &on_err)
-    if not value
+    if !value || value==""
       if !@required
         record[start-1, length] = ' '*length
       elsif @spec[:value]
@@ -85,6 +85,7 @@ end
 # numeric
 class N < FieldDefinition
   def validate(val)
+    return true if !@required && (!val || val=="")
     # will throw if cannot convert to integer
     ("%*i" % [length, val.is_a?(String) ? Integer(val, 10) : val]).length <= length
   end
