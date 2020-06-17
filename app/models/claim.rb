@@ -47,7 +47,7 @@ class Claim < ActiveRecord::Base
               :consult_premium_travel_count
 
   validation_scope :warnings do |s|
-    s.validates :hospital, presence: true
+    s.validates :hospital, presence: true, if: -> {patient_required}
     s.validates :patient_province, :patient_birthday, presence: true, if: -> {patient_required}
     s.validates :patient_province, inclusion: {in: %w[ON AB BC MB NL NB NT NS PE SK NU YT]}, if: -> {patient_required}
     s.validates :patient_sex, inclusion: {in: %w[M F]}, if: -> { patient_province != "ON" && patient_required}
@@ -297,17 +297,18 @@ class Claim < ActiveRecord::Base
 
     pp = payment_program == 'WCB' ? 'WCB' : (province == 'ON' ? 'HCP' : 'RMB')
 
-    if (pp != 'RMB')
+    puts "to_header #{patient_required}"
+    if (pp != 'RMB' && patient_required)
       r.insert('Health Number', :patient_number, patient_number[0..9])
       r.insert('Version Code', :patient_number, patient_number[10..11].try(:upcase))
     end
-    r.insert("Patient's Birthdate", :patient_birthday, patient_birthday)
+    r.insert("Patient's Birthdate", :patient_birthday, patient_birthday) if patient_required
     r.insert('Accounting Number', :number, number)
     r.insert('Payment Program', :payment_program, pp)
     r.insert('Payee', :payee, payee || 'P')
     r.insert('Referring Health Care Provider Number', :referring_physician, referring_provider) unless referring_provider.blank?
-    r.insert('Master Number', :hospital, (hospital || '').split(' ')[0])
-    r.insert('In-Patient Admission Date', :admission_on, admission_on) if admission_on
+    r.insert('Master Number', :hospital, (hospital || '').split(' ')[0]) if patient_required
+    r.insert('In-Patient Admission Date', :admission_on, admission_on) if admission_on && patient_required
     r.insert('Referring Laboratory License Number', :referring_laboratory, referring_laboratory) if referring_laboratory
     r.insert('Manual Review Indicator', :manual_review_indicator, manual_review_indicator ? 'Y' : '')
     r.insert('Service Location Indicator', :service_location, service_location) if service_location
@@ -365,7 +366,9 @@ class Claim < ActiveRecord::Base
   end
 
   def patient_required
-    codes=rows.map(&:code_normalized)
+    codes=items.map do |i|
+      i.rows.map(&:code_normalized)
+    end.flatten
     !codes.include?("H409A") && !codes.include?("H410A")
   end
 

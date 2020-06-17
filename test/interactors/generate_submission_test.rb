@@ -47,11 +47,11 @@ EOS
   end
 
   test 'covid' do
-    dets = {user: @user, status: :for_agent, number: 99999999, patient_name: "", patient_number: "", patient_birthday: "", patient_sex: "F"}
-    dets['items'] = [build(:item, day: '2014-8-11', time_in: '09:00', time_out: '10:30', rows: [build(:row, code: 'H409A COVID', fee: 17000, units: 2)])]
+    dets = @claim_details.clone
+    dets['items'] = [build(:item, day: '2014-8-11', time_in: '09:00', time_out: '10:30', rows: [build(:row, code: 'H409A', fee: 17000, units: 2)])]
     check [build(:claim, dets)], <<EOS
 HEBV03Q201408100000000000246801846999                                          \r
-HEH                    99999999HCPP      1681                                  \r
+HEH                    99999999HCPP                                            \r
 HETH409A  0170000220140811                                                     \r
 HEE0001000000001                                                               \r
 EOS
