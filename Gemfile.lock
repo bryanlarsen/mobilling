@@ -168,7 +168,7 @@ GEM
       pry (~> 0.10)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
-    rack (1.6.1)
+    rack (1.6.13)
     rack-cache (1.2)
       rack (>= 0.4)
     rack-cors (0.4.0)
